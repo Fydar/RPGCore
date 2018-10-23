@@ -75,7 +75,8 @@ namespace RPGCore.Inventories
 				{
 					dragState = DragState.Dragging;
 
-					AudioManager.Play (startSlot.slot.Item.template.StartDrag);
+					if (startSlot.slot.Item.template.StartDrag != null)
+						AudioManager.Play (startSlot.slot.Item.template.StartDrag);
 
 					if (positioner == DragPositioner.Offset)
 					{
@@ -94,10 +95,8 @@ namespace RPGCore.Inventories
 					}
 
 					ghost.gameObject.SetActive (true);
-
-					// Offset dragged image
-
-					// Tell Item Slot to fade out
+					
+					// TODO: Tell Item Slot to fade out
 				}
 				else
 				{
@@ -127,7 +126,8 @@ namespace RPGCore.Inventories
 					ghost.gameObject.SetActive (false);
 					ghost.RenderSlot (null);
 
-					AudioManager.Play (startSlot.slot.Item.template.EndDrag);
+					if (startSlot.slot.Item.template.EndDrag != null)
+						AudioManager.Play (startSlot.slot.Item.template.EndDrag);
 
 					if (ItemSlotManager.CurrentlyHovered == null)
 					{
