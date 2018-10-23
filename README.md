@@ -30,7 +30,7 @@ RPGCore is built around a modular behaviour system. One of the core uses for thi
 
 The modular behaviour system has other applications, such as buffs and debuffs. Events can be used to trigger behaviours on ticks of the buff, and effects can be applied continuously throughout the duration of the buff. The remaining duration on the buff can also be used to drive the performance of the buff (such as a slow that weakens over time).
 
-## Lisense
+## License
 
 This work is licensed under the Apache License, Version 2.0, meaning you are free to use this work commercially under the conditions the LICENSE and NOTICE file is included within the source. 
 
