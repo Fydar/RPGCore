@@ -1,0 +1,319 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
+  m_Name: Fire Cape
+  m_EditorClassIdentifier: 
+  Nodes:
+  - {fileID: 114109325078152614}
+  - {fileID: 114187457644275344}
+  - {fileID: 114000011996586328}
+  - {fileID: 114000011604143066}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
+  renderPrefab: {fileID: 1251761817357430, guid: 5220c47beb8dbc24e8a0da75cbba9902,
+    type: 2}
+  renderScale: 1
+  itemName: Fire Cape
+  description: A cape that burns with the heat of a thousand suns - or something like
+    that.
+  startDrag: {fileID: 11400000, guid: 60b795a368235f44f99f105112173a97, type: 2}
+  endDrag: {fileID: 11400000, guid: cb4c328b85a0bc04cbdc0a9e551013c3, type: 2}
+  prefix: {fileID: 0}
+  suffix: {fileID: 0}
+  maxStack: 1
+  rarity: {fileID: 11400000, guid: faaf42fbae995f94a9e9f5d53b63fffd, type: 2}
+  icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
+  weight: 1
+--- !u!114 &114000011604143066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
+  m_Name: Roll
+  m_EditorClassIdentifier: 
+  Position: {x: 79, y: 352}
+  Min:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 26
+  Max:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 43
+  Output:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 130
+      height: 16
+--- !u!114 &114000011996586328
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be59b06503abceb49b509917190cdde2, type: 3}
+  m_Name: Buff Whilst
+  m_EditorClassIdentifier: 
+  Position: {x: 326, y: 29}
+  BuffToApply: {fileID: 11400000, guid: 7e7593e86a813bb468637f75cab999db, type: 2}
+  Mode: 0
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 64
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012595290118}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  Whilst:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 82
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012878574282}
+    SourceField: Equipped
+    defaultValue: 0
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 108
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 1
+  TicksPerSecond:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 126
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0
+--- !u!114 &114000012595290118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9135a0f1c97cc549bf2ad9dce425050, type: 3}
+  m_Name: Item Input
+  m_EditorClassIdentifier: 
+  Position: {x: 22, y: 26}
+  Owner:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+  OnReceive:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  OnLoose:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+--- !u!114 &114000012878574282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
+  m_Name: Equiptable
+  m_EditorClassIdentifier: 
+  Position: {x: 20, y: 136}
+  slot: 2
+  Equipped:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+--- !u!114 &114000014225598782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
+  m_Name: Stats
+  m_EditorClassIdentifier: 
+  Position: {x: 326, y: 190}
+  entry:
+    field: MaxHealth
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012595290118}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  Active:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012878574282}
+    SourceField: Equipped
+    defaultValue: 0
+  Effect:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114109325078152614}
+    SourceField: Output
+    defaultValue: 425
+  Scaling: 0
+  Display: '{0}'
+--- !u!114 &114109325078152614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
+  m_Name: Roll
+  m_EditorClassIdentifier: 
+  Position: {x: 79, y: 209}
+  Min:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 75
+  Max:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 125
+  Output:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 130
+      height: 16
+--- !u!114 &114187457644275344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
+  m_Name: Stats
+  m_EditorClassIdentifier: 
+  Position: {x: 327, y: 333}
+  entry:
+    field: Armour
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012595290118}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  Active:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0
+  Effect:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000011604143066}
+    SourceField: Output
+    defaultValue: 60
+  Scaling: 0
+  Display: Ignites Nearby Enemies on fire

@@ -1,0 +1,264 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
+  m_Name: Gold Pendant
+  m_EditorClassIdentifier: 
+  Nodes:
+  - {fileID: 114336949664172340}
+  - {fileID: 114477997497944500}
+  - {fileID: 114000012520239498}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
+  renderPrefab: {fileID: 1046028380322308, guid: e115e38820802724694939cc927dde87,
+    type: 2}
+  renderScale: 1
+  itemName: Gold Pendant
+  description: A golden pendant - maybe a powerful wizard can draw his energy from
+    it?
+  startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
+  endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
+  prefix: {fileID: 0}
+  suffix: {fileID: 0}
+  maxStack: 1
+  rarity: {fileID: 11400000, guid: 9b84b88051a7629408d9039fe0803f55, type: 2}
+  icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
+  weight: 1
+--- !u!114 &114000012520239498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
+  m_Name: Stats
+  m_EditorClassIdentifier: 
+  Position: {x: 313, y: 182}
+  entry:
+    field: AttackSpeed
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012595290118}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  Active:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012878574282}
+    SourceField: Equipped
+    defaultValue: 0
+  Effect:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114336949664172340}
+    SourceField: Output
+    defaultValue: 15
+  Scaling: 1
+  Display: '{0}'
+--- !u!114 &114000012595290118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9135a0f1c97cc549bf2ad9dce425050, type: 3}
+  m_Name: Item Input
+  m_EditorClassIdentifier: 
+  Position: {x: 22, y: 26}
+  Owner:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+  OnReceive:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  OnLoose:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+--- !u!114 &114000012878574282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
+  m_Name: Equiptable
+  m_EditorClassIdentifier: 
+  Position: {x: 30, y: 137}
+  slot: 3
+  Equipped:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+--- !u!114 &114000014225598782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
+  m_Name: Stats
+  m_EditorClassIdentifier: 
+  Position: {x: 314, y: 38}
+  entry:
+    field: MaxHealth
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012595290118}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  Active:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012878574282}
+    SourceField: Equipped
+    defaultValue: 0
+  Effect:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114477997497944500}
+    SourceField: Output
+    defaultValue: 0.25
+  Scaling: 1
+  Display: '{0}'
+--- !u!114 &114336949664172340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65790af81e30374fa9c24ed064016c0, type: 3}
+  m_Name: Roll Float
+  m_EditorClassIdentifier: 
+  Position: {x: 83, y: 312}
+  Min:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0.15
+  Max:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0.25
+  Output:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 130
+      height: 16
+--- !u!114 &114477997497944500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65790af81e30374fa9c24ed064016c0, type: 3}
+  m_Name: Roll Float
+  m_EditorClassIdentifier: 
+  Position: {x: 84, y: 215}
+  Min:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0.15
+  Max:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0.3
+  Output:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 130
+      height: 16

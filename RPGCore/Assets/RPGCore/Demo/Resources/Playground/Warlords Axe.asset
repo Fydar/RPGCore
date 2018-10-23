@@ -1,0 +1,323 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
+  m_Name: Warlords Axe
+  m_EditorClassIdentifier: 
+  Nodes:
+  - {fileID: 114090304216455308}
+  - {fileID: 114863848693039650}
+  - {fileID: 114780844282671146}
+  - {fileID: 114305048296222570}
+  - {fileID: 114536852143800956}
+  - {fileID: 114644238691082142}
+  - {fileID: 114959883122913088}
+  renderPrefab: {fileID: 1777803201150668, guid: ace2d25ac605da34e88164d6fa6537d3,
+    type: 2}
+  renderScale: 1
+  itemName: Sterak's Gage
+  description: Upon taking 50 damage in 1 second, you gain a shield for 100 health.
+  startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
+  endDrag: {fileID: 0}
+  prefix: {fileID: 11400000, guid: 49bdd1e99a563874ca52448082d80b60, type: 2}
+  suffix: {fileID: 0}
+  maxStack: 1
+  rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
+  icon: {fileID: 0}
+  weight: 1
+--- !u!114 &114090304216455308
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
+  m_Name: Roll
+  m_EditorClassIdentifier: 
+  Position: {x: 66, y: 496}
+  Min:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 10
+  Max:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 20
+  Output:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 130
+      height: 16
+--- !u!114 &114305048296222570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9135a0f1c97cc549bf2ad9dce425050, type: 3}
+  m_Name: Item Input
+  m_EditorClassIdentifier: 
+  Position: {x: 13, y: 260}
+  Owner:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+  OnReceive:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  OnLoose:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+--- !u!114 &114536852143800956
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d0f091be11f464fa016cd0f884650e, type: 3}
+  m_Name: Buff For
+  m_EditorClassIdentifier: 
+  Position: {x: 700, y: 221}
+  BuffToApply: {fileID: 11400000, guid: 2fe7af9f5f81fe247948caa000bcbd66, type: 2}
+  Mode: 1
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 64
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114305048296222570}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  Apply:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 82
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114780844282671146}
+    SourceField: True
+  Duration:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 100
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 5
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 126
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114959883122913088}
+    SourceField: DamageTaken
+    defaultValue: 0
+  Ticks:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 144
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0
+--- !u!114 &114644238691082142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
+  m_Name: Equiptable
+  m_EditorClassIdentifier: 
+  Position: {x: 13, y: 347}
+  slot: 8
+  Equipped:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+--- !u!114 &114780844282671146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd1f5ad592de08e4fb630d5daf037ebf, type: 3}
+  m_Name: Switch
+  m_EditorClassIdentifier: 
+  Position: {x: 494, y: 368}
+  Event:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 150
+      height: 16
+    SourceNode: {fileID: 114959883122913088}
+    SourceField: OnHit
+  Condition:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 150
+      height: 16
+    SourceNode: {fileID: 114644238691082142}
+    SourceField: Equipped
+    defaultValue: 0
+  True:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 150
+      height: 16
+  False:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 150
+      height: 16
+--- !u!114 &114863848693039650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
+  m_Name: Stats
+  m_EditorClassIdentifier: 
+  Position: {x: 287, y: 476}
+  entry:
+    field: Attack
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114305048296222570}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  Active:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114644238691082142}
+    SourceField: Equipped
+    defaultValue: 0
+  Effect:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114090304216455308}
+    SourceField: Output
+    defaultValue: 0
+  Scaling: 0
+  Display: '{0}'
+--- !u!114 &114959883122913088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f79c1f77afb7534783b532da5e34794, type: 3}
+  m_Name: On Take Damage
+  m_EditorClassIdentifier: 
+  Position: {x: 254, y: 295}
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114305048296222570}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  OnHit:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  DamageTaken:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16

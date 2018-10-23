@@ -1,0 +1,227 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e752e2050e534f549afccb643a342903, type: 3}
+  m_Name: Charging
+  m_EditorClassIdentifier: 
+  Nodes:
+  - {fileID: 114416108000799894}
+  - {fileID: 114721784850047378}
+  - {fileID: 114304424828160368}
+  - {fileID: 114942346525472358}
+  - {fileID: 114001360039262592}
+  Name: Charging
+  Description: You are building rage. Upon reaching 50 charge, you are healed back
+    to full health.
+  Icon: {fileID: 21300074, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
+  isDebuff: 1
+--- !u!114 &114001360039262592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77a32330833ae5e4c9f1b7326cc1153e, type: 3}
+  m_Name: Buff Input
+  m_EditorClassIdentifier: 
+  Position: {x: 33, y: 235}
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+  Apply:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  Remove:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  OnTick:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+  Ticks:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 100
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 118
+      width: 190
+      height: 16
+--- !u!114 &114304424828160368
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3046cdb42b823784ba729d8cdbf8275d, type: 3}
+  m_Name: Clear Buffs
+  m_EditorClassIdentifier: 
+  Position: {x: 746, y: 347}
+  Search: {fileID: 11400000}
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114001360039262592}
+    SourceField: Target
+    defaultValue: {fileID: 0}
+  Apply:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114721784850047378}
+    SourceField: True
+--- !u!114 &114416108000799894
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef125af85238844f85dbe1aa4b6d9a2, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: 
+  Position: {x: 748, y: 262}
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114001360039262592}
+    SourceField: Target
+    defaultValue: {fileID: 0}
+  Event:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114721784850047378}
+    SourceField: True
+  Effect:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 9999
+--- !u!114 &114721784850047378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e11d6d8f64e7cfe4d89990a3f0a1db8a, type: 3}
+  m_Name: Upon
+  m_EditorClassIdentifier: 
+  Position: {x: 516, y: 387}
+  Condition:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 150
+      height: 16
+    SourceNode: {fileID: 114942346525472358}
+    SourceField: Output
+    defaultValue: 0
+  True:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 150
+      height: 16
+  False:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 150
+      height: 16
+--- !u!114 &114942346525472358
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1307ca373c98d794faa86788631bc6af, type: 3}
+  m_Name: Compare Int
+  m_EditorClassIdentifier: 
+  Position: {x: 276, y: 333}
+  ValueA:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114001360039262592}
+    SourceField: StackSize
+    defaultValue: -57
+  Operator: 0
+  ValueB:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 50
+  Output:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16

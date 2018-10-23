@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a462e4f5456f54ca96cf84d9363c6e, type: 3}
+  m_Name: Cheat Quests
+  m_EditorClassIdentifier: 
+  PossibleEnchantments:
+    Loot:
+    - Balance: 1
+      Item: {fileID: 11400000, guid: d2dfc37f9260b6142a3a53271cac7184, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: 2f8119f58a536cc4a97c2bef33f2100c, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: f1adcdea828c03844889df7181c55bec, type: 2}

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7abaccc3134fa27459a9237f61e1e702, type: 3}
+  m_Name: Mana Debt Size
+  m_EditorClassIdentifier: 
+  Name: Mana Debt Size
+  Description: The amount of mana the character can overuse entering burnout
+  renderFormat: '{0}'
+  positiveFormat: '{0.##} increased {name}'
+  negativeFormat: '{0.##} reduced {name}'
+  multiplierPositiveFormat: '{0.##}% increased {name}'
+  multiplierNegativeFormat: '{0.##}% reduced {name}'
+  accuracy: 5
+  rounding: 0
+  Abbreviation: Debt
+  StatColour:
+    serializedVersion: 2
+    rgba: 4294929844
+  MinValue:
+    Enabled: 1
+    Value: 0
+  MaxValue:
+    Enabled: 1
+    Value: 250

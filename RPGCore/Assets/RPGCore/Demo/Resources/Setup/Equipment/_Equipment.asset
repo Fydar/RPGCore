@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69669897c92ed5745aad459c0406f640, type: 3}
+  m_Name: _Equipment
+  m_EditorClassIdentifier: 
+  EquipmentInfos:
+    fieldDirectories: []
+    fieldValues: []
+    Helmet: {fileID: 11400000, guid: 0048744f259c85b4aba63a38eb3491bb, type: 2}
+    Chestplate: {fileID: 11400000, guid: 8add8eb42807b9f47910ffd64ffe8303, type: 2}
+    Gauntlets: {fileID: 11400000, guid: f01a9a9de5092ee4a9e7141d34eabf3e, type: 2}
+    Belt: {fileID: 11400000, guid: 47a76033be3c9fc47b68a17e55a8b1b3, type: 2}
+    Boots: {fileID: 11400000, guid: 504633e18f2faef48bb17061453c9a9b, type: 2}
+    Amulet: {fileID: 11400000, guid: be63935506325c84cacd63f5374c89cc, type: 2}
+    LeftRing: {fileID: 11400000, guid: f076ad6b600319f47a0914c1e579b027, type: 2}
+    RightRing: {fileID: 11400000, guid: f076ad6b600319f47a0914c1e579b027, type: 2}
+    Flask1: {fileID: 11400000, guid: df750bea179c35c4a9036dc1e08e323c, type: 2}
+    Flask2: {fileID: 11400000, guid: df750bea179c35c4a9036dc1e08e323c, type: 2}
+    Flask3: {fileID: 11400000, guid: df750bea179c35c4a9036dc1e08e323c, type: 2}
+    Flask4: {fileID: 11400000, guid: df750bea179c35c4a9036dc1e08e323c, type: 2}
+    Flask5: {fileID: 11400000, guid: df750bea179c35c4a9036dc1e08e323c, type: 2}
+    MainHand: {fileID: 11400000, guid: c046328d5ca67db4b9d2bc5afa0a6867, type: 2}
+    OffHand: {fileID: 11400000, guid: 10b72fb3d6eceb945ab26c41e91a05ce, type: 2}

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba3ecc222c32da647b4db4359256b2b1, type: 3}
+  m_Name: _Stats
+  m_EditorClassIdentifier: 
+  StatInfos:
+    fieldDirectories: []
+    fieldValues: []
+    Attack: {fileID: 11400000, guid: 29c8dac7b79562f43901e33b51476654, type: 2}
+    AttackSpeed: {fileID: 11400000, guid: cac721cfc39c64942a3cd64e290a0b09, type: 2}
+    CriticalStrikeChance: {fileID: 11400000, guid: 0f021200515944641ab4401fc4c5b2e2,
+      type: 2}
+    CriticalStrikeDamage: {fileID: 11400000, guid: 8161ee5c9668e454d8edc49ab5bdfd85,
+      type: 2}
+    MovementSpeed: {fileID: 11400000, guid: 553881ad37f59704992f3eec55ae70f8, type: 2}
+    Armour: {fileID: 11400000, guid: efc7ab2621d28144ab1ed7f3fe10162c, type: 2}
+    MagicResistance: {fileID: 11400000, guid: cb614b54414903145a66d0ef0280f242, type: 2}
+    MaxHealth: {fileID: 11400000, guid: c60cb28df4a72134d88f0c6d0788f734, type: 2}
+    HealthRegeneration: {fileID: 11400000, guid: 06267a138df6acc4baad0962cec4456f,
+      type: 2}
+    HealthRegenerationDelay: {fileID: 11400000, guid: 4b9853f99eeb83942bcf64cdffca3dc6,
+      type: 2}
+    MaxMana: {fileID: 11400000, guid: 855ca41306ec2b047a2db33b10af3449, type: 2}
+    ManaRegeneration: {fileID: 11400000, guid: 29c38bd991871894eace3e8295eaba60, type: 2}
+    ManaRegenerationDelay: {fileID: 11400000, guid: a95f709ae45a9e7408f85e10e6cb23f8,
+      type: 2}
+    ManaBurnoutDelay: {fileID: 11400000, guid: 2f8575a92e22a2f44a83410321d524d2, type: 2}
+    ManaBurnoutDebt: {fileID: 11400000, guid: e5ca8602b15e8834aa78524ea218b971, type: 2}

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0986b2164a5a6940aa07657cad4a0d8, type: 3}
+  m_Name: Cheat 1
+  m_EditorClassIdentifier: 
+  Nodes: []
+  Name: 
+  Description: 
+  Rewards:
+  - RewardTemplate: {fileID: 11400000, guid: 0c3dc80fe80a9264e963283ae1200c82, type: 2}
+    MinCount: 5
+    MaxCount: 5
+    OverridePrefix: 0
+    OverrideSuffix: 0
+    OverrideModifiers: 0
+    Prefix: {fileID: 0}
+    Suffix: {fileID: 0}
+    Modifiers: []
+  - RewardTemplate: {fileID: 11400000, guid: 3e6d56594bb638b49a6e2a36f90423b4, type: 2}
+    MinCount: 5
+    MaxCount: 5
+    OverridePrefix: 0
+    OverrideSuffix: 0
+    OverrideModifiers: 0
+    Prefix: {fileID: 0}
+    Suffix: {fileID: 0}
+    Modifiers: []

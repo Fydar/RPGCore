@@ -1,0 +1,220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
+  m_Name: Health Potion
+  m_EditorClassIdentifier: 
+  Nodes:
+  - {fileID: 114306276183888224}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114144150998033844}
+  renderPrefab: {fileID: 1587268710521896, guid: e24f436b39ccce3419ce6e8d2a85073d,
+    type: 2}
+  renderScale: 1
+  itemName: Health Potion
+  description: A health potion, drink to heal.
+  startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
+  endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
+  prefix: {fileID: 0}
+  suffix: {fileID: 0}
+  maxStack: 20
+  rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
+  icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
+  weight: 1
+--- !u!114 &114000012595290118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9135a0f1c97cc549bf2ad9dce425050, type: 3}
+  m_Name: Item Input
+  m_EditorClassIdentifier: 
+  Position: {x: 22, y: 26}
+  Owner:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+  OnReceive:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  OnLoose:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+--- !u!114 &114000012878574282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
+  m_Name: Equiptable
+  m_EditorClassIdentifier: 
+  Position: {x: 23, y: 131}
+  slot: 5
+  Equipped:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+--- !u!114 &114067241677864850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c458c09491abc514a95c11408ce1522a, type: 3}
+  m_Name: Gem Output
+  m_EditorClassIdentifier: 
+  Position: {x: 295, y: 305}
+  Whilst:
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 1
+  ProjectilePrefab: {fileID: 114186247397484580, guid: c112e978f8a6548488d726c0bae3a0dd,
+    type: 2}
+--- !u!114 &114144150998033844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aedab93ae7c6a040850c7b0159cfae5, type: 3}
+  m_Name: Activatable
+  m_EditorClassIdentifier: 
+  Position: {x: 24, y: 201}
+  ManaCost:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0
+  QuantityCost:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 1
+  OnActivate:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  ActivateSound: {fileID: 11400000, guid: 61f9fd6ec7b979a4482d4bfb361ca6a6, type: 2}
+--- !u!114 &114207514911130020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55b04dc2f58fd4aaf35a6462a6d005, type: 3}
+  m_Name: Gem Input
+  m_EditorClassIdentifier: 
+  Position: {x: 25, y: 177}
+--- !u!114 &114306276183888224
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef125af85238844f85dbe1aa4b6d9a2, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: 
+  Position: {x: 350, y: 117}
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012595290118}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  Event:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114144150998033844}
+    SourceField: OnActivate
+  Effect:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 20
+--- !u!114 &114810285048115220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ef8ab36b7d9d746b6e7e90a0bc48ce, type: 3}
+  m_Name: Gem Output
+  m_EditorClassIdentifier: 
+  Position: {x: 312, y: 177}
+  Whilst:
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0
+  ProjectilePrefab: {fileID: 114186247397484580, guid: c112e978f8a6548488d726c0bae3a0dd,
+    type: 2}
