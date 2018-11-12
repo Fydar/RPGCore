@@ -30,7 +30,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77a32330833ae5e4c9f1b7326cc1153e, type: 3}
   m_Name: Buff Input
   m_EditorClassIdentifier: 
-  Position: {x: 35, y: 225}
+  Position: {x: 32, y: 221}
   Target:
     drawRect:
       serializedVersion: 2
