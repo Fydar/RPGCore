@@ -23,10 +23,8 @@ namespace RPGCore
 		[SerializeField] private string description = "New Item Description";
 
 		[Space]
-
-		[UnityEngine.Serialization.FormerlySerializedAs ("StartDrag")]
+		
 		[SerializeField] private SfxGroup startDrag;
-		[UnityEngine.Serialization.FormerlySerializedAs ("EndDrag")]
 		[SerializeField] private SfxGroup endDrag;
 
 		[Space]
@@ -40,68 +38,25 @@ namespace RPGCore
 
 		[SerializeField] private ItemRarity rarity;
 
-
 		[HideInInspector] [SerializeField] private Sprite icon;
 		[HideInInspector] [SerializeField] private int weight = 1;
 
-		public override SfxGroup StartDrag
-		{
-			get
-			{
-				return startDrag;
-			}
-		}
+		public override string BaseName => itemName;
+		public override string Description => description;
+		public override Sprite Icon => icon;
 
-		public override SfxGroup EndDrag
-		{
-			get
-			{
-				return endDrag;
-			}
-		}
+		public override GameObject RenderPrefab => renderPrefab;
+		public override float RenderScale => renderScale;
 
-		public override ItemRarity Rarity
-		{
-			get
-			{
-				return rarity;
-			}
-		}
+		public override ItemRarity Rarity => rarity;
+		public override SfxGroup StartDrag => startDrag;
+		public override SfxGroup EndDrag => endDrag;
 
-		public override GameObject RenderPrefab
-		{
-			get
-			{
-				return renderPrefab;
-			}
-		}
+		public override int Weight => weight;
+		public override int StackSize => maxStack;
 
-		public override float RenderScale
-		{
-			get
-			{
-				return renderScale;
-			}
-		}
-
-#if UNITY_EDITOR
-#if ASSET_ICONS
-		[AssetIcon]
-#endif
-		public Sprite DrawBackground ()
-		{
-			if (rarity == null)
-				return null;
-			return rarity.SlotImage;
-		}
-#if ASSET_ICONS
-		[AssetIcon ("Camera Direction: Default; IsOrthographic: true; Width: 85%; Height: 85%")]
-#endif
-		public GameObject DrawIcon ()
-		{
-			return renderPrefab;
-		}
-#endif
+		public override IEnumerable<float[]> PositiveOverrides => null;
+		public override IEnumerable<float[]> NegativeOverrides => null;
 
 		public override ItemSurrogate GenerateItem (ItemData data)
 		{
@@ -150,60 +105,37 @@ namespace RPGCore
 
 			return newItem;
 		}
-
-		protected override string GetItemBaseName ()
-		{
-			return itemName;
-		}
-
-		protected override string GetItemDescription ()
-		{
-			return description;
-		}
-
-		protected override int GetItemWeight ()
-		{
-			return weight;
-		}
-
-		protected override int GetItemMaxStack ()
-		{
-			return maxStack;
-		}
-
-		protected override IEnumerable<float[]> GetItemPositiveOverrides ()
-		{
-			yield return null;
-		}
-
-		protected override IEnumerable<float[]> GetItemNegativeOverrides ()
-		{
-			yield return null;
-		}
-
-		protected override Sprite GetItemIcon ()
-		{
-			return icon;
-		}
 	}
 
-#if UNITY_EDITOR
-	[CustomEditor (typeof (ProceduralItemTemplate))]
-	[CanEditMultipleObjects]
-	public class ProceduralItemTemplateEditor : Editor
-	{
-		public override void OnInspectorGUI ()
+#if UNITY_EDITOR && ASSET_ICONS
+		[AssetIcon]
+		Sprite DrawBackground ()
 		{
-			ProceduralItemTemplate itemTemplate = (ProceduralItemTemplate)target;
+			if (rarity == null)
+				return null;
+			return rarity.SlotImage;
+		}
+		[AssetIcon ("Camera Direction: Default; IsOrthographic: true; Width: 85%; Height: 85%")]
+		GameObject DrawIcon ()
+		{
+			return renderPrefab;
+		}
+#endif
 
-			/*GUILayout.Space (10);
-			Rect rect = GUILayoutUtility.GetRect (0, 175);
-			GUILayout.Space (10);
-			*/
+#if UNITY_EDITOR && !ASSET_ICONS
+	[CustomEditor (typeof (ProceduralItemTemplate))]
+	class ItemTemplateEditor : Editor
+	{
+		public override Texture2D RenderStaticPreview (string assetPath, Object[] subAssets, int width, int height)
+		{
+			if (((ItemTemplate)target).RenderPrefab == null)
+				return null;
 
-			DrawDefaultInspector ();
+			RuntimePreviewGenerator.OrthographicMode = true;
+			RuntimePreviewGenerator.BackgroundColor = new Color32(19, 23, 26, 255);
+			RuntimePreviewGenerator.Padding = 0.1f;
 
-			serializedObject.ApplyModifiedProperties ();
+			return RuntimePreviewGenerator.GenerateModel (((ItemTemplate)target).RenderPrefab.transform, width, height);
 		}
 	}
 #endif

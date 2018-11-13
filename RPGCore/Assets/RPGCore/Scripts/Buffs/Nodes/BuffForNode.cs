@@ -15,11 +15,6 @@ namespace RPGCore
 			Add
 		}
 
-		public enum DurationMode
-		{
-			InheritPreviousDuration
-		}
-
 		[ErrorIfNull]
 		public BuffTemplate BuffToApply;
 		public ApplyMode Mode;

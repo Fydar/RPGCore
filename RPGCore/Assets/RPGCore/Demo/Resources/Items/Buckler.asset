@@ -23,10 +23,10 @@ MonoBehaviour:
   renderPrefab: {fileID: 1388788725863180, guid: 6d0128ce7006860479c3847c64b79dfd,
     type: 2}
   renderScale: 0.95
-  itemName: Sterak's Gage
+  itemName: Buckler
   description: Upon taking 50 damage in 1 second, you gain a shield for 100 health.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
-  endDrag: {fileID: 0}
+  endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
   prefix: {fileID: 0}
   suffix: {fileID: 0}
   maxStack: 1
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
   m_Name: Equiptable
   m_EditorClassIdentifier: 
-  Position: {x: 12, y: 345}
+  Position: {x: 14, y: 368}
   slot: 9
   Equipped:
     drawRect:

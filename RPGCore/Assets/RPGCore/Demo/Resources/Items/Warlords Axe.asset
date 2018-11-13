@@ -22,10 +22,10 @@ MonoBehaviour:
   renderPrefab: {fileID: 1777803201150668, guid: ace2d25ac605da34e88164d6fa6537d3,
     type: 2}
   renderScale: 1
-  itemName: Sterak's Gage
+  itemName: Warlords Axe
   description: Upon taking 50 damage in 1 second, you gain a shield for 100 health.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
-  endDrag: {fileID: 0}
+  endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
   prefix: {fileID: 11400000, guid: 49bdd1e99a563874ca52448082d80b60, type: 2}
   suffix: {fileID: 0}
   maxStack: 1
@@ -107,10 +107,10 @@ MonoBehaviour:
   StackSize:
     drawRect:
       serializedVersion: 2
-      x: 0
-      y: 0
-      width: 0
-      height: 0
+      x: 5
+      y: 74
+      width: 190
+      height: 16
 --- !u!114 &114536852143800956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
   m_Name: Equiptable
   m_EditorClassIdentifier: 
-  Position: {x: 13, y: 347}
+  Position: {x: 14, y: 365}
   slot: 8
   Equipped:
     drawRect:

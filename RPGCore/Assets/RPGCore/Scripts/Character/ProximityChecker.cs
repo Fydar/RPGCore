@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace RPGCore.World
 {
+	/// <summary>
+	/// A very unoptimized method of getting all RPGCharacters in range. Please don't use this on a shipped title, it's for demo purposes only.
+	/// </summary>
 	public class ProximityChecker : MonoBehaviour
 	{
 		public float Distance = 5.0f;
@@ -17,11 +20,6 @@ namespace RPGCore.World
 		private void Start ()
 		{
 			InvokeRepeating ("Check", 0.0f, 0.25f);
-		}
-
-		private void OnEnable ()
-		{
-
 		}
 
 		private void OnDisable ()

@@ -21,7 +21,7 @@ MonoBehaviour:
     type: 2}
   renderScale: 1
   itemName: Swiftness Boots
-  description: Aha! Boots for the impatient wizzard! Exactly what I needed.
+  description: Aha! Boots for the impatient wizard! Exactly what I needed.
   startDrag: {fileID: 11400000, guid: c27c72318508af54f94ad1a6d0d9b5db, type: 2}
   endDrag: {fileID: 11400000, guid: 4000d824e8534c8479062e284dd39558, type: 2}
   prefix: {fileID: 0}
