@@ -20,7 +20,7 @@ MonoBehaviour:
     type: 2}
   renderScale: 1
   itemName: Wizarding Slippers
-  description: For all your night time wizzarding needs.
+  description: For all your night time wizarding needs.
   startDrag: {fileID: 11400000, guid: c27c72318508af54f94ad1a6d0d9b5db, type: 2}
   endDrag: {fileID: 11400000, guid: 4000d824e8534c8479062e284dd39558, type: 2}
   prefix: {fileID: 0}

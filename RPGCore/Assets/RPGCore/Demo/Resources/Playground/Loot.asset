@@ -13,7 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TableRolls:
   - Loot:
-    - Item:
+    - Balance: 1
+      Item:
         RewardTemplate: {fileID: 0}
         MinCount: 0
         MaxCount: 0
@@ -23,8 +24,8 @@ MonoBehaviour:
         Prefix: {fileID: 0}
         Suffix: {fileID: 0}
         Modifiers: []
-      Balance: 1
-    - Item:
+    - Balance: 1
+      Item:
         RewardTemplate: {fileID: 11400000, guid: 6fb35ce182fd2cf4b8981113f5199194,
           type: 2}
         MinCount: 1
@@ -35,5 +36,4 @@ MonoBehaviour:
         Prefix: {fileID: 0}
         Suffix: {fileID: 0}
         Modifiers: []
-      Balance: 1
     Rolls: 1

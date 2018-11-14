@@ -19,7 +19,7 @@ MonoBehaviour:
     type: 2}
   renderScale: 1
   itemName: Innate Crystal
-  description: "A trustly ol' Wizarding Crystal. \n\nYour probably going to want to
+  description: "A trusty ol' Wizarding Crystal. \n\nYour probably going to want to
     replace this with something that has a little more power, but what..."
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}

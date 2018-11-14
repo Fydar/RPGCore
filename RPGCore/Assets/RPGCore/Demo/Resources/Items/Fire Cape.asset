@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be59b06503abceb49b509917190cdde2, type: 3}
   m_Name: Buff Whilst
   m_EditorClassIdentifier: 
-  Position: {x: 326, y: 29}
+  Position: {x: 328, y: 27}
   BuffToApply: {fileID: 11400000, guid: 7e7593e86a813bb468637f75cab999db, type: 2}
   Mode: 0
   Target:

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -13,5 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Mana Delay Remaining
   Description: Remaining time until mana can regenerate.
-  ValueFormat: 4
-  dataType: 0
+  renderFormat: '{0.##}'
+  positiveFormat: '{0.##} increased {name}'
+  negativeFormat: '{0.##} reduced {name}'
+  multiplierPositiveFormat: '{0.##}% increased {name}'
+  multiplierNegativeFormat: '{0.##}% reduced {name}'
+  accuracy: 5
+  rounding: 0

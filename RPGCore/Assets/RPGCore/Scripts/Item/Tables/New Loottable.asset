@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -13,7 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TableRolls:
   - Loot:
-    - Item:
+    - Balance: 1
+      Item:
         RewardTemplate: {fileID: 11400000, guid: fe65269dbf067e94482636a65a11ee3b,
           type: 2}
         MinCount: 1
@@ -24,10 +25,9 @@ MonoBehaviour:
         Prefix: {fileID: 0}
         Suffix: {fileID: 0}
         Modifiers: []
-      Balance: 1
-    - Item:
-        RewardTemplate: {fileID: 11400000, guid: eefd4a396d2889f4da4c9f9f977f64fe,
-          type: 2}
+    - Balance: 1
+      Item:
+        RewardTemplate: {fileID: 0}
         MinCount: 1
         MaxCount: 1
         OverridePrefix: 0
@@ -36,5 +36,4 @@ MonoBehaviour:
         Prefix: {fileID: 0}
         Suffix: {fileID: 0}
         Modifiers: []
-      Balance: 1
     Rolls: 4

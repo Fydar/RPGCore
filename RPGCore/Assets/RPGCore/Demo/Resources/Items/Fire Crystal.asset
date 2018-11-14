@@ -24,7 +24,7 @@ MonoBehaviour:
     type: 2}
   renderScale: 1
   itemName: Fire Gem
-  description: A Crystal forged by the fire sprits. Equip this crystal to your staff
+  description: A Crystal forged by the fire spirits. Equip this crystal to your staff
     to unlock Fire Bolts.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}

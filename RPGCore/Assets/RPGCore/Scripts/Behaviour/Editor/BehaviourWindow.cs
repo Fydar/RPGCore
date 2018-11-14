@@ -12,6 +12,8 @@ namespace RPGCore
 {
 	public class BehaviourWindow : EditorWindow
 	{
+		private const float TopRight_Icon = 54.0f;
+
 		private static Event currentEvent;
 		private Rect screenRect;
 		private BehaviourGraph targetGraph = null;
@@ -222,6 +224,21 @@ namespace RPGCore
 			HandleDragAndDrop (screenRect);
 
 			HandleInput ();
+
+			if (targetGraph != null)
+			{
+				float padding = 1;
+				Rect topRight = new Rect (screenRect.xMax - TopRight_Icon - 8, screenRect.y + 8, TopRight_Icon, TopRight_Icon);
+				Rect iconRect = new Rect (topRight.x + padding, topRight.y + padding, topRight.width - (padding * 2), topRight.height - (padding * 2));
+
+				Texture graphIcon = AssetPreview.GetAssetPreview (targetGraph);
+				if (graphIcon == null)
+					graphIcon = AssetPreview.GetMiniThumbnail (targetGraph);
+
+				GUI.Box (topRight, "", EditorStyles.textArea);
+				GUI.DrawTexture (iconRect, graphIcon);
+			}
+
 			DrawTopBar ();
 		}
 

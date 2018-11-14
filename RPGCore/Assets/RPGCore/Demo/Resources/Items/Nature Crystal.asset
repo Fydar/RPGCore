@@ -24,8 +24,8 @@ MonoBehaviour:
     type: 2}
   renderScale: 1
   itemName: Nature Crystal
-  description: A Crystal forged by the nature sprits. Equip this crystal to your staff
-    to unlock Nature Bolts.
+  description: A Crystal forged by the nature spirits. Equip this crystal to your
+    staff to unlock Nature Bolts.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
   prefix: {fileID: 0}

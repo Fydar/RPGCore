@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aedab93ae7c6a040850c7b0159cfae5, type: 3}
   m_Name: Activatable
   m_EditorClassIdentifier: 
-  Position: {x: 30, y: 357}
+  Position: {x: 30, y: 347}
   ManaCost:
     drawRect:
       serializedVersion: 2

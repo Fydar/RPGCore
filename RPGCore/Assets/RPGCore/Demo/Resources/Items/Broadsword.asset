@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9135a0f1c97cc549bf2ad9dce425050, type: 3}
   m_Name: Item Input
   m_EditorClassIdentifier: 
-  Position: {x: 20, y: 27}
+  Position: {x: 17, y: 29}
   Owner:
     drawRect:
       serializedVersion: 2
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d0f091be11f464fa016cd0f884650e, type: 3}
   m_Name: Apply Buff
   m_EditorClassIdentifier: 
-  Position: {x: 398, y: 378}
+  Position: {x: 403, y: 373}
   BuffToApply: {fileID: 0}
   Mode: 0
   Target:
@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  Position: {x: 341, y: 131}
+  Position: {x: 402, y: 135}
   entry:
     field: Attack
   Target:
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7113b600330814696d30c2a3bc81f1, type: 3}
   m_Name: Pulse Effect
   m_EditorClassIdentifier: 
-  Position: {x: 400, y: 284}
+  Position: {x: 406, y: 278}
   Effect: {fileID: 0}
   Target:
     drawRect:

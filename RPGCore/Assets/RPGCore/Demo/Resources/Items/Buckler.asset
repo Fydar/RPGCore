@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d0f091be11f464fa016cd0f884650e, type: 3}
   m_Name: Buff For
   m_EditorClassIdentifier: 
-  Position: {x: 909, y: 223}
+  Position: {x: 910, y: 216}
   BuffToApply: {fileID: 11400000, guid: a97957dc9a6da864a8a5db2aa696e458, type: 2}
   Mode: 3
   Target:
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1f5ad592de08e4fb630d5daf037ebf, type: 3}
   m_Name: Switch
   m_EditorClassIdentifier: 
-  Position: {x: 696, y: 392}
+  Position: {x: 695, y: 400}
   Event:
     drawRect:
       serializedVersion: 2

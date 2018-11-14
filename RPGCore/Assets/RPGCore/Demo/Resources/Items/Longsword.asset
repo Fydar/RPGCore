@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18de6938cfa27f44ea6cb5d802b7bb82, type: 3}
   m_Name: Damage
   m_EditorClassIdentifier: 
-  Position: {x: 401, y: 550}
+  Position: {x: 399, y: 551}
   Target:
     drawRect:
       serializedVersion: 2
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d0f091be11f464fa016cd0f884650e, type: 3}
   m_Name: Apply Buff
   m_EditorClassIdentifier: 
-  Position: {x: 398, y: 378}
+  Position: {x: 400, y: 374}
   BuffToApply: {fileID: 0}
   Mode: 0
   Target:
