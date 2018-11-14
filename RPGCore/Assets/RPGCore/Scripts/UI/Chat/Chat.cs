@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RPGCore.Utility.InspectorLog;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using RPGCore.Utility.InspectorLog;
 
 namespace RPGCore.UI
 {

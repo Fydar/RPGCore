@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using RPGCore.Inventories;
+﻿using RPGCore.Inventories;
 using RPGCore.Utility;
+using UnityEngine;
 
 namespace RPGCore.UI
 {

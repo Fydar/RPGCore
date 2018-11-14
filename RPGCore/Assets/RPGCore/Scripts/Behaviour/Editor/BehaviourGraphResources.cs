@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using RPGCore.Utility;
+﻿using RPGCore.Utility;
+using UnityEngine;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Editor
 {
 	[CreateAssetMenu]
 	public class BehaviourGraphResources : ResourceCollection<BehaviourGraphResources>

@@ -1,19 +1,13 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
-
-namespace RPGCore
-{
-	[UnityEditor.CustomPropertyDrawer (typeof (FloatInput))]
-	public partial class InputDrawer { }
-
-	[UnityEditor.CustomPropertyDrawer (typeof (FloatOutput))]
-	public partial class OutputDrawer { }
 #endif
 
+namespace RPGCore.Behaviour.Connections
+{
 	[ConnectionInformation ("Float", "A decimal number")]
 	public class FloatConnection : Connection<float, FloatConnection, ConnectionEntry<float>>
 	{

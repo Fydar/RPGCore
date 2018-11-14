@@ -1,5 +1,4 @@
-﻿using RPGCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RPGCore.Inventories
 {

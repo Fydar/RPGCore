@@ -1,16 +1,12 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using UnityEngine;
 
-namespace RPGCore
+namespace RPGCore.Behaviour
 {
 	[Serializable]
 	public abstract class OutputSocket : Socket
 	{
-
-		public const int socketSize = 16;
-
+		private const int socketSize = 16;
 
 #if UNITY_EDITOR
 		public Rect socketRect

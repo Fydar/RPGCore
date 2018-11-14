@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Connections
 {
-	[CustomPropertyDrawer (typeof (EventInput))]
+	[CustomPropertyDrawer (typeof (EventInput), true)]
 	public class EventInputDrawer : PropertyDrawer
 	{
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
@@ -33,7 +34,7 @@ namespace RPGCore
 		}
 	}
 
-	[CustomPropertyDrawer (typeof (EventOutput))]
+	[CustomPropertyDrawer (typeof (EventOutput), true)]
 	public partial class EventOutputDrawer : PropertyDrawer
 	{
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
@@ -114,6 +115,11 @@ namespace RPGCore
 			return foundEntry;
 		}
 
+		public override ConnectionEntry GetBaseEntry (IBehaviourContext context)
+		{
+			return null;
+		}
+
 		public override object GetConnectionObject (IBehaviourContext context)
 		{
 			return GetEntry (context);
@@ -178,6 +184,11 @@ namespace RPGCore
 			}
 
 			return foundEntry;
+		}
+
+		public override ConnectionEntry GetBaseEntry (IBehaviourContext context)
+		{
+			return null;
 		}
 
 		public override void RemoveContext (IBehaviourContext character)

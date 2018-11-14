@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using System.Reflection;
 using RPGCore.Utility.Editors;
 #endif
 
-namespace RPGCore
+namespace RPGCore.Behaviour
 {
 #if UNITY_EDITOR
-	public partial class InputDrawer : PropertyDrawer
+	[CustomPropertyDrawer (typeof (InputSocket), true)]
+	public class InputDrawer : PropertyDrawer
 	{
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
@@ -63,7 +63,8 @@ namespace RPGCore
 			property.FindPropertyRelative ("drawRect").rectValue = position;
 		}
 	}
-	public partial class OutputDrawer : PropertyDrawer
+	[CustomPropertyDrawer (typeof (OutputSocket), true)]
+	public class OutputDrawer : PropertyDrawer
 	{
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
@@ -78,76 +79,6 @@ namespace RPGCore
 		}
 	}
 #endif
-
-	public static class ContextUtility
-	{
-
-		public static int currentIndex = -1;
-	}
-
-
-	public interface ISocketConvertable<T>
-	{
-		T Convert { get; }
-	}
-
-
-	public interface ISocketType<T>
-	{
-		T Value { get; set; }
-	}
-
-	public class ConnectionEntry
-	{
-		public event Action OnBeforeChanged;
-		public event Action OnAfterChanged;
-
-		protected void InvokeBeforeChanged ()
-		{
-			if (OnBeforeChanged != null)
-				OnBeforeChanged ();
-		}
-
-		protected void InvokeAfterChanged ()
-		{
-			if (OnAfterChanged != null)
-				OnAfterChanged ();
-		}
-	}
-
-	public class ConnectionEntry<T> : ConnectionEntry, ISocketConvertable<T>, ISocketType<T>
-	{
-		private T lastValue;
-
-		public T Value
-		{
-			get
-			{
-				return lastValue;
-			}
-			set
-			{
-				InvokeBeforeChanged ();
-
-				lastValue = value;
-
-				InvokeAfterChanged ();
-			}
-		}
-
-		public T Convert
-		{
-			get
-			{
-				return Value;
-			}
-		}
-	}
-
-	public interface ISocket
-	{
-		ConnectionEntry GetBaseEntry (IBehaviourContext context);
-	}
 
 	public abstract class Connection<T, B, C>
 		where B : Connection<T, B, C>
@@ -279,7 +210,7 @@ namespace RPGCore
 					}
 					else
 					{
-						ISocket sourceOutput = (ISocket)SourceSocket;
+						Socket sourceOutput = (Socket)SourceSocket;
 
 						ConnectionEntry connectionEntry = sourceOutput.GetBaseEntry (context);
 
@@ -299,6 +230,11 @@ namespace RPGCore
 				}
 
 				return foundEntry;
+			}
+
+			public override ConnectionEntry GetBaseEntry (IBehaviourContext context)
+			{
+				return GetEntry (context);
 			}
 
 			public override object GetConnectionObject (IBehaviourContext context)
@@ -331,7 +267,7 @@ namespace RPGCore
 #endif
 		}
 
-		public abstract class Output : OutputSocket, ISocket
+		public abstract class Output : OutputSocket
 		{
 			private Dictionary<IBehaviourContext, C> ContextCahce;
 
@@ -343,7 +279,7 @@ namespace RPGCore
 				}
 			}
 
-			public ConnectionEntry GetBaseEntry (IBehaviourContext context)
+			public override ConnectionEntry GetBaseEntry (IBehaviourContext context)
 			{
 				return GetEntry (context);
 			}
@@ -383,9 +319,6 @@ namespace RPGCore
 #endif
 		}
 
-
-
-
 		public abstract class ListInput : InputSocket
 		{
 			[SerializeField, HideInInspector]
@@ -423,7 +356,7 @@ namespace RPGCore
 
 					contextCahce.Add (context, foundEntry);
 
-					ISocket sourceOutput = (ISocket)SourceSocket;
+					Socket sourceOutput = (Socket)SourceSocket;
 
 					ConnectionEntry connectionEntry = sourceOutput.GetBaseEntry (context);
 
@@ -440,6 +373,11 @@ namespace RPGCore
 				}
 
 				return foundEntry;
+			}
+
+			public override ConnectionEntry GetBaseEntry (IBehaviourContext context)
+			{
+				return GetEntry (context);
 			}
 
 			public override void AfterContentChanged ()

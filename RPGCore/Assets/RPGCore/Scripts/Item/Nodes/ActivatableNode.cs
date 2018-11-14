@@ -1,4 +1,6 @@
 ﻿using RPGCore.Audio;
+using RPGCore.Behaviour;
+using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {

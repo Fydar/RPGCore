@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using RPGCore.UI;
 using System;
-using RPGCore.UI;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace RPGCore.Inventories
 {

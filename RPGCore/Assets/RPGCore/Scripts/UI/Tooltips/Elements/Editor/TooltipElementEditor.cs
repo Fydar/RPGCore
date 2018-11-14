@@ -1,6 +1,6 @@
 ﻿using System;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace RPGCore.Tooltips.Editors
 {

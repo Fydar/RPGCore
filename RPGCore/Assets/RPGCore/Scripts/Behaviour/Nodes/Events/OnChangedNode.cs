@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using RPGCore.Behaviour.Connections;
+using System;
 using UnityEngine;
-using RPGCore;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Events
 {
 	[NodeInformation ("Events/On Changed")]
 	public class OnChangedNode : BehaviourNode

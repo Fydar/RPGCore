@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RPGCore.Behaviour;
+using UnityEngine;
 
 namespace RPGCore.Quests
 {

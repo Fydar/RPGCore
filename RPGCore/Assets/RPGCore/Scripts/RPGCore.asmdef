@@ -1,8 +1,8 @@
 {
-    "name": "RPGCore",
-    "references": [],
-    "optionalUnityReferences": [],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false
+  "name": "RPGCore",
+  "references": [],
+  "optionalUnityReferences": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false
 }

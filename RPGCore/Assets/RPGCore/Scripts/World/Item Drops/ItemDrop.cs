@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using RPGCore.Inventories;
+﻿using RPGCore.Inventories;
+using UnityEngine;
 
 namespace RPGCore.World
 {

@@ -1,20 +1,14 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
+using RPGCore.Behaviour;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace RPGCore
 {
-	[UnityEditor.CustomPropertyDrawer (typeof (CharacterInput))]
-	public partial class InputDrawer { }
-
-	[UnityEditor.CustomPropertyDrawer (typeof (CharacterOutput))]
-	[UnityEditor.CustomPropertyDrawer (typeof (CharacterListOutput))]
-	public partial class OutputDrawer { }
-#endif
-
 	[ConnectionInformation ("Character", "Represents a character")]
 	public class CharacterConnection : Connection<RPGCharacter, CharacterConnection, ConnectionEntry<RPGCharacter>>
 	{

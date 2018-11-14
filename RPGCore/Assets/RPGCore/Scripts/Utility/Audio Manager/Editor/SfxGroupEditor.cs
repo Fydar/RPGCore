@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEngine;
 
 namespace RPGCore.Audio.Editors
 {

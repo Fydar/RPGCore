@@ -1,4 +1,6 @@
-﻿using RPGCore.Utility;
+﻿using RPGCore.Behaviour;
+using RPGCore.Behaviour.Connections;
+using RPGCore.Utility;
 using UnityEngine;
 
 namespace RPGCore
@@ -11,10 +13,10 @@ namespace RPGCore
 		public CharacterInput Target;
 		public EventInput Activate;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (character);
-			EventEntry activateInput = Activate.GetEntry (character);
+			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (context);
+			EventEntry activateInput = Activate.GetEntry (context);
 
 			activateInput.OnEventFired += () =>
 			{

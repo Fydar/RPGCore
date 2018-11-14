@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using RPGCore.Behaviour.Connections;
+using System;
 using UnityEngine;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Events
 {
 	[NodeInformation ("Events/Switch", "EventLogic")]
 	public class SwitchNode : BehaviourNode

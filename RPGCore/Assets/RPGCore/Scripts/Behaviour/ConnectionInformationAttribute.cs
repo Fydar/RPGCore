@@ -1,12 +1,17 @@
 ﻿using System;
 
-namespace RPGCore
+namespace RPGCore.Behaviour
 {
 	public class ConnectionInformationAttribute : Attribute
 	{
 		public string Name = "";
 		public string Description = "";
 		public Type Type;
+
+		public ConnectionInformationAttribute (string name)
+		{
+			Name = name;
+		}
 
 		public ConnectionInformationAttribute (string name, string description)
 		{

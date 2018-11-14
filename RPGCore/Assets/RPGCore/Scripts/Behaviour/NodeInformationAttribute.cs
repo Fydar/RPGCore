@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RPGCore
+namespace RPGCore.Behaviour
 {
 	public class NodeInformationAttribute : Attribute
 	{

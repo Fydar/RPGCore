@@ -1,19 +1,13 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
-
-namespace RPGCore
-{
-	[UnityEditor.CustomPropertyDrawer (typeof (IntInput))]
-	public partial class InputDrawer { }
-
-	[UnityEditor.CustomPropertyDrawer (typeof (IntOutput))]
-	public partial class OutputDrawer { }
 #endif
 
+namespace RPGCore.Behaviour.Connections
+{
 	[ConnectionInformation ("Int", "Convertable to an integer")]
 	public class IntEntry : ConnectionEntry<int>, ISocketConvertable<float>
 	{

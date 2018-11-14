@@ -1,6 +1,4 @@
-﻿using RPGCore;
-
-namespace RPGCore.Inventories
+﻿namespace RPGCore.Inventories
 {
 	public abstract class ItemSlotBehaviour
 	{

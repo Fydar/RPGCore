@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections;
+﻿using UnityEditor;
+using UnityEngine;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Editor
 {
 	public class BehaviourGUIStyles
 	{

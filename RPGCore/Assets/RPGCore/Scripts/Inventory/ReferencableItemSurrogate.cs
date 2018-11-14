@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using RPGCore.Inventories;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-using RPGCore.Inventories;
 
 namespace RPGCore
 {

@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using RPGCore.Tooltips;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RPGCore.Inventories
 {

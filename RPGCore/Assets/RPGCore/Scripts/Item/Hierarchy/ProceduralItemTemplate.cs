@@ -23,7 +23,7 @@ namespace RPGCore
 		[SerializeField] private string description = "New Item Description";
 
 		[Space]
-		
+
 		[SerializeField] private SfxGroup startDrag;
 		[SerializeField] private SfxGroup endDrag;
 
@@ -132,7 +132,7 @@ namespace RPGCore
 				return null;
 
 			RuntimePreviewGenerator.OrthographicMode = true;
-			RuntimePreviewGenerator.BackgroundColor = new Color32(19, 23, 26, 255);
+			RuntimePreviewGenerator.BackgroundColor = new Color32 (19, 23, 26, 255);
 			RuntimePreviewGenerator.Padding = 0.1f;
 
 			return RuntimePreviewGenerator.GenerateModel (((ItemTemplate)target).RenderPrefab.transform, width, height);

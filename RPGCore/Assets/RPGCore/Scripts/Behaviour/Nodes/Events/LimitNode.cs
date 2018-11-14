@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using RPGCore.Behaviour.Connections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Events
 {
 	[NodeInformation ("Events/Limit", "EventLogic")]
 	public class LimitNode : BehaviourNode

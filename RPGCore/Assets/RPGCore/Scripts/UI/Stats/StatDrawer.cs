@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using RPGCore.Tooltips;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using RPGCore.Tooltips;
-using RPGCore.Stats;
 
 namespace RPGCore.Stats
 {

@@ -1,19 +1,13 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
-
-namespace RPGCore
-{
-	[UnityEditor.CustomPropertyDrawer (typeof (BoolInput))]
-	public partial class InputDrawer { }
-
-	[UnityEditor.CustomPropertyDrawer (typeof (BoolOutput))]
-	public partial class OutputDrawer { }
 #endif
 
+namespace RPGCore.Behaviour.Connections
+{
 	[ConnectionInformation ("Bool", "Used in logic")]
 	public class BoolConnection : Connection<bool, BoolConnection, ConnectionEntry<bool>>
 	{

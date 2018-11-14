@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using RPGCore.Quests;
+﻿using RPGCore.Quests;
+using UnityEngine;
 
 namespace RPGCore.UI
 {

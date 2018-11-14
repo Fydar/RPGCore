@@ -1,14 +1,14 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using RPGCore.Stats;
+﻿using RPGCore.Stats;
 using RPGCore.UI;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace RPGCore.Tooltips
 {
 	public class StatInstanceElement : TooltipElement, ITooltipTarget<StatInstance>
 	{
 		[SerializeField] private Text statDescription = null;
-		
+
 		[SerializeField] private ProgressBar progress = null;
 
 		public void Render (StatInstance target)

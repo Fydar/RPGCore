@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RPGCore.Utility;
+using System;
 using UnityEngine;
-using RPGCore.Utility;
 
 namespace RPGCore.Stats
 {

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using RPGCore.Behaviour;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using RPGCore;
 
 namespace RPGCore
 {

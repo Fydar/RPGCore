@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using RPGCore;
+﻿using RPGCore.Behaviour;
+using RPGCore.Behaviour.Connections;
+using System;
 
 namespace RPGCore
 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using RPGCore.Inventories;
 
 namespace RPGCore.Inventories
 {

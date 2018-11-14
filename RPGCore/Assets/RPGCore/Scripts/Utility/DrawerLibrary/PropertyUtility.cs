@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
-using UnityEngine;
-using UnityEditor;
 using System.Reflection;
+using UnityEditor;
+using UnityEngine;
 
 namespace RPGCore.Utility.Editors
 {

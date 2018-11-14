@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RPGCore.Audio;
+using RPGCore.Inventories;
+using RPGCore.Stats;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RPGCore.Inventories;
-using RPGCore.Stats;
-using RPGCore.Audio;
 
 namespace RPGCore.Tooltips
 {

@@ -1,11 +1,8 @@
 ﻿//#define DeveloperTooltip
 
-using System.Collections;
-using System.Collections.Generic;
+using RPGCore.Inventories;
 using UnityEngine;
 using UnityEngine.UI;
-using RPGCore;
-using RPGCore.Inventories;
 
 namespace RPGCore.Tooltips
 {

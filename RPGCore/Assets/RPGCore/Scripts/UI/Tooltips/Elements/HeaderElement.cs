@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using RPGCore.Inventories;
+﻿using RPGCore.Inventories;
 using RPGCore.Stats;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace RPGCore.Tooltips
 {

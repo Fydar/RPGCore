@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace RPGCore.Utility.Editors
 {
@@ -8,7 +8,7 @@ namespace RPGCore.Utility.Editors
 	{
 		//private const float Padding = 0;
 		//private const float HalfPadding = Padding / 2.0f;
-		
+
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
 			return EditorGUI.GetPropertyHeight (property, label);

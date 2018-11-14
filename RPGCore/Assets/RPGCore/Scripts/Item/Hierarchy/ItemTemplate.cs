@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using RPGCore.Audio;
+using RPGCore.Behaviour;
 using System.Collections.Generic;
-using RPGCore.Audio;
+using UnityEngine;
 
 namespace RPGCore
 {
@@ -12,14 +13,14 @@ namespace RPGCore
 
 		public abstract GameObject RenderPrefab { get; }
 		public abstract float RenderScale { get; }
-		
+
 		public abstract int Weight { get; }
 		public abstract int StackSize { get; }
 
 		public abstract ItemRarity Rarity { get; }
 		public abstract SfxGroup StartDrag { get; }
 		public abstract SfxGroup EndDrag { get; }
-		
+
 		public abstract IEnumerable<float[]> PositiveOverrides { get; }
 		public abstract IEnumerable<float[]> NegativeOverrides { get; }
 

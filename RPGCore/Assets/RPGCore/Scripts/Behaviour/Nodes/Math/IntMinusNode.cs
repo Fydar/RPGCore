@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using RPGCore.Behaviour.Connections;
+using System;
 using UnityEngine;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Math
 {
 	[NodeInformation ("Int/Minus")]
 	public class IntMinusNode : BehaviourNode

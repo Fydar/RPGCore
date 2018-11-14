@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using RPGCore.Behaviour.Connections;
+using System;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Logic
 {
 	[NodeInformation ("Logic/Compare Int")]
 	public class CompareIntNode : BehaviourNode

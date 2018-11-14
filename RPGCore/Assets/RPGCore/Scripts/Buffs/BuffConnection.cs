@@ -1,20 +1,14 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
+using RPGCore.Behaviour;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace RPGCore
 {
-	[UnityEditor.CustomPropertyDrawer (typeof (BuffInput))]
-	public partial class InputDrawer { }
-
-	[UnityEditor.CustomPropertyDrawer (typeof (BuffOutput))]
-	[UnityEditor.CustomPropertyDrawer (typeof (BuffListOutput))]
-	public partial class OutputDrawer { }
-#endif
-
 	public class BuffConnection : Connection<Buff, BuffConnection, ConnectionEntry<Buff>>
 	{
 #if UNITY_EDITOR

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using RPGCore.Audio;
+﻿using RPGCore.Audio;
+using UnityEngine;
 
 namespace RPGCore.Inventories
 {
@@ -95,7 +95,7 @@ namespace RPGCore.Inventories
 					}
 
 					ghost.gameObject.SetActive (true);
-					
+
 					// TODO: Tell Item Slot to fade out
 				}
 				else

@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using RPGCore.Behaviour.Connections;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Logic
 {
 	[NodeInformation ("Logic/And")]
 	public class AndNode : BehaviourNode

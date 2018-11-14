@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace RPGCore
+namespace RPGCore.Behaviour
 {
 	public abstract class Socket
 	{
@@ -16,6 +15,11 @@ namespace RPGCore
 		public Rect drawRect;
 
 		public abstract void RemoveContext (IBehaviourContext character);
+
+		public virtual ConnectionEntry GetBaseEntry (IBehaviourContext context)
+		{
+			return null;
+		}
 
 #if UNITY_EDITOR
 		public virtual void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)

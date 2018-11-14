@@ -1,14 +1,15 @@
 ﻿#define HOVER_EFFECTS
 
-using UnityEngine;
+using RPGCore.Behaviour.Connections;
+using RPGCore.Utility.Editors;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using System;
-using System.Reflection;
-using System.Collections.Generic;
-using RPGCore.Utility.Editors;
+using UnityEngine;
 
-namespace RPGCore
+namespace RPGCore.Behaviour.Editor
 {
 	public class BehaviourWindow : EditorWindow
 	{

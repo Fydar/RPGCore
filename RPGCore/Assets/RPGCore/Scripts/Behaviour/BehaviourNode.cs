@@ -8,7 +8,7 @@ using UnityEditor;
 using RPGCore.Utility.Editors;
 #endif
 
-namespace RPGCore
+namespace RPGCore.Behaviour
 {
 	public abstract class BehaviourNode : ScriptableObject, ISerializationCallbackReceiver
 	{

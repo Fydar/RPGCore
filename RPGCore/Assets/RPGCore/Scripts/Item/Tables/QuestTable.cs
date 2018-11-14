@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using RPGCore.Tables;
+﻿using RPGCore.Tables;
+using UnityEngine;
 
 namespace RPGCore.Quests
 {

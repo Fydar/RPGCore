@@ -1,21 +1,12 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-
-namespace RPGCore
+namespace RPGCore.Behaviour
 {
-	[UnityEditor.CustomPropertyDrawer (typeof (InputSocket))]
-	public partial class InputDrawer { }
-#endif
-
 	[Serializable]
-	public class InputSocket : Socket
+	public abstract class InputSocket : Socket
 	{
-		public const int socketSize = 16;
+		private const int socketSize = 16;
 
 		[SerializeField]
 		public BehaviourNode SourceNode;
@@ -49,7 +40,6 @@ namespace RPGCore
 
 		public override void RemoveContext (IBehaviourContext character)
 		{
-
 
 		}
 

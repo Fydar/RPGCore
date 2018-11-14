@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using RPGCore.Behaviour;
 using UnityEngine;
 
 namespace RPGCore
