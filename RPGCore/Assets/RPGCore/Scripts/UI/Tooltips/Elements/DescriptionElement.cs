@@ -37,9 +37,23 @@ namespace RPGCore.Tooltips
 
 			string stats = "";
 
+			EffectTooltipNode[] tooltipNodes = target.Template.GetNodes<EffectTooltipNode> ();
+			for (int i = 0; i < tooltipNodes.Length; i++)
+			{
+				EffectTooltipNode statNode = tooltipNodes[i];
+
+				stats += statNode.Description (target);
+
+				if (i != tooltipNodes.Length - 1)
+					stats += "\n";
+			}
+
 			StatsNode[] nodes = target.Template.GetNodes<StatsNode> ();
 			for (int i = 0; i < nodes.Length; i++)
 			{
+				if (i == 0 && stats != "")
+					stats += "\n";
+
 				StatsNode statNode = nodes[i];
 
 				stats += statNode.Description (target);

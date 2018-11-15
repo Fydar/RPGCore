@@ -2,7 +2,7 @@
 
 namespace RPGCore.Audio
 {
-	[CreateAssetMenu (menuName = "Music Group")]
+	[CreateAssetMenu (menuName = "RPGCore/Audio/Music Group")]
 	public class MusicGroup : ScriptableObject
 	{
 		public AudioClip[] Music;

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using RPGCore.Behaviour.Connections;
+using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -49,7 +50,7 @@ namespace RPGCore.Behaviour.Logic
 			SerializedProperty valueBProperty = serializedObject.FindProperty ("ValueB");
 			SerializedProperty outputProperty = serializedObject.FindProperty ("Output");
 
-			GUI.DrawTexture (position, Resources.Load<Texture2D> ("Symbol_AND"), ScaleMode.ScaleToFit, true);
+			GUI.DrawTexture (position, BehaviourGraphResources.Instance.AndNodeGraphic, ScaleMode.ScaleToFit, true);
 
 			Rect valueARect = new Rect (position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
 			Rect valueBRect = new Rect (position.x, valueARect.yMax + EditorGUIUtility.standardVerticalSpacing,

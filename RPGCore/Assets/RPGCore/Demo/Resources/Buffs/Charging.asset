@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1307ca373c98d794faa86788631bc6af, type: 3}
   m_Name: Compare Int
   m_EditorClassIdentifier: 
-  Position: {x: 276, y: 333}
+  Position: {x: 274, y: 333}
   ValueA:
     drawRect:
       serializedVersion: 2

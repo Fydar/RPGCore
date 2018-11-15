@@ -4,6 +4,7 @@ using RPGCore.Behaviour.Connections;
 using RPGCore.Utility.Editors;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -39,6 +40,10 @@ namespace RPGCore.Behaviour.Editor
 		private bool help_ShowToggle = false;
 		private bool help_Faded = true;
 
+		private bool screenshot_TakeScreenshot = false;
+		private RenderTexture screenshot_RenderTexture;
+		private RenderTexture screenshot_OldTexture;
+
 		[MenuItem ("Window/Behaviour")]
 		private static void ShowEditor ()
 		{
@@ -67,8 +72,33 @@ namespace RPGCore.Behaviour.Editor
 		{
 			targetGraph = openGraph;
 			dragging_Position = Vector2.zero;
+			ResetView ();
 
 			Repaint ();
+		}
+
+		public void ResetView ()
+		{
+			if (targetGraph.Nodes.Count == 0)
+			{
+				dragging_Position = Vector2.zero;
+				return;
+			}
+
+			Rect bounds = new Rect (targetGraph.Nodes[0].Position.x, targetGraph.Nodes[0].Position.y, 0, 0);
+
+			for (int i = 0; i < targetGraph.Nodes.Count; i++)
+			{
+				var node = targetGraph.Nodes[i];
+				Vector2 position = targetGraph.Nodes[i].Position;
+				bounds.xMin = Mathf.Min (bounds.xMin, position.x);
+				bounds.xMax = Mathf.Max (bounds.xMax, position.x + node.GetDiamentions().x);
+				
+				bounds.yMin = Mathf.Min (bounds.yMin, position.y);
+				bounds.yMax = Mathf.Max (bounds.yMax, position.y + node.GetDiamentions ().y);
+			}
+
+			dragging_Position = new Vector2(screenRect.width * 0.5f, screenRect.height * 0.5f) - Vector2Int.RoundToInt (bounds.center);
 		}
 
 		public void CloseGraph ()
@@ -78,11 +108,15 @@ namespace RPGCore.Behaviour.Editor
 
 		private void OnEnable ()
 		{
-			this.wantsMouseMove = true;
+			wantsMouseMove = true;
 
 			Undo.undoRedoPerformed += Repaint;
 
-			titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.WindowIcon);
+			if (EditorGUIUtility.isProSkin)
+				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.DarkThemeIcon);
+			else
+				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
+
 
 			BasicNodeMenu = new GenericMenu ();
 
@@ -194,6 +228,19 @@ namespace RPGCore.Behaviour.Editor
 
 		private void OnGUI ()
 		{
+			if (screenshot_TakeScreenshot && currentEvent.type == EventType.Repaint)
+			{
+				screenshot_OldTexture = RenderTexture.active;
+				screenshot_RenderTexture = new RenderTexture ((int)position.width, (int)position.height + 24, 16, RenderTextureFormat.ARGB32);
+				RenderTexture.active = screenshot_RenderTexture;
+
+				Color backgroundColor = EditorGUIUtility.isProSkin
+					? new Color32 (56, 56, 56, 255)
+					: new Color32 (194, 194, 194, 255);
+
+				GL.Clear (true, true, backgroundColor);
+			}
+
 			screenRect = new Rect (0, EditorGUIUtility.singleLineHeight + 1,
 				position.width, position.height - (EditorGUIUtility.singleLineHeight + 1));
 
@@ -241,7 +288,28 @@ namespace RPGCore.Behaviour.Editor
 			}
 
 			DrawTopBar ();
+
+			if (screenshot_TakeScreenshot && currentEvent.type == EventType.Repaint)
+			{
+				Texture2D tex = new Texture2D (screenshot_RenderTexture.width, screenshot_RenderTexture.height - 18, TextureFormat.RGB24, false);
+
+				tex.ReadPixels (new Rect (0, 18, screenshot_RenderTexture.width, screenshot_RenderTexture.height), 0, 0);
+				tex.Apply ();
+
+				var bytes = tex.EncodeToPNG ();
+				File.WriteAllBytes ("Screenshots.png", bytes);
+
+				screenshot_TakeScreenshot = false;
+
+				RenderTexture.active = screenshot_OldTexture;
+			}
 		}
+		private string OurTempSquareImageLocation ()
+		{
+			string r = Application.persistentDataPath + "/p.png";
+			return r;
+		}
+
 
 		private void AddNodeCallback (object type)
 		{
@@ -546,12 +614,12 @@ namespace RPGCore.Behaviour.Editor
 
 					Rect inputSocketRect = new Rect (
 						inputSocket.socketRect.x + node.Position.x + dragging_Position.x,
-						inputSocket.socketRect.y + node.Position.y + dragging_Position.y,
+						inputSocket.socketRect.y + node.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 14 : 0),
 						inputSocket.socketRect.width, inputSocket.socketRect.height);
 
 					Rect outputSocketRect = new Rect (
 						outputSocket.socketRect.x + inputSocket.SourceNode.Position.x + dragging_Position.x,
-						outputSocket.socketRect.y + inputSocket.SourceNode.Position.y + dragging_Position.y,
+						outputSocket.socketRect.y + inputSocket.SourceNode.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 10 : 0),
 						outputSocket.socketRect.width, outputSocket.socketRect.height);
 
 					inputSocket.DrawConnection (new Vector3 (inputSocketRect.xMax, inputSocketRect.center.y),
@@ -892,6 +960,14 @@ namespace RPGCore.Behaviour.Editor
 			}
 			EditorGUI.EndDisabledGroup ();
 
+			GUILayout.FlexibleSpace ();
+
+			if (GUILayout.Button ("Screenshot", EditorStyles.toolbarButton, GUILayout.Width (100)))
+			{
+				screenshot_TakeScreenshot = true;
+				Repaint ();
+				EditorApplication.delayCall += Repaint;
+			}
 			EditorGUILayout.EndHorizontal ();
 		}
 

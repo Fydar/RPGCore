@@ -5,6 +5,7 @@ using RPGCore.Tables;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using RPGCore.Utility.Editors;
 #endif
 
 namespace RPGCore

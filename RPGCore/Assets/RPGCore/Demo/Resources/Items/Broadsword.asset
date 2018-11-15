@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18de6938cfa27f44ea6cb5d802b7bb82, type: 3}
   m_Name: Damage
   m_EditorClassIdentifier: 
-  Position: {x: 401, y: 550}
+  Position: {x: 403, y: 546}
   Target:
     drawRect:
       serializedVersion: 2
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32e4f57a524f95468c795f1087ac930, type: 3}
   m_Name: Nearby Characters
   m_EditorClassIdentifier: 
-  Position: {x: 339, y: 23}
+  Position: {x: 343, y: 33}
   Center:
     drawRect:
       serializedVersion: 2
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: 152, y: 573}
+  Position: {x: 152, y: 548}
   Min:
     drawRect:
       serializedVersion: 2
@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  Position: {x: 402, y: 135}
+  Position: {x: 403, y: 146}
   entry:
     field: Attack
   Target:
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7113b600330814696d30c2a3bc81f1, type: 3}
   m_Name: Pulse Effect
   m_EditorClassIdentifier: 
-  Position: {x: 406, y: 278}
+  Position: {x: 403, y: 287}
   Effect: {fileID: 0}
   Target:
     drawRect:

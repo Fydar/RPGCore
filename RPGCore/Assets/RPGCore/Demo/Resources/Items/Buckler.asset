@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1f5ad592de08e4fb630d5daf037ebf, type: 3}
   m_Name: Switch
   m_EditorClassIdentifier: 
-  Position: {x: 695, y: 400}
+  Position: {x: 693, y: 404}
   Event:
     drawRect:
       serializedVersion: 2
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  Position: {x: 294, y: 452}
+  Position: {x: 293, y: 456}
   entry:
     field: MaxHealth
   Target:

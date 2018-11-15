@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65790af81e30374fa9c24ed064016c0, type: 3}
   m_Name: Roll Float
   m_EditorClassIdentifier: 
-  Position: {x: 87, y: 221}
+  Position: {x: 87, y: 207}
   Min:
     drawRect:
       serializedVersion: 2

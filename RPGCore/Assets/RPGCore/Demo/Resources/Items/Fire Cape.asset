@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Fire Cape
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114818889962212492}
   - {fileID: 114109325078152614}
   - {fileID: 114187457644275344}
   - {fileID: 114000011996586328}
@@ -316,4 +317,18 @@ MonoBehaviour:
     SourceField: Output
     defaultValue: 60
   Scaling: 0
-  Display: Ignites Nearby Enemies on fire
+  Display: '{0}'
+--- !u!114 &114818889962212492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a75cc3ce6af06f4ea7712fb6590e95b, type: 3}
+  m_Name: Effect Tooltip
+  m_EditorClassIdentifier: 
+  Position: {x: 553.5, y: 31}
+  Template: Ignites Nearby Enemies on fire.
+  Values: []

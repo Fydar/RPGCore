@@ -15,7 +15,11 @@ namespace RPGCore.Tooltips.Editors
 
 			SerializedProperty iterator = serializedObject.GetIterator ();
 			iterator.NextVisible (true);
+
+			EditorGUI.BeginDisabledGroup (true);
 			EditorGUILayout.PropertyField (iterator);
+			EditorGUI.EndDisabledGroup ();
+
 			while (iterator.NextVisible (false))
 			{
 				EditorGUILayout.PropertyField (iterator);

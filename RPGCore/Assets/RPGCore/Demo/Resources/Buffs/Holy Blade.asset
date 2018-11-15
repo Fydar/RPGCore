@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb99485add3cd134c973f12597ce7ec6, type: 3}
   m_Name: Character Stat
   m_EditorClassIdentifier: 
-  Position: {x: 289, y: 375}
+  Position: {x: 295, y: 393}
   entry:
     field: Attack
   Value:
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea089d45f7c08f4aa9f052ecda295f3, type: 3}
   m_Name: Compare Float
   m_EditorClassIdentifier: 
-  Position: {x: 515, y: 421}
+  Position: {x: 545, y: 397}
   ValueA:
     drawRect:
       serializedVersion: 2
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1f5ad592de08e4fb630d5daf037ebf, type: 3}
   m_Name: Switch
   m_EditorClassIdentifier: 
-  Position: {x: 756, y: 400}
+  Position: {x: 787, y: 378}
   Event:
     drawRect:
       serializedVersion: 2
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e146e8ef2955674a9236a05e8dc49e6, type: 3}
   m_Name: On Hit
   m_EditorClassIdentifier: 
-  Position: {x: 297, y: 225}
+  Position: {x: 282, y: 222}
   Target:
     drawRect:
       serializedVersion: 2

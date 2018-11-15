@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  Position: {x: 315, y: 189}
+  Position: {x: 319, y: 178}
   entry:
     field: MaxHealth
   Target:

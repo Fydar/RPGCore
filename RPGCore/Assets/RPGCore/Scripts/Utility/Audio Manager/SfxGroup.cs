@@ -2,7 +2,7 @@
 
 namespace RPGCore.Audio
 {
-	[CreateAssetMenu (menuName = "Sfx Group")]
+	[CreateAssetMenu (menuName = "RPGCore/Audio/Sfx Group")]
 	public class SfxGroup : ScriptableObject
 	{
 		public AudioClip[] Clips;

@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb99485add3cd134c973f12597ce7ec6, type: 3}
   m_Name: Character Stat
   m_EditorClassIdentifier: 
-  Position: {x: 319, y: 526}
+  Position: {x: 321, y: 479}
   entry:
     field: Attack
   Value:

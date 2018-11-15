@@ -2,7 +2,7 @@
 
 namespace RPGCore.Audio
 {
-	[CreateAssetMenu (menuName = "Loop Group")]
+	[CreateAssetMenu (menuName = "RPGCore/Audio/Loop Group")]
 	public class LoopGroup : ScriptableObject
 	{
 		public AudioClip LoopedAudio;

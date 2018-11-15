@@ -12,6 +12,7 @@ namespace RPGCore.Audio
 
 		private int currentGrabIndex = 0;
 
+		[NonSerialized]
 		private GameObject holder;
 
 		public void Initialise (GameObject _holder)

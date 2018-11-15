@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be59b06503abceb49b509917190cdde2, type: 3}
   m_Name: Buff Whilst
   m_EditorClassIdentifier: 
-  Position: {x: 632, y: 220}
+  Position: {x: 590, y: 238}
   BuffToApply: {fileID: 11400000, guid: 37ef7531ff152354aac45ee630bfd3ed, type: 2}
   Mode: 0
   Target:
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32e4f57a524f95468c795f1087ac930, type: 3}
   m_Name: Nearby Characters
   m_EditorClassIdentifier: 
-  Position: {x: 332, y: 212}
+  Position: {x: 314, y: 224}
   Center:
     drawRect:
       serializedVersion: 2

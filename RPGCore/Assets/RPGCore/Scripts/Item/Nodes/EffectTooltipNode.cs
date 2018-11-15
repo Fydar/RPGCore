@@ -11,7 +11,7 @@ namespace RPGCore
 	{
 		[TextArea (3, 5)]
 		public string Template = "{0} Effect";
-		public FloatInput[] Values = new FloatInput[1];
+		public float[] Values = new float[1];
 
 		public Dictionary<IBehaviourContext, string> DescriptionMap = new Dictionary<IBehaviourContext, string> ();
 
@@ -28,19 +28,12 @@ namespace RPGCore
 
 				for (int i = 0; i < Values.Length; i++)
 				{
-					valuesObjects[i] = Values[i][context].Value;
+					valuesObjects[i] = Values[i];
 				}
 
 				// Debug.Log ("Description: " + String.Format (Template, valuesObjects));
-				DescriptionMap[context] = String.Format (Template, valuesObjects);
+				DescriptionMap[context] = string.Format (Template, valuesObjects);
 			};
-
-			for (int i = 0; i < Values.Length; i++)
-			{
-				var value = Values[i];
-
-				value[context].OnAfterChanged += updateHandler;
-			}
 
 			updateHandler ();
 		}
