@@ -1,8 +1,14 @@
 # RPGCore
 
+## Introduction
+
 RPGCore is a framework for producing RPG games and mechanics in Unity.
 
 ![RPGCore Main Demo][MainImage]
+
+At it's core, it features a behaviour system that's used to create items and buffs. The behaviour system is setup using a visual scripting tool, shown below.
+
+![Graph Demo][ChargingBuff]
 
 The longterm goal of this project is to produce a framework that creates modular and event based mechanics for clients and servers.
 
@@ -12,28 +18,55 @@ RPGCore in it's current state is very much a prototype. I don't recommend anyone
 
 I am currently in the process of rewriting RPGCore to run on servers and not rely on ScriptableObjects.
 
-### Todo:
+### Todo
 
 - Rewrite inventory and slots systems.
 - Remove lambda expressions and rework nodes system.
 - Create a Unity-independant version that can run on servers.
 - Make node behaviours server authoritive.
-- Create an app that can be used to edit the graphs outside of Unity. 
+- Create an app that can be used to edit the graphs outside of Unity.
 
 ## Items
 
-RPGCore is built around a modular behaviour system. One of the core uses for this system is modular items. 
+RPGCore is built around a modular behaviour system. One of the core uses for this system is modular items.
 
-![Fire Cape][Firecape]
+## Poison Potion
+
+Below is a poision potion. The user may drink it and take damage - though I'm not sure why they would want too.
+
+![Poison Potion][PoisonPotion]
+
+### Fire Cape
+
+Below is an item called the "Fire Cape". It applies the Immolate buff to it's owner, which deals damage to nearby enemies.
+
+![Fire Cape Graph][FireCapeGraph]
+
+This graph in the game is interpreted by the tooltip system, which renders the "Fire Cape" tooltip as shown below.
+
+![Fire Cape Tooltip][FireCapeTooltip]
 
 ## Buffs
 
-The modular behaviour system has other applications, such as buffs and debuffs. Events can be used to trigger behaviours on ticks of the buff, and effects can be applied continuously throughout the duration of the buff. The remaining duration on the buff can also be used to drive the performance of the buff (such as a slow that weakens over time).
+The modular behaviour system has other applications, such as buffs and debuffs. Events can be used to trigger behaviours on ticks of the buff, and effects can be applied continuously throughout the duration of the buff.
+
+![Posioned Debuff][PosionedDebuff]
+
+The remaining duration on the buff can also be used to drive the performance of the buff (such as a slow that weakens over time).
 
 ## License
 
-This work is licensed under the Apache License, Version 2.0, meaning you are free to use this work commercially under the conditions the LICENSE and NOTICE file is included within the source. 
+This work is licensed under the Apache License, Version 2.0, meaning you are free to use this work commercially under the conditions the LICENSE and NOTICE file is included within the source.
 
-[MainImage]: https://anthonymarmont.files.wordpress.com/2018/10/general.png
+[MainImage]: ./Screenshots/Main.png
 
-[FireCape]: https://anthonymarmont.files.wordpress.com/2018/10/e1a875fcb530d185ac44a4fc3fd60dd4.png
+[ChargingBuff]: ./Screenshots/ChargingBuff.png
+[ImmolateBuff]: ./Screenshots/ImmolateBuff.png
+[PosionedDebuff]: ./Screenshots/PosionedDebuff.png
+
+[PoisonPotion]: ./Screenshots/PoisonPotion.png
+[FireCapeGraph]: ./Screenshots/FireCapeGraph.png
+
+[ItemIcons]: ./Screenshots/FireCapeTooltip.png
+[FireCapeTooltip]: ./Screenshots/FireCapeTooltip.png
+[HealthPotion]: ./Screenshots/HealthPotion.png
