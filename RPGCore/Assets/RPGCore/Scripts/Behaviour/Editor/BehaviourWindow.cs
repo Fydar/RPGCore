@@ -165,7 +165,15 @@ namespace RPGCore.Behaviour.Editor
 						}
 
 						int lastSeperator = elementName.LastIndexOf ('/');
-						string nodePath = elementName.Substring (0, lastSeperator);
+						string nodePath;
+						if (lastSeperator == -1)
+						{
+							nodePath = "";
+						}
+						else
+						{
+							nodePath = elementName.Substring (0, lastSeperator);
+						}
 
 						Dictionary<string, List<Type>> groupsDictionary;
 						bool result = MenuStructure.TryGetValue (nodePath, out groupsDictionary);
@@ -614,12 +622,12 @@ namespace RPGCore.Behaviour.Editor
 
 					Rect inputSocketRect = new Rect (
 						inputSocket.socketRect.x + node.Position.x + dragging_Position.x,
-						inputSocket.socketRect.y + node.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 14 : 0),
+						inputSocket.socketRect.y + node.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 0 : 0),
 						inputSocket.socketRect.width, inputSocket.socketRect.height);
 
 					Rect outputSocketRect = new Rect (
 						outputSocket.socketRect.x + inputSocket.SourceNode.Position.x + dragging_Position.x,
-						outputSocket.socketRect.y + inputSocket.SourceNode.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 10 : 0),
+						outputSocket.socketRect.y + inputSocket.SourceNode.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 0 : 0),
 						outputSocket.socketRect.width, outputSocket.socketRect.height);
 
 					inputSocket.DrawConnection (new Vector3 (inputSocketRect.xMax, inputSocketRect.center.y),
@@ -1107,7 +1115,7 @@ namespace RPGCore.Behaviour.Editor
 				Mathf.Round (rect.height * zoom) / texture.height);
 
 			tileOffset.y -= tileAmount.y;
-			GUI.DrawTextureWithTexCoords (rect, texture, new Rect (tileOffset, tileAmount));
+			GUI.DrawTextureWithTexCoords (rect, texture, new Rect (tileOffset, tileAmount), true);
 		}
 
 
