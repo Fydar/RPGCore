@@ -13,5 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameColour: {r: 0.3464309, g: 0.6985294, b: 0.33385596, a: 1}
   SlotImage: {fileID: 21300002, guid: 57d7d71ac959c8848839b0d116238115, type: 3}
-  HeaderText: {r: 1, g: 1, b: 1, a: 1}
+  HeaderText: {r: 0.56225526, g: 0.8962264, b: 0.63757247, a: 1}
   HeaderBackground: {r: 0.184107, g: 0.1934856, b: 0.231, a: 1}
