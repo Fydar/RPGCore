@@ -33,7 +33,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18de6938cfa27f44ea6cb5d802b7bb82, type: 3}
   m_Name: Damage
   m_EditorClassIdentifier: 
-  Position: {x: 901, y: 235}
+  Position: {x: 919, y: 199}
   Target:
     drawRect:
       serializedVersion: 2
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb99485add3cd134c973f12597ce7ec6, type: 3}
   m_Name: Character Stat
   m_EditorClassIdentifier: 
-  Position: {x: 295, y: 393}
+  Position: {x: 436, y: 350}
   entry:
     field: Attack
   Value:
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea089d45f7c08f4aa9f052ecda295f3, type: 3}
   m_Name: Compare Float
   m_EditorClassIdentifier: 
-  Position: {x: 545, y: 397}
+  Position: {x: 673, y: 345}
   ValueA:
     drawRect:
       serializedVersion: 2
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1f5ad592de08e4fb630d5daf037ebf, type: 3}
   m_Name: Switch
   m_EditorClassIdentifier: 
-  Position: {x: 787, y: 378}
+  Position: {x: 918, y: 340}
   Event:
     drawRect:
       serializedVersion: 2
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e146e8ef2955674a9236a05e8dc49e6, type: 3}
   m_Name: On Hit
   m_EditorClassIdentifier: 
-  Position: {x: 282, y: 222}
+  Position: {x: 282, y: 226}
   Target:
     drawRect:
       serializedVersion: 2

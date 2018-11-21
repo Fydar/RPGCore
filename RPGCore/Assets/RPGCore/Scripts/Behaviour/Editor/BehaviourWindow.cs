@@ -44,6 +44,8 @@ namespace RPGCore.Behaviour.Editor
 		private RenderTexture screenshot_RenderTexture;
 		private RenderTexture screenshot_OldTexture;
 
+		private int controlID;
+
 		[MenuItem ("Window/Behaviour")]
 		private static void ShowEditor ()
 		{
@@ -75,30 +77,6 @@ namespace RPGCore.Behaviour.Editor
 			ResetView ();
 
 			Repaint ();
-		}
-
-		public void ResetView ()
-		{
-			if (targetGraph.Nodes.Count == 0)
-			{
-				dragging_Position = Vector2.zero;
-				return;
-			}
-
-			Rect bounds = new Rect (targetGraph.Nodes[0].Position.x, targetGraph.Nodes[0].Position.y, 0, 0);
-
-			for (int i = 0; i < targetGraph.Nodes.Count; i++)
-			{
-				var node = targetGraph.Nodes[i];
-				Vector2 position = targetGraph.Nodes[i].Position;
-				bounds.xMin = Mathf.Min (bounds.xMin, position.x);
-				bounds.xMax = Mathf.Max (bounds.xMax, position.x + node.GetDiamentions().x);
-				
-				bounds.yMin = Mathf.Min (bounds.yMin, position.y);
-				bounds.yMax = Mathf.Max (bounds.yMax, position.y + node.GetDiamentions ().y);
-			}
-
-			dragging_Position = new Vector2(screenRect.width * 0.5f, screenRect.height * 0.5f) - Vector2Int.RoundToInt (bounds.center);
 		}
 
 		public void CloseGraph ()
@@ -260,6 +238,8 @@ namespace RPGCore.Behaviour.Editor
 				currentEvent.Use ();
 			}
 
+			HandleDragAndDrop (screenRect);
+
 			DrawBackground (screenRect, dragging_Position);
 
 			if (targetGraph == null)
@@ -277,24 +257,9 @@ namespace RPGCore.Behaviour.Editor
 
 			DrawHelp ();
 
-			HandleDragAndDrop (screenRect);
-
 			HandleInput ();
 
-			if (targetGraph != null)
-			{
-				float padding = 1;
-				Rect topRight = new Rect (screenRect.xMax - TopRight_Icon - 8, screenRect.y + 8, TopRight_Icon, TopRight_Icon);
-				Rect iconRect = new Rect (topRight.x + padding, topRight.y + padding, topRight.width - (padding * 2), topRight.height - (padding * 2));
-
-				Texture graphIcon = AssetPreview.GetAssetPreview (targetGraph);
-				if (graphIcon == null)
-					graphIcon = AssetPreview.GetMiniThumbnail (targetGraph);
-
-				GUI.Box (topRight, "", EditorStyles.textArea);
-				GUI.DrawTexture (iconRect, graphIcon);
-			}
-
+			DrawOverlay ();
 			DrawTopBar ();
 
 			if (screenshot_TakeScreenshot && currentEvent.type == EventType.Repaint)
@@ -326,7 +291,7 @@ namespace RPGCore.Behaviour.Editor
 
 		private void AddNodeCallback (object type, Vector2 mousePosition)
 		{
-			BehaviourNode node = (BehaviourNode)AddAction ((Type)type);
+			BehaviourNode node = (BehaviourNode)AddNode ((Type)type);
 
 			node.Position = (mousePosition - dragging_Position) - (node.GetDiamentions () * 0.5f);
 
@@ -340,7 +305,7 @@ namespace RPGCore.Behaviour.Editor
 
 		private void DeleteNodeCallback ()
 		{
-			DeleteAction (rightClickedNode);
+			DeleteNode (rightClickedNode);
 		}
 
 		private void PingSourceCallback ()
@@ -356,7 +321,7 @@ namespace RPGCore.Behaviour.Editor
 
 		private void DuplicateNode (BehaviourNode original)
 		{
-			BehaviourNode node = (BehaviourNode)DuplicateAction (original);
+			BehaviourNode node = (BehaviourNode)DuplicateNode ((ScriptableObject)original);
 
 			Vector2 diamentions = rightClickedNode.GetDiamentions ();
 			node.Position += new Vector2 (diamentions.x * 0.25f, diamentions.y * 0.5f);
@@ -522,7 +487,7 @@ namespace RPGCore.Behaviour.Editor
 				else if (currentEvent.keyCode == KeyCode.Delete)
 				{
 					if (selectedWindow != -1)
-						DeleteAction (targetGraph.Nodes[selectedWindow]);
+						DeleteNode (targetGraph.Nodes[selectedWindow]);
 				}
 			}
 			else if (currentEvent.type == EventType.MouseDrag && dragging_IsDragging)
@@ -857,7 +822,7 @@ namespace RPGCore.Behaviour.Editor
 			{
 				if (!IsValidImport (DragAndDrop.objectReferences))
 				{
-					DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
+					// DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
 					return;
 				}
 
@@ -919,8 +884,6 @@ namespace RPGCore.Behaviour.Editor
 			}
 			return true;
 		}
-
-		int controlID;
 
 		private void DrawTopBar ()
 		{
@@ -1060,6 +1023,23 @@ namespace RPGCore.Behaviour.Editor
 			GUI.color = Color.white;
 		}
 
+		private void DrawOverlay ()
+		{
+			if (targetGraph != null)
+			{
+				float padding = 1;
+				Rect topRight = new Rect (screenRect.xMax - TopRight_Icon - 8, screenRect.y + 8, TopRight_Icon, TopRight_Icon);
+				Rect iconRect = new Rect (topRight.x + padding, topRight.y + padding, topRight.width - (padding * 2), topRight.height - (padding * 2));
+
+				Texture graphIcon = AssetPreview.GetAssetPreview (targetGraph);
+				if (graphIcon == null)
+					graphIcon = AssetPreview.GetMiniThumbnail (targetGraph);
+
+				GUI.Box (topRight, "", EditorStyles.textArea);
+				GUI.DrawTexture (iconRect, graphIcon);
+			}
+		}
+
 		private void DrawBackground (Rect screenRect, Vector2 viewPosition)
 		{
 			if (Event.current.type == EventType.MouseMove)
@@ -1118,22 +1098,42 @@ namespace RPGCore.Behaviour.Editor
 			GUI.DrawTextureWithTexCoords (rect, texture, new Rect (tileOffset, tileAmount), true);
 		}
 
+		private void ResetView ()
+		{
+			if (targetGraph.Nodes.Count == 0)
+			{
+				dragging_Position = Vector2.zero;
+				return;
+			}
 
+			Rect bounds = new Rect (targetGraph.Nodes[0].Position.x, targetGraph.Nodes[0].Position.y, 0, 0);
 
-		private void RenameAction (UnityEngine.Object action, string newName)
+			for (int i = 0; i < targetGraph.Nodes.Count; i++)
+			{
+				var node = targetGraph.Nodes[i];
+				Vector2 position = targetGraph.Nodes[i].Position;
+				bounds.xMin = Mathf.Min (bounds.xMin, position.x);
+				bounds.xMax = Mathf.Max (bounds.xMax, position.x + node.GetDiamentions ().x);
+
+				bounds.yMin = Mathf.Min (bounds.yMin, position.y);
+				bounds.yMax = Mathf.Max (bounds.yMax, position.y + node.GetDiamentions ().y);
+			}
+
+			dragging_Position = new Vector2 (screenRect.width * 0.5f, screenRect.height * 0.5f) - Vector2Int.RoundToInt (bounds.center);
+		}
+
+		private void RenameNode (UnityEngine.Object action, string newName)
 		{
 			action.name = newName;
-			//AssetDatabase.ImportAsset (AssetDatabase.GetAssetPath (action));
 
 			ReloadSubassets ();
 
 			EditorUtility.SetDirty (action);
 		}
 
-		private void DeleteAction (UnityEngine.Object action)
+		private void DeleteNode (UnityEngine.Object action)
 		{
 			DestroyImmediate (action, true);
-			//AssetDatabase.ImportAsset (AssetDatabase.GetAssetPath (targetGraph));
 
 			ReloadSubassets ();
 
@@ -1144,38 +1144,35 @@ namespace RPGCore.Behaviour.Editor
 		private T Duplicate<T> (T original)
 			where T : BehaviourNode
 		{
-			return (T)DuplicateAction (original);
+			return (T)DuplicateNode ((ScriptableObject)original);
 		}
 
-		private ScriptableObject DuplicateAction (ScriptableObject original)
+		private ScriptableObject DuplicateNode (ScriptableObject original)
 		{
 			ScriptableObject action = Instantiate (original) as ScriptableObject;
 			action.name = original.name;
 			action.hideFlags = HideFlags.HideInHierarchy;
 
 			AssetDatabase.AddObjectToAsset (action, targetGraph);
-			//AssetDatabase.ImportAsset (AssetDatabase.GetAssetPath (action));
 
 			ReloadSubassets ();
 
 			return action;
 		}
 
-		private T AddAction<T> ()
+		private T AddNode<T> ()
 			where T : BehaviourNode
 		{
-			return (T)AddAction (typeof (T));
+			return (T)AddNode (typeof (T));
 		}
 
-		private ScriptableObject AddAction (Type type)
+		private ScriptableObject AddNode (Type type)
 		{
 			ScriptableObject action = ScriptableObject.CreateInstance (type);
 			action.name = ObjectNames.NicifyVariableName (type.Name).Replace (" Node", "");
 			action.hideFlags = HideFlags.HideInHierarchy;
 
 			AssetDatabase.AddObjectToAsset (action, targetGraph);
-
-			//AssetDatabase.ImportAsset (AssetDatabase.GetAssetPath (action));
 
 			ReloadSubassets ();
 
@@ -1207,67 +1204,4 @@ namespace RPGCore.Behaviour.Editor
 			EditorUtility.SetDirty (targetGraph);
 		}
 	}
-
-	/*private void DrawNodes ()
-	{
-		for (int i = 0; i < targetGraph.Nodes.Count; i++)
-		{
-			BehaviourNode node = targetGraph.Nodes[i];
-
-			if (node == null)
-			{
-				targetGraph.Nodes.RemoveAt (i);
-				return;
-			}
-
-			Vector2 contentSize = node.GetDiamentions ();
-			Vector2 nodeScreenPosition = node.Position + viewPosition;
-
-			Rect nodeRect = new Rect (nodeScreenPosition.x, nodeScreenPosition.y,
-				contentSize.x, contentSize.y + 20);
-
-			if (currentEvent.type == EventType.Repaint)
-			{
-				GUI.skin.window.Draw (nodeRect, false, false, false, false);
-			}
-
-			//EditorGUI.DrawRect (nodeRect, Color.green);
-
-			DrawNode (nodeRect, node);
-		}
-	}
-
-	private void DrawNode (Rect nodeRect, BehaviourNode node)
-	{
-		Event windowEvent = currentEvent;
-
-		Rect settingsRect = new Rect (nodeRect.width - 20, 5, 20, 20);
-
-		if (GUI.Button (settingsRect, "", BehaviourGUIStyles.Instance.settingsStyle))
-		{
-			rightClickedNode = node;
-			BasicNodeMenu.ShowAsContext ();
-		}
-
-		SerializedObject serializedObject = SerializedObjectPool.Grab (node);
-
-		float originalLabelWidth = EditorGUIUtility.labelWidth;
-		EditorGUIUtility.labelWidth = nodeRect.width / 2;
-
-		node.DrawGUI (serializedObject, new Rect (nodeRect.x, nodeRect.y + 20, 
-			nodeRect.width, nodeRect.height - 22));
-
-		serializedObject.ApplyModifiedProperties ();
-
-		if (windowEvent.type == EventType.MouseDown)
-		{
-			if (windowEvent.button == 1)
-			{
-				rightClickedNode = node;
-				BasicNodeMenu.ShowAsContext ();
-			}
-		}
-
-		EditorGUIUtility.labelWidth = originalLabelWidth;
-	}*/
 }

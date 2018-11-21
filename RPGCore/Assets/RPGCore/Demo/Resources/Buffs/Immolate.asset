@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Immolate
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114038036985169412}
   - {fileID: 114385815337609408}
   - {fileID: 114738271573448634}
   - {fileID: 114023321236482196}
@@ -73,6 +74,39 @@ MonoBehaviour:
       y: 118
       width: 190
       height: 16
+--- !u!114 &114038036985169412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56bef1be66c87a14fa83bbfdde516bd8, type: 3}
+  m_Name: Continuous Effect
+  m_EditorClassIdentifier: 
+  Position: {x: 317, y: 359.5}
+  Effect: {fileID: 114000014185608198, guid: 238bef5aaa13e2646b0e07a9bdbb2e08, type: 2}
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114023321236482196}
+    SourceField: Target
+    defaultValue: {fileID: 0}
+  Whilst:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 1
 --- !u!114 &114385815337609408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be59b06503abceb49b509917190cdde2, type: 3}
   m_Name: Buff Whilst
   m_EditorClassIdentifier: 
-  Position: {x: 590, y: 238}
+  Position: {x: 584, y: 234}
   BuffToApply: {fileID: 11400000, guid: 37ef7531ff152354aac45ee630bfd3ed, type: 2}
   Mode: 0
   Target:
