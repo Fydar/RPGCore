@@ -590,8 +590,8 @@ namespace RPGCore.Behaviour.Editor
 			}
 			else if (connection_End != null)
 			{
-				connection_End.DrawConnection (new Vector2 (connection_End.socketRect.xMax + dragging_Position.x,
-					connection_End.socketRect.center.y + dragging_Position.y)
+				connection_End.DrawConnection (new Vector2 (connection_End.SocketRect.xMax + dragging_Position.x,
+					connection_End.SocketRect.center.y + dragging_Position.y)
 					+ connection_End.ParentNode.Position, currentEvent.mousePosition, Vector3.left, Vector3.right);
 			}
 		}
@@ -621,9 +621,9 @@ namespace RPGCore.Behaviour.Editor
 						continue;
 
 					Rect inputSocketRect = new Rect (
-						inputSocket.socketRect.x + node.Position.x + dragging_Position.x,
-						inputSocket.socketRect.y + node.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 0 : 0),
-						inputSocket.socketRect.width, inputSocket.socketRect.height);
+						inputSocket.SocketRect.x + node.Position.x + dragging_Position.x,
+						inputSocket.SocketRect.y + node.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 0 : 0),
+						inputSocket.SocketRect.width, inputSocket.SocketRect.height);
 
 					Rect outputSocketRect = new Rect (
 						outputSocket.socketRect.x + inputSocket.SourceNode.Position.x + dragging_Position.x,
@@ -652,7 +652,7 @@ namespace RPGCore.Behaviour.Editor
 					if (thisInput == null)
 						continue;
 
-					Rect socketRect = thisInput.socketRect;
+					Rect socketRect = thisInput.SocketRect;
 					socketRect = new Rect (socketRect.x + node.Position.x + dragging_Position.x,
 						socketRect.y + node.Position.y + dragging_Position.y,
 						socketRect.width, socketRect.height);
@@ -782,8 +782,8 @@ namespace RPGCore.Behaviour.Editor
 				return true;
 			}
 
-			Type endInputType = typeof (ISocketConvertable<>).MakeGenericType (end.GetType ().BaseType.GenericTypeArguments[0]);
-			Type outputConnection = start.GetType ().BaseType.GenericTypeArguments[2];
+			Type endInputType = typeof (ISocketConvertable<>).MakeGenericType (end.GetType ().BaseType.GetGenericArguments()[0]);
+			Type outputConnection = start.GetType ().BaseType.GetGenericArguments ()[2];
 
 			return endInputType.IsAssignableFrom (outputConnection);
 		}

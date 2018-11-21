@@ -78,7 +78,7 @@ namespace RPGCore.Inventories
 			}
 		}
 
-		private ItemSlot lastSlot
+		private ItemSlot LastSlot
 		{
 			get
 			{
@@ -162,7 +162,7 @@ namespace RPGCore.Inventories
 				}
 			}
 
-			lastSlot = slot;
+			LastSlot = slot;
 
 			RenderItem (slot.Item);
 
@@ -194,7 +194,7 @@ namespace RPGCore.Inventories
 				rectTransform = GetComponent<RectTransform> ();
 
 			if (Hovered && DisplayTooltip)
-				TooltipManager.instance.ItemTooltip (rectTransform, lastSlot);
+				TooltipManager.instance.ItemTooltip (rectTransform, LastSlot);
 
 			RenderTemplate (item.Template);
 
@@ -272,7 +272,7 @@ namespace RPGCore.Inventories
 			if (Hovered)
 				TooltipManager.instance.Hide ();
 
-			lastSlot = null;
+			LastSlot = null;
 			lastItem = null;
 			lastTemplate = null;
 		}
@@ -287,7 +287,7 @@ namespace RPGCore.Inventories
 			if (selectedIcon != null)
 				selectedIcon.gameObject.SetActive (false);
 
-			if (lastSlot == null)
+			if (LastSlot == null)
 				return;
 
 			//if (TooltipManager.instance.CurrentItem == lastSlot.Item)
@@ -304,11 +304,11 @@ namespace RPGCore.Inventories
 			if (selectedIcon != null)
 				selectedIcon.gameObject.SetActive (true);
 
-			if (lastSlot == null)
+			if (LastSlot == null)
 				return;
 
 			if (DisplayTooltip)
-				TooltipManager.instance.ItemTooltip (rectTransform, lastSlot);
+				TooltipManager.instance.ItemTooltip (rectTransform, LastSlot);
 		}
 
 		public void ShowEquipped ()
@@ -369,7 +369,7 @@ namespace RPGCore.Inventories
 			if (currentObject != null)
 				Destroy (currentObject);
 
-			if (lastSlot == null)
+			if (LastSlot == null)
 				return;
 
 			//if (TooltipManager.instance.CurrentItem == lastSlot.Item)
@@ -444,7 +444,7 @@ namespace RPGCore.Inventories
 
 		private void OnReferenceChangedCallback ()
 		{
-			if (lastSlot == null || lastSlot.Item == null)
+			if (LastSlot == null || LastSlot.Item == null)
 			{
 				if (equippedIcon != null)
 					equippedIcon.gameObject.SetActive (false);

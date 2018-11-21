@@ -42,28 +42,109 @@ namespace RPGCore
 		[HideInInspector] [SerializeField] private Sprite icon;
 		[HideInInspector] [SerializeField] private int weight = 1;
 
-		public override string BaseName => itemName;
-		public override string Description => description;
-		public override Sprite Icon => icon;
+		public override string BaseName
+		{
+			get
+			{
+				return itemName;
+			}
+		}
 
-		public override GameObject RenderPrefab => renderPrefab;
-		public override float RenderScale => renderScale;
+		public override string Description
+		{
+			get
+			{
+				return description;
+			}
+		}
 
-		public override ItemRarity Rarity => rarity;
-		public override SfxGroup StartDrag => startDrag;
-		public override SfxGroup EndDrag => endDrag;
+		public override Sprite Icon
+		{
+			get
+			{
+				return icon;
+			}
+		}
 
-		public override int Weight => weight;
-		public override int StackSize => maxStack;
+		public override GameObject RenderPrefab
+		{
+			get
+			{
+				return renderPrefab;
+			}
+		}
 
-		public override IEnumerable<float[]> PositiveOverrides => null;
-		public override IEnumerable<float[]> NegativeOverrides => null;
+		public override float RenderScale
+		{
+			get
+			{
+				return renderScale;
+			}
+		}
+
+		public override ItemRarity Rarity
+		{
+			get
+			{
+				return rarity;
+			}
+		}
+
+		public override SfxGroup StartDrag
+		{
+			get
+			{
+				return startDrag;
+			}
+		}
+
+		public override SfxGroup EndDrag
+		{
+			get
+			{
+				return endDrag;
+			}
+		}
+
+		public override int Weight
+		{
+			get
+			{
+				return weight;
+			}
+		}
+
+		public override int StackSize
+		{
+			get
+			{
+				return maxStack;
+			}
+		}
+
+		public override IEnumerable<float[]> PositiveOverrides
+		{
+			get
+			{
+				return null;
+			}
+		}
+
+		public override IEnumerable<float[]> NegativeOverrides
+		{
+			get
+			{
+				return null;
+			}
+		}
 
 		public override ItemSurrogate GenerateItem (ItemData data)
 		{
-			ItemSurrogate newItem = new ItemSurrogate ();
-			newItem.data = data;
-			newItem.template = this;
+			ItemSurrogate newItem = new ItemSurrogate
+			{
+				data = data,
+				template = this
+			};
 
 			if (prefix != null)
 			{
@@ -125,6 +206,7 @@ namespace RPGCore
 
 #if UNITY_EDITOR && !ASSET_ICONS
 	[CustomEditor (typeof (ProceduralItemTemplate))]
+	[CanEditMultipleObjects]
 	class ItemTemplateEditor : Editor
 	{
 		public override Texture2D RenderStaticPreview (string assetPath, Object[] subAssets, int width, int height)

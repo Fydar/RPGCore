@@ -1,10 +1,17 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR && !NET_2_0 && !NET_2_0_SUBSET
+#define OPEN_SCRIPT
+#endif
+
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
 using System.Reflection;
+#endif
+
+#if OPEN_SCRIPT
 using System.Runtime.CompilerServices;
 #endif
 
@@ -17,9 +24,9 @@ namespace RPGCore.Utility.InspectorLog
 		{
 			public string content;
 
-#if UNITY_EDITOR
-			private int filePathID;
-			private int fileLine;
+#if UNITY_EDITOR && OPEN_SCRIPT
+			private readonly int filePathID;
+			private readonly int fileLine;
 
 			public LogItem (ref string message, ref int pathHash, ref int line)
 			{
@@ -28,15 +35,15 @@ namespace RPGCore.Utility.InspectorLog
 				fileLine = line;
 			}
 #else
-		public LogItem(ref string message)
+			public LogItem (ref string message)
 		{
 			content = message;
 		}
 #endif
 
-#if UNITY_EDITOR
 			public void Execute ()
 			{
+#if UNITY_EDITOR && OPEN_SCRIPT
 				string filePath = Paths[filePathID];
 
 				if (pathRemoveIndex == -1)
@@ -45,14 +52,16 @@ namespace RPGCore.Utility.InspectorLog
 				filePath = filePath.Substring (pathRemoveIndex);
 
 				AssetDatabase.OpenAsset (AssetDatabase.LoadAssetAtPath (filePath, typeof (MonoScript)), fileLine);
-			}
 #endif
+			}
 		}
 
 		public event Action<LogItem> OnLogged;
 
-		private static Dictionary<int, string> Paths = new Dictionary<int, string> ();
+#if OPEN_SCRIPT
+		private static readonly Dictionary<int, string> Paths = new Dictionary<int, string> ();
 		private static int pathRemoveIndex = -1;
+#endif
 
 		public bool ShowIndex { get; private set; }
 		public bool Expandable { get; private set; }
@@ -77,7 +86,7 @@ namespace RPGCore.Utility.InspectorLog
 			Expandable = expandable;
 		}
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && OPEN_SCRIPT
 		public void Log (string message,
 			[CallerFilePath] string sourceFilePath = "",
 			[CallerLineNumber] int sourceLineNumber = 0)
@@ -113,9 +122,10 @@ namespace RPGCore.Utility.InspectorLog
 	[CustomPropertyDrawer (typeof (InspectorLog))]
 	public class InspectorLogDrawer : PropertyDrawer
 	{
+		const int logSize = 12;
+
 		private int scroll = -1;
 		private int selectedEntry = -1;
-		private int logSize = 12;
 		private int lastLogSize = -1;
 
 		private Rect lastPosition;
@@ -292,23 +302,28 @@ namespace RPGCore.Utility.InspectorLog
 
 		private void RecalculateRects (Rect frame, int logSize)
 		{
-			rect_header = new Rect (frame);
-			rect_header.height = EditorGUIUtility.singleLineHeight;
+			rect_header = new Rect (frame)
+			{
+				height = EditorGUIUtility.singleLineHeight
+			};
 
 			rect_content = new Rect (frame);
 			rect_content.y += EditorGUIUtility.singleLineHeight;
 			rect_content.height -= EditorGUIUtility.singleLineHeight;
 
-			rect_scrollbar = new Rect (rect_content);
-			rect_scrollbar.xMin = rect_content.xMax - EditorGUIUtility.singleLineHeight;
+			rect_scrollbar = new Rect (rect_content)
+			{
+				xMin = rect_content.xMax - EditorGUIUtility.singleLineHeight
+			};
 
 			rect_content.xMax -= EditorGUIUtility.singleLineHeight;
 
 			rect_logContents = new Rect[logSize];
 
-			Rect currentLogContent = new Rect (rect_content);
-
-			currentLogContent.height = EditorGUIUtility.singleLineHeight;
+			Rect currentLogContent = new Rect (rect_content)
+			{
+				height = EditorGUIUtility.singleLineHeight
+			};
 
 			for (int i = 0; i < logSize; i++)
 			{
@@ -383,4 +398,4 @@ namespace RPGCore.Utility.InspectorLog
 		}
 	}
 #endif
-}
+		}

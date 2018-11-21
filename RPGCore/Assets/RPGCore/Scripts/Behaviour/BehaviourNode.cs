@@ -76,9 +76,9 @@ namespace RPGCore.Behaviour
 		protected abstract void OnSetup (IBehaviourContext character);
 		protected abstract void OnRemove (IBehaviourContext character);
 
-		public OutputSocket GetOutput (string ID)
+		public OutputSocket GetOutput (string id)
 		{
-			FieldInfo field = GetType ().GetField (ID);
+			FieldInfo field = GetType ().GetField (id);
 
 			if (field == null)
 				return null;

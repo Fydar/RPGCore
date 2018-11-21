@@ -132,8 +132,10 @@ namespace RPGCore.Behaviour
 				{
 					if (defaultEntry == null)
 					{
-						defaultEntry = new C ();
-						defaultEntry.Value = defaultValue;
+						defaultEntry = new C
+						{
+							Value = defaultValue
+						};
 					}
 
 					return defaultEntry;
@@ -335,9 +337,10 @@ namespace RPGCore.Behaviour
 				{
 					if (defaultEntry == null)
 					{
-						defaultEntry = new C ();
-
-						defaultEntry.Value = defaultValue;
+						defaultEntry = new C
+						{
+							Value = defaultValue
+						};
 					}
 
 					foundEntry = defaultEntry;
@@ -435,9 +438,10 @@ namespace RPGCore.Behaviour
 					Debug.LogError ("Trying to add to " + GetType ().Name + " but it already contains "
 						+ value.ToString ());
 
-				C entry = new C ();
-
-				entry.Value = value;
+				C entry = new C
+				{
+					Value = value
+				};
 
 				Entries.Add (entry);
 

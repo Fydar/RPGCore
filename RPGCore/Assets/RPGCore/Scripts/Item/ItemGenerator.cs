@@ -91,8 +91,10 @@ namespace RPGCore
 			SerializedProperty overrideModifiersProperty = property.FindPropertyRelative ("OverrideModifiers");
 
 			Rect itemRect = new Rect (marchingRect.x + FoldoutIndent, marchingRect.y, (marchingRect.width - countWidth * 2.0f) - FoldoutIndent, marchingRect.height);
-			Rect foldoutRect = new Rect (itemRect.x, itemRect.y, 10, marchingRect.height);
-			foldoutRect.xMax = EditorGUI.IndentedRect (itemRect).xMin + 7;
+			Rect foldoutRect = new Rect (itemRect.x, itemRect.y, 10, marchingRect.height)
+			{
+				xMax = EditorGUI.IndentedRect (itemRect).xMin + 7
+			};
 
 			Rect minRect = new Rect (itemRect.xMax, marchingRect.y, countWidth, marchingRect.height);
 			Rect maxRect = new Rect (minRect.xMax, marchingRect.y, countWidth, marchingRect.height);

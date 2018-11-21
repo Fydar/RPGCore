@@ -247,11 +247,13 @@ namespace RPGCore
 			FieldInfo[] fields = type.GetFields (BindingFlags.Public | BindingFlags.Instance);
 			foreach (FieldInfo field in fields)
 			{
-				var attributes = field.GetCustomAttributes<FormerlySerializedAsAttribute> ();
+				var attributes = field.GetCustomAttributes (typeof(FormerlySerializedAsAttribute), true);
 
 				foreach (var attribute in attributes)
 				{
-					if (attribute.oldName == name)
+					var serializationAttribute = (FormerlySerializedAsAttribute)attribute;
+
+					if (serializationAttribute.oldName == name)
 					{
 						return field;
 					}

@@ -54,7 +54,7 @@ namespace RPGCore.Behaviour
 		}
 
 #if UNITY_EDITOR
-		public Rect socketRect
+		public Rect SocketRect
 		{
 			get
 			{

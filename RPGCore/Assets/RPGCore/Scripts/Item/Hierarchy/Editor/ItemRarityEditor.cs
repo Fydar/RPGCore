@@ -4,6 +4,7 @@ using UnityEditor;
 namespace RPGCore.Utility.Editors
 {
 	[CustomEditor (typeof (ItemRarity))]
+	[CanEditMultipleObjects]
 	public class ItemRarityEditor : Editor
 	{
 		public override Texture2D RenderStaticPreview (string assetPath, Object[] subAssets, int width, int height)

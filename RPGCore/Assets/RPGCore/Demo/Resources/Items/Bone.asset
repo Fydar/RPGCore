@@ -16,7 +16,7 @@ MonoBehaviour:
   renderPrefab: {fileID: 1715406053926014, guid: 3bc3dbfed7b7ff64e8462e8e39825e69,
     type: 2}
   renderScale: 1
-  itemName: Bones
+  itemName: Bone
   description: Sell to a merchant.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
