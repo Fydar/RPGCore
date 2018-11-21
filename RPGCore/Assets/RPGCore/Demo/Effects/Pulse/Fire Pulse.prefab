@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbce677477e2a1488f3cbea44ced7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroyAfter: 2
+  DestroyAfter: 3
 --- !u!198 &198335801848495174
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1049,7 +1049,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 0
-      cycleCount: 7
+      cycleCount: 16
       repeatInterval: 0.1
   SizeModule:
     enabled: 1
