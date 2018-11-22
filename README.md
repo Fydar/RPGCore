@@ -4,6 +4,8 @@
 
 RPGCore is a framework for producing RPG games and mechanics in Unity.
 
+It's currently using **Unity 2018.2.3f1**.
+
 ![RPGCore Main Demo][MainImage]
 
 At it's core, it features a behaviour system that's used to create items and buffs. The behaviour system is setup using a visual scripting tool, shown below.
@@ -30,12 +32,6 @@ I am currently in the process of rewriting RPGCore to run on servers and not rel
 
 RPGCore is built around a modular behaviour system. One of the core uses for this system is modular items.
 
-## Poison Potion
-
-Below is a poision potion. The user may drink it and take damage - though I'm not sure why they would want too.
-
-![Poison Potion][PoisonPotion]
-
 ### Fire Cape
 
 Below is an item called the "Fire Cape". It applies the Immolate buff to it's owner, which deals damage to nearby enemies.
@@ -45,6 +41,12 @@ Below is an item called the "Fire Cape". It applies the Immolate buff to it's ow
 This graph in the game is interpreted by the tooltip system, which renders the "Fire Cape" tooltip as shown below.
 
 ![Fire Cape Tooltip][FireCapeTooltip]
+
+## Poison Potion
+
+Below is a poision potion. The user may drink it and take damage - though I'm not sure why they would want too.
+
+![Poison Potion][PoisonPotion]
 
 ## Buffs
 

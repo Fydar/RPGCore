@@ -9,7 +9,7 @@ namespace RPGCore
 	{
 		public float TicksPerSecond = 3.0f;
 
-		private float tickProgress = 0.0f;
+		private float tickProgress;
 
 		public override float DisplayPercent
 		{
@@ -33,8 +33,7 @@ namespace RPGCore
 		{
 			TicksPerSecond = buffNode.TicksPerSecond[context].Value;
 		}
-
-
+		
 		public override void Update (float deltaTime)
 		{
 			tickProgress += deltaTime;

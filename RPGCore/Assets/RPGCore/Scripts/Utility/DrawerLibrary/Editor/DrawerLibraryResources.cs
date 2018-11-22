@@ -14,7 +14,7 @@ namespace RPGCore.Utility
 		public Texture2D WarningIcon;
 		[ErrorIfNull]
 		public Texture2D ErrorIcon;
-		
+
 		public static DrawerLibraryResources Instance
 		{
 			get

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace RPGCore.Utility.Editors
 {
@@ -35,7 +35,7 @@ namespace RPGCore.Utility.Editors
 					if (x > y)
 						preview.SetPixel (x, y, primary);
 					else if (x == y)
-						preview.SetPixel (x, y, new Color(
+						preview.SetPixel (x, y, new Color (
 							(primary.r + secondary.r) * 0.5f,
 							(primary.g + secondary.g) * 0.5f,
 							(primary.b + secondary.b) * 0.5f));

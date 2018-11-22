@@ -147,7 +147,7 @@ namespace RPGCore.Utility.Editors
 		static RuntimePreviewGenerator ()
 		{
 			m_Scene = EditorSceneManager.NewPreviewScene ();
-			
+
 			var Light0 = CreateLight ();
 			Light0.transform.rotation = Quaternion.Euler (70, 180, 0);
 			Light0.color = new Color (1.0f, 0.95f, 0.9f);
@@ -157,7 +157,7 @@ namespace RPGCore.Utility.Editors
 			Light1.transform.rotation = Quaternion.Euler (340, 218, 177);
 			Light1.color = new Color (.4f, .4f, .45f, 0f) * .7f;
 			Light1.intensity = 1;
-			
+
 			PreviewRenderCamera = null;
 			PreviewDirection = new Vector3 (-1f, -1f, -1f);
 			Padding = 0f;
@@ -367,7 +367,7 @@ namespace RPGCore.Utility.Editors
 
 			float horizontalDistance = projectionPlaneHorizontal.GetDistanceToPoint (point);
 			float verticalDistance = projectionPlaneVertical.GetDistanceToPoint (point);
-			
+
 			float halfFrustumHeight = Mathf.Max (verticalDistance, horizontalDistance / aspect);
 			float distance = halfFrustumHeight / Mathf.Tan (renderCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
 

@@ -15,7 +15,7 @@ namespace RPGCore
 	{
 		public Action<int> OnValueChanged;
 
-		private int delta = 0;
+		private int delta;
 
 		public float Delta
 		{
@@ -71,10 +71,10 @@ namespace RPGCore
 
 		[SerializeField]
 		[FormerlySerializedAs ("BaseValue")]
-		private int baseValue = 0;
+		private int baseValue;
 
 		[NonSerialized]
-		private int lastValue = 0;
+		private int lastValue;
 		[NonSerialized]
 		private bool isDirty = true;
 
@@ -164,7 +164,6 @@ namespace RPGCore
 	[CustomPropertyDrawer (typeof (IntegerStack))]
 	public class IntegerStackDrawer : PropertyDrawer
 	{
-
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
 			return base.GetPropertyHeight (property, label);
@@ -181,17 +180,14 @@ namespace RPGCore
 			IntegerStack statInst = (IntegerStack)GetTargetObjectOfProperty (property);
 
 			Rect fieldRect;
-			//Rect valueRect;
 
 			if (Application.isPlaying)
 			{
 				fieldRect = new Rect (position.x, position.y, position.width - 40, position.height);
-				//valueRect = new Rect (fieldRect.xMax, fieldRect.y, 40, position.height);
 			}
 			else
 			{
 				fieldRect = position;
-				//valueRect = position;
 			}
 
 			valueProperty.intValue = EditorGUI.IntField (fieldRect, label, valueProperty.intValue);

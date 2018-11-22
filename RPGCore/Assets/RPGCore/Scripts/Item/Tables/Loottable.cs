@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 #if UNITY_EDITOR
@@ -10,7 +11,7 @@ namespace RPGCore.Tables
 	[CreateAssetMenu (menuName = "RPGCore/Loottable")]
 	public class Loottable : ScriptableObject
 	{
-		[System.Serializable]
+		[Serializable]
 		public class ItemEntry : GenericTableEntry<ItemGenerator>
 		{
 			public ItemEntry (ItemGenerator item, float balance)
@@ -20,7 +21,7 @@ namespace RPGCore.Tables
 			}
 		}
 
-		[System.Serializable]
+		[Serializable]
 		public class ItemRoll : MultiAssetSelector<ItemGenerator, ItemEntry>
 		{
 
@@ -77,45 +78,16 @@ namespace RPGCore.Tables
 			return cachedGeneratedItems;
 		}
 
-		private void Test ()
-		{
-			foreach (ItemRoll roll in TableRolls)
-			{
-				ItemGenerator gen = roll.Select ();
-				Debug.Log (gen.RewardTemplate.BaseName);
-			}
-		}
-
-		private void MultipleTest ()
-		{
-			foreach (ItemRoll roll in TableRolls)
-			{
-				ItemGenerator[] gen = roll.SelectMultiple ();
-				for (int i = 0; i < gen.Length; i++)
-				{
-					Debug.Log (gen[i].RewardTemplate.BaseName);
-				}
-			}
-		}
-
 #if UNITY_EDITOR
-		[CustomEditor (typeof (Loottable))]
-		public class LootTableDrawer : Editor
+		[CustomEditor (typeof (Loottable), true)]
+		class LootTableDrawer : Editor
 		{
 			Loottable lootTable;
 			public override void OnInspectorGUI ()
 			{
-				lootTable = (Loottable)target;
+				//lootTable = (Loottable)target;
 
 				DrawDefaultInspector ();
-				if (GUILayout.Button ("Roll"))
-				{
-					lootTable.Test ();
-				}
-				if (GUILayout.Button ("RollMultiple"))
-				{
-					lootTable.MultipleTest ();
-				}
 			}
 		}
 #endif

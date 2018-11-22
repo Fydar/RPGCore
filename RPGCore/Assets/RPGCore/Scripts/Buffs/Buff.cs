@@ -141,27 +141,10 @@ namespace RPGCore
 
 			clock.StackSize.OnValueChanged += RecalculateStackSizeCallback;
 			clock.OnRemove += removeCallback;
-			clock.OnTick += () => { OnTick (); };
+			clock.OnTick += OnTick;
 
 			RecalculateStackSizeCallback (0);
 		}
-
-		private void RecalculateStackSizeCallback (int _)
-		{
-			RecalculateStackSize ();
-		}
-
-		private void RecalculateStackSize ()
-		{
-			int counter = BaseStackSize.Value;
-
-			foreach (BuffClock addClock in Clocks)
-			{
-				counter += addClock.StackSize.Value;
-			}
-			StackSize.Value = counter;
-		}
-
 		public void RemoveClock (BuffClock clock)
 		{
 			clock.OnTick -= OnTick;
@@ -183,5 +166,22 @@ namespace RPGCore
 			if (OnRemove != null)
 				OnRemove ();
 		}
+
+		private void RecalculateStackSizeCallback (int _)
+		{
+			RecalculateStackSize ();
+		}
+
+		private void RecalculateStackSize ()
+		{
+			int counter = BaseStackSize.Value;
+
+			foreach (BuffClock addClock in Clocks)
+			{
+				counter += addClock.StackSize.Value;
+			}
+			StackSize.Value = counter;
+		}
+
 	}
 }

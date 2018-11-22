@@ -15,6 +15,6 @@ namespace RPGCore
 #endif
 		public Sprite Icon;
 
-		public bool isDebuff = false;
+		public BuffType Type;
 	}
 }

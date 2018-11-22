@@ -9,9 +9,9 @@ namespace RPGCore
 	{
 		public float Duration = 3.0f;
 		public int Ticks = 20;
+		public float TimeRemaining;
 
-		public float TimeRemaining = 0.0f;
-		private int TicksCompleted = 0;
+		private int TicksCompleted;
 
 		public override float DisplayPercent
 		{

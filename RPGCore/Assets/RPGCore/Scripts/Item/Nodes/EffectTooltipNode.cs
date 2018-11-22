@@ -1,5 +1,4 @@
 ﻿using RPGCore.Behaviour;
-using RPGCore.Behaviour.Connections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

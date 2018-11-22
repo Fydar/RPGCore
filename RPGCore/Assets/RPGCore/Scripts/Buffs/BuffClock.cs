@@ -5,7 +5,7 @@
 
 namespace RPGCore
 {
-	[System.Serializable]
+	[Serializable]
 	public abstract class BuffClock
 	{
 		public Action OnRemove;

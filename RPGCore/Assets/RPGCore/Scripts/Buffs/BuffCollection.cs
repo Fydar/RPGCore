@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-#if UNITY_EDITOR
-#endif
-
 namespace RPGCore
 {
 	public class BuffCollection : IEnumerable<Buff>

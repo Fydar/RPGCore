@@ -32,8 +32,11 @@ namespace RPGCore
 
 		private void CreateIndicator (Buff buff)
 		{
+			if (buff.buffTemplate.Type == BuffType.None)
+				return;
+
 			Transform parent;
-			if (buff.buffTemplate.isDebuff)
+			if (buff.buffTemplate.Type == BuffType.Debuff)
 				parent = DebuffsHolder;
 			else
 				parent = BuffsHolder;
