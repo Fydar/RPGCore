@@ -22,7 +22,7 @@ namespace RPGCore.Behaviour.Math
 
 			Action updateHandler = () =>
 			{
-				output.Value = Mathf.Clamp(valueInput.Value, minInput.Value, maxInput.Value);
+				output.Value = Mathf.Clamp (valueInput.Value, minInput.Value, maxInput.Value);
 			};
 
 			valueInput.OnAfterChanged += updateHandler;
@@ -39,7 +39,7 @@ namespace RPGCore.Behaviour.Math
 #if UNITY_EDITOR
 		public override Vector2 GetDiamentions ()
 		{
-			return new Vector2 (140, 54);
+			return new Vector2 (140, 70);
 		}
 #endif
 	}

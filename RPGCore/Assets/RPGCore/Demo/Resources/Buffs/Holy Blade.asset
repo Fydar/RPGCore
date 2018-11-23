@@ -21,7 +21,7 @@ MonoBehaviour:
   Name: Holy Blade
   Description: Your blade is enchanted with a holy aura.
   Icon: {fileID: 21301028, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
-  isDebuff: 0
+  Type: 1
 --- !u!114 &114006276085106616
 MonoBehaviour:
   m_ObjectHideFlags: 1

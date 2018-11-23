@@ -747,7 +747,7 @@ namespace RPGCore.Behaviour.Editor
 				return true;
 			}
 
-			Type endInputType = typeof (ISocketConvertable<>).MakeGenericType (end.GetType ().BaseType.GetGenericArguments()[0]);
+			Type endInputType = typeof (ISocketConvertable<>).MakeGenericType (end.GetType ().BaseType.GetGenericArguments ()[0]);
 			Type outputConnection = start.GetType ().BaseType.GetGenericArguments ()[2];
 
 			return endInputType.IsAssignableFrom (outputConnection);

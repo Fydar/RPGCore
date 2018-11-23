@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace RPGCore.Behaviour.Math
 {
-	[NodeInformation ("Int/Clamp")]
-	public class IntClampNode : BehaviourNode
+	[NodeInformation ("Float/Lerp")]
+	public class LerpNode : BehaviourNode
 	{
-		public IntInput Value;
-		public IntInput Min;
-		public IntInput Max;
+		public FloatInput Min;
+		public FloatInput Max;
+		public FloatInput Value;
 
-		public IntOutput Output;
+		public FloatOutput Output;
 
 		protected override void OnSetup (IBehaviourContext character)
 		{
-			ConnectionEntry<int> valueInput = Value.GetEntry (character);
-			ConnectionEntry<int> minInput = Min.GetEntry (character);
-			ConnectionEntry<int> maxInput = Max.GetEntry (character);
-			ConnectionEntry<int> output = Output.GetEntry (character);
+			ConnectionEntry<float> valueInput = Value.GetEntry (character);
+			ConnectionEntry<float> minInput = Min.GetEntry (character);
+			ConnectionEntry<float> maxInput = Max.GetEntry (character);
+			ConnectionEntry<float> output = Output.GetEntry (character);
 
 			Action updateHandler = () =>
 			{
-				output.Value = Mathf.Clamp (valueInput.Value, minInput.Value, maxInput.Value);
+				output.Value = Mathf.Lerp (minInput.Value, maxInput.Value, valueInput.Value);
 			};
 
 			valueInput.OnAfterChanged += updateHandler;

@@ -18,7 +18,7 @@ MonoBehaviour:
   Name: Fortified
   Description: You brace yourself for incoming damage.
   Icon: {fileID: 21301048, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
-  isDebuff: 0
+  Type: 1
 --- !u!114 &114001360039262592
 MonoBehaviour:
   m_ObjectHideFlags: 1

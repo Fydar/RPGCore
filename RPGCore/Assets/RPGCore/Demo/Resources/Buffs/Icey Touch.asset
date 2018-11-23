@@ -18,7 +18,7 @@ MonoBehaviour:
   Name: Icey Touch
   Description: You have been struck by a frozen blade. Your movement speed is reduced.
   Icon: {fileID: 21300228, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
-  isDebuff: 1
+  Type: 2
 --- !u!114 &114023321236482196
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -21,7 +21,7 @@ MonoBehaviour:
   Description: You are building rage. Upon reaching 50 charge, you are healed back
     to full health.
   Icon: {fileID: 21300074, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
-  isDebuff: 1
+  Type: 1
 --- !u!114 &114001360039262592
 MonoBehaviour:
   m_ObjectHideFlags: 1

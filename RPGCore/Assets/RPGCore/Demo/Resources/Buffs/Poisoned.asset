@@ -18,7 +18,7 @@ MonoBehaviour:
   Name: Poisoned
   Description: You feel your life draining from you.
   Icon: {fileID: 21300206, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
-  isDebuff: 1
+  Type: 2
 --- !u!114 &114023321236482196
 MonoBehaviour:
   m_ObjectHideFlags: 1

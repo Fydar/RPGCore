@@ -33,7 +33,7 @@ namespace RPGCore
 		{
 			TicksPerSecond = buffNode.TicksPerSecond[context].Value;
 		}
-		
+
 		public override void Update (float deltaTime)
 		{
 			tickProgress += deltaTime;

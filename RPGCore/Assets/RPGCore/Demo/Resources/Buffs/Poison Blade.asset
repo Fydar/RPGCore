@@ -19,7 +19,7 @@ MonoBehaviour:
   Name: Poison Blade
   Description: Your blade is posioned, afflicting your targets on hit.
   Icon: {fileID: 21300816, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
-  isDebuff: 0
+  Type: 1
 --- !u!114 &114006276085106616
 MonoBehaviour:
   m_ObjectHideFlags: 1
