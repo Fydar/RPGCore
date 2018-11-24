@@ -22,3 +22,5 @@ MonoBehaviour:
       Item: {fileID: 11400000, guid: 6153f752621e50040b0cf26e332b8ab9, type: 2}
     - Balance: 1
       Item: {fileID: 11400000, guid: 65623727d9dc9d54d9d8a4d2ea664e95, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: 6153f752621e50040b0cf26e332b8ab9, type: 2}

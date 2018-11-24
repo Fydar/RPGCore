@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: 79, y: 352}
+  Position: {x: 101, y: 352}
   Min:
     drawRect:
       serializedVersion: 2

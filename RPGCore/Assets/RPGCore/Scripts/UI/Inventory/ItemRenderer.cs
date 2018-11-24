@@ -1,4 +1,6 @@
 ﻿using RPGCore.Tooltips;
+using RPGCore.Utility;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
@@ -9,6 +11,8 @@ namespace RPGCore.Inventories
 	public class ItemRenderer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public bool DisplayTooltip = true;
+
+		[SerializeField] private AnimationCurve bounceCurve = new AnimationCurve(new Keyframe[] { new Keyframe (0.0f, 1.0f), new Keyframe (1.0f, 0.0f) });
 
 		[SerializeField] private Color normalColour = Color.white;
 		[SerializeField] private Color fadedColour = Color.grey;
@@ -34,12 +38,13 @@ namespace RPGCore.Inventories
 		private ItemTemplate lastTemplate = null;
 
 		//3d Render Stuff
-		public int id = 0;
-		public int Height = 0;
+		[SerializeField] private int id = 0;
+		[SerializeField] private int Height = 0;
 		private GameObject currentObject;
 		private RectTransform rectTransform;
 		private int lastWidth = -1;
 		private int lastHeight = -1;
+		private Coroutine lastBounceRoutine;
 
 		private Sprite defaultSlotSprite;
 
@@ -246,6 +251,8 @@ namespace RPGCore.Inventories
 
 			if (slotDecoration != null)
 				slotDecoration.gameObject.SetActive (false);
+
+			PlayBounce ();
 		}
 
 		public void RenderEmpty ()
@@ -396,18 +403,18 @@ namespace RPGCore.Inventories
 			currentObject = Instantiate (prefab, renderLayer.objectHolder.transform) as GameObject;
 			currentObject.layer = renderLayer.gameObject.layer;
 
-			MeshRenderer renderer = currentObject.GetComponent<MeshRenderer> ();
-			renderer.receiveShadows = false;
-			renderer.shadowCastingMode = ShadowCastingMode.Off;
-			renderer.lightProbeUsage = LightProbeUsage.Off;
-			renderer.allowOcclusionWhenDynamic = false;
+			MeshRenderer itemMesh = currentObject.GetComponent<MeshRenderer> ();
+			itemMesh.receiveShadows = false;
+			itemMesh.shadowCastingMode = ShadowCastingMode.Off;
+			itemMesh.lightProbeUsage = LightProbeUsage.Off;
+			itemMesh.allowOcclusionWhenDynamic = false;
 
 			currentObject.transform.position += new Vector3 (3000, 4000, 4000);
 
 			UpdatePosition ();
 		}
 
-		private void UpdatePosition ()
+		private void UpdatePosition (float scaleMultiplier = 1.0f)
 		{
 			if (currentObject == null)
 				return;
@@ -435,7 +442,7 @@ namespace RPGCore.Inventories
 			float heightPerc = ((screenRect.height / Screen.height) * ((float)Screen.height / 2560.0f)) *
 				renderLayer.layerCamera.orthographicSize * 3.0f;
 
-			float newScale = heightPerc / maxSize;
+			float newScale = (heightPerc / maxSize) * scaleMultiplier;
 
 			currentObject.transform.position = ray.GetPoint (20 - (Height * 2));
 			currentObject.transform.position -= meshFilter.mesh.bounds.center * newScale;
@@ -453,6 +460,32 @@ namespace RPGCore.Inventories
 
 			//if (equippedIcon != null)
 			//	equippedIcon.gameObject.SetActive (lastSlot.Item.IsEquipted);
+		}
+
+		private void PlayBounce ()
+		{
+			if(isActiveAndEnabled)
+			{
+				if (lastBounceRoutine != null)
+					StopCoroutine (lastBounceRoutine);
+
+				lastBounceRoutine = StartCoroutine (BounceCoroutine ());
+			}
+		}
+
+		private IEnumerator BounceCoroutine ()
+		{
+			TimedLoop loop = new TimedLoop (0.25f);
+
+			foreach (float time in loop)
+			{
+				if (currentObject == null)
+					yield break;
+
+				float scale = 1.0f + bounceCurve.Evaluate (time);
+				UpdatePosition (scale);
+				yield return null;
+			}
 		}
 	}
 }

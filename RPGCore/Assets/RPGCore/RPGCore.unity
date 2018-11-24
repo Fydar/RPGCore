@@ -575,6 +575,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -824,6 +849,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -1471,6 +1521,31 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -1631,6 +1706,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -2631,6 +2731,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -2959,6 +3084,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -3889,6 +4039,31 @@ Prefab:
       propertyPath: slotDecoration
       value: 
       objectReference: {fileID: 2064203218}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b181227214883a469e6308857102562, type: 2}
   m_IsPrefabAsset: 0
@@ -5671,6 +5846,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -5908,6 +6108,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -6436,6 +6661,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -7413,6 +7663,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114722192792347794, guid: 7c5938238c857bb4597441acf4a44896,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114722192792347794, guid: 7c5938238c857bb4597441acf4a44896,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114722192792347794, guid: 7c5938238c857bb4597441acf4a44896,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114722192792347794, guid: 7c5938238c857bb4597441acf4a44896,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114722192792347794, guid: 7c5938238c857bb4597441acf4a44896,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c5938238c857bb4597441acf4a44896, type: 2}
   m_IsPrefabAsset: 0
@@ -7578,6 +7853,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -8138,6 +8438,31 @@ Prefab:
       propertyPath: m_Text
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b181227214883a469e6308857102562, type: 2}
   m_IsPrefabAsset: 0
@@ -8660,6 +8985,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -9010,6 +9360,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -9146,6 +9521,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -9317,6 +9717,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -10122,6 +10547,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -10791,6 +11241,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -11597,6 +12072,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -11706,15 +12206,6 @@ Prefab:
       propertyPath: m_Name
       value: Helmet
       objectReference: {fileID: 0}
-    - target: {fileID: 1992302769130004, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114607838226083260, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
-        type: 2}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -11935,6 +12426,31 @@ Prefab:
         type: 2}
       propertyPath: m_Text
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b181227214883a469e6308857102562, type: 2}
@@ -14184,6 +14700,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -15261,6 +15802,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -16082,6 +16648,31 @@ Prefab:
       propertyPath: m_Text
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b181227214883a469e6308857102562, type: 2}
   m_IsPrefabAsset: 0
@@ -16418,6 +17009,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -17035,6 +17651,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DisplayTooltip: 0
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.19921875
+      inSlope: -0.5596546
+      outSlope: -0.5596546
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.051184833
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   normalColour: {r: 1, g: 1, b: 1, a: 1}
   fadedColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   slotImage: {fileID: 1575620786}
@@ -17572,6 +18212,31 @@ Prefab:
       propertyPath: m_Text
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b181227214883a469e6308857102562, type: 2}
   m_IsPrefabAsset: 0
@@ -17702,6 +18367,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -18288,6 +18978,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -18550,6 +19265,31 @@ Prefab:
     - target: {fileID: 1992302769130004, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
       propertyPath: m_Name
       value: Flask
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
@@ -18845,6 +19585,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -19368,6 +20133,31 @@ Prefab:
       propertyPath: m_Text
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b181227214883a469e6308857102562, type: 2}
   m_IsPrefabAsset: 0
@@ -19814,6 +20604,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -20030,6 +20845,31 @@ Prefab:
       propertyPath: slotDecoration
       value: 
       objectReference: {fileID: 27072470}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b181227214883a469e6308857102562, type: 2}
   m_IsPrefabAsset: 0
@@ -20862,6 +21702,31 @@ Prefab:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: a9ac9cb1470d4864d884fc38d1ae17a2,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ac9cb1470d4864d884fc38d1ae17a2, type: 2}
   m_IsPrefabAsset: 0
@@ -21691,6 +22556,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DisplayTooltip: 1
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.19921875
+      inSlope: -0.5596546
+      outSlope: -0.5596546
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.051184833
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   normalColour: {r: 1, g: 1, b: 1, a: 1}
   fadedColour: {r: 1, g: 1, b: 1, a: 1}
   slotImage: {fileID: 0}
@@ -22023,6 +22912,31 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].value
+      value: 0.19921875
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].inSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outSlope
+      value: -0.5596546
+      objectReference: {fileID: 0}
+    - target: {fileID: 114772864588348226, guid: 6b181227214883a469e6308857102562,
+        type: 2}
+      propertyPath: bounceCurve.m_Curve.Array.data[0].outWeight
+      value: 0.051184833
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b181227214883a469e6308857102562, type: 2}
