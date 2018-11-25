@@ -6,8 +6,8 @@ namespace RPGCore.Tooltips
 {
 	public class BuffElement : TooltipElement, ITooltipTarget<Buff>
 	{
-		[SerializeField] private Image icon = null;
-		[SerializeField] private Text description = null;
+		[SerializeField] private Image icon;
+		[SerializeField] private Text description;
 
 		public void Render (Buff target)
 		{

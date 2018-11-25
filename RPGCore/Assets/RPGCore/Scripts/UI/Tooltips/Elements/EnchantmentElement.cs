@@ -6,7 +6,7 @@ namespace RPGCore.Tooltips
 	public class EnchantmentElement : TooltipElement, ITooltipTarget<ItemSurrogate>
 	{
 		[SerializeField]
-		private Text itemEnchantmentsText = null;
+		private Text itemEnchantmentsText;
 
 		public void Render (ItemSurrogate target)
 		{

@@ -1,27 +1,17 @@
 ﻿using RPGCore.Audio;
 using RPGCore.Inventories;
 using RPGCore.Stats;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace RPGCore.Tooltips
 {
-	[Serializable]
-	public struct TooltipPositioner
-	{
-		public Vector2 flipPoint;
-		public Vector2 pivot;
-		public Vector2 anchorPivot;
-	}
-
 	public class TooltipManager : MonoBehaviour
 	{
 		public static TooltipManager instance;
 
 		public TooltipPositioner DefaultPositioning;
-
 		public float FadeSpeed = 2.0f;
 
 		[Space]
@@ -97,7 +87,7 @@ namespace RPGCore.Tooltips
 			currentTransform = target;
 			// fade.Value = 0.0f;
 
-			RenderTarget<Buff> (buff);
+			RenderTarget (buff);
 		}
 
 		public void StatTooltip (RectTransform target, StatInstance stat)
@@ -105,23 +95,21 @@ namespace RPGCore.Tooltips
 			currentTransform = target;
 			// fade.Value = 0.0f;
 
-			RenderTarget<StatInstance> (stat);
+			RenderTarget (stat);
 		}
 
 		public void ItemTooltip (RectTransform target, ItemSurrogate item)
 		{
 			currentTransform = target;
-			// fade.Value = 0.0f;
 
-			RenderTarget<ItemSurrogate> (item);
+			RenderTarget (item);
 		}
 
 		public void ItemTooltip (RectTransform target, ItemSlot slot)
 		{
 			currentTransform = target;
-			// fade.Value = 0.0f;
 
-			RenderTarget<ItemSlot, ItemSurrogate> (slot, slot.Item);
+			RenderTarget (slot, slot.Item);
 		}
 
 		public void RenderTarget<T> (T target)

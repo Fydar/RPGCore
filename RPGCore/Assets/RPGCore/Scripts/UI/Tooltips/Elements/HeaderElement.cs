@@ -8,8 +8,8 @@ namespace RPGCore.Tooltips
 	public class HeaderElement : TooltipElement, ITooltipTarget<ItemSurrogate>, ITooltipTarget<StatInstance>,
 		ITooltipTarget<Buff>
 	{
-		[SerializeField] private Text itemName = null;
-		[SerializeField] private Image headerBackground = null;
+		[SerializeField] private Text itemName;
+		[SerializeField] private Image headerBackground;
 
 		[Space]
 		[SerializeField] private Color defaultBackgroundColor;

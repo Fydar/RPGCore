@@ -7,7 +7,7 @@ namespace RPGCore.Tooltips.Editors
 	[CustomEditor (typeof (TooltipElement), true)]
 	public class TooltipElementEditor : Editor
 	{
-		private static GUIStyle textStyle = null;
+		private static GUIStyle textStyle;
 
 		public override void OnInspectorGUI ()
 		{
@@ -30,11 +30,12 @@ namespace RPGCore.Tooltips.Editors
 		{
 			if (textStyle == null)
 			{
-				textStyle = new GUIStyle (EditorStyles.label);
-
-				textStyle.fontSize = 9;
-				textStyle.alignment = TextAnchor.MiddleLeft;
-				textStyle.richText = true;
+				textStyle = new GUIStyle (EditorStyles.label)
+				{
+					fontSize = 9,
+					alignment = TextAnchor.MiddleLeft,
+					richText = true
+				};
 			}
 
 			Type[] interfaces = elementType.GetInterfaces ();

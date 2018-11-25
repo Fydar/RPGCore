@@ -2,7 +2,7 @@
 
 namespace RPGCore.Tooltips
 {
-	public class TooltipElement : MonoBehaviour
+	public abstract class TooltipElement : MonoBehaviour
 	{
 	}
 }

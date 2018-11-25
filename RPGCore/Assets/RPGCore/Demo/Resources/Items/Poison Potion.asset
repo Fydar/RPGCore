@@ -26,7 +26,7 @@ MonoBehaviour:
   prefix: {fileID: 0}
   suffix: {fileID: 0}
   maxStack: 20
-  rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
+  rarity: {fileID: 11400000, guid: 9b84b88051a7629408d9039fe0803f55, type: 2}
   icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
   weight: 1
 --- !u!114 &114000012595290118
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: 318, y: 49}
   BuffToApply: {fileID: 11400000, guid: 82b77d99b8a65d34fb390d35c3a60bc2, type: 2}
-  Mode: 0
+  Mode: 4
   Target:
     drawRect:
       serializedVersion: 2

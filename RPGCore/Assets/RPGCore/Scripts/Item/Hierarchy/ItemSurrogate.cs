@@ -95,8 +95,8 @@ namespace RPGCore
 			get
 			{
 				return ((Prefix != null) ? PrefixName + " " : "") +
-					template.BaseName + " " +
-					((Suffix != null) ? SuffixName + " " : "");
+					template.BaseName +
+					((Suffix != null) ? " " + SuffixName : "");
 			}
 		}
 
@@ -231,6 +231,14 @@ namespace RPGCore
 			}
 		}
 
+		public string RichText
+		{
+			get
+			{
+				return "<color=#" + ColorUtility.ToHtmlStringRGBA (Template.Rarity.NameColour) + ">[" + FullName + "]</color>";
+			}
+		}
+
 		public override string ToString ()
 		{
 			if (template == null)
@@ -240,10 +248,10 @@ namespace RPGCore
 
 		public void TryUse ()
 		{
-			ActivatableNode activatableNode = template.GetNode<ActivatableNode> ();
+			Chat.Instance.Log (owner.Value.name + " used " + RichText);
 
+			ActivatableNode activatableNode = template.GetNode<ActivatableNode> ();
 			activatableNode.TryUse (this, owner.Value);
-			Chat.Instance.Log (owner.Value.name + " used " + FullName);
 		}
 
 		public void AddCraftingMod (Enchantment enchantment)

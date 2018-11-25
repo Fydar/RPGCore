@@ -7,9 +7,8 @@ namespace RPGCore.Tooltips
 {
 	public class StatInstanceElement : TooltipElement, ITooltipTarget<StatInstance>
 	{
-		[SerializeField] private Text statDescription = null;
-
-		[SerializeField] private ProgressBar progress = null;
+		[SerializeField] private Text statDescription;
+		[SerializeField] private ProgressBar progress;
 
 		public void Render (StatInstance target)
 		{

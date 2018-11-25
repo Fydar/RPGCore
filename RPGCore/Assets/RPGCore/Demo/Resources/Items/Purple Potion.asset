@@ -26,7 +26,7 @@ MonoBehaviour:
   prefix: {fileID: 0}
   suffix: {fileID: 0}
   maxStack: 20
-  rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
+  rarity: {fileID: 11400000, guid: 3df4fd508ece5c44295e09e055ecd815, type: 2}
   icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
   weight: 1
 --- !u!114 &114000012595290118

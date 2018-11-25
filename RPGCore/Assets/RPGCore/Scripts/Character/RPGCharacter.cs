@@ -7,6 +7,7 @@ using RPGCore.Tables;
 using RPGCore.Stats;
 using RPGCore.Quests;
 using RPGCore.World;
+using RPGCore.UI;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -93,7 +94,10 @@ namespace RPGCore
 			}
 			else
 			{
-				Heal (Stats.HealthRegeneration.Value * deltaTime);
+				if (States.CurrentHealth.Value < Stats.MaxHealth.Value)
+				{
+					Heal (Stats.HealthRegeneration.Value * deltaTime);
+				}
 			}
 
 			if (States.ManaDelayRemaining.Value >= 0.0f)
@@ -113,6 +117,7 @@ namespace RPGCore
 
 		public void TakeDamage (int damage)
 		{
+			Chat.Instance.Log (name + " taking " + damage + " damage.");
 			States.CurrentHealth.Value -= damage;
 
 			States.HealthDelayRemaining.Value = Mathf.Max (States.HealthDelayRemaining.Value, Stats.HealthRegenerationDelay.Value);
@@ -125,6 +130,11 @@ namespace RPGCore
 
 		public void Heal (float health)
 		{
+			if (health >= 1)
+			{
+				Chat.Instance.Log (name + " healing " + health.ToString ("0") + " health.");
+			}
+
 			States.CurrentHealth.Value = Mathf.Min (
 				States.CurrentHealth.Value + health, Stats.MaxHealth.Value);
 		}
@@ -147,6 +157,8 @@ namespace RPGCore
 
 		public void Kill ()
 		{
+			Chat.Instance.Log (name + " died.");
+
 			if (OnDeath != null)
 				OnDeath ();
 

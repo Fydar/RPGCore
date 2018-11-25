@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a169415f599fd9a42be8ccea8c6a8fef, type: 3}
+  m_Name: of The Night
+  m_EditorClassIdentifier: 
+  Nodes:
+  - {fileID: 114400628717835470}
+  - {fileID: 114515873263203380}
+  - {fileID: 114759145278241666}
+  - {fileID: 114991340809083294}
+  Affix: of The Night
+--- !u!114 &114400628717835470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e146e8ef2955674a9236a05e8dc49e6, type: 3}
+  m_Name: On Hit
+  m_EditorClassIdentifier: 
+  Position: {x: 321.5, y: 262.5}
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114991340809083294}
+    SourceField: Owner
+    defaultValue: {fileID: 0}
+  HitTarget:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  OnHit:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  DamageDelt:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+--- !u!114 &114515873263203380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d0f091be11f464fa016cd0f884650e, type: 3}
+  m_Name: Buff For
+  m_EditorClassIdentifier: 
+  Position: {x: 586.5, y: 236.5}
+  BuffToApply: {fileID: 11400000, guid: 8193e93704bb36a419e38cc65b363a93, type: 2}
+  Mode: 0
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 64
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114400628717835470}
+    SourceField: HitTarget
+    defaultValue: {fileID: 0}
+  Apply:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 82
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114400628717835470}
+    SourceField: OnHit
+  Duration:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 100
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 1
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 126
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0
+  Ticks:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 144
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0
+--- !u!114 &114759145278241666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
+  m_Name: Equiptable
+  m_EditorClassIdentifier: 
+  Position: {x: 70, y: 378}
+  slot: 0
+  Equipped:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+--- !u!114 &114991340809083294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9135a0f1c97cc549bf2ad9dce425050, type: 3}
+  m_Name: Item Input
+  m_EditorClassIdentifier: 
+  Position: {x: 69, y: 263}
+  Owner:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+  OnReceive:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  OnLoose:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16

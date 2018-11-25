@@ -2430,6 +2430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 185632212}
   - component: {fileID: 185632213}
+  - component: {fileID: 185632214}
   m_Layer: 5
   m_Name: Chat
   m_TagString: Untagged
@@ -2467,11 +2468,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a941befe16fedc4e9fe3ce993be7c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Holder: {fileID: 2102456322}
-  TextElements:
+  holder: {fileID: 2102456322}
+  textElements:
     SampleButton: {fileID: 1396875249}
     Reuse: 1
     Pool: []
+  chatFader: {fileID: 185632214}
+  hoverFade:
+    Target: 0
+    NegativeSpeed: 8
+    PositiveSpeed: 8
+    Value: 0
+  fadeOutAlpha: 0.2
+  fadeInAlpha: 1
+  messageFadeIn: 0.1
+  messageWait: 2.5
+  messageFadeOut: 2
+--- !u!225 &185632214
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 185632211}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &195039110
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4441,6 +4464,48 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 399293970}
   m_CullTransparentMesh: 0
+--- !u!1 &411513616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 411513618}
+  - component: {fileID: 411513617}
+  m_Layer: 0
+  m_Name: ItemDropper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &411513617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411513616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac603be537c0c846ab5f362ad615081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DropPrefab: {fileID: 114079919568510422, guid: 8fe55a47d91e4314e828b8294e33b04e,
+    type: 2}
+--- !u!4 &411513618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411513616}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1445161308}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &419162118
 GameObject:
   m_ObjectHideFlags: 0
@@ -4751,11 +4816,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2011222873}
-  - component: {fileID: 456774762}
   - component: {fileID: 456774761}
   - component: {fileID: 456774759}
+  - component: {fileID: 456774762}
   m_Layer: 5
-  m_Name: General
+  m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4927,7 +4992,7 @@ MonoBehaviour:
     fieldValues: []
     Attack:
       Info: {fileID: 11400000, guid: 29c8dac7b79562f43901e33b51476654, type: 2}
-      baseValue: 0
+      baseValue: 1
     AttackSpeed:
       Info: {fileID: 11400000, guid: cac721cfc39c64942a3cd64e290a0b09, type: 2}
       baseValue: 0.85
@@ -5888,10 +5953,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2119793942}
+  - component: {fileID: 624065048}
   - component: {fileID: 624065051}
   - component: {fileID: 624065050}
   - component: {fileID: 624065049}
-  - component: {fileID: 624065048}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -6934,10 +6999,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 720451160}
-  - component: {fileID: 720451162}
   - component: {fileID: 720451161}
+  - component: {fileID: 720451162}
   m_Layer: 5
-  m_Name: Buff Progress
+  m_Name: Buff Clock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11289,8 +11354,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 928138184}
-  - component: {fileID: 1207345732}
   - component: {fileID: 1207345731}
+  - component: {fileID: 1207345732}
   - component: {fileID: 1207345730}
   m_Layer: 5
   m_Name: Stats
@@ -13465,7 +13530,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: adeadea
+  m_Text: Example [Text].
 --- !u!222 &1396875250
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14126,6 +14191,7 @@ Transform:
   - {fileID: 565694586}
   - {fileID: 1631537873}
   - {fileID: 388477803}
+  - {fileID: 411513618}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19938,8 +20004,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1983008378}
-  - component: {fileID: 1983008381}
   - component: {fileID: 1983008379}
+  - component: {fileID: 1983008381}
   m_Layer: 5
   m_Name: StatInstance
   m_TagString: Untagged
@@ -22390,9 +22456,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2135263995}
-  - component: {fileID: 2135263998}
   - component: {fileID: 2135263997}
   - component: {fileID: 2135263996}
+  - component: {fileID: 2135263998}
   m_Layer: 5
   m_Name: Buff
   m_TagString: Untagged

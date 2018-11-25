@@ -51,8 +51,9 @@ namespace RPGCore
 				if (Mode == ApplyMode.AddNewBuff)
 				{
 					BuffClock buffClock = new BuffClockDecaying (this, context);
+					buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
 					modifier = buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
-
+					
 					Buff buff = new Buff (BuffToApply, targetInput.Value, buffClock);
 
 					targetInput.Value.Buffs.Add (buff);
@@ -60,6 +61,7 @@ namespace RPGCore
 				else if (Mode == ApplyMode.SeperateClock)
 				{
 					BuffClock buffClock = new BuffClockDecaying (this, context);
+					buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
 					modifier = buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
 
 					Buff buff = targetInput.Value.Buffs.Find (BuffToApply);

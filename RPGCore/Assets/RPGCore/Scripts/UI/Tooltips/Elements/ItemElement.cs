@@ -6,26 +6,22 @@ using UnityEngine.UI;
 
 namespace RPGCore.Tooltips
 {
-	public class DescriptionElement : TooltipElement, ITooltipTarget<ItemSurrogate>
+	public class ItemElement : TooltipElement, ITooltipTarget<ItemSurrogate>
 	{
-		[SerializeField]
-		private Text itemDescription = null;
-
-		public ItemRenderer slotRender = null;
-
-		[SerializeField]
-		private Text itemStats = null;
+		[SerializeField] private Text itemDescription;
+		[SerializeField] private ItemRenderer slotRender;
+		[SerializeField] private Text itemStats;
 
 		public void Render (ItemSurrogate target)
 		{
 			string description = "";
 
 #if DeveloperTooltip
-		description += "\n========================\nDeveloper Information\n";
+			description += "\n========================\nDeveloper Information\n";
 
-		description += "Seed: " + item.Seed.Value.ToString () + "\n";
+			description += "Seed: " + item.Seed.Value.ToString () + "\n";
 
-		description += "========================";
+			description += "========================";
 #endif
 
 			description += target.EquiptableSlot.ToString ();
