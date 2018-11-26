@@ -4,8 +4,6 @@ about: Create a report to help us improve
 
 ---
 
-## [Bug Brief]
-
 **Unity Version: ** 2018.3.1f1, 2018.3.5f1
 **Operating System:** Android
 **Build Target:** IL2CCP/Mono, .NET 4.* (NET Standard 2.0)
