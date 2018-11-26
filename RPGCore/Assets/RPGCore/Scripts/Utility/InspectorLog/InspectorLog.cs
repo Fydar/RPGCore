@@ -9,9 +9,6 @@ using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.Reflection;
-#endif
-
-#if OPEN_SCRIPT
 using System.Runtime.CompilerServices;
 #endif
 
@@ -22,29 +19,32 @@ namespace RPGCore.Utility.InspectorLog
 	{
 		public struct LogItem
 		{
-			public string content;
+			public readonly string content;
+			public readonly LogCategory category;
 
 #if UNITY_EDITOR && OPEN_SCRIPT
 			private readonly int filePathID;
 			private readonly int fileLine;
 
-			public LogItem (ref string message, ref int pathHash, ref int line)
+			public LogItem (string message, LogCategory logCategory, int pathHash, int line)
 			{
 				content = message;
 				filePathID = pathHash;
 				fileLine = line;
+				category = logCategory;
 			}
 #else
-			public LogItem (ref string message)
+		public LogItem(string message, LogCategory logCategory)
 		{
 			content = message;
+			category = logCategory;
 		}
 #endif
 
+#if UNITY_EDITOR && OPEN_SCRIPT
 			public void Execute ()
 			{
-#if UNITY_EDITOR && OPEN_SCRIPT
-				string filePath = Paths[filePathID];
+				string filePath = paths[filePathID];
 
 				if (pathRemoveIndex == -1)
 					pathRemoveIndex = Application.dataPath.Length - 6;
@@ -52,22 +52,33 @@ namespace RPGCore.Utility.InspectorLog
 				filePath = filePath.Substring (pathRemoveIndex);
 
 				AssetDatabase.OpenAsset (AssetDatabase.LoadAssetAtPath (filePath, typeof (MonoScript)), fileLine);
-#endif
 			}
+#endif
 		}
+
+		public enum LogCategory
+		{
+			Debug,
+			Info,
+			Warning,
+			Error,
+			Send,
+			Receive
+		}
+
+		private static Dictionary<int, string> paths = new Dictionary<int, string> ();
+		private static int pathRemoveIndex = -1;
 
 		public event Action<LogItem> OnLogged;
 
-#if OPEN_SCRIPT
-		private static readonly Dictionary<int, string> Paths = new Dictionary<int, string> ();
-		private static int pathRemoveIndex = -1;
-#endif
-
-		public bool ShowIndex { get; private set; }
-		public bool Expandable { get; private set; }
-
 		[NonSerialized]
 		public List<LogItem> FullLog = new List<LogItem> ();
+
+		[NonSerialized] private readonly bool showIndex;
+		[NonSerialized] private readonly bool expandable;
+
+		public bool ShowIndex { get { return showIndex; } }
+		public bool Expandable { get { return expandable; } }
 
 		public int Count
 		{
@@ -82,8 +93,8 @@ namespace RPGCore.Utility.InspectorLog
 
 		public InspectorLog (bool showIndex = true, bool expandable = false)
 		{
-			ShowIndex = showIndex;
-			Expandable = expandable;
+			this.showIndex = showIndex;
+			this.expandable = expandable;
 		}
 
 #if UNITY_EDITOR && OPEN_SCRIPT
@@ -91,38 +102,89 @@ namespace RPGCore.Utility.InspectorLog
 			[CallerFilePath] string sourceFilePath = "",
 			[CallerLineNumber] int sourceLineNumber = 0)
 		{
+			Log (message, LogCategory.Debug, sourceFilePath, sourceLineNumber);
+		}
+
+		public void LogInfo (string message,
+			[CallerFilePath] string sourceFilePath = "",
+			[CallerLineNumber] int sourceLineNumber = 0)
+		{
+			Log (message, LogCategory.Info, sourceFilePath, sourceLineNumber);
+		}
+
+		public void LogWarning (string message,
+			[CallerFilePath] string sourceFilePath = "",
+			[CallerLineNumber] int sourceLineNumber = 0)
+		{
+			Log (message, LogCategory.Warning, sourceFilePath, sourceLineNumber);
+		}
+
+		public void LogError (string message,
+			[CallerFilePath] string sourceFilePath = "",
+			[CallerLineNumber] int sourceLineNumber = 0)
+		{
+			Log (message, LogCategory.Error, sourceFilePath, sourceLineNumber);
+		}
+
+		public void Log (string message, LogCategory category,
+			[CallerFilePath] string sourceFilePath = "",
+			[CallerLineNumber] int sourceLineNumber = 0)
+		{
 			int pathHash = sourceFilePath.GetHashCode ();
 
-			if (!Paths.ContainsKey (pathHash))
-				Paths.Add (pathHash, sourceFilePath);
+			if (!paths.ContainsKey (pathHash))
+				paths.Add (pathHash, sourceFilePath);
 
-			LogItem item = new LogItem (ref message, ref pathHash, ref sourceLineNumber);
-
+			LogItem item = new LogItem (message, category, pathHash, sourceLineNumber);
 			if (FullLog == null)
 				FullLog = new List<LogItem> ();
-
 			FullLog.Add (item);
 
 			if (OnLogged != null)
 				OnLogged (item);
 		}
 #else
-	public void Log(string message)
-	{
-        LogItem item = new LogItem (ref message);
-		FullLog.Add(item);
+		public void Log(string message)
+		{
+			Log (message, LogCategory.Debug);
+		}
 
-		if (OnLogged != null)
-			OnLogged(item);
-	}
+		public void LogInfo(string message)
+		{
+			Log (message, LogCategory.Info);
+		}
+	
+		public void LogWarning(string message)
+		{
+			Log (message, LogCategory.Warning);
+		}
+	
+		public void LogError(string message)
+		{
+			Log (message, LogCategory.Error);
+		}
+
+		public void Log(string message, LogCategory category)
+		{
+			LogItem item = new LogItem (message, category);
+			FullLog.Add(item);
+
+			if (OnLogged != null)
+				OnLogged(item);
+		}
 #endif
+
+		public void Clear ()
+		{
+			FullLog.Clear ();
+		}
 	}
 
 #if UNITY_EDITOR
 	[CustomPropertyDrawer (typeof (InspectorLog))]
 	public class InspectorLogDrawer : PropertyDrawer
 	{
-		const int logSize = 12;
+		private readonly int logSize = 12;
 
 		private int scroll = -1;
 		private int selectedEntry = -1;
@@ -134,13 +196,27 @@ namespace RPGCore.Utility.InspectorLog
 		private Rect rect_content;
 		private Rect[] rect_logContents;
 
-		private UnityEngine.Object logParent = null;
-		private InspectorLog log = null;
+		private UnityEngine.Object logParent;
+		private InspectorLog log;
+		private SerializedProperty lastProperty;
 
-		private int scrollBuffer = 0;
+		private GUIStyle logEntryStyle;
+		private GUIStyle logTextStyle;
+		private GUIStyle elipsisStyle;
+
+		private Texture DebugIcon;
+		private Texture InfoIcon;
+		private Texture WarningIcon;
+		private Texture ErrorIcon;
+		private Texture ConsoleIcon;
+		private Texture SendIcon;
+		private Texture ReceiveIcon;
+
+		private int scrollBuffer;
 
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
+			lastProperty = property;
 			if (log == null)
 			{
 				log = (InspectorLog)GetTargetObjectOfProperty (property);
@@ -156,10 +232,11 @@ namespace RPGCore.Utility.InspectorLog
 				};
 			}
 
-			float height = EditorGUIUtility.singleLineHeight;
-			if (!log.Expandable || (log.Expandable && property.isExpanded))
+			float height = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+			if (!log.Expandable || property.isExpanded)
 			{
 				int logItemsCount = log.Count;
+				int scrollMax = logItemsCount - logSize;
 
 				height += EditorGUIUtility.singleLineHeight * logSize;
 			}
@@ -168,13 +245,54 @@ namespace RPGCore.Utility.InspectorLog
 
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
+			if (logEntryStyle == null)
+			{
+				logEntryStyle = new GUIStyle (EditorStyles.helpBox)
+				{
+					clipping = TextClipping.Clip,
+					wordWrap = false
+				};
+
+				logTextStyle = new GUIStyle
+				{
+					wordWrap = false,
+					clipping = TextClipping.Clip,
+					font = logEntryStyle.font,
+					fontSize = logEntryStyle.fontSize,
+					fontStyle = logEntryStyle.fontStyle
+				};
+				logTextStyle.normal.textColor = logEntryStyle.normal.textColor;
+				logTextStyle.contentOffset = logEntryStyle.contentOffset;
+				logTextStyle.padding = logEntryStyle.padding;
+				logTextStyle.richText = true;
+
+				elipsisStyle = new GUIStyle (logTextStyle);
+				elipsisStyle.padding.left = 0;
+				elipsisStyle.contentOffset = new Vector2 (0, elipsisStyle.contentOffset.y);
+
+				DebugIcon = EditorGUIUtility.IconContent ("IN-AddComponentRight", "").image;
+				InfoIcon = EditorGUIUtility.IconContent ("console.infoicon.sml", "").image;
+				WarningIcon = EditorGUIUtility.IconContent ("console.warnicon.sml", "").image;
+				ErrorIcon = EditorGUIUtility.IconContent ("console.erroricon.sml", "").image;
+				ConsoleIcon = EditorGUIUtility.IconContent ("UnityEditor.ConsoleWindow", "").image;
+				SendIcon = EditorGUIUtility.IconContent ("CollabPush", "").image;
+				ReceiveIcon = EditorGUIUtility.IconContent ("CollabPull", "").image;
+			}
 			if (position != lastPosition || logSize != lastLogSize)
 				RecalculateRects (position, logSize);
+
+			label = new GUIContent (label.text, ConsoleIcon, label.tooltip);
 
 			Rect headerRect = new Rect (lastPosition.x, lastPosition.y, lastPosition.width, EditorGUIUtility.singleLineHeight);
 			if (log.Expandable)
 			{
+				EditorGUI.BeginChangeCheck ();
 				property.isExpanded = EditorGUI.Foldout (headerRect, property.isExpanded, label, true);
+				if (EditorGUI.EndChangeCheck ())
+				{
+					EditorUtility.SetDirty (property.serializedObject.targetObject);
+				}
+
 				if (!property.isExpanded)
 				{
 					return;
@@ -192,7 +310,7 @@ namespace RPGCore.Utility.InspectorLog
 
 			if (logItemsCount > logSize)
 			{
-				float handleSize = Mathf.Max (1 / Mathf.Sqrt (logItemsCount - logSize), 0.075f);
+				float handleSize = Mathf.Max (3 / Mathf.Sqrt (logItemsCount - logSize), 0.075f);
 
 				if (scroll == -1)
 					scroll = scrollMax;
@@ -202,8 +320,8 @@ namespace RPGCore.Utility.InspectorLog
 
 				if (currentEvent.rawType == EventType.ScrollWheel && rect_content.Contains (currentEvent.mousePosition))
 				{
-					if ((scroll == 1.0f && currentEvent.delta.y > 0) ||
-						(scroll == 0.0f && currentEvent.delta.y < 0))
+					if ((Math.Abs (scroll - 1.0f) < 0.01f && currentEvent.delta.y > 0) ||
+						(Math.Abs (scroll) < 0.01f && currentEvent.delta.y < 0))
 					{
 						// Let us scroll normally, optionally we can interupt the scrolling
 						currentEvent.Use ();
@@ -247,7 +365,9 @@ namespace RPGCore.Utility.InspectorLog
 						if (currentEvent.clickCount == 2)
 						{
 							InspectorLog.LogItem item = log.FullLog[logIndex];
+#if OPEN_SCRIPT
 							ExecuteAction (item);
+#endif
 
 							selectedEntry = logIndex;
 						}
@@ -255,6 +375,38 @@ namespace RPGCore.Utility.InspectorLog
 						{
 							selectedEntry = logIndex;
 						}
+
+						EditorUtility.SetDirty (property.serializedObject.targetObject);
+						currentEvent.Use ();
+					}
+					else
+					{
+					}
+				}
+				if (currentEvent.type == EventType.KeyDown)
+				{
+					if (currentEvent.keyCode == KeyCode.DownArrow)
+					{
+						if (selectedEntry != logItemsCount - 1)
+							selectedEntry++;
+
+						if (selectedEntry >= scroll + logSize)
+							scroll = selectedEntry - logSize + 1;
+						else if (selectedEntry < scroll)
+							scroll = selectedEntry;
+
+						EditorUtility.SetDirty (property.serializedObject.targetObject);
+						currentEvent.Use ();
+					}
+					else if (currentEvent.keyCode == KeyCode.UpArrow)
+					{
+						if (selectedEntry != 0)
+							selectedEntry--;
+
+						if (selectedEntry >= scroll + logSize)
+							scroll = selectedEntry - logSize + 1;
+						else if (selectedEntry < scroll)
+							scroll = selectedEntry;
 
 						EditorUtility.SetDirty (property.serializedObject.targetObject);
 						currentEvent.Use ();
@@ -285,10 +437,38 @@ namespace RPGCore.Utility.InspectorLog
 						else
 							GUI.color = new Color (0.7f, 0.7f, 0.7f, 1.0f);
 
+						string content;
 						if (log.ShowIndex)
-							EditorStyles.helpBox.Draw (logRect, index.ToString () + ": " + item.content, false, false, false, false);
+							content = index.ToString () + ": " + item.content;
 						else
-							EditorStyles.helpBox.Draw (logRect, item.content, false, false, false, false);
+							content = item.content;
+
+						logEntryStyle.Draw (logRect, false, false, false, false);
+
+						Texture icon = null;
+						switch (item.category)
+						{
+							case InspectorLog.LogCategory.Debug:
+								icon = DebugIcon;
+								break;
+							case InspectorLog.LogCategory.Info:
+								icon = InfoIcon;
+								break;
+							case InspectorLog.LogCategory.Warning:
+								icon = WarningIcon;
+								break;
+							case InspectorLog.LogCategory.Error:
+								icon = ErrorIcon;
+								break;
+							case InspectorLog.LogCategory.Send:
+								icon = SendIcon;
+								break;
+							case InspectorLog.LogCategory.Receive:
+								icon = ReceiveIcon;
+								break;
+						}
+
+						TextCroppingField (logRect, new GUIContent (content, icon));
 					}
 
 					GUI.color = originalColour;
@@ -300,7 +480,39 @@ namespace RPGCore.Utility.InspectorLog
 			}
 		}
 
-		private void RecalculateRects (Rect frame, int logSize)
+		private void TextCroppingField (Rect rect, GUIContent content)
+		{
+			GUIContent textContent = new GUIContent (content.text);
+			float width = logTextStyle.CalcSize (textContent).x;
+
+			Rect iconRect = new Rect (rect.x, rect.y, rect.height, rect.height);
+			rect = new Rect (iconRect.xMax, iconRect.y, rect.width - iconRect.width, rect.height);
+
+			iconRect.x += logEntryStyle.padding.left * 0.5f;
+
+			if (width > rect.width)
+			{
+				float elipsisWidth = elipsisStyle.CalcSize (new GUIContent ("...")).x;
+
+				rect = new Rect (rect.x, rect.y, rect.width - elipsisWidth, rect.height);
+				Rect elipsisRect = new Rect (rect.xMax, rect.y, elipsisWidth, rect.height);
+
+				GUI.color = Color.red;
+				logTextStyle.Draw (rect, textContent, false, false, false, false);
+				elipsisStyle.Draw (elipsisRect, "...", false, false, false, false);
+			}
+			else
+			{
+				logTextStyle.Draw (rect, textContent, false, false, false, false);
+			}
+
+			Color originalColor = GUI.color;
+			GUI.color = Color.white;
+			GUI.Box (iconRect, content.image, EditorStyles.label);
+			GUI.color = originalColor;
+		}
+
+		private void RecalculateRects (Rect frame, int logEntryCount)
 		{
 			rect_header = new Rect (frame)
 			{
@@ -309,7 +521,7 @@ namespace RPGCore.Utility.InspectorLog
 
 			rect_content = new Rect (frame);
 			rect_content.y += EditorGUIUtility.singleLineHeight;
-			rect_content.height -= EditorGUIUtility.singleLineHeight;
+			rect_content.height -= EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
 			rect_scrollbar = new Rect (rect_content)
 			{
@@ -318,27 +530,29 @@ namespace RPGCore.Utility.InspectorLog
 
 			rect_content.xMax -= EditorGUIUtility.singleLineHeight;
 
-			rect_logContents = new Rect[logSize];
+			rect_logContents = new Rect[logEntryCount];
 
 			Rect currentLogContent = new Rect (rect_content)
 			{
 				height = EditorGUIUtility.singleLineHeight
 			};
 
-			for (int i = 0; i < logSize; i++)
+			for (int i = 0; i < logEntryCount; i++)
 			{
 				rect_logContents[i] = currentLogContent;
 				currentLogContent.y += EditorGUIUtility.singleLineHeight;
 			}
 
 			lastPosition = frame;
-			lastLogSize = logSize;
+			lastLogSize = logEntryCount;
 		}
 
+#if OPEN_SCRIPT
 		private void ExecuteAction (InspectorLog.LogItem item)
 		{
 			item.Execute ();
 		}
+#endif
 
 		private object GetTargetObjectOfProperty (SerializedProperty prop)
 		{
@@ -351,8 +565,8 @@ namespace RPGCore.Utility.InspectorLog
 			{
 				if (element.Contains ("["))
 				{
-					var elementName = element.Substring (0, element.IndexOf ("["));
-					var index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[")).Replace ("[", "").Replace ("]", ""));
+					var elementName = element.Substring (0, element.IndexOf ("[", StringComparison.Ordinal));
+					var index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[", StringComparison.Ordinal)).Replace ("[", "").Replace ("]", ""));
 					obj = GetValue_Imp (obj, elementName, index);
 				}
 				else
