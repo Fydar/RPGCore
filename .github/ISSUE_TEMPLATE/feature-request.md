@@ -4,8 +4,6 @@ about: Suggest an idea for this project
 
 ---
 
-## [Feature Name]
-
 ### User Story
 
 Describe the end user-facing experience of this feature. If it's purely a tool, then this section can be omitted.
