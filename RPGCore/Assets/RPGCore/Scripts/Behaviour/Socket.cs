@@ -14,7 +14,7 @@ namespace RPGCore.Behaviour
 		[NonSerialized] public string SocketName;
 		public Rect drawRect;
 
-		public abstract void RemoveContext (IBehaviourContext character);
+		public abstract void RemoveContext (IBehaviourContext context);
 
 		public virtual ConnectionEntry GetBaseEntry (IBehaviourContext context)
 		{

@@ -18,21 +18,21 @@ namespace RPGCore
 		public AttributeInformation.ModifierType Scaling;
 		public string Display = "{0}";
 
-		public string Description (IBehaviourContext character)
+		public string Description (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (character);
-			ConnectionEntry<float> effectInput = Effect.GetEntry (character);
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<float> effectInput = Effect[context];
 
 			StatInstance inst = targetInput.Value.Stats[entry];
 
 			return Display.Replace ("{0}", inst.Info.RenderModifier (effectInput.Value, Scaling));
 		}
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (character);
-			ConnectionEntry<bool> activeInput = Active.GetEntry (character);
-			ConnectionEntry<float> effectInput = Effect.GetEntry (character);
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<bool> activeInput = Active[context];
+			ConnectionEntry<float> effectInput = Effect[context];
 
 			StatInstance.Modifier modifier = null;
 			bool isActive = false;
@@ -99,7 +99,7 @@ namespace RPGCore
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

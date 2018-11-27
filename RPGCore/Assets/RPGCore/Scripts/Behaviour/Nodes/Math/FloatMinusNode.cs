@@ -12,11 +12,11 @@ namespace RPGCore.Behaviour.Math
 
 		public FloatOutput Output;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<float> valueAInput = ValueA.GetEntry (character);
-			ConnectionEntry<float> valueBInput = ValueB.GetEntry (character);
-			ConnectionEntry<float> output = Output.GetEntry (character);
+			ConnectionEntry<float> valueAInput = ValueA[context];
+			ConnectionEntry<float> valueBInput = ValueB[context];
+			ConnectionEntry<float> output = Output[context];
 
 			Action updateHandler = () =>
 			{
@@ -29,7 +29,7 @@ namespace RPGCore.Behaviour.Math
 			updateHandler ();
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 		}
 

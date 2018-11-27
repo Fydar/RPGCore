@@ -38,7 +38,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public override void RemoveContext (IBehaviourContext character)
+		public override void RemoveContext (IBehaviourContext context)
 		{
 
 		}

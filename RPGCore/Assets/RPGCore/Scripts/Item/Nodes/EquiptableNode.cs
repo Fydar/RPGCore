@@ -13,7 +13,7 @@ namespace RPGCore
 		protected override void OnSetup (IBehaviourContext context)
 		{
 			/*ItemSurrogate item = (ItemSurrogate)context;
-			ConnectionEntry<bool> equippedOutput = Equipped.GetEntry (context);
+			ConnectionEntry<bool> equippedOutput = Equipped[context];
 
 			equippedOutput.Value = item.Equipped.Value;
 
@@ -23,7 +23,7 @@ namespace RPGCore
 			};*/
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

@@ -13,10 +13,10 @@ namespace RPGCore
 		public FloatOutput Value;
 		public CharacterInput Target;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (character);
-			ConnectionEntry<float> valueInput = Value.GetEntry (character);
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<float> valueInput = Value[context];
 
 			Action updateListener = () =>
 			{
@@ -48,7 +48,7 @@ namespace RPGCore
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

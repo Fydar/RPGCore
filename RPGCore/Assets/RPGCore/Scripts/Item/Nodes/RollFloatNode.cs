@@ -13,11 +13,11 @@ namespace RPGCore
 
 		public FloatOutput Output;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<float> minInput = Min.GetEntry (character);
-			ConnectionEntry<float> maxInput = Max.GetEntry (character);
-			ConnectionEntry<float> output = Output.GetEntry (character);
+			ConnectionEntry<float> minInput = Min[context];
+			ConnectionEntry<float> maxInput = Max[context];
+			ConnectionEntry<float> output = Output[context];
 
 			Action updateHandler = () =>
 			{
@@ -30,7 +30,7 @@ namespace RPGCore
 			updateHandler ();
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

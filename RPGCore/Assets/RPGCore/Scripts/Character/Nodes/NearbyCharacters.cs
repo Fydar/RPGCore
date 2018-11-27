@@ -14,12 +14,12 @@ namespace RPGCore
 		public FloatInput Distance;
 		public CharacterListOutput Targets;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> centerInput = Center.GetEntry (character);
-			ConnectionEntry<bool> includeCasterInput = IncludeCaster.GetEntry (character);
-			ConnectionEntry<float> distanceInput = Distance.GetEntry (character);
-			CharacterConnection.EntryCollection targetsOutput = Targets.GetEntry (character);
+			ConnectionEntry<RPGCharacter> centerInput = Center[context];
+			ConnectionEntry<bool> includeCasterInput = IncludeCaster[context];
+			ConnectionEntry<float> distanceInput = Distance[context];
+			CharacterConnection.EntryCollection targetsOutput = Targets.GetEntry(context);
 
 			GameObject proximityHolder = new GameObject ("Proximity Cheacker");
 			ProximityChecker proximity = proximityHolder.AddComponent<ProximityChecker> ();
@@ -66,7 +66,7 @@ namespace RPGCore
 			distanceInput.OnAfterChanged += distanceChangeHandler;
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

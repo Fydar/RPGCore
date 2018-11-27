@@ -13,12 +13,12 @@ namespace RPGCore.Behaviour.Math
 
 		public IntOutput Output;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<int> valueInput = Value.GetEntry (character);
-			ConnectionEntry<int> minInput = Min.GetEntry (character);
-			ConnectionEntry<int> maxInput = Max.GetEntry (character);
-			ConnectionEntry<int> output = Output.GetEntry (character);
+			ConnectionEntry<int> valueInput = Value[context];
+			ConnectionEntry<int> minInput = Min[context];
+			ConnectionEntry<int> maxInput = Max[context];
+			ConnectionEntry<int> output = Output[context];
 
 			Action updateHandler = () =>
 			{
@@ -32,7 +32,7 @@ namespace RPGCore.Behaviour.Math
 			updateHandler ();
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 		}
 

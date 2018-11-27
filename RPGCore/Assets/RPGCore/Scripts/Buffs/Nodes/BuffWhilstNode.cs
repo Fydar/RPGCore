@@ -31,8 +31,8 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (context);
-			ConnectionEntry<bool> whilstInput = Whilst.GetEntry (context);
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<bool> whilstInput = Whilst[context];
 			ConnectionEntry<int> stackSizeInput = StackSize[context];
 
 			bool isActive = false;
@@ -115,7 +115,7 @@ namespace RPGCore
 			changeHandler ();
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

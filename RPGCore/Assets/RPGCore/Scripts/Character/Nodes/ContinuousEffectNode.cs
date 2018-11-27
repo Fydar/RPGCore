@@ -14,10 +14,10 @@ namespace RPGCore
 		public CharacterInput Target;
 		public BoolInput Whilst;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (character);
-			ConnectionEntry<bool> whilstInput = Whilst.GetEntry (character);
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<bool> whilstInput = Whilst[context];
 
 			ContinuousEffect visualEffect = Instantiate (Effect) as ContinuousEffect;
 			visualEffect.gameObject.SetActive (false);
@@ -50,7 +50,7 @@ namespace RPGCore
 			whilstInput.OnAfterChanged += changeHandler;
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

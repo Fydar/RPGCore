@@ -35,7 +35,7 @@ namespace RPGCore.Behaviour.Events
 			eventInput.OnEventFired += eventHandler;
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

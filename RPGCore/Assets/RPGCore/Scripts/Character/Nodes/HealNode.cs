@@ -10,11 +10,11 @@ namespace RPGCore
 		public EventInput Event;
 		public IntInput Effect;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			EventEntry eventInput = Event.GetEntry (character);
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (character);
-			ConnectionEntry<int> effectInput = Effect.GetEntry (character);
+			EventEntry eventInput = Event[context];
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<int> effectInput = Effect[context];
 
 			eventInput.OnEventFired += () =>
 			{
@@ -25,7 +25,7 @@ namespace RPGCore
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

@@ -17,8 +17,8 @@ namespace RPGCore.Behaviour.Events
 		protected override void OnSetup (IBehaviourContext context)
 		{
 			ConnectionEntry<int> firesInput = Fires[context];
-			ConnectionEntry<float> perSecondsInput = PerSeconds.GetEntry (context);
-			ConnectionEntry<float> spacingInput = Spacing.GetEntry (context);
+			ConnectionEntry<float> perSecondsInput = PerSeconds[context];
+			ConnectionEntry<float> spacingInput = Spacing[context];
 			EventEntry eventInput = Event[context];
 			EventEntry limitedtOutput = Limited[context];
 

@@ -46,7 +46,7 @@ namespace RPGCore
 		protected override void OnRemove (IBehaviourContext context)
 		{
 			EventEntry removeOutput = Remove[context];
-			ConnectionEntry<RPGCharacter> targetOutput = Target.GetEntry (context);
+			ConnectionEntry<RPGCharacter> targetOutput = Target[context];
 
 			targetOutput.Value = null;
 
@@ -56,7 +56,7 @@ namespace RPGCore
 
 		public void SetTarget (IBehaviourContext context, RPGCharacter target)
 		{
-			ConnectionEntry<RPGCharacter> targetOutput = Target.GetEntry (context);
+			ConnectionEntry<RPGCharacter> targetOutput = Target[context];
 
 			targetOutput.Value = target;
 		}

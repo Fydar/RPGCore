@@ -10,12 +10,12 @@ namespace RPGCore
 		public CharacterOutput HitTarget;
 		public EventOutput OnHit;
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
 
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

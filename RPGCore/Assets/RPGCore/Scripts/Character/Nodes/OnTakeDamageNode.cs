@@ -13,9 +13,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (context);
-			ConnectionEntry<int> damageTakenOutput = DamageTaken.GetEntry (context);
-			EventEntry onHitOutput = OnHit.GetEntry (context);
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<int> damageTakenOutput = DamageTaken[context];
+			EventEntry onHitOutput = OnHit[context];
 
 			bool isActive = false;
 
@@ -58,7 +58,7 @@ namespace RPGCore
 			targetInput.OnAfterChanged += subscriber;
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

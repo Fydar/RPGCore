@@ -83,7 +83,7 @@ namespace RPGCore.Behaviour.Connections
 			}
 		}
 
-		public EventEntry GetEntry (IBehaviourContext character)
+		public EventEntry GetEntry (IBehaviourContext context)
 		{
 			if (this.SourceNode == null)
 				return defaultEntry;
@@ -93,11 +93,11 @@ namespace RPGCore.Behaviour.Connections
 			if (ContextCahce == null)
 				ContextCahce = new Dictionary<IBehaviourContext, EventEntry> ();
 
-			bool result = ContextCahce.TryGetValue (character, out foundEntry);
+			bool result = ContextCahce.TryGetValue (context, out foundEntry);
 
 			EventOutput sourceOutput = (EventOutput)SourceSocket;
 
-			EventEntry connectionEntry = sourceOutput.GetEntry (character);
+			EventEntry connectionEntry = sourceOutput[context];
 
 			if (!result)
 			{
@@ -109,7 +109,7 @@ namespace RPGCore.Behaviour.Connections
 						foundEntry.OnEventFired ();
 				};
 
-				ContextCahce.Add (character, foundEntry);
+				ContextCahce.Add (context, foundEntry);
 			}
 
 			return foundEntry;
@@ -125,12 +125,12 @@ namespace RPGCore.Behaviour.Connections
 			return GetEntry (context);
 		}
 
-		public override void RemoveContext (IBehaviourContext character)
+		public override void RemoveContext (IBehaviourContext context)
 		{
 			if (ContextCahce == null)
 				return;
 
-			ContextCahce.Remove (character);
+			ContextCahce.Remove (context);
 		}
 
 #if UNITY_EDITOR
@@ -167,20 +167,20 @@ namespace RPGCore.Behaviour.Connections
 			}
 		}
 
-		public EventEntry GetEntry (IBehaviourContext character)
+		public EventEntry GetEntry (IBehaviourContext context)
 		{
 			if (contextCahce == null)
 				contextCahce = new Dictionary<IBehaviourContext, EventEntry> ();
 
 			EventEntry foundEntry;
 
-			bool result = contextCahce.TryGetValue (character, out foundEntry);
+			bool result = contextCahce.TryGetValue (context, out foundEntry);
 
 			if (!result)
 			{
 				foundEntry = new EventEntry ();
 
-				contextCahce.Add (character, foundEntry);
+				contextCahce.Add (context, foundEntry);
 			}
 
 			return foundEntry;
@@ -191,12 +191,12 @@ namespace RPGCore.Behaviour.Connections
 			return null;
 		}
 
-		public override void RemoveContext (IBehaviourContext character)
+		public override void RemoveContext (IBehaviourContext context)
 		{
 			if (contextCahce == null)
 				return;
 
-			contextCahce.Remove (character);
+			contextCahce.Remove (context);
 		}
 
 #if UNITY_EDITOR

@@ -17,7 +17,7 @@ namespace RPGCore.Behaviour.Events
 			// Debug.Log (fieldInputObject);
 
 			ConnectionEntry fieldInput = (ConnectionEntry)fieldInputObject;
-			EventEntry onChangedOutput = onChanged.GetEntry (context);
+			EventEntry onChangedOutput = onChanged[context];
 
 			Action eventHandler = () =>
 			{
@@ -27,7 +27,7 @@ namespace RPGCore.Behaviour.Events
 			fieldInput.OnAfterChanged += eventHandler;
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

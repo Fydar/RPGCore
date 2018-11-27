@@ -15,8 +15,8 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (context);
-			ConnectionEntry<float> valueInput = Value.GetEntry (context);
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<float> valueInput = Value[context];
 
 			Action updateListener = () =>
 			{
@@ -48,7 +48,7 @@ namespace RPGCore
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

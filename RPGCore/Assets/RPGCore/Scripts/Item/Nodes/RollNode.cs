@@ -15,9 +15,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<int> minInput = Min.GetEntry (context);
-			ConnectionEntry<int> maxInput = Max.GetEntry (context);
-			ConnectionEntry<int> output = Output.GetEntry (context);
+			ConnectionEntry<int> minInput = Min[context];
+			ConnectionEntry<int> maxInput = Max[context];
+			ConnectionEntry<int> output = Output[context];
 
 			Action updateHandler = () =>
 			{
@@ -30,7 +30,7 @@ namespace RPGCore
 			updateHandler ();
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

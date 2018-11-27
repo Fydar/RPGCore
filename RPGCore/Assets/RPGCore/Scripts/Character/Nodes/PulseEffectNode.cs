@@ -15,8 +15,8 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target.GetEntry (context);
-			EventEntry activateInput = Activate.GetEntry (context);
+			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			EventEntry activateInput = Activate[context];
 
 			activateInput.OnEventFired += () =>
 			{
@@ -32,7 +32,7 @@ namespace RPGCore
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

@@ -198,7 +198,6 @@ namespace RPGCore.Utility.InspectorLog
 
 		private UnityEngine.Object logParent;
 		private InspectorLog log;
-		private SerializedProperty lastProperty;
 
 		private GUIStyle logEntryStyle;
 		private GUIStyle logTextStyle;
@@ -216,7 +215,6 @@ namespace RPGCore.Utility.InspectorLog
 
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
-			lastProperty = property;
 			if (log == null)
 			{
 				log = (InspectorLog)GetTargetObjectOfProperty (property);
@@ -236,7 +234,6 @@ namespace RPGCore.Utility.InspectorLog
 			if (!log.Expandable || property.isExpanded)
 			{
 				int logItemsCount = log.Count;
-				int scrollMax = logItemsCount - logSize;
 
 				height += EditorGUIUtility.singleLineHeight * logSize;
 			}

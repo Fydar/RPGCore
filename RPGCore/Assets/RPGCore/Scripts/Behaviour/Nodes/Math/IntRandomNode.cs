@@ -41,7 +41,7 @@ namespace RPGCore.Behaviour.Math
 			rerollHandler ();
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 		}
 

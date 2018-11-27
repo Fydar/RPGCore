@@ -14,9 +14,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			// ConnectionEntry<int> manaCostInput = ManaCost.GetEntry (context);
-			// ConnectionEntry<int> quantityCostInput = QuantityCost.GetEntry (context);
-			// EventEntry onActivateOutput = OnActivate.GetEntry (context);
+			// ConnectionEntry<int> manaCostInput = ManaCost[context];
+			// ConnectionEntry<int> quantityCostInput = QuantityCost[context];
+			// EventEntry onActivateOutput = OnActivate[context];
 
 			/*equippedOutput.Value = character.Equipped.Value; 
 
@@ -33,9 +33,9 @@ namespace RPGCore
 
 		public void TryUse (ItemSurrogate context, RPGCharacter character)
 		{
-			ConnectionEntry<int> manaCostInput = ManaCost.GetEntry (context);
-			ConnectionEntry<int> quantityCostInput = QuantityCost.GetEntry (context);
-			EventEntry onActivateOutput = OnActivate.GetEntry (context);
+			ConnectionEntry<int> manaCostInput = ManaCost[context];
+			ConnectionEntry<int> quantityCostInput = QuantityCost[context];
+			EventEntry onActivateOutput = OnActivate[context];
 
 			if (CanCharacterUse (context, character))
 			{
@@ -49,8 +49,8 @@ namespace RPGCore
 
 		public bool CanCharacterUse (ItemSurrogate context, RPGCharacter character)
 		{
-			ConnectionEntry<int> manaCostInput = ManaCost.GetEntry (context);
-			ConnectionEntry<int> quantityCostInput = QuantityCost.GetEntry (context);
+			ConnectionEntry<int> manaCostInput = ManaCost[context];
+			ConnectionEntry<int> quantityCostInput = QuantityCost[context];
 
 			if (context.Quantity < quantityCostInput.Value)
 				return false;

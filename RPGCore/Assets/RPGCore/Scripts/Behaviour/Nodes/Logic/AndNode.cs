@@ -16,11 +16,11 @@ namespace RPGCore.Behaviour.Logic
 		public BoolInput ValueB = new BoolInput ();
 		public BoolOutput Output = new BoolOutput ();
 
-		protected override void OnSetup (IBehaviourContext character)
+		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<bool> valueAInput = ValueA.GetEntry (character);
-			ConnectionEntry<bool> valueBInput = ValueB.GetEntry (character);
-			ConnectionEntry<bool> output = Output.GetEntry (character);
+			ConnectionEntry<bool> valueAInput = ValueA[context];
+			ConnectionEntry<bool> valueBInput = ValueB[context];
+			ConnectionEntry<bool> output = Output[context];
 
 			Action updateHandler = () =>
 			{
@@ -33,7 +33,7 @@ namespace RPGCore.Behaviour.Logic
 			updateHandler ();
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove (IBehaviourContext context)
 		{
 
 		}

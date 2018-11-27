@@ -63,18 +63,18 @@ namespace RPGCore.Behaviour
 		}
 
 
-		public void SetupContext (IBehaviourContext character)
+		public void SetupContext (IBehaviourContext context)
 		{
-			OnSetup (character);
+			OnSetup (context);
 		}
 
-		public void RemoveContext (IBehaviourContext character)
+		public void RemoveContext (IBehaviourContext context)
 		{
-			OnRemove (character);
+			OnRemove (context);
 		}
 
-		protected abstract void OnSetup (IBehaviourContext character);
-		protected abstract void OnRemove (IBehaviourContext character);
+		protected abstract void OnSetup (IBehaviourContext context);
+		protected abstract void OnRemove (IBehaviourContext context);
 
 		public OutputSocket GetOutput (string id)
 		{
