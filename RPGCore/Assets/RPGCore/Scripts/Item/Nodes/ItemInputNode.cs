@@ -6,6 +6,7 @@ namespace RPGCore
 	[NodeInformation ("Item/Item Input", "Input")]
 	public class ItemInputNode : BehaviourNode
 	{
+		public ItemOutput Item;
 		public CharacterOutput Owner;
 		public EventOutput OnReceive;
 		public EventOutput OnLoose;

@@ -170,6 +170,7 @@ namespace RPGCore
 			SetupGraph (newItem);
 
 			ItemInputNode node = GetNode<ItemInputNode> ();
+			node.Item[newItem].Value = newItem;
 
 			newItem.owner.onChanged += () =>
 			{

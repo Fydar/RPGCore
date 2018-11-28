@@ -38,33 +38,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9135a0f1c97cc549bf2ad9dce425050, type: 3}
   m_Name: Item Input
   m_EditorClassIdentifier: 
-  Position: {x: 28, y: 228}
-  Owner:
+  Position: {x: 29, y: 229}
+  Item:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 20
       width: 190
       height: 16
-  OnReceive:
+  Owner:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 38
       width: 190
       height: 16
-  OnLoose:
+  OnReceive:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 56
       width: 190
       height: 16
-  StackSize:
+  OnLoose:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 74
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 92
       width: 190
       height: 16
 --- !u!114 &114722783040986390
@@ -78,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aedab93ae7c6a040850c7b0159cfae5, type: 3}
   m_Name: Activatable
   m_EditorClassIdentifier: 
-  Position: {x: 30, y: 347}
+  Position: {x: 30, y: 362}
   ManaCost:
     drawRect:
       serializedVersion: 2
