@@ -7,6 +7,11 @@ namespace RPGCore
 	[NodeInformation ("Item/Weapon Input", "Input")]
 	public class WeaponInputNode : BehaviourNode
 	{
+		public FloatInput AttackDamage;
+		public FloatInput AttackSpeed;
+		public FloatInput CriticalChance;
+		public FloatInput CriticalMultiplier;
+
 		public CharacterOutput HitTarget;
 		public EventOutput OnHit;
 
@@ -19,12 +24,5 @@ namespace RPGCore
 		{
 
 		}
-
-#if UNITY_EDITOR
-		public override Vector2 GetDiamentions ()
-		{
-			return new Vector2 (165, base.GetDiamentions ().y);
-		}
-#endif
 	}
 }

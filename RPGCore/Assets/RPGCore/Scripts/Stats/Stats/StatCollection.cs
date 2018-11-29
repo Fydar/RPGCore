@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using RPGCore.Behaviour.Connections;
+using RPGCore.Stats;
+using System;
+using UnityEngine;
 
 namespace RPGCore
 {

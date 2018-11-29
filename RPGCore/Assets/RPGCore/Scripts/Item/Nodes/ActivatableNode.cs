@@ -43,7 +43,11 @@ namespace RPGCore
 				context.Quantity -= quantityCostInput.Value;
 
 				onActivateOutput.OnEventFired ();
-				AudioManager.Play (ActivateSound);
+
+				if (ActivateSound != null)
+				{
+					AudioManager.Play (ActivateSound);
+				}
 			}
 		}
 

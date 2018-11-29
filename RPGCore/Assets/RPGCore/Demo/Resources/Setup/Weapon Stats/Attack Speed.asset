@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7abaccc3134fa27459a9237f61e1e702, type: 3}
+  m_Name: Attack Speed
+  m_EditorClassIdentifier: 
+  Name: Attack Speed
+  Description: The rate at which the weapon attacks.
+  renderFormat: '{0.00}'
+  positiveFormat: '{0.##} increased {name}'
+  negativeFormat: '{0.##} reduced {name}'
+  multiplierPositiveFormat: '{0.##}% increased {name}'
+  multiplierNegativeFormat: '{0.##}% reduced {name}'
+  accuracy: 2
+  rounding: 0
+  Abbreviation: AS
+  StatColour:
+    serializedVersion: 2
+    rgba: 4289585641
+  MinValue:
+    Enabled: 1
+    Value: 0
+  MaxValue:
+    Enabled: 0
+    Value: 1

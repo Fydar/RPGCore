@@ -21,10 +21,16 @@ namespace RPGCore
 			ConnectionEntry<RPGCharacter> targetInput = Target[context];
 			ConnectionEntry<ItemSurrogate> itemOutput = Item[context];
 			ConnectionEntry<bool> isEquippedOutput = IsEquipped[context];
-
-
+			
 			Action eventHandler = () =>
 			{
+				if (targetInput.Value == null)
+				{
+					isEquippedOutput.Value = false;
+					itemOutput.Value = null;
+					return;
+				}
+
 				var slotItem = targetInput.Value.equipment.Items[EquipmentSlot.entryIndex].Item;
 				if (slotItem != null)
 				{
@@ -36,8 +42,10 @@ namespace RPGCore
 					isEquippedOutput.Value = false;
 					itemOutput.Value = null;
 				}
-			};/*
+			};
 
+			eventHandler ();
+			
 			bool isActive = false;
 			Action subscriber = () =>
 			{
@@ -49,7 +57,12 @@ namespace RPGCore
 
 				if (!isActive)
 				{
-					targetInput.Value.States.CurrentHealth.OnValueChanged += eventHandler;
+
+#pragma warning disable
+					var entry = EquipmentInformationDatabase.Instance.EquipmentInfos[EquipmentSlot];
+#pragma warning restore
+					
+					targetInput.Value.equipment.Items[EquipmentSlot.entryIndex].onAfterChanged += eventHandler;
 				}
 
 				isActive = true;
@@ -63,10 +76,12 @@ namespace RPGCore
 					return;
 
 				if (isActive)
-					targetInput.Value.States.CurrentHealth.OnValueChanged -= eventHandler;
+				{
+					targetInput.Value.equipment.Items[EquipmentSlot.entryIndex].onAfterChanged -= eventHandler;
+				}
 			};
 
-			targetInput.OnAfterChanged += subscriber;*/
+			targetInput.OnAfterChanged += subscriber;
 		}
 
 		protected override void OnRemove (IBehaviourContext context)

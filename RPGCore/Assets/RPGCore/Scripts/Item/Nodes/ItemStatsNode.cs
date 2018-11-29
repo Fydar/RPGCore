@@ -7,26 +7,26 @@ namespace RPGCore
 	[NodeInformation ("Item/Read Stat", "Attribute")]
 	public class ItemStatsNode : BehaviourNode
 	{
-		[CollectionType (typeof (StatCollection<>))]
-		public CollectionEntry entry;
+		[CollectionType (typeof (WeaponStatCollection<>))]
+		public CollectionEntry Stat;
 
-		public FloatOutput Value;
 		public ItemInput Target;
+		public FloatOutput Value;
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			/*
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			ConnectionEntry<ItemSurrogate> targetInput = Target[context];
 			ConnectionEntry<float> valueInput = Value[context];
 
 			Action updateListener = () =>
 			{
-				valueInput.Value = targetInput.Value.Stats[entry].Value;
+				valueInput.Value = targetInput.Value.Template.GetNode<WeaponInputNode> ().AttackDamage[targetInput.Value].Value;
 			};
 
 			if (targetInput.Value != null)
 			{
-				targetInput.Value.Stats[entry].OnValueChanged += updateListener;
+				targetInput.Value.Template.GetNode<WeaponInputNode> ()
+					.AttackDamage[targetInput.Value].OnAfterChanged += updateListener;
 
 				updateListener ();
 			}
@@ -36,7 +36,8 @@ namespace RPGCore
 				if (targetInput.Value == null)
 					return;
 
-				targetInput.Value.Stats[entry].OnValueChanged -= updateListener;
+				targetInput.Value.Template.GetNode<WeaponInputNode> ()
+					.AttackDamage[targetInput.Value].OnAfterChanged -= updateListener;
 			};
 
 			targetInput.OnAfterChanged += () =>
@@ -44,10 +45,10 @@ namespace RPGCore
 				if (targetInput.Value == null)
 					return;
 
-				targetInput.Value.Stats[entry].OnValueChanged += updateListener;
+				targetInput.Value.Template.GetNode<WeaponInputNode> ()
+					.AttackDamage[targetInput.Value].OnAfterChanged += updateListener;
 				updateListener ();
 			};
-			*/
 		}
 
 		protected override void OnRemove (IBehaviourContext context)

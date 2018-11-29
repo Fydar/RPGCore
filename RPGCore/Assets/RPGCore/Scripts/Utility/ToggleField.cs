@@ -6,20 +6,12 @@ using UnityEditor;
 #endif
 namespace RPGCore.Utility
 {
-	[Serializable]
-	public class TogglableField<T>
+	public class TogglableField
 	{
-		public bool Enabled = false;
-		public T Value;
-
-		public TogglableField (bool enabled, T value)
-		{
-			Enabled = enabled;
-			Value = value;
-		}
+		public bool Enabled;
 
 #if UNITY_EDITOR
-		[CustomPropertyDrawer (typeof (TogglableField<>), true)]
+		[CustomPropertyDrawer (typeof (TogglableField), true)]
 		class TogglableFieldDrawer : PropertyDrawer
 		{
 			public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
@@ -50,5 +42,17 @@ namespace RPGCore.Utility
 			}
 		}
 #endif
+	}
+
+	[Serializable]
+	public class TogglableField<T> : TogglableField
+	{
+		public T Value;
+
+		public TogglableField (bool enabled, T value)
+		{
+			Enabled = enabled;
+			Value = value;
+		}
 	}
 }
