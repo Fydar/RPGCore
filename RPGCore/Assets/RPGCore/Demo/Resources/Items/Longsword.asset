@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd673f3a71ffba428fb5751f66a7a5f, type: 3}
   m_Name: Weapon Input
   m_EditorClassIdentifier: 
-  Position: {x: 31, y: 341.5}
+  Position: {x: 24, y: 318.5}
   AttackDamage:
     drawRect:
       serializedVersion: 2
@@ -213,7 +213,7 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 0}
     SourceField: 
-    defaultValue: 0
+    defaultValue: 1.45
   CriticalChance:
     drawRect:
       serializedVersion: 2
@@ -223,7 +223,7 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 0}
     SourceField: 
-    defaultValue: 0
+    defaultValue: 0.05
   CriticalMultiplier:
     drawRect:
       serializedVersion: 2
@@ -233,7 +233,7 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 0}
     SourceField: 
-    defaultValue: 0
+    defaultValue: 3
   HitTarget:
     drawRect:
       serializedVersion: 2

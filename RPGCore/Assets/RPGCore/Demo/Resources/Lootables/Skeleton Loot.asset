@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fce273ad3598234ba227f2a2e035777, type: 3}
-  m_Name: Loot
+  m_Name: Skeleton Loot
   m_EditorClassIdentifier: 
   TableRolls:
   - Loot:

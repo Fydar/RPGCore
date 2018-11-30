@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Name: Blood Pact
   m_EditorClassIdentifier: 
   Nodes:
-  - {fileID: 114792874445066050}
-  - {fileID: 114602369902304358}
-  - {fileID: 114323812491280586}
-  - {fileID: 114905208194700840}
-  - {fileID: 114684262170982090}
-  - {fileID: 114933188219619090}
+  - {fileID: 114656808538676714}
+  - {fileID: 114000012595290118}
   - {fileID: 114025650066116710}
   - {fileID: 114075447041680158}
-  - {fileID: 114000012595290118}
+  - {fileID: 114602369902304358}
+  - {fileID: 114684262170982090}
+  - {fileID: 114792874445066050}
+  - {fileID: 114905208194700840}
+  - {fileID: 114933188219619090}
   renderPrefab: {fileID: 1425224524431858, guid: e139a300db2f9234cbd25f2184ccd964,
     type: 2}
   renderScale: 1
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a75cc3ce6af06f4ea7712fb6590e95b, type: 3}
   m_Name: Effect Tooltip
   m_EditorClassIdentifier: 
-  Position: {x: 472, y: 136.5}
+  Position: {x: 638, y: 483.5}
   Template: Deal your weapons damage to yourself.
   Values:
   - 0
@@ -127,21 +127,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54124754ed2941d499feaa6f52c89748, type: 3}
   m_Name: Item Stats
   m_EditorClassIdentifier: 
-  Position: {x: 459, y: 295.5}
+  Position: {x: 457, y: 326.5}
   Stat:
     field: Attack
-  Value:
+  Target:
     drawRect:
-      serializedVersion: 2
       x: 5
       y: 38
       width: 190
       height: 16
-  Target:
+    SourceNode: {fileID: 114792874445066050}
+    SourceField: Item
+    defaultValue:
+      template: {fileID: 0}
+      data:
+        templateID: 0
+        seed: {}
+        quantity:
+          internalValue: 1
+        damaged:
+          internalValue: 0
+        tier:
+          internalValue: 1
+        dataCollection:
+          Names: []
+          Entries: []
+        experiance:
+          internalValue: 0
+        level:
+          internalValue: 0
+        prefixData:
+          seed: {}
+          EnchantmentID: 0
+        suffixData:
+          seed: {}
+          EnchantmentID: 0
+        runeData:
+          seed: {}
+          EnchantmentID: 0
+        modsData: []
+      ItemTier: 0
+  Value:
+    drawRect:
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+--- !u!114 &114602369902304358
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4a80f357bcb5e4b9090c1edd8137d5, type: 3}
+  m_Name: Int Round
+  m_EditorClassIdentifier: 
+  Position: {x: 699, y: 327.5}
+  Method: 0
+  Multiple: 1
+  Value:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 56
+      width: 130
+      height: 16
+    SourceNode: {fileID: 114656808538676714}
+    SourceField: Value
+    defaultValue: 0
+  Output:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 130
+      height: 16
+--- !u!114 &114656808538676714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2db2c9004abf1348913b18bd03457a8, type: 3}
+  m_Name: Weapon Stats
+  m_EditorClassIdentifier: 
+  Position: {x: 458.5, y: 325}
+  Stat:
+    field: Attack
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
       width: 190
       height: 16
     SourceNode: {fileID: 114792874445066050}
@@ -176,36 +257,12 @@ MonoBehaviour:
           EnchantmentID: 0
         modsData: []
       ItemTier: 0
---- !u!114 &114602369902304358
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba4a80f357bcb5e4b9090c1edd8137d5, type: 3}
-  m_Name: Int Round
-  m_EditorClassIdentifier: 
-  Position: {x: 700, y: 279.5}
-  Method: 0
-  Multiple: 1
   Value:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 56
-      width: 130
-      height: 16
-    SourceNode: {fileID: 114323812491280586}
-    SourceField: Value
-    defaultValue: 0
-  Output:
-    drawRect:
-      serializedVersion: 2
-      x: 5
-      y: 74
-      width: 130
+      width: 190
       height: 16
 --- !u!114 &114684262170982090
 MonoBehaviour:
@@ -258,7 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae17eeaecedafa47961d9c8551c46f0, type: 3}
   m_Name: Equipment Slot
   m_EditorClassIdentifier: 
-  Position: {x: 218, y: 294.5}
+  Position: {x: 220, y: 306.5}
   EquipmentSlot:
     field: MainHand
   Target:
@@ -296,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b0d941eb4ec8041811c1ab5023654b, type: 3}
   m_Name: Limit
   m_EditorClassIdentifier: 
-  Position: {x: 232, y: 506.5}
+  Position: {x: 221, y: 504.5}
   Event:
     drawRect:
       serializedVersion: 2
@@ -354,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18de6938cfa27f44ea6cb5d802b7bb82, type: 3}
   m_Name: Damage
   m_EditorClassIdentifier: 
-  Position: {x: 921, y: 224.5}
+  Position: {x: 871, y: 212.5}
   Target:
     drawRect:
       serializedVersion: 2

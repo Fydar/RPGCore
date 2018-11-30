@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Name: Warlords Axe
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114149137312397646}
   - {fileID: 114090304216455308}
-  - {fileID: 114863848693039650}
-  - {fileID: 114780844282671146}
   - {fileID: 114305048296222570}
   - {fileID: 114536852143800956}
   - {fileID: 114644238691082142}
+  - {fileID: 114780844282671146}
+  - {fileID: 114863848693039650}
   - {fileID: 114959883122913088}
   renderPrefab: {fileID: 1777803201150668, guid: ace2d25ac605da34e88164d6fa6537d3,
     type: 2}
@@ -43,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: 66, y: 496}
+  Position: {x: 53, y: 493}
   Min:
     drawRect:
       serializedVersion: 2
@@ -70,6 +71,72 @@ MonoBehaviour:
       x: 5
       y: 56
       width: 130
+      height: 16
+--- !u!114 &114149137312397646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd673f3a71ffba428fb5751f66a7a5f, type: 3}
+  m_Name: Weapon Input
+  m_EditorClassIdentifier: 
+  Position: {x: 12.5, y: 591}
+  AttackDamage:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 20
+  AttackSpeed:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0.95
+  CriticalChance:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 0.05
+  CriticalMultiplier:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 2
+  HitTarget:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 92
+      width: 190
+      height: 16
+  OnHit:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 110
+      width: 190
       height: 16
 --- !u!114 &114305048296222570
 MonoBehaviour:
