@@ -1205,3 +1205,4 @@ namespace RPGCore.Behaviour.Editor
 		}
 	}
 }
+

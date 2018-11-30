@@ -14,3 +14,4 @@ namespace RPGCore.UI
 		}
 	}
 }
+

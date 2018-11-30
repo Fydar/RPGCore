@@ -23,3 +23,4 @@ namespace RPGCore.Stats
 		}
 	}
 }
+

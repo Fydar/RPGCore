@@ -610,3 +610,4 @@ namespace RPGCore.Utility.InspectorLog
 	}
 #endif
 }
+

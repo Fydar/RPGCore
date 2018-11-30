@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd673f3a71ffba428fb5751f66a7a5f, type: 3}
   m_Name: Weapon Input
   m_EditorClassIdentifier: 
-  Position: {x: 12.5, y: 591}
+  Position: {x: 31.5, y: 619}
   AttackDamage:
     drawRect:
       serializedVersion: 2

@@ -9,3 +9,4 @@
 		Legendary = 4
 	}
 }
+

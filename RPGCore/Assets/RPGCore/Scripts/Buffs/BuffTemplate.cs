@@ -18,3 +18,4 @@ namespace RPGCore
 		public BuffType Type;
 	}
 }
+

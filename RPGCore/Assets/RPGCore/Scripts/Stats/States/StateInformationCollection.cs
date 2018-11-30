@@ -7,3 +7,4 @@ namespace RPGCore.Stats
 	{
 	}
 }
+

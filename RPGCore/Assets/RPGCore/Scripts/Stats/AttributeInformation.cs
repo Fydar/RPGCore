@@ -148,3 +148,4 @@ namespace RPGCore.Stats
 		}
 	}
 }
+

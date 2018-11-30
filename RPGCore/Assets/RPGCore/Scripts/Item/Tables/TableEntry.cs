@@ -65,3 +65,4 @@ namespace RPGCore.Tables
 	}
 #endif
 }
+

@@ -44,3 +44,4 @@ namespace RPGCore.Behaviour.Math
 #endif
 	}
 }
+

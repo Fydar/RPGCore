@@ -224,3 +224,4 @@ namespace RPGCore
 	}
 #endif
 }
+

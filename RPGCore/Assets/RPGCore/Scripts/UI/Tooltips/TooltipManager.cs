@@ -199,3 +199,4 @@ namespace RPGCore.Tooltips
 		}
 	}
 }
+

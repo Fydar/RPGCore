@@ -3,8 +3,8 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Weapon Input", "Input")]
-	public class WeaponInputNode : BehaviourNode
+	[NodeInformation ("Item/Armour Input", "Input")]
+	public class ArmourInputNode : BehaviourNode
 	{
 		public FloatInput AttackDamage;
 		public FloatInput AttackSpeed;

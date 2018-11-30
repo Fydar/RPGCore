@@ -14,3 +14,4 @@ namespace RPGCore.Inventories
 		protected virtual void OnSlotRemove (ItemSlotManager slot) { }
 	}
 }
+

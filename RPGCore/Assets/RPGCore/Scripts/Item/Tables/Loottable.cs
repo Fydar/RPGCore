@@ -93,3 +93,4 @@ namespace RPGCore.Tables
 #endif
 	}
 }
+

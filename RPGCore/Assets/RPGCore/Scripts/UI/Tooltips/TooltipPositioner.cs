@@ -11,3 +11,4 @@ namespace RPGCore.Tooltips
 		public Vector2 anchorPivot;
 	}
 }
+

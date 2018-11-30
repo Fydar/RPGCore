@@ -6,3 +6,4 @@
 		public EquipmentInformation Info;
 	}
 }
+

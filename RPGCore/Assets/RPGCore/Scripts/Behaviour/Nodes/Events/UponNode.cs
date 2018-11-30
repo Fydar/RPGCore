@@ -46,3 +46,4 @@ namespace RPGCore.Behaviour.Events
 #endif
 	}
 }
+

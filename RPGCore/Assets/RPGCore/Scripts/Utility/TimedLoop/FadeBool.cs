@@ -25,3 +25,4 @@ namespace RPGCore.Utility
 		}
 	}
 }
+

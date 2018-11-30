@@ -26,3 +26,4 @@ namespace RPGCore.Inventories
 		}
 	}
 }
+

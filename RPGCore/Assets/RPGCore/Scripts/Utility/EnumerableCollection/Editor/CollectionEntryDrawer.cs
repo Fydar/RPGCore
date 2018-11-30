@@ -54,3 +54,4 @@ namespace RPGCore.Utility.Editors
 		}
 	}
 }
+

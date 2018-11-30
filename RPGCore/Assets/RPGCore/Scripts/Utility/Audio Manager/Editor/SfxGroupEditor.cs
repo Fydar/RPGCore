@@ -55,3 +55,4 @@ namespace RPGCore.Audio.Editors
 		}
 	}
 }
+

@@ -7,3 +7,4 @@ namespace RPGCore.UI
 		void Render (UIContextMenu menu, RectTransform holder);
 	}
 }
+

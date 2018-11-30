@@ -7,3 +7,4 @@ namespace RPGCore.Tables
 		public abstract EnchantmentTemplate GetEnchantment ();
 	}
 }
+
