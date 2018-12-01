@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Leather Boots
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114717879117449196}
   - {fileID: 114000012520239498}
   - {fileID: 114000012595290118}
   - {fileID: 114000012878574282}
@@ -188,3 +189,25 @@ MonoBehaviour:
     defaultValue: 0.2
   Scaling: 1
   Display: '{0}'
+--- !u!114 &114717879117449196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d5b7cb067803f499665deb3227d428, type: 3}
+  m_Name: Armour Input
+  m_EditorClassIdentifier: 
+  Position: {x: 27, y: 239.5}
+  Armour:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 4

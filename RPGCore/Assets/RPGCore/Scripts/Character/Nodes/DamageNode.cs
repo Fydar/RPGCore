@@ -1,6 +1,5 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Behaviour.Connections;
-using UnityEngine;
 
 namespace RPGCore
 {
@@ -21,7 +20,7 @@ namespace RPGCore
 			{
 				if (targetInput.Value == null)
 					return;
-				
+
 				targetInput.Value.TakeDamage (effectInput.Value);
 			};
 		}

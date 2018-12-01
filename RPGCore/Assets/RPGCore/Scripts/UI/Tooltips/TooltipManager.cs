@@ -9,8 +9,17 @@ namespace RPGCore.Tooltips
 {
 	public class TooltipManager : MonoBehaviour
 	{
+		public enum PositingMode
+		{
+			Mouse,
+			Target
+		}
+
 		public static TooltipManager instance;
 
+		public PositingMode Mode;
+
+		[Space]
 		public TooltipPositioner DefaultPositioning;
 		public float FadeSpeed = 2.0f;
 
@@ -65,20 +74,26 @@ namespace RPGCore.Tooltips
 				modifiedAnchor = new Vector2 (modifiedAnchor.x, 1.0f - modifiedAnchor.y);
 			}
 
-			//holder.position = mouse.ScreenToCanvas (Input.mousePosition);
-			if (currentTransform != null)
+			if (Mode == PositingMode.Mouse)
 			{
 				holder.pivot = newPivot;
-				holder.pivot = newPivot;
+				holder.position = mouse.ScreenToCanvas (Input.mousePosition);
+			}
+			else if (Mode == PositingMode.Target)
+			{
+				if (currentTransform != null)
+				{
+					holder.pivot = newPivot;
 
-				Vector3[] corners = new Vector3[4];
-				currentTransform.GetWorldCorners (corners);
-				Vector3 topLeft = corners[0];
-				Vector3 bottomRight = corners[3];
+					Vector3[] corners = new Vector3[4];
+					currentTransform.GetWorldCorners (corners);
+					Vector3 topLeft = corners[0];
+					Vector3 bottomRight = corners[3];
 
-				holder.position = new Vector3 (
-					Mathf.Lerp (topLeft.x, bottomRight.x, modifiedAnchor.x),
-					Mathf.Lerp (topLeft.y, bottomRight.y, modifiedAnchor.y), 0);
+					holder.position = new Vector3 (
+						Mathf.Lerp (topLeft.x, bottomRight.x, modifiedAnchor.x),
+						Mathf.Lerp (topLeft.y, bottomRight.y, modifiedAnchor.y), 0);
+				}
 			}
 		}
 

@@ -41,7 +41,6 @@ namespace RPGCore
 		{
 			item = _item;
 			data = _data;
-
 		}
 
 		public ShortEventField Seed

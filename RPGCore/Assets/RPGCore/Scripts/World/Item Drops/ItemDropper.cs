@@ -7,7 +7,7 @@ namespace RPGCore.World
 		private static ItemDropper instance;
 
 		public ItemDrop DropPrefab;
-		
+
 		private void Awake ()
 		{
 			instance = this;

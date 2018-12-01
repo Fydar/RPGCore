@@ -31,7 +31,7 @@ namespace RPGCore
 
 				FloatInput localStatInput = null;
 
-				if(Stat.entryIndex == -1)
+				if (Stat.entryIndex == -1)
 				{
 					var temp = WeaponStatInformationDatabase.Instance.WeaponStatInfos[Stat];
 				}
@@ -44,7 +44,7 @@ namespace RPGCore
 					localStatInput = weaponNode.CriticalChance;
 				else if (Stat.entryIndex == 3)
 					localStatInput = weaponNode.CriticalMultiplier;
-				
+
 				valueInput.Value = localStatInput[targetInput.Value].Value;
 			};
 
@@ -82,4 +82,3 @@ namespace RPGCore
 		}
 	}
 }
-

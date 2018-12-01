@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using RPGCore.Audio;
 using RPGCore.Tables;
+using RPGCore.Behaviour;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -166,25 +167,13 @@ namespace RPGCore
 				}
 			}
 
-
 			SetupGraph (newItem);
 
-			ItemInputNode node = GetNode<ItemInputNode> ();
-			node.Item[newItem].Value = newItem;
-
-			newItem.owner.onChanged += () =>
+			IInputNode<ItemSurrogate>[] itemNodes = GetNodes<IInputNode<ItemSurrogate>> ();
+			foreach (var itemNode in itemNodes)
 			{
-				if (node == null)
-					return;
-
-				node.Owner[newItem].Value = newItem.owner.Value;
-			};
-
-			node.StackSize[newItem].Value = newItem.Quantity;
-			newItem.data.quantity.onChanged += () =>
-			{
-				node.StackSize[newItem].Value = newItem.Quantity;
-			};
+				itemNode.SetTarget (newItem, newItem);
+			}
 
 			return newItem;
 		}

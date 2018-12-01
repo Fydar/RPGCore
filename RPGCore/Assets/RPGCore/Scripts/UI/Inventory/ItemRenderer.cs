@@ -12,7 +12,7 @@ namespace RPGCore.Inventories
 	{
 		public bool DisplayTooltip = true;
 
-		[SerializeField] private AnimationCurve bounceCurve = new AnimationCurve(new Keyframe[] { new Keyframe (0.0f, 1.0f), new Keyframe (1.0f, 0.0f) });
+		[SerializeField] private AnimationCurve bounceCurve = new AnimationCurve (new Keyframe[] { new Keyframe (0.0f, 1.0f), new Keyframe (1.0f, 0.0f) });
 
 		[SerializeField] private Color normalColour = Color.white;
 		[SerializeField] private Color fadedColour = Color.grey;
@@ -464,7 +464,7 @@ namespace RPGCore.Inventories
 
 		private void PlayBounce ()
 		{
-			if(isActiveAndEnabled)
+			if (isActiveAndEnabled)
 			{
 				if (lastBounceRoutine != null)
 					StopCoroutine (lastBounceRoutine);

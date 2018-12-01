@@ -8,46 +8,45 @@ namespace RPGCore
 	{
 		public ShortEventField seed = new ShortEventField ();
 		public int EnchantmentID = -1;
-
-
+		
 		public EnchantmantData Duplicate ()
 		{
 			return new EnchantmantData (EnchantmentID, seed.Value);
 		}
 
-		public EnchantmantData (Enchantment ID)
+		public EnchantmantData (Enchantment id)
 		{
 			//EnchantmentID = EnchantmentDatabase.Instance.Enchantments.GetKey (ID.Template);
 			seed.Value = RandomSeed ();
 		}
 
-		public EnchantmantData (Enchantment ID, short overrideSeed)
+		public EnchantmantData (Enchantment id, short overrideSeed)
 		{
 			//EnchantmentID = EnchantmentDatabase.Instance.Enchantments.GetKey (ID.Template);
 			seed.Value = overrideSeed;
 		}
 
-		public EnchantmantData (EnchantmentTemplate ID)
+		public EnchantmantData (EnchantmentTemplate id)
 		{
 			//EnchantmentID = EnchantmentDatabase.Instance.Enchantments.GetKey (ID);
 			seed.Value = RandomSeed ();
 		}
 
-		public EnchantmantData (EnchantmentTemplate ID, short overrideSeed)
+		public EnchantmantData (EnchantmentTemplate id, short overrideSeed)
 		{
 			//EnchantmentID = EnchantmentDatabase.Instance.Enchantments.GetKey (ID);
 			seed.Value = overrideSeed;
 		}
 
-		public EnchantmantData (int ID)
+		public EnchantmantData (int id)
 		{
-			EnchantmentID = ID;
+			EnchantmentID = id;
 			seed.Value = RandomSeed ();
 		}
 
-		public EnchantmantData (int ID, short overrideSeed)
+		public EnchantmantData (int id, short overrideSeed)
 		{
-			EnchantmentID = ID;
+			EnchantmentID = id;
 			seed.Value = overrideSeed;
 		}
 
@@ -65,4 +64,3 @@ namespace RPGCore
 		}
 	}
 }
-

@@ -18,9 +18,9 @@ namespace RPGCore
 
 		[Header ("Enchantments")]
 		[SerializeField]
-		private Enchantment prefix = null;
+		private Enchantment prefix;
 		[SerializeField]
-		private Enchantment suffix = null;
+		private Enchantment suffix;
 		[SerializeField]
 		private List<Enchantment> craftingMods = new List<Enchantment> ();
 
@@ -30,12 +30,11 @@ namespace RPGCore
 			{
 				return prefix;
 			}
-
 			set
 			{
 				if (value == null)
 				{
-					data.suffixData.Reset ();
+					data.prefixData.Reset ();
 					return;
 				}
 
@@ -52,7 +51,6 @@ namespace RPGCore
 			{
 				return suffix;
 			}
-
 			set
 			{
 				if (value == null)
@@ -108,10 +106,7 @@ namespace RPGCore
 				{
 					return Prefix.Affix;
 				}
-				else
-				{
-					return "";
-				}
+				return "";
 			}
 		}
 
@@ -123,10 +118,7 @@ namespace RPGCore
 				{
 					return Suffix.Affix;
 				}
-				else
-				{
-					return "";
-				}
+				return "";
 			}
 		}
 
@@ -214,7 +206,7 @@ namespace RPGCore
 		{
 			get
 			{
-				EquiptableNode equiptable = template.GetNode<EquiptableNode> ();
+				EquiptableItemNode equiptable = template.GetNode<EquiptableItemNode> ();
 
 				if (equiptable == null)
 					return Slot.None;
@@ -284,4 +276,3 @@ namespace RPGCore
 		}
 	}
 }
-

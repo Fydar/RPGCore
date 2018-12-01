@@ -4,7 +4,7 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Activatable Input", "Input")]
+	[NodeInformation ("Item/Activatable Input", "Input", OnlyOne = true)]
 	public class ActivatableNode : BehaviourNode
 	{
 		public IntInput ManaCost;
@@ -66,4 +66,3 @@ namespace RPGCore
 		}
 	}
 }
-

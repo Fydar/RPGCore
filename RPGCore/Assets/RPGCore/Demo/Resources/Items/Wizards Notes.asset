@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Wizards Notes
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114384638886824652}
   - {fileID: 114722783040986390}
   - {fileID: 114000012595290118}
   renderPrefab: {fileID: 1352873928570662, guid: 8211f188194b9004b83cd85f111792c0,
@@ -24,7 +25,7 @@ MonoBehaviour:
   prefix: {fileID: 0}
   suffix: {fileID: 0}
   maxStack: 1
-  rarity: {fileID: 11400000, guid: 3df4fd508ece5c44295e09e055ecd815, type: 2}
+  rarity: {fileID: 11400000, guid: cf00189e3d1f4734db07e02858a1daf4, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
 --- !u!114 &114000012595290118
@@ -74,6 +75,26 @@ MonoBehaviour:
       y: 92
       width: 190
       height: 16
+--- !u!114 &114384638886824652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
+  m_Name: Equiptable Item
+  m_EditorClassIdentifier: 
+  Position: {x: 30, y: 365.5}
+  slot: 5
+  Equipped:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
 --- !u!114 &114722783040986390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aedab93ae7c6a040850c7b0159cfae5, type: 3}
   m_Name: Activatable
   m_EditorClassIdentifier: 
-  Position: {x: 30, y: 362}
+  Position: {x: 28, y: 444}
   ManaCost:
     drawRect:
       serializedVersion: 2

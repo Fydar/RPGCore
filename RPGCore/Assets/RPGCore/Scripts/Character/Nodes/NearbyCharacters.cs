@@ -19,7 +19,7 @@ namespace RPGCore
 			ConnectionEntry<RPGCharacter> centerInput = Center[context];
 			ConnectionEntry<bool> includeCasterInput = IncludeCaster[context];
 			ConnectionEntry<float> distanceInput = Distance[context];
-			CharacterConnection.EntryCollection targetsOutput = Targets.GetEntry(context);
+			CharacterConnection.EntryCollection targetsOutput = Targets.GetEntry (context);
 
 			GameObject proximityHolder = new GameObject ("Proximity Cheacker");
 			ProximityChecker proximity = proximityHolder.AddComponent<ProximityChecker> ();

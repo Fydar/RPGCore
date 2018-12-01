@@ -5,7 +5,7 @@
 
 		public override void OnEnterSlot (ItemSlot target)
 		{
-			EquiptableNode equiptable = target.Item.Template.GetNode<EquiptableNode> ();
+			EquiptableItemNode equiptable = target.Item.Template.GetNode<EquiptableItemNode> ();
 
 			if (equiptable == null)
 				return;
@@ -15,7 +15,7 @@
 
 		public override void OnExitSlot (ItemSlot target)
 		{
-			EquiptableNode equiptable = target.Item.Template.GetNode<EquiptableNode> ();
+			EquiptableItemNode equiptable = target.Item.Template.GetNode<EquiptableItemNode> ();
 
 			if (equiptable == null)
 				return;

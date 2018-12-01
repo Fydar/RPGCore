@@ -3,16 +3,10 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Armour Input", "Input")]
-	public class ArmourInputNode : BehaviourNode
+	[NodeInformation ("Item/Armour Input", "Input", OnlyOne = true)]
+	public class ArmourInputNode : BehaviourNode, IInputNode<ItemSurrogate>
 	{
-		public FloatInput AttackDamage;
-		public FloatInput AttackSpeed;
-		public FloatInput CriticalChance;
-		public FloatInput CriticalMultiplier;
-
-		public CharacterOutput HitTarget;
-		public EventOutput OnHit;
+		public FloatInput Armour;
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
@@ -20,6 +14,11 @@ namespace RPGCore
 		}
 
 		protected override void OnRemove (IBehaviourContext context)
+		{
+
+		}
+
+		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
 		{
 
 		}

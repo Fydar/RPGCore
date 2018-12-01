@@ -274,7 +274,7 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 0}
     SourceField: 
-    defaultValue: 0
+    defaultValue: 1.65
   CriticalChance:
     drawRect:
       serializedVersion: 2
@@ -284,7 +284,7 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 0}
     SourceField: 
-    defaultValue: 0
+    defaultValue: 0.05
   CriticalMultiplier:
     drawRect:
       serializedVersion: 2
@@ -294,7 +294,7 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 0}
     SourceField: 
-    defaultValue: 0
+    defaultValue: 2
   HitTarget:
     drawRect:
       serializedVersion: 2

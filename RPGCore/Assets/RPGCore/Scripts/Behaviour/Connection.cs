@@ -92,7 +92,7 @@ namespace RPGCore.Behaviour
 			get
 			{
 				if (instance == null)
-					instance = Activator.CreateInstance<B> (); ;
+					instance = Activator.CreateInstance<B> ();
 
 				return instance;
 			}
@@ -161,7 +161,7 @@ namespace RPGCore.Behaviour
 					{
 						ListOutput list = (ListOutput)SourceSocket;
 
-						EntryCollection entries = list.GetEntry(context);
+						EntryCollection entries = list.GetEntry (context);
 
 						// If this is a root thing
 						if (ContextUtility.currentIndex == -1)

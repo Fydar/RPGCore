@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Name: Warlords Axe
   m_EditorClassIdentifier: 
   Nodes:
-  - {fileID: 114149137312397646}
   - {fileID: 114090304216455308}
+  - {fileID: 114863848693039650}
+  - {fileID: 114780844282671146}
   - {fileID: 114305048296222570}
   - {fileID: 114536852143800956}
   - {fileID: 114644238691082142}
-  - {fileID: 114780844282671146}
-  - {fileID: 114863848693039650}
   - {fileID: 114959883122913088}
+  - {fileID: 114149137312397646}
   renderPrefab: {fileID: 1777803201150668, guid: ace2d25ac605da34e88164d6fa6537d3,
     type: 2}
   renderScale: 1

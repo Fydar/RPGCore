@@ -22,8 +22,10 @@ namespace RPGCore.Tooltips.Editors
 
 			while (iterator.NextVisible (false))
 			{
-				EditorGUILayout.PropertyField (iterator);
+				EditorGUILayout.PropertyField (iterator, true);
 			}
+
+			serializedObject.ApplyModifiedProperties ();
 		}
 
 		private static void DrawTooltipTargets (Type elementType)

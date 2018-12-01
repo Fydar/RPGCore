@@ -3,8 +3,8 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Weapon Input", "Input")]
-	public class WeaponInputNode : BehaviourNode
+	[NodeInformation ("Item/Weapon Input", "Input", OnlyOne = true)]
+	public class WeaponInputNode : BehaviourNode, IInputNode<ItemSurrogate>
 	{
 		public FloatInput AttackDamage;
 		public FloatInput AttackSpeed;
@@ -20,6 +20,11 @@ namespace RPGCore
 		}
 
 		protected override void OnRemove (IBehaviourContext context)
+		{
+
+		}
+
+		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
 		{
 
 		}
