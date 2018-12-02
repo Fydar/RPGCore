@@ -31,6 +31,7 @@ namespace RPGCore.Tooltips
 		{
 			statsPool.Flush ();
 			effectTextPool.Flush ();
+			enchantmentTextPool.Flush ();
 
 			slotRender.RenderItem (target);
 			itemUsage.text = target.EquiptableSlot.ToString ();
@@ -75,8 +76,40 @@ namespace RPGCore.Tooltips
 			{
 				effectsHolder.gameObject.SetActive (false);
 			}
-			
-			// TODO: Render enchantment tooltips.
+
+			/*(
+			foreach (var Enchantment in target.Enchantments)
+			{
+				if (Enchantment == null)
+					continue;
+
+				EffectTooltipNode[] enchantmentTooltipNodes = Enchantment.Template.GetNodes<EffectTooltipNode> ();
+				StatsNode[] enchantmentNodes = Enchantment.Template.GetNodes<StatsNode> ();
+
+				if (enchantmentTooltipNodes.Length != 0 || enchantmentNodes.Length != 0)
+				{
+					enchantmentsHolder.gameObject.SetActive (true);
+					for (int i = 0; i < enchantmentTooltipNodes.Length; i++)
+					{
+						EffectTooltipNode enchantmentTooltipNode = enchantmentTooltipNodes[i];
+
+						enchantmentTextPool.Grab (enchantmentsHolder).text = enchantmentTooltipNode.Description (Enchantment);
+					}
+					for (int i = 0; i < enchantmentNodes.Length; i++)
+					{
+						StatsNode enchantmentStatNode = enchantmentNodes[i];
+
+						Debug.Log (target);
+						Debug.Log (Enchantment.Template);
+
+						enchantmentTextPool.Grab (enchantmentsHolder).text = enchantmentStatNode.Description (Enchantment);
+					}
+				}
+				else
+				{
+					enchantmentsHolder.gameObject.SetActive (false);
+				}
+			}*/
 			enchantmentsHolder.gameObject.SetActive (false);
 		}
 	}

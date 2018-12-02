@@ -1211,13 +1211,14 @@ namespace RPGCore.Behaviour.Editor
 
 					foreach (var node in group.Value)
 					{
-						string elementName;
-
 						object[] obj = node.GetCustomAttributes (typeof (NodeInformationAttribute), false);
 
 						if (obj.Length == 0)
 						{
-							elementName = ObjectNames.NicifyVariableName (node.Name).Replace (" Node", "");
+							string elementName = ObjectNames.NicifyVariableName (node.Name).Replace (" Node", "");
+
+							AddNodeMenu.AddItem (new GUIContent (elementName),
+									false, AddNodeCallback, node);
 						}
 						else
 						{

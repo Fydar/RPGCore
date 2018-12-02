@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
   m_Name: Equiptable
   m_EditorClassIdentifier: 
-  Position: {x: 70, y: 378}
+  Position: {x: 70, y: 394}
   slot: 0
   Equipped:
     drawRect:

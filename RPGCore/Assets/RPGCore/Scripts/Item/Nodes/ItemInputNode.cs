@@ -48,9 +48,12 @@ namespace RPGCore
 		{
 			Item[target].Value = target;
 
+			Owner[target].Value = target.owner.Value;
+			UnityEngine.Debug.Log (context.GetHashCode () + ": " + Owner[target].Value);
 			target.owner.onChanged += () =>
 			{
 				Owner[target].Value = target.owner.Value;
+				UnityEngine.Debug.Log (context.GetHashCode() + "; " + Owner[target].Value);
 			};
 
 			StackSize[target].Value = target.Quantity;

@@ -147,6 +147,14 @@ namespace RPGCore
 				template = this
 			};
 
+			SetupGraph (newItem);
+
+			IInputNode<ItemSurrogate>[] itemNodes = GetNodes<IInputNode<ItemSurrogate>> ();
+			foreach (var itemNode in itemNodes)
+			{
+				itemNode.SetTarget (newItem, newItem);
+			}
+
 			if (prefix != null)
 			{
 				EnchantmentTemplate template = prefix.GetEnchantment ();
@@ -165,14 +173,6 @@ namespace RPGCore
 				{
 					newItem.Suffix = new Enchantment (template);
 				}
-			}
-
-			SetupGraph (newItem);
-
-			IInputNode<ItemSurrogate>[] itemNodes = GetNodes<IInputNode<ItemSurrogate>> ();
-			foreach (var itemNode in itemNodes)
-			{
-				itemNode.SetTarget (newItem, newItem);
 			}
 
 			return newItem;

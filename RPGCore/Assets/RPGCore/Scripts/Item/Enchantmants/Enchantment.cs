@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using RPGCore.Behaviour;
+using System.Collections.Generic;
 
 namespace RPGCore
 {
-	public class Enchantment : IItemSeed
+	public class Enchantment : IItemSeed, IBehaviourContext
 	{
 		private EnchantmentTemplate template;
 		private ItemSurrogate item;
@@ -65,16 +66,6 @@ namespace RPGCore
 			{
 				yield return null;
 			}
-		}
-
-		public void Start ()
-		{
-
-		}
-
-		public void Stop ()
-		{
-
 		}
 	}
 }

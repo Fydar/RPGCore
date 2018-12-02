@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Buckler
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114095016958012412}
   - {fileID: 114640112244296378}
   - {fileID: 114667974605488560}
   - {fileID: 114135838449205474}
@@ -26,7 +27,7 @@ MonoBehaviour:
     type: 2}
   renderScale: 0.95
   itemName: Buckler
-  description: Upon taking damage, grant a Fortified Stack (once per 5 seconds).
+  description: A rough shield, however nonetheless effective and protecting the weilder.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
   prefix: {fileID: 0}
@@ -35,6 +36,21 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 0}
   weight: 1
+--- !u!114 &114095016958012412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a75cc3ce6af06f4ea7712fb6590e95b, type: 3}
+  m_Name: Effect Tooltip
+  m_EditorClassIdentifier: 
+  Position: {x: 690, y: 500}
+  Template: Upon taking damage, grant a Fortified Stack (once per 5 seconds)
+  Values:
+  - 0
 --- !u!114 &114135838449205474
 MonoBehaviour:
   m_ObjectHideFlags: 1

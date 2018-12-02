@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
   m_Name: Equiptable
   m_EditorClassIdentifier: 
-  Position: {x: 70, y: 378}
+  Position: {x: 73, y: 400}
   slot: 0
   Equipped:
     drawRect:
@@ -155,31 +155,38 @@ MonoBehaviour:
   m_Name: Item Input
   m_EditorClassIdentifier: 
   Position: {x: 69, y: 263}
-  Owner:
+  Item:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 20
       width: 190
       height: 16
-  OnReceive:
+  Owner:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 38
       width: 190
       height: 16
-  OnLoose:
+  OnReceive:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 56
       width: 190
       height: 16
-  StackSize:
+  OnLoose:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 74
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 92
       width: 190
       height: 16
