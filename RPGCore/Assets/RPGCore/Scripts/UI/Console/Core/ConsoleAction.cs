@@ -7,7 +7,7 @@ public abstract class ConsoleAction : ConsoleCommand
 {
 	public List<Delegate> Usages;
 
-	public ConsoleAction ()
+	protected ConsoleAction ()
 	{
 		Type thisType = GetType ();
 		Usages = new List<Delegate> ();
@@ -46,25 +46,18 @@ public abstract class ConsoleAction : ConsoleCommand
 			types[i] = args[i].ParameterType;
 		}
 
-		if (types.Length == 0)
+		switch (types.Length)
 		{
-			return Delegate.CreateDelegate (typeof (Action).MakeGenericType (types), target, method);
-		}
-		else if (types.Length == 1)
-		{
-			return Delegate.CreateDelegate (typeof (Action<>).MakeGenericType (types), target, method);
-		}
-		else if (types.Length == 2)
-		{
-			return Delegate.CreateDelegate (typeof (Action<,>).MakeGenericType (types), target, method);
-		}
-		else if (types.Length == 3)
-		{
-			return Delegate.CreateDelegate (typeof (Action<,,>).MakeGenericType (types), target, method);
-		}
-		else if (types.Length == 4)
-		{
-			return Delegate.CreateDelegate (typeof (Action<,,,>).MakeGenericType (types), target, method);
+			case 0:
+				return Delegate.CreateDelegate (typeof (Action).MakeGenericType (types), target, method);
+			case 1:
+				return Delegate.CreateDelegate (typeof (Action<>).MakeGenericType (types), target, method);
+			case 2:
+				return Delegate.CreateDelegate (typeof (Action<,>).MakeGenericType (types), target, method);
+			case 3:
+				return Delegate.CreateDelegate (typeof (Action<,,>).MakeGenericType (types), target, method);
+			case 4:
+				return Delegate.CreateDelegate (typeof (Action<,,,>).MakeGenericType (types), target, method);
 		}
 
 		return null;
@@ -110,7 +103,7 @@ public abstract class ConsoleAction : ConsoleCommand
 		return helpString;
 	}
 
-	object[] CompileParams (string[] Parameters, int offset, ParameterInfo[] useParameters)
+	private object[] CompileParams (string[] Parameters, int offset, ParameterInfo[] useParameters)
 	{
 		object[] compiledParams = new object[useParameters.Length];
 

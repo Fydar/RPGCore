@@ -12,19 +12,19 @@ public abstract class ConsoleMenu : ConsoleCommand
 
 	public abstract void BuildCommands ();
 
-	public override void Run (ref string[] Parameters, int offset = 0)
+	public override void Run (ref string[] parameters, int offset = 0)
 	{
-		if (Parameters.Length == offset)
+		if (parameters.Length == offset)
 		{
 			Debug.Log (Help ());
 			return;
 		}
 
-		string commandID = Parameters[offset].ToLower ();
+		string commandID = parameters[offset].ToLower ();
 
 		offset++;
 
-		Commands[commandID].Run (ref Parameters, offset);
+		Commands[commandID].Run (ref parameters, offset);
 	}
 
 	public override string Help ()

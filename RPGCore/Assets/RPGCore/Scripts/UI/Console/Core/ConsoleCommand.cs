@@ -2,7 +2,7 @@
 
 public abstract class ConsoleCommand
 {
-	public abstract void Run (ref string[] Parameters, int offset = 0);
+	public abstract void Run (ref string[] parameters, int offset = 0);
 	public abstract string Help ();
 
 	public static object PhraseParameter (string param, Type target, out bool success)
@@ -28,58 +28,33 @@ public abstract class ConsoleCommand
 				success = false;
 				return null;
 			}
-			else if (target == typeof (String))
-			{
+
+			if (target == typeof (string))
 				return param;
-			}
-			else if (target == typeof (Boolean))
-			{
+			if (target == typeof (bool))
 				return Convert.ToBoolean (param);
-			}
-			else if (target == typeof (Int16))
-			{
+			if (target == typeof (short))
 				return Convert.ToInt16 (param);
-			}
-			else if (target == typeof (Int32))
-			{
+			if (target == typeof (int))
 				return Convert.ToInt32 (param);
-			}
-			else if (target == typeof (Int64))
-			{
+			if (target == typeof (long))
 				return Convert.ToInt64 (param);
-			}
-			else if (target == typeof (UInt16))
-			{
+			if (target == typeof (ushort))
 				return Convert.ToUInt16 (param);
-			}
-			else if (target == typeof (UInt32))
-			{
+			if (target == typeof (uint))
 				return Convert.ToUInt32 (param);
-			}
-			else if (target == typeof (UInt64))
-			{
+			if (target == typeof (ulong))
 				return Convert.ToUInt64 (param);
-			}
-			else if (target == typeof (Byte))
-			{
+			if (target == typeof (byte))
 				return Convert.ToByte (param);
-			}
-			else if (target == typeof (SByte))
-			{
+			if (target == typeof (sbyte))
 				return Convert.ToSByte (param);
-			}
-			else if (target == typeof (Double))
-			{
+			if (target == typeof (double))
 				return Convert.ToInt16 (param);
-			}
-			else if (target == typeof (Single))
-			{
+			if (target == typeof (float))
 				return Convert.ToSingle (param);
-			}
-			else if (target == typeof (Decimal))
-			{
+			if (target == typeof (decimal))
 				return Convert.ToDecimal (param);
-			}
 		}
 		catch
 		{

@@ -2,6 +2,7 @@
 using RPGCore.Behaviour.Connections;
 using RPGCore.Stats;
 using System;
+using UnityEngine;
 
 namespace RPGCore
 {
@@ -24,6 +25,10 @@ namespace RPGCore
 			ConnectionEntry<float> effectInput = Effect[context];
 			
 			UnityEngine.Debug.Log (context.GetHashCode() + ": " + targetInput.Value);
+
+			if (targetInput.Value == null)
+				return "";
+
 			StatInstance inst = targetInput.Value.Stats[entry];
 
 			return Display.Replace ("{0}", inst.Info.RenderModifier (effectInput.Value, Scaling));
@@ -45,6 +50,8 @@ namespace RPGCore
 				if (targetInput.Value == null)
 					return;
 
+				Debug.Log ("Changed : " + context.GetHashCode() + " = " + targetInput.Value);
+
 				if (activeInput.Value)
 				{
 					if (!isActive)
@@ -65,12 +72,11 @@ namespace RPGCore
 						targetInput.Value.Stats[entry].RemoveMultiplierModifier (modifier);
 
 					isActive = false;
-				};
+				}
 			};
 
 			targetInput.OnBeforeChanged += () =>
 			{
-
 				if (targetInput.Value == null)
 				{
 					isActive = false;

@@ -76,8 +76,7 @@ namespace RPGCore.Tooltips
 			{
 				effectsHolder.gameObject.SetActive (false);
 			}
-
-			/*(
+			
 			foreach (var Enchantment in target.Enchantments)
 			{
 				if (Enchantment == null)
@@ -109,8 +108,7 @@ namespace RPGCore.Tooltips
 				{
 					enchantmentsHolder.gameObject.SetActive (false);
 				}
-			}*/
-			enchantmentsHolder.gameObject.SetActive (false);
+			}
 		}
 	}
 }

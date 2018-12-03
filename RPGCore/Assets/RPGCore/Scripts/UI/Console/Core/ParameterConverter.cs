@@ -15,12 +15,12 @@ public class ParameterConverter
 		};
 	}
 
-	static object StringConverter (string parameter, Type targetType)
+	private static object StringConverter (string parameter, Type targetType)
 	{
 		return parameter;
 	}
 
-	static object BoolConverter (string parameter, Type targetType)
+	private static object BoolConverter (string parameter, Type targetType)
 	{
 		return parameter;
 	}
