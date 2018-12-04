@@ -23,8 +23,6 @@ namespace RPGCore
 		{
 			ConnectionEntry<RPGCharacter> targetInput = Target[context];
 			ConnectionEntry<float> effectInput = Effect[context];
-			
-			UnityEngine.Debug.Log (context.GetHashCode() + ": " + targetInput.Value);
 
 			if (targetInput.Value == null)
 				return "";
@@ -39,9 +37,7 @@ namespace RPGCore
 			ConnectionEntry<RPGCharacter> targetInput = Target[context];
 			ConnectionEntry<bool> activeInput = Active[context];
 			ConnectionEntry<float> effectInput = Effect[context];
-
-			UnityEngine.Debug.Log ("<b>Stats</b>" + context + ": " + targetInput.Value);
-
+			
 			StatInstance.Modifier modifier = null;
 			bool isActive = false;
 
@@ -49,8 +45,6 @@ namespace RPGCore
 			{
 				if (targetInput.Value == null)
 					return;
-
-				Debug.Log ("Changed : " + context.GetHashCode() + " = " + targetInput.Value);
 
 				if (activeInput.Value)
 				{

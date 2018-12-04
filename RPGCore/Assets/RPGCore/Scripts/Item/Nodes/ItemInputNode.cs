@@ -46,20 +46,18 @@ namespace RPGCore
 
 		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
 		{
-			Item[target].Value = target;
+			Item[context].Value = target;
 
-			Owner[target].Value = target.owner.Value;
-			UnityEngine.Debug.Log (context.GetHashCode () + ": " + Owner[target].Value);
+			Owner[context].Value = target.owner.Value;
 			target.owner.onChanged += () =>
 			{
-				Owner[target].Value = target.owner.Value;
-				UnityEngine.Debug.Log (context.GetHashCode() + "; " + Owner[target].Value);
+				Owner[context].Value = target.owner.Value;
 			};
 
-			StackSize[target].Value = target.Quantity;
+			StackSize[context].Value = target.Quantity;
 			target.data.quantity.onChanged += () =>
 			{
-				StackSize[target].Value = target.Quantity;
+				StackSize[context].Value = target.Quantity;
 			};
 		}
 	}

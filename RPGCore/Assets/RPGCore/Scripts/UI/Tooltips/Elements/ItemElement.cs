@@ -98,9 +98,6 @@ namespace RPGCore.Tooltips
 					{
 						StatsNode enchantmentStatNode = enchantmentNodes[i];
 
-						Debug.Log (target);
-						Debug.Log (Enchantment.Template);
-
 						enchantmentTextPool.Grab (enchantmentsHolder).text = enchantmentStatNode.Description (Enchantment);
 					}
 				}

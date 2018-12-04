@@ -44,7 +44,6 @@ namespace RPGCore.Behaviour
 
 		public void SetupGraph (IBehaviourContext context)
 		{
-			Debug.Log ("Setting up " + name + " on " + context.GetHashCode ());
 			foreach (BehaviourNode node in Nodes)
 			{
 				node.SetupContext (context);
