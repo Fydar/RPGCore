@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e146e8ef2955674a9236a05e8dc49e6, type: 3}
   m_Name: On Hit
   m_EditorClassIdentifier: 
-  Position: {x: 327, y: 264}
+  Position: {x: 327, y: 246}
   Target:
     drawRect:
       serializedVersion: 2

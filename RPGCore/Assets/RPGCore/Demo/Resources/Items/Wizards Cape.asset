@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d5b7cb067803f499665deb3227d428, type: 3}
   m_Name: Armour Input
   m_EditorClassIdentifier: 
-  Position: {x: 29, y: 318.5}
+  Position: {x: 317, y: 349.5}
   Armour:
     drawRect:
       serializedVersion: 2
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: -174, y: 274}
+  Position: {x: 86, y: 315}
   Min:
     drawRect:
       serializedVersion: 2
