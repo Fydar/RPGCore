@@ -76,7 +76,8 @@ namespace RPGCore.Tooltips
 			{
 				effectsHolder.gameObject.SetActive (false);
 			}
-			
+
+			bool found = false;
 			foreach (var Enchantment in target.Enchantments)
 			{
 				if (Enchantment == null)
@@ -87,7 +88,7 @@ namespace RPGCore.Tooltips
 
 				if (enchantmentTooltipNodes.Length != 0 || enchantmentNodes.Length != 0)
 				{
-					enchantmentsHolder.gameObject.SetActive (true);
+					found = true;
 					for (int i = 0; i < enchantmentTooltipNodes.Length; i++)
 					{
 						EffectTooltipNode enchantmentTooltipNode = enchantmentTooltipNodes[i];
@@ -101,11 +102,8 @@ namespace RPGCore.Tooltips
 						enchantmentTextPool.Grab (enchantmentsHolder).text = enchantmentStatNode.Description (Enchantment);
 					}
 				}
-				else
-				{
-					enchantmentsHolder.gameObject.SetActive (false);
-				}
 			}
+			enchantmentsHolder.gameObject.SetActive (found);
 		}
 	}
 }

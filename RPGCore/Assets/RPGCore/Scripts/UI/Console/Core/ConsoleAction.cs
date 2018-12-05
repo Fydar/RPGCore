@@ -63,17 +63,17 @@ public abstract class ConsoleAction : ConsoleCommand
 		return null;
 	}
 
-	public override void Run (ref string[] Parameters, int offset = 0)
+	public override void Run (string[] parameters, int offset = 0)
 	{
 		for (int i = 0; i < Usages.Count; i++)
 		{
 			var usage = Usages[i];
 			var useParemeters = usage.Method.GetParameters ();
 
-			if (Parameters.Length - offset != useParemeters.Length)
+			if (parameters.Length - offset != useParemeters.Length)
 				continue;
 
-			object[] compiledParams = CompileParams (Parameters, offset, useParemeters);
+			object[] compiledParams = CompileParams (parameters, offset, useParemeters);
 
 			if (compiledParams == null)
 			{
@@ -84,7 +84,7 @@ public abstract class ConsoleAction : ConsoleCommand
 			return;
 		}
 
-		if (Parameters.Length == offset)
+		if (parameters.Length == offset)
 		{
 			Debug.Log (Help ());
 			return;
@@ -103,14 +103,14 @@ public abstract class ConsoleAction : ConsoleCommand
 		return helpString;
 	}
 
-	private object[] CompileParams (string[] Parameters, int offset, ParameterInfo[] useParameters)
+	private object[] CompileParams (string[] parameters, int offset, ParameterInfo[] useParameters)
 	{
 		object[] compiledParams = new object[useParameters.Length];
 
-		for (int j = 0; j < Parameters.Length - offset; j++)
+		for (int j = 0; j < parameters.Length - offset; j++)
 		{
 			var useParam = useParameters[j];
-			var stringParam = Parameters[j + offset];
+			var stringParam = parameters[j + offset];
 
 			bool success;
 			object compiledParam = ConsoleCommand.PhraseParameter (stringParam, useParam.ParameterType, out success);

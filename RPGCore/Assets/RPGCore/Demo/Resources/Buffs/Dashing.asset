@@ -9,15 +9,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e752e2050e534f549afccb643a342903, type: 3}
-  m_Name: Fortified
+  m_Name: Dashing
   m_EditorClassIdentifier: 
   Nodes:
-  - {fileID: 114901509247591036}
+  - {fileID: 114789821632212480}
   - {fileID: 114689349077470318}
   - {fileID: 114001360039262592}
   Name: Fortified
-  Description: You brace yourself for incoming damage.
-  Icon: {fileID: 21301048, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
+  Description: Granted additional movement speed.
+  Icon: {fileID: 21300084, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
   Type: 1
 --- !u!114 &114001360039262592
 MonoBehaviour:
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: 516, y: 216}
   entry:
-    field: MovementSpeed
+    field: Armour
   Target:
     drawRect:
       serializedVersion: 2
@@ -114,12 +114,12 @@ MonoBehaviour:
       y: 74
       width: 190
       height: 16
-    SourceNode: {fileID: 114901509247591036}
+    SourceNode: {fileID: 114789821632212480}
     SourceField: Output
     defaultValue: 10
-  Scaling: 1
+  Scaling: 0
   Display: '{0}'
---- !u!114 &114901509247591036
+--- !u!114 &114789821632212480
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,10 +127,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aca6ae523549adc4c93c6c48a734bcc9, type: 3}
-  m_Name: Float Multiply
+  m_Script: {fileID: 11500000, guid: 220ce906e2657b243aada6fabe9cf6c6, type: 3}
+  m_Name: Int Multiply
   m_EditorClassIdentifier: 
-  Position: {x: 310.5, y: 330.5}
+  Position: {x: 307, y: 330}
   ValueA:
     drawRect:
       serializedVersion: 2
@@ -150,7 +150,7 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 0}
     SourceField: 
-    defaultValue: 0.1
+    defaultValue: 10
   Output:
     drawRect:
       serializedVersion: 2

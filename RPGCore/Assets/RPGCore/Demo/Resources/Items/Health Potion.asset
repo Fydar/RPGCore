@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Health Potion
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114656114756986456}
   - {fileID: 114306276183888224}
   - {fileID: 114000012595290118}
   - {fileID: 114000012878574282}
@@ -207,6 +208,21 @@ MonoBehaviour:
     SourceNode: {fileID: 0}
     SourceField: 
     defaultValue: 20
+--- !u!114 &114656114756986456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a75cc3ce6af06f4ea7712fb6590e95b, type: 3}
+  m_Name: Effect Tooltip
+  m_EditorClassIdentifier: 
+  Position: {x: 321, y: 281}
+  Template: Activate to restore 20 health
+  Values:
+  - 0
 --- !u!114 &114810285048115220
 MonoBehaviour:
   m_ObjectHideFlags: 1

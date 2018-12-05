@@ -12,7 +12,7 @@ public abstract class ConsoleMenu : ConsoleCommand
 
 	public abstract void BuildCommands ();
 
-	public override void Run (ref string[] parameters, int offset = 0)
+	public override void Run (string[] parameters, int offset = 0)
 	{
 		if (parameters.Length == offset)
 		{
@@ -24,7 +24,7 @@ public abstract class ConsoleMenu : ConsoleCommand
 
 		offset++;
 
-		Commands[commandID].Run (ref parameters, offset);
+		Commands[commandID].Run (parameters, offset);
 	}
 
 	public override string Help ()

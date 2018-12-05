@@ -2,7 +2,7 @@
 
 public abstract class ConsoleCommand
 {
-	public abstract void Run (ref string[] parameters, int offset = 0);
+	public abstract void Run (string[] parameters, int offset = 0);
 	public abstract string Help ();
 
 	public static object PhraseParameter (string param, Type target, out bool success)
