@@ -42,7 +42,7 @@ namespace RPGCore
 		public Inventory inventory;
 
 		[NonSerialized]
-		public SlottedInventory equipment = null;
+		public SlottedInventory equipment;
 
 		[NonSerialized]
 		public int teamID = 1;
