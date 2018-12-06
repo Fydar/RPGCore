@@ -49,8 +49,6 @@ namespace RPGCore.Behaviour.Logic
 			GUI.DrawTexture (position, BehaviourGraphResources.Instance.NotNodeGraphic, ScaleMode.ScaleToFit, true);
 
 			Rect valueARect = new Rect (position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-			Rect valueBRect = new Rect (position.x, valueARect.yMax + EditorGUIUtility.standardVerticalSpacing,
-				position.width, valueARect.height);
 			Rect outputRect = new Rect (position.x, position.y + (EditorGUIUtility.singleLineHeight * 0.5f),
 								  position.width, EditorGUIUtility.singleLineHeight);
 
