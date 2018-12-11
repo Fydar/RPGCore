@@ -29,23 +29,9 @@ namespace RPGCore
 					return;
 				}
 
-				FloatInput localStatInput = null;
-
-				if (Stat.entryIndex == -1)
-				{
-					var temp = ArmourStatInformationDatabase.Instance.ArmourStatInfos[Stat];
-				}
-
-				if (Stat.entryIndex == 0)
-					localStatInput = weaponNode.AttackDamage;
-				else if (Stat.entryIndex == 1)
-					localStatInput = weaponNode.AttackSpeed;
-				else if (Stat.entryIndex == 2)
-					localStatInput = weaponNode.CriticalChance;
-				else if (Stat.entryIndex == 3)
-					localStatInput = weaponNode.CriticalMultiplier;
-
-				valueInput.Value = localStatInput[targetInput.Value].Value;
+				var localStatInput = weaponNode.GetStat (context, Stat);
+				
+				valueInput.Value = localStatInput.Value;
 			};
 
 			if (targetInput.Value != null)
