@@ -31,7 +31,7 @@ MonoBehaviour:
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
   prefix: {fileID: 0}
-  suffix: {fileID: 0}
+  suffix: {fileID: 11400000, guid: 2c549b42b277a4f4f8b2ab994ef8bc44, type: 2}
   maxStack: 1
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 0}
