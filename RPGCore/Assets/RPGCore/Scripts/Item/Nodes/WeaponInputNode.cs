@@ -18,7 +18,7 @@ namespace RPGCore
 		public EventOutput OnHit;
 
 		[NonSerialized]
-		public Dictionary<IBehaviourContext, WeaponStatInstanceCollection> StatsMapping;
+		public Dictionary<IBehaviourContext, WeaponStatInstanceCollection> StatsMapping = new Dictionary<IBehaviourContext, WeaponStatInstanceCollection>();
 
 		public WeaponStatInstanceCollection GetStats (IBehaviourContext context)
 		{
@@ -29,7 +29,7 @@ namespace RPGCore
 		{
 			if (entry.entryIndex == -1)
 			{
-				var temp = ArmourStatInformationDatabase.Instance.ArmourStatInfos[entry];
+				var temp = WeaponStatInformationDatabase.Instance.WeaponStatInfos[entry];
 			}
 
 			WeaponStatInstanceCollection statsCollection = StatsMapping[context];
@@ -77,6 +77,7 @@ namespace RPGCore
 
 			var statsCollection = new WeaponStatInstanceCollection ();
 			StatsMapping[context] = statsCollection;
+			statsCollection.GetEnumerator ();
 
 			var attackModifier = statsCollection.Attack.AddFlatModifier (attackInput.Value);
 			attackInput.OnAfterChanged += () => attackModifier.Value = attackInput.Value;

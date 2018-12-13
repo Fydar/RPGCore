@@ -109,7 +109,7 @@ namespace RPGCore
 
 				if (collectionInfo.FieldType == typeof (T))
 				{
-					foundObjects.Add ((T)collectionInfo.GetValue (this));
+					foundObjects.Add (FieldGetOrCreate<T> (collectionInfo, this));
 				}
 				else if (typeof (EnumerableCollection).IsAssignableFrom (info.FieldType))
 				{

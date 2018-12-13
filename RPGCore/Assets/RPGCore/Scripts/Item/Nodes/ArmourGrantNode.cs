@@ -8,7 +8,7 @@ namespace RPGCore
 	[NodeInformation ("Item/Grant Armour Stat", "Attribute")]
 	public class ArmourGrantNode : BehaviourNode
 	{
-		[CollectionType (typeof (WeaponStatCollection<>))]
+		[CollectionType (typeof (ArmourStatCollection<>))]
 		public CollectionEntry Stat;
 
 		public ItemInput Target;
@@ -34,21 +34,23 @@ namespace RPGCore
 				{
 					if (!isActive)
 					{
-						var weaponNode = targetInput.Value.Template.GetNode<WeaponInputNode> ();
-						var weaponStat = weaponNode.GetStat (context, Stat);
-						
+						var armourNode = targetInput.Value.Template.GetNode<ArmourInputNode> ();
+						var armourStat = armourNode.GetStat (context, Stat);
+
+						UnityEngine.Debug.Log ("Adding " + effectInput.Value + " to " + targetInput.Value.ToString());
+
 						if (Scaling == AttributeInformation.ModifierType.Additive)
-							modifier = weaponStat.AddFlatModifier (effectInput.Value);
+							modifier = armourStat.AddFlatModifier (effectInput.Value);
 						else
-							modifier = weaponStat.AddMultiplierModifier (effectInput.Value);
+							modifier = armourStat.AddMultiplierModifier (effectInput.Value);
 
 						isActive = true;
 					}
 				}
 				else if (isActive)
 				{
-					var weaponNode = targetInput.Value.Template.GetNode<WeaponInputNode> ();
-					var weaponStat = weaponNode.GetStat (context, Stat);
+					var armourNode = targetInput.Value.Template.GetNode<ArmourInputNode> ();
+					var weaponStat = armourNode.GetStat (context, Stat);
 
 					if (Scaling == AttributeInformation.ModifierType.Additive)
 						weaponStat.RemoveFlatModifier (modifier);
@@ -71,7 +73,7 @@ namespace RPGCore
 				if (!isActive)
 					return;
 
-				var weaponNode = targetInput.Value.Template.GetNode<WeaponInputNode> ();
+				var weaponNode = targetInput.Value.Template.GetNode<ArmourInputNode> ();
 				var weaponStat = weaponNode.GetStat (context, Stat);
 
 				if (Scaling == AttributeInformation.ModifierType.Additive)
@@ -93,6 +95,7 @@ namespace RPGCore
 					return;
 
 				modifier.Value = effectInput.Value;
+				UnityEngine.Debug.Log ("Effect value " + modifier.Value);
 			};
 		}
 
