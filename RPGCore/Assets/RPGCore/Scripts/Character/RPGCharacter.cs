@@ -80,6 +80,8 @@ namespace RPGCore
 		{
 			States.CurrentHealth.Value = Stats.MaxHealth.Value;
 			States.CurrentMana.Value = Stats.MaxMana.Value;
+
+			Chat.Instance.Log (name + " joined the game.");
 		}
 
 		private void FixedUpdate ()
