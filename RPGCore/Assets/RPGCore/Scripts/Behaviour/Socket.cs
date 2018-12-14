@@ -40,3 +40,4 @@ namespace RPGCore.Behaviour
 #endif
 	}
 }
+

@@ -16,6 +16,8 @@ MonoBehaviour:
     fieldValues: []
     CurrentHealth: {fileID: 11400000, guid: 2e3b4d4a8df23864583bde09d06541f6, type: 2}
     CurrentMana: {fileID: 11400000, guid: fc7d9a060a925d642bd7bf20c0fc7789, type: 2}
+    Level: {fileID: 11400000, guid: b17115061afb61042951f0d0209cdff0, type: 2}
+    Experiance: {fileID: 11400000, guid: 244291c57f7aebc40bdd5acae7657f31, type: 2}
     ManaDelayRemaining: {fileID: 11400000, guid: 041303dfb79418a4a802fd0738fa936e,
       type: 2}
     HealthDelayRemaining: {fileID: 11400000, guid: a8c9b990b03e6ed4f8adaeeee123d180,

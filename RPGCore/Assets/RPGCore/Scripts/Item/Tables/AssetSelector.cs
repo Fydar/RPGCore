@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace RPGCore.Tables
 {
@@ -7,12 +8,12 @@ namespace RPGCore.Tables
 	{
 		public E[] Loot;
 
-		[System.NonSerialized]
+		[NonSerialized]
 		protected float[] values;
 
 		public T Select ()
 		{
-			float rand = Random.Range (0.0f, 1.0f);
+			float rand = UnityEngine.Random.Range (0.0f, 1.0f);
 
 			for (int i = 0; i < Loot.Length; i++)
 			{

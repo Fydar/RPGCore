@@ -9,3 +9,4 @@ namespace RPGCore.Stats
 		public StateInformationCollection StateInfos;
 	}
 }
+

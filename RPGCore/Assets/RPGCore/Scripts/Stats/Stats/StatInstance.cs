@@ -229,3 +229,4 @@ namespace RPGCore.Stats
 	}
 #endif
 }
+

@@ -5,3 +5,4 @@
 		AddResult Add (ItemSurrogate item);
 	}
 }
+

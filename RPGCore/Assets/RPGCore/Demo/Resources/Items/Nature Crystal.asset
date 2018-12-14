@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Nature Crystal
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114360566584542858}
   - {fileID: 114265784962707406}
   - {fileID: 114032883158786706}
   - {fileID: 114092531551494050}
@@ -368,6 +369,21 @@ MonoBehaviour:
       y: 56
       width: 130
       height: 16
+--- !u!114 &114360566584542858
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a75cc3ce6af06f4ea7712fb6590e95b, type: 3}
+  m_Name: Effect Tooltip
+  m_EditorClassIdentifier: 
+  Position: {x: 244, y: 488.5}
+  Template: Grants Nature Bolts
+  Values:
+  - 0
 --- !u!114 &114686832537220708
 MonoBehaviour:
   m_ObjectHideFlags: 1

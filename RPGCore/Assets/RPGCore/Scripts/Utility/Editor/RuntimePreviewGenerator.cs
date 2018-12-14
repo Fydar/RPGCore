@@ -398,3 +398,4 @@ namespace RPGCore.Utility.Editors
 		}
 	}
 }
+

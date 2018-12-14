@@ -8,3 +8,4 @@ namespace RPGCore.Stats
 
 	}
 }
+

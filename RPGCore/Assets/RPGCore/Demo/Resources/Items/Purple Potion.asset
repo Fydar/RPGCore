@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Purple Potion
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114856480444320930}
   - {fileID: 114970828679760148}
   - {fileID: 114144150998033844}
   - {fileID: 114000012595290118}
@@ -184,6 +185,21 @@ MonoBehaviour:
     defaultValue: 0
   ProjectilePrefab: {fileID: 114186247397484580, guid: c112e978f8a6548488d726c0bae3a0dd,
     type: 2}
+--- !u!114 &114856480444320930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a75cc3ce6af06f4ea7712fb6590e95b, type: 3}
+  m_Name: Effect Tooltip
+  m_EditorClassIdentifier: 
+  Position: {x: 286, y: 312.5}
+  Template: Activate to grant Leaching for 10 seconds
+  Values:
+  - 0
 --- !u!114 &114970828679760148
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -18,7 +18,7 @@ namespace RPGCore.Behaviour.Editor
 
 		private static Event currentEvent;
 		private Rect screenRect;
-		private BehaviourGraph targetGraph = null;
+		private BehaviourGraph targetGraph;
 
 		private int selectedWindow = -1;
 		private GUI.WindowFunction drawNodeGUI;
@@ -26,10 +26,10 @@ namespace RPGCore.Behaviour.Editor
 		private GenericMenu AddNodeMenu;
 		private GenericMenu BasicNodeMenu;
 		private Vector2 rightClickedPosition;
-		private BehaviourNode rightClickedNode = null;
+		private BehaviourNode rightClickedNode;
 
 		private Vector2 dragging_Position = Vector2.zero;
-		private bool dragging_IsDragging = false;
+		private bool dragging_IsDragging;
 
 		[NonSerialized] private OutputSocket connection_Start;
 		[NonSerialized] private InputSocket connection_End;
@@ -37,10 +37,10 @@ namespace RPGCore.Behaviour.Editor
 		[NonSerialized] private bool connection_CanEdit = true;
 
 		private List<ConnectionInformationAttribute> help_Info;
-		private bool help_ShowToggle = false;
+		private bool help_ShowToggle;
 		private bool help_Faded = true;
 
-		private bool screenshot_TakeScreenshot = false;
+		private bool screenshot_TakeScreenshot;
 		private RenderTexture screenshot_RenderTexture;
 		private RenderTexture screenshot_OldTexture;
 
@@ -49,7 +49,7 @@ namespace RPGCore.Behaviour.Editor
 		[MenuItem ("Window/Behaviour")]
 		private static void ShowEditor ()
 		{
-			BehaviourWindow editor = EditorWindow.GetWindow<BehaviourWindow> ();
+			BehaviourWindow editor = GetWindow<BehaviourWindow> ();
 
 			editor.Show ();
 		}
@@ -62,7 +62,7 @@ namespace RPGCore.Behaviour.Editor
 			if (!typeof (BehaviourGraph).IsAssignableFrom (targetObject.GetType ()))
 				return false;
 
-			BehaviourWindow editor = EditorWindow.GetWindow<BehaviourWindow> ();
+			BehaviourWindow editor = GetWindow<BehaviourWindow> ();
 			editor.Show ();
 
 			editor.OpenGraph ((BehaviourGraph)targetObject);
@@ -94,8 +94,7 @@ namespace RPGCore.Behaviour.Editor
 				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.DarkThemeIcon);
 			else
 				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
-
-
+			
 			BasicNodeMenu = new GenericMenu ();
 
 			BasicNodeMenu.AddItem (new GUIContent ("Duplicate"), false, DuplicateNodeCallback);
@@ -103,14 +102,10 @@ namespace RPGCore.Behaviour.Editor
 			BasicNodeMenu.AddSeparator ("");
 			BasicNodeMenu.AddItem (new GUIContent ("Ping Source"), false, PingSourceCallback);
 			BasicNodeMenu.AddItem (new GUIContent ("Open Script"), false, OpenScriptCallback);
-
-			AddNodeMenu = new GenericMenu ();
-
-			var MenuStructure = new Dictionary<string, Dictionary<string, List<Type>>> ();
+			
 			help_Info = new List<ConnectionInformationAttribute> ();
-
+			
 			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies ();
-
 			for (int a = 0; a < assemblies.Length; a++)
 			{
 				Assembly assembly = assemblies[a];
@@ -125,51 +120,7 @@ namespace RPGCore.Behaviour.Editor
 
 					if (typeof (BehaviourNode).IsAssignableFrom (type))
 					{
-						string elementName;
-						string nodeGroup = "";
-
-						object[] obj = type.GetCustomAttributes (typeof (NodeInformationAttribute), false);
-						if (obj.Length == 0)
-						{
-							elementName = ObjectNames.NicifyVariableName (type.Name).Replace (" Node", "");
-							if (elementName.Contains ("Input"))
-								nodeGroup = "Input";
-						}
-						else
-						{
-							NodeInformationAttribute attribute = (NodeInformationAttribute)obj[0];
-							nodeGroup = attribute.Group;
-							elementName = attribute.Name;
-						}
-
-						int lastSeperator = elementName.LastIndexOf ('/');
-						string nodePath;
-						if (lastSeperator == -1)
-						{
-							nodePath = "";
-						}
-						else
-						{
-							nodePath = elementName.Substring (0, lastSeperator);
-						}
-
-						Dictionary<string, List<Type>> groupsDictionary;
-						bool result = MenuStructure.TryGetValue (nodePath, out groupsDictionary);
-						if (!result)
-						{
-							groupsDictionary = new Dictionary<string, List<Type>> ();
-							MenuStructure.Add (nodePath, groupsDictionary);
-						}
-
-						List<Type> group;
-						result = groupsDictionary.TryGetValue (nodeGroup, out group);
-						if (!result)
-						{
-							group = new List<Type> ();
-							groupsDictionary.Add (nodeGroup, group);
-						}
-
-						group.Add (type);
+						
 					}
 					else
 					{
@@ -180,33 +131,6 @@ namespace RPGCore.Behaviour.Editor
 							attri.Type = type;
 							help_Info.Add (attri);
 						}
-					}
-				}
-			}
-
-			foreach (var path in MenuStructure)
-			{
-				bool seperated = false;
-				foreach (var group in path.Value)
-				{
-					if (seperated)
-						AddNodeMenu.AddSeparator (path.Key + "/");
-					else
-						seperated = true;
-
-					foreach (var node in group.Value)
-					{
-						string elementName;
-
-						object[] obj = node.GetCustomAttributes (typeof (NodeInformationAttribute), false);
-
-						if (obj.Length == 0)
-							elementName = ObjectNames.NicifyVariableName (node.Name).Replace (" Node", "");
-						else
-							elementName = ((NodeInformationAttribute)obj[0]).Name;
-
-						AddNodeMenu.AddItem (new GUIContent (elementName),
-							false, AddNodeCallback, node);
 					}
 				}
 			}
@@ -517,6 +441,7 @@ namespace RPGCore.Behaviour.Editor
 						{
 							dragging_IsDragging = false;
 							rightClickedPosition = currentEvent.mousePosition;
+							BuildAddMenu ();
 							AddNodeMenu.ShowAsContext ();
 						}
 						else
@@ -587,12 +512,12 @@ namespace RPGCore.Behaviour.Editor
 
 					Rect inputSocketRect = new Rect (
 						inputSocket.SocketRect.x + node.Position.x + dragging_Position.x,
-						inputSocket.SocketRect.y + node.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 0 : 0),
+						inputSocket.SocketRect.y + node.Position.y + dragging_Position.y,
 						inputSocket.SocketRect.width, inputSocket.SocketRect.height);
 
 					Rect outputSocketRect = new Rect (
 						outputSocket.socketRect.x + inputSocket.SourceNode.Position.x + dragging_Position.x,
-						outputSocket.socketRect.y + inputSocket.SourceNode.Position.y + dragging_Position.y + (screenshot_TakeScreenshot ? 0 : 0),
+						outputSocket.socketRect.y + inputSocket.SourceNode.Position.y + dragging_Position.y,
 						outputSocket.socketRect.width, outputSocket.socketRect.height);
 
 					inputSocket.DrawConnection (new Vector3 (inputSocketRect.xMax, inputSocketRect.center.y),
@@ -891,7 +816,7 @@ namespace RPGCore.Behaviour.Editor
 
 			if (GUILayout.Button ("Load Graph", EditorStyles.toolbarButton, GUILayout.Width (100)))
 			{
-				controlID = EditorGUIUtility.GetControlID (FocusType.Passive);
+				controlID = GUIUtility.GetControlID (FocusType.Passive);
 				EditorGUIUtility.ShowObjectPicker<BehaviourGraph> (targetGraph, false, "", controlID);
 			}
 
@@ -1040,21 +965,21 @@ namespace RPGCore.Behaviour.Editor
 			}
 		}
 
-		private void DrawBackground (Rect screenRect, Vector2 viewPosition)
+		private void DrawBackground (Rect backgroundRect, Vector2 viewPosition)
 		{
 			if (Event.current.type == EventType.MouseMove)
 				return;
 
 			if (targetGraph == null)
 			{
-				EditorGUI.LabelField (screenRect, "No Graph Selected", BehaviourGUIStyles.Instance.informationTextStyle);
+				EditorGUI.LabelField (backgroundRect, "No Graph Selected", BehaviourGUIStyles.Instance.informationTextStyle);
 				return;
 			}
 
 #if HOVER_EFFECTS
 			if (dragging_IsDragging)
 			{
-				EditorGUIUtility.AddCursorRect (screenRect, MouseCursor.Pan);
+				EditorGUIUtility.AddCursorRect (backgroundRect, MouseCursor.Pan);
 			}
 #endif
 
@@ -1063,18 +988,18 @@ namespace RPGCore.Behaviour.Editor
 
 			float gridScale = 0.5f;
 
-			DrawImageTiled (screenRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale * 3);
+			DrawImageTiled (backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale * 3);
 
 			Color originalTintColour = GUI.color;
 
 			GUI.color = new Color (1, 1, 1, 0.6f);
-			DrawImageTiled (screenRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale);
+			DrawImageTiled (backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale);
 
 			GUI.color = originalTintColour;
 
 			if (Application.isPlaying)
 			{
-				Rect runtimeInfo = new Rect (screenRect);
+				Rect runtimeInfo = new Rect (backgroundRect);
 				runtimeInfo.yMin = runtimeInfo.yMax - 48;
 				EditorGUI.LabelField (runtimeInfo, "Playmode Enabled: You may change values but you can't edit connections",
 					BehaviourGUIStyles.Instance.informationTextStyle);
@@ -1111,12 +1036,12 @@ namespace RPGCore.Behaviour.Editor
 			for (int i = 0; i < targetGraph.Nodes.Count; i++)
 			{
 				var node = targetGraph.Nodes[i];
-				Vector2 position = targetGraph.Nodes[i].Position;
-				bounds.xMin = Mathf.Min (bounds.xMin, position.x);
-				bounds.xMax = Mathf.Max (bounds.xMax, position.x + node.GetDiamentions ().x);
+				Vector2 viewPosition = targetGraph.Nodes[i].Position;
+				bounds.xMin = Mathf.Min (bounds.xMin, viewPosition.x);
+				bounds.xMax = Mathf.Max (bounds.xMax, viewPosition.x + node.GetDiamentions ().x);
 
-				bounds.yMin = Mathf.Min (bounds.yMin, position.y);
-				bounds.yMax = Mathf.Max (bounds.yMax, position.y + node.GetDiamentions ().y);
+				bounds.yMin = Mathf.Min (bounds.yMin, viewPosition.y);
+				bounds.yMax = Mathf.Max (bounds.yMax, viewPosition.y + node.GetDiamentions ().y);
 			}
 
 			dragging_Position = new Vector2 (screenRect.width * 0.5f, screenRect.height * 0.5f) - Vector2Int.RoundToInt (bounds.center);
@@ -1202,6 +1127,116 @@ namespace RPGCore.Behaviour.Editor
 			targetGraph.Nodes = actions;
 
 			EditorUtility.SetDirty (targetGraph);
+		}
+		private void BuildAddMenu ()
+		{
+			AddNodeMenu = new GenericMenu ();
+
+			var MenuStructure = new Dictionary<string, Dictionary<string, List<Type>>> ();
+
+			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies ();
+
+			for (int a = 0; a < assemblies.Length; a++)
+			{
+				Assembly assembly = assemblies[a];
+				Type[] types = assembly.GetTypes ();
+
+				for (int t = 0; t < types.Length; t++)
+				{
+					Type type = types[t];
+
+					if (type.IsAbstract)
+						continue;
+
+					if (typeof (BehaviourNode).IsAssignableFrom (type))
+					{
+						string elementName;
+						string nodeGroup = "";
+
+						object[] obj = type.GetCustomAttributes (typeof (NodeInformationAttribute), false);
+						if (obj.Length == 0)
+						{
+							elementName = ObjectNames.NicifyVariableName (type.Name).Replace (" Node", "");
+							if (elementName.Contains ("Input"))
+								nodeGroup = "Input";
+						}
+						else
+						{
+							NodeInformationAttribute attribute = (NodeInformationAttribute)obj[0];
+							nodeGroup = attribute.Group;
+							elementName = attribute.Name;
+						}
+
+						int lastSeperator = elementName.LastIndexOf ('/');
+						string nodePath;
+						if (lastSeperator == -1)
+						{
+							nodePath = "";
+						}
+						else
+						{
+							nodePath = elementName.Substring (0, lastSeperator);
+						}
+
+						Dictionary<string, List<Type>> groupsDictionary;
+						bool result = MenuStructure.TryGetValue (nodePath, out groupsDictionary);
+						if (!result)
+						{
+							groupsDictionary = new Dictionary<string, List<Type>> ();
+							MenuStructure.Add (nodePath, groupsDictionary);
+						}
+
+						List<Type> group;
+						result = groupsDictionary.TryGetValue (nodeGroup, out group);
+						if (!result)
+						{
+							group = new List<Type> ();
+							groupsDictionary.Add (nodeGroup, group);
+						}
+
+						group.Add (type);
+					}
+				}
+			}
+
+			foreach (var path in MenuStructure)
+			{
+				bool seperated = false;
+				foreach (var group in path.Value)
+				{
+					if (seperated)
+						AddNodeMenu.AddSeparator (path.Key + "/");
+					else
+						seperated = true;
+
+					foreach (var node in group.Value)
+					{
+						object[] obj = node.GetCustomAttributes (typeof (NodeInformationAttribute), false);
+
+						if (obj.Length == 0)
+						{
+							string elementName = ObjectNames.NicifyVariableName (node.Name).Replace (" Node", "");
+
+							AddNodeMenu.AddItem (new GUIContent (elementName),
+									false, AddNodeCallback, node);
+						}
+						else
+						{
+							NodeInformationAttribute nodeInformation = (NodeInformationAttribute)obj[0];
+
+							if (nodeInformation.OnlyOne && targetGraph.GetNode (node) != null)
+							{
+								AddNodeMenu.AddDisabledItem (new GUIContent (nodeInformation.Name));
+							}
+							else
+							{
+								AddNodeMenu.AddItem (new GUIContent (nodeInformation.Name),
+										false, AddNodeCallback, node);
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

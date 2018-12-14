@@ -9,3 +9,4 @@ namespace RPGCore
 		public string Affix = "";
 	}
 }
+

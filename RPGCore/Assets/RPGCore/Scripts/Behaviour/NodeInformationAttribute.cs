@@ -6,6 +6,7 @@ namespace RPGCore.Behaviour
 	{
 		public string Name = "";
 		public string Group = "";
+		public bool OnlyOne;
 
 		public NodeInformationAttribute (string nodeName)
 		{

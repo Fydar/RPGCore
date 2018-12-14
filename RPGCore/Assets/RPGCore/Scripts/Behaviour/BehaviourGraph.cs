@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPGCore.Behaviour
@@ -11,18 +12,23 @@ namespace RPGCore.Behaviour
 		public T GetNode<T> ()
 			where T : BehaviourNode
 		{
+			return (T)GetNode (typeof (T));
+		}
+
+		public BehaviourNode GetNode (Type nodeType)
+		{
 			foreach (BehaviourNode node in Nodes)
 			{
-				if (typeof (T).IsAssignableFrom (node.GetType ()))
+				if (nodeType.IsAssignableFrom (node.GetType ()))
 				{
-					return (T)node;
+					return node;
 				}
 			}
 			return null;
 		}
 
 		public T[] GetNodes<T> ()
-			where T : BehaviourNode
+			where T : class
 		{
 			List<T> foundNodes = new List<T> ();
 
@@ -30,7 +36,7 @@ namespace RPGCore.Behaviour
 			{
 				if (typeof (T).IsAssignableFrom (node.GetType ()))
 				{
-					foundNodes.Add ((T)node);
+					foundNodes.Add ((T)(object)node);
 				}
 			}
 			return foundNodes.ToArray ();
@@ -71,3 +77,4 @@ namespace RPGCore.Behaviour
 		}
 	}
 }
+

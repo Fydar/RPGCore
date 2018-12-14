@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[NodeInformation ("Buff/Input", "Input")]
-	public class BuffInputNode : BehaviourNode
+	[NodeInformation ("Buff/Input", "Input", OnlyOne = true)]
+	public class BuffInputNode : BehaviourNode, IInputNode<Buff>
 	{
 		public CharacterOutput Target;
 		public EventOutput Apply;
@@ -54,25 +54,19 @@ namespace RPGCore
 			applyOutput.Invoke ();
 		}
 
-		public void SetTarget (IBehaviourContext context, RPGCharacter target)
-		{
-			ConnectionEntry<RPGCharacter> targetOutput = Target[context];
-
-			targetOutput.Value = target;
-		}
-
-		public void SetRPGCoreBuff (IBehaviourContext context, Buff buff)
+		public void SetTarget (IBehaviourContext context, Buff target)
 		{
 			ConnectionEntry<int> stackSizeOutput = StackSize[context];
 			EventEntry onTickOutput = OnTick[context];
 
-			stackSizeOutput.Value = buff.StackSize.Value;
-			buff.StackSize.onChanged += () =>
+			stackSizeOutput.Value = target.StackSize.Value;
+			target.StackSize.onChanged += () =>
 			{
-				stackSizeOutput.Value = buff.StackSize.Value;
+				stackSizeOutput.Value = target.StackSize.Value;
 			};
 
-			buff.OnTick += onTickOutput.Invoke;
+			target.OnTick += onTickOutput.Invoke;
 		}
 	}
 }
+

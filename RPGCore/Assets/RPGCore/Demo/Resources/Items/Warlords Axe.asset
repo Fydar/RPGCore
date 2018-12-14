@@ -12,19 +12,20 @@ MonoBehaviour:
   m_Name: Warlords Axe
   m_EditorClassIdentifier: 
   Nodes:
-  - {fileID: 114149137312397646}
+  - {fileID: 114290163055939356}
   - {fileID: 114090304216455308}
+  - {fileID: 114863848693039650}
+  - {fileID: 114780844282671146}
   - {fileID: 114305048296222570}
   - {fileID: 114536852143800956}
   - {fileID: 114644238691082142}
-  - {fileID: 114780844282671146}
-  - {fileID: 114863848693039650}
   - {fileID: 114959883122913088}
+  - {fileID: 114149137312397646}
   renderPrefab: {fileID: 1777803201150668, guid: ace2d25ac605da34e88164d6fa6537d3,
     type: 2}
   renderScale: 1
   itemName: Warlords Axe
-  description: Upon taking 50 damage in 1 second, you gain a shield for 100 health.
+  description: A trusty old axe brought into war by Orcish Warlords.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
   prefix: {fileID: 11400000, guid: 49bdd1e99a563874ca52448082d80b60, type: 2}
@@ -83,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd673f3a71ffba428fb5751f66a7a5f, type: 3}
   m_Name: Weapon Input
   m_EditorClassIdentifier: 
-  Position: {x: 12.5, y: 591}
+  Position: {x: 31.5, y: 619}
   AttackDamage:
     drawRect:
       serializedVersion: 2
@@ -138,6 +139,21 @@ MonoBehaviour:
       y: 110
       width: 190
       height: 16
+--- !u!114 &114290163055939356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a75cc3ce6af06f4ea7712fb6590e95b, type: 3}
+  m_Name: Effect Tooltip
+  m_EditorClassIdentifier: 
+  Position: {x: 529, y: 491.5}
+  Template: Upon taking 50 damage in 1 second, you gain a shield for 100 health.
+  Values:
+  - 0
 --- !u!114 &114305048296222570
 MonoBehaviour:
   m_ObjectHideFlags: 1

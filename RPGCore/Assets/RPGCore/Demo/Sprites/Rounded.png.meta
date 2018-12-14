@@ -10,6 +10,7 @@ TextureImporter:
     21300010: Rounded_BottomLeft
     21300012: Rounded_TopLeft
     21300014: Rounded_Left
+    21300016: Rounded_Right
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -280,6 +281,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f5deb64e347675447b6a5ac1e761879a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rounded_Right
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 0
+        width: 42
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 41, z: 41, w: 41}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a47ac4ebc355304589a5cd30a09fd06
       vertices: []
       indices: 
       edges: []

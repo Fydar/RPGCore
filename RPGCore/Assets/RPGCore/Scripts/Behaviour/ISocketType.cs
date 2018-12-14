@@ -5,3 +5,4 @@
 		T Value { get; set; }
 	}
 }
+

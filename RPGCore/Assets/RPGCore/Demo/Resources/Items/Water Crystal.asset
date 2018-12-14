@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Water Crystal
   m_EditorClassIdentifier: 
   Nodes:
+  - {fileID: 114667274656222990}
   - {fileID: 114547655760297634}
   - {fileID: 114733995585982254}
   - {fileID: 114657834694962708}
@@ -340,6 +341,21 @@ MonoBehaviour:
       y: 56
       width: 130
       height: 16
+--- !u!114 &114667274656222990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a75cc3ce6af06f4ea7712fb6590e95b, type: 3}
+  m_Name: Effect Tooltip
+  m_EditorClassIdentifier: 
+  Position: {x: 232, y: 503.5}
+  Template: Grants Water Bolts
+  Values:
+  - 0
 --- !u!114 &114733995585982254
 MonoBehaviour:
   m_ObjectHideFlags: 1

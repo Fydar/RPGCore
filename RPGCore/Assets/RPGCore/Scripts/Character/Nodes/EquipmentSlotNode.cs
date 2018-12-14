@@ -21,7 +21,7 @@ namespace RPGCore
 			ConnectionEntry<RPGCharacter> targetInput = Target[context];
 			ConnectionEntry<ItemSurrogate> itemOutput = Item[context];
 			ConnectionEntry<bool> isEquippedOutput = IsEquipped[context];
-			
+
 			Action eventHandler = () =>
 			{
 				if (targetInput.Value == null)
@@ -45,7 +45,7 @@ namespace RPGCore
 			};
 
 			eventHandler ();
-			
+
 			bool isActive = false;
 			Action subscriber = () =>
 			{
@@ -61,7 +61,7 @@ namespace RPGCore
 #pragma warning disable
 					var entry = EquipmentInformationDatabase.Instance.EquipmentInfos[EquipmentSlot];
 #pragma warning restore
-					
+
 					targetInput.Value.equipment.Items[EquipmentSlot.entryIndex].onAfterChanged += eventHandler;
 				}
 

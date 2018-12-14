@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using RPGCore.Audio;
 using RPGCore.Tables;
+using RPGCore.Behaviour;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -146,6 +147,14 @@ namespace RPGCore
 				template = this
 			};
 
+			SetupGraph (newItem);
+
+			IInputNode<ItemSurrogate>[] itemNodes = GetNodes<IInputNode<ItemSurrogate>> ();
+			foreach (var itemNode in itemNodes)
+			{
+				itemNode.SetTarget (newItem, newItem);
+			}
+
 			if (prefix != null)
 			{
 				EnchantmentTemplate template = prefix.GetEnchantment ();
@@ -165,26 +174,6 @@ namespace RPGCore
 					newItem.Suffix = new Enchantment (template);
 				}
 			}
-
-
-			SetupGraph (newItem);
-
-			ItemInputNode node = GetNode<ItemInputNode> ();
-			node.Item[newItem].Value = newItem;
-
-			newItem.owner.onChanged += () =>
-			{
-				if (node == null)
-					return;
-
-				node.Owner[newItem].Value = newItem.owner.Value;
-			};
-
-			node.StackSize[newItem].Value = newItem.Quantity;
-			newItem.data.quantity.onChanged += () =>
-			{
-				node.StackSize[newItem].Value = newItem.Quantity;
-			};
 
 			return newItem;
 		}
@@ -224,3 +213,4 @@ namespace RPGCore
 	}
 #endif
 }
+

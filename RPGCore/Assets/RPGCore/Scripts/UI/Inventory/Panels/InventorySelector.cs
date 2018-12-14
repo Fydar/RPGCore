@@ -148,3 +148,4 @@ namespace RPGCore.Inventories
 		#endregion
 	}
 }
+

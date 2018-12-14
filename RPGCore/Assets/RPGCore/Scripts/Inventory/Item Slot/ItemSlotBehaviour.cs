@@ -9,3 +9,4 @@
 		public abstract void OnSlotDisable (ItemSlot target);
 	}
 }
+

@@ -9,3 +9,4 @@ namespace RPGCore.Inventories
 		public EquipmentInformationCollection EquipmentInfos;
 	}
 }
+

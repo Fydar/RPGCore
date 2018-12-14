@@ -37,7 +37,7 @@ namespace RPGCore.UI
 
 		private State state = State.Hidden;
 		private float currentTime;
-		
+
 		private void Awake ()
 		{
 			Instance = this;
@@ -49,7 +49,7 @@ namespace RPGCore.UI
 		{
 			if (chatFader != null)
 			{
-				switch(state)
+				switch (state)
 				{
 					case State.FadingIn:
 						currentTime += Time.deltaTime / messageFadeIn;
@@ -73,9 +73,9 @@ namespace RPGCore.UI
 						break;
 					case State.FadingOut:
 						currentTime += Time.deltaTime / messageFadeOut;
-						chatFader.alpha = Mathf.Lerp(fadeOutAlpha, fadeInAlpha, 
+						chatFader.alpha = Mathf.Lerp (fadeOutAlpha, fadeInAlpha,
 							Mathf.Max (hoverFade.Update (), 1.0f - currentTime));
-						
+
 						if (currentTime >= 1.0f)
 						{
 							state = State.Hidden;

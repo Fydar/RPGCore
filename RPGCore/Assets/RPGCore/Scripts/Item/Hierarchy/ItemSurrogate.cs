@@ -18,9 +18,9 @@ namespace RPGCore
 
 		[Header ("Enchantments")]
 		[SerializeField]
-		private Enchantment prefix = null;
+		private Enchantment prefix;
 		[SerializeField]
-		private Enchantment suffix = null;
+		private Enchantment suffix;
 		[SerializeField]
 		private List<Enchantment> craftingMods = new List<Enchantment> ();
 
@@ -30,19 +30,35 @@ namespace RPGCore
 			{
 				return prefix;
 			}
-
 			set
 			{
+				if (prefix != null)
+				{
+					prefix.Template.RemoveGraph (prefix);
+				}
+
 				if (value == null)
 				{
-					data.suffixData.Reset ();
+					data.prefixData.Reset ();
+					prefix = null;
 					return;
 				}
 
 				data.prefixData = new EnchantmantData (value.Template);
 				prefix = value;
-
+				
 				value.Setup (this, data.prefixData);
+
+				if (prefix != null)
+				{
+					prefix.Template.SetupGraph (prefix);
+
+					IInputNode<ItemSurrogate>[] itemNodes = prefix.Template.GetNodes<IInputNode<ItemSurrogate>> ();
+					foreach (var itemNode in itemNodes)
+					{
+						itemNode.SetTarget (prefix, this);
+					}
+				}
 			}
 		}
 
@@ -52,12 +68,17 @@ namespace RPGCore
 			{
 				return suffix;
 			}
-
 			set
 			{
+				if (suffix != null)
+				{
+					suffix.Template.RemoveGraph (suffix);
+				}
+
 				if (value == null)
 				{
 					data.suffixData.Reset ();
+					suffix = null;
 					return;
 				}
 
@@ -65,6 +86,17 @@ namespace RPGCore
 				suffix = value;
 
 				value.Setup (this, data.suffixData);
+
+				if (suffix != null)
+				{
+					suffix.Template.SetupGraph (suffix);
+
+					IInputNode<ItemSurrogate>[] itemNodes = suffix.Template.GetNodes<IInputNode<ItemSurrogate>> ();
+					foreach (var itemNode in itemNodes)
+					{
+						itemNode.SetTarget (suffix, this);
+					}
+				}
 			}
 		}
 
@@ -108,10 +140,7 @@ namespace RPGCore
 				{
 					return Prefix.Affix;
 				}
-				else
-				{
-					return "";
-				}
+				return "";
 			}
 		}
 
@@ -123,10 +152,7 @@ namespace RPGCore
 				{
 					return Suffix.Affix;
 				}
-				else
-				{
-					return "";
-				}
+				return "";
 			}
 		}
 
@@ -214,7 +240,7 @@ namespace RPGCore
 		{
 			get
 			{
-				EquiptableNode equiptable = template.GetNode<EquiptableNode> ();
+				EquiptableItemNode equiptable = template.GetNode<EquiptableItemNode> ();
 
 				if (equiptable == null)
 					return Slot.None;

@@ -67,3 +67,4 @@ namespace RPGCore.Behaviour.Logic
 #endif
 	}
 }
+

@@ -15,3 +15,4 @@ namespace RPGCore.Quests
 		}
 	}
 }
+

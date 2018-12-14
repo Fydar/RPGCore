@@ -52,3 +52,4 @@ namespace RPGCore.Utility
 #endif
 	}
 }
+

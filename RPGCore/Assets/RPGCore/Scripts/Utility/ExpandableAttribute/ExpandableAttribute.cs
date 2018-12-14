@@ -82,7 +82,7 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 
 		if (targetObject == null)
 			return totalHeight;
-		
+
 		SerializedProperty field = targetObject.GetIterator ();
 
 		field.NextVisible (true);
@@ -112,7 +112,7 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 
 		if (property.objectReferenceValue == null)
 			return;
-		
+
 		property.isExpanded = EditorGUI.Foldout (fieldRect, property.isExpanded, GUIContent.none, true);
 
 		if (!property.isExpanded)
@@ -122,8 +122,8 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 
 		if (targetObject == null)
 			return;
-		
-		
+
+
 		#region Format Field Rects
 		List<Rect> propertyRects = new List<Rect> ();
 		Rect marchingRect = new Rect (fieldRect);
@@ -132,7 +132,7 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 		bodyRect.xMin += EditorGUI.indentLevel * 14;
 		bodyRect.yMin += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing
 			+ OUTER_SPACING;
-		
+
 		SerializedProperty field = targetObject.GetIterator ();
 		field.NextVisible (true);
 
@@ -203,19 +203,20 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 	/// <param name="rect">The Rect where the background is drawn.</param>
 	private void DrawBackground (Rect rect)
 	{
-		switch (BACKGROUND_STYLE) {
+		switch (BACKGROUND_STYLE)
+		{
 
-		case BackgroundStyles.HelpBox:
-			EditorGUI.HelpBox (rect, "", MessageType.None);
-			break;
+			case BackgroundStyles.HelpBox:
+				EditorGUI.HelpBox (rect, "", MessageType.None);
+				break;
 
-		case BackgroundStyles.Darken:
-			EditorGUI.DrawRect (rect, DARKEN_COLOUR);
-			break;
+			case BackgroundStyles.Darken:
+				EditorGUI.DrawRect (rect, DARKEN_COLOUR);
+				break;
 
-		case BackgroundStyles.Lighten:
-			EditorGUI.DrawRect (rect, LIGHTEN_COLOUR);
-			break;
+			case BackgroundStyles.Lighten:
+				EditorGUI.DrawRect (rect, LIGHTEN_COLOUR);
+				break;
 		}
 	}
 }

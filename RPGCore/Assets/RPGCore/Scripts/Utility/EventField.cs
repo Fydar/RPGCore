@@ -151,3 +151,4 @@ namespace RPGCore.Utility
 		}
 	}
 }
+

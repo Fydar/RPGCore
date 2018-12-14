@@ -17,17 +17,15 @@ namespace RPGCore.Stats
 		public ToggleFloatField MinValue = new ToggleFloatField (true, 0.0f);
 		public ToggleFloatField MaxValue = new ToggleFloatField (false, 1.0f);
 
-		public override float Filter (float original)
+		public override string RenderValue (float value)
 		{
-			original = base.Filter (original);
-
 			if (MinValue.Enabled)
-				original = Mathf.Max (original, MinValue.Value);
+				value = Mathf.Max (value, MinValue.Value);
 
 			if (MaxValue.Enabled)
-				original = Mathf.Min (original, MaxValue.Value);
+				value = Mathf.Min (value, MaxValue.Value);
 
-			return base.Filter (original);
+			return base.RenderValue (value);
 		}
 	}
 }

@@ -3,8 +3,8 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Item Input", "Input")]
-	public class ItemInputNode : BehaviourNode
+	[NodeInformation ("Item/Item Input", "Input", OnlyOne = true)]
+	public class ItemInputNode : BehaviourNode, IInputNode<ItemSurrogate>
 	{
 		public ItemOutput Item;
 		public CharacterOutput Owner;
@@ -22,7 +22,6 @@ namespace RPGCore
 			//equippedOutput.Value = character;
 			equippedOutput.OnBeforeChanged += () =>
 			{
-
 				if (equippedOutput.Value != null)
 				{
 					onLooseOutput.Invoke ();
@@ -31,7 +30,6 @@ namespace RPGCore
 
 			equippedOutput.OnAfterChanged += () =>
 			{
-
 				if (equippedOutput.Value != null)
 				{
 					onReceiveOutput.Invoke ();
@@ -44,6 +42,23 @@ namespace RPGCore
 			ConnectionEntry<RPGCharacter> equippedOutput = Owner[context];
 
 			equippedOutput.Value = null;
+		}
+
+		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
+		{
+			Item[context].Value = target;
+
+			Owner[context].Value = target.owner.Value;
+			target.owner.onChanged += () =>
+			{
+				Owner[context].Value = target.owner.Value;
+			};
+
+			StackSize[context].Value = target.Quantity;
+			target.data.quantity.onChanged += () =>
+			{
+				StackSize[context].Value = target.Quantity;
+			};
 		}
 	}
 }

@@ -36,10 +36,11 @@ namespace RPGCore
 			return GenerateItem (data);
 		}
 
-		public static ItemTier ItemTierRandom (ItemSurrogate Item, ItemTier min, ItemTier max)
+		public static ItemTier ItemTierRandom (ItemSurrogate item, ItemTier min, ItemTier max)
 		{
-			int random = StatGenerator.IntRange (Item, 0, (int)min, (int)max);
+			int random = StatGenerator.IntRange (item, 0, (int)min, (int)max);
 			return ((ItemTier)random);
 		}
 	}
 }
+

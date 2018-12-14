@@ -42,11 +42,11 @@ This graph in the game is interpreted by the tooltip system, which renders the "
 
 ![Fire Cape Tooltip][FireCapeTooltip]
 
-## Poison Potion
+## Enchantments
 
-Below is a poision potion. The user may drink it and take damage - though I'm not sure why they would want too.
+The graph system can also be used to add additional behaviours to an item as used in Enchantments.
 
-![Poison Potion][PoisonPotion]
+![Enchantments Tooltip][EnchantmentsTooltip]
 
 ## Buffs
 
@@ -72,3 +72,4 @@ This work is licensed under the Apache License, Version 2.0, meaning you are fre
 [ItemIcons]: ./Screenshots/FireCapeTooltip.png
 [FireCapeTooltip]: ./Screenshots/FireCapeTooltip.png
 [HealthPotion]: ./Screenshots/HealthPotion.png
+[EnchantmentsTooltip]: ./Screenshots/EnchantmentsTooltip.png

@@ -59,7 +59,7 @@ namespace RPGCore
 			{
 				buffTemplate.RemoveGraph (this);
 			};
-			buffInput.SetRPGCoreBuff (this, this);
+			buffInput.SetTarget (this, this);
 		}
 
 		public Buff (BuffWhilstNode buffNode, IBehaviourContext context)
@@ -76,7 +76,7 @@ namespace RPGCore
 			{
 				buffTemplate.RemoveGraph (this);
 			};
-			buffInput.SetRPGCoreBuff (this, this);
+			buffInput.SetTarget (this, this);
 		}
 
 		public Buff (BuffGrantNode buffNode, IBehaviourContext context)
@@ -93,7 +93,7 @@ namespace RPGCore
 			{
 				buffTemplate.RemoveGraph (this);
 			};
-			buffInput.SetRPGCoreBuff (this, this);
+			buffInput.SetTarget (this, this);
 		}
 
 		public Buff (BuffTemplate _buffTemplate, RPGCharacter _target, BuffClock baseClock)
@@ -112,7 +112,7 @@ namespace RPGCore
 			{
 				buffTemplate.RemoveGraph (this);
 			};
-			buffInput.SetRPGCoreBuff (this, this);
+			buffInput.SetTarget (this, this);
 		}
 
 		public BuffClock GetBaseClock ()
@@ -185,3 +185,4 @@ namespace RPGCore
 
 	}
 }
+

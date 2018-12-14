@@ -93,7 +93,7 @@ namespace RPGCore.Stats
 			return original;
 		}
 
-		public string RenderValue (float value)
+		public virtual string RenderValue (float value)
 		{
 			value = Filter (value);
 

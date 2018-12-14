@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c654d0c43ad96ad4ca883eef4acbac10, type: 3}
   m_Name: Destroy Item
   m_EditorClassIdentifier: 
-  Position: {x: 766, y: 387}
+  Position: {x: 770, y: 291}
   Event:
     drawRect:
       serializedVersion: 2
@@ -174,11 +174,50 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 114345745770665522}
     SourceField: True
-  Count:
+  Item:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114000012595290118}
+    SourceField: Item
+    defaultValue:
+      template: {fileID: 0}
+      data:
+        templateID: 0
+        seed:
+          internalValue: 0
+        quantity:
+          internalValue: -19
+        damaged:
+          internalValue: 0
+        tier:
+          internalValue: 1
+        experiance:
+          internalValue: 0
+        level:
+          internalValue: 0
+        prefixData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        suffixData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        runeData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        modsData: []
+      ItemTier: 0
+  Count:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
       width: 190
       height: 16
     SourceNode: {fileID: 0}
@@ -195,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61323b7adfd10d340b352d6f7be0e8c3, type: 3}
   m_Name: Grant Item
   m_EditorClassIdentifier: 
-  Position: {x: 766, y: 295}
+  Position: {x: 768, y: 381}
   Item:
     RewardTemplate: {fileID: 11400000, guid: 5f5d24479a3e12047ac373f146ea8980, type: 2}
     MinCount: 1
