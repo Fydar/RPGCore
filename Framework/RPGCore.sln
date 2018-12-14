@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runner", "Runner\Runner.csproj", "{5EC6394B-AAB5-488A-A3A9-86181E5A578A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Behaviour", "Behaviour\Behaviour.csproj", "{4A600118-AA98-46C2-9234-40F6ABBE8FAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EC6394B-AAB5-488A-A3A9-86181E5A578A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EC6394B-AAB5-488A-A3A9-86181E5A578A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EC6394B-AAB5-488A-A3A9-86181E5A578A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EC6394B-AAB5-488A-A3A9-86181E5A578A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A600118-AA98-46C2-9234-40F6ABBE8FAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A600118-AA98-46C2-9234-40F6ABBE8FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A600118-AA98-46C2-9234-40F6ABBE8FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A600118-AA98-46C2-9234-40F6ABBE8FAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9917936B-BCD1-49E4-897D-B2CA658CBA31}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal
