@@ -35,9 +35,7 @@ namespace RPGCore
 					if (!isActive)
 					{
 						var armourNode = targetInput.Value.Template.GetNode<ArmourInputNode> ();
-						var armourStat = armourNode.GetStat (context, Stat);
-
-						UnityEngine.Debug.Log ("Adding " + effectInput.Value + " to " + targetInput.Value.ToString());
+						var armourStat = armourNode.GetStat (targetInput.Value, Stat);
 
 						if (Scaling == AttributeInformation.ModifierType.Additive)
 							modifier = armourStat.AddFlatModifier (effectInput.Value);
@@ -50,7 +48,7 @@ namespace RPGCore
 				else if (isActive)
 				{
 					var armourNode = targetInput.Value.Template.GetNode<ArmourInputNode> ();
-					var weaponStat = armourNode.GetStat (context, Stat);
+					var weaponStat = armourNode.GetStat (targetInput.Value, Stat);
 
 					if (Scaling == AttributeInformation.ModifierType.Additive)
 						weaponStat.RemoveFlatModifier (modifier);
@@ -74,7 +72,7 @@ namespace RPGCore
 					return;
 
 				var weaponNode = targetInput.Value.Template.GetNode<ArmourInputNode> ();
-				var weaponStat = weaponNode.GetStat (context, Stat);
+				var weaponStat = weaponNode.GetStat (targetInput.Value, Stat);
 
 				if (Scaling == AttributeInformation.ModifierType.Additive)
 					weaponStat.RemoveFlatModifier (modifier);
