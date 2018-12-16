@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Name: Sharp
   m_EditorClassIdentifier: 
   Nodes:
-  - {fileID: 114902987022062310}
-  - {fileID: 114759145278241666}
+  - {fileID: 114809938254236398}
   - {fileID: 114991340809083294}
   Affix: Sharp
---- !u!114 &114759145278241666
+--- !u!114 &114809938254236398
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24,31 +23,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
-  m_Name: Equiptable
+  m_Script: {fileID: 11500000, guid: 4aadace5f21538e41a4eadf2d3b0f289, type: 3}
+  m_Name: Grant Weapon Stats
   m_EditorClassIdentifier: 
-  Position: {x: 70, y: 404}
-  slot: 0
-  Equipped:
-    drawRect:
-      serializedVersion: 2
-      x: 5
-      y: 38
-      width: 190
-      height: 16
---- !u!114 &114902987022062310
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
-  m_Name: Stats
-  m_EditorClassIdentifier: 
-  Position: {x: 396, y: 312}
-  entry:
+  Position: {x: 339.5, y: 255}
+  Stat:
     field: Attack
   Target:
     drawRect:
@@ -58,8 +37,37 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114991340809083294}
-    SourceField: Owner
-    defaultValue: {fileID: 0}
+    SourceField: Item
+    defaultValue:
+      template: {fileID: 0}
+      data:
+        templateID: 0
+        seed:
+          internalValue: 0
+        quantity:
+          internalValue: 1
+        damaged:
+          internalValue: 0
+        tier:
+          internalValue: 1
+        experiance:
+          internalValue: 0
+        level:
+          internalValue: 0
+        prefixData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        suffixData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        runeData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        modsData: []
+      ItemTier: 0
   Active:
     drawRect:
       serializedVersion: 2
@@ -67,9 +75,9 @@ MonoBehaviour:
       y: 56
       width: 190
       height: 16
-    SourceNode: {fileID: 114759145278241666}
-    SourceField: Equipped
-    defaultValue: 0
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 1
   Effect:
     drawRect:
       serializedVersion: 2
@@ -81,7 +89,6 @@ MonoBehaviour:
     SourceField: 
     defaultValue: 10
   Scaling: 0
-  Display: '{0}'
 --- !u!114 &114991340809083294
 MonoBehaviour:
   m_ObjectHideFlags: 1
