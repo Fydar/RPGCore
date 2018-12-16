@@ -11,8 +11,6 @@ public struct UniformScrollController : IEnumerable<ElementDrawer>, IEnumerator<
 
     private Rect marchingRect;
     private int currentIndex;
-    private float height;
-    private int elements;
 
     float maxOverflow;
     int maxElementCount;
@@ -24,8 +22,6 @@ public struct UniformScrollController : IEnumerable<ElementDrawer>, IEnumerator<
 
     public UniformScrollController(Rect area, float height, ref Vector2 offset, int elements)
     {
-        this.elements = elements;
-        this.height = height;
         currentIndex = 0;
 
         maxOverflow = area.height % height;

@@ -11,6 +11,7 @@ using UnityEditor;
 using System.Reflection;
 #if OPEN_SCRIPT
 using System.Runtime.CompilerServices;
+using RPGCore.Utility.Editors;
 #endif
 #endif
 
@@ -204,7 +205,7 @@ namespace RPGCore.Utility.InspectorLog
 		private static Texture SendIcon;
 		private static Texture ReceiveIcon;
 
-		private int logSize = 12;
+		private readonly int logSize = 12;
 
 		private Vector2 Offset = new Vector2(float.MinValue, 0);
 		private int SelectedIndex = -1;
@@ -222,6 +223,7 @@ namespace RPGCore.Utility.InspectorLog
 			if (log == null)
 			{
 				log = (InspectorLog)AdvancedGUI.GetTargetObjectOfProperty (property);
+				logParent = property.serializedObject.targetObject;
 
 				log.OnLogged += (InspectorLog.LogItem item) =>
 				{
