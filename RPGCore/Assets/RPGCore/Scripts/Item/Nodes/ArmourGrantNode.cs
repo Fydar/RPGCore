@@ -15,6 +15,20 @@ namespace RPGCore
 		public BoolInput Active;
 		public FloatInput Effect;
 		public AttributeInformation.ModifierType Scaling;
+		public string Display = "{0}";
+
+		public string Description (IBehaviourContext context)
+		{
+			ConnectionEntry<ItemSurrogate> targetInput = Target[context];
+			ConnectionEntry<float> effectInput = Effect[context];
+
+			if (targetInput.Value == null)
+				return "";
+
+			var info = ArmourStatInformationDatabase.Instance.ArmourStatInfos[Stat];
+
+			return Display.Replace ("{0}", info.RenderModifier (effectInput.Value, Scaling));
+		}
 
 		protected override void OnSetup (IBehaviourContext context)
 		{

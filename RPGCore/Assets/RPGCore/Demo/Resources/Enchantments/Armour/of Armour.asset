@@ -176,3 +176,4 @@ MonoBehaviour:
     SourceField: Output
     defaultValue: 0
   Scaling: 0
+  Display: '{0}'

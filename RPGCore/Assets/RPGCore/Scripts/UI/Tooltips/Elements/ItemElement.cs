@@ -85,21 +85,28 @@ namespace RPGCore.Tooltips
 
 				EffectTooltipNode[] enchantmentTooltipNodes = Enchantment.Template.GetNodes<EffectTooltipNode> ();
 				StatsNode[] enchantmentNodes = Enchantment.Template.GetNodes<StatsNode> ();
+				GrantWeaponStatsNode[] weaponStats = Enchantment.Template.GetNodes<GrantWeaponStatsNode> ();
+				ArmourGrantNode[] armourStats = Enchantment.Template.GetNodes<ArmourGrantNode> ();
 
-				if (enchantmentTooltipNodes.Length != 0 || enchantmentNodes.Length != 0)
+				if (enchantmentTooltipNodes.Length != 0 || enchantmentNodes.Length != 0 ||
+					weaponStats.Length != 0 || armourStats.Length != 0)
 				{
 					found = true;
 					for (int i = 0; i < enchantmentTooltipNodes.Length; i++)
 					{
-						EffectTooltipNode enchantmentTooltipNode = enchantmentTooltipNodes[i];
-
-						enchantmentTextPool.Grab (enchantmentsHolder).text = enchantmentTooltipNode.Description (Enchantment);
+						enchantmentTextPool.Grab (enchantmentsHolder).text = enchantmentTooltipNodes[i].Description (Enchantment);
 					}
 					for (int i = 0; i < enchantmentNodes.Length; i++)
 					{
-						StatsNode enchantmentStatNode = enchantmentNodes[i];
-
-						enchantmentTextPool.Grab (enchantmentsHolder).text = enchantmentStatNode.Description (Enchantment);
+						enchantmentTextPool.Grab (enchantmentsHolder).text = enchantmentNodes[i].Description (Enchantment);
+					}
+					for (int i = 0; i < weaponStats.Length; i++)
+					{
+						enchantmentTextPool.Grab (enchantmentsHolder).text = weaponStats[i].Description (Enchantment);
+					}
+					for (int i = 0; i < armourStats.Length; i++)
+					{
+						enchantmentTextPool.Grab (enchantmentsHolder).text = armourStats[i].Description (Enchantment);
 					}
 				}
 			}

@@ -10,10 +10,17 @@ namespace RPGCore.Audio
 		public MusicGroup Music;
 		public AudioSourcePool Pool;
 
+		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
+		static void OnRuntimeMethodLoad ()
+		{
+			GameObject singleton = new GameObject ("Audio Manager", typeof (AudioManager));
+			DontDestroyOnLoad (singleton);
+		}
 
 		private void Awake ()
 		{
 			instance = this;
+			Pool = new AudioSourcePool { PrewarmAmount = 5 };
 			Pool.Initialise (gameObject);
 		}
 
@@ -28,8 +35,8 @@ namespace RPGCore.Audio
 			AudioSource source = Pool.Grab ();
 
 			source.clip = group.GetClip ();
-			source.volume = UnityEngine.Random.Range (group.VolumeRange.x, group.VolumeRange.y);
-			source.pitch = UnityEngine.Random.Range (group.PitchRange.x, group.PitchRange.y);
+			source.volume = Random.Range (group.VolumeRange.x, group.VolumeRange.y);
+			source.pitch = Random.Range (group.PitchRange.x, group.PitchRange.y);
 			source.Play ();
 			StartCoroutine (ReturnToPool (source));
 		}
@@ -87,4 +94,3 @@ namespace RPGCore.Audio
 		}
 	}
 }
-

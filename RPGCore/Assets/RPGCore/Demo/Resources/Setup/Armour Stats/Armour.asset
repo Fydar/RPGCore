@@ -20,7 +20,7 @@ MonoBehaviour:
   multiplierNegativeFormat: '{0.##}% reduced {name}'
   accuracy: 0
   rounding: 0
-  Abbreviation: Att
+  Abbreviation: Arm
   StatColour:
     serializedVersion: 2
     rgba: 4282203575

@@ -19,6 +19,7 @@ namespace RPGCore.UI
 		public static Chat Instance;
 
 		[SerializeField] private InspectorLog editorLog;
+		[SerializeField] private InputField inputField;
 
 		[Header ("Text")]
 		[SerializeField] private RectTransform holder;
@@ -27,6 +28,7 @@ namespace RPGCore.UI
 		[Header ("Fading")]
 		[SerializeField] private CanvasGroup chatFader;
 		[SerializeField] private DuelFadeBool hoverFade;
+		[SerializeField] private DuelFadeBool inputtingFade;
 
 		[SerializeField] private float fadeOutAlpha = 0.2f;
 		[SerializeField] private float fadeInAlpha = 1.0f;
@@ -47,6 +49,8 @@ namespace RPGCore.UI
 
 		private void Update ()
 		{
+			inputtingFade.Target = inputField.isFocused;
+
 			if (chatFader != null)
 			{
 				switch (state)
@@ -54,7 +58,7 @@ namespace RPGCore.UI
 					case State.FadingIn:
 						currentTime += Time.deltaTime / messageFadeIn;
 						chatFader.alpha = Mathf.Lerp (fadeOutAlpha, fadeInAlpha,
-							Mathf.Max (hoverFade.Update (), currentTime));
+							Mathf.Max (hoverFade.Update (), currentTime, inputtingFade.Update ()));
 
 						if (currentTime >= 1.0f)
 						{
@@ -74,7 +78,7 @@ namespace RPGCore.UI
 					case State.FadingOut:
 						currentTime += Time.deltaTime / messageFadeOut;
 						chatFader.alpha = Mathf.Lerp (fadeOutAlpha, fadeInAlpha,
-							Mathf.Max (hoverFade.Update (), 1.0f - currentTime));
+							Mathf.Max (hoverFade.Update (), 1.0f - currentTime, inputtingFade.Update ()));
 
 						if (currentTime >= 1.0f)
 						{
@@ -83,7 +87,7 @@ namespace RPGCore.UI
 						}
 						break;
 					default:
-						chatFader.alpha = Mathf.Lerp (fadeOutAlpha, fadeInAlpha, hoverFade.Update ());
+						chatFader.alpha = Mathf.Max (Mathf.Lerp (fadeOutAlpha, fadeInAlpha, hoverFade.Update ()), inputtingFade.Update ());
 						break;
 				}
 			}
