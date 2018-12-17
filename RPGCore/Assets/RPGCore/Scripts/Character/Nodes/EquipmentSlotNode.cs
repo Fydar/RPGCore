@@ -8,8 +8,7 @@ namespace RPGCore
 	[NodeInformation ("Character/Equipment Slot")]
 	public class EquipmentSlotNode : BehaviourNode
 	{
-		[CollectionType (typeof (EquipmentCollection<>))]
-		public CollectionEntry EquipmentSlot;
+		public EquipmentEntry EquipmentSlot;
 
 		public CharacterInput Target;
 
@@ -31,7 +30,7 @@ namespace RPGCore
 					return;
 				}
 
-				var slotItem = targetInput.Value.equipment.Items[EquipmentSlot.entryIndex].Item;
+				var slotItem = targetInput.Value.equipment.Items[EquipmentSlot.Index].Item;
 				if (slotItem != null)
 				{
 					isEquippedOutput.Value = true;
@@ -57,12 +56,7 @@ namespace RPGCore
 
 				if (!isActive)
 				{
-
-#pragma warning disable
-					var entry = EquipmentInformationDatabase.Instance.EquipmentInfos[EquipmentSlot];
-#pragma warning restore
-
-					targetInput.Value.equipment.Items[EquipmentSlot.entryIndex].onAfterChanged += eventHandler;
+					targetInput.Value.equipment.Items[EquipmentSlot.Index].onAfterChanged += eventHandler;
 				}
 
 				isActive = true;
@@ -77,7 +71,7 @@ namespace RPGCore
 
 				if (isActive)
 				{
-					targetInput.Value.equipment.Items[EquipmentSlot.entryIndex].onAfterChanged -= eventHandler;
+					targetInput.Value.equipment.Items[EquipmentSlot.Index].onAfterChanged -= eventHandler;
 				}
 			};
 

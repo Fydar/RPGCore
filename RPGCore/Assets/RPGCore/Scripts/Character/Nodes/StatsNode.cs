@@ -9,8 +9,7 @@ namespace RPGCore
 	[NodeInformation ("Character/Grant Stat", "Attribute")]
 	public class StatsNode : BehaviourNode
 	{
-		[CollectionType (typeof (StatCollection<>))]
-		public CollectionEntry entry;
+		public StatEntry entry;
 
 		public CharacterInput Target;
 		public BoolInput Active;

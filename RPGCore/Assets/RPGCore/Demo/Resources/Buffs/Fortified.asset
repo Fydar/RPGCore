@@ -86,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: 516, y: 216}
   entry:
-    field: MovementSpeed
+    field: Armour
   Target:
     drawRect:
       serializedVersion: 2

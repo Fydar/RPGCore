@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: 311, y: 239}
   entry:
-    field: MaxHealth
+    field: Attack
   Target:
     drawRect:
       serializedVersion: 2

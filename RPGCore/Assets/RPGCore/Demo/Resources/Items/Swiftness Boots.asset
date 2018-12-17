@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: 317, y: 321}
   entry:
-    field: AttackSpeed
+    field: MovementSpeed
   Target:
     drawRect:
       serializedVersion: 2
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: 314, y: 38}
   entry:
-    field: MovementSpeed
+    field: MagicResistance
   Target:
     drawRect:
       serializedVersion: 2

@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: 512, y: 207}
   entry:
-    field: MovementSpeed
+    field: Attack
   Target:
     drawRect:
       serializedVersion: 2

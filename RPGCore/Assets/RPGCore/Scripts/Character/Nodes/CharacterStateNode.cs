@@ -7,8 +7,7 @@ namespace RPGCore
 	[NodeInformation ("Character/Read State", "Attribute")]
 	public class CharacterStateNode : BehaviourNode
 	{
-		[CollectionType (typeof (StateCollection<>))]
-		public CollectionEntry entry;
+		public StateEntry entry;
 
 		public FloatOutput Value;
 		public CharacterInput Target;

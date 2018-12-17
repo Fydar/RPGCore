@@ -89,6 +89,7 @@ MonoBehaviour:
     SourceField: 
     defaultValue: 10
   Scaling: 0
+  Display: '{0}'
 --- !u!114 &114991340809083294
 MonoBehaviour:
   m_ObjectHideFlags: 1

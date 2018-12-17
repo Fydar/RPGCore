@@ -6,9 +6,19 @@ namespace RPGCore
 {
 	public class CollectionInformation
 	{
-		public FieldInfo[] directFields = null;
-
-		public string[] fieldNames = null;
+		public FieldInfo[] directFields;
+		public string[] fieldNames;
+		
+		public int IndexOf (string fieldName)
+		{
+			for (int i = 0; i < fieldNames.Length; i++)
+			{
+				if (fieldNames[i] == fieldName)
+					return i;
+			}
+			UnityEngine.Debug.LogError ("\"" + fieldName + "\" is not a member of " + GetType ().Name + ".");
+			return -1;
+		}
 
 		public CollectionInformation (Type type)
 		{

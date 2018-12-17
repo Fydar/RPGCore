@@ -8,8 +8,7 @@ namespace RPGCore
 	[NodeInformation ("Item/Grant Armour Stat", "Attribute")]
 	public class ArmourGrantNode : BehaviourNode
 	{
-		[CollectionType (typeof (ArmourStatCollection<>))]
-		public CollectionEntry Stat;
+		public ArmourStatEntry Stat;
 
 		public ItemInput Target;
 		public BoolInput Active;

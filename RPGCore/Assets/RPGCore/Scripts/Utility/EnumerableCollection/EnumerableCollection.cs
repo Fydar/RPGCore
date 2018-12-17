@@ -14,15 +14,7 @@ namespace RPGCore
 
 		protected int IndexOf (string fieldName)
 		{
-			CollectionInformation information = ReflectionInformation ();
-
-			for (int i = 0; i < information.fieldNames.Length; i++)
-			{
-				if (information.fieldNames[i] == fieldName)
-					return i;
-			}
-			Debug.LogError ("\"" + fieldName + "\" is not a member of " + GetType ().Name + ".");
-			return -1;
+			return ReflectionInformation ().IndexOf (fieldName);
 		}
 
 		protected CollectionInformation ReflectionInformation ()
@@ -32,7 +24,7 @@ namespace RPGCore
 
 		public static CollectionInformation GetReflectionInformation (Type type)
 		{
-			Type collectionType = EnumerableCollection.BaseCollectionType (type);
+			Type collectionType = BaseCollectionType (type);
 			CollectionInformation information;
 
 			bool result = ReflectionCache.TryGetValue (collectionType, out information);
@@ -76,7 +68,7 @@ namespace RPGCore
 		private T[] fieldValues;
 
 		[NonSerialized]
-		private T[] arrayCache = null;
+		private T[] arrayCache;
 
 		public T this[CollectionEntry entry]
 		{
@@ -85,16 +77,7 @@ namespace RPGCore
 				if (arrayCache == null)
 					Collect ();
 
-				if (entry.entryIndex == -1)
-					entry.entryIndex = IndexOf (entry.Field);
-
-				if (entry.entryIndex == -1)
-				{
-					Debug.LogError ("EnumerableCollection not working");
-					return default (T);
-				}
-
-				return arrayCache[entry.entryIndex];
+				return arrayCache[entry.Index];
 			}
 		}
 

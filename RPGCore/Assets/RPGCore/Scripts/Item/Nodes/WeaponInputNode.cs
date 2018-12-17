@@ -27,23 +27,8 @@ namespace RPGCore
 
 		public StatInstance GetStat (IBehaviourContext context, CollectionEntry entry)
 		{
-			if (entry.entryIndex == -1)
-			{
-				var temp = WeaponStatInformationDatabase.Instance.WeaponStatInfos[entry];
-			}
-
 			WeaponStatInstanceCollection statsCollection = StatsMapping[context];
-			StatInstance stat = null;
-
-			if (entry.entryIndex == 0)
-				stat = statsCollection.Attack;
-			else if (entry.entryIndex == 1)
-				stat = statsCollection.AttackSpeed;
-			else if (entry.entryIndex == 2)
-				stat = statsCollection.CriticalStrikeChance;
-			else if (entry.entryIndex == 3)
-				stat = statsCollection.CriticalStrikeMultiplier;
-
+			StatInstance stat = statsCollection[entry];
 			return stat;
 		}
 

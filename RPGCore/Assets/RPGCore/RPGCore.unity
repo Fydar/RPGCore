@@ -18405,9 +18405,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localCharacter: {fileID: 458867839}
   state:
-    field: Experiance
+    field: 
   stat:
-    field: MaxMana
+    field: 
   TextField: {fileID: 0}
   TextFormat: '{0:0}/{1:0}'
   primaryBar: {fileID: 1818873435}

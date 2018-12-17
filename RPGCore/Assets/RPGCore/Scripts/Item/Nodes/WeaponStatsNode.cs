@@ -8,8 +8,7 @@ namespace RPGCore
 	[NodeInformation ("Item/Read Weapon Stat", "Attribute")]
 	public class WeaponStatsNode : BehaviourNode
 	{
-		[CollectionType (typeof (WeaponStatCollection<>))]
-		public CollectionEntry Stat;
+		public WeaponStatEntry Stat;
 
 		public ItemInput Target;
 		public FloatOutput Value;
@@ -31,18 +30,13 @@ namespace RPGCore
 
 				FloatInput localStatInput = null;
 
-				if (Stat.entryIndex == -1)
-				{
-					var temp = WeaponStatInformationDatabase.Instance.WeaponStatInfos[Stat];
-				}
-
-				if (Stat.entryIndex == 0)
+				if (Stat.Index == 0)
 					localStatInput = weaponNode.AttackDamage;
-				else if (Stat.entryIndex == 1)
+				else if (Stat.Index == 1)
 					localStatInput = weaponNode.AttackSpeed;
-				else if (Stat.entryIndex == 2)
+				else if (Stat.Index == 2)
 					localStatInput = weaponNode.CriticalChance;
-				else if (Stat.entryIndex == 3)
+				else if (Stat.Index == 3)
 					localStatInput = weaponNode.CriticalMultiplier;
 
 				valueInput.Value = localStatInput[targetInput.Value].Value;

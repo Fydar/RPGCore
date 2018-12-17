@@ -34,17 +34,7 @@ namespace RPGCore
 		public StatInstance GetStat (IBehaviourContext context, CollectionEntry entry)
 		{
 			ArmourStatInstanceCollection statsCollection = GetStats (context);
-
-			if (entry.entryIndex == -1)
-			{
-				var temp = ArmourStatInformationDatabase.Instance.ArmourStatInfos[entry];
-			}
-			
-			StatInstance stat = null;
-
-			if (entry.entryIndex == 0)
-				stat = statsCollection.Armour;
-
+			StatInstance stat = statsCollection[entry];
 			return stat;
 		}
 

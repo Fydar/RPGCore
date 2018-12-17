@@ -8,8 +8,7 @@ namespace RPGCore
 	[NodeInformation ("Item/Read Armour Stat", "Attribute")]
 	public class ArmourReadNode : BehaviourNode
 	{
-		[CollectionType (typeof (WeaponStatCollection<>))]
-		public CollectionEntry Stat;
+		public WeaponStatEntry Stat;
 
 		public ItemInput Target;
 		public FloatOutput Value;

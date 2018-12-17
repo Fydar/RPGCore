@@ -8,8 +8,7 @@ namespace RPGCore
 	[NodeInformation ("Item/Grant Weapon Stat", "Attribute")]
 	public class GrantWeaponStatsNode : BehaviourNode
 	{
-		[CollectionType (typeof (WeaponStatCollection<>))]
-		public CollectionEntry Stat;
+		public WeaponStatEntry Stat;
 
 		public ItemInput Target;
 		public BoolInput Active;

@@ -13,12 +13,10 @@ namespace RPGCore.Stats
 		[Space]
 
 		[SerializeField]
-		[CollectionType (typeof (StateCollection<>))]
-		private CollectionEntry state;
+		private StateEntry state;
 
 		[SerializeField]
-		[CollectionType (typeof (StatCollection<>))]
-		private CollectionEntry stat;
+		private StatEntry stat;
 
 		[Header ("Text")]
 		[SerializeField]

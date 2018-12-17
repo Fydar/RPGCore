@@ -9,8 +9,7 @@ namespace RPGCore.Inventories
 		public InventorySelector selector;
 
 		[Space]
-		[CollectionType (typeof (EquipmentCollection<>))]
-		public CollectionEntry EquipmentSlot;
+		public EquipmentEntry EquipmentSlot;
 		public bool autoSetup = true;
 
 		[Space]
@@ -42,11 +41,7 @@ namespace RPGCore.Inventories
 		{
 			if (!setup)
 			{
-#pragma warning disable
-				var entry = EquipmentInformationDatabase.Instance.EquipmentInfos[EquipmentSlot];
-#pragma warning restore
-
-				manager.Setup (character.equipment.Items[EquipmentSlot.entryIndex]);
+				manager.Setup (character.equipment.Items[EquipmentSlot.Index]);
 
 				if (selector != null)
 				{
