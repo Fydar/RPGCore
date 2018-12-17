@@ -3282,6 +3282,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: {fileID: 1978671076}
   Value: {fileID: 648850987}
+  defaultStatColor: {r: 0, g: 0, b: 0, a: 0}
+  enchantedStatColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &234002862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10268,6 +10270,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: {fileID: 968741841}
   Value: {fileID: 827289616}
+  defaultStatColor: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
+  enchantedStatColor: {r: 0.46274513, g: 0.43137258, b: 0.6784314, a: 1}
 --- !u!1 &897424692
 GameObject:
   m_ObjectHideFlags: 0
@@ -13765,6 +13769,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: {fileID: 1313265468}
   Value: {fileID: 1845322245}
+  defaultStatColor: {r: 0, g: 0, b: 0, a: 0}
+  enchantedStatColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1213270635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15725,6 +15731,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: {fileID: 862805257}
   Value: {fileID: 1807063924}
+  defaultStatColor: {r: 0, g: 0, b: 0, a: 0}
+  enchantedStatColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1372796083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17510,6 +17518,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: {fileID: 599997869}
   Value: {fileID: 623423097}
+  defaultStatColor: {r: 0, g: 0, b: 0, a: 0}
+  enchantedStatColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1539621361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21973,6 +21983,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: {fileID: 1482334558}
   Value: {fileID: 323184441}
+  defaultStatColor: {r: 0, g: 0, b: 0, a: 0}
+  enchantedStatColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1845322243
 GameObject:
   m_ObjectHideFlags: 0
@@ -22305,6 +22317,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: {fileID: 1408630124}
   Value: {fileID: 2105573317}
+  defaultStatColor: {r: 0, g: 0, b: 0, a: 0}
+  enchantedStatColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1875253792
 GameObject:
   m_ObjectHideFlags: 0
@@ -25549,6 +25563,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: {fileID: 10926311}
   Value: {fileID: 2116464263}
+  defaultStatColor: {r: 0, g: 0, b: 0, a: 0}
+  enchantedStatColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2102456321
 GameObject:
   m_ObjectHideFlags: 0

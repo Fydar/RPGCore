@@ -41,16 +41,16 @@ namespace RPGCore.Tooltips
 			var weaponNode = target.Template.GetNode<WeaponInputNode> ();
 			if (weaponNode != null)
 			{
-				statsPool.Grab (tableHolder).Setup ("Damage", weaponNode.GetStats(target).Attack.Value.ToString ("0") + "-" + weaponNode.AttackDamage[target].Value.ToString ("0") + " Phys");
-				statsPool.Grab (tableHolder).Setup ("Attack Speed", weaponNode.GetStats (target).AttackSpeed.Value.ToString ("0.00"));
-				statsPool.Grab (tableHolder).Setup ("Critical Chance", weaponNode.GetStats (target).CriticalStrikeChance.Value.ToString ("0.0") + " %");
-				statsPool.Grab (tableHolder).Setup ("Critical Multiplier", weaponNode.GetStats (target).CriticalStrikeMultiplier.Value.ToString ("0.0"));
+				statsPool.Grab (tableHolder).Setup ("Damage", weaponNode.GetStats(target).Attack.Value.ToString ("0") + "-" + weaponNode.GetStats (target).Attack.Value.ToString ("0") + " Phys", weaponNode.GetStats (target).Attack.ModifiersCount > 1);
+				statsPool.Grab (tableHolder).Setup ("Attack Speed", weaponNode.GetStats (target).AttackSpeed.Value.ToString ("0.00"), weaponNode.GetStats (target).AttackSpeed.ModifiersCount > 1);
+				statsPool.Grab (tableHolder).Setup ("Critical Chance", weaponNode.GetStats (target).CriticalStrikeChance.Value.ToString ("0.0") + " %", weaponNode.GetStats (target).CriticalStrikeChance.ModifiersCount > 1);
+				statsPool.Grab (tableHolder).Setup ("Critical Multiplier", weaponNode.GetStats (target).CriticalStrikeMultiplier.Value.ToString ("0.0"), weaponNode.GetStats (target).CriticalStrikeMultiplier.ModifiersCount > 1);
 			}
 
 			var armourNode = target.Template.GetNode<ArmourInputNode> ();
 			if (armourNode != null)
 			{
-				statsPool.Grab (tableHolder).Setup ("Armour", armourNode.GetStats (target).Armour.Value.ToString ("0"));
+				statsPool.Grab (tableHolder).Setup ("Armour", armourNode.GetStats (target).Armour.Value.ToString ("0"), armourNode.GetStats (target).Armour.ModifiersCount > 1);
 			}
 
 			EffectTooltipNode[] tooltipNodes = target.Template.GetNodes<EffectTooltipNode> ();

@@ -45,9 +45,9 @@ namespace RPGCore.Stats
 
 		public StatInformation Info;
 
-		[SerializeField] private float baseValue = 0.0f;
+		[SerializeField] private float baseValue;
 
-		private float lastValue = 0.0f;
+		private float lastValue;
 		private bool isDirty = true;
 
 		private List<Modifier> MultBaseModifiers = new List<Modifier> ();
@@ -90,6 +90,14 @@ namespace RPGCore.Stats
 			{
 				baseValue = value;
 				isDirty = true;
+			}
+		}
+
+		public int ModifiersCount
+		{
+			get
+			{
+				return MultBaseModifiers.Count + FlatModifiers.Count + MultModifiers.Count;
 			}
 		}
 
