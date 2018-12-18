@@ -93,7 +93,7 @@ namespace RPGCore.Utility.InspectorLog
             }
         }
 
-		public InspectorLog.LogItem this[int index]
+		public LogItem this[int index]
 		{
 			get
 			{
@@ -177,6 +177,8 @@ namespace RPGCore.Utility.InspectorLog
         public void Log(string message, LogCategory category)
         {
             LogItem item = new LogItem(message, category);
+			if (logHistory == null)
+				logHistory = new List<LogItem> ();
             logHistory.Add(item);
 
             if (OnLogged != null)
@@ -184,7 +186,7 @@ namespace RPGCore.Utility.InspectorLog
         }
 #endif
 
-        public void Clear()
+		public void Clear()
         {
             logHistory.Clear();
         }
