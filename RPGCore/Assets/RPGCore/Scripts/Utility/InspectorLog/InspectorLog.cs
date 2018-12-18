@@ -12,6 +12,7 @@ using System.Reflection;
 #if OPEN_SCRIPT
 using System.Runtime.CompilerServices;
 using RPGCore.Utility.Editors;
+using RPGCore.Editors.Utility;
 #endif
 #endif
 

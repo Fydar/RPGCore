@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
 using RPGCore.Utility.Editors;
+using RPGCore.Behaviour.Editor;
 #endif
 
 namespace RPGCore.Behaviour

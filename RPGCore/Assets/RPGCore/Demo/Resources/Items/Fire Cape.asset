@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
   m_Name: Equiptable
   m_EditorClassIdentifier: 
-  Position: {x: 21, y: 156}
+  Position: {x: 25, y: 150}
   slot: 2
   Equipped:
     drawRect:
@@ -194,6 +194,7 @@ MonoBehaviour:
       y: 38
       width: 190
       height: 16
+  RequiredLevel: 10
 --- !u!114 &114000014225598782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: 78, y: 230}
+  Position: {x: 82, y: 239}
   Min:
     drawRect:
       serializedVersion: 2

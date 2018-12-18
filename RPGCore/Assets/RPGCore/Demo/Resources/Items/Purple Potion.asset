@@ -97,6 +97,7 @@ MonoBehaviour:
       y: 38
       width: 190
       height: 16
+  RequiredLevel: 4
 --- !u!114 &114067241677864850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aedab93ae7c6a040850c7b0159cfae5, type: 3}
   m_Name: Activatable
   m_EditorClassIdentifier: 
-  Position: {x: 25, y: 230}
+  Position: {x: 27, y: 247}
   ManaCost:
     drawRect:
       serializedVersion: 2

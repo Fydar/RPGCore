@@ -7,7 +7,7 @@ using UnityEngine;
 namespace RPGCore
 {
 	[NodeInformation ("Character/Grant Stat", "Attribute")]
-	public class StatsNode : BehaviourNode
+	public class StatsNode : BehaviourNode, INodeDescription
 	{
 		public StatEntry entry;
 

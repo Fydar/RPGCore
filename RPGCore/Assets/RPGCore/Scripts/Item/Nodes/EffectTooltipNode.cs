@@ -6,7 +6,7 @@ using UnityEngine;
 namespace RPGCore
 {
 	[NodeInformation ("Item/Effect Tooltip", "Tooltip")]
-	public class EffectTooltipNode : BehaviourNode
+	public class EffectTooltipNode : BehaviourNode, INodeDescription
 	{
 		[TextArea (3, 5)]
 		public string Template = "{0} Effect";

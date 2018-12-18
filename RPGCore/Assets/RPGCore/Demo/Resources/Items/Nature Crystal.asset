@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: 51, y: 398}
+  Position: {x: 63, y: 409}
   Min:
     drawRect:
       serializedVersion: 2
@@ -56,7 +56,7 @@ MonoBehaviour:
       height: 16
     SourceNode: {fileID: 0}
     SourceField: 
-    defaultValue: 20
+    defaultValue: 18
   Max:
     drawRect:
       serializedVersion: 2
@@ -187,6 +187,7 @@ MonoBehaviour:
       y: 38
       width: 190
       height: 16
+  RequiredLevel: 8
 --- !u!114 &114000014225598782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65790af81e30374fa9c24ed064016c0, type: 3}
   m_Name: Roll Float
   m_EditorClassIdentifier: 
-  Position: {x: 52, y: 311}
+  Position: {x: 63, y: 314}
   Min:
     drawRect:
       serializedVersion: 2
@@ -341,7 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: 53, y: 218}
+  Position: {x: 62, y: 232}
   Min:
     drawRect:
       serializedVersion: 2

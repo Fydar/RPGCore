@@ -25,33 +25,12 @@ namespace RPGCore
 			return StatsMapping[context];
 		}
 
-		public StatInstance GetStat (IBehaviourContext context, CollectionEntry entry)
+		public StatInstance GetStat (ItemSurrogate context, CollectionEntry entry)
 		{
 			WeaponStatInstanceCollection statsCollection = StatsMapping[context];
 			StatInstance stat = statsCollection[entry];
 			return stat;
 		}
-
-		/*public FloatInput GetSocket(CollectionEntry entry)
-		{
-			if (entry.entryIndex == -1)
-			{
-				var temp = ArmourStatInformationDatabase.Instance.ArmourStatInfos[entry];
-			}
-
-			FloatInput localStatInput = null;
-
-			if (entry.entryIndex == 0)
-				localStatInput = AttackDamage;
-			else if (entry.entryIndex == 1)
-				localStatInput = AttackSpeed;
-			else if (entry.entryIndex == 2)
-				localStatInput = CriticalChance;
-			else if (entry.entryIndex == 3)
-				localStatInput = CriticalMultiplier;
-
-			return localStatInput;
-		}*/
 
 		protected override void OnSetup (IBehaviourContext context)
 		{

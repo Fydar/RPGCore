@@ -28,7 +28,7 @@ namespace RPGCore
 					return;
 				}
 
-				var localStatInput = weaponNode.GetStat (context, Stat);
+				var localStatInput = weaponNode.GetStat (targetInput.Value, Stat);
 				
 				valueInput.Value = localStatInput.Value;
 			};

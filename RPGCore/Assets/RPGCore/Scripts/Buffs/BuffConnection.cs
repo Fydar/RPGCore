@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System;
 using RPGCore.Behaviour;
-using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using RPGCore.Behaviour.Editor;
 #endif
 
 namespace RPGCore
@@ -64,4 +64,3 @@ namespace RPGCore
 #endif
 	}
 }
-

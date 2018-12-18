@@ -31,7 +31,7 @@ namespace RPGCore
 			return statsCollection;
 		}
 
-		public StatInstance GetStat (IBehaviourContext context, CollectionEntry entry)
+		public StatInstance GetStat (ItemSurrogate context, CollectionEntry entry)
 		{
 			ArmourStatInstanceCollection statsCollection = GetStats (context);
 			StatInstance stat = statsCollection[entry];

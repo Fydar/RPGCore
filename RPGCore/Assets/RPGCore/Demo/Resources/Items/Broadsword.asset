@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: 83, y: 222}
+  Position: {x: 83, y: 238}
   Min:
     drawRect:
       serializedVersion: 2
@@ -136,6 +136,7 @@ MonoBehaviour:
       y: 38
       width: 190
       height: 16
+  RequiredLevel: 6
 --- !u!114 &114000014225598782
 MonoBehaviour:
   m_ObjectHideFlags: 1
