@@ -115,7 +115,7 @@ namespace RPGCore
 			arrayCache = foundObjects.ToArray ();
 		}
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize ()
+		public void OnBeforeSerialize ()
 		{
 			Type thisType = GetType ();
 
@@ -154,7 +154,7 @@ namespace RPGCore
 			fieldValues = values.ToArray ();
 		}
 
-		void ISerializationCallbackReceiver.OnAfterDeserialize ()
+		public void OnAfterDeserialize ()
 		{
 			Type thisType = GetType ();
 

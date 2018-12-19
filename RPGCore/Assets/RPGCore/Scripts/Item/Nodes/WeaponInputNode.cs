@@ -18,7 +18,7 @@ namespace RPGCore
 		public EventOutput OnHit;
 
 		[NonSerialized]
-		public Dictionary<IBehaviourContext, WeaponStatInstanceCollection> StatsMapping = new Dictionary<IBehaviourContext, WeaponStatInstanceCollection>();
+		public Dictionary<IBehaviourContext, WeaponStatInstanceCollection> StatsMapping = new Dictionary<IBehaviourContext, WeaponStatInstanceCollection> ();
 
 		public WeaponStatInstanceCollection GetStats (IBehaviourContext context)
 		{

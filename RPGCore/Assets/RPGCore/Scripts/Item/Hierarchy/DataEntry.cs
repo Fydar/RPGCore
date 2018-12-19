@@ -6,7 +6,7 @@ using UnityEngine;
 namespace RPGCore
 {
 	[Serializable]
-	public class DataEntry : ISerializationCallbackReceiver
+	public sealed class DataEntry : ISerializationCallbackReceiver
 	{
 		private static BinaryFormatter Formatter = new BinaryFormatter ();
 

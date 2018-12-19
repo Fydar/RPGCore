@@ -383,12 +383,12 @@ namespace RPGCore.Inventories
 			TooltipManager.instance.Hide ();
 		}
 
-		void IPointerEnterHandler.OnPointerEnter (PointerEventData eventData)
+		public void OnPointerEnter (PointerEventData eventData)
 		{
 			Hover ();
 		}
 
-		void IPointerExitHandler.OnPointerExit (PointerEventData eventData)
+		public void OnPointerExit (PointerEventData eventData)
 		{
 			Unhover ();
 		}

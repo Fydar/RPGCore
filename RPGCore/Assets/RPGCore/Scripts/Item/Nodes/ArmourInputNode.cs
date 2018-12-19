@@ -13,7 +13,7 @@ namespace RPGCore
 
 		[NonSerialized]
 		public Dictionary<IBehaviourContext, ArmourStatInstanceCollection> StatsMapping = new Dictionary<IBehaviourContext, ArmourStatInstanceCollection> ();
-		
+
 		public ArmourStatInstanceCollection GetStats (IBehaviourContext context)
 		{
 			ArmourStatInstanceCollection statsCollection;
@@ -40,7 +40,7 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			
+
 		}
 
 		protected override void OnRemove (IBehaviourContext context)

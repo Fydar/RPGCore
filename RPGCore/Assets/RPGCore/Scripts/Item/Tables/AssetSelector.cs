@@ -30,9 +30,9 @@ namespace RPGCore.Tables
 			return default (T);
 		}
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize () { }
+		public void OnBeforeSerialize () { }
 
-		void ISerializationCallbackReceiver.OnAfterDeserialize ()
+		public void OnAfterDeserialize ()
 		{
 			float total = 0.0f;
 			for (int i = 0; i < Loot.Length; i++)

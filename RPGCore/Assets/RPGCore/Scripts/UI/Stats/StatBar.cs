@@ -8,7 +8,7 @@ namespace RPGCore.Stats
 	{
 		[Header ("Character")]
 		[SerializeField]
-		private RPGCharacter localCharacter = null;
+		private RPGCharacter localCharacter;
 
 		[Space]
 
@@ -20,16 +20,16 @@ namespace RPGCore.Stats
 
 		[Header ("Text")]
 		[SerializeField]
-		private Text TextField = null;
+		private Text TextField;
 		[SerializeField] private string TextFormat = "{0:#}/{1:#}";
 
 		[Header ("Primary Bar")]
 		[SerializeField]
-		private Image primaryBar = null;
+		private Image primaryBar;
 
 		[Header ("Secondary Bar")]
 		[SerializeField]
-		private Image secondaryBar = null;
+		private Image secondaryBar;
 		[SerializeField] private float secondaryBarDelay = 1.0f;
 
 		private void Start ()

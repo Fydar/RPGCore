@@ -8,7 +8,7 @@ namespace RPGCore
 	{
 		public FieldInfo[] directFields;
 		public string[] fieldNames;
-		
+
 		public int IndexOf (string fieldName)
 		{
 			for (int i = 0; i < fieldNames.Length; i++)

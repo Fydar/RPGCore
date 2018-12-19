@@ -50,7 +50,7 @@ namespace RPGCore.UI.CursorManagement
 			{
 				CursorStyle style = (CursorStyle)target;
 
-				return Instantiate(style.Graphic);
+				return Instantiate (style.Graphic);
 			}
 		}
 #endif

@@ -95,7 +95,7 @@ namespace RPGCore.Behaviour.Editor
 				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.DarkThemeIcon);
 			else
 				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
-			
+
 			BasicNodeMenu = new GenericMenu ();
 
 			BasicNodeMenu.AddItem (new GUIContent ("Duplicate"), false, DuplicateNodeCallback);
@@ -103,9 +103,9 @@ namespace RPGCore.Behaviour.Editor
 			BasicNodeMenu.AddSeparator ("");
 			BasicNodeMenu.AddItem (new GUIContent ("Ping Source"), false, PingSourceCallback);
 			BasicNodeMenu.AddItem (new GUIContent ("Open Script"), false, OpenScriptCallback);
-			
+
 			help_Info = new List<ConnectionInformationAttribute> ();
-			
+
 			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies ();
 			for (int a = 0; a < assemblies.Length; a++)
 			{
@@ -121,7 +121,7 @@ namespace RPGCore.Behaviour.Editor
 
 					if (typeof (BehaviourNode).IsAssignableFrom (type))
 					{
-						
+
 					}
 					else
 					{

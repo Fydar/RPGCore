@@ -54,7 +54,7 @@ namespace RPGCore.Tooltips
 			var weaponNode = target.Template.GetNode<WeaponInputNode> ();
 			if (weaponNode != null)
 			{
-				statsPool.Grab (tableHolder).Setup ("Damage", weaponNode.GetStats(target).Attack.Value.ToString ("0") + " Phys", weaponNode.GetStats (target).Attack.ModifiersCount > 1);
+				statsPool.Grab (tableHolder).Setup ("Damage", weaponNode.GetStats (target).Attack.Value.ToString ("0") + " Phys", weaponNode.GetStats (target).Attack.ModifiersCount > 1);
 				statsPool.Grab (tableHolder).Setup ("Attack Speed", weaponNode.GetStats (target).AttackSpeed.Value.ToString ("0.00"), weaponNode.GetStats (target).AttackSpeed.ModifiersCount > 1);
 				statsPool.Grab (tableHolder).Setup ("Critical Chance", weaponNode.GetStats (target).CriticalStrikeChance.Value.ToString ("0.0") + " %", weaponNode.GetStats (target).CriticalStrikeChance.ModifiersCount > 1);
 				statsPool.Grab (tableHolder).Setup ("Critical Multiplier", weaponNode.GetStats (target).CriticalStrikeMultiplier.Value.ToString ("0.0"), weaponNode.GetStats (target).CriticalStrikeMultiplier.ModifiersCount > 1);

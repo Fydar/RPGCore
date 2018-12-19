@@ -115,7 +115,7 @@ namespace RPGCore.Behaviour
 			[SerializeField, HideInInspector]
 			private T defaultValue;
 
-			private C defaultEntry = null;
+			private C defaultEntry;
 			private Dictionary<IBehaviourContext, C> contextCahce;
 
 			public C this[IBehaviourContext context]
@@ -326,7 +326,7 @@ namespace RPGCore.Behaviour
 			[SerializeField, HideInInspector]
 			private T defaultValue;
 
-			private C defaultEntry = null;
+			private C defaultEntry;
 			private Dictionary<IBehaviourContext, C> contextCahce;
 
 			public C GetEntry (IBehaviourContext context)
@@ -412,7 +412,7 @@ namespace RPGCore.Behaviour
 			public Action<C> OnAddEntry;
 			public Action<C> OnRemoveEntry;
 
-			private List<C> Entries;
+			private readonly List<C> Entries;
 
 			public EntryCollection ()
 			{
@@ -486,7 +486,7 @@ namespace RPGCore.Behaviour
 		{
 			public Dictionary<IBehaviourContext, EntryCollection> ContextCahce;
 
-			public IBehaviourContext currentContext = null;
+			public IBehaviourContext currentContext;
 
 			public EntryCollection GetEntry (IBehaviourContext context)
 			{

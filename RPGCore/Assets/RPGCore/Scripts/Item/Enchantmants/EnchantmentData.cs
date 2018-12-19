@@ -8,7 +8,7 @@ namespace RPGCore
 	{
 		public ShortEventField seed = new ShortEventField ();
 		public int EnchantmentID = -1;
-		
+
 		public EnchantmantData Duplicate ()
 		{
 			return new EnchantmantData (EnchantmentID, seed.Value);

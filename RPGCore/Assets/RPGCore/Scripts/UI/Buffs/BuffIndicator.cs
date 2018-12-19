@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace RPGCore
 {
 	[RequireComponent (typeof (RectTransform))]
-	public class BuffIndicator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public sealed class BuffIndicator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public Image Icon;
 		public Image Cooldown;

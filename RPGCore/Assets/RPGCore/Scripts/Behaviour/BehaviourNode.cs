@@ -174,9 +174,9 @@ namespace RPGCore.Behaviour
 		}
 
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize () { }
+		public void OnBeforeSerialize () { }
 
-		void ISerializationCallbackReceiver.OnAfterDeserialize ()
+		public void OnAfterDeserialize ()
 		{
 			var tempA = Inputs;
 			var tempB = Outputs;

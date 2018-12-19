@@ -46,7 +46,7 @@ namespace RPGCore
 
 				data.prefixData = new EnchantmantData (value.Template);
 				prefix = value;
-				
+
 				value.Setup (this, data.prefixData);
 
 				if (prefix != null)
