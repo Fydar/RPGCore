@@ -11,12 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Health Potion
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114656114756986456}
-  - {fileID: 114306276183888224}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114144150998033844}
   renderPrefab: {fileID: 1587268710521896, guid: e24f436b39ccce3419ce6e8d2a85073d,
     type: 2}
   renderScale: 1
@@ -30,6 +24,12 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114656114756986456}
+  - {fileID: 114306276183888224}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114144150998033844}
 --- !u!114 &114000012595290118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
   m_Name: Equiptable
   m_EditorClassIdentifier: 
-  Position: {x: 23, y: 155}
+  Position: {x: 24, y: 148}
   slot: 5
   Equipped:
     drawRect:

@@ -38,7 +38,6 @@ namespace RPGCore.Utility
 			}
 		}
 
-
 #if UNITY_EDITOR
 		[CustomPropertyDrawer (typeof (EventField<>), true)]
 		class EventFieldDrawer : PropertyDrawer

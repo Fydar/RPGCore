@@ -10,7 +10,6 @@ namespace RPGCore.Utility.Editors
 		public static Dictionary<Object, SerializedObject> Pool =
 			new Dictionary<Object, SerializedObject> ();
 
-
 		public static SerializedObject Grab (Object target)
 		{
 			SerializedObject serializedObject;

@@ -11,10 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Wizards Notes
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114384638886824652}
-  - {fileID: 114722783040986390}
-  - {fileID: 114000012595290118}
   renderPrefab: {fileID: 1352873928570662, guid: 8211f188194b9004b83cd85f111792c0,
     type: 2}
   renderScale: 1
@@ -28,6 +24,10 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: cf00189e3d1f4734db07e02858a1daf4, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114384638886824652}
+  - {fileID: 114722783040986390}
+  - {fileID: 114000012595290118}
 --- !u!114 &114000012595290118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,6 +95,7 @@ MonoBehaviour:
       y: 38
       width: 190
       height: 16
+  RequiredLevel: 1
 --- !u!114 &114722783040986390
 MonoBehaviour:
   m_ObjectHideFlags: 1

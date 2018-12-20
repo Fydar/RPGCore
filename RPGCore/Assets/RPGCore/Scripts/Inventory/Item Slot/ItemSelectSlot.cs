@@ -88,7 +88,6 @@ namespace RPGCore.Inventories
 
 		}
 
-
 		public override ItemSurrogate Item
 		{
 			get

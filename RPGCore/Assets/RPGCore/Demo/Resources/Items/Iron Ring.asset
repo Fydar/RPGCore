@@ -11,15 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Iron Ring
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114753716523987882}
-  - {fileID: 114221259803731210}
-  - {fileID: 114090235774298912}
-  - {fileID: 114612720934998030}
-  - {fileID: 114783774955335882}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1893719876870464, guid: e5efb86807d6a5b419c01e0b8a57b734,
     type: 2}
   renderScale: 1
@@ -33,6 +24,15 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114753716523987882}
+  - {fileID: 114221259803731210}
+  - {fileID: 114090235774298912}
+  - {fileID: 114612720934998030}
+  - {fileID: 114783774955335882}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000012595290118
 MonoBehaviour:
   m_ObjectHideFlags: 1

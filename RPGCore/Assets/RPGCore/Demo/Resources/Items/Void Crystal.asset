@@ -11,16 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Void Crystal
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114532303230981510}
-  - {fileID: 114920415121673734}
-  - {fileID: 114000011604143066}
-  - {fileID: 114000012520239498}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
-  - {fileID: 114657834694962708}
-  - {fileID: 114733995585982254}
   renderPrefab: {fileID: 1514006499747842, guid: 5b4b55f764e843e4581d2afbf8a778b1,
     type: 2}
   renderScale: 1
@@ -35,6 +25,16 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 3df4fd508ece5c44295e09e055ecd815, type: 2}
   icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114532303230981510}
+  - {fileID: 114920415121673734}
+  - {fileID: 114000011604143066}
+  - {fileID: 114000012520239498}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
+  - {fileID: 114657834694962708}
+  - {fileID: 114733995585982254}
 --- !u!114 &114000011604143066
 MonoBehaviour:
   m_ObjectHideFlags: 1

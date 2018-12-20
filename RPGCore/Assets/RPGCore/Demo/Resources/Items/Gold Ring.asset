@@ -11,17 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Gold Ring
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114319680266904850}
-  - {fileID: 114111860193575204}
-  - {fileID: 114701283382727504}
-  - {fileID: 114124909658967888}
-  - {fileID: 114507533929779086}
-  - {fileID: 114791197147637280}
-  - {fileID: 114000012520239498}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1015540330360812, guid: fe3166ad97b2fcd49829a138b32fa539,
     type: 2}
   renderScale: 1
@@ -35,6 +24,17 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 9b84b88051a7629408d9039fe0803f55, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114319680266904850}
+  - {fileID: 114111860193575204}
+  - {fileID: 114701283382727504}
+  - {fileID: 114124909658967888}
+  - {fileID: 114507533929779086}
+  - {fileID: 114791197147637280}
+  - {fileID: 114000012520239498}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000012520239498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  Position: {x: 311, y: 239}
+  Position: {x: 313, y: 165}
   entry:
     field: Attack
   Target:
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  Position: {x: 309, y: 95}
+  Position: {x: 311, y: 24}
   entry:
     field: MovementSpeed
   Target:
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ce7dc807f1f3a47bfcd5762e4e71ca, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  Position: {x: 315, y: 387}
+  Position: {x: 312, y: 304}
   entry:
     field: AttackSpeed
   Target:

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	public abstract class ItemTemplate : BehaviourGraph
+	public abstract class ItemTemplate : ScriptableObject, IBehaviourGraph
 	{
 		public abstract string BaseName { get; }
 		public abstract string Description { get; }
@@ -23,6 +23,7 @@ namespace RPGCore
 
 		public abstract IEnumerable<float[]> PositiveOverrides { get; }
 		public abstract IEnumerable<float[]> NegativeOverrides { get; }
+		public abstract List<BehaviourNode> AllNodes { get; set; }
 
 		public abstract ItemSurrogate GenerateItem (ItemData data);
 
@@ -43,4 +44,3 @@ namespace RPGCore
 		}
 	}
 }
-

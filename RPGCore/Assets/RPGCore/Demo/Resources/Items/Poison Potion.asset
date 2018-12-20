@@ -11,12 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Poison Potion
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114341882336454946}
-  - {fileID: 114970828679760148}
-  - {fileID: 114144150998033844}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
   renderPrefab: {fileID: 1530091864569518, guid: 91496cedcd2c99443a41f33d1800117a,
     type: 2}
   renderScale: 1
@@ -30,6 +24,12 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 9b84b88051a7629408d9039fe0803f55, type: 2}
   icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114341882336454946}
+  - {fileID: 114970828679760148}
+  - {fileID: 114144150998033844}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
 --- !u!114 &114000012595290118
 MonoBehaviour:
   m_ObjectHideFlags: 1

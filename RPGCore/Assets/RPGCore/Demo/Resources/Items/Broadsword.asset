@@ -11,12 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Broadsword
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114071813443185392}
-  - {fileID: 114000012453587092}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1383635164231046, guid: d401c00a2c9a78d45bfc8c38f225c583,
     type: 2}
   renderScale: 1
@@ -30,6 +24,12 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 9b84b88051a7629408d9039fe0803f55, type: 2}
   icon: {fileID: 21300018, guid: 655c3972ba86e194eaf49b218c641a9f, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114071813443185392}
+  - {fileID: 114000012453587092}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000012453587092
 MonoBehaviour:
   m_ObjectHideFlags: 1

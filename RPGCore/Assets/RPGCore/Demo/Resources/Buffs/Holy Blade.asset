@@ -11,17 +11,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e752e2050e534f549afccb643a342903, type: 3}
   m_Name: Holy Blade
   m_EditorClassIdentifier: 
-  Nodes:
+  Name: Holy Blade
+  Description: Your blade is enchanted with a holy aura.
+  Icon: {fileID: 21301028, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
+  Type: 1
+  nodes:
   - {fileID: 114882109298842752}
   - {fileID: 114747525204472470}
   - {fileID: 114650234626730850}
   - {fileID: 114006276085106616}
   - {fileID: 114023321236482196}
   - {fileID: 114955665412449186}
-  Name: Holy Blade
-  Description: Your blade is enchanted with a holy aura.
-  Icon: {fileID: 21301028, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
-  Type: 1
 --- !u!114 &114006276085106616
 MonoBehaviour:
   m_ObjectHideFlags: 1

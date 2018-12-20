@@ -11,7 +11,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Unholy Amulet
   m_EditorClassIdentifier: 
-  Nodes:
+  renderPrefab: {fileID: 1045331982350438, guid: b8b5f059892cd8240b0e1245bbc85946,
+    type: 2}
+  renderScale: 1.2
+  itemName: Unholy Amulet
+  description: Wispers of the dead suround this unholy amulet.
+  startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
+  endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
+  prefix: {fileID: 0}
+  suffix: {fileID: 0}
+  maxStack: 1
+  rarity: {fileID: 11400000, guid: faaf42fbae995f94a9e9f5d53b63fffd, type: 2}
+  icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
+  weight: 1
+  nodes:
   - {fileID: 114489728669284560}
   - {fileID: 114898611814577138}
   - {fileID: 114710225090156318}
@@ -26,19 +39,6 @@ MonoBehaviour:
   - {fileID: 114000012595290118}
   - {fileID: 114000012878574282}
   - {fileID: 114000014225598782}
-  renderPrefab: {fileID: 1045331982350438, guid: b8b5f059892cd8240b0e1245bbc85946,
-    type: 2}
-  renderScale: 1.2
-  itemName: Unholy Amulet
-  description: Wispers of the dead suround this unholy amulet.
-  startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
-  endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
-  prefix: {fileID: 0}
-  suffix: {fileID: 0}
-  maxStack: 1
-  rarity: {fileID: 11400000, guid: faaf42fbae995f94a9e9f5d53b63fffd, type: 2}
-  icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
-  weight: 1
 --- !u!114 &114000012595290118
 MonoBehaviour:
   m_ObjectHideFlags: 1

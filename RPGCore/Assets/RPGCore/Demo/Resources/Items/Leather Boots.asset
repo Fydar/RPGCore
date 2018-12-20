@@ -11,12 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Leather Boots
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114717879117449196}
-  - {fileID: 114000012520239498}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1081401021059500, guid: bb021dcab7338b04090a81f0ade0c81d,
     type: 2}
   renderScale: 1
@@ -24,12 +18,18 @@ MonoBehaviour:
   description: When slippers just won't cut it.
   startDrag: {fileID: 11400000, guid: c27c72318508af54f94ad1a6d0d9b5db, type: 2}
   endDrag: {fileID: 11400000, guid: 4000d824e8534c8479062e284dd39558, type: 2}
-  prefix: {fileID: 0}
+  prefix: {fileID: 11400000, guid: c502b480191dc4446a2052d7dfd7e6e2, type: 2}
   suffix: {fileID: 11400000, guid: 2c549b42b277a4f4f8b2ab994ef8bc44, type: 2}
   maxStack: 1
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114717879117449196}
+  - {fileID: 114000012520239498}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000012520239498
 MonoBehaviour:
   m_ObjectHideFlags: 1

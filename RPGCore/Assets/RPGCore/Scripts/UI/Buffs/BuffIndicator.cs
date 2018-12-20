@@ -13,8 +13,8 @@ namespace RPGCore
 		public Image Cooldown;
 		public Text StackSize;
 
-		private Buff buff = null;
-		private bool hovering = false;
+		private Buff buff;
+		private bool hovering;
 		private RectTransform rectTransform;
 
 		public void Setup (BuffsBar parent, Buff buff)

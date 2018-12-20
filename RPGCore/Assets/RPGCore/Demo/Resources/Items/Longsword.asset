@@ -11,12 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Longsword
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114043906145034176}
-  - {fileID: 114000012453587092}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1126366201229934, guid: 7a308528ebfd28c4ea6586cb21221cf8,
     type: 2}
   renderScale: 1
@@ -30,6 +24,12 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 9b84b88051a7629408d9039fe0803f55, type: 2}
   icon: {fileID: 21300018, guid: 655c3972ba86e194eaf49b218c641a9f, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114043906145034176}
+  - {fileID: 114000012453587092}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000012453587092
 MonoBehaviour:
   m_ObjectHideFlags: 1

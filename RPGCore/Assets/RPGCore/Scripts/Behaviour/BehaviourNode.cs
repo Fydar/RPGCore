@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 {
 	public abstract class BehaviourNode : ScriptableObject, ISerializationCallbackReceiver
 	{
-		private static FieldInfo[] collectionFields = null;
+		private static FieldInfo[] collectionFields;
 
 		[Header ("Node")]
 		public Vector2 Position;
@@ -21,9 +21,9 @@ namespace RPGCore.Behaviour
 		public Rect LastRect;
 
 		[NonSerialized]
-		private InputSocket[] inputs = null;
+		private InputSocket[] inputs;
 		[NonSerialized]
-		private OutputSocket[] outputs = null;
+		private OutputSocket[] outputs;
 
 		public InputSocket[] Inputs
 		{
@@ -61,7 +61,6 @@ namespace RPGCore.Behaviour
 				return collectionFields;
 			}
 		}
-
 
 		public void SetupContext (IBehaviourContext context)
 		{
@@ -172,7 +171,6 @@ namespace RPGCore.Behaviour
 
 			return foundObjects.ToArray ();
 		}
-
 
 		public void OnBeforeSerialize () { }
 

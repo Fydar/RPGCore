@@ -11,7 +11,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Warlords Axe
   m_EditorClassIdentifier: 
-  Nodes:
+  renderPrefab: {fileID: 1777803201150668, guid: ace2d25ac605da34e88164d6fa6537d3,
+    type: 2}
+  renderScale: 1
+  itemName: Warlords Axe
+  description: A trusty old axe brought into war by Orcish Warlords.
+  startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
+  endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
+  prefix: {fileID: 11400000, guid: 148ea788ff5ae774795a8bfdef8f800c, type: 2}
+  suffix: {fileID: 11400000, guid: 089737c5655c6a5428fd2594e76a9fe8, type: 2}
+  maxStack: 1
+  rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
+  icon: {fileID: 0}
+  weight: 1
+  nodes:
   - {fileID: 114290163055939356}
   - {fileID: 114090304216455308}
   - {fileID: 114863848693039650}
@@ -21,19 +34,6 @@ MonoBehaviour:
   - {fileID: 114644238691082142}
   - {fileID: 114959883122913088}
   - {fileID: 114149137312397646}
-  renderPrefab: {fileID: 1777803201150668, guid: ace2d25ac605da34e88164d6fa6537d3,
-    type: 2}
-  renderScale: 1
-  itemName: Warlords Axe
-  description: A trusty old axe brought into war by Orcish Warlords.
-  startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
-  endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
-  prefix: {fileID: 11400000, guid: 49bdd1e99a563874ca52448082d80b60, type: 2}
-  suffix: {fileID: 11400000, guid: 089737c5655c6a5428fd2594e76a9fe8, type: 2}
-  maxStack: 1
-  rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
-  icon: {fileID: 0}
-  weight: 1
 --- !u!114 &114090304216455308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -280,9 +280,9 @@ MonoBehaviour:
   Equipped:
     drawRect:
       serializedVersion: 2
-      x: 5
-      y: 38
-      width: 190
+      x: 14
+      y: 145
+      width: 256
       height: 16
   RequiredLevel: 8
 --- !u!114 &114780844282671146

@@ -11,8 +11,8 @@ namespace RPGCore.Inventories
 
 		public List<ItemSlot> Items;
 
-		private ItemSlotBehaviour[] Behaviours = null;
-		private ItemCondition[] Conditions = null;
+		private ItemSlotBehaviour[] Behaviours;
+		private ItemCondition[] Conditions;
 
 		private RPGCharacter owner;
 

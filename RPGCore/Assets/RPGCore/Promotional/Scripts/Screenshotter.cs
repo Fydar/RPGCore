@@ -19,10 +19,10 @@ namespace RPGCore.Promotional.Screenshotter
 		{
 			if (Input.GetKeyDown (Capture))
 			{
-
-				RenderTexture rt = new RenderTexture (resWidth, resHeight, 24);
-
-				rt.antiAliasing = 8;
+				RenderTexture rt = new RenderTexture (resWidth, resHeight, 24)
+				{
+					antiAliasing = 8
+				};
 
 				SourceCamera.targetTexture = rt;
 				Texture2D screenShot = new Texture2D (resWidth, resHeight, TextureFormat.RGBA32, false);

@@ -11,15 +11,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e752e2050e534f549afccb643a342903, type: 3}
   m_Name: Poison Blade
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114955665412449186}
-  - {fileID: 114867281064931946}
-  - {fileID: 114006276085106616}
-  - {fileID: 114023321236482196}
   Name: Poison Blade
   Description: Your blade is posioned, afflicting your targets on hit.
   Icon: {fileID: 21300816, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
   Type: 1
+  nodes:
+  - {fileID: 114955665412449186}
+  - {fileID: 114867281064931946}
+  - {fileID: 114006276085106616}
+  - {fileID: 114023321236482196}
 --- !u!114 &114006276085106616
 MonoBehaviour:
   m_ObjectHideFlags: 1

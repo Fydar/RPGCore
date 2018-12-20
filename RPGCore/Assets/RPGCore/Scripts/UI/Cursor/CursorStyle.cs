@@ -29,7 +29,6 @@ namespace RPGCore.UI.CursorManagement
 				Rect rect = GUILayoutUtility.GetRect (0, 64);
 				GUI.Box (rect, GUIContent.none, EditorStyles.helpBox);
 
-
 				CursorStyle style = (CursorStyle)target;
 
 				if (rect.Contains (Event.current.mousePosition))

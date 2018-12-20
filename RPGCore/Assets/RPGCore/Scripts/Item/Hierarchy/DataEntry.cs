@@ -10,8 +10,8 @@ namespace RPGCore
 	{
 		private static BinaryFormatter Formatter = new BinaryFormatter ();
 
-		[SerializeField] private byte[] data = null;
-		[NonSerialized] private object TargetObject = null;
+		[SerializeField] private byte[] data;
+		[NonSerialized] private object TargetObject;
 
 		public void SetValue<T> (T value)
 		{

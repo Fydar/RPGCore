@@ -11,18 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Knights Shield
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114944752648487810}
-  - {fileID: 114457384469111114}
-  - {fileID: 114135838449205474}
-  - {fileID: 114158897475917630}
-  - {fileID: 114167327690897474}
-  - {fileID: 114305048296222570}
-  - {fileID: 114644238691082142}
-  - {fileID: 114647760701196888}
-  - {fileID: 114667974605488560}
-  - {fileID: 114959883122913088}
-  - {fileID: 114991276650790632}
   renderPrefab: {fileID: 1837861099123844, guid: 0501d774531eb40449c85e68087d0dea,
     type: 2}
   renderScale: 0.95
@@ -36,6 +24,18 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 0}
   weight: 1
+  nodes:
+  - {fileID: 114944752648487810}
+  - {fileID: 114457384469111114}
+  - {fileID: 114135838449205474}
+  - {fileID: 114158897475917630}
+  - {fileID: 114167327690897474}
+  - {fileID: 114305048296222570}
+  - {fileID: 114644238691082142}
+  - {fileID: 114647760701196888}
+  - {fileID: 114667974605488560}
+  - {fileID: 114959883122913088}
+  - {fileID: 114991276650790632}
 --- !u!114 &114135838449205474
 MonoBehaviour:
   m_ObjectHideFlags: 1

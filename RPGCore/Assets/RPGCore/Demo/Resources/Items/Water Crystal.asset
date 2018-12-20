@@ -11,16 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Water Crystal
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114667274656222990}
-  - {fileID: 114547655760297634}
-  - {fileID: 114733995585982254}
-  - {fileID: 114657834694962708}
-  - {fileID: 114000011604143066}
-  - {fileID: 114000012520239498}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1922339205033732, guid: 084503c534f230d4b9caaf947131b66f,
     type: 2}
   renderScale: 1
@@ -35,6 +25,16 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: cf00189e3d1f4734db07e02858a1daf4, type: 2}
   icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114667274656222990}
+  - {fileID: 114547655760297634}
+  - {fileID: 114733995585982254}
+  - {fileID: 114657834694962708}
+  - {fileID: 114000011604143066}
+  - {fileID: 114000012520239498}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000011604143066
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -107,7 +107,6 @@ namespace RPGCore
 					return;
 
 				modifier.Value = effectInput.Value;
-				UnityEngine.Debug.Log ("Effect value " + modifier.Value);
 			};
 		}
 

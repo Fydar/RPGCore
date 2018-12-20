@@ -11,11 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Innate Crystal
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114064929340830944}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114733995585982254}
   renderPrefab: {fileID: 1688798459397728, guid: 0117e59cc57da18458274332f60cb615,
     type: 2}
   renderScale: 1
@@ -30,6 +25,11 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114064929340830944}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114733995585982254}
 --- !u!114 &114000012595290118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,6 +97,7 @@ MonoBehaviour:
       y: 38
       width: 190
       height: 16
+  RequiredLevel: 1
 --- !u!114 &114064929340830944
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -15167,6 +15167,15 @@ MonoBehaviour:
     Prefix: {fileID: 0}
     Suffix: {fileID: 0}
     Modifiers: []
+  - RewardTemplate: {fileID: 11400000, guid: 63153610ac031b54aa4d27e365793d3f, type: 2}
+    MinCount: 1
+    MaxCount: 1
+    OverridePrefix: 0
+    OverrideSuffix: 0
+    OverrideModifiers: 0
+    Prefix: {fileID: 0}
+    Suffix: {fileID: 0}
+    Modifiers: []
 --- !u!114 &1307751193
 MonoBehaviour:
   m_ObjectHideFlags: 0

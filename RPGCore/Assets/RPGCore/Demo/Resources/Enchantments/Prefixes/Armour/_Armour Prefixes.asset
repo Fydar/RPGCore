@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98d2a0af3003da4e9c8dc56f66e87f2, type: 3}
+  m_Name: _Armour Prefixes
+  m_EditorClassIdentifier: 
+  CategoryName: Weapon
+  PossibleEnchantments:
+    Loot:
+    - Balance: 4
+      Item: {fileID: 0}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: fcb2c4c82a90c744dac06c2a62f9fcbd, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: aa905fc24c7e6d749a1f00a20bacfa37, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: 1f0130484ee907d49a95a551b38ed6b2, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: aa905fc24c7e6d749a1f00a20bacfa37, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: 083fe7e5032acaa4dae309771cacdb7b, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: 0c26da4d31db9344a857ef979f42cfee, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: 7b95d5e3171712f4988d19301eaa24a2, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: bd81d60c7ca1af740b469ba37cdc0869, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: 9f6ac9df30a61e6488c590530642ef68, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: 4a94b70af3b74224a94e5e83577d3747, type: 2}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: abc500ad6cdab8f4096bcf853eee345d, type: 2}

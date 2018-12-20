@@ -11,16 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Nature Crystal
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114360566584542858}
-  - {fileID: 114265784962707406}
-  - {fileID: 114032883158786706}
-  - {fileID: 114092531551494050}
-  - {fileID: 114000011604143066}
-  - {fileID: 114000012520239498}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1823135602864642, guid: 53e6ccb057bf65747b90e011c4c9560a,
     type: 2}
   renderScale: 1
@@ -35,6 +25,16 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: cf00189e3d1f4734db07e02858a1daf4, type: 2}
   icon: {fileID: 21300004, guid: e8cad820c5f8af64da0bafc11c35d7ff, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114360566584542858}
+  - {fileID: 114265784962707406}
+  - {fileID: 114032883158786706}
+  - {fileID: 114092531551494050}
+  - {fileID: 114000011604143066}
+  - {fileID: 114000012520239498}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000011604143066
 MonoBehaviour:
   m_ObjectHideFlags: 1

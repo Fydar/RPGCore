@@ -11,7 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0986b2164a5a6940aa07657cad4a0d8, type: 3}
   m_Name: Cheat 1
   m_EditorClassIdentifier: 
-  Nodes: []
   Name: 
   Description: 
   Rewards:
@@ -33,3 +32,4 @@ MonoBehaviour:
     Prefix: {fileID: 0}
     Suffix: {fileID: 0}
     Modifiers: []
+  nodes: []

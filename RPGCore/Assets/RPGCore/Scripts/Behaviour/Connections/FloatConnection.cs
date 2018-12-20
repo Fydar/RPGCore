@@ -25,8 +25,6 @@ namespace RPGCore.Behaviour.Connections
 				BehaviourGraphResources.Instance.SmallConnection, 10);
 		}
 #endif
-
-
 	}
 
 	[Serializable]

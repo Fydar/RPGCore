@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using RPGCore.Audio;
-using RPGCore.Tables;
 using RPGCore.Behaviour;
 
 #if UNITY_EDITOR
@@ -42,6 +41,21 @@ namespace RPGCore
 
 		[HideInInspector] [SerializeField] private Sprite icon;
 		[HideInInspector] [SerializeField] private int weight = 1;
+
+		[UnityEngine.Serialization.FormerlySerializedAs ("Nodes")]
+		[SerializeField] private List<BehaviourNode> nodes;
+
+		public override List<BehaviourNode> AllNodes
+		{
+			get
+			{
+				return nodes;
+			}
+			set
+			{
+				AllNodes = value;
+			}
+		}
 
 		public override string BaseName
 		{
@@ -147,9 +161,9 @@ namespace RPGCore
 				template = this
 			};
 
-			SetupGraph (newItem);
+			this.SetupGraph (newItem);
 
-			IInputNode<ItemSurrogate>[] itemNodes = GetNodes<IInputNode<ItemSurrogate>> ();
+			IInputNode<ItemSurrogate>[] itemNodes = this.GetNodes<IInputNode<ItemSurrogate>> ();
 			foreach (var itemNode in itemNodes)
 			{
 				itemNode.SetTarget (newItem, newItem);
@@ -213,4 +227,3 @@ namespace RPGCore
 	}
 #endif
 }
-

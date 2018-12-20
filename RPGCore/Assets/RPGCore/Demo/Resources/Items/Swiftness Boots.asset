@@ -11,14 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Swiftness Boots
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114623182213608350}
-  - {fileID: 114879839127595658}
-  - {fileID: 114054066324501696}
-  - {fileID: 114000012520239498}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1091558966227260, guid: 84100a78558f9904cb74ad35689c7751,
     type: 2}
   renderScale: 1
@@ -26,12 +18,20 @@ MonoBehaviour:
   description: Aha! Boots for the impatient wizard! Exactly what I needed.
   startDrag: {fileID: 11400000, guid: c27c72318508af54f94ad1a6d0d9b5db, type: 2}
   endDrag: {fileID: 11400000, guid: 4000d824e8534c8479062e284dd39558, type: 2}
-  prefix: {fileID: 0}
+  prefix: {fileID: 11400000, guid: c502b480191dc4446a2052d7dfd7e6e2, type: 2}
   suffix: {fileID: 11400000, guid: 2c549b42b277a4f4f8b2ab994ef8bc44, type: 2}
   maxStack: 1
   rarity: {fileID: 11400000, guid: faaf42fbae995f94a9e9f5d53b63fffd, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114623182213608350}
+  - {fileID: 114879839127595658}
+  - {fileID: 114054066324501696}
+  - {fileID: 114000012520239498}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000012520239498
 MonoBehaviour:
   m_ObjectHideFlags: 1

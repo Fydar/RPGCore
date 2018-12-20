@@ -29,13 +29,12 @@ namespace RPGCore.Inventories
 		[SerializeField] private Text quantityText;
 		[SerializeField] private bool HideQuantityOnOne = true;
 
-		private bool hovered = false;
-		private bool faded = false;
+		private bool hovered;
+		private bool faded;
 
-
-		private ItemSlot _lastSlot = null;
-		private ItemSurrogate lastItem = null;
-		private ItemTemplate lastTemplate = null;
+		private ItemSlot _lastSlot;
+		private ItemSurrogate lastItem;
+		private ItemTemplate lastTemplate;
 
 		//3d Render Stuff
 		[SerializeField] private int id = 0;
@@ -193,7 +192,6 @@ namespace RPGCore.Inventories
 
 			lastItem = item;
 			lastTemplate = item.template;
-
 
 			if (rectTransform == null)
 				rectTransform = GetComponent<RectTransform> ();
