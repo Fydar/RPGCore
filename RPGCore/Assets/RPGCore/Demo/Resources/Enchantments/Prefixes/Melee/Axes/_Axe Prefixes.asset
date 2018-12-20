@@ -15,6 +15,8 @@ MonoBehaviour:
   PossibleEnchantments:
     Loot:
     - Balance: 1
-      Item: {fileID: 11400000, guid: 49bdd1e99a563874ca52448082d80b60, type: 2}
+      Item: {fileID: 0}
+    - Balance: 1
+      Item: {fileID: 11400000, guid: c502b480191dc4446a2052d7dfd7e6e2, type: 2}
     - Balance: 0.2
       Item: {fileID: 11400000, guid: 5fb8ebd253943a547a500d41c61f5894, type: 2}

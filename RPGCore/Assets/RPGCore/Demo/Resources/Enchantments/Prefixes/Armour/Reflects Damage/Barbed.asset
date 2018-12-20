@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: Effect Tooltip
   m_EditorClassIdentifier: 
   Position: {x: 65.5, y: 483.5}
-  Template: Reflects 25-50 Physical Damage to Melee Attackers
+  Template: Reflects 11-24 Physical Damage to Melee Attackers
   Values:
   - 0
 --- !u!114 &114557190736244430

@@ -9,12 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
-  m_Name: Warlords Axe
+  m_Name: Wood Axe
   m_EditorClassIdentifier: 
   renderPrefab: {fileID: 1777803201150668, guid: ace2d25ac605da34e88164d6fa6537d3,
     type: 2}
   renderScale: 1
-  itemName: Warlords Axe
+  itemName: Wood Axe
   description: A trusty old axe brought into war by Orcish Warlords.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
@@ -280,9 +280,9 @@ MonoBehaviour:
   Equipped:
     drawRect:
       serializedVersion: 2
-      x: 14
-      y: 145
-      width: 256
+      x: 5
+      y: 38
+      width: 190
       height: 16
   RequiredLevel: 8
 --- !u!114 &114780844282671146
@@ -398,17 +398,24 @@ MonoBehaviour:
     SourceNode: {fileID: 114305048296222570}
     SourceField: Owner
     defaultValue: {fileID: 0}
-  OnHit:
+  Attacker:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 38
       width: 190
       height: 16
-  DamageTaken:
+  OnHit:
     drawRect:
       serializedVersion: 2
       x: 5
       y: 56
+      width: 190
+      height: 16
+  DamageTaken:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
       width: 190
       height: 16
