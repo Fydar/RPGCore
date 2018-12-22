@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using RPGCore.Tables;
 
 #if UNITY_EDITOR
 using UnityEditor;

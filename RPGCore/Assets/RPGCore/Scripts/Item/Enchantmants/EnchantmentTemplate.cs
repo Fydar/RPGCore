@@ -9,7 +9,7 @@ namespace RPGCore
 	{
 		public string Affix = "";
 
-		[UnityEngine.Serialization.FormerlySerializedAs("Nodes")]
+		[UnityEngine.Serialization.FormerlySerializedAs ("Nodes")]
 		[SerializeField, HideInInspector] private List<BehaviourNode> nodes;
 
 		public List<BehaviourNode> AllNodes

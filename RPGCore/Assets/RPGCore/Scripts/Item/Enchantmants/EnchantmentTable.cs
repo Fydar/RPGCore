@@ -24,7 +24,7 @@ namespace RPGCore.Tables
 			var enchantment = PossibleEnchantments.Select ();
 			if (enchantment == null)
 				return null;
-			return enchantment.GetEnchantment();
+			return enchantment.GetEnchantment ();
 		}
 
 		public override string ToString ()
