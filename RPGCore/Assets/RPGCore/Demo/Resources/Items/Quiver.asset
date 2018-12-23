@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderPrefab: {fileID: 100002, guid: 9c6bf55ec42b288489a99e3ddc9b3f53, type: 3}
   renderScale: 1
-  itemName: Cloth
+  itemName: Quiver
   description: A quiver for holding arrows.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}

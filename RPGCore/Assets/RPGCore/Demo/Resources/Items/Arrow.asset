@@ -14,7 +14,7 @@ MonoBehaviour:
   renderPrefab: {fileID: 1674376982437814, guid: 26c20194c14e578418403eb8455262e3,
     type: 2}
   renderScale: 1
-  itemName: Cloth
+  itemName: Arrow
   description: Arrows to be shot from a bow.
   startDrag: {fileID: 11400000, guid: f3a831ff7a0558e498a4ef517b9d1c4b, type: 2}
   endDrag: {fileID: 11400000, guid: 7fde9d2b0d9702a40bc0ac4d8587d3d4, type: 2}
