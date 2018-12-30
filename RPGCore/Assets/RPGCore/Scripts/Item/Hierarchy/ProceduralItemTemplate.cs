@@ -53,7 +53,7 @@ namespace RPGCore
 			}
 			set
 			{
-				AllNodes = value;
+				nodes = value;
 			}
 		}
 
