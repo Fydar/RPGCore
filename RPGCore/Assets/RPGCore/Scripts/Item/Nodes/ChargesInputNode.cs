@@ -12,7 +12,7 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-
+			
 		}
 
 		protected override void OnRemove (IBehaviourContext context)
@@ -22,7 +22,9 @@ namespace RPGCore
 
 		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
 		{
+			var chargesData = target.data.dataCollection.AssureElement ("Charges");
 
+			//chargesData.SetValue (0);
 		}
 	}
 }

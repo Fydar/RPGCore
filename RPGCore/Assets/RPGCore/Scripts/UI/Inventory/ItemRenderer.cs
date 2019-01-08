@@ -26,6 +26,7 @@ namespace RPGCore.Inventories
 		[SerializeField] private Image newIcon;
 		[SerializeField] private Text nameText;
 		[Space]
+		[SerializeField] private bool quantityIsCharges;
 		[SerializeField] private Text quantityText;
 		[SerializeField] private bool HideQuantityOnOne = true;
 
@@ -128,17 +129,24 @@ namespace RPGCore.Inventories
 
 			if (quantityText != null)
 			{
-				quantityText.gameObject.SetActive (true);
-				if (generator.MinCount == generator.MaxCount)
+				if (quantityIsCharges)
 				{
-					if (generator.MinCount != 1)
-						quantityText.text = generator.MinCount.ToString ();
-					else
-						quantityText.gameObject.SetActive (false);
+
 				}
 				else
 				{
-					quantityText.text = generator.MinCount.ToString () + "-" + generator.MaxCount.ToString ();
+					quantityText.gameObject.SetActive (true);
+					if (generator.MinCount == generator.MaxCount)
+					{
+						if (generator.MinCount != 1)
+							quantityText.text = generator.MinCount.ToString ();
+						else
+							quantityText.gameObject.SetActive (false);
+					}
+					else
+					{
+						quantityText.text = generator.MinCount.ToString () + "-" + generator.MaxCount.ToString ();
+					}
 				}
 			}
 
