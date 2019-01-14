@@ -51,3 +51,5 @@ Corridor/Library/ShaderCache/
 Corridor/Library/metadata/
 Project/Library/EditorInstance.json
 *.stamp
+
+node_modules
