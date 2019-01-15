@@ -25,8 +25,8 @@ namespace RPGCore
 			{
 				if (targetInput.Value == null)
 				{
-					isEquippedOutput.Value = false;
 					itemOutput.Value = null;
+					isEquippedOutput.Value = false;
 					return;
 				}
 				var slotItem = targetInput.Value.equipment.Items[EquipmentSlot.Index].Item;
@@ -56,6 +56,7 @@ namespace RPGCore
 				if (!isActive)
 				{
 					targetInput.Value.equipment.Items[EquipmentSlot.Index].onAfterChanged += eventHandler;
+					eventHandler();
 				}
 
 				isActive = true;
