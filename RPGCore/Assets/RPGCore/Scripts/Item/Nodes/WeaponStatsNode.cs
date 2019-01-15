@@ -20,6 +20,12 @@ namespace RPGCore
 
 			Action updateListener = () =>
 			{
+				if (targetInput.Value == null)
+				{
+					valueOutput.Value = 0.0f;
+					return;
+				}
+				
 				var weaponNode = targetInput.Value.Template.GetNode<WeaponInputNode> ();
 
 				if (weaponNode == null)
@@ -49,12 +55,12 @@ namespace RPGCore
 
 			targetInput.OnAfterChanged += () =>
 			{
+				updateListener ();
 				if (targetInput.Value == null)
 					return;
 
 				targetInput.Value.Template.GetNode<WeaponInputNode> ()
 					.GetStats(targetInput.Value)[Stat].OnValueChanged += updateListener;
-				updateListener ();
 			};
 		}
 
