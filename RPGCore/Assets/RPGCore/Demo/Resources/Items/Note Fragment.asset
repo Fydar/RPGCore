@@ -97,7 +97,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: StackSize
+    SourcePath: StackSize
     defaultValue: 0
   Operator: 0
   ValueB:
@@ -108,7 +108,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 4
   Output:
     drawRect:
@@ -137,7 +137,7 @@ MonoBehaviour:
       width: 150
       height: 16
     SourceNode: {fileID: 114201976679110472}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 0
   True:
     drawRect:
@@ -173,7 +173,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114345745770665522}
-    SourceField: True
+    SourcePath: True
   Item:
     drawRect:
       serializedVersion: 2
@@ -182,7 +182,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Item
+    SourcePath: Item
     defaultValue:
       template: {fileID: 0}
       data:
@@ -221,7 +221,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 5
 --- !u!114 &114764545622335316
 MonoBehaviour:
@@ -253,7 +253,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   Event:
     drawRect:
@@ -263,4 +263,4 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114345745770665522}
-    SourceField: True
+    SourcePath: True

@@ -39,7 +39,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114991340809083294}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   HitTarget:
     drawRect:
@@ -82,7 +82,7 @@ MonoBehaviour:
       width: 150
       height: 16
     SourceNode: {fileID: 114037572262486612}
-    SourceField: OnHit
+    SourcePath: OnHit
   Condition:
     drawRect:
       serializedVersion: 2
@@ -91,7 +91,7 @@ MonoBehaviour:
       width: 150
       height: 16
     SourceNode: {fileID: 114759145278241666}
-    SourceField: Equipped
+    SourcePath: Equipped
     defaultValue: 0
   True:
     drawRect:
@@ -129,7 +129,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114991340809083294}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   Apply:
     drawRect:
@@ -139,7 +139,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114038425738037588}
-    SourceField: True
+    SourcePath: True
   Duration:
     drawRect:
       serializedVersion: 2
@@ -148,7 +148,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 1
   StackSize:
     drawRect:
@@ -158,7 +158,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 0
   Ticks:
     drawRect:
@@ -168,7 +168,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 0
 --- !u!114 &114759145278241666
 MonoBehaviour:

@@ -40,7 +40,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114955665412449186}
-    SourceField: HitTarget
+    SourcePath: HitTarget
     defaultValue: {fileID: 0}
   Event:
     drawRect:
@@ -50,7 +50,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114955665412449186}
-    SourceField: OnHit
+    SourcePath: OnHit
   Effect:
     drawRect:
       serializedVersion: 2
@@ -59,7 +59,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 15
 --- !u!114 &114023321236482196
 MonoBehaviour:
@@ -137,7 +137,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114955665412449186}
-    SourceField: HitTarget
+    SourcePath: HitTarget
     defaultValue: {fileID: 0}
   Apply:
     drawRect:
@@ -147,7 +147,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114955665412449186}
-    SourceField: OnHit
+    SourcePath: OnHit
   Duration:
     drawRect:
       serializedVersion: 2
@@ -156,7 +156,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 2
   StackSize:
     drawRect:
@@ -166,7 +166,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 1
   Ticks:
     drawRect:
@@ -176,7 +176,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 6
 --- !u!114 &114955665412449186
 MonoBehaviour:
@@ -198,7 +198,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114023321236482196}
-    SourceField: Target
+    SourcePath: Target
     defaultValue: {fileID: 0}
   HitTarget:
     drawRect:

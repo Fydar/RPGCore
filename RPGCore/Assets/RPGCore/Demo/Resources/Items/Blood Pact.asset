@@ -420,7 +420,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   Event:
     drawRect:

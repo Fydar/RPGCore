@@ -135,7 +135,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 0
   QuantityCost:
     drawRect:
@@ -145,7 +145,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 1
   OnActivate:
     drawRect:
@@ -187,7 +187,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   Event:
     drawRect:
@@ -197,7 +197,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114144150998033844}
-    SourceField: OnActivate
+    SourcePath: OnActivate
   Effect:
     drawRect:
       serializedVersion: 2
@@ -206,7 +206,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 20
 --- !u!114 &114656114756986456
 MonoBehaviour:

@@ -37,7 +37,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114991340809083294}
-    SourceField: Item
+    SourcePath: Item
     defaultValue:
       template: {fileID: 0}
       data:
@@ -76,7 +76,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 1
   Effect:
     drawRect:
@@ -86,7 +86,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 10
   Scaling: 0
   Display: '{0}'

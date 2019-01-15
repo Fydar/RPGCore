@@ -128,7 +128,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   Active:
     drawRect:
@@ -138,7 +138,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: Equipped
+    SourcePath: Equipped
     defaultValue: 0
   Effect:
     drawRect:
@@ -148,7 +148,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 0.25
   Scaling: 1
   Display: '{0}'
@@ -172,7 +172,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 114783123340353724}
-    SourceField: Value
+    SourcePath: Value
     defaultValue: 0
   ValueB:
     drawRect:
@@ -182,7 +182,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 114926086732521386}
-    SourceField: Value
+    SourcePath: Value
     defaultValue: 0
   Output:
     drawRect:
@@ -211,7 +211,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 8
   Max:
     drawRect:
@@ -221,7 +221,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 10
   Output:
     drawRect:
@@ -250,7 +250,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   HitTarget:
     drawRect:
@@ -309,7 +309,7 @@ MonoBehaviour:
       width: 60
       height: 16
     SourceNode: {fileID: 114000012878574282}
-    SourceField: Equipped
+    SourcePath: Equipped
     defaultValue: 0
   ValueB:
     drawRect:
@@ -319,7 +319,7 @@ MonoBehaviour:
       width: 60
       height: 16
     SourceNode: {fileID: 114711000862726838}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 0
   Output:
     drawRect:
@@ -348,7 +348,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114455407991455956}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 2.92
   Operator: 1
   ValueB:
@@ -359,7 +359,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 0.25
   Output:
     drawRect:
@@ -388,7 +388,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   Event:
     drawRect:
@@ -398,7 +398,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114843478460499784}
-    SourceField: True
+    SourcePath: True
   Effect:
     drawRect:
       serializedVersion: 2
@@ -407,7 +407,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 10
 --- !u!114 &114783123340353724
 MonoBehaviour:
@@ -438,7 +438,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
 --- !u!114 &114843478460499784
 MonoBehaviour:
@@ -460,7 +460,7 @@ MonoBehaviour:
       width: 150
       height: 16
     SourceNode: {fileID: 114542976156876556}
-    SourceField: OnHit
+    SourcePath: OnHit
   Condition:
     drawRect:
       serializedVersion: 2
@@ -469,7 +469,7 @@ MonoBehaviour:
       width: 150
       height: 16
     SourceNode: {fileID: 114710225090156318}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 0
   True:
     drawRect:
@@ -505,7 +505,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114489728669284560}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 0
 --- !u!114 &114926086732521386
 MonoBehaviour:
@@ -536,5 +536,5 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}

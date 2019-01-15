@@ -56,7 +56,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   Active:
     drawRect:
@@ -66,7 +66,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012878574282}
-    SourceField: Equipped
+    SourcePath: Equipped
     defaultValue: 0
   Effect:
     drawRect:
@@ -76,7 +76,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114336949664172340}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 15
   Scaling: 1
   Display: '{0}'
@@ -169,7 +169,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012595290118}
-    SourceField: Owner
+    SourcePath: Owner
     defaultValue: {fileID: 0}
   Active:
     drawRect:
@@ -179,7 +179,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114000012878574282}
-    SourceField: Equipped
+    SourcePath: Equipped
     defaultValue: 0
   Effect:
     drawRect:
@@ -189,7 +189,7 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114477997497944500}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 0.25
   Scaling: 1
   Display: '{0}'
@@ -213,7 +213,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 2
   Max:
     drawRect:
@@ -223,7 +223,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 8
   Output:
     drawRect:
@@ -252,7 +252,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 0.15
   Max:
     drawRect:
@@ -262,7 +262,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 0.25
   Output:
     drawRect:
@@ -291,7 +291,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 0.15
   Max:
     drawRect:
@@ -301,7 +301,7 @@ MonoBehaviour:
       width: 130
       height: 16
     SourceNode: {fileID: 0}
-    SourceField: 
+    SourcePath: 
     defaultValue: 0.3
   Output:
     drawRect:
@@ -330,5 +330,5 @@ MonoBehaviour:
       width: 190
       height: 16
     SourceNode: {fileID: 114248282590104448}
-    SourceField: Output
+    SourcePath: Output
     defaultValue: 0
