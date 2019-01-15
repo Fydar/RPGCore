@@ -16,7 +16,7 @@ namespace RPGCore
 		protected override void OnSetup (IBehaviourContext context)
 		{
 			ConnectionEntry<ItemSurrogate> targetInput = Target[context];
-			ConnectionEntry<float> valueInput = Value[context];
+			ConnectionEntry<float> valueOutput = Value[context];
 
 			Action updateListener = () =>
 			{
@@ -24,28 +24,16 @@ namespace RPGCore
 
 				if (weaponNode == null)
 				{
-					valueInput.Value = 0;
+					valueOutput.Value = 0;
 					return;
 				}
-
-				FloatInput localStatInput = null;
-
-				if (Stat.Index == 0)
-					localStatInput = weaponNode.AttackDamage;
-				else if (Stat.Index == 1)
-					localStatInput = weaponNode.AttackSpeed;
-				else if (Stat.Index == 2)
-					localStatInput = weaponNode.CriticalChance;
-				else if (Stat.Index == 3)
-					localStatInput = weaponNode.CriticalMultiplier;
-
-				valueInput.Value = localStatInput[targetInput.Value].Value;
+				valueOutput.Value = weaponNode.GetStats(targetInput.Value)[Stat].Value;
 			};
 
 			if (targetInput.Value != null)
 			{
 				targetInput.Value.Template.GetNode<WeaponInputNode> ()
-					.AttackDamage[targetInput.Value].OnAfterChanged += updateListener;
+					.GetStats(targetInput.Value)[Stat].OnValueChanged += updateListener;
 
 				updateListener ();
 			}
@@ -56,7 +44,7 @@ namespace RPGCore
 					return;
 
 				targetInput.Value.Template.GetNode<WeaponInputNode> ()
-					.AttackDamage[targetInput.Value].OnAfterChanged -= updateListener;
+					.GetStats(targetInput.Value)[Stat].OnValueChanged -= updateListener;
 			};
 
 			targetInput.OnAfterChanged += () =>
@@ -65,7 +53,7 @@ namespace RPGCore
 					return;
 
 				targetInput.Value.Template.GetNode<WeaponInputNode> ()
-					.AttackDamage[targetInput.Value].OnAfterChanged += updateListener;
+					.GetStats(targetInput.Value)[Stat].OnValueChanged += updateListener;
 				updateListener ();
 			};
 		}

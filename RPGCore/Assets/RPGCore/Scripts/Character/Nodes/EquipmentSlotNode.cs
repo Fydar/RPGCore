@@ -29,7 +29,6 @@ namespace RPGCore
 					itemOutput.Value = null;
 					return;
 				}
-
 				var slotItem = targetInput.Value.equipment.Items[EquipmentSlot.Index].Item;
 				if (slotItem != null)
 				{

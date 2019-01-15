@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RPGCore.Behaviour.Connections;
 
 namespace RPGCore.Stats
 {
@@ -21,5 +22,9 @@ namespace RPGCore.Stats
 				WeaponStats.Current.Info = info.Current;
 			}
 		}
+	}
+	[Serializable]
+	public class WeaponStatFloatInputCollection : WeaponStatCollection<FloatInput>
+	{
 	}
 }

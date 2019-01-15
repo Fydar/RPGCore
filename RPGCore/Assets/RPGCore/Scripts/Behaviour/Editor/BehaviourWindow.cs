@@ -683,15 +683,21 @@ namespace RPGCore.Behaviour.Editor
 			if (!IsValidAttach (start, end))
 				return;
 
+			string[] paths = end.SocketPath.Split('.');
 			SerializedObject obj = SerializedObjectPool.Grab (end.ParentNode);
+			SerializedProperty socketProperty = obj.FindProperty (paths[0]);
+			UnityEngine.Debug.Log(socketProperty.displayName);
 
-			SerializedProperty socketProperty = obj.FindProperty (end.SocketName);
+			for (int i = 1; i < paths.Length; i++)
+			{
+				socketProperty = socketProperty.FindPropertyRelative(paths[i]);
+			}
 
 			SerializedProperty sourceNodeProperty = socketProperty.FindPropertyRelative ("SourceNode");
-			SerializedProperty sourceFieldProperty = socketProperty.FindPropertyRelative ("SourceField");
+			SerializedProperty sourcePathProperty = socketProperty.FindPropertyRelative ("SourcePath");
 
 			sourceNodeProperty.objectReferenceValue = start.ParentNode;
-			sourceFieldProperty.stringValue = start.SocketName;
+			sourcePathProperty.stringValue = start.SocketPath;
 
 			obj.ApplyModifiedProperties ();
 
@@ -702,13 +708,18 @@ namespace RPGCore.Behaviour.Editor
 		{
 			SerializedObject obj = SerializedObjectPool.Grab (socket.ParentNode);
 
-			SerializedProperty socketProperty = obj.FindProperty (socket.SocketName);
+			string[] paths = socket.SocketPath.Split('.');
+			SerializedProperty socketProperty = obj.FindProperty (paths[0]);
+			for (int i = 1; i < paths.Length; i++)
+			{
+				socketProperty = socketProperty.FindPropertyRelative(paths[i]);
+			}
 
 			SerializedProperty sourceNodeProperty = socketProperty.FindPropertyRelative ("SourceNode");
-			SerializedProperty sourceFieldProperty = socketProperty.FindPropertyRelative ("SourceField");
+			SerializedProperty sourcePathProperty = socketProperty.FindPropertyRelative ("SourcePath");
 
 			sourceNodeProperty.objectReferenceValue = null;
-			sourceFieldProperty.stringValue = "";
+			sourcePathProperty.stringValue = "";
 
 			obj.ApplyModifiedProperties ();
 
@@ -722,17 +733,22 @@ namespace RPGCore.Behaviour.Editor
 				foreach (InputSocket detachInput in detachNode.Inputs)
 				{
 					if (detachInput.SourceNode == socket.ParentNode &&
-						detachInput.SourceField == socket.SocketName)
+						detachInput.SourcePath == socket.SocketPath)
 					{
 						SerializedObject detatchObject = SerializedObjectPool.Grab (detachNode);
-
-						SerializedProperty detatchSocketProperty = detatchObject.FindProperty (detachInput.SocketName);
+	
+						string[] paths = socket.SocketPath.Split('.');
+						SerializedProperty detatchSocketProperty = detatchObject.FindProperty (paths[0]);
+						for (int i = 1; i < paths.Length; i++)
+						{
+							detatchSocketProperty = detatchSocketProperty.FindPropertyRelative(paths[i]);
+						}
 
 						SerializedProperty detatchSourceNodeProperty = detatchSocketProperty.FindPropertyRelative ("SourceNode");
-						SerializedProperty detatchSourceFieldProperty = detatchSocketProperty.FindPropertyRelative ("SourceField");
+						SerializedProperty detatchSourcePathProperty = detatchSocketProperty.FindPropertyRelative ("SourcePath");
 
 						detatchSourceNodeProperty.objectReferenceValue = null;
-						detatchSourceFieldProperty.stringValue = "";
+						detatchSourcePathProperty.stringValue = "";
 
 						detatchObject.ApplyModifiedProperties ();
 					}

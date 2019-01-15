@@ -9,10 +9,7 @@ namespace RPGCore
 	[NodeInformation ("Item/Weapon Input", "Input", OnlyOne = true)]
 	public class WeaponInputNode : BehaviourNode, IInputNode<ItemSurrogate>
 	{
-		public FloatInput AttackDamage;
-		public FloatInput AttackSpeed;
-		public FloatInput CriticalChance;
-		public FloatInput CriticalMultiplier;
+		public WeaponStatFloatInputCollection Inputs;
 
 		public CharacterOutput HitTarget;
 		public EventOutput OnHit;
@@ -32,50 +29,21 @@ namespace RPGCore
 			return stat;
 		}
 
-		/*public FloatInput GetSocket(CollectionEntry entry)
-		{
-			if (entry.entryIndex == -1)
-			{
-				var temp = ArmourStatInformationDatabase.Instance.ArmourStatInfos[entry];
-			}
-
-			FloatInput localStatInput = null;
-
-			if (entry.entryIndex == 0)
-				localStatInput = AttackDamage;
-			else if (entry.entryIndex == 1)
-				localStatInput = AttackSpeed;
-			else if (entry.entryIndex == 2)
-				localStatInput = CriticalChance;
-			else if (entry.entryIndex == 3)
-				localStatInput = CriticalMultiplier;
-
-			return localStatInput;
-		}*/
-
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<float> attackInput = AttackDamage[context];
-			ConnectionEntry<float> attackSpeedInput = AttackSpeed[context];
-			ConnectionEntry<float> criticalChanceInput = CriticalChance[context];
-			ConnectionEntry<float> criticalMultiplierInput = CriticalMultiplier[context];
-
 			var statsCollection = new WeaponStatInstanceCollection ();
 			StatsMapping[context] = statsCollection;
 			statsCollection.GetEnumerator ();
 
-			var attackModifier = statsCollection.Attack.AddFlatModifier (attackInput.Value);
-			attackInput.OnAfterChanged += () => attackModifier.Value = attackInput.Value;
+			var inputsEnumerator = Inputs.GetEnumerator();
+			foreach(var stat in GetStats(context))
+			{
+				inputsEnumerator.MoveNext();
+				var currentInput = inputsEnumerator.Current[context];
 
-			var attackSpeedModifier = statsCollection.AttackSpeed.AddFlatModifier (attackSpeedInput.Value);
-			attackSpeedInput.OnAfterChanged += () => attackSpeedModifier.Value = attackSpeedInput.Value;
-
-			var criticalChanceModifier = statsCollection.CriticalStrikeChance.AddFlatModifier (criticalChanceInput.Value);
-			criticalChanceInput.OnAfterChanged += () => criticalChanceModifier.Value = criticalChanceInput.Value;
-
-			var criticalMultiplierModifier = statsCollection.CriticalStrikeMultiplier.AddFlatModifier (criticalMultiplierInput.Value);
-			criticalMultiplierInput.OnAfterChanged += () => criticalMultiplierModifier.Value = criticalMultiplierInput.Value;
-		}
+				var modifier = stat.AddFlatModifier(currentInput.Value);
+				currentInput.OnAfterChanged += () => modifier.Value = currentInput.Value;
+			}}
 
 		protected override void OnRemove (IBehaviourContext context)
 		{

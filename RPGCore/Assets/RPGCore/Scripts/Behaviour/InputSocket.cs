@@ -3,15 +3,14 @@ using UnityEngine;
 
 namespace RPGCore.Behaviour
 {
-	[Serializable]
 	public abstract class InputSocket : Socket
 	{
 		private const int socketSize = 16;
 
 		[SerializeField]
 		public BehaviourNode SourceNode;
-		[SerializeField]
-		public string SourceField;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("SourceField")]
+		public string SourcePath;
 
 		[NonSerialized]
 		private OutputSocket sourceSocket;
@@ -22,7 +21,7 @@ namespace RPGCore.Behaviour
 			{
 				if (sourceSocket == null)
 				{
-
+					
 				}
 				if (SourceNode == null)
 				{
@@ -32,7 +31,7 @@ namespace RPGCore.Behaviour
 				var tempA = SourceNode.Inputs;
 				var tempB = SourceNode.Outputs;
 
-				sourceSocket = SourceNode.GetOutput (SourceField);
+				sourceSocket = SourceNode.GetOutput (SourcePath);
 
 				return sourceSocket;
 			}

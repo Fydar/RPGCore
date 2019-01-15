@@ -103,7 +103,7 @@ namespace RPGCore
 
 		public override string ToString ()
 		{
-			return Field;
+			return Field + "(" + Index + ")";
 		}
 	}
 }

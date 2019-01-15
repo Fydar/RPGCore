@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour
 	public abstract class Socket
 	{
 		[NonSerialized] public BehaviourNode ParentNode;
-		[NonSerialized] public string SocketName;
+		[NonSerialized] public string SocketPath;
 		public Rect drawRect;
 
 		public abstract void RemoveContext (IBehaviourContext context);

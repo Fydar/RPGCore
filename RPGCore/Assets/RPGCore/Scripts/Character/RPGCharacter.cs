@@ -72,7 +72,6 @@ namespace RPGCore
 				for (int i = 0; i < startingLoot.Length; i++)
 				{
 					var generatedItem = startingLoot[i].Generate ();
-					Debug.Log(generatedItem);
 					inventory.Add (generatedItem);
 				}
 			}

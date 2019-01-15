@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System.Reflection;
 
@@ -78,34 +79,40 @@ namespace RPGCore.Behaviour
 
 		public OutputSocket GetOutput (string id)
 		{
-			FieldInfo field = GetType ().GetField (id);
+			string[] paths = id.Split('.');
+			object currentTarget = this;
 
-			if (field == null)
-				return null;
-
-			object fieldData = field.GetValue (this);
-
-			if (fieldData == null)
-				return null;
-
-			try
+			for (int i = 0; i < paths.Length; i++)
 			{
-				return (OutputSocket)fieldData;
-			}
-			catch
-			{
+				string path = paths[i];
+
+				FieldInfo field = currentTarget.GetType().GetField (path);
+
+				if (field == null)
+					return null;
+
+				currentTarget = field.GetValue (currentTarget);
+
+				if (currentTarget == null)
+					return null;
+			}		
+
+			if (!typeof(OutputSocket).IsAssignableFrom(currentTarget.GetType()))
 				return null;
-			}
+
+			return (OutputSocket)currentTarget;	
 		}
 
 		private T[] FindAllSockets<T> ()
 			where T : Socket
 		{
 			List<T> foundObjects = new List<T> ();
+			Stack<string> socketPath = new Stack<string>();
 
 			for (int i = 0; i < CollectionFields.Length; i++)
 			{
 				FieldInfo targetField = CollectionFields[i];
+				socketPath.Push(targetField.Name);
 
 				if (typeof (T).IsAssignableFrom (targetField.FieldType))
 				{
@@ -115,59 +122,60 @@ namespace RPGCore.Behaviour
 						childSocket = (T)Activator.CreateInstance (targetField.FieldType);
 						targetField.SetValue (this, childSocket);
 					}
-					childSocket.SocketName = targetField.Name;
+					childSocket.SocketPath = string.Join(".", socketPath.Reverse());
 					childSocket.ParentNode = this;
 					foundObjects.Add (childSocket);
 				}
-				else if (typeof (IEnumerable<T>).IsAssignableFrom (targetField.FieldType))
-				{
-					IEnumerable<T> childCollection = (IEnumerable<T>)targetField.GetValue (this);
-					if (childCollection == null)
-					{
-						if (childCollection == null)
-							continue;
-					}
-					foreach (var childSocket in childCollection)
-					{
-						if (childSocket == null)
-							continue;
-
-						childSocket.SocketName = targetField.Name;
-						childSocket.ParentNode = this;
-						foundObjects.Add (childSocket);
-					}
-				}
-				else if (typeof (EnumerableCollection<T>).IsAssignableFrom (targetField.FieldType))
+				else if (typeof (EnumerableCollection).IsAssignableFrom (targetField.FieldType))
 				{
 					if (!typeof (T).IsAssignableFrom (targetField.FieldType.BaseType.GetGenericArguments ()[0]))
 						continue;
 
-					EnumerableCollection<T> enumer = (EnumerableCollection<T>)targetField.GetValue (this);
+					EnumerableCollection enumer = (EnumerableCollection)targetField.GetValue (this);
 
 					if (enumer == null)
 						continue;
 
-					foreach (object child in enumer)
+					foreach (var child in enumer.FindAllRoutes())
 					{
-						if (child == null)
-							continue;
+						object childObject = child.Member.GetValue(child.Target);
 
-						if (typeof (T).IsAssignableFrom (child.GetType ()))
+						if (childObject == null)
 						{
-							T childSocket = (T)child;
+							childObject = (T)Activator.CreateInstance (targetField.FieldType);
+							targetField.SetValue (this, childObject);
+						}
 
-							if (childSocket == null)
-							{
-								childSocket = (T)Activator.CreateInstance (targetField.FieldType);
-								targetField.SetValue (this, childSocket);
-							}
-
-							childSocket.SocketName = targetField.Name;
+						if (typeof (T).IsAssignableFrom (childObject.GetType ()))
+						{
+							T childSocket = (T)childObject;
+							
+							socketPath.Push(child.Member.Name);
+							childSocket.SocketPath = string.Join(".", socketPath.Reverse());
+							socketPath.Pop();
+							
 							childSocket.ParentNode = this;
 							foundObjects.Add (childSocket);
 						}
 					}
 				}
+				else if (typeof (IEnumerable<T>).IsAssignableFrom (targetField.FieldType))
+				{
+					IEnumerable<T> childCollection = (IEnumerable<T>)targetField.GetValue (this);
+					if (childCollection == null)
+						continue;
+
+					foreach (var childSocket in childCollection)
+					{
+						if (childSocket == null)
+							continue;
+
+						childSocket.SocketPath = string.Join(".", socketPath.Reverse());
+						childSocket.ParentNode = this;
+						foundObjects.Add (childSocket);
+					}
+				}
+				socketPath.Pop();
 			}
 
 			return foundObjects.ToArray ();
