@@ -73,9 +73,10 @@ namespace ContentCreator
 				Title = "Content Creator",
 				Width = 1152,
 				Height = 864,
-				Show = false
+				Show = false,
+				Icon = "~/Assets/GraphIcon.ico",
+				SkipTaskbar = false
 			});
-
 			browserWindow.OnReadyToShow += () => browserWindow.Show();
 		}
 	}

@@ -15,7 +15,7 @@ namespace ContentCreator.Controllers
 			new MenuItem
 			{
 			  Label = "Create Contact",
-			  Click = () => Electron .WindowManager .BrowserWindows
+			  Click = () => Electron .WindowManager.BrowserWindows
 					.First()
 					.LoadURL($"http://localhost:{BridgeSettings.WebPort}/Contacts/Create")
 				},
@@ -26,7 +26,6 @@ namespace ContentCreator.Controllers
 				}
 			};
 			Electron.Tray.Show("/Assets/GraphIcon Large.png", menu);
-
 			return View();
         }
 

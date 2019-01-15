@@ -4,12 +4,6 @@
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="NewFolder\**" />
-    <Content Remove="NewFolder\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
-    <None Remove="NewFolder\**" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="wwwroot\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -23,7 +17,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Update="Assets\Stock-Person.png">
+    <None Update="Assets\GraphIcon Large.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\GraphIcon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
