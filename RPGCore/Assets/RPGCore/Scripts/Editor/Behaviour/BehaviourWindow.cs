@@ -831,7 +831,23 @@ namespace RPGCore.Behaviour.Editor
 			if (GUILayout.Button ("Load Graph", EditorStyles.toolbarButton, GUILayout.Width (100)))
 			{
 				controlID = GUIUtility.GetControlID (FocusType.Passive);
-				EditorGUIUtility.ShowObjectPicker<ScriptableObject> ((ScriptableObject)targetGraph, false, "", controlID);
+
+				string filter = "";
+
+				foreach(var assembly in AppDomain.CurrentDomain.GetAssemblies())
+				{
+					foreach(var type in assembly.GetTypes())
+					{
+						if (typeof(IBehaviourGraph).IsAssignableFrom(type) 
+						 && typeof(ScriptableObject).IsAssignableFrom(type)
+						 && !typeof(IBehaviourGraph).IsAssignableFrom(type.BaseType))
+						{
+							filter += "t:" + type.Name + " ";
+						}
+					}
+				}
+
+				EditorGUIUtility.ShowObjectPicker<ScriptableObject> ((ScriptableObject)targetGraph, false, filter, controlID);
 			}
 
 			string commandName = currentEvent.commandName;
