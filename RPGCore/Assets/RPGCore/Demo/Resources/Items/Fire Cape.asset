@@ -11,15 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Fire Cape
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114658524229275346}
-  - {fileID: 114818889962212492}
-  - {fileID: 114109325078152614}
-  - {fileID: 114000011996586328}
-  - {fileID: 114000011604143066}
-  - {fileID: 114000012595290118}
-  - {fileID: 114000012878574282}
-  - {fileID: 114000014225598782}
   renderPrefab: {fileID: 1251761817357430, guid: 5220c47beb8dbc24e8a0da75cbba9902,
     type: 2}
   renderScale: 1
@@ -28,12 +19,21 @@ MonoBehaviour:
     that.
   startDrag: {fileID: 11400000, guid: 60b795a368235f44f99f105112173a97, type: 2}
   endDrag: {fileID: 11400000, guid: cb4c328b85a0bc04cbdc0a9e551013c3, type: 2}
-  prefix: {fileID: 0}
+  prefix: {fileID: 11400000, guid: c502b480191dc4446a2052d7dfd7e6e2, type: 2}
   suffix: {fileID: 11400000, guid: 2c549b42b277a4f4f8b2ab994ef8bc44, type: 2}
   maxStack: 1
   rarity: {fileID: 11400000, guid: faaf42fbae995f94a9e9f5d53b63fffd, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114658524229275346}
+  - {fileID: 114818889962212492}
+  - {fileID: 114109325078152614}
+  - {fileID: 114000011996586328}
+  - {fileID: 114000011604143066}
+  - {fileID: 114000012595290118}
+  - {fileID: 114000012878574282}
+  - {fileID: 114000014225598782}
 --- !u!114 &114000011604143066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71889490fc54ba46a7b757204a1c56d, type: 3}
   m_Name: Equiptable
   m_EditorClassIdentifier: 
-  Position: {x: 21, y: 156}
+  Position: {x: 25, y: 150}
   slot: 2
   Equipped:
     drawRect:
@@ -194,6 +194,7 @@ MonoBehaviour:
       y: 38
       width: 190
       height: 16
+  RequiredLevel: 10
 --- !u!114 &114000014225598782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
   m_Name: Roll
   m_EditorClassIdentifier: 
-  Position: {x: 78, y: 230}
+  Position: {x: 82, y: 239}
   Min:
     drawRect:
       serializedVersion: 2

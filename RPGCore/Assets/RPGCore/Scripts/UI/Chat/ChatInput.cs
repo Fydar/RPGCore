@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ChatInput : MonoBehaviour
@@ -64,7 +63,7 @@ public class ChatInput : MonoBehaviour
 		{
 			allowEnter = Field.isFocused || Field.isFocused;
 		}
-		
+
 		if (Field.isFocused)
 		{
 			if (Input.GetKeyDown (KeyCode.UpArrow))
@@ -98,7 +97,7 @@ public class ChatInput : MonoBehaviour
 			}
 		}
 	}
-	
+
 	public void Send ()
 	{
 		string text = Field.text;

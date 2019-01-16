@@ -11,15 +11,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e752e2050e534f549afccb643a342903, type: 3}
   m_Name: Immolate
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114038036985169412}
-  - {fileID: 114385815337609408}
-  - {fileID: 114738271573448634}
-  - {fileID: 114023321236482196}
   Name: Immolate
   Description: Life burns around you.
   Icon: {fileID: 21300284, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
   Type: 1
+  nodes:
+  - {fileID: 114038036985169412}
+  - {fileID: 114385815337609408}
+  - {fileID: 114738271573448634}
+  - {fileID: 114023321236482196}
 --- !u!114 &114023321236482196
 MonoBehaviour:
   m_ObjectHideFlags: 1

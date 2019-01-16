@@ -35,8 +35,8 @@ namespace RPGCore.Utility.Editors
 			{
 				if (element.Contains ("["))
 				{
-					var elementName = element.Substring (0, element.IndexOf ("["));
-					var index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[")).Replace ("[", "").Replace ("]", ""));
+					var elementName = element.Substring (0, element.IndexOf ("[", System.StringComparison.Ordinal));
+					var index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[", System.StringComparison.Ordinal)).Replace ("[", "").Replace ("]", ""));
 					obj = GetValue_Imp (obj, elementName, index);
 				}
 				else
@@ -85,6 +85,5 @@ namespace RPGCore.Utility.Editors
 			return enm.Current;
 		}
 	}
-#endif
 }
-
+#endif

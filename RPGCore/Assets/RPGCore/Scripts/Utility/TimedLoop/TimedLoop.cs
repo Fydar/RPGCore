@@ -22,7 +22,7 @@ namespace RPGCore.Utility
 	///		yield return null;
 	/// }
 	/// </example>
-	public class TimedLoop : IEnumerator<float>, IEnumerable<float>
+	public sealed class TimedLoop : IEnumerator<float>, IEnumerable<float>
 	{
 		private float time;
 		private float duration;

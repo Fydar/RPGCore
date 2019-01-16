@@ -1,0 +1,10 @@
+{
+    "name": "RPGCore.Demo",
+    "references": [
+        "RPGCore"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

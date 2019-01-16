@@ -1,6 +1,5 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Behaviour.Connections;
-using RPGCore.Inventories;
 using System;
 
 namespace RPGCore

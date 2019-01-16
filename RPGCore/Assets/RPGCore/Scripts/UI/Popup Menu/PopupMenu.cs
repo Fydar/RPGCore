@@ -18,7 +18,6 @@ namespace RPGCore.UI
 		public RectTransform ButtonsHolder;
 		public UIPopupButtonPool ButtonPool;
 
-
 		private void Awake ()
 		{
 			Close ();
@@ -42,7 +41,6 @@ namespace RPGCore.UI
 		{
 			ButtonPool.Flush ();
 			BackgroundFade.Target = true;
-
 
 			for (int i = 0; i < buttons.Length; i++)
 			{

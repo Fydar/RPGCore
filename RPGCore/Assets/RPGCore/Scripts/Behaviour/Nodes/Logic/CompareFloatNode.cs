@@ -19,7 +19,6 @@ namespace RPGCore.Behaviour.Logic
 
 		public BoolOutput Output;
 
-
 		protected override void OnSetup (IBehaviourContext context)
 		{
 			ConnectionEntry<float> valueAInput = ValueA[context];

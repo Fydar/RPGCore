@@ -14,23 +14,23 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> equippedOutput = Owner[context];
+			ConnectionEntry<RPGCharacter> ownerOutput = Owner[context];
 			EventEntry onReceiveOutput = OnReceive[context];
 			EventEntry onLooseOutput = OnLoose[context];
 			ConnectionEntry<int> stackSizeOutput = StackSize[context];
 
 			//equippedOutput.Value = character;
-			equippedOutput.OnBeforeChanged += () =>
+			ownerOutput.OnBeforeChanged += () =>
 			{
-				if (equippedOutput.Value != null)
+				if (ownerOutput.Value != null)
 				{
 					onLooseOutput.Invoke ();
 				}
 			};
 
-			equippedOutput.OnAfterChanged += () =>
+			ownerOutput.OnAfterChanged += () =>
 			{
-				if (equippedOutput.Value != null)
+				if (ownerOutput.Value != null)
 				{
 					onReceiveOutput.Invoke ();
 				}

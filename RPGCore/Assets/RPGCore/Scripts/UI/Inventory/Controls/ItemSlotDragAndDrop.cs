@@ -27,14 +27,14 @@ namespace RPGCore.Inventories
 		[Header ("Setup")]
 		public float dragThreshhold = 6.0f;
 		public DragPositioner positioner;
-		public bool EnableClickDrag = false;
+		public bool EnableClickDrag;
 
 		[Header ("States")]
 		public DragState dragState = DragState.None;
 		public Vector3 dragStartPosition;
 
-		private ItemSlotManager startSlot = null;
-		private ItemSlotManager lastHoveringSlot = null;
+		private ItemSlotManager startSlot;
+		private ItemSlotManager lastHoveringSlot;
 
 		void Awake ()
 		{

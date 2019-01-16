@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using RPGCore.Behaviour.Editor;
+#endif
 
 namespace RPGCore.Behaviour.Connections
 {
+#if UNITY_EDITOR
 	[CustomPropertyDrawer (typeof (EventInput), true)]
 	public class EventInputDrawer : PropertyDrawer
 	{
@@ -220,4 +222,3 @@ namespace RPGCore.Behaviour.Connections
 #endif
 	}
 }
-

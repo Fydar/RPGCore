@@ -11,8 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Skull
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114000012595290118}
   renderPrefab: {fileID: 1516059610936428, guid: eb887355affa8a44e8a23847836aca5d,
     type: 2}
   renderScale: 1
@@ -26,6 +24,8 @@ MonoBehaviour:
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114000012595290118}
 --- !u!114 &114000012595290118
 MonoBehaviour:
   m_ObjectHideFlags: 1

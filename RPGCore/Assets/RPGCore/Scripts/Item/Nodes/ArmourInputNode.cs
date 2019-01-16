@@ -13,7 +13,7 @@ namespace RPGCore
 
 		[NonSerialized]
 		public Dictionary<IBehaviourContext, ArmourStatInstanceCollection> StatsMapping = new Dictionary<IBehaviourContext, ArmourStatInstanceCollection> ();
-		
+
 		public ArmourStatInstanceCollection GetStats (IBehaviourContext context)
 		{
 			ArmourStatInstanceCollection statsCollection;
@@ -31,7 +31,7 @@ namespace RPGCore
 			return statsCollection;
 		}
 
-		public StatInstance GetStat (IBehaviourContext context, CollectionEntry entry)
+		public StatInstance GetStat (ItemSurrogate context, CollectionEntry entry)
 		{
 			ArmourStatInstanceCollection statsCollection = GetStats (context);
 			StatInstance stat = statsCollection[entry];
@@ -40,7 +40,7 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			
+
 		}
 
 		protected override void OnRemove (IBehaviourContext context)

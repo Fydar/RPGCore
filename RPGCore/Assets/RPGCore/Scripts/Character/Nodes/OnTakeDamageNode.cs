@@ -8,6 +8,7 @@ namespace RPGCore
 	public class OnTakeDamageNode : BehaviourNode
 	{
 		public CharacterInput Target;
+		public CharacterOutput Attacker;
 		public EventOutput OnHit;
 		public IntOutput DamageTaken;
 

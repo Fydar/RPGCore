@@ -26,16 +26,16 @@ namespace RPGCore.Inventories
 		[SerializeField] private Image newIcon;
 		[SerializeField] private Text nameText;
 		[Space]
+		[SerializeField] private bool quantityIsCharges;
 		[SerializeField] private Text quantityText;
 		[SerializeField] private bool HideQuantityOnOne = true;
 
-		private bool hovered = false;
-		private bool faded = false;
+		private bool hovered;
+		private bool faded;
 
-
-		private ItemSlot _lastSlot = null;
-		private ItemSurrogate lastItem = null;
-		private ItemTemplate lastTemplate = null;
+		private ItemSlot _lastSlot;
+		private ItemSurrogate lastItem;
+		private ItemTemplate lastTemplate;
 
 		//3d Render Stuff
 		[SerializeField] private int id = 0;
@@ -129,17 +129,24 @@ namespace RPGCore.Inventories
 
 			if (quantityText != null)
 			{
-				quantityText.gameObject.SetActive (true);
-				if (generator.MinCount == generator.MaxCount)
+				if (quantityIsCharges)
 				{
-					if (generator.MinCount != 1)
-						quantityText.text = generator.MinCount.ToString ();
-					else
-						quantityText.gameObject.SetActive (false);
+
 				}
 				else
 				{
-					quantityText.text = generator.MinCount.ToString () + "-" + generator.MaxCount.ToString ();
+					quantityText.gameObject.SetActive (true);
+					if (generator.MinCount == generator.MaxCount)
+					{
+						if (generator.MinCount != 1)
+							quantityText.text = generator.MinCount.ToString ();
+						else
+							quantityText.gameObject.SetActive (false);
+					}
+					else
+					{
+						quantityText.text = generator.MinCount.ToString () + "-" + generator.MaxCount.ToString ();
+					}
 				}
 			}
 
@@ -193,7 +200,6 @@ namespace RPGCore.Inventories
 
 			lastItem = item;
 			lastTemplate = item.template;
-
 
 			if (rectTransform == null)
 				rectTransform = GetComponent<RectTransform> ();
@@ -383,12 +389,12 @@ namespace RPGCore.Inventories
 			TooltipManager.instance.Hide ();
 		}
 
-		void IPointerEnterHandler.OnPointerEnter (PointerEventData eventData)
+		public void OnPointerEnter (PointerEventData eventData)
 		{
 			Hover ();
 		}
 
-		void IPointerExitHandler.OnPointerExit (PointerEventData eventData)
+		public void OnPointerExit (PointerEventData eventData)
 		{
 			Unhover ();
 		}

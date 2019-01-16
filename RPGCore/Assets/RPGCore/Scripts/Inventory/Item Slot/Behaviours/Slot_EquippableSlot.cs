@@ -1,4 +1,6 @@
-﻿namespace RPGCore.Inventories
+﻿using RPGCore.Behaviour;
+
+namespace RPGCore.Inventories
 {
 	public class Slot_EquippableSlot : ItemSlotBehaviour
 	{

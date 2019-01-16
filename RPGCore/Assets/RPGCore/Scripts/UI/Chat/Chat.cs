@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace RPGCore.UI
 {
-	public class Chat : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public sealed class Chat : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public enum State
 		{

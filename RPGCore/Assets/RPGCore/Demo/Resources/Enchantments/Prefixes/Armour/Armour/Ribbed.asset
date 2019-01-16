@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a169415f599fd9a42be8ccea8c6a8fef, type: 3}
+  m_Name: Ribbed
+  m_EditorClassIdentifier: 
+  Affix: Ribbed
+  nodes:
+  - {fileID: 114557190736244430}
+  - {fileID: 114508291121444888}
+  - {fileID: 114045533649439994}
+--- !u!114 &114045533649439994
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9135a0f1c97cc549bf2ad9dce425050, type: 3}
+  m_Name: Item Input
+  m_EditorClassIdentifier: 
+  Position: {x: -158.5, y: 268.5}
+  Item:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 190
+      height: 16
+  Owner:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+  OnReceive:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+  OnLoose:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+  StackSize:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 92
+      width: 190
+      height: 16
+--- !u!114 &114508291121444888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee9ab99ad89d73b4a95abc37e57b01dd, type: 3}
+  m_Name: Armour Grant
+  m_EditorClassIdentifier: 
+  Position: {x: 149.5, y: 251.5}
+  Stat:
+    field: Armour
+  Target:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114045533649439994}
+    SourceField: Item
+    defaultValue:
+      template: {fileID: 0}
+      data:
+        templateID: 0
+        seed:
+          internalValue: 0
+        quantity:
+          internalValue: 1
+        damaged:
+          internalValue: 0
+        tier:
+          internalValue: 1
+        experiance:
+          internalValue: 0
+        level:
+          internalValue: 0
+        prefixData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        suffixData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        runeData:
+          seed:
+            internalValue: 0
+          EnchantmentID: 0
+        modsData: []
+      ItemTier: 0
+  Active:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 1
+  Effect:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 74
+      width: 190
+      height: 16
+    SourceNode: {fileID: 114557190736244430}
+    SourceField: Output
+    defaultValue: 0
+  Scaling: 0
+  Display: '{0}'
+--- !u!114 &114557190736244430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3b89f2c3502fd48b9b51d8def09c1e, type: 3}
+  m_Name: Roll
+  m_EditorClassIdentifier: 
+  Position: {x: -91.5, y: 393.5}
+  Min:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 20
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 36
+  Max:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 38
+      width: 130
+      height: 16
+    SourceNode: {fileID: 0}
+    SourceField: 
+    defaultValue: 60
+  Output:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 130
+      height: 16

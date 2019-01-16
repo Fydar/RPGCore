@@ -1,10 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using RPGCore.Behaviour.Connections;
-using RPGCore.Behaviour.Editor;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using RPGCore.Behaviour.Editor;
 #endif
 
 namespace RPGCore.Behaviour.Logic
@@ -67,4 +67,3 @@ namespace RPGCore.Behaviour.Logic
 #endif
 	}
 }
-

@@ -123,7 +123,6 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 		if (targetObject == null)
 			return;
 
-
 		#region Format Field Rects
 		List<Rect> propertyRects = new List<Rect> ();
 		Rect marchingRect = new Rect (fieldRect);

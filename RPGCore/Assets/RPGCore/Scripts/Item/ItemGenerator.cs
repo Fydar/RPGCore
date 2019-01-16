@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using RPGCore.Tables;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,18 +9,18 @@ namespace RPGCore
 	[System.Serializable]
 	public class ItemGenerator
 	{
-		public ItemTemplate RewardTemplate = null;
+		public ItemTemplate RewardTemplate;
 
 		public int MinCount = 1;
 		public int MaxCount = 1;
 
-		public bool OverridePrefix = false;
-		public bool OverrideSuffix = false;
-		public bool OverrideModifiers = false;
+		public bool OverridePrefix;
+		public bool OverrideSuffix;
+		public bool OverrideModifiers;
 
-		public EnchantmentSelector Prefix = null;
-		public EnchantmentSelector Suffix = null;
-		public EnchantmentSelector[] Modifiers = null;
+		public EnchantmentSelector Prefix;
+		public EnchantmentSelector Suffix;
+		public EnchantmentSelector[] Modifiers;
 
 		public virtual ItemSurrogate Generate ()
 		{
@@ -177,13 +176,11 @@ namespace RPGCore
 				else
 					EditorGUI.LabelField (prefixRect, "Default Prefix");
 
-
 				overrideSuffixProperty.boolValue = !EditorGUI.Toggle (suffixToggleRect, !overrideSuffixProperty.boolValue);
 				if (overrideSuffixProperty.boolValue)
 					EditorGUI.PropertyField (suffixRect, suffixProperty, GUIContent.none);
 				else
 					EditorGUI.LabelField (suffixRect, "Default Suffix");
-
 
 				EditorGUI.indentLevel = originalIndent;
 
