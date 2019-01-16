@@ -1,0 +1,17 @@
+{
+  "name": "content-creator",
+  "productName": "Content Creator",
+  "version": "0.1.0",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^4.0.1",
+    "electron-packager": "^13.0.1"
+  },
+  "description": "The Content Creator for RPGCore",
+  "dependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anthony Marmont",
+  "license": "ISC"
+}

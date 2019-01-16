@@ -6,7 +6,7 @@ using System;
 namespace RPGCore
 {
 	[NodeInformation ("Item/Grant Weapon Stat", "Attribute")]
-	public class GrantWeaponStatsNode : BehaviourNode
+	public class GrantWeaponStatsNode : BehaviourNode, INodeDescription
 	{
 		public WeaponStatEntry Stat;
 
@@ -107,7 +107,6 @@ namespace RPGCore
 					return;
 
 				modifier.Value = effectInput.Value;
-				UnityEngine.Debug.Log ("Effect value " + modifier.Value);
 			};
 		}
 

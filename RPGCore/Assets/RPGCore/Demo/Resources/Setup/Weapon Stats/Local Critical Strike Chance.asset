@@ -14,11 +14,11 @@ MonoBehaviour:
   Name: Critical Strike Chance
   Description: Chance per hit to critically strike.
   renderFormat: '{0}%'
-  positiveFormat: '{0.#}% additional {name}'
-  negativeFormat: '{0.#}% less {name}'
-  multiplierPositiveFormat: '{0.#}% increased {name}'
-  multiplierNegativeFormat: '{0.#}% reduced {name}'
-  accuracy: 1
+  positiveFormat: '{0}% additional {name}'
+  negativeFormat: '{0}% less {name}'
+  multiplierPositiveFormat: '{0}% increased {name}'
+  multiplierNegativeFormat: '{0}% reduced {name}'
+  accuracy: 0
   rounding: 2
   Abbreviation: CrS
   StatColour:

@@ -138,7 +138,7 @@ namespace RPGCore
 			}
 		}
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize ()
+		public void OnBeforeSerialize ()
 		{
 			Type thisType = GetType ();
 
@@ -177,7 +177,7 @@ namespace RPGCore
 			fieldValues = values.ToArray ();
 		}
 
-		void ISerializationCallbackReceiver.OnAfterDeserialize ()
+		public void OnAfterDeserialize ()
 		{
 			Type thisType = GetType ();
 

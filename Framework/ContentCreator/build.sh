@@ -1,0 +1,1 @@
+electron-packager . content-creator --overwrite --asar=true --platform=win32 --arch=ia32 --icon=Assets/GraphIcon.ico --prune=true --out=release-builds --version-string.CompanyName=AM --version-string.FileDescription=AM --version-string.ProductName="Content Creator"

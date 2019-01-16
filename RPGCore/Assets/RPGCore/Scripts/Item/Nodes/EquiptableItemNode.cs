@@ -9,6 +9,7 @@ namespace RPGCore
 		public Slot slot;
 
 		public BoolOutput Equipped;
+		public int RequiredLevel = 1;
 
 		protected override void OnSetup (IBehaviourContext context)
 		{

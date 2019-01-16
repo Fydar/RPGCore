@@ -11,14 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e752e2050e534f549afccb643a342903, type: 3}
   m_Name: Dashing
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114789821632212480}
-  - {fileID: 114689349077470318}
-  - {fileID: 114001360039262592}
   Name: Fortified
   Description: Granted additional movement speed.
   Icon: {fileID: 21300084, guid: 1bb59d54accb8ef4781a2812f29152d1, type: 3}
   Type: 1
+  nodes:
+  - {fileID: 114789821632212480}
+  - {fileID: 114689349077470318}
+  - {fileID: 114001360039262592}
 --- !u!114 &114001360039262592
 MonoBehaviour:
   m_ObjectHideFlags: 1

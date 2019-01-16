@@ -5,7 +5,7 @@ namespace RPGCore.Tooltips
 {
 	public class BuffClockElement : TooltipElement, ITooltipTarget<Buff>
 	{
-		[SerializeField] private Image filled = null;
+		[SerializeField] private Image filled;
 
 		private Buff buff;
 

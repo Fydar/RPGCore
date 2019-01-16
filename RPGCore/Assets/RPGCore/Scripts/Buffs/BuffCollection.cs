@@ -11,7 +11,7 @@ namespace RPGCore
 
 		private List<Buff> buffs = new List<Buff> ();
 
-		//private RPGCharacter character = null;
+		//private RPGCharacter character;
 
 		public int Count
 		{

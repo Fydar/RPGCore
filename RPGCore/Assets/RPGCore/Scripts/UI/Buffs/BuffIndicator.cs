@@ -7,14 +7,14 @@ using UnityEngine.UI;
 namespace RPGCore
 {
 	[RequireComponent (typeof (RectTransform))]
-	public class BuffIndicator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public sealed class BuffIndicator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public Image Icon;
 		public Image Cooldown;
 		public Text StackSize;
 
-		private Buff buff = null;
-		private bool hovering = false;
+		private Buff buff;
+		private bool hovering;
 		private RectTransform rectTransform;
 
 		public void Setup (BuffsBar parent, Buff buff)

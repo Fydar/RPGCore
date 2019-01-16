@@ -11,10 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2322f168db8276e46952166b8453bcda, type: 3}
   m_Name: Wizarding Slipper
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 114726982519994514}
-  - {fileID: 114358308716159564}
-  - {fileID: 114000012595290118}
   renderPrefab: {fileID: 1158912250424978, guid: 1e391083eb501d243a6963abd3407ae7,
     type: 2}
   renderScale: 1
@@ -22,12 +18,16 @@ MonoBehaviour:
   description: For all your night time wizarding needs.
   startDrag: {fileID: 11400000, guid: c27c72318508af54f94ad1a6d0d9b5db, type: 2}
   endDrag: {fileID: 11400000, guid: 4000d824e8534c8479062e284dd39558, type: 2}
-  prefix: {fileID: 0}
+  prefix: {fileID: 11400000, guid: c502b480191dc4446a2052d7dfd7e6e2, type: 2}
   suffix: {fileID: 0}
   maxStack: 1
   rarity: {fileID: 11400000, guid: 0cc7af0677a2ff34488c73e528188199, type: 2}
   icon: {fileID: 21300000, guid: 2d88b96999e93684a88b2beacec0e5f9, type: 3}
   weight: 1
+  nodes:
+  - {fileID: 114726982519994514}
+  - {fileID: 114358308716159564}
+  - {fileID: 114000012595290118}
 --- !u!114 &114000012595290118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,6 +95,7 @@ MonoBehaviour:
       y: 38
       width: 190
       height: 16
+  RequiredLevel: 1
 --- !u!114 &114726982519994514
 MonoBehaviour:
   m_ObjectHideFlags: 1

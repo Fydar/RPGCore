@@ -13,7 +13,7 @@ namespace RPGCore.UI
 		[SerializeField] private Color defaultStatColor;
 		[SerializeField] private Color enchantedStatColor;
 
-		public void Setup(string key, string value, bool enchant = false)
+		public void Setup (string key, string value, bool enchant = false)
 		{
 			Key.gameObject.SetActive (!string.IsNullOrEmpty (key));
 			Value.gameObject.SetActive (!string.IsNullOrEmpty (value));

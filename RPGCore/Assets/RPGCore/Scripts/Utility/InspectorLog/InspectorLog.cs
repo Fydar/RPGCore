@@ -8,32 +8,32 @@ using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using System.Reflection;
 #if OPEN_SCRIPT
 using System.Runtime.CompilerServices;
 using RPGCore.Utility.Editors;
+using RPGCore.Editors.Utility;
 #endif
 #endif
 
 namespace RPGCore.Utility.InspectorLog
 {
-    [Serializable]
-    public class InspectorLog
-    {
-        public enum LogCategory
-        {
-            Debug,
-            Info,
-            Warning,
-            Error,
-            Send,
-            Receive
-        }
+	[Serializable]
+	public class InspectorLog
+	{
+		public enum LogCategory
+		{
+			Debug,
+			Info,
+			Warning,
+			Error,
+			Send,
+			Receive
+		}
 
-        public struct LogItem
-        {
-            public readonly string content;
-            public readonly LogCategory category;
+		public struct LogItem
+		{
+			public readonly string content;
+			public readonly LogCategory category;
 
 #if OPEN_SCRIPT
 			private readonly int filePathID;
@@ -66,33 +66,33 @@ namespace RPGCore.Utility.InspectorLog
 				AssetDatabase.OpenAsset (AssetDatabase.LoadAssetAtPath (filePath, typeof (MonoScript)), fileLine);
 			}
 #endif
-        }
+		}
 
 #if OPEN_SCRIPT
-        private static Dictionary<int, string> paths = new Dictionary<int, string>();
-        private static int pathRemoveIndex = -1;
+		private static Dictionary<int, string> paths = new Dictionary<int, string> ();
+		private static int pathRemoveIndex = -1;
 #endif
 
-        public event Action<LogItem> OnLogged;
+		public event Action<LogItem> OnLogged;
 
-        [NonSerialized]
-        private List<LogItem> logHistory = new List<LogItem>();
+		[NonSerialized]
+		private List<LogItem> logHistory = new List<LogItem> ();
 
-        public bool ShowIndex { get; }
-        public bool Expandable { get; }
+		public bool ShowIndex { get; }
+		public bool Expandable { get; }
 
-        public int Count
-        {
-            get
-            {
-                if (logHistory == null)
-                    return 0;
+		public int Count
+		{
+			get
+			{
+				if (logHistory == null)
+					return 0;
 
-                return logHistory.Count;
-            }
-        }
+				return logHistory.Count;
+			}
+		}
 
-		public InspectorLog.LogItem this[int index]
+		public LogItem this[int index]
 		{
 			get
 			{
@@ -100,11 +100,11 @@ namespace RPGCore.Utility.InspectorLog
 			}
 		}
 
-        public InspectorLog(bool showIndex = true, bool expandable = false)
-        {
-            ShowIndex = showIndex;
-            Expandable = expandable;
-        }
+		public InspectorLog (bool showIndex = true, bool expandable = false)
+		{
+			ShowIndex = showIndex;
+			Expandable = expandable;
+		}
 
 #if UNITY_EDITOR && OPEN_SCRIPT
 		public void Log (string message,
@@ -176,6 +176,8 @@ namespace RPGCore.Utility.InspectorLog
         public void Log(string message, LogCategory category)
         {
             LogItem item = new LogItem(message, category);
+			if (logHistory == null)
+				logHistory = new List<LogItem> ();
             logHistory.Add(item);
 
             if (OnLogged != null)
@@ -183,11 +185,11 @@ namespace RPGCore.Utility.InspectorLog
         }
 #endif
 
-        public void Clear()
-        {
-            logHistory.Clear();
-        }
-    }
+		public void Clear ()
+		{
+			logHistory.Clear ();
+		}
+	}
 
 #if UNITY_EDITOR
 	[CustomPropertyDrawer (typeof (InspectorLog))]
@@ -207,13 +209,13 @@ namespace RPGCore.Utility.InspectorLog
 
 		private readonly int logSize = 12;
 
-		private Vector2 Offset = new Vector2(float.MinValue, 0);
+		private Vector2 Offset = new Vector2 (float.MinValue, 0);
 		private int SelectedIndex = -1;
 
 		private UnityEngine.Object logParent;
 		private InspectorLog log;
 
-		public override bool CanCacheInspectorGUI(SerializedProperty property)
+		public override bool CanCacheInspectorGUI (SerializedProperty property)
 		{
 			return false;
 		}
@@ -279,11 +281,11 @@ namespace RPGCore.Utility.InspectorLog
 
 			label = new GUIContent (label.text, ConsoleIcon, label.tooltip);
 
-			Rect headerRect = new Rect(position)
+			Rect headerRect = new Rect (position)
 			{
 				height = EditorGUIUtility.singleLineHeight
 			};
-			Rect viewRect = new Rect(position)
+			Rect viewRect = new Rect (position)
 			{
 				yMin = headerRect.yMax
 			};
@@ -312,15 +314,15 @@ namespace RPGCore.Utility.InspectorLog
 			{
 				elements = log.Count;
 			}
-			foreach (var element in new UniformScrollController(viewRect, EditorGUIUtility.singleLineHeight, ref Offset, elements))
+			foreach (var element in new UniformScrollController (viewRect, EditorGUIUtility.singleLineHeight, ref Offset, elements))
 			{
 				if (element.Index >= log.Count)
 					continue;
-				DrawElement(element.Index, log[element.Index], element.Position);
+				DrawElement (element.Index, log[element.Index], element.Position);
 			}
 		}
 
-		private void DrawElement(int index, InspectorLog.LogItem item, Rect logRect)
+		private void DrawElement (int index, InspectorLog.LogItem item, Rect logRect)
 		{
 			if (Event.current.type == EventType.Repaint)
 			{
@@ -369,16 +371,16 @@ namespace RPGCore.Utility.InspectorLog
 			}
 			else if (Event.current.type == EventType.MouseDown)
 			{
-				if (logRect.Contains(Event.current.mousePosition))
+				if (logRect.Contains (Event.current.mousePosition))
 				{
 					SelectedIndex = index;
 					if (Event.current.clickCount == 2)
 					{
 #if OPEN_SCRIPT
-						ExecuteAction(item);
+						ExecuteAction (item);
 #endif
 					}
-					Event.current.Use();
+					Event.current.Use ();
 				}
 			}
 		}

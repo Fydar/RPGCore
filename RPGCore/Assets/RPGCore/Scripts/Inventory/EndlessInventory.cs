@@ -58,7 +58,6 @@ namespace RPGCore.Inventories
 					partiallyComplete = true;
 			}*/
 
-
 			AddResult lastAddResult = AddResult.None;
 
 			while (lastAddResult != AddResult.Complete)

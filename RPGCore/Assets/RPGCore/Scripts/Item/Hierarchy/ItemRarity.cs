@@ -6,10 +6,6 @@ namespace RPGCore
 	public class ItemRarity : ScriptableObject
 	{
 		public Color NameColour;
-
-#if ASSET_ICONS
-		[AssetIcon]
-#endif
 		public Sprite SlotImage;
 
 		[Header ("Tooltip")]
@@ -17,4 +13,3 @@ namespace RPGCore
 		public Color HeaderBackground;
 	}
 }
-

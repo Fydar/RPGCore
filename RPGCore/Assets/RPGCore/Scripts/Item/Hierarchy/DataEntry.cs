@@ -6,12 +6,12 @@ using UnityEngine;
 namespace RPGCore
 {
 	[Serializable]
-	public class DataEntry : ISerializationCallbackReceiver
+	public sealed class DataEntry : ISerializationCallbackReceiver
 	{
 		private static BinaryFormatter Formatter = new BinaryFormatter ();
 
-		[SerializeField] private byte[] data = null;
-		[NonSerialized] private object TargetObject = null;
+		[SerializeField] private byte[] data;
+		[NonSerialized] private object TargetObject;
 
 		public void SetValue<T> (T value)
 		{

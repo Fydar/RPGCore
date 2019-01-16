@@ -2,12 +2,11 @@
 using RPGCore.Behaviour.Connections;
 using RPGCore.Stats;
 using System;
-using UnityEngine;
 
 namespace RPGCore
 {
 	[NodeInformation ("Character/Grant Stat", "Attribute")]
-	public class StatsNode : BehaviourNode
+	public class StatsNode : BehaviourNode, INodeDescription
 	{
 		public StatEntry entry;
 
@@ -36,7 +35,7 @@ namespace RPGCore
 			ConnectionEntry<RPGCharacter> targetInput = Target[context];
 			ConnectionEntry<bool> activeInput = Active[context];
 			ConnectionEntry<float> effectInput = Effect[context];
-			
+
 			StatInstance.Modifier modifier = null;
 			bool isActive = false;
 

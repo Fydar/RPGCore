@@ -15,14 +15,14 @@ namespace RPGCore
 		public EventOutput OnHit;
 
 		[NonSerialized]
-		public Dictionary<IBehaviourContext, WeaponStatInstanceCollection> StatsMapping = new Dictionary<IBehaviourContext, WeaponStatInstanceCollection>();
+		public Dictionary<IBehaviourContext, WeaponStatInstanceCollection> StatsMapping = new Dictionary<IBehaviourContext, WeaponStatInstanceCollection> ();
 
 		public WeaponStatInstanceCollection GetStats (IBehaviourContext context)
 		{
 			return StatsMapping[context];
 		}
 
-		public StatInstance GetStat (IBehaviourContext context, CollectionEntry entry)
+		public StatInstance GetStat (ItemSurrogate context, CollectionEntry entry)
 		{
 			WeaponStatInstanceCollection statsCollection = StatsMapping[context];
 			StatInstance stat = statsCollection[entry];

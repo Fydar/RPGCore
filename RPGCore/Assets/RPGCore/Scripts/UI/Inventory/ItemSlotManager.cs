@@ -10,10 +10,10 @@ namespace RPGCore.Inventories
 	/// </summary>
 	public class ItemSlotManager : MonoBehaviour, IPointerClickHandler, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 	{
-		public static ItemSlotManager CurrentlyHovered = null;
+		public static ItemSlotManager CurrentlyHovered;
 
 		[Header ("Input")]
-		public bool Hovered = false;
+		public bool Hovered;
 
 		[NonSerialized]
 		public ItemSlot slot;
@@ -31,7 +31,7 @@ namespace RPGCore.Inventories
 		private Action slotAfterChangeHandler;
 
 		[NonSerialized]
-		private bool hasInitiated = false;
+		private bool hasInitiated;
 
 		private void Awake ()
 		{

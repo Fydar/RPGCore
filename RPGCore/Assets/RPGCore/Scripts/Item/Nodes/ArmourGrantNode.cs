@@ -6,7 +6,7 @@ using System;
 namespace RPGCore
 {
 	[NodeInformation ("Item/Grant Armour Stat", "Attribute")]
-	public class ArmourGrantNode : BehaviourNode
+	public class ArmourGrantNode : BehaviourNode, INodeDescription
 	{
 		public ArmourStatEntry Stat;
 

@@ -1,6 +1,5 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Behaviour.Connections;
-using RPGCore.Stats;
 using System;
 
 namespace RPGCore
@@ -28,8 +27,8 @@ namespace RPGCore
 					return;
 				}
 
-				var localStatInput = weaponNode.GetStat (context, Stat);
-				
+				var localStatInput = weaponNode.GetStat (targetInput.Value, Stat);
+
 				valueInput.Value = localStatInput.Value;
 			};
 

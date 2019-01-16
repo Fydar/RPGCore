@@ -8,7 +8,7 @@ namespace RPGCore.Inventories
 		[HideInInspector]
 		public int serializedID = -1;
 
-		private ItemSurrogate defaultItem = null;
+		private ItemSurrogate defaultItem;
 
 		public override ItemSurrogate Default
 		{

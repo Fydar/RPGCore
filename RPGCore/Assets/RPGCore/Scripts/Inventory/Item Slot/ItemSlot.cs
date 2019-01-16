@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGCore.Behaviour;
+using System;
 using UnityEngine;
 
 namespace RPGCore.Inventories
@@ -9,11 +10,11 @@ namespace RPGCore.Inventories
 		public Action onAfterChanged;
 
 		[NonSerialized]
-		public Sprite SlotDecoration = null;
+		public Sprite SlotDecoration;
 
-		protected readonly RPGCharacter owner = null;
-		public readonly ItemSlotBehaviour[] Behaviours = null;
-		public readonly ItemCondition[] Conditions = null;
+		protected readonly RPGCharacter owner;
+		public readonly ItemSlotBehaviour[] Behaviours;
+		public readonly ItemCondition[] Conditions;
 
 		[NonSerialized]
 		private ItemSurrogate item;
@@ -156,7 +157,7 @@ namespace RPGCore.Inventories
 			}
 		}
 
-		public ItemSlot (RPGCharacter _owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
+		protected ItemSlot (RPGCharacter _owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
 		{
 			owner = _owner;
 			Behaviours = behaviours;
@@ -228,4 +229,3 @@ namespace RPGCore.Inventories
 		}
 	}
 }
-
