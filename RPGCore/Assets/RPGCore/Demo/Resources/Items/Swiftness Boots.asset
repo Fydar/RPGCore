@@ -289,13 +289,60 @@ MonoBehaviour:
   m_Name: Armour Input
   m_EditorClassIdentifier: 
   Position: {x: 25, y: 254}
-  Armour:
+  Inputs:
+    fieldDirectories: []
+    fieldValues: []
+    Attack:
+      drawRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      SourceNode: {fileID: 0}
+      SourcePath: 
+      defaultValue: 0
+    AttackSpeed:
+      drawRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      SourceNode: {fileID: 0}
+      SourcePath: 
+      defaultValue: 0
+    CriticalStrikeChance:
+      drawRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      SourceNode: {fileID: 0}
+      SourcePath: 
+      defaultValue: 0
+    CriticalStrikeMultiplier:
+      drawRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      SourceNode: {fileID: 0}
+      SourcePath: 
+      defaultValue: 0
+  HitTarget:
     drawRect:
       serializedVersion: 2
       x: 5
-      y: 20
+      y: 38
       width: 190
       height: 16
-    SourceNode: {fileID: 114623182213608350}
-    SourcePath: Output
-    defaultValue: 10
+  OnHit:
+    drawRect:
+      serializedVersion: 2
+      x: 5
+      y: 56
+      width: 190
+      height: 16

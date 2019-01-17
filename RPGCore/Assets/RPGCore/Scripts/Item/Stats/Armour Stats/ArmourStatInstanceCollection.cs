@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Generic;
+
 namespace RPGCore.Stats
 {
-	[Serializable]
+    [Serializable]
 	public class ArmourStatInstanceCollection : ArmourStatCollection<StatInstance>
 	{
 		public void SetupReferences ()
@@ -12,7 +13,8 @@ namespace RPGCore.Stats
 
 			while (ArmourStats.MoveNext ())
 			{
-				info.MoveNext ();
+				info.MoveNext ();
+
 				if (info.Current == null)
 					continue;
 
