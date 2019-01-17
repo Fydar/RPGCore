@@ -12,7 +12,7 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			
+
 		}
 
 		protected override void OnRemove (IBehaviourContext context)

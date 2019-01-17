@@ -14,7 +14,7 @@ namespace RPGCore
 			public FieldInfo Member;
 			public System.Object Target;
 
-			public Route(FieldInfo member, System.Object target)
+			public Route (FieldInfo member, System.Object target)
 			{
 				Member = member;
 				Target = target;
@@ -69,8 +69,8 @@ namespace RPGCore
 				return currentType.GetGenericTypeDefinition ();
 			}
 		}
-		
-		public abstract IEnumerable<Route> FindAllRoutes();
+
+		public abstract IEnumerable<Route> FindAllRoutes ();
 	}
 
 	public class EnumerableCollection<T> : EnumerableCollection, IEnumerable<T>, ISerializationCallbackReceiver
@@ -99,15 +99,15 @@ namespace RPGCore
 		{
 			List<T> foundObjects = new List<T> ();
 
-			foreach(Route route in FindAllRoutes())
+			foreach (Route route in FindAllRoutes ())
 			{
-				foundObjects.Add ((T)FieldGetOrCreate(route.Member, route.Target));
+				foundObjects.Add ((T)FieldGetOrCreate (route.Member, route.Target));
 			}
 
 			arrayCache = foundObjects.ToArray ();
 		}
 
-		public override IEnumerable<Route> FindAllRoutes()
+		public override IEnumerable<Route> FindAllRoutes ()
 		{
 			CollectionInformation information = ReflectionInformation ();
 
@@ -117,7 +117,7 @@ namespace RPGCore
 
 				if (collectionInfo.FieldType == typeof (T))
 				{
-					yield return new Route(collectionInfo, this);
+					yield return new Route (collectionInfo, this);
 				}
 				else if (typeof (EnumerableCollection).IsAssignableFrom (info.FieldType))
 				{
@@ -131,7 +131,7 @@ namespace RPGCore
 
 						if (childCollectionInfo.FieldType == typeof (T))
 						{
-							yield return new Route(collectionInfo, collection);
+							yield return new Route (collectionInfo, collection);
 						}
 					}
 				}

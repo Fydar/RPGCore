@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RPGCore.Behaviour.Connections;
+using System;
 using System.Collections.Generic;
-using RPGCore.Behaviour.Connections;
 
 namespace RPGCore.Stats
 {

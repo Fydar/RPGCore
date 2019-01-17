@@ -59,7 +59,7 @@ namespace RPGCore.Behaviour
 
 				behaviourNode.RemoveContext (context);
 
-				foreach (OutputSocket data in node.Outputs)
+				foreach (OutputSocket data in node.OutputSockets)
 				{
 					if (data == null)
 						continue;
@@ -67,7 +67,7 @@ namespace RPGCore.Behaviour
 					data.RemoveContext (context);
 				}
 
-				foreach (InputSocket data in node.Inputs)
+				foreach (InputSocket data in node.InputSockets)
 				{
 					if (data == null)
 						continue;

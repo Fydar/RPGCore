@@ -19,32 +19,32 @@ namespace RPGCore.Behaviour
 		public Vector2 Position;
 
 		[NonSerialized]
-		public Rect LastRect;
+		public Rect lastDrawRect;
 
 		[NonSerialized]
-		private InputSocket[] inputs;
+		private InputSocket[] inputSockets;
 		[NonSerialized]
-		private OutputSocket[] outputs;
+		private OutputSocket[] outputSockets;
 
-		public InputSocket[] Inputs
+		public InputSocket[] InputSockets
 		{
 			get
 			{
-				if (inputs == null)
-					inputs = FindAllSockets<InputSocket> ();
+				if (inputSockets == null)
+					inputSockets = FindAllSockets<InputSocket> ();
 
-				return inputs;
+				return inputSockets;
 			}
 		}
 
-		public OutputSocket[] Outputs
+		public OutputSocket[] OutputSockets
 		{
 			get
 			{
-				if (outputs == null)
-					outputs = FindAllSockets<OutputSocket> ();
+				if (outputSockets == null)
+					outputSockets = FindAllSockets<OutputSocket> ();
 
-				return outputs;
+				return outputSockets;
 			}
 		}
 
@@ -78,14 +78,14 @@ namespace RPGCore.Behaviour
 
 		public OutputSocket GetOutput (string id)
 		{
-			string[] paths = id.Split('.');
+			string[] paths = id.Split ('.');
 			object currentTarget = this;
 
 			for (int i = 0; i < paths.Length; i++)
 			{
 				string path = paths[i];
 
-				FieldInfo field = currentTarget.GetType().GetField (path);
+				FieldInfo field = currentTarget.GetType ().GetField (path);
 
 				if (field == null)
 					return null;
@@ -94,24 +94,24 @@ namespace RPGCore.Behaviour
 
 				if (currentTarget == null)
 					return null;
-			}		
+			}
 
-			if (!typeof(OutputSocket).IsAssignableFrom(currentTarget.GetType()))
+			if (!typeof (OutputSocket).IsAssignableFrom (currentTarget.GetType ()))
 				return null;
 
-			return (OutputSocket)currentTarget;	
+			return (OutputSocket)currentTarget;
 		}
 
 		private T[] FindAllSockets<T> ()
 			where T : Socket
 		{
 			List<T> foundObjects = new List<T> ();
-			Stack<string> socketPath = new Stack<string>();
+			Stack<string> socketPath = new Stack<string> ();
 
 			for (int i = 0; i < CollectionFields.Length; i++)
 			{
 				FieldInfo targetField = CollectionFields[i];
-				socketPath.Push(targetField.Name);
+				socketPath.Push (targetField.Name);
 
 				if (typeof (T).IsAssignableFrom (targetField.FieldType))
 				{
@@ -121,7 +121,7 @@ namespace RPGCore.Behaviour
 						childSocket = (T)Activator.CreateInstance (targetField.FieldType);
 						targetField.SetValue (this, childSocket);
 					}
-					childSocket.SocketPath = string.Join(".", socketPath.Reverse());
+					childSocket.SocketPath = string.Join (".", socketPath.Reverse ());
 					childSocket.ParentNode = this;
 					foundObjects.Add (childSocket);
 				}
@@ -135,9 +135,9 @@ namespace RPGCore.Behaviour
 					if (enumer == null)
 						continue;
 
-					foreach (var child in enumer.FindAllRoutes())
+					foreach (var child in enumer.FindAllRoutes ())
 					{
-						object childObject = child.Member.GetValue(child.Target);
+						object childObject = child.Member.GetValue (child.Target);
 
 						if (childObject == null)
 						{
@@ -148,11 +148,11 @@ namespace RPGCore.Behaviour
 						if (typeof (T).IsAssignableFrom (childObject.GetType ()))
 						{
 							T childSocket = (T)childObject;
-							
-							socketPath.Push(child.Member.Name);
-							childSocket.SocketPath = string.Join(".", socketPath.Reverse());
-							socketPath.Pop();
-							
+
+							socketPath.Push (child.Member.Name);
+							childSocket.SocketPath = string.Join (".", socketPath.Reverse ());
+							socketPath.Pop ();
+
 							childSocket.ParentNode = this;
 							foundObjects.Add (childSocket);
 						}
@@ -169,12 +169,12 @@ namespace RPGCore.Behaviour
 						if (childSocket == null)
 							continue;
 
-						childSocket.SocketPath = string.Join(".", socketPath.Reverse());
+						childSocket.SocketPath = string.Join (".", socketPath.Reverse ());
 						childSocket.ParentNode = this;
 						foundObjects.Add (childSocket);
 					}
 				}
-				socketPath.Pop();
+				socketPath.Pop ();
 			}
 
 			return foundObjects.ToArray ();
@@ -184,8 +184,8 @@ namespace RPGCore.Behaviour
 
 		public void OnAfterDeserialize ()
 		{
-			var tempA = Inputs;
-			var tempB = Outputs;
+			var tempA = InputSockets;
+			var tempB = OutputSockets;
 		}
 
 #if UNITY_EDITOR

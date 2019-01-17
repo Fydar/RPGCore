@@ -55,7 +55,7 @@ namespace RPGCore
 				if (!isActive)
 				{
 					targetInput.Value.equipment.Items[EquipmentSlot.Index].onAfterChanged += eventHandler;
-					eventHandler();
+					eventHandler ();
 				}
 
 				isActive = true;
