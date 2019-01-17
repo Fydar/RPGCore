@@ -286,7 +286,7 @@ namespace RPGCore.Behaviour.Editor
 					node.Position.y + dragging_Position.y, contentSize.x,
 					contentSize.y + 22), drawNodeGUI, new GUIContent (node.name));
 
-				node.LastRect = newRect;
+				node.lastDrawRect = newRect;
 
 				node.Position.x = newRect.x - dragging_Position.x;
 				node.Position.y = newRect.y - dragging_Position.y;
@@ -311,10 +311,10 @@ namespace RPGCore.Behaviour.Editor
 				EditorUtility.SetDirty (node);
 			}
 
-			if (!node.LastRect.Overlaps (screenRect))
+			if (!node.lastDrawRect.Overlaps (screenRect))
 				return;
 
-			Rect settingsRect = new Rect (node.LastRect.width - 20, 5, 20, 20);
+			Rect settingsRect = new Rect (node.lastDrawRect.width - 20, 5, 20, 20);
 			Rect iconRect = new Rect (0, 0, 18, 18);
 
 			if (GUI.Button (settingsRect, "", BehaviourGUIStyles.Instance.settingsStyle))
@@ -354,7 +354,7 @@ namespace RPGCore.Behaviour.Editor
 			//Undo.RecordObject (node, "Edit Node");
 
 			float originalLabelWidth = EditorGUIUtility.labelWidth;
-			EditorGUIUtility.labelWidth = node.LastRect.width / 2;
+			EditorGUIUtility.labelWidth = node.lastDrawRect.width / 2;
 
 			serializedObject.FindProperty ("Position").vector2Value = node.Position;
 
@@ -365,7 +365,7 @@ namespace RPGCore.Behaviour.Editor
 			//	RenameAction (node, newName);
 			//}
 
-			Rect contentRect = BehaviourGraphResources.Instance.NodeStyle.padding.Remove (node.LastRect);
+			Rect contentRect = BehaviourGraphResources.Instance.NodeStyle.padding.Remove (node.lastDrawRect);
 
 			node.DrawGUI (serializedObject, new Rect (contentRect.x - node.Position.x - dragging_Position.x,
 				contentRect.y - node.Position.y - dragging_Position.y,
@@ -387,9 +387,9 @@ namespace RPGCore.Behaviour.Editor
 #if HOVER_EFFECTS
 			if (connection_Start == null && connection_End == null)
 			{
-				EditorGUIUtility.AddCursorRect (new Rect (node.LastRect.x - node.Position.x - dragging_Position.x,
-					node.LastRect.y - node.Position.y - dragging_Position.y,
-					node.LastRect.width, node.LastRect.height), MouseCursor.MoveArrow);
+				EditorGUIUtility.AddCursorRect (new Rect (node.lastDrawRect.x - node.Position.x - dragging_Position.x,
+					node.lastDrawRect.y - node.Position.y - dragging_Position.y,
+					node.lastDrawRect.width, node.lastDrawRect.height), MouseCursor.MoveArrow);
 			}
 #endif
 
@@ -501,7 +501,7 @@ namespace RPGCore.Behaviour.Editor
 				if (node == null)
 					continue;
 
-				foreach (InputSocket inputSocket in node.Inputs)
+				foreach (InputSocket inputSocket in node.InputSockets)
 				{
 					if (inputSocket == null)
 						continue;
@@ -537,7 +537,7 @@ namespace RPGCore.Behaviour.Editor
 				if (node == null)
 					continue;
 
-				foreach (InputSocket thisInput in node.Inputs)
+				foreach (InputSocket thisInput in node.InputSockets)
 				{
 					if (thisInput == null)
 						continue;
@@ -598,7 +598,7 @@ namespace RPGCore.Behaviour.Editor
 					}
 				}
 
-				foreach (OutputSocket thisOutput in node.Outputs)
+				foreach (OutputSocket thisOutput in node.OutputSockets)
 				{
 					if (thisOutput == null)
 						continue;
@@ -683,14 +683,14 @@ namespace RPGCore.Behaviour.Editor
 			if (!IsValidAttach (start, end))
 				return;
 
-			string[] paths = end.SocketPath.Split('.');
+			string[] paths = end.SocketPath.Split ('.');
 			SerializedObject obj = SerializedObjectPool.Grab (end.ParentNode);
 			SerializedProperty socketProperty = obj.FindProperty (paths[0]);
-			UnityEngine.Debug.Log(socketProperty.displayName);
+			UnityEngine.Debug.Log (socketProperty.displayName);
 
 			for (int i = 1; i < paths.Length; i++)
 			{
-				socketProperty = socketProperty.FindPropertyRelative(paths[i]);
+				socketProperty = socketProperty.FindPropertyRelative (paths[i]);
 			}
 
 			SerializedProperty sourceNodeProperty = socketProperty.FindPropertyRelative ("SourceNode");
@@ -708,11 +708,11 @@ namespace RPGCore.Behaviour.Editor
 		{
 			SerializedObject obj = SerializedObjectPool.Grab (socket.ParentNode);
 
-			string[] paths = socket.SocketPath.Split('.');
+			string[] paths = socket.SocketPath.Split ('.');
 			SerializedProperty socketProperty = obj.FindProperty (paths[0]);
 			for (int i = 1; i < paths.Length; i++)
 			{
-				socketProperty = socketProperty.FindPropertyRelative(paths[i]);
+				socketProperty = socketProperty.FindPropertyRelative (paths[i]);
 			}
 
 			SerializedProperty sourceNodeProperty = socketProperty.FindPropertyRelative ("SourceNode");
@@ -730,18 +730,18 @@ namespace RPGCore.Behaviour.Editor
 		{
 			foreach (BehaviourNode detachNode in targetGraph.AllNodes)
 			{
-				foreach (InputSocket detachInput in detachNode.Inputs)
+				foreach (InputSocket detachInput in detachNode.InputSockets)
 				{
 					if (detachInput.SourceNode == socket.ParentNode &&
 						detachInput.SourcePath == socket.SocketPath)
 					{
 						SerializedObject detatchObject = SerializedObjectPool.Grab (detachNode);
-	
-						string[] paths = socket.SocketPath.Split('.');
+
+						string[] paths = socket.SocketPath.Split ('.');
 						SerializedProperty detatchSocketProperty = detatchObject.FindProperty (paths[0]);
 						for (int i = 1; i < paths.Length; i++)
 						{
-							detatchSocketProperty = detatchSocketProperty.FindPropertyRelative(paths[i]);
+							detatchSocketProperty = detatchSocketProperty.FindPropertyRelative (paths[i]);
 						}
 
 						SerializedProperty detatchSourceNodeProperty = detatchSocketProperty.FindPropertyRelative ("SourceNode");
@@ -834,13 +834,13 @@ namespace RPGCore.Behaviour.Editor
 
 				string filter = "";
 
-				foreach(var assembly in AppDomain.CurrentDomain.GetAssemblies())
+				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ())
 				{
-					foreach(var type in assembly.GetTypes())
+					foreach (var type in assembly.GetTypes ())
 					{
-						if (typeof(IBehaviourGraph).IsAssignableFrom(type) 
-						 && typeof(ScriptableObject).IsAssignableFrom(type)
-						 && !typeof(IBehaviourGraph).IsAssignableFrom(type.BaseType))
+						if (typeof (IBehaviourGraph).IsAssignableFrom (type)
+						 && typeof (ScriptableObject).IsAssignableFrom (type)
+						 && !typeof (IBehaviourGraph).IsAssignableFrom (type.BaseType))
 						{
 							filter += "t:" + type.Name + " ";
 						}

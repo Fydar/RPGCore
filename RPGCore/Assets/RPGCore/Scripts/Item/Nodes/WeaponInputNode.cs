@@ -35,15 +35,16 @@ namespace RPGCore
 			StatsMapping[context] = statsCollection;
 			statsCollection.GetEnumerator ();
 
-			var inputsEnumerator = Inputs.GetEnumerator();
-			foreach(var stat in GetStats(context))
+			var inputsEnumerator = Inputs.GetEnumerator ();
+			foreach (var stat in GetStats (context))
 			{
-				inputsEnumerator.MoveNext();
+				inputsEnumerator.MoveNext ();
 				var currentInput = inputsEnumerator.Current[context];
 
-				var modifier = stat.AddFlatModifier(currentInput.Value);
+				var modifier = stat.AddFlatModifier (currentInput.Value);
 				currentInput.OnAfterChanged += () => modifier.Value = currentInput.Value;
-			}}
+			}
+		}
 
 		protected override void OnRemove (IBehaviourContext context)
 		{

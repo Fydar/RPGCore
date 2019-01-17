@@ -9,7 +9,7 @@ namespace RPGCore.Behaviour
 
 		[SerializeField]
 		public BehaviourNode SourceNode;
-		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("SourceField")]
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs ("SourceField")]
 		public string SourcePath;
 
 		[NonSerialized]
@@ -21,15 +21,15 @@ namespace RPGCore.Behaviour
 			{
 				if (sourceSocket == null)
 				{
-					
+
 				}
 				if (SourceNode == null)
 				{
 					return null;
 				}
 
-				var tempA = SourceNode.Inputs;
-				var tempB = SourceNode.Outputs;
+				var tempA = SourceNode.InputSockets;
+				var tempB = SourceNode.OutputSockets;
 
 				sourceSocket = SourceNode.GetOutput (SourcePath);
 
