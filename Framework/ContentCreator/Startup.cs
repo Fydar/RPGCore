@@ -57,7 +57,7 @@ namespace ContentCreator
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Static}/{action=Index}/");
             });
 			
 			if (HybridSupport.IsElectronActive)
@@ -74,8 +74,9 @@ namespace ContentCreator
 				Width = 1152,
 				Height = 864,
 				Show = false,
-				Icon = "~/Assets/GraphIcon.ico",
+				//Icon = "~/Assets/GraphIcon.ico",
 				SkipTaskbar = false
+				//TitleBarStyle = "hidden"
 			});
 			browserWindow.OnReadyToShow += () => browserWindow.Show();
 		}
