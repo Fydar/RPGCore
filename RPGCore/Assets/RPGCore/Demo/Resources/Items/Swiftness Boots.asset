@@ -292,37 +292,7 @@ MonoBehaviour:
   Inputs:
     fieldDirectories: []
     fieldValues: []
-    Attack:
-      drawRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      SourceNode: {fileID: 0}
-      SourcePath: 
-      defaultValue: 0
-    AttackSpeed:
-      drawRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      SourceNode: {fileID: 0}
-      SourcePath: 
-      defaultValue: 0
-    CriticalStrikeChance:
-      drawRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      SourceNode: {fileID: 0}
-      SourcePath: 
-      defaultValue: 0
-    CriticalStrikeMultiplier:
+    Armour:
       drawRect:
         serializedVersion: 2
         x: 0
