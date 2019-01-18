@@ -247,6 +247,7 @@ MonoBehaviour:
   selectedIcon: {fileID: 0}
   newIcon: {fileID: 0}
   nameText: {fileID: 0}
+  quantityIsCharges: 0
   quantityText: {fileID: 114607838226083260}
   HideQuantityOnOne: 1
   id: 0

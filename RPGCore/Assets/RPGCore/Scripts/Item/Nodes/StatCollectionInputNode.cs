@@ -12,7 +12,7 @@ namespace RPGCore
 		where A : EnumerableCollection<FloatInput>
 		where B : EnumerableCollection<StatInstance>, new()
 	{
-		public WeaponStatFloatInputCollection Inputs;
+		public A Inputs;
 
 		public CharacterOutput HitTarget;
 		public EventOutput OnHit;
