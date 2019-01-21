@@ -34,7 +34,6 @@ namespace RPGCore.Utility.Editors
 			{
 				currentIndex = 0;
 				idProperty.stringValue = names[EditorGUI.Popup (position, label.text, currentIndex, names)];
-				Debug.Log ("Assignig default value");
 			}
 
 			EditorGUI.BeginChangeCheck ();
