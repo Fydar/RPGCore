@@ -30,7 +30,6 @@
     <Folder Include="wwwroot\assets\" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Assets\GraphIcon Large.png">
     <PackageReference Include="ElectronNET.API" Version="0.0.11" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
@@ -43,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\electron.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\GraphIcon Large.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\GraphIcon.ico">

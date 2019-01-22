@@ -1,0 +1,38 @@
+﻿<template class="task-template">
+	<section id="static-section" class="section js-section u-category-communication">
+		<header class="communication">
+			<div class="section-wrapper">
+				<h1>
+					<svg class="section-icon"><use xlink:href="assets/img/icons.svg#icon-communication"></use></svg>
+					Communication between processes
+				</h1>
+				<h3>The <code>ipc</code> (inter-process communication) module allows you to send and receive synchronous and asynchronous messages between the main and renderer processes.</h3>
+
+				<p>There is a version of this module available for both processes: <code>Electron.IpcMain</code> and <code>ipcRenderer</code>.</p>
+				<p>You find the sample source code in <code>Controllers\IpcController.cs</code>.</p>
+			</div>
+		</header>
+
+		<p>Prototype Editor</p>
+
+		<code id="async-msg">
+			(None)
+		</code>
+
+		<script>
+			(function () {
+				const { ipcRenderer } = require("electron");
+
+				document.getElementById('async-msg').innerHTML = "Placeholder";
+
+				ipcRenderer.on('onReloadFile-reply', (event, arg) => {
+					const message = 'Asynchronous message reply: ' + arg;
+					console.log(message);
+					document.getElementById('async-msg').innerHTML = message;
+				});
+
+			}());
+		</script>
+
+	</section>
+</template>
