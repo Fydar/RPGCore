@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using ContentCreator.Models;
 using ElectronNET.API.Entities;
 using ElectronNET.API;
 using System.Linq;
@@ -177,12 +176,6 @@ namespace ContentCreator.Controllers
 			Electron.Menu.SetApplicationMenu(windowMenu);
 			
 			return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
