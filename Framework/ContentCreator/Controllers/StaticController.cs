@@ -69,6 +69,14 @@ namespace ContentCreator.Controllers
 								
 								var manager = new FileManager(result[0]);
 								FileManagers.Add(manager);
+
+								Electron.IpcMain.Send(mainWindow, "onReloadFile-reply", new object[] { manager.ReadFile() });
+
+								manager.OnChanged += () => {
+									Console.WriteLine("Sending Update");
+									Electron.IpcMain.Send(mainWindow, "onReloadFile-reply", new object[] { manager.ReadFile() });
+									Console.WriteLine("Finished Sending Update");
+								};
 							}
 						},
 						new MenuItem
@@ -91,7 +99,7 @@ namespace ContentCreator.Controllers
 									NameFieldLabel = "Behaviour"
 								};
 
-								var result = await Electron.Dialog.ShowSaveDialogAsync(mainWindow, saveOptions);
+								string result = await Electron.Dialog.ShowSaveDialogAsync(mainWindow, saveOptions);
 
 								string[] data = System.IO.File.ReadAllLines(result);
 
