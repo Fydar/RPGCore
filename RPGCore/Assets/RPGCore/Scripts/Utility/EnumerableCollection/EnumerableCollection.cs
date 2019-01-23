@@ -131,7 +131,7 @@ namespace RPGCore
 
 						if (childCollectionInfo.FieldType == typeof (T))
 						{
-							yield return new Route (collectionInfo, collection);
+							yield return new Route (childCollectionInfo, collection);
 						}
 					}
 				}
