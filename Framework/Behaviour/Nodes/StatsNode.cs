@@ -8,10 +8,14 @@ namespace Behaviour
 		public InputSocket ValueB;
 		public string TooltipFormat = "{0}";
 
-		public override SocketMap[] Connect(GraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs(GraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref ValueA, out instance.valueA),
 			graph.Connect(ref ValueB, out instance.valueB)
+		};
+
+		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => new[]
+		{
 		};
 
 		public class Metadata : INodeInstance

@@ -8,10 +8,14 @@ namespace Behaviour
 		public InputSocket RequirementB;
 		public OutputSocket Selected = new OutputSocket();
 
-		public override SocketMap[] Connect(GraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs(GraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref RequirementA, out instance.requirementA),
 			graph.Connect(ref RequirementB, out instance.requirementB)
+		};
+
+		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => new[]
+		{
 		};
 
 		public class Metadata : IAiNode

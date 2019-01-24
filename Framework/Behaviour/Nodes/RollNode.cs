@@ -9,7 +9,12 @@ namespace Behaviour
 		public int MinValue = 2;
 		public int MaxValue = 12;
 
-		public override SocketMap[] Connect(GraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs(GraphInstance graph, Metadata instance) => new[]
+		{
+			
+		};
+
+		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref Output, out instance.output),
 		};

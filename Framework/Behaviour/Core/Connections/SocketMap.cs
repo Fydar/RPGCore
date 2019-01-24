@@ -11,4 +11,32 @@
 			Link = link;
 		}
 	}
+
+	public struct InputMap
+	{
+		public InputSocket Source;
+		public Type ConnectionType;
+		public object Link;
+
+		public InputMap(InputSocket source, Type connectionType, object link)
+		{
+			Source = source;
+			Link = link;
+			ConnectionType = connectionType;
+		}
+	}
+
+	public struct OutputMap
+	{
+		public OutputSocket Source;
+		public Type ConnectionType;
+		public object Link;
+
+		public InputMap(OutputSocket source, Type connectionType, object link)
+		{
+			Source = source;
+			Link = link;
+			ConnectionType = connectionType;
+		}
+	}
 }

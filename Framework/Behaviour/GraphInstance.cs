@@ -27,14 +27,14 @@
 			canCreate = true;
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].ConnectToken(this, behaviourTokens[i]);
+				graph.Nodes[i].Inputs(this, behaviourTokens[i]);
 			}
 
 			// Allow all outputs to assign themselves to that connection
 			canCreate = false;
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].ConnectToken(this, behaviourTokens[i]);
+				graph.Nodes[i].Outputs(this, behaviourTokens[i]);
 			}
 		}
 
@@ -67,29 +67,29 @@
 			return null;
 		}
 
-		public SocketMap Connect<T>(ref InputSocket socket, out IInput<T> connection)
+		public InputMap Connect<T>(ref InputSocket socket, out IInput<T> connection)
 		{
 			connection = Connect<T>(socket.TargetId);
-			return new SocketMap(socket, connection);
+			return new InputMap(socket, connection, typeof(T));
 		}
 
-		public SocketMap Connect<T>(ref OutputSocket socket, out IOutput<T> connection)
+		public OutputMap Connect<T>(ref OutputSocket socket, out IOutput<T> connection)
 		{
 			connection = Connect<T>(socket.Id);
-			return new SocketMap(socket, connection);
+			return new OutputMap(socket, connection);
 		}
 
-		public SocketMap Connect<T>(ref OutputSocket socket, out ILazyOutput<T> connection)
+		public OutputMap Connect<T>(ref OutputSocket socket, out ILazyOutput<T> connection)
 		{
 			connection = Connect<T>(socket.Id);
-			return new SocketMap(socket, connection);
+			return new OutputMap(socket, connection);
 		}
 
-		public SocketMap Connect<T>(ref InputSocket socket, out T connection)
+		public InputMap Connect<T>(ref InputSocket socket, out T connection)
 			where T : INodeInstance
 		{
 			connection = (T)removeNodes[socket.TargetId];
-			return new SocketMap(socket, connection);
+			return new InputMap(socket, connection);
 		}
 
 		public void Connect(ref InputSocket input, out INodeInstance connection)
