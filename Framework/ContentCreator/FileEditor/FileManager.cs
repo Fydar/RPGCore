@@ -54,5 +54,10 @@ namespace ContentCreator.FileEditor
 			string[] data = File.ReadAllLines(FilePath);
 			return string.Join('\n', data);
 		}
+
+		public void WriteFile(string data)
+		{
+			File.WriteAllText(FilePath, data);
+		}
 	}
 }
