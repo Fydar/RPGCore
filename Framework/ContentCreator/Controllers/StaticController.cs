@@ -28,7 +28,7 @@ namespace ContentCreator.Controllers
 				new MenuItem
 				{
 				  Label = "Remove",
-				  Click = () => Electron.Tray.Destroy()
+				  Click = Electron.Tray.Destroy
 				}
 			};
 			//Electron.Tray.Show("/Assets/GraphIcon Large.png", trayMenu);
@@ -73,9 +73,7 @@ namespace ContentCreator.Controllers
 								Electron.IpcMain.Send(mainWindow, "onReloadFile-reply", new object[] { manager.ReadFile() });
 
 								manager.OnChanged += () => {
-									Console.WriteLine("Sending Update");
 									Electron.IpcMain.Send(mainWindow, "onReloadFile-reply", new object[] { manager.ReadFile() });
-									Console.WriteLine("Finished Sending Update");
 								};
 							}
 						},
