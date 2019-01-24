@@ -32,7 +32,18 @@ namespace ContentCreator.Controllers
 				}
 			};
 			//Electron.Tray.Show("/Assets/GraphIcon Large.png", trayMenu);
-			
+
+			/*var saveOptions = new SaveDialogOptions()
+			{
+				ButtonLabel = "Save",
+				Filters = new FileFilter[]
+				{
+					new FileFilter { Extensions = new string[] { ".bhvr" } }
+				},
+				NameFieldLabel = "Behaviour"
+			};
+			string[] result = await Electron.Dialog.ShowSaveDialogAsync(mainWindow, saveOptions);*/
+
 			var windowMenu = new MenuItem[] {
 				new MenuItem {
 					Label = "File", Submenu = new MenuItem[] {
@@ -43,19 +54,6 @@ namespace ContentCreator.Controllers
 							Click = async () =>
 							{
 								var mainWindow = Electron.WindowManager.BrowserWindows.First();
-
-								Electron.IpcMain.Send(mainWindow, "NEW_DOCUMENT_NEEDED", "Create new document");
-
-								/*var saveOptions = new SaveDialogOptions()
-								{
-									ButtonLabel = "Save",
-									Filters = new FileFilter[]
-									{
-										new FileFilter { Extensions = new string[] { ".bhvr" } }
-									},
-									NameFieldLabel = "Behaviour"
-								};
-								string[] result = await Electron.Dialog.ShowSaveDialogAsync(mainWindow, saveOptions);*/
 								
 								var openDialog = new OpenDialogOptions()
 								{
@@ -75,6 +73,21 @@ namespace ContentCreator.Controllers
 								manager.OnChanged += () => {
 									Electron.IpcMain.Send(mainWindow, "onReloadFile-reply", new object[] { manager.ReadFile() });
 								};
+
+								Electron.IpcMain.On("saveActiveDocument", (docJson) => {
+									manager.WriteFile(docJson.ToString());
+								});
+							}
+						},
+						new MenuItem
+						{
+							Label = "Save",
+							Accelerator = "CmdOrCtrl+S",
+							Click = async () =>
+							{
+								var mainWindow = Electron.WindowManager.BrowserWindows.First();
+
+								Electron.IpcMain.Send(mainWindow, "requestSave-reply");
 							}
 						},
 						new MenuItem
@@ -97,11 +110,7 @@ namespace ContentCreator.Controllers
 									NameFieldLabel = "Behaviour"
 								};
 
-								string result = await Electron.Dialog.ShowSaveDialogAsync(mainWindow, saveOptions);
-
-								string[] data = System.IO.File.ReadAllLines(result);
-
-								Console.WriteLine(string.Join('\n', data));
+								await Electron.Dialog.ShowSaveDialogAsync(mainWindow, saveOptions);
 							}
 						},
 					}
