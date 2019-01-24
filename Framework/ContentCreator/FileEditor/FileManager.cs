@@ -50,6 +50,7 @@ namespace ContentCreator.FileEditor
 
 		public string ReadFile()
 		{
+			System.Threading.Thread.Sleep(250);
 			string[] data = File.ReadAllLines(FilePath);
 			return string.Join('\n', data);
 		}
