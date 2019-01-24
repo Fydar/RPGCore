@@ -10,33 +10,7 @@
 		{
 			Nodes = nodes;
 
-
-			INodeInstance[] behaviourTokens = new INodeInstance[Nodes.Length];
-
 			int nodeCount = Nodes.Length;
-
-			// Map and create tokens
-			for (int i = 0; i < nodeCount; i++)
-			{
-				var node = Nodes[i];
-				behaviourTokens[i] = node.Create();
-			}
-
-			var graphInstance = new GraphInstance(this, behaviourTokens);
-
-			// Connect the token sockets
-			for (int i = 0; i < nodeCount; i++)
-			{
-				var conns = Nodes[i].ConnectToken(graphInstance, behaviourTokens[i]);
-
-				for (int j = 0; j < conns.Length; j++)
-				{
-					var conn = conns[j];
-					
-					//if 9
-				}
-			}
-
 
 			for (int i = 0, NodesLength = Nodes.Length; i < NodesLength; i++)
 			{
@@ -73,32 +47,9 @@
 
 		public IBehaviour Setup(Actor target)
 		{
-			INodeInstance[] behaviourTokens = new INodeInstance[Nodes.Length];
-
-			int nodeCount = Nodes.Length;
-
-			// Map and create tokens
-			for (int i = 0; i < nodeCount; i++)
-			{
-				var node = Nodes[i];
-				behaviourTokens[i] = node.Create();
-			}
-
-			var graphInstance = new GraphInstance(this, behaviourTokens);
-
-			// Connect the token sockets
-			for (int i = 0; i < nodeCount; i++)
-			{
-				Nodes[i].ConnectToken(graphInstance, behaviourTokens[i]);
-			}
-
-			// Setup tokens
-			for (int i = 0; i < nodeCount; i++)
-			{
-				Nodes[i].Setup(graphInstance, behaviourTokens[i], target);
-			}
-
-			return graphInstance;
+			var graph = new GraphInstance(this);
+			graph.Setup(target);
+			return graph;
 		}
 	}
 }

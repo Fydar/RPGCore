@@ -2,7 +2,7 @@
 {
 	public struct InputSocket : ISocket
 	{
-		public int TargetId;
+		public int TargetId = -1;
 
 		public InputSocket(int targetId)
 		{

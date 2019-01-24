@@ -47,6 +47,33 @@
                     "y": 65
                 }
             }
+        },
+        "5n4a3fc8": {
+            "Type": "Graph",
+            "Data": {
+                "Nodes": {
+                    "4ba187c9": {
+                        "Type": "GrantBuff",
+                        "Data": {
+                            "Buff": "Burning",
+                            "Whilst": "942388a8.Equipped",
+                            "Value": 10
+                        },
+                        "_Editor": {
+                            "Position": {
+                                "x": 190,
+                                "y": 155
+                            }
+                        }
+                    }
+                }
+            },
+            "_Editor": {
+                "Position": {
+                    "x": 190,
+                    "y": 155
+                }
+            }
         }
     }
 }

@@ -6,6 +6,55 @@
 
 		public readonly object[] connections;
 
+		private bool canCreate = false;
+
+		public GraphInstance(Graph graph)
+		{
+			int nodeCount = graph.Nodes.Length;
+			INodeInstance[] behaviourTokens = new INodeInstance[nodeCount];
+
+			// Map and create tokens
+			for (int i = 0; i < nodeCount; i++)
+			{
+				var node = graph.Nodes[i];
+				behaviourTokens[i] = node.Create();
+			}
+			this.removeNodes = behaviourTokens;
+
+			connections = new object[graph.OutputCount];
+
+			// Allow all used inputs to setup their connections.
+			canCreate = true;
+			for (int i = 0; i < nodeCount; i++)
+			{
+				graph.Nodes[i].ConnectToken(this, behaviourTokens[i]);
+			}
+
+			// Allow all outputs to assign themselves to that connection
+			canCreate = false;
+			for (int i = 0; i < nodeCount; i++)
+			{
+				graph.Nodes[i].ConnectToken(this, behaviourTokens[i]);
+			}
+		}
+
+		public void Setup(Actor target)
+		{
+			// Setup tokens
+			for (int i = 0; i < nodeCount; i++)
+			{
+				graph.Nodes[i].Setup(this, behaviourTokens[i], target);
+			}
+		}
+
+		public void Remove()
+		{
+			foreach (var node in removeNodes)
+			{
+				node.Remove();
+			}
+		}
+
 		public INodeInstance GetNode<T>()
 		{
 			for (int i = removeNodes.Length - 1; i >= 0; i--)
@@ -50,8 +99,11 @@
 
 		private RequestingConnection<T> LazyConnect<T>(int id)
 		{
+			if (id == -1)
+				return null;
+
 			object shared = connections[id];
-			if (shared == null)
+			if (canCreate && shared == null)
 			{
 				shared = new RequestingConnection<T>();
 				connections[id] = shared;
@@ -61,28 +113,16 @@
 
 		private Connection<T> Connect<T>(int id)
 		{
+			if (id == -1)
+				return null;
+			
 			object shared = connections[id];
-			if (shared == null)
+			if (canCreate && shared == null)
 			{
 				shared = new Connection<T>();
 				connections[id] = shared;
 			}
 			return (Connection<T>)shared;
-		}
-
-		public GraphInstance(Graph graph, INodeInstance[] removeNodes)
-		{
-			this.removeNodes = removeNodes;
-
-			connections = new object[graph.OutputCount];
-		}
-
-		public void Remove()
-		{
-			foreach (var node in removeNodes)
-			{
-				node.Remove();
-			}
 		}
 	}
 }
