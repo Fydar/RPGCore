@@ -5,11 +5,8 @@ namespace Behaviour
 	public class AiRandNode : Node<AiRandNode.Metadata>
 	{
 		public OutputSocket Rand = new OutputSocket();
-		
-		public override InputMap[] Inputs(GraphInstance graph, Metadata instance) => new[]
-		{
-		};
 
+		public override InputMap[] Inputs (GraphInstance graph, Metadata instance) => null;
 		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref Rand, out instance.random)

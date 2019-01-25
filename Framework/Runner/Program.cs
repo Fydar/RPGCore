@@ -8,7 +8,16 @@ namespace Runner
 
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
+			Console.WriteLine ("-----------------------");
+
+			Console.ForegroundColor = ConsoleColor.Gray;
+			Console.Write (" RPGCore ");
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.Write ("2.0");
+			Console.ForegroundColor = ConsoleColor.Gray;
+			Console.Write (" Framework\n");
+
+			Console.WriteLine ("-----------------------");
 
 			simulator = new Simulator();
 			simulator.Start();

@@ -14,9 +14,7 @@ namespace Behaviour
 			graph.Connect(ref RequirementB, out instance.requirementB)
 		};
 
-		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => new[]
-		{
-		};
+		public override OutputMap[] Outputs (GraphInstance graph, Metadata instance) => null;
 
 		public class Metadata : IAiNode
 		{

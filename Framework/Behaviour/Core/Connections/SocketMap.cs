@@ -1,4 +1,6 @@
-﻿namespace Behaviour
+﻿using System;
+
+namespace Behaviour
 {
 	public struct SocketMap
 	{
@@ -32,7 +34,7 @@
 		public Type ConnectionType;
 		public object Link;
 
-		public InputMap(OutputSocket source, Type connectionType, object link)
+		public OutputMap (OutputSocket source, Type connectionType, object link)
 		{
 			Source = source;
 			Link = link;
