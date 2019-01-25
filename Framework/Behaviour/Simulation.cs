@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace Behaviour
 {
@@ -28,6 +29,12 @@ namespace Behaviour
 
 		public void Start()
 		{
+			Console.WriteLine ("Outputting Node Manifest...");
+
+			Console.WriteLine(Manifest.NodeManifest.Construct ());
+
+			Console.WriteLine ("Running Simulation...");
+
 			var player = new Actor();
 
 

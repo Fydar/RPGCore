@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace ElectronNET.WebApp
 {
-    public class Program
+	public class Program
     {
         public static void Main(string[] args)
         {

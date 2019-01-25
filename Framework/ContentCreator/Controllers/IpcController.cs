@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ElectronNET.API;
+﻿using ElectronNET.API;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace ElectronNET.WebApp.Controllers
 {
-    public class IpcController : Controller
+	public class IpcController : Controller
     {
         public IActionResult Index()
         {

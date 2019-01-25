@@ -1,17 +1,13 @@
-﻿using System.Diagnostics;
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
-using ElectronNET.API.Entities;
+﻿using ContentCreator.FileEditor;
 using ElectronNET.API;
-using System.Linq;
-using System.Threading.Tasks;
-using System;
-using ContentCreator.FileEditor;
+using ElectronNET.API.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ContentCreator.Controllers
 {
-    public class StaticController : Controller
+	public class StaticController : Controller
     {
 		public List<FileManager> FileManagers = new List<FileManager>();
 

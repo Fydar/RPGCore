@@ -14,9 +14,7 @@ namespace Behaviour
 			graph.Connect(ref ValueB, out instance.valueB)
 		};
 
-		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => new[]
-		{
-		};
+		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => null;
 
 		public class Metadata : INodeInstance
 		{

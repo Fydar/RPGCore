@@ -2,54 +2,67 @@
 {
 	public class GraphInstance : IBehaviour
 	{
-		private readonly INodeInstance[] removeNodes;
-
-		public readonly object[] connections;
-
-		private bool canCreate = false;
+		private readonly Graph graph;
+		private Node[] nodes;
+		private readonly INodeInstance[] nodeInstances;
+		private readonly object[] connections;
 
 		public GraphInstance(Graph graph)
 		{
+			this.graph = graph;
+			nodes = graph.Nodes;
 			int nodeCount = graph.Nodes.Length;
-			INodeInstance[] behaviourTokens = new INodeInstance[nodeCount];
+			nodeInstances = new INodeInstance[nodeCount];
+			connections = new object[graph.OutputCount];
 
 			// Map and create tokens
 			for (int i = 0; i < nodeCount; i++)
 			{
 				var node = graph.Nodes[i];
-				behaviourTokens[i] = node.Create();
+				nodeInstances[i] = node.Create();
 			}
-			this.removeNodes = behaviourTokens;
-
-			connections = new object[graph.OutputCount];
 
 			// Allow all used inputs to setup their connections.
-			canCreate = true;
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Inputs(this, behaviourTokens[i]);
+				graph.Nodes[i].Inputs(this, nodeInstances[i]);
 			}
 
 			// Allow all outputs to assign themselves to that connection
-			canCreate = false;
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Outputs(this, behaviourTokens[i]);
+				graph.Nodes[i].Outputs(this, nodeInstances[i]);
 			}
+		}
+
+		public GraphInstance (Node singleNodeGraph)
+		{
+			this.graph = null;
+			nodes = new Node[] { singleNodeGraph };
+			nodeInstances = new INodeInstance[32];
+			connections = new object[32];
+			
+			nodeInstances[0] = singleNodeGraph.Create ();
+
+			// Allow all used inputs to setup their connections.
+			singleNodeGraph.Inputs (this, nodeInstances[0]);
+
+			// Allow all outputs to assign themselves to that connection
+			singleNodeGraph.Outputs (this, nodeInstances[0]);
 		}
 
 		public void Setup(Actor target)
 		{
-			// Setup tokens
+			int nodeCount = graph.Nodes.Length;
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Setup(this, behaviourTokens[i], target);
+				graph.Nodes[i].Setup(this, nodeInstances[i], target);
 			}
 		}
 
 		public void Remove()
 		{
-			foreach (var node in removeNodes)
+			foreach (var node in nodeInstances)
 			{
 				node.Remove();
 			}
@@ -57,71 +70,67 @@
 
 		public INodeInstance GetNode<T>()
 		{
-			for (int i = removeNodes.Length - 1; i >= 0; i--)
+			for (int i = nodeInstances.Length - 1; i >= 0; i--)
 			{
-				var node = removeNodes[i];
+				var node = nodeInstances[i];
 
 				if (node.GetType() == typeof(T))
 					return node;
 			}
 			return null;
 		}
-
+		
 		public InputMap Connect<T>(ref InputSocket socket, out IInput<T> connection)
 		{
-			connection = Connect<T>(socket.TargetId);
-			return new InputMap(socket, connection, typeof(T));
+			connection = GetOrCreateConnection<T> (socket.TargetId);
+
+			return new InputMap(socket, typeof(T), connection);
 		}
 
 		public OutputMap Connect<T>(ref OutputSocket socket, out IOutput<T> connection)
 		{
-			connection = Connect<T>(socket.Id);
-			return new OutputMap(socket, connection);
+			connection = GetConnection<T>(socket.Id);
+			return new OutputMap(socket, typeof(T), connection);
 		}
 
 		public OutputMap Connect<T>(ref OutputSocket socket, out ILazyOutput<T> connection)
 		{
-			connection = Connect<T>(socket.Id);
-			return new OutputMap(socket, connection);
+			connection = GetConnection<T>(socket.Id);
+			return new OutputMap (socket, typeof (T), connection);
 		}
 
-		public InputMap Connect<T>(ref InputSocket socket, out T connection)
+		public InputMap Connect<T> (ref InputSocket socket, out T connection)
 			where T : INodeInstance
 		{
-			connection = (T)removeNodes[socket.TargetId];
-			return new InputMap(socket, connection);
+			connection = (T)nodeInstances[socket.TargetId];
+			return new InputMap (socket, typeof (T), connection);
 		}
 
-		public void Connect(ref InputSocket input, out INodeInstance connection)
+		public void Connect (ref InputSocket input, out INodeInstance connection)
 		{
-			connection = removeNodes[input.TargetId];
+			connection = nodeInstances[input.TargetId];
 		}
 
-		private RequestingConnection<T> LazyConnect<T>(int id)
+		private Connection<T> GetOrCreateConnection<T> (int id)
 		{
-			if (id == -1)
+			if (id < 0)
 				return null;
 
 			object shared = connections[id];
-			if (canCreate && shared == null)
+			if (shared == null)
 			{
-				shared = new RequestingConnection<T>();
+				shared = new Connection<T> ();
 				connections[id] = shared;
 			}
-			return (RequestingConnection<T>)shared;
+			return (Connection<T>)shared;
 		}
 
-		private Connection<T> Connect<T>(int id)
+		private Connection<T> GetConnection<T> (int id)
 		{
-			if (id == -1)
+			if (id < 0)
 				return null;
-			
+
 			object shared = connections[id];
-			if (canCreate && shared == null)
-			{
-				shared = new Connection<T>();
-				connections[id] = shared;
-			}
 			return (Connection<T>)shared;
 		}
 	}
