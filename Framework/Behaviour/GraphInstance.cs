@@ -39,6 +39,8 @@
 		{
 			this.graph = null;
 			nodes = new Node[] { singleNodeGraph };
+
+			// Create a buffer of connections that the code can access
 			nodeInstances = new INodeInstance[32];
 			connections = new object[32];
 			

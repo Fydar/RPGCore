@@ -11,6 +11,7 @@ namespace Behaviour.Manifest
 
 		public SocketInformation[] Inputs;
 		public SocketInformation[] Outputs;
+		public FieldInformation[] Fields;
 
 		public static NodeInformation Construct(Type nodeType)
 		{
@@ -31,6 +32,7 @@ namespace Behaviour.Manifest
 			int outputId = 0;
 			var inputSocketFields = new List<FieldInfo> ();
 			var outputSocketFields = new List<FieldInfo> ();
+			var fieldInfos = new List<FieldInformation> ();
 			foreach (var field in nodeType.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
 				if (field.FieldType == typeof (InputSocket))
@@ -45,7 +47,12 @@ namespace Behaviour.Manifest
 					outputId++;
 					outputSocketFields.Add (field);
 				}
+				else
+				{
+					fieldInfos.Add(FieldInformation.Construct(field));
+				}
 			}
+			nodeInformation.Fields = fieldInfos.ToArray();
 
 			object[] connectParameters = { singleNodeGraph, metadataInstance  };
 			var inputsArray = (InputMap[])inputsProperty.Invoke (nodeTemplate, connectParameters);
