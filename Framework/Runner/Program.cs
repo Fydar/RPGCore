@@ -16,7 +16,7 @@ namespace Runner
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.Write (" Framework\n");
 			Console.WriteLine ("-----------------------");
-
+			
 			simulator = new Simulator();
 			simulator.Start();
 

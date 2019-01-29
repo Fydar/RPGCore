@@ -30,10 +30,10 @@ namespace Behaviour
 		public void Start()
 		{
 			Console.WriteLine ("Outputting Node Manifest...");
-			Console.WriteLine(Manifest.NodeManifest.Construct ());
+			Console.WriteLine(Manifest.NodeManifest.Construct (new Type[] { typeof(StatsNode), typeof(RollNode) }));
 
-			Console.WriteLine ("Outputting Type Manifest...");
-			Console.WriteLine(Manifest.TypeManifest.Construct ());
+			//Console.WriteLine ("Outputting Type Manifest...");
+			//Console.WriteLine(Manifest.TypeManifest.ConstructBaseTypes ());
 
 			Console.WriteLine ("Running Simulation...");
 
