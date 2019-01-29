@@ -123,16 +123,9 @@ namespace RPGCore
 				{
 					var collection = FieldGetOrCreate<EnumerableCollection> (collectionInfo, this);
 
-					CollectionInformation childInformation = GetReflectionInformation (collection.GetType ());
-
-					foreach (FieldInfo childInfo in childInformation.directFields)
+					foreach (var route in collection.FindAllRoutes())
 					{
-						FieldInfo childCollectionInfo = collection.GetType ().GetField (childInfo.Name);
-
-						if (childCollectionInfo.FieldType == typeof (T))
-						{
-							yield return new Route (childCollectionInfo, collection);
-						}
+						yield return route;
 					}
 				}
 			}

@@ -91,7 +91,7 @@ namespace RPGCore.Inventories
 					else if (positioner == DragPositioner.Fixed)
 					{
 						ghost.RenderSlot (startSlot.slot);
-						ghost.transform.localPosition = Vector3.zero; ;
+						ghost.transform.localPosition = Vector3.zero;
 					}
 
 					ghost.gameObject.SetActive (true);

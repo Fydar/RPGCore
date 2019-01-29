@@ -1,11 +1,17 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Behaviour.Connections;
+using UnityEngine;
 
 namespace RPGCore
 {
 	[NodeInformation ("Item/Charges Input", "Input", OnlyOne = true)]
-	public class ChargesInputNode : BehaviourNode, IInputNode<ItemSurrogate>
+	public class ChargesInputNode : BehaviourNode, IInputNode<ItemSurrogate>, INodeSerialization
 	{
+		public struct InstanceData
+		{
+			public int Charges;
+		}
+
 		public IntOutput Charges;
 		public EventInput ConsumeCharge;
 		public EventOutput OnConsumeCharge;
@@ -22,9 +28,22 @@ namespace RPGCore
 
 		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
 		{
-			var chargesData = target.data.dataCollection.AssureElement ("Charges");
+			
+		}
+		
+		public string Serialize (IBehaviourContext context)
+		{
+			var chargesOutput = Charges[context];
 
-			//chargesData.SetValue (0);
+			return JsonUtility.ToJson(new InstanceData() { Charges = chargesOutput.Value });
+		}
+
+		public void Deserialize (IBehaviourContext context, string data)
+		{
+			var chargesOutput = Charges[context];
+			var instanceData = JsonUtility.FromJson<InstanceData>(data);
+
+			chargesOutput.Value = instanceData.Charges;
 		}
 	}
 }
