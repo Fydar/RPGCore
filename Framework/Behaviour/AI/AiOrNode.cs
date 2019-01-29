@@ -7,7 +7,7 @@ namespace Behaviour
 		public InputSocket RequirementA;
 		public InputSocket RequirementB;
 		public OutputSocket Selected = new OutputSocket();
-
+		
 		public override InputMap[] Inputs(GraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref RequirementA, out instance.requirementA),

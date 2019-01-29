@@ -30,14 +30,24 @@ namespace Behaviour
 		public void Start()
 		{
 			Console.WriteLine ("Outputting Node Manifest...");
-
 			Console.WriteLine(Manifest.NodeManifest.Construct ());
+
+			Console.WriteLine ("Outputting Type Manifest...");
+			Console.WriteLine(Manifest.TypeManifest.Construct ());
 
 			Console.WriteLine ("Running Simulation...");
 
 			var player = new Actor();
 
+			IBehaviour longswordEquipt = LongswordItem.Setup(player);
+			for (int i = 0; i < 5; i++)
+			{
+				Thread.Sleep(100);
+				player.Health.Value -= 20;
+			}
+			longswordEquipt.Remove();
 
+			/*
 			var rollA = new AiRandNode();
 			var rollB = new AiRandNode();
 			var rollC = new AiRandNode();
@@ -54,15 +64,6 @@ namespace Behaviour
 				RequirementB = new InputSocket(3)
 			};
 
-			IBehaviour longswordEquipt = LongswordItem.Setup(player);
-			for (int i = 0; i < 5; i++)
-			{
-				Thread.Sleep(100);
-				player.Health.Value -= 20;
-			}
-			longswordEquipt.Remove();
-
-			/*
 			var UnitAI = new Graph(new Node[]
 			{
 				rollA,
