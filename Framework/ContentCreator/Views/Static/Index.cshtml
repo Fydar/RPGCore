@@ -8,28 +8,35 @@
 
 		<input class="form-control" id="graphName" />
 
+		<div class="graph" id="mainGraph">
+
+		</div>
+
 		<script>
 			(function () {
 				const { ipcRenderer } = require("electron");
+
+				var obj;
+
+				document.getElementById('graphName').addEventListener("input", doThing);
+
+				function doThing() {
+					obj.Name = this.value;
+				}
 
 				ipcRenderer.on('onReloadFile-reply', (event, arg) => {
 					const message = arg;
 					console.log(message);
 					document.getElementById('async-msg').innerHTML = message;
 					
-					var obj = JSON.parse(message);
-
-					console.log(obj.Name);
-					console.log(obj.Nodes);
+					obj = JSON.parse(message);
 
 					document.getElementById('graphName').value = obj.Name;
-					document.getElementById('graphName').addEventListener("onchange", () => {
-						obj.Name = this.value;
-					});
+				});
 
-					ipcRenderer.on('requestSave-reply', (event, arg) => {
-						ipcRenderer.send('saveActiveDocument', JSON.stringify(obj));
-					});
+				ipcRenderer.on('requestSave-reply', (event, arg) => {
+					console.log(obj.Name);
+					ipcRenderer.send('saveActiveDocument', JSON.stringify(obj));
 				});
 			}());
 		</script>
