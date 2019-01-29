@@ -10,14 +10,14 @@ namespace Behaviour.Manifest
 		public string Version;
 		public NodeInformation[] Nodes;
 
-		public static NodeManifest Construct()
+		public static NodeManifest Construct ()
 		{
 			var manifest = new NodeManifest ();
 
 			var information = new List<NodeInformation> ();
-			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ())
 			{
-				foreach (var type in assembly.GetTypes())
+				foreach (var type in assembly.GetTypes ())
 				{
 					if (type.IsAbstract)
 						continue;
@@ -27,6 +27,19 @@ namespace Behaviour.Manifest
 						information.Add (NodeInformation.Construct (type));
 					}
 				}
+			}
+			manifest.Nodes = information.ToArray ();
+			return manifest;
+		}
+
+		public static NodeManifest Construct (Type[] types)
+		{
+			var manifest = new NodeManifest ();
+
+			var information = new List<NodeInformation> ();
+			foreach (var type in types)
+			{
+				information.Add (NodeInformation.Construct (type));
 			}
 			manifest.Nodes = information.ToArray ();
 			return manifest;

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Behaviour.Manifest
 {
@@ -13,6 +14,7 @@ namespace Behaviour.Manifest
 			var typeConversion = new TypeConversion
 			{
 				Name = type.Name + " -> " + method.ReturnType.Name,
+				Description = method.Name,
 				Type = method.ReturnType.Name
 			};
 

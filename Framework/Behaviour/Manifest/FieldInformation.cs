@@ -13,7 +13,7 @@ namespace Behaviour.Manifest
 		{
 			var fieldInformation = new FieldInformation
 			{
-				Type = field.FieldType,
+				Type = field.FieldType.Name,
 				Name = field.Name
 			};
 
