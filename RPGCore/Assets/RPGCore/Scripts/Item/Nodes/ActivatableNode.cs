@@ -9,21 +9,13 @@ namespace RPGCore
 	{
 		public IntInput ManaCost;
 		public IntInput QuantityCost;
+		public IntInput ChargesCost;
 		public EventOutput OnActivate;
 		public SfxGroup ActivateSound;
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			// ConnectionEntry<int> manaCostInput = ManaCost[context];
-			// ConnectionEntry<int> quantityCostInput = QuantityCost[context];
-			// EventEntry onActivateOutput = OnActivate[context];
 
-			/*equippedOutput.Value = character.Equipped.Value; 
-
-			character.Equipped.onChanged += () => 
-			{
-				equippedOutput.Value = character.Equipped.Value;
-			};*/
 		}
 
 		protected override void OnRemove (IBehaviourContext context)

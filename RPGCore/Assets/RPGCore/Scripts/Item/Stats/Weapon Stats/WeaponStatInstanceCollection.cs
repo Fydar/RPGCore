@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Stats
 {
-	[Serializable]
+    [Serializable]
 	public class WeaponStatInstanceCollection : WeaponStatCollection<StatInstance>
 	{
 		public void SetupReferences ()
@@ -22,9 +22,5 @@ namespace RPGCore.Stats
 				WeaponStats.Current.Info = info.Current;
 			}
 		}
-	}
-	[Serializable]
-	public class WeaponStatFloatInputCollection : WeaponStatCollection<FloatInput>
-	{
 	}
 }

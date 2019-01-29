@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a169415f599fd9a42be8ccea8c6a8fef, type: 3}
   m_Name: of Triumph
   m_EditorClassIdentifier: 
-  Nodes:
+  Affix: of Triumph
+  nodes:
   - {fileID: 114709686865461610}
   - {fileID: 114991340809083294}
-  Affix: of Triumph
 --- !u!114 &114709686865461610
 MonoBehaviour:
   m_ObjectHideFlags: 1

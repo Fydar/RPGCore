@@ -276,6 +276,16 @@ MonoBehaviour:
     SourceNode: {fileID: 0}
     SourcePath: 
     defaultValue: 0
+  ChargesCost:
+    drawRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    SourceNode: {fileID: 0}
+    SourcePath: 
+    defaultValue: 0
   OnActivate:
     drawRect:
       serializedVersion: 2
