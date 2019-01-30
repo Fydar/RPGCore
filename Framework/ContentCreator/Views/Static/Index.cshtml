@@ -9,7 +9,8 @@
 		<input class="form-control" id="graphName" />
 
 		<div class="graph" id="mainGraph">
-
+            <div id="mainGraphNodes">
+            </div>
 		</div>
 
 		<script>
@@ -29,16 +30,90 @@
 					console.log(message);
 					document.getElementById('async-msg').innerHTML = message;
 					
-					obj = JSON.parse(message);
+                    obj = JSON.parse(message);
+                    console.log(obj.Nodes);
+                    
+                    var nodeContainer = document.getElementById('mainGraphNodes');
 
+                    // Delete all children
+                    while (nodeContainer.firstChild) {
+                        nodeContainer.removeChild(nodeContainer.firstChild);
+                    }
+
+                    // Create nodes
+                    for (var nodeKey in obj.Nodes) {
+                        if (obj.Nodes.hasOwnProperty(nodeKey)) {
+
+                            var nodeData = obj.Nodes[nodeKey];
+                            var editorData = nodeData["_Editor"];
+
+                            console.log(nodeKey, nodeData);
+                            
+                            var nodeGraphic = document.createElement("div");
+                            nodeGraphic.classList.add("node");
+
+                            nodeGraphic.style.left = editorData["Position"]["x"] + "px";
+                            nodeGraphic.style.top = editorData["Position"]["y"] + "px";
+                            
+                            nodeContainer.appendChild(nodeGraphic);
+
+                            nodeGraphic.onmousedown = function (event) {
+
+                                let shiftX = event.clientX - nodeGraphic.getBoundingClientRect().left;
+                                let shiftY = event.clientY - nodeGraphic.getBoundingClientRect().top;
+
+                                nodeGraphic.style.position = 'absolute';
+                                nodeGraphic.style.zIndex = 1000;
+
+                                moveAt(event.pageX, event.pageY);
+
+                                // centers the nodeGraphic at (pageX, pageY) coordinates
+                                function moveAt(pageX, pageY) {
+                                    nodeGraphic.style.left = pageX - shiftX + 'px';
+                                    nodeGraphic.style.top = pageY - shiftY + 'px';
+                                    editorData["Position"]["x"] = pageX - shiftX;
+                                    editorData["Position"]["y"] = pageY - shiftY;
+                                }
+
+                                function onMouseMove(event) {
+                                    moveAt(event.pageX, event.pageY);
+                                }
+
+                                // (3) move the nodeGraphic on mousemove
+                                document.addEventListener('mousemove', onMouseMove);
+
+                                // (4) drop the nodeGraphic, remove unneeded handlers
+                                nodeGraphic.onmouseup = function () {
+                                    document.removeEventListener('mousemove', onMouseMove);
+                                    nodeGraphic.onmouseup = null;
+                                };
+                            };
+
+                            nodeGraphic.ondragstart = function () {
+                                return false;
+                            };
+                        }
+                    }
 					document.getElementById('graphName').value = obj.Name;
 				});
 
 				ipcRenderer.on('requestSave-reply', (event, arg) => {
 					console.log(obj.Name);
-					ipcRenderer.send('saveActiveDocument', JSON.stringify(obj));
+					ipcRenderer.send('saveActiveDocument', JSON.stringify(obj, null, 4));
 				});
 			}());
 		</script>
+
+        <style>
+            .node {
+                width: 50px;
+                height: 50px;
+                background-color: #fafafa;
+                border-radius: 5px;
+                box-shadow: #999 2px 2px 5px;
+                position: absolute;
+                cursor: -webkit-grab;
+            }
+        </style>
 	</section>
 </template>
