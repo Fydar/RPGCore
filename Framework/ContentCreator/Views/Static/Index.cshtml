@@ -8,9 +8,10 @@
 
 		<input class="form-control" id="graphName" />
 
-		<div class="graph" id="mainGraph">
-            <div id="mainGraphNodes">
-            </div>
+		<div id="mainGraph" style="overflow:hidden; height: 250px; width:100%;">
+
+			<svg id="connections" height="100%" width="100%" style="position:absolute;"></svg>
+			<div id="mainGraphNodes" style="width:100%; height:100%; position:absolute;"></div>
 		</div>
 
 		<script>
@@ -29,71 +30,72 @@
 					const message = arg;
 					console.log(message);
 					document.getElementById('async-msg').innerHTML = message;
+
+					obj = JSON.parse(message);
+					console.log(obj.Nodes);
+
+					var nodeContainer = document.getElementById('mainGraphNodes');
+
+					// Delete all children
+					while (nodeContainer.firstChild) {
+						nodeContainer.removeChild(nodeContainer.firstChild);
+					}
 					
-                    obj = JSON.parse(message);
-                    console.log(obj.Nodes);
-                    
-                    var nodeContainer = document.getElementById('mainGraphNodes');
+					var nodes = [];
+					// Create nodes
+					for (var nodeKey in obj.Nodes) {
+						if (obj.Nodes.hasOwnProperty(nodeKey)) {
 
-                    // Delete all children
-                    while (nodeContainer.firstChild) {
-                        nodeContainer.removeChild(nodeContainer.firstChild);
-                    }
+							const nodeData = obj.Nodes[nodeKey];
+							const editorData = nodeData["_Editor"];
+							const nodeGraphic = document.createElement("div");
 
-                    // Create nodes
-                    for (var nodeKey in obj.Nodes) {
-                        if (obj.Nodes.hasOwnProperty(nodeKey)) {
+							console.log(nodeKey, nodeData);
 
-                            var nodeData = obj.Nodes[nodeKey];
-                            var editorData = nodeData["_Editor"];
+							nodeGraphic.classList.add("node");
 
-                            console.log(nodeKey, nodeData);
-                            
-                            var nodeGraphic = document.createElement("div");
-                            nodeGraphic.classList.add("node");
+							nodeGraphic.style.left = editorData["Position"]["x"] + "px";
+							nodeGraphic.style.top = editorData["Position"]["y"] + "px";
 
-                            nodeGraphic.style.left = editorData["Position"]["x"] + "px";
-                            nodeGraphic.style.top = editorData["Position"]["y"] + "px";
-                            
-                            nodeContainer.appendChild(nodeGraphic);
+							nodeContainer.appendChild(nodeGraphic);
 
-                            nodeGraphic.onmousedown = function (event) {
+							nodeGraphic.onmousedown = function (event) {
 
-                                let shiftX = event.clientX - nodeGraphic.getBoundingClientRect().left;
-                                let shiftY = event.clientY - nodeGraphic.getBoundingClientRect().top;
+								let shiftX = event.clientX - nodeGraphic.getBoundingClientRect().left;
+								let shiftY = event.clientY - nodeGraphic.getBoundingClientRect().top;
 
-                                nodeGraphic.style.position = 'absolute';
-                                nodeGraphic.style.zIndex = 1000;
+								nodeGraphic.style.position = 'absolute';
+								nodeGraphic.style.zIndex = 1000;
 
-                                moveAt(event.pageX, event.pageY);
+								moveAt(event.pageX, event.pageY);
 
-                                // centers the nodeGraphic at (pageX, pageY) coordinates
-                                function moveAt(pageX, pageY) {
-                                    nodeGraphic.style.left = pageX - shiftX + 'px';
-                                    nodeGraphic.style.top = pageY - shiftY + 'px';
-                                    editorData["Position"]["x"] = pageX - shiftX;
-                                    editorData["Position"]["y"] = pageY - shiftY;
-                                }
+								// centers the nodeGraphic at (pageX, pageY) coordinates
+								function moveAt(pageX, pageY) {
+									nodeGraphic.style.left = pageX - shiftX + 'px';
+									nodeGraphic.style.top = pageY - shiftY + 'px';
+									editorData["Position"]["x"] = pageX - shiftX;
+									editorData["Position"]["y"] = pageY - shiftY;
+								}
 
-                                function onMouseMove(event) {
-                                    moveAt(event.pageX, event.pageY);
-                                }
+								function onMouseMove(event) {
+									moveAt(event.pageX, event.pageY);
+								}
 
-                                // (3) move the nodeGraphic on mousemove
-                                document.addEventListener('mousemove', onMouseMove);
+								// (3) move the nodeGraphic on mousemove
+								document.addEventListener('mousemove', onMouseMove);
 
-                                // (4) drop the nodeGraphic, remove unneeded handlers
-                                nodeGraphic.onmouseup = function () {
-                                    document.removeEventListener('mousemove', onMouseMove);
-                                    nodeGraphic.onmouseup = null;
-                                };
-                            };
+								// (4) drop the nodeGraphic, remove unneeded handlers
+								nodeGraphic.onmouseup = function () {
+									document.removeEventListener('mousemove', onMouseMove);
+									nodeGraphic.onmouseup = null;
+								};
+							};
 
-                            nodeGraphic.ondragstart = function () {
-                                return false;
-                            };
-                        }
-                    }
+							nodeGraphic.ondragstart = function () {
+								return false;
+							};
+						}
+					}
 					document.getElementById('graphName').value = obj.Name;
 				});
 
@@ -104,16 +106,72 @@
 			}());
 		</script>
 
-        <style>
-            .node {
-                width: 50px;
-                height: 50px;
-                background-color: #fafafa;
-                border-radius: 5px;
-                box-shadow: #999 2px 2px 5px;
-                position: absolute;
-                cursor: -webkit-grab;
-            }
-        </style>
+		<style>
+			.node {
+				background-color: #eee;
+				border-radius: 5px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			}
+
+			.nodeHeader {
+				background-color: #e2e2e2;
+				border-top-left-radius: 5px;
+				border-top-right-radius: 5px;
+				font-weight: bold;
+				padding: 2px;
+				text-align: center;
+			}
+
+			.connection {
+				stroke: #9bc15e;
+				stroke-width: 8px;
+				fill: none;
+			}
+
+			.outputColumn {
+				left: 100%;
+				width: 20px;
+				height: 100%;
+				position: absolute;
+				cursor: default;
+			}
+
+			.inputColumn {
+				left: -20px;
+				width: 20px;
+				height: 100%;
+				position: absolute;
+				cursor: default;
+			}
+
+			.outputsocket {
+				background-color: #bbb;
+				border-top-right-radius: 5px;
+				border-bottom-right-radius: 5px;
+				cursor: default;
+				height: 20px;
+				margin: 4px 0px;
+			}
+
+			.inputsocket {
+				background-color: #bbb;
+				border-top-left-radius: 5px;
+				border-bottom-left-radius: 5px;
+				cursor: default;
+				height: 20px;
+				margin: 4px 0px;
+			}
+
+			.control {
+				position: relative;
+				width: 100%;
+			}
+
+			.draggable {
+				cursor: pointer;
+				position: relative;
+				width: 100%;
+			}
+		</style>
 	</section>
 </template>
