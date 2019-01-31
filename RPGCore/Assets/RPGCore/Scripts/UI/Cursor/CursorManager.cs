@@ -9,7 +9,7 @@ namespace RPGCore.UI.CursorManagement
 		public static CursorStyle CurrentStyle;
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
-		static void OnRuntimeMethodLoad ()
+		private static void OnRuntimeMethodLoad ()
 		{
 			Styles = new List<CursorStyle> (Resources.LoadAll<CursorStyle> ("Cursor Styles/"));
 

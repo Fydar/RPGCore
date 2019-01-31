@@ -22,13 +22,11 @@ namespace RPGCore
 		public ApplyMode Mode;
 
 		[Space]
-
 		public CharacterInput Target;
 		public EventInput Apply;
 		public FloatInput Duration;
 
 		[Space]
-
 		public IntInput StackSize;
 		public IntInput Ticks;
 
@@ -143,7 +141,6 @@ namespace RPGCore
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 	}
 }

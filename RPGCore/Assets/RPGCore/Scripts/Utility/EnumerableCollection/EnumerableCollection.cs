@@ -123,7 +123,7 @@ namespace RPGCore
 				{
 					var collection = FieldGetOrCreate<EnumerableCollection> (collectionInfo, this);
 
-					foreach (var route in collection.FindAllRoutes())
+					foreach (var route in collection.FindAllRoutes ())
 					{
 						yield return route;
 					}

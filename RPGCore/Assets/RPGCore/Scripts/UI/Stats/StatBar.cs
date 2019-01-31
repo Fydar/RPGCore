@@ -11,7 +11,6 @@ namespace RPGCore.Stats
 		private RPGCharacter localCharacter;
 
 		[Space]
-
 		[SerializeField]
 		private StateEntry state;
 

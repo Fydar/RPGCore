@@ -4,7 +4,6 @@ namespace RPGCore
 {
 	public class ContinuousEffect : MonoBehaviour
 	{
-
 	}
 }
 

@@ -13,7 +13,6 @@ namespace RPGCore.Inventories
 		public bool autoSetup = true;
 
 		[Space]
-
 		public KeyCode ActivateKey = KeyCode.None;
 
 		private bool setup = false;

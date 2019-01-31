@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using RPGCore.Behaviour;
+﻿using RPGCore.Behaviour;
 using RPGCore.Behaviour.Connections;
 using RPGCore.Stats;
+using System;
+using System.Collections.Generic;
 
 namespace RPGCore
 {
@@ -38,19 +36,19 @@ namespace RPGCore
 			StatsMapping[context] = statsCollection;
 			statsCollection.GetEnumerator ();
 
-			var inputsEnumerator = Inputs.GetEnumerator();
-			foreach(var stat in GetStats(context))
+			var inputsEnumerator = Inputs.GetEnumerator ();
+			foreach (var stat in GetStats (context))
 			{
-				inputsEnumerator.MoveNext();
+				inputsEnumerator.MoveNext ();
 				var currentInput = inputsEnumerator.Current[context];
 
-				var modifier = stat.AddFlatModifier(currentInput.Value);
+				var modifier = stat.AddFlatModifier (currentInput.Value);
 				currentInput.OnAfterChanged += () => modifier.Value = currentInput.Value;
-			}}
+			}
+		}
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 	}
 }

@@ -36,7 +36,6 @@ namespace RPGCore.Inventories
 			}
 			set
 			{
-
 				if (Behaviours != null)
 				{
 					for (int i = 0; i < Behaviours.Length; i++)
@@ -79,13 +78,11 @@ namespace RPGCore.Inventories
 				{
 					onAfterChanged ();
 				}
-
 			}
 		}
 
 		public override void Return ()
 		{
-
 		}
 
 		public override ItemSurrogate Item

@@ -13,7 +13,6 @@ namespace RPGCore.Audio
 
 		public void Play ()
 		{
-
 		}
 	}
 }

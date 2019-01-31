@@ -29,7 +29,6 @@ namespace RPGCore.Behaviour.Events
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 
 #if UNITY_EDITOR

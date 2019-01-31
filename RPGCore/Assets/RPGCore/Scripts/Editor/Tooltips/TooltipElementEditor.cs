@@ -61,7 +61,6 @@ namespace RPGCore.Tooltips.Editors
 				}
 
 				EditorGUILayout.LabelField (text, textStyle);
-
 			}
 			EditorGUILayout.EndVertical ();
 		}

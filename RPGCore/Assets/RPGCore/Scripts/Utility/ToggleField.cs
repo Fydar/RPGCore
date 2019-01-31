@@ -12,7 +12,7 @@ namespace RPGCore.Utility
 
 #if UNITY_EDITOR
 		[CustomPropertyDrawer (typeof (TogglableField), true)]
-		class TogglableFieldDrawer : PropertyDrawer
+		private class TogglableFieldDrawer : PropertyDrawer
 		{
 			public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 			{

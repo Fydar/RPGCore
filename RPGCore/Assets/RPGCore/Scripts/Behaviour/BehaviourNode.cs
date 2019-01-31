@@ -180,7 +180,9 @@ namespace RPGCore.Behaviour
 			return foundObjects.ToArray ();
 		}
 
-		public void OnBeforeSerialize () { }
+		public void OnBeforeSerialize ()
+		{
+		}
 
 		public void OnAfterDeserialize ()
 		{

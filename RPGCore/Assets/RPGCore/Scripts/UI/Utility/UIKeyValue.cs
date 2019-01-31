@@ -9,7 +9,6 @@ namespace RPGCore.UI
 		public Text Value;
 
 		[Space]
-
 		[SerializeField] private Color defaultStatColor;
 		[SerializeField] private Color enchantedStatColor;
 

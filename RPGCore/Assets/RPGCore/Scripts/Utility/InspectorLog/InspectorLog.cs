@@ -193,7 +193,7 @@ namespace RPGCore.Utility.InspectorLog
 
 #if UNITY_EDITOR
 	[CustomPropertyDrawer (typeof (InspectorLog))]
-	class InspectorLogDrawer : PropertyDrawer
+	internal class InspectorLogDrawer : PropertyDrawer
 	{
 		private static GUIStyle logEntryStyle;
 		private static GUIStyle logTextStyle;

@@ -63,7 +63,6 @@ namespace RPGCore.Inventories
 
 				Items.RemoveAt (Items.Count - 1);
 			}
-
 		}
 
 		protected ItemSlot AddSlot ()
@@ -87,7 +86,6 @@ namespace RPGCore.Inventories
 				if (OnSlotAdded != null)
 					OnSlotAdded (slot);
 			}
-
 		}
 
 		private ItemSlot CreateItemSlot ()

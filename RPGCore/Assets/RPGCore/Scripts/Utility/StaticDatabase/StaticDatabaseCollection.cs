@@ -37,7 +37,9 @@ namespace RPGCore.Utility
 			return cachedDatabase;
 		}
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize () { }
+		void ISerializationCallbackReceiver.OnBeforeSerialize ()
+		{
+		}
 
 		void ISerializationCallbackReceiver.OnAfterDeserialize ()
 		{

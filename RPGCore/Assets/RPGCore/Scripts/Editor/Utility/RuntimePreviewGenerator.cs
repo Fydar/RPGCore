@@ -314,7 +314,6 @@ namespace RPGCore.Utility.Editors
 
 				RenderTexture.active = temp;
 				RenderTexture.ReleaseTemporary (renderTex);
-
 			}
 			catch (Exception e)
 			{

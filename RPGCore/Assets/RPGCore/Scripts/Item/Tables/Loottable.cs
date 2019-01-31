@@ -17,14 +17,12 @@ namespace RPGCore.Tables
 			public ItemEntry (ItemGenerator item, float balance)
 				: base (item, balance)
 			{
-
 			}
 		}
 
 		[Serializable]
 		public class ItemRoll : MultiAssetSelector<ItemGenerator, ItemEntry>
 		{
-
 		}
 
 		public ItemRoll[] TableRolls;
@@ -80,9 +78,9 @@ namespace RPGCore.Tables
 
 #if UNITY_EDITOR
 		[CustomEditor (typeof (Loottable), true)]
-		class LootTableDrawer : Editor
+		private class LootTableDrawer : Editor
 		{
-			Loottable lootTable;
+			private Loottable lootTable;
 			public override void OnInspectorGUI ()
 			{
 				//lootTable = (Loottable)target;

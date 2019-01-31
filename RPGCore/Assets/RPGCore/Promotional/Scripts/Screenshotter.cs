@@ -7,12 +7,10 @@ namespace RPGCore.Promotional.Screenshotter
 		public KeyCode Capture;
 
 		[Space]
-
 		public int resWidth = 2048;
 		public int resHeight = 2048;
 
 		[Space]
-
 		public Camera SourceCamera;
 
 		private void Update ()

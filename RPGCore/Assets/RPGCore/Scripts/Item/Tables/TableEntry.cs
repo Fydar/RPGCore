@@ -30,7 +30,7 @@ namespace RPGCore.Tables
 
 #if UNITY_EDITOR
 	[CustomPropertyDrawer (typeof (TableEntry), true)]
-	class EntryDrawer : PropertyDrawer
+	internal class EntryDrawer : PropertyDrawer
 	{
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{

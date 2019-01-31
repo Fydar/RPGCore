@@ -11,7 +11,7 @@ namespace RPGCore.Audio
 		public AudioSourcePool Pool;
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
-		static void OnRuntimeMethodLoad ()
+		private static void OnRuntimeMethodLoad ()
 		{
 			GameObject singleton = new GameObject ("Audio Manager", typeof (AudioManager));
 			DontDestroyOnLoad (singleton);
@@ -66,14 +66,14 @@ namespace RPGCore.Audio
 			source.Play ();
 		}
 
-		IEnumerator ReturnToPool (AudioSource source)
+		private IEnumerator ReturnToPool (AudioSource source)
 		{
 			yield return new WaitForSeconds (source.clip.length / source.pitch);
 			source.Stop ();
 			Pool.Return (source);
 		}
 
-		IEnumerator ManageLoop (AudioSource source, LoopGroup group, EffectFader fader)
+		private IEnumerator ManageLoop (AudioSource source, LoopGroup group, EffectFader fader)
 		{
 			while (true)
 			{

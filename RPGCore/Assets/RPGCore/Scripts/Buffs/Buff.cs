@@ -182,7 +182,6 @@ namespace RPGCore
 			}
 			StackSize.Value = counter;
 		}
-
 	}
 }
 

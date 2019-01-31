@@ -8,7 +8,6 @@ namespace RPGCore.Utility
 
 		public ErrorIfNullAttribute ()
 		{
-
 		}
 
 		public ErrorIfNullAttribute (string error)

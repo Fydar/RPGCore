@@ -78,7 +78,7 @@ namespace RPGCore.Utility
 			}
 		}
 
-		TimedLoop GetEnumerator ()
+		private TimedLoop GetEnumerator ()
 		{
 			return this;
 		}
@@ -144,7 +144,6 @@ namespace RPGCore.Utility
 
 		public void Dispose ()
 		{
-
 		}
 	}
 }

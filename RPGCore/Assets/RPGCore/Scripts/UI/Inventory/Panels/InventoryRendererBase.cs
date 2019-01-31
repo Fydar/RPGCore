@@ -10,8 +10,12 @@ namespace RPGCore.Inventories
 		protected List<ItemSlotManager> managers;
 
 		public abstract void Setup (Inventory inventory);
-		protected virtual void OnSlotAdd (ItemSlotManager slot) { }
-		protected virtual void OnSlotRemove (ItemSlotManager slot) { }
+		protected virtual void OnSlotAdd (ItemSlotManager slot)
+		{
+		}
+		protected virtual void OnSlotRemove (ItemSlotManager slot)
+		{
+		}
 	}
 }
 

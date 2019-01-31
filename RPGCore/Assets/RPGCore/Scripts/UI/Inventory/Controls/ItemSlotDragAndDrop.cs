@@ -36,14 +36,14 @@ namespace RPGCore.Inventories
 		private ItemSlotManager startSlot;
 		private ItemSlotManager lastHoveringSlot;
 
-		void Awake ()
+		private void Awake ()
 		{
 			instance = this;
 
 			ghost.gameObject.SetActive (false);
 		}
 
-		void Update ()
+		private void Update ()
 		{
 			transform.position = mouse.ScreenToCanvas (Input.mousePosition);
 
@@ -131,7 +131,6 @@ namespace RPGCore.Inventories
 
 					if (ItemSlotManager.CurrentlyHovered == null)
 					{
-
 					}
 					else if (ItemSlotManager.CurrentlyHovered != null)
 					{

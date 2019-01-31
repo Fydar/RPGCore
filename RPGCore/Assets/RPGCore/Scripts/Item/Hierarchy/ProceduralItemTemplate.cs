@@ -24,19 +24,16 @@ namespace RPGCore
 		[SerializeField] private string description = "New Item Description";
 
 		[Space]
-
 		[SerializeField] private SfxGroup startDrag;
 		[SerializeField] private SfxGroup endDrag;
 
 		[Space]
-
 		[SerializeField] private EnchantmentSelector prefix;
 		[SerializeField] private EnchantmentSelector suffix;
 
 		[SerializeField] private int maxStack = 1;
 
 		[Space]
-
 		[SerializeField] private ItemRarity rarity;
 
 		[HideInInspector] [SerializeField] private Sprite icon;
@@ -211,7 +208,7 @@ namespace RPGCore
 #if UNITY_EDITOR && !ASSET_ICONS
 	[CustomEditor (typeof (ProceduralItemTemplate))]
 	[CanEditMultipleObjects]
-	class ItemTemplateEditor : Editor
+	internal class ItemTemplateEditor : Editor
 	{
 		public override Texture2D RenderStaticPreview (string assetPath, Object[] subAssets, int width, int height)
 		{

@@ -8,43 +8,67 @@ namespace RPGCore
 	[Serializable]
 	public class ShortEventField : EventField<short>
 	{
-		public ShortEventField () : base () { }
-		public ShortEventField (short defaultValue) : base (defaultValue) { }
+		public ShortEventField () : base ()
+		{
+		}
+		public ShortEventField (short defaultValue) : base (defaultValue)
+		{
+		}
 	}
 
 	[Serializable]
 	public class UIntEventField : EventField<uint>
 	{
-		public UIntEventField () : base () { }
-		public UIntEventField (uint defaultValue) : base (defaultValue) { }
+		public UIntEventField () : base ()
+		{
+		}
+		public UIntEventField (uint defaultValue) : base (defaultValue)
+		{
+		}
 	}
 
 	[Serializable]
 	public class IntEventField : EventField<int>
 	{
-		public IntEventField () : base () { }
-		public IntEventField (int defaultValue) : base (defaultValue) { }
+		public IntEventField () : base ()
+		{
+		}
+		public IntEventField (int defaultValue) : base (defaultValue)
+		{
+		}
 	}
 
 	[Serializable]
 	public class FloatEventField : EventField<float>
 	{
-		public FloatEventField () : base () { }
-		public FloatEventField (float defaultValue) : base (defaultValue) { }
+		public FloatEventField () : base ()
+		{
+		}
+		public FloatEventField (float defaultValue) : base (defaultValue)
+		{
+		}
 	}
 
 	[Serializable]
 	public class BoolEventField : EventField<bool>
 	{
-		public BoolEventField () : base () { }
-		public BoolEventField (bool defaultValue) : base (defaultValue) { }
+		public BoolEventField () : base ()
+		{
+		}
+		public BoolEventField (bool defaultValue) : base (defaultValue)
+		{
+		}
 	}
 
 	[Serializable]
 	public class ItemTierEventField : EventField<ItemTier>
 	{
-		public ItemTierEventField () : base () { }
-		public ItemTierEventField (ItemTier defaultValue) : base (defaultValue) { }
+		public ItemTierEventField () : base ()
+		{
+		}
+		public ItemTierEventField (ItemTier defaultValue) : base (defaultValue)
+		{
+		}
 	}
 
 	[Serializable]

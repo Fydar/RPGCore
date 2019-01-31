@@ -25,7 +25,6 @@ namespace RPGCore.UI
 	{
 		public void Render (UIContextMenu menu, RectTransform holder)
 		{
-
 		}
 	}
 }

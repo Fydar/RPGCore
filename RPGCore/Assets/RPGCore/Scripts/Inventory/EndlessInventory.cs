@@ -9,7 +9,6 @@ namespace RPGCore.Inventories
 		public EndlessInventory (RPGCharacter owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
 			: base (owner, behaviours, conditions)
 		{
-
 		}
 
 		public override AddResult Add (ItemSurrogate newItem)
@@ -47,7 +46,7 @@ namespace RPGCore.Inventories
 
 				AddResult result = slot.Add (newItem);
 
-				if (result == AddResult.Complete) 
+				if (result == AddResult.Complete)
 				{
 					if (OnAddItem != null)
 						OnAddItem ();

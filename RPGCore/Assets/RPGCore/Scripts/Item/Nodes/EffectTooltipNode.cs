@@ -39,7 +39,6 @@ namespace RPGCore
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 
 #if UNITY_EDITOR

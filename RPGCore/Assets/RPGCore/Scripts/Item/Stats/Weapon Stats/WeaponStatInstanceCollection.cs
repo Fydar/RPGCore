@@ -1,10 +1,9 @@
-﻿using RPGCore.Behaviour.Connections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace RPGCore.Stats
 {
-    [Serializable]
+	[Serializable]
 	public class WeaponStatInstanceCollection : WeaponStatCollection<StatInstance>
 	{
 		public void SetupReferences ()

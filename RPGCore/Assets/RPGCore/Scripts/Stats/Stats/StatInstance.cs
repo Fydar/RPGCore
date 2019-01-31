@@ -189,7 +189,6 @@ namespace RPGCore.Stats
 	[CustomPropertyDrawer (typeof (StatInstance))]
 	public class StatInstanceDrawer : PropertyDrawer
 	{
-
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
 			return base.GetPropertyHeight (property, label);
@@ -213,7 +212,6 @@ namespace RPGCore.Stats
 							Mathf.RoundToInt (statInfo.MinValue.Value), Mathf.RoundToInt (statInfo.MaxValue.Value));
 					else
 						valueProperty.floatValue = EditorGUI.Slider (position, label, valueProperty.floatValue, statInfo.MinValue.Value, statInfo.MaxValue.Value);
-
 				}
 				else
 				{

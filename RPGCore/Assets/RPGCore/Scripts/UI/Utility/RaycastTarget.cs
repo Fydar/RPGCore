@@ -16,7 +16,6 @@ namespace RPGCore.Utility
 			}
 			set
 			{
-
 			}
 		}
 
@@ -38,7 +37,7 @@ namespace RPGCore.Utility
 
 #if UNITY_EDITOR
 		[CanEditMultipleObjects, CustomEditor (typeof (RaycastTarget), false)]
-		class RaycastTargetEditor : Editor
+		private class RaycastTargetEditor : Editor
 		{
 			public override void OnInspectorGUI ()
 			{

@@ -4,7 +4,6 @@ namespace RPGCore.Inventories
 {
 	public class Slot_EquippableSlot : ItemSlotBehaviour
 	{
-
 		public override void OnEnterSlot (ItemSlot target)
 		{
 			EquiptableItemNode equiptable = target.Item.Template.GetNode<EquiptableItemNode> ();
@@ -27,12 +26,10 @@ namespace RPGCore.Inventories
 
 		public override void OnSlotEnable (ItemSlot target)
 		{
-
 		}
 
 		public override void OnSlotDisable (ItemSlot target)
 		{
-
 		}
 	}
 }
