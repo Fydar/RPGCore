@@ -54,43 +54,43 @@ public class MinValueAttribute : Attribute
     public void Filter(ref int value)
     {
         if (value < longMin)
-            value = longMin;
+            value = (int)longMin;
     }
 
     public void Filter(ref uint value)
     {
         if (value < longMin)
-            value = longMin;
+            value = (uint)longMin;
     }
 
     public void Filter(ref byte value)
     {
         if (value < longMin)
-            value = longMin;
+            value = (byte)longMin;
     }
 
     public void Filter(ref sbyte value)
     {
         if (value < longMin)
-            value = longMin;
+            value = (sbyte)longMin;
     }
 
     public void Filter(ref short value)
     {
         if (value < longMin)
-            value = longMin;
+            value = (short)longMin;
     }
 
     public void Filter(ref ushort value)
     {
         if (value < longMin)
-            value = longMin;
+            value = (ushort)longMin;
     }
 
     public void Filter(ref float value)
     {
         if (value < doubleMin)
-            value = doubleMin;
+            value = (float)doubleMin;
     }
 
     public void Filter(ref double value)
