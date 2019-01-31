@@ -15,8 +15,8 @@
             },
             "_Editor": {
                 "Position": {
-                    "x": 15,
-                    "y": 150
+                    "x": 53,
+                    "y": 128
                 }
             }
         },
@@ -29,22 +29,22 @@
             },
             "_Editor": {
                 "Position": {
-                    "x": 190,
-                    "y": 165
+                    "x": 362,
+                    "y": 231
                 }
             }
         },
         "f78014b6": {
             "Type": "GrantStat",
             "Data": {
-                "Stat": "Attack",
+                "Stat": "Movement Speed",
                 "Whilst": "942388a8.Equipped",
                 "Value": 10
             },
             "_Editor": {
                 "Position": {
-                    "x": 255,
-                    "y": 175
+                    "x": 363,
+                    "y": 84
                 }
             }
         },
@@ -70,8 +70,8 @@
             },
             "_Editor": {
                 "Position": {
-                    "x": 325,
-                    "y": 167
+                    "x": 661,
+                    "y": 183
                 }
             }
         }

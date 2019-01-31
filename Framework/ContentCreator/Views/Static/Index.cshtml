@@ -41,50 +41,73 @@
 						nodeContainer.removeChild(nodeContainer.firstChild);
 					}
 					
-					var nodes = [];
 					// Create nodes
 					for (var nodeKey in obj.Nodes) {
 						if (obj.Nodes.hasOwnProperty(nodeKey)) {
 
-							const nodeData = obj.Nodes[nodeKey];
-							const editorData = nodeData["_Editor"];
+                            const nodeValue = obj.Nodes[nodeKey];
+                            const nodeData = nodeValue["Data"];
+                            const nodeType = nodeValue["Type"];
+							const editorData = nodeValue["_Editor"];
 							const nodeGraphic = document.createElement("div");
 
-							console.log(nodeKey, nodeData);
+							console.log(nodeKey, nodeValue);
 
 							nodeGraphic.classList.add("node");
 
 							nodeGraphic.style.left = editorData["Position"]["x"] + "px";
 							nodeGraphic.style.top = editorData["Position"]["y"] + "px";
 
-							nodeContainer.appendChild(nodeGraphic);
+                            nodeContainer.appendChild(nodeGraphic);
 
+                            const headerGraphic = document.createElement("div");
+                            headerGraphic.innerHTML = nodeType;
+                            headerGraphic.classList.add("nodeHeader");
+
+                            nodeGraphic.appendChild(headerGraphic);
+
+                            // Add Text Elements
+                            for (const nodeDataKey in nodeData) {
+                                if (nodeData.hasOwnProperty(nodeDataKey)) {
+                                    const inputGraphic = document.createElement("input");
+                                    inputGraphic.value = nodeData[nodeDataKey];
+                                    
+                                    inputGraphic.addEventListener("input", updateNodeText);
+                                    function updateNodeText() {
+                                        nodeData[nodeDataKey] = this.value;
+                                    }
+
+                                    nodeGraphic.appendChild(inputGraphic);
+                                }
+                            }
+
+                            // Draggable Nodes
 							nodeGraphic.onmousedown = function (event) {
 
 								let shiftX = event.clientX - nodeGraphic.getBoundingClientRect().left;
 								let shiftY = event.clientY - nodeGraphic.getBoundingClientRect().top;
-
-								nodeGraphic.style.position = 'absolute';
-								nodeGraphic.style.zIndex = 1000;
+                                
+								// nodeGraphic.style.zIndex = 1000;
 
 								moveAt(event.pageX, event.pageY);
+                                
+                                function moveAt(pageX, pageY) {
+                                    var destX = pageX - shiftX - nodeContainer.getBoundingClientRect().x;
+                                    var destY = pageY - shiftY - nodeContainer.getBoundingClientRect().y;
 
-								// centers the nodeGraphic at (pageX, pageY) coordinates
-								function moveAt(pageX, pageY) {
-									nodeGraphic.style.left = pageX - shiftX + 'px';
-									nodeGraphic.style.top = pageY - shiftY + 'px';
-									editorData["Position"]["x"] = pageX - shiftX;
-									editorData["Position"]["y"] = pageY - shiftY;
+                                    nodeGraphic.style.left = destX + 'px';
+                                    nodeGraphic.style.top = destY + 'px';
+
+                                    editorData["Position"]["x"] = destX;
+                                    editorData["Position"]["y"] = destY;
 								}
 
 								function onMouseMove(event) {
 									moveAt(event.pageX, event.pageY);
 								}
-
-								// (3) move the nodeGraphic on mousemove
+                                
 								document.addEventListener('mousemove', onMouseMove);
-
-								// (4) drop the nodeGraphic, remove unneeded handlers
+                                
 								nodeGraphic.onmouseup = function () {
 									document.removeEventListener('mousemove', onMouseMove);
 									nodeGraphic.onmouseup = null;
@@ -107,11 +130,18 @@
 		</script>
 
 		<style>
-			.node {
-				background-color: #eee;
-				border-radius: 5px;
-				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-			}
+            .node {
+                position: absolute;
+                width: 200px;
+                background-color: #eee;
+                border-radius: 5px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                padding: 0px;
+            }
+
+            .node input {
+                margin: 6px;
+            }
 
 			.nodeHeader {
 				background-color: #e2e2e2;
