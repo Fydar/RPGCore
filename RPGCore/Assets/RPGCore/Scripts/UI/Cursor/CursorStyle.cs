@@ -15,7 +15,7 @@ namespace RPGCore.UI.CursorManagement
 
 #if UNITY_EDITOR
 		[CustomEditor (typeof (CursorStyle))]
-		class CursorStyleEditor : Editor
+		private class CursorStyleEditor : Editor
 		{
 			public override bool RequiresConstantRepaint ()
 			{

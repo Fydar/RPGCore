@@ -24,7 +24,6 @@ namespace RPGCore.Behaviour.Editor
 		public Texture2D NotNodeGraphic;
 
 		[Space]
-
 		public GUIStyle NodeStyle;
 
 		public static BehaviourGraphResources Instance

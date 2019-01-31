@@ -13,7 +13,7 @@ namespace RPGCore.Stats
 		public StatDrawerPool PrefabDrawer;
 		public RectTransform Holder;
 
-		void Start ()
+		private void Start ()
 		{
 			foreach (StatInstance stat in Char.Stats)
 			{

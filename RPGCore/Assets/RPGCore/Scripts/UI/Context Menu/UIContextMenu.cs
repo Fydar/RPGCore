@@ -15,7 +15,6 @@ namespace RPGCore.UI
 		public RectTransform ListView;
 
 		[Space]
-
 		public ContextButtonPool ButtonPool = new ContextButtonPool ();
 		public RectTransformPool DividerPool = new RectTransformPool ();
 		public ContextFolderPool FolderPool = new ContextFolderPool ();

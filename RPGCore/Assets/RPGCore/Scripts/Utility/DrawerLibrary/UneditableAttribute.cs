@@ -6,7 +6,6 @@ namespace RPGCore.Utility
 	{
 		public UneditableAttribute ()
 		{
-
 		}
 	}
 }

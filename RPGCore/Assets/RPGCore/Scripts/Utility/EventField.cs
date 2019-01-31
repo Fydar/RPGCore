@@ -14,7 +14,9 @@ namespace RPGCore.Utility
 		[SerializeField]
 		private T internalValue;
 
-		public EventField () { }
+		public EventField ()
+		{
+		}
 
 		public EventField (T defaultValue)
 		{
@@ -40,7 +42,7 @@ namespace RPGCore.Utility
 
 #if UNITY_EDITOR
 		[CustomPropertyDrawer (typeof (EventField<>), true)]
-		class EventFieldDrawer : PropertyDrawer
+		private class EventFieldDrawer : PropertyDrawer
 		{
 			public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 			{

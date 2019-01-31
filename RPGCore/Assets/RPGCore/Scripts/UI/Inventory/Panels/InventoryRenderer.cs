@@ -25,7 +25,6 @@ namespace RPGCore.Inventories
 
 		protected override void OnSlotRemove (ItemSlotManager slot)
 		{
-
 		}
 	}
 }

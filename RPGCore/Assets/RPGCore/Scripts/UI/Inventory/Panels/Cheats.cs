@@ -14,7 +14,6 @@ namespace RPGCore.Inventories
 		public RPGCharacter Character;
 
 		[Space]
-
 		public GameObject ButtonPrefab;
 		public RectTransform ParentHolder;
 

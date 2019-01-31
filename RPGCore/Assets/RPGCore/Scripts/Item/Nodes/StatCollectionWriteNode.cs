@@ -10,7 +10,7 @@ namespace RPGCore
 		where A : EnumerableCollection<FloatInput>
 		where B : EnumerableCollection<StatInstance>, new()
 		where C : CollectionEntry
-        where D : StatCollectionInputNode<A, B>, new()
+		where D : StatCollectionInputNode<A, B>, new()
 	{
 		public C Stat;
 
@@ -79,7 +79,6 @@ namespace RPGCore
 
 			targetInput.OnBeforeChanged += () =>
 			{
-
 				if (targetInput.Value == null)
 				{
 					isActive = false;
@@ -116,7 +115,6 @@ namespace RPGCore
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 	}
 }

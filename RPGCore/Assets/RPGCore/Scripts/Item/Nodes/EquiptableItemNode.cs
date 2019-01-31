@@ -17,7 +17,6 @@ namespace RPGCore
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 
 		public void SetTarget (IBehaviourContext context, ItemSurrogate target)

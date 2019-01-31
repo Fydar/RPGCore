@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Stats
 {
-    [Serializable]
+	[Serializable]
 	public class ArmourStatInstanceCollection : ArmourStatCollection<StatInstance>
 	{
 		public void SetupReferences ()

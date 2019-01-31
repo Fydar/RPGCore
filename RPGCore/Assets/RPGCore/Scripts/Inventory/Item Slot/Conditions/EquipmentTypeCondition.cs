@@ -2,7 +2,7 @@
 {
 	public class EquipmentTypeCondition : ItemCondition
 	{
-		Slot[] slotTypes;
+		private Slot[] slotTypes;
 
 		public EquipmentTypeCondition (params Slot[] slots)
 		{

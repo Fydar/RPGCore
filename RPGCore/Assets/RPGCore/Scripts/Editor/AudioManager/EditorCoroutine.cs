@@ -13,13 +13,13 @@ namespace RPGCore.Audio.Editors
 			return coroutine;
 		}
 
-		readonly IEnumerator routine;
-		EditorCoroutine (IEnumerator _routine)
+		private readonly IEnumerator routine;
+		private EditorCoroutine (IEnumerator _routine)
 		{
 			routine = _routine;
 		}
 
-		void StartInternal ()
+		private void StartInternal ()
 		{
 			EditorApplication.update += Update;
 		}
@@ -28,7 +28,7 @@ namespace RPGCore.Audio.Editors
 			EditorApplication.update -= Update;
 		}
 
-		void Update ()
+		private void Update ()
 		{
 			if (!routine.MoveNext ())
 			{

@@ -48,7 +48,6 @@ namespace RPGCore.Stats
 	[CustomPropertyDrawer (typeof (StateInstance))]
 	public class StateInstanceDrawer : PropertyDrawer
 	{
-
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
 			return base.GetPropertyHeight (property, label);

@@ -30,7 +30,9 @@ namespace RPGCore.Tables
 			return default (T);
 		}
 
-		public void OnBeforeSerialize () { }
+		public void OnBeforeSerialize ()
+		{
+		}
 
 		public void OnAfterDeserialize ()
 		{

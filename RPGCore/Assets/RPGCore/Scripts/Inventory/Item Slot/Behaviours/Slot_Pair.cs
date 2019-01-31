@@ -44,17 +44,14 @@
 
 		public override void OnExitSlot (ItemSlot target)
 		{
-
 		}
 
 		public override void OnSlotEnable (ItemSlot target)
 		{
-
 		}
 
 		public override void OnSlotDisable (ItemSlot target)
 		{
-
 		}
 	}
 }

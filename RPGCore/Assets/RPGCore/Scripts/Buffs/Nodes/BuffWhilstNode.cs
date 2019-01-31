@@ -20,12 +20,10 @@ namespace RPGCore
 		public ApplyMode Mode;
 
 		[Space]
-
 		public CharacterInput Target;
 		public BoolInput Whilst;
 
 		[Space]
-
 		public IntInput StackSize;
 		public FloatInput TicksPerSecond;
 
@@ -88,7 +86,6 @@ namespace RPGCore
 
 			targetInput.OnBeforeChanged += () =>
 			{
-
 				if (targetInput.Value == null)
 				{
 					isActive = false;
@@ -117,7 +114,6 @@ namespace RPGCore
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 	}
 }

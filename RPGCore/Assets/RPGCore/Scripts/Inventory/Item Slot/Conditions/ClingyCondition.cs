@@ -4,7 +4,6 @@
 	{
 		public ClingyCondition ()
 		{
-
 		}
 
 		public override bool IsValid (ItemSurrogate item)

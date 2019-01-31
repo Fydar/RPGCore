@@ -21,7 +21,6 @@ namespace RPGCore.Behaviour
 			{
 				if (sourceSocket == null)
 				{
-
 				}
 				if (SourceNode == null)
 				{
@@ -39,7 +38,6 @@ namespace RPGCore.Behaviour
 
 		public override void RemoveContext (IBehaviourContext context)
 		{
-
 		}
 
 		public virtual object GetConnectionObject (IBehaviourContext context)
@@ -49,7 +47,6 @@ namespace RPGCore.Behaviour
 
 		public virtual void AfterContentChanged ()
 		{
-
 		}
 
 #if UNITY_EDITOR

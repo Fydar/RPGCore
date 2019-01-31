@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 namespace RPGCore.Inventories
 {
 	/// <summary>
-	/// Controls the rendering of a slot from an inventory. 
+	/// Controls the rendering of a slot from an inventory.
 	/// </summary>
 	public class ItemSlotManager : MonoBehaviour, IPointerClickHandler, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 	{
@@ -130,7 +130,7 @@ namespace RPGCore.Inventories
 			slot = null;
 		}
 
-		void OnSlotChanged ()
+		private void OnSlotChanged ()
 		{
 			if (slot == null)
 				return;

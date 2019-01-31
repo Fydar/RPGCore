@@ -10,7 +10,6 @@ namespace RPGCore.UI
 		public Vector2 MaxOffset = new Vector2 (35.0f, 10.0f);
 
 		[Space]
-
 		public Vector2 MinVelocity = new Vector2 (-1.0f, 1.5f);
 		public Vector2 MaxVelocity = new Vector2 (1.0f, 3.0f);
 

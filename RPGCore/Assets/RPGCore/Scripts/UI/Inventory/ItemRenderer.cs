@@ -131,7 +131,6 @@ namespace RPGCore.Inventories
 			{
 				if (quantityIsCharges)
 				{
-
 				}
 				else
 				{

@@ -14,7 +14,6 @@ public class ExpandableAttribute : PropertyAttribute
 {
 	public ExpandableAttribute ()
 	{
-
 	}
 }
 
@@ -64,7 +63,7 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 	/// The colour that is used to lighten the background.
 	/// </summary>
 	private static Color LIGHTEN_COLOUR = new Color (1.0f, 1.0f, 1.0f, 0.2f);
-	#endregion
+	#endregion Style Setup
 
 	public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 	{
@@ -153,7 +152,7 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 		marchingRect.y += INNER_SPACING;
 
 		bodyRect.yMax = marchingRect.yMax;
-		#endregion
+		#endregion Format Field Rects
 
 		DrawBackground (bodyRect);
 
@@ -193,7 +192,7 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 		targetObject.ApplyModifiedProperties ();
 
 		EditorGUI.indentLevel--;
-		#endregion
+		#endregion Draw Fields
 	}
 
 	/// <summary>
@@ -204,7 +203,6 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 	{
 		switch (BACKGROUND_STYLE)
 		{
-
 			case BackgroundStyles.HelpBox:
 				EditorGUI.HelpBox (rect, "", MessageType.None);
 				break;

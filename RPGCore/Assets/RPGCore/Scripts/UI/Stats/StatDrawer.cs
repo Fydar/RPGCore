@@ -10,7 +10,7 @@ namespace RPGCore.Stats
 		public Text NameText;
 		public Text ValueText;
 
-		StatInstance info;
+		private StatInstance info;
 
 		public void Setup (StatInstance _info)
 		{
@@ -26,7 +26,7 @@ namespace RPGCore.Stats
 			info.OnValueChanged += OnStatChanged;
 		}
 
-		void OnStatChanged ()
+		private void OnStatChanged ()
 		{
 			NameText.text = info.Info.Name;
 			ValueText.text = info.Info.RenderValue (info.Value);

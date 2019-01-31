@@ -36,12 +36,10 @@ namespace RPGCore.Stats
 		public string renderFormat = "{0.##}";
 
 		[Space]
-
 		public string positiveFormat = "{0.##} increased {name}";
 		public string negativeFormat = "{0.##} reduced {name}";
 
 		[Space]
-
 		public string multiplierPositiveFormat = "{0.##}% increased {name}";
 		public string multiplierNegativeFormat = "{0.##}% reduced {name}";
 

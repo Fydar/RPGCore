@@ -6,7 +6,6 @@ public class CommandUsageAttribute : Attribute
 
 	public CommandUsageAttribute ()
 	{
-
 	}
 
 	public CommandUsageAttribute (string _help)

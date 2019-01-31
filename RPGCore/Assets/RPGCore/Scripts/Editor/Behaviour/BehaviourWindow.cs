@@ -121,7 +121,6 @@ namespace RPGCore.Behaviour.Editor
 
 					if (typeof (BehaviourNode).IsAssignableFrom (type))
 					{
-
 					}
 					else
 					{

@@ -12,7 +12,9 @@ namespace RPGCore
 
 		private Dictionary<string, DataEntry> Collection = new Dictionary<string, DataEntry> ();
 
-		public void OnBeforeSerialize () { }
+		public void OnBeforeSerialize ()
+		{
+		}
 
 		public void OnAfterDeserialize ()
 		{

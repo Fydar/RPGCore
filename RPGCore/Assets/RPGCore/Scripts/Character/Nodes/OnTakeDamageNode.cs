@@ -61,7 +61,6 @@ namespace RPGCore
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 	}
 }

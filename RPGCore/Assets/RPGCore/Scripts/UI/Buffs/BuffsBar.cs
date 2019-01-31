@@ -11,12 +11,10 @@ namespace RPGCore
 		public RPGCharacter TargetCharacter;
 
 		[Space]
-
 		public Transform BuffsHolder;
 		public Transform DebuffsHolder;
 
 		[Space]
-
 		public BuffIndicatorPool Indicator;
 
 		private void Start ()

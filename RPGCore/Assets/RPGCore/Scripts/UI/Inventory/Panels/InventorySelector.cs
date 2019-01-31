@@ -8,9 +8,9 @@ namespace RPGCore.Inventories
 		public RectTransform NoneSlot;
 		public ItemRenderer DefaultSlot;
 
-		Action<ItemSlot> returnCallback;
-		Action<ItemSlot> hoveredCallback;
-		Action<ItemSlot> unhoveredCallback;
+		private Action<ItemSlot> returnCallback;
+		private Action<ItemSlot> hoveredCallback;
+		private Action<ItemSlot> unhoveredCallback;
 
 		protected override void OnSlotAdd (ItemSlotManager manager)
 		{
@@ -33,7 +33,6 @@ namespace RPGCore.Inventories
 
 		protected override void OnSlotRemove (ItemSlotManager slot)
 		{
-
 		}
 
 		public void DisplaySelector (ItemCondition[] Conditions, Action<ItemSlot> onSelected)
@@ -145,7 +144,7 @@ namespace RPGCore.Inventories
 		{
 			unhoveredCallback = onUnhovered;
 		}
-		#endregion
+		#endregion Hovered Support
 	}
 }
 

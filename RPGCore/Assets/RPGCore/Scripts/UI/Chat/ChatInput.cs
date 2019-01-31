@@ -11,7 +11,7 @@ public class ChatInput : MonoBehaviour
 		public class GiveCommand : ConsoleAction
 		{
 			[CommandUsage]
-			void Nickname (string itemId)
+			private void Nickname (string itemId)
 			{
 				Chat.Instance.Log ("Giving " + itemId + ".");
 			}

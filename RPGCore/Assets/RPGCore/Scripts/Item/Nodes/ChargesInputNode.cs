@@ -18,30 +18,27 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-
 		}
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 
 		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
 		{
-			
 		}
-		
+
 		public string Serialize (IBehaviourContext context)
 		{
 			var chargesOutput = Charges[context];
 
-			return JsonUtility.ToJson(new InstanceData() { Charges = chargesOutput.Value });
+			return JsonUtility.ToJson (new InstanceData () { Charges = chargesOutput.Value });
 		}
 
 		public void Deserialize (IBehaviourContext context, string data)
 		{
 			var chargesOutput = Charges[context];
-			var instanceData = JsonUtility.FromJson<InstanceData>(data);
+			var instanceData = JsonUtility.FromJson<InstanceData> (data);
 
 			chargesOutput.Value = instanceData.Charges;
 		}

@@ -5,12 +5,12 @@ using System;
 
 namespace RPGCore
 {
-    public class StatCollectionReadNode<A, B, C, D> : BehaviourNode
+	public class StatCollectionReadNode<A, B, C, D> : BehaviourNode
 		where A : EnumerableCollection<FloatInput>
 		where B : EnumerableCollection<StatInstance>, new()
 		where C : CollectionEntry
-        where D : StatCollectionInputNode<A, B>, new()
-        
+		where D : StatCollectionInputNode<A, B>, new()
+
 	{
 		public C Stat;
 
@@ -29,7 +29,7 @@ namespace RPGCore
 					valueOutput.Value = 0.0f;
 					return;
 				}
-				
+
 				var weaponNode = targetInput.Value.Template.GetNode<D> ();
 
 				if (weaponNode == null)
@@ -37,13 +37,13 @@ namespace RPGCore
 					valueOutput.Value = 0;
 					return;
 				}
-				valueOutput.Value = weaponNode.GetStats(targetInput.Value)[Stat].Value;
+				valueOutput.Value = weaponNode.GetStats (targetInput.Value)[Stat].Value;
 			};
 
 			if (targetInput.Value != null)
 			{
 				targetInput.Value.Template.GetNode<D> ()
-					.GetStats(targetInput.Value)[Stat].OnValueChanged += updateListener;
+					.GetStats (targetInput.Value)[Stat].OnValueChanged += updateListener;
 
 				updateListener ();
 			}
@@ -54,7 +54,7 @@ namespace RPGCore
 					return;
 
 				targetInput.Value.Template.GetNode<D> ()
-					.GetStats(targetInput.Value)[Stat].OnValueChanged -= updateListener;
+					.GetStats (targetInput.Value)[Stat].OnValueChanged -= updateListener;
 			};
 
 			targetInput.OnAfterChanged += () =>
@@ -64,13 +64,12 @@ namespace RPGCore
 					return;
 
 				targetInput.Value.Template.GetNode<D> ()
-					.GetStats(targetInput.Value)[Stat].OnValueChanged += updateListener;
+					.GetStats (targetInput.Value)[Stat].OnValueChanged += updateListener;
 			};
 		}
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-
 		}
 	}
 }
