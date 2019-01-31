@@ -8,6 +8,7 @@ namespace Behaviour.Manifest
 		public string Name;
 		public string Description;
 		public string Type;
+		public string[] Attributes;
 
 		public static FieldInformation Construct(FieldInfo field)
 		{
