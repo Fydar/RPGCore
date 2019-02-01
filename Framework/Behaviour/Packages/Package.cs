@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Packages
+namespace Behaviour.Packages
 {
     public class Package
     {

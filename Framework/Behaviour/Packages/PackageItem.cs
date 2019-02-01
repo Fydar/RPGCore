@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Packages
+namespace Behaviour.Packages
 {
     public struct PackageItem
     {
@@ -8,5 +8,6 @@ namespace Packages
         public string Description;
         public string Type;
         public Dictionary<string, string> CustomData;
+        public Dictionary<string, PackageNode> Nodes;
     }
 }

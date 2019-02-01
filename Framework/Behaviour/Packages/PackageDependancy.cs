@@ -1,4 +1,4 @@
-namespace Packages
+namespace Behaviour.Packages
 {
     public struct PackageDependancy
     {
