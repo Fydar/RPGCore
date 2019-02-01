@@ -1,4 +1,5 @@
 ﻿using Behaviour.Packages;
+using Newtonsoft.Json;
 using System;
 using System.Threading;
 
@@ -37,7 +38,13 @@ namespace Behaviour
 			//Console.WriteLine(Manifest.TypeManifest.ConstructBaseTypes ());
 
 
-			
+
+
+
+			Console.WriteLine("Importing Graph...");
+			var packageItem = JsonConvert.DeserializeObject<PackageItem>("{\"Name\":\"Bronze Longsword\",\"Nodes\":{\"942388a8\":{\"Type\":\"WeaponInput\",\"Data\":{\"Slot\":\"Mainhand\",\"Stats\":{\"Attack\":10,\"AttackSpeed\":1.55,\"CriticalStrikeChance\":1.5,\"CriticalStrikeMultiplier\":1.5,\"StaminaCost\":20}},\"_Editor\":{\"Position\":{\"x\":53,\"y\":128}}},\"0a084c2c\":{\"Type\":\"GrantStat\",\"Data\":{\"Stat\":\"Attack\",\"Whilst\":\"942388a8.Equipped\",\"Value\":10},\"_Editor\":{\"Position\":{\"x\":362,\"y\":231}}},\"f78014b6\":{\"Type\":\"GrantStat\",\"Data\":{\"Stat\":\"Movement Speed\",\"Whilst\":\"942388a8.Equipped\",\"Value\":10},\"_Editor\":{\"Position\":{\"x\":363,\"y\":84}}},\"5n4a3fc8\":{\"Type\":\"Graph\",\"Data\":{\"Nodes\":{\"4ba187c9\":{\"Type\":\"GrantBuff\",\"Data\":{\"Buff\":\"Burning\",\"Whilst\":\"942388a8.Equipped\",\"Value\":10},\"_Editor\":{\"Position\":{\"x\":190,\"y\":155}}}}},\"_Editor\":{\"Position\":{\"x\":661,\"y\":183}}}}}");
+			Console.WriteLine("Imported: " + packageItem.Name);
+
 
 			Console.WriteLine ("Running Simulation...");
 
