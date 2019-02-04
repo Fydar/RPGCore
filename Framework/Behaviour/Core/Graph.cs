@@ -6,6 +6,12 @@
 
 		public int OutputCount;
 
+		public Graph(Node[] nodes, int outputCount)
+		{
+			Nodes = nodes;
+			OutputCount = outputCount;
+		}
+
 		public Graph(Node[] nodes)
 		{
 			Nodes = nodes;

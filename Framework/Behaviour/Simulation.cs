@@ -7,56 +7,31 @@ namespace Behaviour
 {
 	public class Simulation
 	{
-		public Graph LongswordItem
-		{
-			get
-			{
-				var rollA = new RollNode { MinValue = 20, MaxValue = 40 };
-				var rollB = new RollNode { MaxValue = 12 };
-
-				var stat = new StatsNode
-				{
-					ValueA = new InputSocket(0),
-					ValueB = new InputSocket(1)
-				};
-
-				return new Graph(new Node[]
-				{
-					stat,
-					rollA,
-					rollB,
-				});
-			}
-		}
-
 		public void Start()
 		{
+			BubbleTest.Test();
 			Console.WriteLine ("Outputting Node Manifest...");
 			Console.WriteLine(Manifest.NodeManifest.Construct (new Type[] { typeof(StatsNode), typeof(RollNode) }));
 
 			//Console.WriteLine ("Outputting Type Manifest...");
 			//Console.WriteLine(Manifest.TypeManifest.ConstructBaseTypes ());
 
-
-
-
-
 			Console.WriteLine("Importing Graph...");
-			var packageItem = JsonConvert.DeserializeObject<PackageItem>("{\"Name\":\"Bronze Longsword\",\"Nodes\":{\"942388a8\":{\"Type\":\"WeaponInput\",\"Data\":{\"Slot\":\"Mainhand\",\"Stats\":{\"Attack\":10,\"AttackSpeed\":1.55,\"CriticalStrikeChance\":1.5,\"CriticalStrikeMultiplier\":1.5,\"StaminaCost\":20}},\"_Editor\":{\"Position\":{\"x\":53,\"y\":128}}},\"0a084c2c\":{\"Type\":\"GrantStat\",\"Data\":{\"Stat\":\"Attack\",\"Whilst\":\"942388a8.Equipped\",\"Value\":10},\"_Editor\":{\"Position\":{\"x\":362,\"y\":231}}},\"f78014b6\":{\"Type\":\"GrantStat\",\"Data\":{\"Stat\":\"Movement Speed\",\"Whilst\":\"942388a8.Equipped\",\"Value\":10},\"_Editor\":{\"Position\":{\"x\":363,\"y\":84}}},\"5n4a3fc8\":{\"Type\":\"Graph\",\"Data\":{\"Nodes\":{\"4ba187c9\":{\"Type\":\"GrantBuff\",\"Data\":{\"Buff\":\"Burning\",\"Whilst\":\"942388a8.Equipped\",\"Value\":10},\"_Editor\":{\"Position\":{\"x\":190,\"y\":155}}}}},\"_Editor\":{\"Position\":{\"x\":661,\"y\":183}}}}}");
+			var packageItem = JsonConvert.DeserializeObject<PackageItem>("{\"Name\":\"BronzeLongsword\",\"Nodes\":{\"0a084c2c\":{\"Type\":\"Behaviour.RollNode\",\"Data\":{\"MinValue\":20,\"MaxValue\":40,\"TooltipFormat\":\"{0}\"},\"_Editor\":{\"Position\":{\"x\":362,\"y\":231}}},\"4a41bc58\":{\"Type\":\"Behaviour.RollNode\",\"Data\":{\"MinValue\":20,\"MaxValue\":40,\"TooltipFormat\":\"{0}\"},\"_Editor\":{\"Position\":{\"x\":362,\"y\":231}}},\"a4f194f\":{\"Type\":\"Behaviour.StatsNode\",\"Data\":{\"ValueA\":\"0a084c2c.Output\",\"ValueB\":\"4a41bc58.Output\"},\"_Editor\":{\"Position\":{\"x\":362,\"y\":231}}}}}");
 			Console.WriteLine("Imported: " + packageItem.Name);
-
+			var unpackedGraph = packageItem.Unpack();
 
 			Console.WriteLine ("Running Simulation...");
 
 			var player = new Actor();
 
-			IBehaviour longswordEquipt = LongswordItem.Setup(player);
+			IBehaviour instancedItem = unpackedGraph.Setup(player);
 			for (int i = 0; i < 5; i++)
 			{
 				Thread.Sleep(100);
 				player.Health.Value -= 20;
 			}
-			longswordEquipt.Remove();
+			instancedItem.Remove();
 
 			/*
 			var rollA = new AiRandNode();

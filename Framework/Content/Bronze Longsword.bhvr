@@ -1,31 +1,12 @@
 {
-    "Name": "Bronze Longsword",
+    "Name": "BronzeLongsword",
     "Nodes": {
-        "942388a8": {
-            "Type": "WeaponInput",
-            "Data": {
-                "Slot": "Mainhand",
-                "Stats": {
-                    "Attack": 10,
-                    "AttackSpeed": 1.55,
-                    "CriticalStrikeChance": 1.5,
-                    "CriticalStrikeMultiplier": 1.5,
-                    "StaminaCost": 20
-                }
-            },
-            "_Editor": {
-                "Position": {
-                    "x": 53,
-                    "y": 128
-                }
-            }
-        },
         "0a084c2c": {
-            "Type": "GrantStat",
+            "Type": "Behaviour.RollNode",
             "Data": {
-                "Stat": "Attack",
-                "Whilst": "942388a8.Equipped",
-                "Value": 10
+                "MinValue": 1,
+                "MaxValue": 5,
+                "TooltipFormat": "{0}"
             },
             "_Editor": {
                 "Position": {
@@ -34,44 +15,30 @@
                 }
             }
         },
-        "f78014b6": {
-            "Type": "GrantStat",
+        "4a41bc58": {
+            "Type": "Behaviour.RollNode",
             "Data": {
-                "Stat": "Movement Speed",
-                "Whilst": "942388a8.Equipped",
-                "Value": 10
+                "MinValue": 20,
+                "MaxValue": 40,
+                "TooltipFormat": "{0}"
             },
             "_Editor": {
                 "Position": {
-                    "x": 363,
-                    "y": 84
+                    "x": 362,
+                    "y": 231
                 }
             }
         },
-        "5n4a3fc8": {
-            "Type": "Graph",
+        "a4f194f": {
+            "Type": "Behaviour.StatsNode",
             "Data": {
-                "Nodes": {
-                    "4ba187c9": {
-                        "Type": "GrantBuff",
-                        "Data": {
-                            "Buff": "Burning",
-                            "Whilst": "942388a8.Equipped",
-                            "Value": 10
-                        },
-                        "_Editor": {
-                            "Position": {
-                                "x": 190,
-                                "y": 155
-                            }
-                        }
-                    }
-                }
+                "ValueA": "0a084c2c.Output",
+                "ValueB": "4a41bc58.Output"
             },
             "_Editor": {
                 "Position": {
-                    "x": 661,
-                    "y": 183
+                    "x": 362,
+                    "y": 231
                 }
             }
         }
