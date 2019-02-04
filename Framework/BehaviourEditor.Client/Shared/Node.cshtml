@@ -1,0 +1,17 @@
+﻿<div class="jsDraggable" onmouseup="@OnMouseDown" style="position: relative; width: 240px; background-color: #fff; border-radius:5px; box-shadow: #808080 2px 2px 5px">
+    <h1>Node</h1>
+</div>
+
+@functions {
+    long positionX = 20;
+    long positionY = 20;
+
+    string positionXpx => positionX.ToString() + "px";
+    string positionYpx => positionX.ToString() + "px";
+
+    void OnMouseDown(UIMouseEventArgs args)
+    {
+        positionX = args.ClientX;
+        positionY = args.ClientY;
+    }
+}

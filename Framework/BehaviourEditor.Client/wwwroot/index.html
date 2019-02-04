@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,5 +12,52 @@
     <app>Loading...</app>
 
     <script src="_framework/blazor.webassembly.js"></script>
+
+    <script>
+        document.onmousedown = mouseDownHandler;
+
+        function mouseDownHandler(event) {
+            console.log(event.target.classList);
+            if (!event.target.classList.contains("jsDraggable")) {
+                return;
+            }
+            console.log(event.target);
+
+            let shiftX = event.clientX;
+            let shiftY = event.clientY;
+
+            moveAt(event.pageX, event.pageY);
+
+            function moveAt(pageX, pageY) {
+                var destX = pageX - shiftX;
+                var destY = pageY - shiftY;
+
+                event.target.style.left = destX + 'px';
+                event.target.style.top = destY + 'px';
+            }
+
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+                console.log("Position " + event.pageX + ", " + event.pageY);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            event.target.onmouseup = function () {
+                console.log("Mouse Up");
+                document.removeEventListener('mousemove', onMouseMove);
+                event.target.onmouseup = null;
+            };
+        }
+
+        document.ondragstart = dragStartHandler;
+
+        function dragStartHandler(event) {
+            if (!this.classList.contains("jsDraggable")) {
+                return;
+            }
+            return false;
+        }
+    </script>
 </body>
 </html>
