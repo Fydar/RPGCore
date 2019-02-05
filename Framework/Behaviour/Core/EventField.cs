@@ -27,11 +27,18 @@ namespace Behaviour
 			}
 		}
 
-		public EventField<B> Watch<B>(Func<T, B> chain)
+		public EventField<B> Watch<B>(Func<T, EventField<B>> chain)
 		{
 			var watcher = new EventField<B>();
 			OnAfterChanged += () => {
-				watcher.Value = chain (Value);
+				var target = chain (Value);
+				if(target == null)
+					return;
+					
+				target.OnAfterChanged += () => {
+					watcher.Value = target.Value;
+				};
+				watcher.Value = target.Value;
 			};
 			return watcher;
 		}
