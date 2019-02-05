@@ -21,16 +21,18 @@
             if (!event.target.classList.contains("jsDraggable")) {
                 return;
             }
-            console.log(event.target);
+			console.log(event.target);
 
-            let shiftX = event.clientX;
-            let shiftY = event.clientY;
+			let shiftX = 0;
+			let shiftY = 0;
 
             moveAt(event.pageX, event.pageY);
 
             function moveAt(pageX, pageY) {
-                var destX = pageX - shiftX;
-                var destY = pageY - shiftY;
+				var destX = pageX - shiftX - event.target.parentNode.getBoundingClientRect().x;
+				var destY = pageY - shiftY - event.target.parentNode.getBoundingClientRect().y;
+                //var destX = pageX - shiftX;
+                //var destY = pageY - shiftY;
 
                 event.target.style.left = destX + 'px';
                 event.target.style.top = destY + 'px';
