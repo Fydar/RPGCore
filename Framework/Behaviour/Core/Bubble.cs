@@ -8,8 +8,8 @@ namespace Behaviour
         {
             var target = new EventField<TestPlayer>();
 
-            var mainhand = target.Watch((e) => e.Mainhand.Value);
-            var mainhandDamage = mainhand.Watch((e) => e.Damage.Value);
+            var mainhand = target.Watch((e) => e?.Mainhand);
+            var mainhandDamage = mainhand.Watch((e) => e?.Damage);
             
             target.Value = new TestPlayer()
             {
@@ -43,18 +43,17 @@ namespace Behaviour
             
             Console.WriteLine(mainhandDamage.Value);
 
-            target.Value.Mainhand = new EventField<TestWeapon>()
+            target.Value.Mainhand.Value = new TestWeapon()
             {
-                Value = new TestWeapon()
+                Damage = new EventField<int>()
                 {
-                    Damage = new EventField<int>()
-                    {
-                        Value = 25
-                    }
+                    Value = 25
                 }
             };
             
             Console.WriteLine(mainhandDamage.Value);
+
+            target.Value = null;
         }
     }
 
