@@ -20,13 +20,13 @@ namespace Behaviour.Manifest
 				Name = nodeType.Name
 			};
 
-			var typeDefinition = new Type[] { typeof (GraphInstance), nodeType.BaseType.GenericTypeArguments[0] };
+			var typeDefinition = new Type[] { typeof (IGraphInstance), nodeType.BaseType.GenericTypeArguments[0] };
 			var inputsProperty = nodeType.GetMethod ("Inputs", typeDefinition);
 			var outputsProperty = nodeType.GetMethod ("Outputs", typeDefinition);
 
 			var nodeTemplate = (Node)Activator.CreateInstance (nodeType);
 			object metadataInstance = Activator.CreateInstance (typeDefinition[1]);
-			var singleNodeGraph = new GraphInstance (nodeTemplate);
+			var singleNodeGraph = new ManifestCaptureGraphInstance (nodeTemplate);
 
 			int inputId = 0;
 			int outputId = 0;

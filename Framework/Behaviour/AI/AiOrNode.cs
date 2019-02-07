@@ -8,13 +8,13 @@ namespace Behaviour
 		public InputSocket RequirementB;
 		public OutputSocket Selected = new OutputSocket();
 		
-		public override InputMap[] Inputs(GraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs(IGraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref RequirementA, out instance.requirementA),
 			graph.Connect(ref RequirementB, out instance.requirementB)
 		};
 
-		public override OutputMap[] Outputs (GraphInstance graph, Metadata instance) => null;
+		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => null;
 
 		public class Metadata : IAiNode
 		{
@@ -39,7 +39,7 @@ namespace Behaviour
 				}
 			}
 
-			public void Setup(GraphInstance graph, Node parent, Actor target)
+			public void Setup(IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
 				AiOrNode stats = (AiOrNode)parent;

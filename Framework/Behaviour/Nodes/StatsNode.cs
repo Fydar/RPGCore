@@ -8,13 +8,13 @@ namespace Behaviour
 		public InputSocket ValueB;
 		public string TooltipFormat = "{0}";
 
-		public override InputMap[] Inputs(GraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs(IGraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref ValueA, out instance.valueA),
 			graph.Connect(ref ValueB, out instance.valueB)
 		};
 
-		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => null;
+		public override OutputMap[] Outputs(IGraphInstance graph, Metadata instance) => null;
 
 		public class Metadata : INodeInstance
 		{
@@ -24,7 +24,7 @@ namespace Behaviour
 
 			private Actor target;
 
-			public void Setup(GraphInstance graph, Node parent, Actor target)
+			public void Setup(IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
 				StatsNode stats = (StatsNode)parent;
