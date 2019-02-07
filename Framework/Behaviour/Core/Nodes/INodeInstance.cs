@@ -2,7 +2,7 @@
 {
 	public interface INodeInstance
 	{
-		void Setup(GraphInstance graph, Node parent, Actor target);
+		void Setup(IGraphInstance graph, Node parent, Actor target);
 		void Remove();
 	}
 }

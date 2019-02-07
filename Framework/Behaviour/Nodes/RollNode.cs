@@ -9,9 +9,9 @@ namespace Behaviour
 		public int MinValue = 2;
 		public int MaxValue = 12;
 
-		public override InputMap[] Inputs(GraphInstance graph, Metadata instance) => null;
+		public override InputMap[] Inputs(IGraphInstance graph, Metadata instance) => null;
 
-		public override OutputMap[] Outputs(GraphInstance graph, Metadata instance) => new[]
+		public override OutputMap[] Outputs(IGraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref Output, out instance.output),
 		};
@@ -22,7 +22,7 @@ namespace Behaviour
 			public IOutput<int> output;
 			public IOutput<int> rollValue;
 
-			public void Setup(GraphInstance graph, Node parent, Actor target)
+			public void Setup(IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
 				RollNode stats = (RollNode)parent;

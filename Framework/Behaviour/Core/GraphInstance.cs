@@ -1,6 +1,6 @@
 ﻿namespace Behaviour
 {
-	public class GraphInstance : IBehaviour
+	public class GraphInstance : IGraphInstance
 	{
 		private readonly Graph graph;
 		private Node[] nodes;
@@ -33,24 +33,6 @@
 			{
 				graph.Nodes[i].Outputs(this, nodeInstances[i]);
 			}
-		}
-
-		public GraphInstance (Node singleNodeGraph)
-		{
-			this.graph = null;
-			nodes = new Node[] { singleNodeGraph };
-
-			// Create a buffer of connections that the code can access
-			nodeInstances = new INodeInstance[32];
-			connections = new object[32];
-			
-			nodeInstances[0] = singleNodeGraph.Create ();
-
-			// Allow all used inputs to setup their connections.
-			singleNodeGraph.Inputs (this, nodeInstances[0]);
-
-			// Allow all outputs to assign themselves to that connection
-			singleNodeGraph.Outputs (this, nodeInstances[0]);
 		}
 
 		public void Setup(Actor target)
