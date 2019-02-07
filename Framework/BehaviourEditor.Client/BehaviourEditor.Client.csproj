@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BehaviourEditor.Shared\BehaviourEditor.Shared.csproj" />
+    <ProjectReference Include="..\Behaviour\Behaviour.csproj" />
   </ItemGroup>
 
 </Project>
