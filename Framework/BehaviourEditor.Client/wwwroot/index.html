@@ -20,22 +20,22 @@
             console.log(event.target.classList);
             if (!event.target.classList.contains("jsDraggable")) {
                 return;
-            }
-			console.log(event.target);
-
-			let shiftX = 0;
-			let shiftY = 0;
-
+			}
+			
+			let moveGraphic = event.target;
+			let shiftX = event.clientX - moveGraphic.getBoundingClientRect().left;
+			let shiftY = event.clientY - moveGraphic.getBoundingClientRect().top;
+            
             moveAt(event.pageX, event.pageY);
 
-            function moveAt(pageX, pageY) {
-				var destX = pageX - shiftX - event.target.parentNode.getBoundingClientRect().x;
-				var destY = pageY - shiftY - event.target.parentNode.getBoundingClientRect().y;
+			function moveAt(pageX, pageY) {
+				var destX = pageX - shiftX - moveGraphic.parentNode.getBoundingClientRect().x;
+				var destY = pageY - shiftY - moveGraphic.parentNode.getBoundingClientRect().y;
                 //var destX = pageX - shiftX;
                 //var destY = pageY - shiftY;
 
-                event.target.style.left = destX + 'px';
-                event.target.style.top = destY + 'px';
+                moveGraphic.style.left = destX + 'px';
+                moveGraphic.style.top = destY + 'px';
             }
 
             function onMouseMove(event) {
@@ -45,10 +45,10 @@
 
             document.addEventListener('mousemove', onMouseMove);
 
-            event.target.onmouseup = function () {
+            moveGraphic.onmouseup = function () {
                 console.log("Mouse Up");
                 document.removeEventListener('mousemove', onMouseMove);
-                event.target.onmouseup = null;
+                moveGraphic.onmouseup = null;
             };
         }
 
