@@ -33,7 +33,8 @@ namespace Behaviour
 
 				valueA.OnAfterChanged += Log;
 				valueB.OnAfterChanged += Log;
-				target.Health.OnAfterChanged += HealthChanged;
+				// target.Health.OnAfterChanged += HealthChanged;
+				target.Health.handlers.Add(new LogOnChanged(this));
 
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine("StatsNode: Setup Behaviour on " + this.target);
@@ -46,6 +47,30 @@ namespace Behaviour
 
 				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine("StatsNode: Removed Behaviour on " + target);
+			}
+
+			struct LogOnChanged : IEventFieldHandler
+			{
+				public Metadata Meta;
+
+				public object Source { get; set; }
+
+				public LogOnChanged(Metadata meta)
+				{
+					Source = null;
+					Meta = meta;
+				}
+
+				public void OnBeforeChanged()
+				{
+					
+				}
+
+				public void OnAfterChanged()
+				{
+					Console.ForegroundColor = ConsoleColor.Gray;
+					Console.WriteLine("StatsNode: New value of " + (Meta.valueA.Value + Meta.valueB.Value).ToString() + " on " + Meta.target);
+				}
 			}
 
 			private void Log()
