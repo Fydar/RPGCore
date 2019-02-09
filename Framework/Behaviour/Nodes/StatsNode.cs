@@ -34,7 +34,8 @@ namespace Behaviour
 				valueA.OnAfterChanged += Log;
 				valueB.OnAfterChanged += Log;
 				// target.Health.OnAfterChanged += HealthChanged;
-				target.Health.handlers.Add(new LogOnChanged(this));
+				//target.Health.handlers.Add(new LogOnChanged(this));
+				target.Health.Handlers[this] += new LogOnChanged(this);
 
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine("StatsNode: Setup Behaviour on " + this.target);

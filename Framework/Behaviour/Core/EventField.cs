@@ -38,17 +38,53 @@ namespace Behaviour
 	{
 		public struct HandlerCollection
 		{
+			public struct ContextWrapped
+			{
+				public object Context;
+				public IEventFieldHandler Result;
+				
+				public ContextWrapped(ref HandlerCollection handlerCollection, object context)
+				{
+					Context = context;
+					Result = null;
+				}
+
+				public void Clear()
+				{
+					
+				}
+
+				public static ContextWrapped operator +(ContextWrapped left, IEventFieldHandler right)
+				{
+					left.Result = right;
+					return left;
+				}
+			}
 			private EventField<T> field;
+			public List<IEventFieldHandler> handlers;
 
 			public HandlerCollection(EventField<T> field)
 			{
 				this.field = field;
+				handlers = null;
+			}
+
+			public ContextWrapped this[object context]
+			{
+				get {
+					return new ContextWrapped(ref this, context);
+				}
+				set {
+					if(handlers == null)
+						handlers = new List<IEventFieldHandler>();
+
+					handlers.Add (value.Result);
+				}
 			}
 		}
 		public HandlerCollection Handlers;
 		public Action OnBeforeChanged;
 		public Action OnAfterChanged;
-		public List<IEventFieldHandler> handlers = new List<IEventFieldHandler>();
 
 		private T internalValue;
 
@@ -60,9 +96,9 @@ namespace Behaviour
 			}
 			set
 			{
-				if(handlers != null)
+				if(Handlers.handlers != null)
 				{
-					foreach(var handler in handlers)
+					foreach(var handler in Handlers.handlers)
 					{
 						handler.OnBeforeChanged();
 					}
@@ -72,9 +108,9 @@ namespace Behaviour
 
 				internalValue = value;
 
-				if(handlers != null)
+				if(Handlers.handlers != null)
 				{
-					foreach(var handler in handlers)
+					foreach(var handler in Handlers.handlers)
 					{
 						handler.OnAfterChanged();
 					}
