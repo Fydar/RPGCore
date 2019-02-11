@@ -31,7 +31,10 @@ namespace Behaviour
 		{
 			ChainedField = Chain (SourceField.Value);
 			if(ChainedField == null)
+			{
+				TargetField.Value = default(B);
 				return;
+			}
 			
 			ChainedField.Handlers[this] += new EventFieldMirrorHandler<B>(ChainedField, TargetField);
 			TargetField.Value = ChainedField.Value;

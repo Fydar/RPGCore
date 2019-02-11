@@ -13,7 +13,6 @@ namespace Behaviour
 
 		public void OnBeforeChanged()
 		{
-			Target.Value = default(T);
 		}
 
 		public void OnAfterChanged()
