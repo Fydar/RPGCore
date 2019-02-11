@@ -18,10 +18,10 @@ namespace Behaviour
 
 		public class Metadata : INodeInstance
 		{
-			public string seed;
 			public IInput<int> valueA;
 			public IInput<int> valueB;
 
+			public string seed;
 			private Actor target;
 
 			public void Setup(IGraphInstance graph, Node parent, Actor target)
@@ -33,8 +33,6 @@ namespace Behaviour
 
 				valueA.OnAfterChanged += Log;
 				valueB.OnAfterChanged += Log;
-				// target.Health.OnAfterChanged += HealthChanged;
-				//target.Health.handlers.Add(new LogOnChanged(this));
 				target.Health.Handlers[this] += new LogOnChanged(this);
 
 				Console.ForegroundColor = ConsoleColor.Green;
@@ -43,8 +41,8 @@ namespace Behaviour
 
 			public void Remove()
 			{
+				target.Health.Handlers[this].Clear();
 				valueA.OnAfterChanged -= Log;
-				target.Health.OnAfterChanged -= HealthChanged;
 
 				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine("StatsNode: Removed Behaviour on " + target);
@@ -54,11 +52,8 @@ namespace Behaviour
 			{
 				public Metadata Meta;
 
-				public object Source { get; set; }
-
 				public LogOnChanged(Metadata meta)
 				{
-					Source = null;
 					Meta = meta;
 				}
 

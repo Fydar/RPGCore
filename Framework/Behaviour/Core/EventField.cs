@@ -3,55 +3,26 @@ using System.Collections.Generic;
 
 namespace Behaviour
 {
-	public interface IEventFieldHandler
-	{
-		object Source { get; set; }
-		void OnBeforeChanged();
-		void OnAfterChanged();
-	}
-
-	public struct EventFieldMirrorHandler<T> : IEventFieldHandler
-	{
-		public object Source { get; set; }
-		public EventField<T> SourceField;
-		public EventField<T> Target;
-
-		public EventFieldMirrorHandler(EventField<T> source, EventField<T> target)
-		{
-			Source = null;
-			SourceField = source;
-			Target = target;
-		}
-
-		public void OnBeforeChanged()
-		{
-			Target.Value = default(T);
-		}
-
-		public void OnAfterChanged()
-		{
-			Target.Value = SourceField.Value;
-		}
-	}
-	
-	public class EventField<T>
+    public class EventField<T>
 	{
 		public struct HandlerCollection
 		{
 			public struct ContextWrapped
 			{
+				private EventField<T> Field;
 				public object Context;
 				public IEventFieldHandler Result;
 				
-				public ContextWrapped(ref HandlerCollection handlerCollection, object context)
+				public ContextWrapped(EventField<T> field, object context)
 				{
+					Field = field;
 					Context = context;
 					Result = null;
 				}
 
 				public void Clear()
 				{
-					
+					Field.Handlers.Clear(Context);
 				}
 
 				public static ContextWrapped operator +(ContextWrapped left, IEventFieldHandler right)
@@ -61,7 +32,7 @@ namespace Behaviour
 				}
 			}
 			private EventField<T> field;
-			public List<IEventFieldHandler> handlers;
+			private List<KeyValuePair<object, IEventFieldHandler>> handlers;
 
 			public HandlerCollection(EventField<T> field)
 			{
@@ -72,13 +43,44 @@ namespace Behaviour
 			public ContextWrapped this[object context]
 			{
 				get {
-					return new ContextWrapped(ref this, context);
+					return new ContextWrapped(field, context);
 				}
 				set {
 					if(handlers == null)
-						handlers = new List<IEventFieldHandler>();
+						handlers = new List<KeyValuePair<object, IEventFieldHandler>>();
 
-					handlers.Add (value.Result);
+					handlers.Add (new KeyValuePair<object, IEventFieldHandler>(context, value.Result));
+				}
+			}
+
+			public void Clear(object context)
+			{
+				for (int i = handlers.Count - 1; i >= 0 ; i--)
+				{
+					if(handlers[i].Key == context)
+						handlers.RemoveAt(i);
+				}
+			}
+
+			public void InvokeBeforeChanged()
+			{
+				if (handlers == null)
+					return;
+
+				foreach(var handler in handlers)
+				{
+					handler.Value.OnBeforeChanged();
+				}
+			}
+
+			public void InvokeAfterChanged()
+			{
+				if (handlers == null)
+					return;
+
+				foreach(var handler in handlers)
+				{
+					handler.Value.OnAfterChanged();
 				}
 			}
 		}
@@ -96,25 +98,13 @@ namespace Behaviour
 			}
 			set
 			{
-				if(Handlers.handlers != null)
-				{
-					foreach(var handler in Handlers.handlers)
-					{
-						handler.OnBeforeChanged();
-					}
-				}
+				Handlers.InvokeBeforeChanged();
 				if (OnBeforeChanged != null)
 					OnBeforeChanged();
 
 				internalValue = value;
 
-				if(Handlers.handlers != null)
-				{
-					foreach(var handler in Handlers.handlers)
-					{
-						handler.OnAfterChanged();
-					}
-				}
+				Handlers.InvokeAfterChanged();
 				if (OnAfterChanged != null)
 					OnAfterChanged();
 			}
@@ -128,17 +118,8 @@ namespace Behaviour
 		public EventField<B> Watch<B>(Func<T, EventField<B>> chain)
 		{
 			var watcher = new EventField<B>();
-			OnAfterChanged += () => {
-				var target = chain (Value);
-				if(target == null)
-					return;
-					
-				target.OnAfterChanged += () => {
-					watcher.Value = target.Value;
-				};
-				watcher.Value = target.Value;
-			};
+			Handlers[this] += new EventFieldChainHandler<T, B>(this, watcher, chain);
 			return watcher;
 		}
-	}
+    }
 }
