@@ -3,16 +3,17 @@ using System.Collections.Generic;
 
 namespace Behaviour
 {
-    public class EventField<T>
+	public class EventField<T>
 	{
 		public struct HandlerCollection
 		{
 			public struct ContextWrapped
 			{
-				private EventField<T> Field;
-				public object Context;
 				public IEventFieldHandler Result;
-				
+
+				private readonly EventField<T> Field;
+				private readonly object Context;
+
 				public ContextWrapped(EventField<T> field, object context)
 				{
 					Field = field;
@@ -31,7 +32,7 @@ namespace Behaviour
 					return left;
 				}
 			}
-			private EventField<T> field;
+			private readonly EventField<T> field;
 			private List<KeyValuePair<object, IEventFieldHandler>> handlers;
 
 			public HandlerCollection(EventField<T> field)
@@ -42,22 +43,24 @@ namespace Behaviour
 
 			public ContextWrapped this[object context]
 			{
-				get {
+				get
+				{
 					return new ContextWrapped(field, context);
 				}
-				set {
-					if(handlers == null)
+				set
+				{
+					if (handlers == null)
 						handlers = new List<KeyValuePair<object, IEventFieldHandler>>();
 
-					handlers.Add (new KeyValuePair<object, IEventFieldHandler>(context, value.Result));
+					handlers.Add(new KeyValuePair<object, IEventFieldHandler>(context, value.Result));
 				}
 			}
 
 			public void Clear(object context)
 			{
-				for (int i = handlers.Count - 1; i >= 0 ; i--)
+				for (int i = handlers.Count - 1; i >= 0; i--)
 				{
-					if(handlers[i].Key == context)
+					if (handlers[i].Key == context)
 						handlers.RemoveAt(i);
 				}
 			}
@@ -67,7 +70,7 @@ namespace Behaviour
 				if (handlers == null)
 					return;
 
-				foreach(var handler in handlers)
+				foreach (var handler in handlers)
 				{
 					handler.Value.OnBeforeChanged();
 				}
@@ -78,7 +81,7 @@ namespace Behaviour
 				if (handlers == null)
 					return;
 
-				foreach(var handler in handlers)
+				foreach (var handler in handlers)
 				{
 					handler.Value.OnAfterChanged();
 				}
@@ -99,14 +102,12 @@ namespace Behaviour
 			set
 			{
 				Handlers.InvokeBeforeChanged();
-				if (OnBeforeChanged != null)
-					OnBeforeChanged();
+				OnBeforeChanged?.Invoke();
 
 				internalValue = value;
 
 				Handlers.InvokeAfterChanged();
-				if (OnAfterChanged != null)
-					OnAfterChanged();
+				OnAfterChanged?.Invoke();
 			}
 		}
 
@@ -121,5 +122,5 @@ namespace Behaviour
 			Handlers[this] += new EventFieldChainHandler<T, B>(this, watcher, chain);
 			return watcher;
 		}
-    }
+	}
 }

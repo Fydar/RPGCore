@@ -10,8 +10,10 @@ namespace Behaviour
 
             var mainhand = target.Watch((e) => e?.Mainhand);
             var mainhandDamage = mainhand.Watch((e) => e?.Damage);
-            
-            target.Value = new TestPlayer()
+
+			mainhandDamage.OnAfterChanged += () => { Console.WriteLine($"Tracking Mainhand Damage: {mainhandDamage.Value}"); };
+
+			target.Value = new TestPlayer()
             {
                 Mainhand = new EventField<TestWeapon>()
                 {
@@ -24,8 +26,6 @@ namespace Behaviour
                     }
                 }
             };
-
-            Console.WriteLine(mainhandDamage.Value);
 
             target.Value = new TestPlayer()
             {
@@ -40,21 +40,19 @@ namespace Behaviour
                     }
                 }
             };
-            
-            Console.WriteLine(mainhandDamage.Value);
 
-            target.Value.Mainhand.Value = new TestWeapon()
-            {
-                Damage = new EventField<int>()
-                {
-                    Value = 25
-                }
-            };
-            
-            Console.WriteLine(mainhandDamage.Value);
+			target.Value.Mainhand.Value = new TestWeapon()
+			{
+				Damage = new EventField<int>()
+				{
+					Value = 25
+				}
+			};
 
-            target.Value = null;
-        }
+			target.Value.Mainhand.Value.Damage.Value = 15;
+
+			target.Value.Mainhand.Value = null;
+		}
     }
 
     public class TestPlayer
