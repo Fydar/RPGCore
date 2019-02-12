@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Behaviour
 {
-	public class EventField<T>
+	public class EventField<T> : IDisposable
 	{
-		public struct HandlerCollection
+		public struct HandlerCollection : IDisposable
 		{
 			public struct ContextWrapped
 			{
@@ -65,14 +65,19 @@ namespace Behaviour
 				}
 			}
 
+			public void Clear()
+			{
+				handlers.Clear();
+			}
+
 			public void InvokeBeforeChanged()
 			{
 				if (handlers == null)
 					return;
 
-				foreach (var handler in handlers)
+				for (int i = 0; i < handlers.Count; i++)
 				{
-					handler.Value.OnBeforeChanged();
+					handlers[i].Value.OnBeforeChanged();
 				}
 			}
 
@@ -81,12 +86,23 @@ namespace Behaviour
 				if (handlers == null)
 					return;
 
-				foreach (var handler in handlers)
+				for (int i = 0; i < handlers.Count; i++)
 				{
-					handler.Value.OnAfterChanged();
+					handlers[i].Value.OnAfterChanged();
 				}
 			}
-		}
+
+            public void Dispose()
+            {
+				if (handlers == null)
+					return;
+	
+				for (int i = 0; i < handlers.Count; i++)
+				{
+					handlers[i].Value.Dispose();
+				}
+            }
+        }
 		public HandlerCollection Handlers;
 		public Action OnBeforeChanged;
 		public Action OnAfterChanged;
@@ -119,8 +135,13 @@ namespace Behaviour
 		public EventField<B> Watch<B>(Func<T, EventField<B>> chain)
 		{
 			var watcher = new EventField<B>();
-			Handlers[this] += new EventFieldChainHandler<T, B>(this, watcher, chain);
+			Handlers[watcher] += new EventFieldChainHandler<T, B>(this, watcher, chain);
 			return watcher;
 		}
-	}
+
+        public void Dispose()
+        {
+			Handlers.Dispose();
+        }
+    }
 }

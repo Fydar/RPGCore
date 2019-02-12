@@ -27,6 +27,9 @@ namespace Behaviour
                 }
             };
 
+            mainhand.Dispose();
+            mainhandDamage.Dispose();
+
             target.Value = new TestPlayer()
             {
                 Mainhand = new EventField<TestWeapon>()

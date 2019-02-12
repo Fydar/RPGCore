@@ -67,6 +67,11 @@ namespace Behaviour
 					Console.ForegroundColor = ConsoleColor.Gray;
 					Console.WriteLine("StatsNode: New value of " + (Meta.valueA.Value + Meta.valueB.Value).ToString() + " on " + Meta.target);
 				}
+
+				public void Dispose()
+				{
+					
+				}
 			}
 
 			private void Log()

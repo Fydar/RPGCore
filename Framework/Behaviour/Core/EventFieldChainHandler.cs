@@ -2,7 +2,7 @@ using System;
 
 namespace Behaviour
 {
-    public struct EventFieldChainHandler<T, B> : IEventFieldHandler
+    public class EventFieldChainHandler<T, B> : IEventFieldHandler
 	{
 		public EventField<T> SourceField;
 		public EventField<B> TargetField;
@@ -39,5 +39,15 @@ namespace Behaviour
 			ChainedField.Handlers[this] += new EventFieldMirrorHandler<B>(ChainedField, TargetField);
 			TargetField.Value = ChainedField.Value;
 		}
+
+        public void Dispose()
+        {
+            SourceField.Handlers[TargetField].Clear();
+
+			if(ChainedField == null)
+				return;
+			
+			ChainedField.Handlers[this].Clear();
+        }
 	}
 }
