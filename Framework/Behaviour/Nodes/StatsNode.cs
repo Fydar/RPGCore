@@ -27,9 +27,9 @@ namespace Behaviour
 			public void Setup(IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
-				StatsNode stats = (StatsNode)parent;
-
 				seed = Guid.NewGuid().ToString();
+				
+				StatsNode stats = (StatsNode)parent;
 
 				valueA.OnAfterChanged += Log;
 				valueB.OnAfterChanged += Log;
@@ -70,7 +70,7 @@ namespace Behaviour
 
 				public void Dispose()
 				{
-					
+
 				}
 			}
 
@@ -78,12 +78,6 @@ namespace Behaviour
 			{
 				Console.ForegroundColor = ConsoleColor.Gray;
 				Console.WriteLine("StatsNode: New value of " + (valueA.Value + valueB.Value).ToString() + " on " + target);
-			}
-
-			private void HealthChanged()
-			{
-				Console.ForegroundColor = ConsoleColor.DarkGray;
-				Console.WriteLine("StatsNode: Owner taking damage. Update Value: " + (valueA.Value + valueB.Value));
 			}
 		}
 	}

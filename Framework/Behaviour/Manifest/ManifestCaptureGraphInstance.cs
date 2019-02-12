@@ -1,7 +1,7 @@
 ﻿
 namespace Behaviour
 {
-	public class ManifestCaptureGraphInstance : IGraphInstance
+	public sealed class ManifestCaptureGraphInstance : IGraphInstance
 	{
 		private Node node;
 		private INodeInstance instance;
