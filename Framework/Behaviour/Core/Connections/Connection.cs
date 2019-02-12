@@ -2,7 +2,6 @@
 
 namespace Behaviour
 {
-
 	public class Connection<T> : IInput<T>, IOutput<T>, ILazyOutput<T>
 	{
 		private Action onAfterChanged;
