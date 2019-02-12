@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using Behaviour;
 using System;
 using System.Collections.Generic;
 
@@ -16,8 +15,8 @@ namespace Behaviour.UnitTests
 			public EventField<int> Damage;
 		}
 
-        public class AddToListEventHandler<T> : IEventFieldHandler
-        {
+		public class AddToListEventHandler<T> : IEventFieldHandler
+		{
 			private EventField<T> source;
 			private List<T> target;
 
@@ -27,67 +26,68 @@ namespace Behaviour.UnitTests
 				this.target = target;
 			}
 
-            public void Dispose()
-            {
-                
-            }
+			public void Dispose()
+			{
 
-            public void OnAfterChanged()
-            {
+			}
+
+			public void OnAfterChanged()
+			{
 				target.Add(source.Value);
-            }
+			}
 
-            public void OnBeforeChanged()
-            {
-                
-            }
-        }
+			public void OnBeforeChanged()
+			{
 
-        [SetUp]
-		public void Setup ()
+			}
+		}
+
+		[SetUp]
+		public void Setup()
 		{
 		}
 
 		[Test]
-		public void Test1 ()
+		public void FireEvents()
 		{
-            var target = new EventField<TestPlayer>();
+			var target = new EventField<TestPlayer>();
 
-            var mainhand = target.Watch((e) => e?.Mainhand);
-            var mainhandDamage = mainhand.Watch((e) => e?.Damage);
+			var mainhand = target.Watch((e) => e?.Mainhand);
+			var mainhandDamage = mainhand.Watch((e) => e?.Damage);
 
-			mainhandDamage.OnAfterChanged += () => { Console.WriteLine($"Tracking Mainhand Damage: {mainhandDamage.Value}"); };
+			var damages = new List<int>();
+
+			mainhandDamage.Handlers[this] += new AddToListEventHandler<int>(mainhandDamage, damages);
 
 			target.Value = new TestPlayer()
-            {
-                Mainhand = new EventField<TestWeapon>()
-                {
-                    Value = new TestWeapon()
-                    {
-                        Damage = new EventField<int>()
-                        {
-                            Value = 10
-                        }
-                    }
-                }
-            };
+			{
+				Mainhand = new EventField<TestWeapon>()
+				{
+					Value = new TestWeapon()
+					{
+						Damage = new EventField<int>()
+						{
+							Value = 10
+						}
+					}
+				}
+			};
 
-            mainhand.Dispose();
-            mainhandDamage.Dispose();
+			target.Value = new TestPlayer()
+			{
+				Mainhand = new EventField<TestWeapon>()
+				{
+					Value = new TestWeapon()
+					{
+						Damage = new EventField<int>()
+						{
+							Value = 20
+						}
+					}
+				}
+			};
 
-            target.Value = new TestPlayer()
-            {
-                Mainhand = new EventField<TestWeapon>()
-                {
-                    Value = new TestWeapon()
-                    {
-                        Damage = new EventField<int>()
-                        {
-                            Value = 20
-                        }
-                    }
-                }
-            };
+			target.Value.Mainhand.Value = null;
 
 			target.Value.Mainhand.Value = new TestWeapon()
 			{
@@ -99,7 +99,18 @@ namespace Behaviour.UnitTests
 
 			target.Value.Mainhand.Value.Damage.Value = 15;
 
-			target.Value.Mainhand.Value = null;
+			mainhand.Dispose();
+			mainhandDamage.Dispose();
+
+			target.Value.Mainhand.Value.Damage.Value = 5;
+
+			int[] expectedValues = new int[] { 10, 20, 0, 25, 15 };
+			Assert.AreEqual(expectedValues.Length, damages.Count);
+			for (int i = 0; i < damages.Count; i++)
+			{
+				int damage = (int)damages[i];
+				Assert.AreEqual(expectedValues[i], damage);
+			}
 		}
-    }
+	}
 }
