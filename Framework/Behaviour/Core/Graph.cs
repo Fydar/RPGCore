@@ -1,54 +1,19 @@
-﻿namespace Behaviour
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Behaviour
 {
 	public class Graph
 	{
+		public readonly Dictionary<string, Node> NodesMap;
 		public readonly Node[] Nodes;
+		public readonly int OutputCount;
 
-		public int OutputCount;
-
-		public Graph(Node[] nodes, int outputCount)
+		public Graph(Dictionary<string, Node> nodesMap, int outputCount)
 		{
-			Nodes = nodes;
+			NodesMap = nodesMap;
+			Nodes = NodesMap.Values.ToArray();
 			OutputCount = outputCount;
-		}
-
-		public Graph(Node[] nodes)
-		{
-			Nodes = nodes;
-
-			int nodeCount = Nodes.Length;
-
-			for (int i = 0, NodesLength = Nodes.Length; i < NodesLength; i++)
-			{
-				var node = Nodes[i];
-
-				if (node.GetType() == typeof(StatsNode))
-				{
-					var statsNode = (StatsNode)node;
-
-				}
-				else if (node.GetType() == typeof(RollNode))
-				{
-					var rollNode = (RollNode)node;
-
-					rollNode.Output.Id = OutputCount;
-					OutputCount++;
-				}
-				else if (node.GetType() == typeof(AiRandNode))
-				{
-					var rollNode = (AiRandNode)node;
-
-					rollNode.Rand.Id = OutputCount;
-					OutputCount++;
-				}
-				else if (node.GetType() == typeof(AiOrNode))
-				{
-					var rollNode = (AiOrNode)node;
-
-					rollNode.Selected.Id = OutputCount;
-					OutputCount++;
-				}
-			}
 		}
 
 		public IBehaviour Setup(Actor target)

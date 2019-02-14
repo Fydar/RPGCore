@@ -6,7 +6,6 @@ namespace Behaviour.Packages
     {
         public string Name;
         public string Version;
-        public string Sha256;
         public PackageDependancy[] Dependancies;
         public Dictionary<string, PackageItem> Items;
     }

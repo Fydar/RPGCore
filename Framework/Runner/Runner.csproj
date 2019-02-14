@@ -11,4 +11,10 @@
     <ProjectReference Include="..\Behaviour\Behaviour.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Content\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
