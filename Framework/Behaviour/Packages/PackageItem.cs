@@ -13,7 +13,7 @@ namespace Behaviour.Packages
 
         public Graph Unpack ()
         {
-            var nodes = new Node[Nodes.Count];
+            var nodes = new Dictionary<string, Node>(Nodes.Count);
             int index = 0;
 
             var outputIds = new List<string>();
@@ -32,7 +32,7 @@ namespace Behaviour.Packages
             int outputCounter = -1;
             foreach (var nodeKvp in Nodes)
             {
-                nodes[index] = nodeKvp.Value.Unpack(outputIds, ref outputCounter);
+                nodes[nodeKvp.Key] = nodeKvp.Value.Unpack(outputIds, ref outputCounter);
                 index++;
             }
 
