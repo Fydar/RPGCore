@@ -17,6 +17,10 @@ namespace Behaviour
 			//Console.WriteLine(Manifest.TypeManifest.ConstructBaseTypes ());
 
 			Console.WriteLine("Importing Graph...");
+
+			var pkg = Package.Load("Content/Core");
+			Console.WriteLine(pkg.Name);
+			pkg.WritePackage("Content/Core.bpkg");
 			
 			var packageItem = JsonConvert.DeserializeObject<PackageItem>(string.Join("\n", File.ReadAllLines("Content/Core/Longsword/Main.bhvr")));
 			Console.WriteLine("\tImported: " + packageItem.Name);
