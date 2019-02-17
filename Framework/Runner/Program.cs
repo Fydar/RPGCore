@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Runner
+namespace RPGCore.Runner
 {
 	class Program
 	{
 		public static Simulator simulator;
 
-		static void Main(string[] args)
+		static void Main (string[] args)
 		{
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.WriteLine ("-----------------------");
@@ -16,11 +16,11 @@ namespace Runner
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.Write (" Framework\n");
 			Console.WriteLine ("-----------------------");
-			
-			simulator = new Simulator();
-			simulator.Start();
 
-			Console.ReadKey();
+			simulator = new Simulator ();
+			simulator.Start ();
+
+			Console.ReadKey ();
 		}
 	}
 }

@@ -1,10 +1,10 @@
-﻿namespace Behaviour
+﻿namespace RPGCore.Behaviour
 {
 	public struct InputSocket : ISocket
 	{
 		public int TargetId;
 
-		public InputSocket(int targetId)
+		public InputSocket (int targetId)
 		{
 			TargetId = targetId;
 		}

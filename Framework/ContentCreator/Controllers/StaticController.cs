@@ -8,11 +8,11 @@ using System.Linq;
 namespace ContentCreator.Controllers
 {
 	public class StaticController : Controller
-    {
-		public List<FileManager> FileManagers = new List<FileManager>();
+	{
+		public List<FileManager> FileManagers = new List<FileManager> ();
 
-        public IActionResult Index()
-        {
+		public IActionResult Index ()
+		{
 			var trayMenu = new MenuItem[] {
 			new MenuItem
 			{
@@ -50,7 +50,7 @@ namespace ContentCreator.Controllers
 							Click = async () =>
 							{
 								var mainWindow = Electron.WindowManager.BrowserWindows.First();
-								
+
 								var openDialog = new OpenDialogOptions()
 								{
 									ButtonLabel = "Open",
@@ -60,7 +60,7 @@ namespace ContentCreator.Controllers
 									}
 								};
 								string[] result = await Electron.Dialog.ShowOpenDialogAsync(mainWindow, openDialog);
-								
+
 								var manager = new FileManager(result[0]);
 								FileManagers.Add(manager);
 
@@ -184,9 +184,9 @@ namespace ContentCreator.Controllers
 					}
 				}
 			};
-			Electron.Menu.SetApplicationMenu(windowMenu);
-			
-			return View();
-        }
-    }
+			Electron.Menu.SetApplicationMenu (windowMenu);
+
+			return View ();
+		}
+	}
 }

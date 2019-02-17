@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace BehaviourEditor.Server
+namespace RPGCore.BehaviourEditor.Server
 {
 	public class Program
 	{

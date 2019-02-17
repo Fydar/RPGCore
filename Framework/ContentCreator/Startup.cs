@@ -13,46 +13,46 @@ namespace ElectronNET.WebApp
 	{
 		public IConfiguration Configuration { get; }
 
-		public Startup(IConfiguration configuration)
+		public Startup (IConfiguration configuration)
 		{
 			Configuration = configuration;
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-		public void ConfigureServices(IServiceCollection services)
+		public void ConfigureServices (IServiceCollection services)
 		{
-			services.AddMvc();
+			services.AddMvc ();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		public void Configure (IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			loggerFactory.AddConsole();
+			loggerFactory.AddConsole ();
 
-			if (env.IsDevelopment())
+			if (env.IsDevelopment ())
 			{
-				app.UseDeveloperExceptionPage();
+				app.UseDeveloperExceptionPage ();
 			}
 
-			app.UseStaticFiles();
+			app.UseStaticFiles ();
 
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
-			});
-			
+			app.UseMvc (routes =>
+			 {
+				 routes.MapRoute (
+					 name: "default",
+					 template: "{controller=Home}/{action=Index}/{id?}");
+			 });
+
 			if (HybridSupport.IsElectronActive)
 			{
-				ElectronBootstrap();
+				ElectronBootstrap ();
 			}
 		}
 
-		public async Task ElectronBootstrap()
+		public async Task ElectronBootstrap ()
 		{
-			var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
+			var browserWindow = await Electron.WindowManager.CreateWindowAsync (new BrowserWindowOptions
 			{
 				Title = "Content Creator",
 				Width = 1152,
@@ -62,7 +62,7 @@ namespace ElectronNET.WebApp
 				SkipTaskbar = false
 				//TitleBarStyle = "hidden"
 			});
-			browserWindow.OnReadyToShow += () => browserWindow.Show();
+			browserWindow.OnReadyToShow += () => browserWindow.Show ();
 		}
 	}
 }

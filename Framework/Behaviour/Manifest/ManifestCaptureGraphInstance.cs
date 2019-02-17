@@ -1,5 +1,5 @@
 ﻿
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public sealed class ManifestCaptureGraphInstance : IGraphInstance
 	{
@@ -15,34 +15,34 @@ namespace Behaviour
 			node.Outputs (this, instance);
 		}
 
-		public void Setup(Actor target)
+		public void Setup (Actor target)
 		{
-			node.Setup(this, instance, target);
+			node.Setup (this, instance, target);
 		}
 
-		public void Remove()
+		public void Remove ()
 		{
-			instance.Remove();
+			instance.Remove ();
 		}
 
-		public INodeInstance GetNode<T>()
+		public INodeInstance GetNode<T> ()
 		{
 			return instance;
 		}
-		
-		public InputMap Connect<T>(ref InputSocket socket, out IInput<T> connection)
+
+		public InputMap Connect<T> (ref InputSocket socket, out IInput<T> connection)
 		{
 			connection = null;
-			return new InputMap(socket, typeof(T), connection);
+			return new InputMap (socket, typeof (T), connection);
 		}
 
-		public OutputMap Connect<T>(ref OutputSocket socket, out IOutput<T> connection)
+		public OutputMap Connect<T> (ref OutputSocket socket, out IOutput<T> connection)
 		{
 			connection = null;
-			return new OutputMap(socket, typeof(T), connection);
+			return new OutputMap (socket, typeof (T), connection);
 		}
 
-		public OutputMap Connect<T>(ref OutputSocket socket, out ILazyOutput<T> connection)
+		public OutputMap Connect<T> (ref OutputSocket socket, out ILazyOutput<T> connection)
 		{
 			connection = null;
 			return new OutputMap (socket, typeof (T), connection);
@@ -51,7 +51,7 @@ namespace Behaviour
 		public InputMap Connect<T> (ref InputSocket socket, out T connection)
 			where T : INodeInstance
 		{
-			connection = default(T);
+			connection = default (T);
 			return new InputMap (socket, typeof (T), connection);
 		}
 

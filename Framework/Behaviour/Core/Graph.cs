@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public class Graph
 	{
@@ -9,17 +9,17 @@ namespace Behaviour
 		public readonly Node[] Nodes;
 		public readonly int OutputCount;
 
-		public Graph(Dictionary<string, Node> nodesMap, int outputCount)
+		public Graph (Dictionary<string, Node> nodesMap, int outputCount)
 		{
 			NodesMap = nodesMap;
-			Nodes = NodesMap.Values.ToArray();
+			Nodes = NodesMap.Values.ToArray ();
 			OutputCount = outputCount;
 		}
 
-		public IBehaviour Setup(Actor target)
+		public IBehaviour Setup (Actor target)
 		{
-			var graph = new GraphInstance(this);
-			graph.Setup(target);
+			var graph = new GraphInstance (this);
+			graph.Setup (target);
 			return graph;
 		}
 	}

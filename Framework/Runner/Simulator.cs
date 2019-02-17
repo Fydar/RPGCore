@@ -1,22 +1,22 @@
-﻿using Behaviour;
+﻿using RPGCore.Behaviour;
 
-namespace Runner
+namespace RPGCore.Runner
 {
 	public class Simulator
 	{
 		public Simulation simulation;
 
-		public Simulator()
+		public Simulator ()
 		{
-			simulation = new Simulation();
+			simulation = new Simulation ();
 		}
 
-		public void Start()
+		public void Start ()
 		{
-			simulation.Start();
+			simulation.Start ();
 		}
 
-		public void Update()
+		public void Update ()
 		{
 
 		}

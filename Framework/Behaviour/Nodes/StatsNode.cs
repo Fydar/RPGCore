@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public class StatsNode : Node<StatsNode.Metadata>
 	{
@@ -8,13 +8,13 @@ namespace Behaviour
 		public InputSocket ValueB;
 		public string TooltipFormat = "{0}";
 
-		public override InputMap[] Inputs(IGraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref ValueA, out instance.valueA),
 			graph.Connect(ref ValueB, out instance.valueB)
 		};
 
-		public override OutputMap[] Outputs(IGraphInstance graph, Metadata instance) => null;
+		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => null;
 
 		public class Metadata : INodeInstance
 		{
@@ -24,60 +24,60 @@ namespace Behaviour
 			public string seed;
 			private Actor target;
 
-			public void Setup(IGraphInstance graph, Node parent, Actor target)
+			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
-				seed = Guid.NewGuid().ToString();
-				
+				seed = Guid.NewGuid ().ToString ();
+
 				StatsNode stats = (StatsNode)parent;
 
 				valueA.OnAfterChanged += Log;
 				valueB.OnAfterChanged += Log;
-				target.Health.Handlers[this] += new LogOnChanged(this);
+				target.Health.Handlers[this] += new LogOnChanged (this);
 
 				Console.ForegroundColor = ConsoleColor.Green;
-				Console.WriteLine("StatsNode: Setup Behaviour on " + this.target);
+				Console.WriteLine ("StatsNode: Setup Behaviour on " + this.target);
 			}
 
-			public void Remove()
+			public void Remove ()
 			{
-				target.Health.Handlers[this].Clear();
+				target.Health.Handlers[this].Clear ();
 				valueA.OnAfterChanged -= Log;
 
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine("StatsNode: Removed Behaviour on " + target);
+				Console.WriteLine ("StatsNode: Removed Behaviour on " + target);
 			}
 
 			struct LogOnChanged : IEventFieldHandler
 			{
 				public Metadata Meta;
 
-				public LogOnChanged(Metadata meta)
+				public LogOnChanged (Metadata meta)
 				{
 					Meta = meta;
 				}
 
-				public void OnBeforeChanged()
+				public void OnBeforeChanged ()
 				{
-					
+
 				}
 
-				public void OnAfterChanged()
+				public void OnAfterChanged ()
 				{
 					Console.ForegroundColor = ConsoleColor.Gray;
-					Console.WriteLine("StatsNode: New value of " + (Meta.valueA.Value + Meta.valueB.Value).ToString() + " on " + Meta.target);
+					Console.WriteLine ("StatsNode: New value of " + (Meta.valueA.Value + Meta.valueB.Value).ToString () + " on " + Meta.target);
 				}
 
-				public void Dispose()
+				public void Dispose ()
 				{
 
 				}
 			}
 
-			private void Log()
+			private void Log ()
 			{
 				Console.ForegroundColor = ConsoleColor.Gray;
-				Console.WriteLine("StatsNode: New value of " + (valueA.Value + valueB.Value).ToString() + " on " + target);
+				Console.WriteLine ("StatsNode: New value of " + (valueA.Value + valueB.Value).ToString () + " on " + target);
 			}
 		}
 	}

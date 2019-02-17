@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public class Connection<T> : IInput<T>, IOutput<T>, ILazyOutput<T>
 	{
@@ -18,7 +18,7 @@ namespace Behaviour
 				internalValue = value;
 
 				if (onAfterChanged != null)
-					onAfterChanged();
+					onAfterChanged ();
 			}
 		}
 

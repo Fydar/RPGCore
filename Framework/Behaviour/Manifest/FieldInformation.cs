@@ -1,7 +1,7 @@
 ﻿
 using System.Reflection;
 
-namespace Behaviour.Manifest
+namespace RPGCore.Behaviour.Manifest
 {
 	public struct FieldInformation
 	{
@@ -10,13 +10,13 @@ namespace Behaviour.Manifest
 		public string Type;
 		public string[] Attributes;
 
-		public static FieldInformation Construct(FieldInfo field)
+		public static FieldInformation Construct (FieldInfo field)
 		{
-			object[] attributes = field.GetCustomAttributes(false);
+			object[] attributes = field.GetCustomAttributes (false);
 			string[] attributeIds = new string[attributes.Length];
 			for (int i = 0; i < attributes.Length; i++)
 			{
-				attributeIds[i] = attributes.GetType().Name;
+				attributeIds[i] = attributes.GetType ().Name;
 			}
 
 			var fieldInformation = new FieldInformation

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public class Actor
 	{
@@ -8,14 +8,14 @@ namespace Behaviour
 
 		public EventField<int> Health;
 
-		public Actor()
+		public Actor ()
 		{
-			behaviours = new List<INodeInstance>();
-			Health = new EventField<int>();
+			behaviours = new List<INodeInstance> ();
+			Health = new EventField<int> ();
 			Health.Value = 100;
 		}
 
-		public override string ToString()
+		public override string ToString ()
 		{
 			return "Actor";
 		}

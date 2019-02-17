@@ -1,8 +1,8 @@
-namespace Behaviour.Packages
+namespace RPGCore.Behaviour.Packages
 {
-    public struct PackageDependancy
-    {
-        public string Name;
-        public string Version;
-    }
+	public struct PackageDependancy
+	{
+		public string Name;
+		public string Version;
+	}
 }

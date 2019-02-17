@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
 
-namespace BehaviourEditor.Client
+namespace RPGCore.BehaviourEditor.Client
 {
 	public class Program
 	{

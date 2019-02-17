@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Behaviour.Manifest
+namespace RPGCore.Behaviour.Manifest
 {
 	public struct TypeInformation
 	{
@@ -9,17 +9,17 @@ namespace Behaviour.Manifest
 		public string Description;
 		public TypeConversion[] Conversions;
 
-		public static TypeInformation Construct(Type type)
+		public static TypeInformation Construct (Type type)
 		{
 			var typeInformation = new TypeInformation
 			{
 				Name = type.Name
 			};
-			var conversions = new List<TypeConversion>();
-			
+			var conversions = new List<TypeConversion> ();
+
 			//var methods = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
 
-			typeInformation.Conversions = conversions.ToArray();
+			typeInformation.Conversions = conversions.ToArray ();
 			return typeInformation;
 		}
 	}

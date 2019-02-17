@@ -1,8 +1,8 @@
-﻿namespace Behaviour
+﻿namespace RPGCore.Behaviour
 {
 	public interface INodeInstance
 	{
-		void Setup(IGraphInstance graph, Node parent, Actor target);
-		void Remove();
+		void Setup (IGraphInstance graph, Node parent, Actor target);
+		void Remove ();
 	}
 }
