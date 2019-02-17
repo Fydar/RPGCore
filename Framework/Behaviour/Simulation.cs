@@ -11,6 +11,28 @@ namespace RPGCore.Behaviour
 	{
 		public void Start ()
 		{
+			IntEventField left = new IntEventField (1);
+			IntEventField right = new IntEventField (3);
+
+			left += (int newValue) =>
+			{
+				Console.WriteLine ("New Value: " + newValue);
+			};
+
+			left.Value += 5;
+
+			Console.WriteLine ($"{left.Value} + {right.Value} = " + (left + right).Calculate ());
+
+			IntEventField one = new IntEventField (1);
+
+			IntEventField test = new IntEventField (left + right + one);
+
+			left.Value++;
+			right.Value++;
+
+			Console.WriteLine ($"{left.Value} + {right.Value} + {one.Value} = " + test.Value);
+
+
 			var nodes = NodeManifest.Construct (new Type[] { typeof (StatsNode), typeof (RollNode) });
 			var types = TypeManifest.ConstructBaseTypes ();
 
