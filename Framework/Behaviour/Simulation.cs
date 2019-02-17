@@ -1,4 +1,5 @@
-﻿using Behaviour.Packages;
+﻿using Behaviour.Manifest;
+using Behaviour.Packages;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -10,12 +11,17 @@ namespace Behaviour
 	{
 		public void Start()
 		{
-			Console.WriteLine ("Outputting Node Manifest...");
-			Console.WriteLine(Manifest.NodeManifest.Construct (new Type[] { typeof(StatsNode), typeof(RollNode) }));
+			var nodes = Manifest.NodeManifest.Construct (new Type[] { typeof(StatsNode), typeof(RollNode) });
+			var types = Manifest.TypeManifest.ConstructBaseTypes ();
 
-			//Console.WriteLine ("Outputting Type Manifest...");
-			//Console.WriteLine(Manifest.TypeManifest.ConstructBaseTypes ());
+			var manifest = new BehaviourManifest ()
+			{
+				Nodes = nodes,
+				Types = types
+			};
 
+			File.WriteAllText("Content/RPGCoreMath.bmfst", manifest.ToString());
+			
 			Console.WriteLine("Importing Graph...");
 
 			var pkg = Package.Load("Content/Core");
