@@ -1,7 +1,7 @@
-﻿namespace Behaviour
+﻿namespace RPGCore.Behaviour
 {
 	public interface INodeInstanceSerialize
 	{
-		
+
 	}
 }

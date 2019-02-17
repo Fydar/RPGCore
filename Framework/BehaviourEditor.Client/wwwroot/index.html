@@ -21,11 +21,11 @@
             if (!event.target.classList.contains("jsDraggable")) {
                 return;
 			}
-			
+
 			let moveGraphic = event.target;
 			let shiftX = event.clientX - moveGraphic.getBoundingClientRect().left;
 			let shiftY = event.clientY - moveGraphic.getBoundingClientRect().top;
-            
+
             moveAt(event.pageX, event.pageY);
 
 			function moveAt(pageX, pageY) {

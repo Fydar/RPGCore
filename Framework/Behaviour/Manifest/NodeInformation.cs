@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Behaviour.Manifest
+namespace RPGCore.Behaviour.Manifest
 {
 	public struct NodeInformation
 	{
@@ -13,7 +13,7 @@ namespace Behaviour.Manifest
 		public SocketInformation[] Outputs;
 		public FieldInformation[] Fields;
 
-		public static NodeInformation Construct(Type nodeType)
+		public static NodeInformation Construct (Type nodeType)
 		{
 			var nodeInformation = new NodeInformation
 			{
@@ -49,12 +49,12 @@ namespace Behaviour.Manifest
 				}
 				else
 				{
-					fieldInfos.Add(FieldInformation.Construct(field));
+					fieldInfos.Add (FieldInformation.Construct (field));
 				}
 			}
-			nodeInformation.Fields = fieldInfos.ToArray();
+			nodeInformation.Fields = fieldInfos.ToArray ();
 
-			object[] connectParameters = { singleNodeGraph, metadataInstance  };
+			object[] connectParameters = { singleNodeGraph, metadataInstance };
 			var inputsArray = (InputMap[])inputsProperty.Invoke (nodeTemplate, connectParameters);
 			var outputsArray = (OutputMap[])outputsProperty.Invoke (nodeTemplate, connectParameters);
 

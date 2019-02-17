@@ -1,8 +1,8 @@
-namespace Behaviour.Packages
+namespace RPGCore.Behaviour.Packages
 {
-    public struct PackageNodePosition
-    {
-        public int x;
-        public int y;
-    }
+	public struct PackageNodePosition
+	{
+		public int x;
+		public int y;
+	}
 }

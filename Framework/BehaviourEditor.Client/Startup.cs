@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BehaviourEditor.Client
+namespace RPGCore.BehaviourEditor.Client
 {
 	public class Startup
 	{

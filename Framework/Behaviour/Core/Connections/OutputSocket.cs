@@ -1,4 +1,4 @@
-﻿namespace Behaviour
+﻿namespace RPGCore.Behaviour
 {
 	public struct OutputSocket : ISocket
 	{

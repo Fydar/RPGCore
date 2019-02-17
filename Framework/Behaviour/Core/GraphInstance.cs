@@ -1,4 +1,4 @@
-﻿namespace Behaviour
+﻿namespace RPGCore.Behaviour
 {
 	public class GraphInstance : IGraphInstance
 	{
@@ -7,7 +7,7 @@
 		private readonly INodeInstance[] nodeInstances;
 		private readonly object[] connections;
 
-		public GraphInstance(Graph graph)
+		public GraphInstance (Graph graph)
 		{
 			this.graph = graph;
 			nodes = graph.Nodes;
@@ -19,67 +19,67 @@
 			for (int i = 0; i < nodeCount; i++)
 			{
 				var node = graph.Nodes[i];
-				nodeInstances[i] = node.Create();
+				nodeInstances[i] = node.Create ();
 			}
 
 			// Allow all used inputs to setup their connections.
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Inputs(this, nodeInstances[i]);
+				graph.Nodes[i].Inputs (this, nodeInstances[i]);
 			}
 
 			// Allow all outputs to assign themselves to that connection
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Outputs(this, nodeInstances[i]);
+				graph.Nodes[i].Outputs (this, nodeInstances[i]);
 			}
 		}
 
-		public void Setup(Actor target)
+		public void Setup (Actor target)
 		{
 			int nodeCount = graph.Nodes.Length;
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Setup(this, nodeInstances[i], target);
+				graph.Nodes[i].Setup (this, nodeInstances[i], target);
 			}
 		}
 
-		public void Remove()
+		public void Remove ()
 		{
 			foreach (var node in nodeInstances)
 			{
-				node.Remove();
+				node.Remove ();
 			}
 		}
 
-		public INodeInstance GetNode<T>()
+		public INodeInstance GetNode<T> ()
 		{
 			for (int i = nodeInstances.Length - 1; i >= 0; i--)
 			{
 				var node = nodeInstances[i];
 
-				if (node.GetType() == typeof(T))
+				if (node.GetType () == typeof (T))
 					return node;
 			}
 			return null;
 		}
-		
-		public InputMap Connect<T>(ref InputSocket socket, out IInput<T> connection)
+
+		public InputMap Connect<T> (ref InputSocket socket, out IInput<T> connection)
 		{
 			connection = GetOrCreateConnection<T> (socket.TargetId);
 
-			return new InputMap(socket, typeof(T), connection);
+			return new InputMap (socket, typeof (T), connection);
 		}
 
-		public OutputMap Connect<T>(ref OutputSocket socket, out IOutput<T> connection)
+		public OutputMap Connect<T> (ref OutputSocket socket, out IOutput<T> connection)
 		{
-			connection = GetConnection<T>(socket.Id);
-			return new OutputMap(socket, typeof(T), connection);
+			connection = GetConnection<T> (socket.Id);
+			return new OutputMap (socket, typeof (T), connection);
 		}
 
-		public OutputMap Connect<T>(ref OutputSocket socket, out ILazyOutput<T> connection)
+		public OutputMap Connect<T> (ref OutputSocket socket, out ILazyOutput<T> connection)
 		{
-			connection = GetConnection<T>(socket.Id);
+			connection = GetConnection<T> (socket.Id);
 			return new OutputMap (socket, typeof (T), connection);
 		}
 

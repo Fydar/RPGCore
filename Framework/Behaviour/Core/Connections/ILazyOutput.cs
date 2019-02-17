@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public interface ILazyOutput<T> : IOutput<T>
 	{

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Behaviour.Manifest
+namespace RPGCore.Behaviour.Manifest
 {
 	public class NodeManifest
 	{

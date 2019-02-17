@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public struct InputMap
 	{
@@ -8,7 +8,7 @@ namespace Behaviour
 		public Type ConnectionType;
 		public object Link;
 
-		public InputMap(InputSocket source, Type connectionType, object link)
+		public InputMap (InputSocket source, Type connectionType, object link)
 		{
 			Source = source;
 			Link = link;

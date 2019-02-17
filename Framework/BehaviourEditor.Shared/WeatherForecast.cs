@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace BehaviourEditor.Shared
+namespace RPGCore.BehaviourEditor.Shared
 {
 	public class WeatherForecast
 	{

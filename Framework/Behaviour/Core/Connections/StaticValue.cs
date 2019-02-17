@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public class StaticValue<T> : IInput<T>
 	{
 		private event Action onAfterChanged;
 		private readonly T internalValue;
 
-		public StaticValue(T value)
+		public StaticValue (T value)
 		{
 			internalValue = value;
 		}

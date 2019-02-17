@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public class RequestingConnection<T> : IInput<T>, IOutput<T>, ILazyOutput<T>
 	{
@@ -12,7 +12,7 @@ namespace Behaviour
 			get
 			{
 				if (onAfterChanged != null)
-					onAfterChanged();
+					onAfterChanged ();
 
 				return internalValue;
 			}

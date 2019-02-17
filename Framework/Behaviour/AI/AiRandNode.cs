@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Behaviour
+namespace RPGCore.Behaviour
 {
 	public class AiRandNode : Node<AiRandNode.Metadata>
 	{
-		public OutputSocket Rand = new OutputSocket();
+		public OutputSocket Rand = new OutputSocket ();
 
 		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => null;
-		public override OutputMap[] Outputs(IGraphInstance graph, Metadata instance) => new[]
+		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref Rand, out instance.random)
 		};
@@ -18,10 +18,10 @@ namespace Behaviour
 
 			private Actor target;
 
-			public int LocalWeight => new Random().Next(10, 100);
+			public int LocalWeight => new Random ().Next (10, 100);
 			public IAiNode Source => null;
 
-			public void Setup(IGraphInstance graph, Node parent, Actor target)
+			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
 				AiRandNode stats = (AiRandNode)parent;
@@ -29,21 +29,21 @@ namespace Behaviour
 				random.OnRequested += RandomRequested;
 
 				Console.ForegroundColor = ConsoleColor.Green;
-				Console.WriteLine("AiRandNode: Setup Behaviour on " + this.target);
+				Console.WriteLine ("AiRandNode: Setup Behaviour on " + this.target);
 			}
 
-			public void RandomRequested()
+			public void RandomRequested ()
 			{
-				int value = new Random().Next(0, 20);
+				int value = new Random ().Next (0, 20);
 				random.Value = value;
 				Console.ForegroundColor = ConsoleColor.Gray;
-				Console.WriteLine("AiRandNode: Random Outputted " + value);
+				Console.WriteLine ("AiRandNode: Random Outputted " + value);
 			}
 
-			public void Remove()
+			public void Remove ()
 			{
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine("AiRandNode: Removed Behaviour on " + target);
+				Console.WriteLine ("AiRandNode: Removed Behaviour on " + target);
 			}
 		}
 	}

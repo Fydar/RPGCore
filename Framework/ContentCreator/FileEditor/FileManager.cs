@@ -10,51 +10,51 @@ namespace ContentCreator.FileEditor
 
 		public event Action OnChanged;
 
-		public FileManager(string filePath)
+		public FileManager (string filePath)
 		{
 			FilePath = filePath;
 
-			Console.WriteLine("Created file manager");
-			Console.WriteLine(ReadFile());
+			Console.WriteLine ("Created file manager");
+			Console.WriteLine (ReadFile ());
 
-			var info = new FileInfo(filePath);
+			var info = new FileInfo (filePath);
 			var folder = info.Directory;
 
-			Watcher = new FileSystemWatcher(folder.FullName);
+			Watcher = new FileSystemWatcher (folder.FullName);
 			Watcher.EnableRaisingEvents = true;
 
 			Watcher.Created += ChangedHandler;
 			Watcher.Changed += ChangedHandler;
 
-			Watcher.Deleted += (fileWatcher, args) => Console.WriteLine(args.ChangeType + " at: " + args.FullPath);
-			Watcher.Error += (fileWatcher, args) => Console.WriteLine(args.GetException());
-			Watcher.Renamed += (fileWatcher, args) => Console.WriteLine(args.ChangeType + " at: " + args.FullPath);
+			Watcher.Deleted += (fileWatcher, args) => Console.WriteLine (args.ChangeType + " at: " + args.FullPath);
+			Watcher.Error += (fileWatcher, args) => Console.WriteLine (args.GetException ());
+			Watcher.Renamed += (fileWatcher, args) => Console.WriteLine (args.ChangeType + " at: " + args.FullPath);
 
 			// Watcher.NotifyFilter = NotifyFilters.LastWrite;
 		}
 
-		private void ChangedHandler(object sender, FileSystemEventArgs fileSystemEventArgs)
+		private void ChangedHandler (object sender, FileSystemEventArgs fileSystemEventArgs)
 		{
-			Console.WriteLine(fileSystemEventArgs.ChangeType + " at: " + fileSystemEventArgs.FullPath);
-			OnChanged?.Invoke();
+			Console.WriteLine (fileSystemEventArgs.ChangeType + " at: " + fileSystemEventArgs.FullPath);
+			OnChanged?.Invoke ();
 		}
 
-		public void Dispose()
+		public void Dispose ()
 		{
-			Console.WriteLine("Disposing FileManager");
-			Watcher.Dispose();
+			Console.WriteLine ("Disposing FileManager");
+			Watcher.Dispose ();
 		}
 
-		public string ReadFile()
+		public string ReadFile ()
 		{
-			System.Threading.Thread.Sleep(250);
-			string[] data = File.ReadAllLines(FilePath);
-			return string.Join('\n', data);
+			System.Threading.Thread.Sleep (250);
+			string[] data = File.ReadAllLines (FilePath);
+			return string.Join ('\n', data);
 		}
 
-		public void WriteFile(string data)
+		public void WriteFile (string data)
 		{
-			File.WriteAllText(FilePath, data);
+			File.WriteAllText (FilePath, data);
 		}
 	}
 }

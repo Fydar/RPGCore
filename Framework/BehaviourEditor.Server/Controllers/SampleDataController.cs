@@ -1,11 +1,10 @@
-﻿using BehaviourEditor.Shared;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using RPGCore.BehaviourEditor.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace BehaviourEditor.Server.Controllers
+namespace RPGCore.BehaviourEditor.Server.Controllers
 {
 	[Route ("api/[controller]")]
 	public class SampleDataController : Controller

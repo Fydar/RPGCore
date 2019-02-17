@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Behaviour.Manifest
+namespace RPGCore.Behaviour.Manifest
 {
 	public struct SocketInformation
 	{
@@ -8,7 +8,7 @@ namespace Behaviour.Manifest
 		public string Description;
 		public string Type;
 
-		public static SocketInformation Construct(FieldInfo field, InputMap socket)
+		public static SocketInformation Construct (FieldInfo field, InputMap socket)
 		{
 			var socketInformation = new SocketInformation
 			{

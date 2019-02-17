@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Behaviour.Manifest
+namespace RPGCore.Behaviour.Manifest
 {
 	public class TypeManifest
 	{
@@ -10,7 +10,7 @@ namespace Behaviour.Manifest
 		public string Version;
 		public TypeInformation[] Types;
 
-		public static TypeManifest Construct(Type[] types)
+		public static TypeManifest Construct (Type[] types)
 		{
 			var manifest = new TypeManifest ();
 
@@ -23,9 +23,9 @@ namespace Behaviour.Manifest
 			return manifest;
 		}
 
-		public static TypeManifest ConstructBaseTypes()
+		public static TypeManifest ConstructBaseTypes ()
 		{
-			return Construct(new Type[]
+			return Construct (new Type[]
 			{
 				typeof(bool),
 				typeof(string),

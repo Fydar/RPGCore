@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Behaviour.Manifest
+namespace RPGCore.Behaviour.Manifest
 {
 	public struct TypeConversion
 	{
@@ -9,7 +9,7 @@ namespace Behaviour.Manifest
 		public string Description;
 		public string Type;
 
-		public static TypeConversion Construct(Type type, MethodInfo method)
+		public static TypeConversion Construct (Type type, MethodInfo method)
 		{
 			var typeConversion = new TypeConversion
 			{
