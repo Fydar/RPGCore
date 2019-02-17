@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BehaviourEditor.Shared\BehaviourEditor.Shared.csproj" />
-    <ProjectReference Include="..\Behaviour\Behaviour.csproj" />
+    <ProjectReference Include="..\Behaviour\RPGCore.Behaviour.csproj" />
   </ItemGroup>
 
 </Project>
