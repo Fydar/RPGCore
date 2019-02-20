@@ -32,6 +32,11 @@ RPGCore/*.csproj
 RPGCore/[Ll]ibrary/
 RPGCore/Assets/AssetStoreTools*
 
+Framework/RPGCoreUnity/*.sln
+Framework/RPGCoreUnity/*.csproj
+Framework/RPGCoreUnity/[Ll]ibrary/
+Framework/RPGCoreUnity/Assets/AssetStoreTools*
+
 # Builds
 *.apk
 *.unitypackage
