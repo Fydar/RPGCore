@@ -103,7 +103,7 @@ namespace RPGCore.Behaviour.UnitTests
 
 			target.Value.Mainhand.Value.Damage.Value = 5;
 
-			int[] expectedValues = new int[] { 10, 20, 0, 25, 15 };
+			int[] expectedValues = { 10, 20, 0, 25, 15 };
 			Assert.AreEqual (expectedValues.Length, damages.Count);
 			for (int i = 0; i < damages.Count; i++)
 			{
