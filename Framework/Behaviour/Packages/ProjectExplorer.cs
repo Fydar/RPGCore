@@ -6,17 +6,41 @@ using System.Text;
 
 namespace RPGCore.Behaviour.Packages
 {
-	public class Package
+	public class ProjectExplorer : IPackageExplorer
 	{
-		public Dictionary<string, PackageItem> Items;
+		private struct ProjectItemCollection : IPackageItemCollection
+		{
+			private ProjectExplorer explorer;
 
+			public PackageItem this[string key]
+			{
+				get
+				{
+					return explorer.Items[key];
+				}
+			}
+
+			public ProjectItemCollection (ProjectExplorer explorer)
+			{
+				this.explorer = explorer;
+			}
+		}
+		
+		private readonly Dictionary<string, PackageItem> itemsDictionary;
 		private BProjModel bProj;
 
 		public string Name => bProj.Name;
 		public string Version => bProj.Version;
 		public PackageDependancy[] Dependancies => bProj.Dependancies;
+		public IPackageItemCollection Items { get; private set; }
 
-		public static Package Load (string path)
+		public ProjectExplorer ()
+		{
+			Items = new ProjectItemCollection (this);
+			itemsDictionary = new Dictionary<string, PackageItem> ();
+		}
+
+		public static ProjectExplorer Load (string path)
 		{
 			var rootFiles = Directory.GetFiles (path);
 			string bprojPath = null;
@@ -30,14 +54,14 @@ namespace RPGCore.Behaviour.Packages
 				}
 			}
 
-			var package = new Package
+			var Project = new ProjectExplorer
 			{
 				bProj = BProjModel.Load (bprojPath)
 			};
-			return package;
+			return Project;
 		}
 
-		public void WritePackage (string path)
+		public void WriteProject (string path)
 		{
 			string json = JsonConvert.SerializeObject (this);
 
