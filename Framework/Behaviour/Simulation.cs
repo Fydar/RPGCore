@@ -46,7 +46,7 @@ namespace RPGCore.Behaviour
 
 			Console.WriteLine ("Importing Graph...");
 
-			var pkg = Package.Load ("Content/Core");
+			var pkg = PackageExplorer.Load ("Content/Core");
 			Console.WriteLine (pkg.Name);
 			pkg.WritePackage ("Content/Core.bpkg");
 
