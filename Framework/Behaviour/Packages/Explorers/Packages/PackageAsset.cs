@@ -4,16 +4,23 @@ namespace RPGCore.Behaviour.Packages
 {
 	public struct PackageAsset
 	{
-		private readonly ZipArchiveEntry zipArchiveEntry;
+		public readonly string Root;
+		public readonly PackageResource[] Assets;
 
-		public PackageAsset (ZipArchiveEntry zipArchiveEntry)
+		public PackageAsset (string root, ZipArchiveEntry[] entries)
 		{
-			this.zipArchiveEntry = zipArchiveEntry;
+			Root = root;
+
+			Assets = new PackageResource[entries.Length];
+			for (int i = 0; i < entries.Length; i++)
+			{
+				Assets[i] = new PackageResource (entries[i]);
+			}
 		}
 
 		public override string ToString ()
 		{
-			return zipArchiveEntry.Name;
+			return Root;
 		}
 	}
 }

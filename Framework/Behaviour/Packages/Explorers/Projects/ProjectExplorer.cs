@@ -10,11 +10,11 @@ namespace RPGCore.Behaviour.Packages
 {
 	public class ProjectExplorer
 	{
-		private class ProjectFolderCollection : IProjectFolderCollection
+		private class ProjectFolderCollection : IProjectAssetCollection
 		{
-			private Dictionary<string, ProjectFolder> folders;
+			private Dictionary<string, ProjectAsset> folders;
 
-			public ProjectFolder this[string key]
+			public ProjectAsset this[string key]
 			{
 				get
 				{
@@ -22,15 +22,15 @@ namespace RPGCore.Behaviour.Packages
 				}
 			}
 
-			public void Add (ProjectFolder folder)
+			public void Add (ProjectAsset folder)
 			{
 				if (folders == null)
-					folders = new Dictionary<string, ProjectFolder> ();
+					folders = new Dictionary<string, ProjectAsset> ();
 
 				folders.Add (folder.Archive.Name, folder);
 			}
 
-			public IEnumerator<ProjectFolder> GetEnumerator ()
+			public IEnumerator<ProjectAsset> GetEnumerator ()
 			{
 				return folders.Values.GetEnumerator ();
 			}
@@ -46,7 +46,7 @@ namespace RPGCore.Behaviour.Packages
 		public string Name => bProj.Name;
 		public string Version => bProj.Version;
 		public PackageDependancy[] Dependancies => bProj.Dependancies;
-		public IProjectFolderCollection Folders { get; private set; }
+		public IProjectAssetCollection Folders { get; private set; }
 
 		public ProjectExplorer ()
 		{
@@ -76,7 +76,7 @@ namespace RPGCore.Behaviour.Packages
 			foreach (var folder in directories)
 			{
 				var directoryInfo = new DirectoryInfo (folder);
-				var projectFolder = new ProjectFolder (directoryInfo);
+				var projectFolder = new ProjectAsset (directoryInfo);
 				project.Folders.Add (projectFolder);
 			}
 			return project;
