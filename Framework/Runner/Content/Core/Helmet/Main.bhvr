@@ -1,0 +1,46 @@
+{
+    "Name": "BronzeLongsword",
+    "Nodes": {
+        "0a084c2c": {
+            "Type": "RPGCore.Behaviour.RollNode",
+            "Data": {
+                "MinValue": 1,
+                "MaxValue": 5,
+                "TooltipFormat": "{0}"
+            },
+            "_Editor": {
+                "Position": {
+                    "x": 362,
+                    "y": 231
+                }
+            }
+        },
+        "4a41bc58": {
+            "Type": "RPGCore.Behaviour.RollNode",
+            "Data": {
+                "MinValue": 20,
+                "MaxValue": 40,
+                "TooltipFormat": "{0}"
+            },
+            "_Editor": {
+                "Position": {
+                    "x": 362,
+                    "y": 231
+                }
+            }
+        },
+        "a4f194f": {
+            "Type": "RPGCore.Behaviour.StatsNode",
+            "Data": {
+                "ValueA": "0a084c2c.Output",
+                "ValueB": "4a41bc58.Output"
+            },
+            "_Editor": {
+                "Position": {
+                    "x": 362,
+                    "y": 231
+                }
+            }
+        }
+    }
+}

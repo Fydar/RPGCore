@@ -7,7 +7,7 @@
     <PackageReference Include="ElectronNET.API" Version="0.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="0.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.BehaviourEditor.App\RPGCore.BehaviourEditor.App.csproj" />

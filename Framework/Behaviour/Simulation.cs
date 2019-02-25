@@ -3,6 +3,7 @@ using RPGCore.Behaviour.Manifest;
 using RPGCore.Behaviour.Packages;
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Threading;
 
 namespace RPGCore.Behaviour
@@ -46,12 +47,32 @@ namespace RPGCore.Behaviour
 
 			Console.WriteLine ("Importing Graph...");
 
-			var pkg = PackageExplorer.Load ("Content/Core");
-			Console.WriteLine (pkg.Name);
-			pkg.WritePackage ("Content/Core.bpkg");
+			var proj = ProjectExplorer.Load ("Content/Core");
+			Console.WriteLine (proj.Name);
+			Console.WriteLine ("\t\"" + proj.Name + "\"");
+			foreach (var folder in proj.Folders)
+			{
+				Console.WriteLine ("\t" + folder.Archive.Name);
+				foreach (var asset in folder.Assets)
+				{
+					Console.WriteLine ("\t\t" + asset);
+				}
+			}
 
-			var packageItem = JsonConvert.DeserializeObject<PackageItem> (File.ReadAllText ("Content/Core/Longsword/Main.bhvr"));
-			Console.WriteLine ("\tImported: " + packageItem.Name);
+			proj.Export ("Content/Core.bpkg");
+
+			Console.WriteLine ("Exported package...");
+			var exportedPackage = PackageExplorer.Load ("Content/Core.bpkg");
+			foreach (var folder in exportedPackage.Folders)
+			{
+				foreach (var asset in folder.Assets)
+				{
+					Console.WriteLine ("\t" + asset.ToString());
+				}
+			}
+
+			var packageItem = JsonConvert.DeserializeObject<PackageBehaviour> (File.ReadAllText ("Content/Core/Longsword/Main.bhvr"));
+			Console.WriteLine ("Imported: " + packageItem.Name);
 			var unpackedGraph = packageItem.Unpack ();
 
 			Console.WriteLine ("Running Simulation...");
