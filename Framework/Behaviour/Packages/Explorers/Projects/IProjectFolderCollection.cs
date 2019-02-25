@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour.Packages
 {
-	public interface IProjectFolderCollection : IEnumerable<ProjectFolder>
+	public interface IProjectAssetCollection : IEnumerable<ProjectAsset>
 	{
-		ProjectFolder this[string key] { get; }
+		ProjectAsset this[string key] { get; }
 
-		void Add (ProjectFolder folder);
+		void Add (ProjectAsset folder);
 	}
 }

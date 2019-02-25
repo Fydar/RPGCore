@@ -4,16 +4,20 @@ namespace RPGCore.Behaviour.Packages
 {
 	public struct ProjectAsset
 	{
-		public readonly FileInfo Entry;
+		public readonly DirectoryInfo Archive;
+		public readonly ProjectResource[] Assets;
 
-		public ProjectAsset (FileInfo entry)
+		public ProjectAsset (DirectoryInfo folder)
 		{
-			Entry = entry;
-		}
+			Archive = folder;
 
-		public override string ToString ()
-		{
-			return Entry.Name;
+			var files = folder.GetFiles ("*", SearchOption.AllDirectories);
+
+			Assets = new ProjectResource[files.Length];
+			for (int i = 0; i < files.Length; i++)
+			{
+				Assets[i] = new ProjectResource (files[i]);
+			}
 		}
 	}
 }
