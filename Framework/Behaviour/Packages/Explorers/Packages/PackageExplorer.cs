@@ -86,14 +86,17 @@ namespace RPGCore.Behaviour.Packages
 
 						if (pathPrefix != newPathIndex)
 						{
-							pathPrefix = newPathIndex;
-
 							var folder = new PackageFolder (pathPrefix, pathEntries.ToArray ());
-							package.Folders.Add (folder);
-
 							pathEntries.Clear ();
+							package.Folders.Add (folder);
+							pathPrefix = newPathIndex;
 						}
 						pathEntries.Add (projectEntry);
+					}
+					if (pathEntries.Count != 0)
+					{
+						var folder = new PackageFolder (pathPrefix, pathEntries.ToArray ());
+						package.Folders.Add (folder);
 					}
 				}
 			}
