@@ -65,6 +65,7 @@ namespace RPGCore.Behaviour
 			var exportedPackage = PackageExplorer.Load ("Content/Core.bpkg");
 			foreach (var folder in exportedPackage.Folders)
 			{
+				Console.WriteLine (folder.Root);
 				foreach (var asset in folder.Assets)
 				{
 					Console.WriteLine ("\t" + asset.ToString());
