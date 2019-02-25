@@ -9,11 +9,11 @@ namespace RPGCore.Behaviour.Packages
 {
 	public class PackageExplorer : IPackageExplorer
 	{
-		private class PackageFolderCollection : IPackageFolderCollection
+		private class PackageFolderCollection : IPackageAssetCollection
 		{
-			private Dictionary<string, PackageFolder> items;
+			private Dictionary<string, PackageAsset> items;
 
-			public PackageFolder this[string key]
+			public PackageAsset this[string key]
 			{
 				get
 				{
@@ -21,14 +21,14 @@ namespace RPGCore.Behaviour.Packages
 				}
 			}
 
-			public void Add(PackageFolder folder)
+			public void Add(PackageAsset folder)
 			{
 				if (items == null)
-					items = new Dictionary<string, PackageFolder> ();
+					items = new Dictionary<string, PackageAsset> ();
 				items.Add (folder.ToString (), folder);
 			}
 
-			public IEnumerator<PackageFolder> GetEnumerator ()
+			public IEnumerator<PackageAsset> GetEnumerator ()
 			{
 				return items.Values.GetEnumerator ();
 			}
@@ -44,7 +44,7 @@ namespace RPGCore.Behaviour.Packages
 		public string Name => bProj.Name;
 		public string Version => bProj.Version;
 		public PackageDependancy[] Dependancies => bProj.Dependancies;
-		public IPackageFolderCollection Folders { get; private set; }
+		public IPackageAssetCollection Folders { get; private set; }
 
 		public PackageExplorer ()
 		{
@@ -86,7 +86,7 @@ namespace RPGCore.Behaviour.Packages
 
 						if (pathPrefix != newPathIndex)
 						{
-							var folder = new PackageFolder (pathPrefix, pathEntries.ToArray ());
+							var folder = new PackageAsset (pathPrefix, pathEntries.ToArray ());
 							pathEntries.Clear ();
 							package.Folders.Add (folder);
 							pathPrefix = newPathIndex;
@@ -95,7 +95,7 @@ namespace RPGCore.Behaviour.Packages
 					}
 					if (pathEntries.Count != 0)
 					{
-						var folder = new PackageFolder (pathPrefix, pathEntries.ToArray ());
+						var folder = new PackageAsset (pathPrefix, pathEntries.ToArray ());
 						package.Folders.Add (folder);
 					}
 				}
