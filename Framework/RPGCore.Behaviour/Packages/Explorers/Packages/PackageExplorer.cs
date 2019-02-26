@@ -56,49 +56,47 @@ namespace RPGCore.Behaviour.Packages
 			var package = new PackageExplorer
 			{
 			};
-			using (var fileStream = new FileStream (path, FileMode.Open))
+			var fileStream = new FileStream (path, FileMode.Open);
+
+			var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true);
+
+			var entry = archive.GetEntry ("Main.bmft");
+
+			byte[] buffer = new byte[entry.Length];
+			using (var zipStream = entry.Open ())
 			{
-				using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true))
+				zipStream.Read (buffer, 0, (int)entry.Length);
+				string json = Encoding.UTF8.GetString (buffer);
+			}
+
+			string pathPrefix = null;
+			var pathEntries = new List<ZipArchiveEntry> ();
+			foreach (var projectEntry in archive.Entries)
+			{
+				int pathPrefixIndex = projectEntry.FullName.IndexOf ('/');
+				if (pathPrefixIndex == -1)
 				{
-					var entry = archive.GetEntry ("Main.bmft");
-
-					byte[] buffer = new byte[entry.Length];
-					using (var zipStream = entry.Open ())
-					{
-						zipStream.Read (buffer, 0, (int)entry.Length);
-						string json = Encoding.UTF8.GetString (buffer);
-					}
-
-					string pathPrefix = null;
-					var pathEntries = new List<ZipArchiveEntry> ();
-					foreach (var projectEntry in archive.Entries)
-					{
-						int pathPrefixIndex = projectEntry.FullName.IndexOf ('/');
-						if (pathPrefixIndex == -1)
-						{
-							Console.WriteLine ("Not adding \"" + projectEntry.FullName + "\" as an item.");
-							continue;
-						}
-						string newPathIndex = projectEntry.FullName.Substring (0, pathPrefixIndex);
-
-						if (pathPrefix == null)
-							pathPrefix = newPathIndex;
-
-						if (pathPrefix != newPathIndex)
-						{
-							var folder = new PackageAsset (pathPrefix, pathEntries.ToArray ());
-							pathEntries.Clear ();
-							package.Folders.Add (folder);
-							pathPrefix = newPathIndex;
-						}
-						pathEntries.Add (projectEntry);
-					}
-					if (pathEntries.Count != 0)
-					{
-						var folder = new PackageAsset (pathPrefix, pathEntries.ToArray ());
-						package.Folders.Add (folder);
-					}
+					Console.WriteLine ("Not adding \"" + projectEntry.FullName + "\" as an item.");
+					continue;
 				}
+				string newPathIndex = projectEntry.FullName.Substring (0, pathPrefixIndex);
+
+				if (pathPrefix == null)
+					pathPrefix = newPathIndex;
+
+				if (pathPrefix != newPathIndex)
+				{
+					var folder = new PackageAsset (pathPrefix, pathEntries.ToArray ());
+					pathEntries.Clear ();
+					package.Folders.Add (folder);
+					pathPrefix = newPathIndex;
+				}
+				pathEntries.Add (projectEntry);
+			}
+			if (pathEntries.Count != 0)
+			{
+				var folder = new PackageAsset (pathPrefix, pathEntries.ToArray ());
+				package.Folders.Add (folder);
 			}
 
 			return package;
