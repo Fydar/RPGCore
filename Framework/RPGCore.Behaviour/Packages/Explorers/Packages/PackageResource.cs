@@ -1,3 +1,4 @@
+using System.IO;
 using System.IO.Compression;
 
 namespace RPGCore.Behaviour.Packages
@@ -22,6 +23,11 @@ namespace RPGCore.Behaviour.Packages
 		public override string ToString ()
 		{
 			return zipArchiveEntry.Name;
+		}
+
+		public Stream Open()
+		{
+			return zipArchiveEntry.Open();
 		}
 	}
 }
