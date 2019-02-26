@@ -6,6 +6,14 @@ namespace RPGCore.Behaviour.Packages
 	{
 		private readonly ZipArchiveEntry zipArchiveEntry;
 
+		public string Name
+		{
+			get
+			{
+				return zipArchiveEntry.Name;
+			}
+		}
+
 		public PackageResource (ZipArchiveEntry zipArchiveEntry)
 		{
 			this.zipArchiveEntry = zipArchiveEntry;

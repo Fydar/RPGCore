@@ -1,3 +1,4 @@
+using System;
 using System.IO.Compression;
 
 namespace RPGCore.Behaviour.Packages
@@ -21,6 +22,19 @@ namespace RPGCore.Behaviour.Packages
 		public override string ToString ()
 		{
 			return Root;
+		}
+
+		public PackageResource GetResource(string path)
+		{
+			foreach (var asset in Assets)
+			{
+				Console.WriteLine(asset.Name + " - " + Root);
+				if (asset.Name.Substring(Root.Length) == path)
+				{
+					return asset;
+				}
+			}
+			return default(PackageResource);
 		}
 	}
 }
