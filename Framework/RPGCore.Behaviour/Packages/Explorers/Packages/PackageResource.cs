@@ -25,9 +25,14 @@ namespace RPGCore.Behaviour.Packages
 			return zipArchiveEntry.Name;
 		}
 
-		public Stream Open()
+		public byte[] LoadData()
 		{
-			return zipArchiveEntry.Open();
+			byte[] data = new byte[zipArchiveEntry.Length];
+			using (var stream = zipArchiveEntry.Open ())
+			{
+				stream.Read (data, 0, (int)zipArchiveEntry.Length);
+			}
+			return data;
 		}
 	}
 }
