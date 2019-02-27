@@ -40,6 +40,7 @@ namespace RPGCore.Behaviour.Packages
 		}
 
 		private BProjModel bProj;
+		private string Path;
 
 		public string Name => bProj.Name;
 		public string Version => bProj.Version;
@@ -51,12 +52,31 @@ namespace RPGCore.Behaviour.Packages
 			Folders = new PackageFolderCollection ();
 		}
 
+		public byte[] OpenAsset(string packageKey)
+		{
+			using (var fileStream = new FileStream (Path, FileMode.Open, FileAccess.Read, FileShare.Read))
+			{
+				using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true))
+				{
+					var entry = archive.GetEntry (packageKey);
+
+					byte[] buffer = new byte[entry.Length];
+					using (var zipStream = entry.Open ())
+					{
+						zipStream.Read (buffer, 0, (int)entry.Length);
+						return buffer;
+					}
+				}
+			}
+		}
+
 		public static PackageExplorer Load (string path)
 		{
 			var package = new PackageExplorer
 			{
+				Path = path
 			};
-			using (var fileStream = new FileStream (path, FileMode.Open))
+			using (var fileStream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.Read))
 			{
 				using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true))
 				{
@@ -70,7 +90,7 @@ namespace RPGCore.Behaviour.Packages
 					}
 
 					string pathPrefix = null;
-					var pathEntries = new List<ZipArchiveEntry> ();
+					var pathEntries = new List<string> ();
 					foreach (var projectEntry in archive.Entries)
 					{
 						int pathPrefixIndex = projectEntry.FullName.IndexOf ('/');
@@ -86,16 +106,16 @@ namespace RPGCore.Behaviour.Packages
 
 						if (pathPrefix != newPathIndex)
 						{
-							var folder = new PackageAsset (pathPrefix, pathEntries.ToArray ());
+							var folder = new PackageAsset (package, pathPrefix, pathEntries.ToArray ());
 							pathEntries.Clear ();
 							package.Folders.Add (folder);
 							pathPrefix = newPathIndex;
 						}
-						pathEntries.Add (projectEntry);
+						pathEntries.Add (projectEntry.FullName);
 					}
 					if (pathEntries.Count != 0)
 					{
-						var folder = new PackageAsset (pathPrefix, pathEntries.ToArray ());
+						var folder = new PackageAsset (package, pathPrefix, pathEntries.ToArray ());
 						package.Folders.Add (folder);
 					}
 				}

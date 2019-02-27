@@ -5,29 +5,31 @@ namespace RPGCore.Behaviour.Packages
 {
 	public struct PackageResource
 	{
-		private readonly ZipArchiveEntry zipArchiveEntry;
+		private readonly PackageExplorer Package;
+		private readonly string PackageKey;
 
 		public string Name
 		{
 			get
 			{
-				return zipArchiveEntry.Name;
+				return PackageKey.Substring(PackageKey.LastIndexOf('/') + 1);
 			}
 		}
 
-		public PackageResource (ZipArchiveEntry zipArchiveEntry)
+		public PackageResource (PackageExplorer package, string packageKey)
 		{
-			this.zipArchiveEntry = zipArchiveEntry;
+			Package = package;
+			PackageKey = packageKey;
 		}
 
 		public override string ToString ()
 		{
-			return zipArchiveEntry.Name;
+			return Name;
 		}
 
-		public Stream Open()
+		public byte[] LoadData()
 		{
-			return zipArchiveEntry.Open();
+			return Package.OpenAsset(PackageKey);
 		}
 	}
 }

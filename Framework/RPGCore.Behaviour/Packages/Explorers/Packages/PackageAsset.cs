@@ -5,17 +5,19 @@ namespace RPGCore.Behaviour.Packages
 {
 	public struct PackageAsset
 	{
+		public PackageExplorer Package;
 		public readonly string Root;
 		public readonly PackageResource[] Assets;
 
-		public PackageAsset (string root, ZipArchiveEntry[] entries)
+		public PackageAsset (PackageExplorer package, string root, string[] entries)
 		{
+			Package = package;
 			Root = root;
 
 			Assets = new PackageResource[entries.Length];
 			for (int i = 0; i < entries.Length; i++)
 			{
-				Assets[i] = new PackageResource (entries[i]);
+				Assets[i] = new PackageResource (package, entries[i]);
 			}
 		}
 
