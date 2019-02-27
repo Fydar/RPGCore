@@ -5,7 +5,7 @@ using UnityEngine;
 public class AssetBrowser : MonoBehaviour
 {
 	public RectTransform Holder;
-	public RawImagePool Assets;
+	public AssetRendererPool Assets;
 
 	private void Start()
 	{
@@ -14,20 +14,7 @@ public class AssetBrowser : MonoBehaviour
 		foreach (var asset in explorer.Folders)
 		{
 			var assetRenderer = Assets.Grab (Holder);
-			Debug.Log(asset);
-			assetRenderer.texture = FindIcon (asset).LoadImage ();
+			assetRenderer.Render (asset);
 		}
-	}
-
-	public static PackageResource FindIcon(PackageAsset asset)
-	{
-		for (int i = 0; i < asset.Assets.Length; i++)
-		{
-			if (asset.Assets[i].Name.EndsWith (".png", System.StringComparison.Ordinal))
-			{
-				return asset.Assets[i];
-			}
-		}
-		return default (PackageResource);
 	}
 }
