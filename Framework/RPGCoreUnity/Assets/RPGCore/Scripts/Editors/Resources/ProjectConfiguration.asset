@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: ProjectConfiguration
   m_EditorClassIdentifier: 
   References:
-  - RelativePath: ../Runner/Content/Core.bpkg
+  - RelativePath: ../RPGCore.Runner/Content/Core.bpkg
