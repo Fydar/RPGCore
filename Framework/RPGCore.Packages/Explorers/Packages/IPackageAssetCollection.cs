@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace RPGCore.Behaviour.Packages
+namespace RPGCore.Packages
 {
 	public interface IPackageAssetCollection : IEnumerable<PackageAsset>
 	{

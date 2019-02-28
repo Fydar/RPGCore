@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace RPGCore.Behaviour.Packages
+namespace RPGCore.Behaviour
 {
 	public class PackageNode
 	{

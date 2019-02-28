@@ -5,7 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace RPGCore.Behaviour.Packages
+namespace RPGCore.Packages
 {
 	public class PackageExplorer : IPackageExplorer
 	{

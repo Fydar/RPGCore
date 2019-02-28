@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+    <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
   </ItemGroup>
 
 </Project>

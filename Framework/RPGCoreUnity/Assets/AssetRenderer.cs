@@ -1,4 +1,4 @@
-﻿using RPGCore.Behaviour.Packages;
+﻿using RPGCore.Packages;
 using RPGCore.UI;
 using System;
 using UnityEngine;

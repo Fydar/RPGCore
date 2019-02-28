@@ -1,4 +1,4 @@
-namespace RPGCore.Behaviour.Packages
+namespace RPGCore.Behaviour
 {
 	public struct PackageNodePosition
 	{

@@ -1,5 +1,4 @@
-﻿
-namespace RPGCore.Behaviour
+﻿namespace RPGCore.Behaviour
 {
 	public sealed class ManifestCaptureGraphInstance : IGraphInstance
 	{
