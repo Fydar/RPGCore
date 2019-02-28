@@ -1,5 +1,6 @@
 using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace RPGCore.Behaviour.Packages
 {
@@ -36,6 +37,13 @@ namespace RPGCore.Behaviour.Packages
 		public byte[] LoadData()
 		{
 			return Package.OpenAsset(PackageKey);
+		}
+
+		public Task<byte[]> LoadDataAsync()
+		{
+			var pkg = Package;
+			var pkgKey = PackageKey;
+			return Task.Run(() => pkg.OpenAsset(pkgKey));
 		}
 	}
 }
