@@ -9,7 +9,7 @@ namespace RPGCore.Behaviour.Packages
 		public readonly string Root;
 		public readonly PackageResource[] Assets;
 
-		public PackageAsset (PackageExplorer package, string root, string[] entries)
+		public PackageAsset (PackageExplorer package, string root, ZipArchiveEntry[] entries)
 		{
 			Package = package;
 			Root = root;
