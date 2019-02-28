@@ -1,6 +1,8 @@
 {
     "name": "RPGCore.Unity.Editors",
-    "references": [],
+    "references": [
+        "RPGCore.Unity"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

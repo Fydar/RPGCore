@@ -42,6 +42,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+    <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="app\chromely.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
