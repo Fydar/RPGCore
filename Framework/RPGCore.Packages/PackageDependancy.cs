@@ -1,4 +1,4 @@
-namespace RPGCore.Behaviour.Packages
+namespace RPGCore.Packages
 {
 	public struct PackageDependancy
 	{

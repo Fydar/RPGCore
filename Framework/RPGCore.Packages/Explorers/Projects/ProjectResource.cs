@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace RPGCore.Behaviour.Packages
+namespace RPGCore.Packages
 {
 	public struct ProjectResource
 	{

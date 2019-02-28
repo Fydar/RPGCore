@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
-using RPGCore.Behaviour.Packages;
+using RPGCore.Packages;
 
 public static class ContentDatabase
 {

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using RPGCore.Behaviour.Packages;
+using RPGCore.Packages;
 
 public static class IPackageAssetExtensions
 {

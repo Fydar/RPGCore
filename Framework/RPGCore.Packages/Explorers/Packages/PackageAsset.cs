@@ -1,7 +1,7 @@
 using System;
 using System.IO.Compression;
 
-namespace RPGCore.Behaviour.Packages
+namespace RPGCore.Packages
 {
 	public struct PackageAsset
 	{

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour.Manifest;
-using RPGCore.Behaviour.Packages;
+using RPGCore.Packages;
 using System;
 using System.IO;
 using System.Threading;

@@ -2,7 +2,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 
-namespace RPGCore.Behaviour.Packages
+namespace RPGCore.Packages
 {
 	public struct PackageResource
 	{
