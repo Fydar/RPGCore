@@ -90,7 +90,7 @@ namespace RPGCore.Behaviour.Packages
 					}
 
 					string pathPrefix = null;
-					var pathEntries = new List<string> ();
+					var pathEntries = new List<ZipArchiveEntry> ();
 					foreach (var projectEntry in archive.Entries)
 					{
 						int pathPrefixIndex = projectEntry.FullName.IndexOf ('/');
@@ -111,7 +111,7 @@ namespace RPGCore.Behaviour.Packages
 							package.Folders.Add (folder);
 							pathPrefix = newPathIndex;
 						}
-						pathEntries.Add (projectEntry.FullName);
+						pathEntries.Add (projectEntry);
 					}
 					if (pathEntries.Count != 0)
 					{

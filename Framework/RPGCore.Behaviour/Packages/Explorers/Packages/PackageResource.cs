@@ -7,6 +7,9 @@ namespace RPGCore.Behaviour.Packages
 	{
 		private readonly PackageExplorer Package;
 		private readonly string PackageKey;
+		
+		public long CompressedSize { get; }
+		public long UncompressedSize { get; }
 
 		public string Name
 		{
@@ -16,10 +19,13 @@ namespace RPGCore.Behaviour.Packages
 			}
 		}
 
-		public PackageResource (PackageExplorer package, string packageKey)
+		public PackageResource (PackageExplorer package, ZipArchiveEntry packageEntry)
 		{
 			Package = package;
-			PackageKey = packageKey;
+			PackageKey = packageEntry.FullName;
+
+			CompressedSize = packageEntry.CompressedLength;
+			UncompressedSize = packageEntry.Length;
 		}
 
 		public override string ToString ()
