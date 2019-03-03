@@ -20,6 +20,7 @@
     <None Remove="app\Content\js\bootstrap.min.js" />
     <None Remove="app\Content\js\jquery.min.js" />
     <None Remove="app\Content\js\tether.min.js" />
+    <None Remove="Content\Core.bpkg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +35,9 @@
     </Content>
     <Content Include="app\Content\js\tether.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Core.bpkg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

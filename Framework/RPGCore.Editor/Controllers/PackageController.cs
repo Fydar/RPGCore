@@ -1,6 +1,7 @@
 ﻿using Chromely.Core.RestfulService;
 using RPGCore.Packages;
 using System;
+using System.Collections;
 
 namespace Chromely.CefSharp.Win.Controllers
 {
@@ -11,34 +12,64 @@ namespace Chromely.CefSharp.Win.Controllers
 
 		public PackageController ()
 		{
-			RegisterGetRequest ("/package/icon.png", GetPackageIcon);
+			RegisterGetRequest ("/package/icon", GetPackageIcon);
+
+			Console.WriteLine ("Exported package...");
+			explorer = PackageExplorer.Load ("Content/Core.bpkg");
+			foreach (var folder in explorer.Folders)
+			{
+				Console.WriteLine (folder.Root);
+				foreach (var asset in folder.Assets)
+				{
+					Console.WriteLine ("\t" + asset.ToString ());
+				}
+			}
 		}
 		
 		private ChromelyResponse GetPackageIcon (ChromelyRequest request)
 		{
-			string assetId = (string)request.Parameters["Asset"];
-
-			PackageResource iconResource = default(PackageResource);
-			foreach(var asset in explorer.Folders)
+			Console.WriteLine ("ad");
+			try
 			{
-				if (asset.Root == assetId)
+				Console.WriteLine ($"--------");
+				foreach (var kvp in request.Parameters)
 				{
-					foreach (var resource in asset.Assets)
+					Console.WriteLine ($"{kvp.Key}: {kvp.Value}");
+				}
+				Console.WriteLine ($"--------");
+
+				string assetId = (string)request.Parameters["Asset"];
+				Console.WriteLine (assetId);
+				Console.WriteLine ($"--------");
+
+				PackageResource iconResource = default (PackageResource);
+				foreach (var asset in explorer.Folders)
+				{
+					if (asset.Root == assetId)
 					{
-						if (resource.Name.EndsWith (".png", StringComparison.Ordinal))
+						foreach (var resource in asset.Assets)
 						{
-							iconResource = resource;
-							continue;
+							if (resource.Name.EndsWith (".png", StringComparison.Ordinal))
+							{
+								iconResource = resource;
+								Console.WriteLine (resource.Name);
+								continue;
+							}
 						}
 					}
 				}
-			}
 
-			ChromelyResponse response = new ChromelyResponse (request.Id)
+				ChromelyResponse response = new ChromelyResponse (request.Id)
+				{
+					Data = Convert.ToBase64String (iconResource.LoadData ())
+				};
+				return response;
+			}
+			catch(Exception e)
 			{
-				Data = iconResource.LoadData ()
-			};
-			return response;
+				Console.WriteLine (e);
+				return null;
+			}
 		}
 	}
 }
