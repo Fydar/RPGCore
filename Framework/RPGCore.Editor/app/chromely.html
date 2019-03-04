@@ -46,54 +46,13 @@
                 demoframe.src = url;
             });
         });
-
-        function demoRun() {
-            $("#demoPage").removeClass('hidden');
-            $("#homePage").addClass('hidden');
-        }
-
-        function backToHomePage() {
-            $("#homePage").removeClass('hidden');
-            $("#demoPage").addClass('hidden');
-        }
     </script>
 </head>
 <body>
     <div id="maincontainer" class="container centerBlock">
 
-        <!-- Home Page -->
-        <div id="homePage" class="col-12 centerBlock">
-            <div class="col-12">
-                <div class="centerBlock">
-                    <div class="row centerBlock">
-                        <img src="./Content/img/chromely.png" class="img-rounded" alt="Cinque Terre" width="240" height="240">
-                    </div>
-                    <div class="row centerBlock">
-                        <span class="text-primary text-center"><h2>chromely</h2></span>
-                    </div>
-                    <div class="row centerBlock">
-                        <p class="text-muted text-center">Build .NET/.NET CORE HTML5 Desktop Apps</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12" style='padding:20px;'>
-                <div id="runButton" class="centerBlock">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="info">Demos:</label>
-                        </div>
-                        <button id="buttonDemoRun" type="button" class="btn btn-primary" onclick="demoRun()" style='margin: 5px;'>Run</button>
-                    </form>
-                    <div class="row centerBlock">
-                        <a href="https://github.com/mattkol/Chromely" class="btn btn-default" role="button" style='margin: 5px;'>more info</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Demo Page -->
-        <div id="demoPage" class="col-12  hidden">
+        <div id="demoPage" class="col-12">
             <div class="row" style="height:25px;"></div>
 
             <!-- Demo Pages Nav -->

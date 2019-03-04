@@ -76,6 +76,7 @@ namespace Chromely.CefSharp.Win
 											  .UseDefaultLogger ("logs\\chromely_new.log")
 											  .UseDefaultResourceSchemeHandler ("local", string.Empty)
 											  .UseDefaultHttpSchemeHandler ("http", "chromely.com")
+											  .WithDebuggingMode (true)
 
 											  // The single process should only be used for debugging purpose.
 											  // For production, this should not be needed when the app is published and an cefglue_winapi_netcoredemo.exe 

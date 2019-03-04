@@ -1,7 +1,8 @@
 ﻿using Chromely.Core.RestfulService;
 using RPGCore.Packages;
 using System;
-using System.Collections;
+using System.Collections.Generic;
+using LitJson;
 
 namespace Chromely.CefSharp.Win.Controllers
 {
@@ -13,6 +14,7 @@ namespace Chromely.CefSharp.Win.Controllers
 		public PackageController ()
 		{
 			RegisterGetRequest ("/package/icon", GetPackageIcon);
+			RegisterGetRequest ("/package/list", ListAllAssets);
 
 			Console.WriteLine ("Exported package...");
 			explorer = PackageExplorer.Load ("Content/Core.bpkg");
@@ -25,34 +27,61 @@ namespace Chromely.CefSharp.Win.Controllers
 				}
 			}
 		}
-		
-		private ChromelyResponse GetPackageIcon (ChromelyRequest request)
+
+		class ListAllAssetsResponse
 		{
-			Console.WriteLine ("ad");
+			public List<string> Assets;
+
+			public ListAllAssetsResponse (List<string> assets)
+			{
+				Assets = assets;
+			}
+		}
+
+		private ChromelyResponse ListAllAssets (ChromelyRequest request)
+		{
 			try
 			{
-				Console.WriteLine ($"--------");
-				foreach (var kvp in request.Parameters)
+				var assets = new List<string> ();
+				foreach (var asset in explorer.Folders)
 				{
-					Console.WriteLine ($"{kvp.Key}: {kvp.Value}");
+					assets.Add (asset.Root);
 				}
-				Console.WriteLine ($"--------");
 
-				string assetId = (string)request.Parameters["Asset"];
-				Console.WriteLine (assetId);
-				Console.WriteLine ($"--------");
+				ChromelyResponse response = new ChromelyResponse (request.Id)
+				{
+					Data = new ListAllAssetsResponse (assets)
+				};
+				return response;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine (e);
+				return null;
+			}
+		}
+
+		private ChromelyResponse GetPackageIcon (ChromelyRequest request)
+		{
+			try
+			{
+				var parametersData = (Dictionary<string, JsonData>.KeyCollection)request.Parameters["Keys"];
+				string key = null;
+				foreach (var paramKey in parametersData)
+				{
+					key = paramKey;
+				}
 
 				PackageResource iconResource = default (PackageResource);
 				foreach (var asset in explorer.Folders)
 				{
-					if (asset.Root == assetId)
+					if (asset.Root == key)
 					{
 						foreach (var resource in asset.Assets)
 						{
 							if (resource.Name.EndsWith (".png", StringComparison.Ordinal))
 							{
 								iconResource = resource;
-								Console.WriteLine (resource.Name);
 								continue;
 							}
 						}
@@ -65,7 +94,7 @@ namespace Chromely.CefSharp.Win.Controllers
 				};
 				return response;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Console.WriteLine (e);
 				return null;
