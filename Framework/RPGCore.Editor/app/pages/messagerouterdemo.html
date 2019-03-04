@@ -10,83 +10,74 @@
     <script src="../Content/js/tether.min.js"></script>
     <script src="../Content/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        function messageRouterResult2(res) {
-            $('#messageRouterResult2 tbody').empty();
-            var jsonData = JSON.parse(res);
-            if (jsonData.ReadyState == 4 && jsonData.Status == 200) {
-                for (var i = 0; i < jsonData.Data.length; i++) {
-                    var row = '<tr>';
 
-                    row += '<td>' + jsonData.Data[i].Id + '</td>';
-                    row += '<td>' + jsonData.Data[i].Title + '</td>';
-                    row += '<td>' + jsonData.Data[i].Year + '</td>';
-                    row += '<td>' + jsonData.Data[i].Votes + '</td>';
-                    row += '<td>' + jsonData.Data[i].Rating + '</td>';
-                    row += '<td>' + jsonData.Data[i].Date + '</td>';
-                    row += '<td>' + jsonData.Data[i].RestfulAssembly + '</td>';
+        function LoadPackage(packageId) {
 
-                    row += '</tr>';
-                    $('#messageRouterResult2 tbody').append(row);
-                }
-            }
-        }
-
-        function messageRouterRun2() {
-            $('#messageRouterResult2 tbody').html('');
+            var requestParameters = {};
+            requestParameters[packageId] = packageId;
 
             var request = {
                 "method": "GET",
-                "url": "/package/icon",
-                "parameters": { Asset: "Longsword" },
+                "url": "/package/list",
+                "parameters": requestParameters,
                 "postData": null,
             };
-
-            console.log(JSON.stringify(request));
             window.cefQuery({
                 request: JSON.stringify(request),
                 onSuccess: function (response) {
-                    console.log(response);
-                    messageRouterResult2(response);
+
+                    var jsonData = JSON.parse(response);
+
+                    for (var key in jsonData.Data.Assets) {
+                        var value = jsonData.Data.Assets[key];
+
+                        AddAssetToList(value);
+                    }
                 }, onFailure: function (err, msg) {
                     console.log(err, msg);
                 }
             });
         }
 
+        function AddAssetToList(id) {
+
+            var requestParameters = {};
+            requestParameters[id] = id;
+
+            var request = {
+                "method": "GET",
+                "url": "/package/icon",
+                "parameters": requestParameters,
+                "postData": null,
+            };
+
+            window.cefQuery({
+                request: JSON.stringify(request),
+                onSuccess: function (response) {
+
+                    var jsonData = JSON.parse(response);
+                    $('#assetGrid').append('<div class="col-2"><p>' + id + '</p><img src="data:image/png;base64, ' + jsonData.Data + '" /></div>');
+
+                }, onFailure: function (err, msg) {
+                    console.log(err, msg);
+                }
+            });
+        }
+        LoadPackage("AAAA");
     </script>
 </head>
 <body>
-    <div class="col-9 centerBlock">
-        <div class="row">
-            <div class="col-12">
-                Route Path:&ensp;/externalcontroller/movies &ensp;(Restful Service in External Assembly)&ensp;<button id="buttonMessageRouterRun2" type="button" class="btn btn-primary btn-sm" onclick="messageRouterRun2()">Run</button>
-            </div>
-            <div style="height:100px;"></div>
-            <div class="col-12">
-                <div class='table-responsive'>
-                    <table id="messageRouterResult2" class='table'>
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Title</th>
-                                <th>Year</th>
-                                <th>Votes</th>
-                                <th>Rating</th>
-                                <th>Date</th>
-                                <th>RestfulAssembly</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+    <div class="col-12">
+        <button id="buttonAddAssetToList" type="button" class="btn btn-primary btn-sm" onclick="AddAssetToList('Longsword')">Run</button>
+
+        <div class="card">
+            <h5 class="card-header">Assets</h5>
+            <div class="card-body">
+                <div class="row" id="assetGrid">
+
                 </div>
             </div>
         </div>
     </div>
 </body>
 </html>
-
-
-
-
-
-
