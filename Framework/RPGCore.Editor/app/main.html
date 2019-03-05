@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>RPGCore Editor</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="Content/css/main.css" type="text/css">
+
+    <script src="Content/js/jquery.min.js"></script>
+    <script src="Content/js/tether.min.js"></script>
+
+    <style type="text/css">
+
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.listview a').on('click', function (e) {
+                e.preventDefault()
+                var url = $(this).attr("data-url"); // the remote url for content
+                demoframe.src = url;
+            });
+        });
+    </script>
+</head>
+<body>
+    <table class="page">
+        <tr>
+            <td width="215px">
+                <div class="explorer">
+                    <div class="header">
+                        Explorer
+                    </div>
+                    <div class="listview">
+                        <ul>
+                            <li>Longsword</li>
+                            <li>Fireball</li>
+                            <li>Ice Bolt</li>
+                            <li>Helmet</li>
+                        </ul>
+                        <a class="nav-link active" href="#info" data-url="./pages/info.html">Home</a>
+                        <a class="nav-link" href="#messagerouterdemo" data-url="./pages/messagerouterdemo.html">Assets</a>
+                    </div>
+                </div>
+            </td>
+
+            <td class="explorerDrag" width="3px"></td>
+
+            <td>
+                <div class="workarea">
+                    <iframe style="height: 99%; width: 100%;" id="demoframe" name="alldemoframe" src="./pages/messagerouterdemo.html" frameborder="0" />
+                    
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

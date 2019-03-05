@@ -1,44 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Program.cs" company="Chromely">
-//   Copyright (c) 2017-2018 Kola Oyewumi
-// </copyright>
-// <license>
-// MIT License
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-// </license>
-// <note>
-// Chromely project is licensed under MIT License. CefGlue, CefSharp, Winapi may have additional licensing.
-// </note>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using Chromely.CefGlue.Winapi;
+using Chromely.CefGlue.Winapi.ChromeHost;
+using Chromely.Core;
+using Chromely.Core.Helpers;
+using Chromely.Core.Infrastructure;
+using System;
+using System.Reflection;
+using WinApi.Windows;
 
-namespace Chromely.CefSharp.Win
+namespace RPGCore.Editor
 {
-	using Chromely.CefGlue.Winapi;
-	using Chromely.CefGlue.Winapi.ChromeHost;
-	using Chromely.Core;
-	using Chromely.Core.Helpers;
-	using Chromely.Core.Infrastructure;
-	using System;
-	using System.Reflection;
-	using WinApi.Windows;
-
 	class Program
 	{
 		static int Main (string[] args)
@@ -47,25 +17,8 @@ namespace Chromely.CefSharp.Win
 			{
 				HostHelpers.SetupDefaultExceptionHandlers ();
 
-				/*
-                * Start url (load html) options:
-                */
+				string startUrl = "local://app/main.html";
 
-				// Options 1 - real standard urls 
-				// string startUrl = "https://google.com";
-
-				// Options 2 - using local resource file handling with default/custom local scheme handler 
-				// Requires - (sample) UseDefaultResourceSchemeHandler("local", string.Empty)
-				//            or register new resource scheme handler - RegisterSchemeHandler("local", string.Empty,  new CustomResourceHandler())
-				string startUrl = "local://app/chromely.html";
-
-				// Options 3 - using file protocol - using default/custom scheme handler for Ajax/Http requests
-				// Requires - (sample) UseDefaultResourceSchemeHandler("local", string.Empty)
-				//            or register new resource handler - RegisterSchemeHandler("local", string.Empty,  new CustomResourceHandler())
-				// Requires - (sample) UseDefaultHttpSchemeHandler("http", "chromely.com")
-				//            or register new http scheme handler - RegisterSchemeHandler("http", "test.com",  new CustomHttpHandler())
-				// string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
-				// string startUrl = $"file:///{appDirectory}app/chromely.html";
 				ChromelyConfiguration config = ChromelyConfiguration
 											  .Create ()
 											  .WithAppArgs (args)

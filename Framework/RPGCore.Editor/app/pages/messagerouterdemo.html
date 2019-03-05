@@ -1,14 +1,16 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Chromely</title>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Chromely</title>
-    <link rel="stylesheet" href="../Content/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="Content/css/main.css" type="text/css">
+
     <script src="../Content/js/jquery.min.js"></script>
     <script src="../Content/js/tether.min.js"></script>
-    <script src="../Content/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 
         function LoadPackage(packageId) {
@@ -56,7 +58,7 @@
                 onSuccess: function (response) {
 
                     var jsonData = JSON.parse(response);
-                    $('#assetGrid').append('<div class="col-2"><p>' + id + '</p><img src="data:image/png;base64, ' + jsonData.Data + '" /></div>');
+                    $('#assetGrid').append('<div><p>' + id + '</p><img src="data:image/png;base64, ' + jsonData.Data + '" /></div>');
 
                 }, onFailure: function (err, msg) {
                     console.log(err, msg);
@@ -67,13 +69,13 @@
     </script>
 </head>
 <body>
-    <div class="col-12">
-        <button id="buttonAddAssetToList" type="button" class="btn btn-primary btn-sm" onclick="AddAssetToList('Longsword')">Run</button>
+    <div>
+        <button id="buttonAddAssetToList" type="button" onclick="AddAssetToList('Longsword')">Run</button>
 
-        <div class="card">
-            <h5 class="card-header">Assets</h5>
-            <div class="card-body">
-                <div class="row" id="assetGrid">
+        <div>
+            <h5>Assets</h5>
+            <div>
+                <div id="assetGrid">
 
                 </div>
             </div>
