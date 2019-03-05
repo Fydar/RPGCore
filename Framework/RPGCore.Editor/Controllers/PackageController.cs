@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using LitJson;
 
-namespace Chromely.CefSharp.Win.Controllers
+namespace RPGCore.Editor.Controllers
 {
 	[ControllerProperty (Name = "PackageController", Route = "package")]
 	public class PackageController : ChromelyController
 	{
-		PackageExplorer explorer;
+		readonly PackageExplorer explorer;
 
 		public PackageController ()
 		{
