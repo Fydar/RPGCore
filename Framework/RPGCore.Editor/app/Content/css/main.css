@@ -18,7 +18,7 @@
 
 .explorer {
     height: 100%;
-    background-color: #eeeeee;
+    background-color: #fff;
 }
 
     .explorer .header {
@@ -32,8 +32,15 @@
 }
 
 .workarea {
-    background-color: #e7e7e7;
     height: 100vh;
+    background-color: #fcfcfc;
+    background-image:
+        linear-gradient(#ddd 2px, transparent 2px),
+        linear-gradient(90deg, #ddd 2px, transparent 2px),
+        linear-gradient(rgba(160,160,160,.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(160,160,160,.3) 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;
 }
 
 .listview ul {
