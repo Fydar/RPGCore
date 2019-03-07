@@ -19,11 +19,11 @@ public class AssetRenderer : MonoBehaviour
 
 	public static PackageResource FindIcon (PackageAsset asset)
 	{
-		for (int i = 0; i < asset.Assets.Length; i++)
+		for (int i = 0; i < asset.Resources.Length; i++)
 		{
-			if (asset.Assets[i].Name.EndsWith (".png", System.StringComparison.Ordinal))
+			if (asset.Resources[i].Name.EndsWith (".png", System.StringComparison.Ordinal))
 			{
-				return asset.Assets[i];
+				return asset.Resources[i];
 			}
 		}
 		return default (PackageResource);

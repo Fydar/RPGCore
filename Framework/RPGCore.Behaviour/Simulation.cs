@@ -49,12 +49,12 @@ namespace RPGCore.Behaviour
 			var proj = ProjectExplorer.Load ("Content/Core");
 			Console.WriteLine (proj.Name);
 			Console.WriteLine ("\t\"" + proj.Name + "\"");
-			foreach (var folder in proj.Folders)
+			foreach (var asset in proj.Assets)
 			{
-				Console.WriteLine ("\t" + folder.Archive.Name);
-				foreach (var asset in folder.Assets)
+				Console.WriteLine ("\t" + asset.Archive.Name);
+				foreach (var resource in asset.Resources)
 				{
-					Console.WriteLine ("\t\t" + asset);
+					Console.WriteLine ("\t\t" + resource);
 				}
 			}
 
@@ -62,12 +62,12 @@ namespace RPGCore.Behaviour
 
 			Console.WriteLine ("Exported package...");
 			var exportedPackage = PackageExplorer.Load ("Content/Core.bpkg");
-			foreach (var folder in exportedPackage.Folders)
+			foreach (var asset in exportedPackage.Assets)
 			{
-				Console.WriteLine (folder.Root);
-				foreach (var asset in folder.Assets)
+				Console.WriteLine (asset.Root);
+				foreach (var resource in asset.Resources)
 				{
-					Console.WriteLine ("\t" + asset.ToString ());
+					Console.WriteLine ("\t" + resource.ToString ());
 				}
 			}
 

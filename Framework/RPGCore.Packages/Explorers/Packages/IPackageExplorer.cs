@@ -5,6 +5,6 @@
 		string Name { get; }
 		string Version { get; }
 		PackageDependancy[] Dependancies { get; }
-		IPackageAssetCollection Folders { get; }
+		IPackageAssetCollection Assets { get; }
 	}
 }
