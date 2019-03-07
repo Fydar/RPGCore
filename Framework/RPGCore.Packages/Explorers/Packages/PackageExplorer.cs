@@ -9,7 +9,7 @@ namespace RPGCore.Packages
 {
 	public class PackageExplorer : IPackageExplorer
 	{
-		private class PackageFolderCollection : IPackageAssetCollection
+		private class PackageAssetCollection : IPackageAssetCollection
 		{
 			private Dictionary<string, PackageAsset> items;
 
@@ -21,11 +21,11 @@ namespace RPGCore.Packages
 				}
 			}
 
-			public void Add (PackageAsset folder)
+			public void Add (PackageAsset asset)
 			{
 				if (items == null)
 					items = new Dictionary<string, PackageAsset> ();
-				items.Add (folder.ToString (), folder);
+				items.Add (asset.ToString (), asset);
 			}
 
 			public IEnumerator<PackageAsset> GetEnumerator ()
@@ -45,11 +45,11 @@ namespace RPGCore.Packages
 		public string Name => bProj.Name;
 		public string Version => bProj.Version;
 		public PackageDependancy[] Dependancies => bProj.Dependancies;
-		public IPackageAssetCollection Folders { get; private set; }
+		public IPackageAssetCollection Assets { get; private set; }
 
 		public PackageExplorer ()
 		{
-			Folders = new PackageFolderCollection ();
+			Assets = new PackageAssetCollection ();
 		}
 
 		public byte[] OpenAsset(string packageKey)
@@ -106,17 +106,17 @@ namespace RPGCore.Packages
 
 						if (pathPrefix != newPathIndex)
 						{
-							var folder = new PackageAsset (package, pathPrefix, pathEntries.ToArray ());
+							var asset = new PackageAsset (package, pathPrefix, pathEntries.ToArray ());
 							pathEntries.Clear ();
-							package.Folders.Add (folder);
+							package.Assets.Add (asset);
 							pathPrefix = newPathIndex;
 						}
 						pathEntries.Add (projectEntry);
 					}
 					if (pathEntries.Count != 0)
 					{
-						var folder = new PackageAsset (package, pathPrefix, pathEntries.ToArray ());
-						package.Folders.Add (folder);
+						var asset = new PackageAsset (package, pathPrefix, pathEntries.ToArray ());
+						package.Assets.Add (asset);
 					}
 				}
 			}

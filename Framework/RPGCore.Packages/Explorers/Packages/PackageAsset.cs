@@ -7,17 +7,17 @@ namespace RPGCore.Packages
 	{
 		public PackageExplorer Package;
 		public readonly string Root;
-		public readonly PackageResource[] Assets;
+		public readonly PackageResource[] Resources;
 
 		public PackageAsset (PackageExplorer package, string root, ZipArchiveEntry[] entries)
 		{
 			Package = package;
 			Root = root;
 
-			Assets = new PackageResource[entries.Length];
+			Resources = new PackageResource[entries.Length];
 			for (int i = 0; i < entries.Length; i++)
 			{
-				Assets[i] = new PackageResource (package, entries[i]);
+				Resources[i] = new PackageResource (package, entries[i]);
 			}
 		}
 
@@ -28,12 +28,11 @@ namespace RPGCore.Packages
 
 		public PackageResource GetResource(string path)
 		{
-			foreach (var asset in Assets)
+			foreach (var resource in Resources)
 			{
-				Console.WriteLine(asset.Name + " - " + Root);
-				if (asset.Name.Substring(Root.Length) == path)
+				if (resource.Name.Substring(Root.Length) == path)
 				{
-					return asset;
+					return resource;
 				}
 			}
 			return default(PackageResource);

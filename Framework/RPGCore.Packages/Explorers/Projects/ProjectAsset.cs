@@ -5,7 +5,7 @@ namespace RPGCore.Packages
 	public struct ProjectAsset
 	{
 		public readonly DirectoryInfo Archive;
-		public readonly ProjectResource[] Assets;
+		public readonly ProjectResource[] Resources;
 
 		public ProjectAsset (DirectoryInfo folder)
 		{
@@ -13,11 +13,28 @@ namespace RPGCore.Packages
 
 			var files = folder.GetFiles ("*", SearchOption.AllDirectories);
 
-			Assets = new ProjectResource[files.Length];
+			Resources = new ProjectResource[files.Length];
 			for (int i = 0; i < files.Length; i++)
 			{
-				Assets[i] = new ProjectResource (files[i]);
+				Resources[i] = new ProjectResource (files[i]);
 			}
+		}
+
+		public override string ToString ()
+		{
+			return Archive.Name;
+		}
+
+		public ProjectResource GetResource(string path)
+		{
+			foreach (var Resources in Resources)
+			{
+				if (Archive.Name == path)
+				{
+					return Resources;
+				}
+			}
+			return default(ProjectResource);
 		}
 	}
 }
