@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="app\chromely.html">
+    <None Update="app\main.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="app\chromely_with_ajax.html">
