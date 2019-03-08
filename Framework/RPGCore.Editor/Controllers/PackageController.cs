@@ -18,10 +18,10 @@ namespace RPGCore.Editor.Controllers
 
 			Console.WriteLine ("Exported package...");
 			explorer = PackageExplorer.Load ("Content/Core.bpkg");
-			foreach (var folder in explorer.Folders)
+			foreach (var folder in explorer.Assets)
 			{
 				Console.WriteLine (folder.Root);
-				foreach (var asset in folder.Assets)
+				foreach (var asset in folder.Resources)
 				{
 					Console.WriteLine ("\t" + asset.ToString ());
 				}
@@ -43,7 +43,7 @@ namespace RPGCore.Editor.Controllers
 			try
 			{
 				var assets = new List<string> ();
-				foreach (var asset in explorer.Folders)
+				foreach (var asset in explorer.Assets)
 				{
 					assets.Add (asset.Root);
 				}
@@ -73,11 +73,11 @@ namespace RPGCore.Editor.Controllers
 				}
 
 				PackageResource iconResource = default (PackageResource);
-				foreach (var asset in explorer.Folders)
+				foreach (var asset in explorer.Assets)
 				{
 					if (asset.Root == key)
 					{
-						foreach (var resource in asset.Assets)
+						foreach (var resource in asset.Resources)
 						{
 							if (resource.Name.EndsWith (".png", StringComparison.Ordinal))
 							{
