@@ -18,12 +18,12 @@ namespace RPGCore.Editor.Controllers
 
 			Console.WriteLine ("Exported package...");
 			explorer = PackageExplorer.Load ("Content/Core.bpkg");
-			foreach (var folder in explorer.Assets)
+			foreach (var asset in explorer.Assets)
 			{
-				Console.WriteLine (folder.Root);
-				foreach (var asset in folder.Resources)
+				Console.WriteLine (asset.Root);
+				foreach (var resources in asset.Resources)
 				{
-					Console.WriteLine ("\t" + asset.ToString ());
+					Console.WriteLine ("\t" + resources.ToString ());
 				}
 			}
 		}

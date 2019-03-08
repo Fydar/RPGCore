@@ -24,9 +24,9 @@ namespace RPGCore.Editor
 											  .WithAppArgs (args)
 											  .WithHostSize (1200, 900)
 											  .WithLogFile ("logs\\chromely.cef_new.log")
+											  .UseDefaultLogger ("logs\\chromely_new.log")
 											  .WithStartUrl (startUrl)
 											  .WithLogSeverity (LogSeverity.Info)
-											  .UseDefaultLogger ("logs\\chromely_new.log")
 											  .UseDefaultResourceSchemeHandler ("local", string.Empty)
 											  .UseDefaultHttpSchemeHandler ("http", "chromely.com")
 											  .WithDebuggingMode (true)
@@ -52,8 +52,8 @@ namespace RPGCore.Editor
 					window.RegisterServiceAssembly (Assembly.GetExecutingAssembly ());
 
 					// Register external assemblies directory:
-					string serviceAssembliesFolder = @"C:\ChromelyDlls";
-					window.RegisterServiceAssemblies (serviceAssembliesFolder);
+					// string serviceAssembliesFolder = @"C:\ChromelyDlls";
+					// window.RegisterServiceAssemblies (serviceAssembliesFolder);
 
 					// Scan assemblies for Controller routes 
 					window.ScanAssemblies ();
