@@ -1,13 +1,20 @@
-using System;
 using System.IO.Compression;
 
 namespace RPGCore.Packages
 {
-	public struct PackageAsset
+	public struct PackageAsset : IAsset
 	{
 		public PackageExplorer Package;
 		public readonly string Root;
 		public readonly PackageResource[] Resources;
+
+		public string Name
+		{
+			get
+			{
+				return Root;
+			}
+		}
 
 		public PackageAsset (PackageExplorer package, string root, ZipArchiveEntry[] entries)
 		{
@@ -21,21 +28,21 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public override string ToString ()
-		{
-			return Root;
-		}
-
-		public PackageResource GetResource(string path)
+		public IResource GetResource (string path)
 		{
 			foreach (var resource in Resources)
 			{
-				if (resource.Name.Substring(Root.Length) == path)
+				if (resource.Name.Substring (Root.Length) == path)
 				{
 					return resource;
 				}
 			}
-			return default(PackageResource);
+			return default (PackageResource);
+		}
+
+		public override string ToString ()
+		{
+			return Name;
 		}
 	}
 }

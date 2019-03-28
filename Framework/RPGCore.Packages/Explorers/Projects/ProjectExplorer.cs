@@ -8,7 +8,7 @@ using System.Text;
 
 namespace RPGCore.Packages
 {
-	public class ProjectExplorer
+	public class ProjectExplorer : IPackageExplorer
 	{
 		private class ProjectFolderCollection : IProjectAssetCollection
 		{
@@ -47,6 +47,8 @@ namespace RPGCore.Packages
 		public string Version => bProj.Version;
 		public PackageDependancy[] Dependancies => bProj.Dependancies;
 		public IProjectAssetCollection Assets { get; private set; }
+
+		IPackageAssetCollection IPackageExplorer.Assets => (IPackageAssetCollection)Assets;
 
 		public ProjectExplorer ()
 		{

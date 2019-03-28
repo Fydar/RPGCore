@@ -2,10 +2,12 @@ using System.IO;
 
 namespace RPGCore.Packages
 {
-	public struct ProjectAsset
+	public struct ProjectAsset : IAsset
 	{
 		public readonly DirectoryInfo Archive;
 		public readonly ProjectResource[] Resources;
+
+		public string Name => Archive.Name;
 
 		public ProjectAsset (DirectoryInfo folder)
 		{
@@ -20,21 +22,21 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public override string ToString ()
+		public IResource GetResource (string path)
 		{
-			return Archive.Name;
-		}
-
-		public ProjectResource GetResource(string path)
-		{
-			foreach (var Resources in Resources)
+			foreach (var resource in Resources)
 			{
 				if (Archive.Name == path)
 				{
-					return Resources;
+					return resource;
 				}
 			}
-			return default(ProjectResource);
+			return default (ProjectResource);
+		}
+
+		public override string ToString ()
+		{
+			return Archive.Name;
 		}
 	}
 }

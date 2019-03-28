@@ -52,20 +52,18 @@ namespace RPGCore.Packages
 			Assets = new PackageAssetCollection ();
 		}
 
-		public byte[] OpenAsset(string packageKey)
+		public byte[] OpenAsset (string packageKey)
 		{
 			using (var fileStream = new FileStream (Path, FileMode.Open, FileAccess.Read, FileShare.Read))
+			using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true))
 			{
-				using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true))
-				{
-					var entry = archive.GetEntry (packageKey);
+				var entry = archive.GetEntry (packageKey);
 
-					byte[] buffer = new byte[entry.Length];
-					using (var zipStream = entry.Open ())
-					{
-						zipStream.Read (buffer, 0, (int)entry.Length);
-						return buffer;
-					}
+				byte[] buffer = new byte[entry.Length];
+				using (var zipStream = entry.Open ())
+				{
+					zipStream.Read (buffer, 0, (int)entry.Length);
+					return buffer;
 				}
 			}
 		}
