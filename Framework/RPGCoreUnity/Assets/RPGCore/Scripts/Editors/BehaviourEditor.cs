@@ -27,7 +27,7 @@ namespace RPGCore.Unity.Editors
 
             var explorer = CurrentPackage.Explorer;
 
-            foreach(var asset in explorer.Folders)
+            foreach(var asset in explorer.Assets)
             {
                 if (GUILayout.Button(asset.ToString()))
                 {
@@ -52,11 +52,11 @@ namespace RPGCore.Unity.Editors
 
 	    public static PackageResource FindBhvr (PackageAsset asset)
         {
-            for (int i = 0; i < asset.Assets.Length; i++)
+            for (int i = 0; i < asset.Resources.Length; i++)
             {
-                if (asset.Assets[i].Name.EndsWith (".bhvr", System.StringComparison.Ordinal))
+                if (asset.Resources[i].Name.EndsWith (".bhvr", System.StringComparison.Ordinal))
                 {
-                    return asset.Assets[i];
+                    return asset.Resources[i];
                 }
             }
             return default (PackageResource);

@@ -14,7 +14,7 @@ public class AssetBrowser : MonoBehaviour
 	{
 		var explorer = Package.Explorer;
 
-		foreach (var asset in explorer.Asset)
+		foreach (var asset in explorer.Assets)
 		{
 			var assetRenderer = Assets.Grab (Holder);
 			assetRenderer.Render (asset);

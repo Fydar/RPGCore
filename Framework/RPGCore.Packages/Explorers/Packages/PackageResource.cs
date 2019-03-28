@@ -42,7 +42,7 @@ namespace RPGCore.Packages
 		public Task<byte[]> LoadDataAsync()
 		{
 			var pkg = Package;
-			var pkgKey = PackageKey;
+			string pkgKey = PackageKey;
 			return Task.Run(() => pkg.OpenAsset(pkgKey));
 		}
 	}

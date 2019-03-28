@@ -21,5 +21,10 @@ namespace RPGCore.Unity
 				return explorer;
 			}
 		}
+
+		public void Reload()
+		{
+			explorer = null;
+		}
 	}
 }

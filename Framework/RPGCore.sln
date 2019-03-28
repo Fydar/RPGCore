@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Behaviour", "RPGCor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Behaviour.UnitTests", "RPGCore.Behaviour.UnitTests\RPGCore.Behaviour.UnitTests.csproj", "{B823B7EA-D10E-4E2B-AE46-16CDA1D7C5B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Editor", "RPGCore.Editor\RPGCore.Editor.csproj", "{ED645D4D-5A8E-4376-AA55-CBAFC4594B1B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Packages", "RPGCore.Packages\RPGCore.Packages.csproj", "{A74F918B-D16F-4EE9-B988-2981A38FD72A}"
 EndProject
 Global
@@ -44,12 +42,6 @@ Global
 		{B823B7EA-D10E-4E2B-AE46-16CDA1D7C5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B823B7EA-D10E-4E2B-AE46-16CDA1D7C5B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B823B7EA-D10E-4E2B-AE46-16CDA1D7C5B1}.Release|x64.ActiveCfg = Release|Any CPU
-		{ED645D4D-5A8E-4376-AA55-CBAFC4594B1B}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{ED645D4D-5A8E-4376-AA55-CBAFC4594B1B}.Debug|x64.ActiveCfg = Debug|x64
-		{ED645D4D-5A8E-4376-AA55-CBAFC4594B1B}.Debug|x64.Build.0 = Debug|x64
-		{ED645D4D-5A8E-4376-AA55-CBAFC4594B1B}.Release|Any CPU.ActiveCfg = Release|x64
-		{ED645D4D-5A8E-4376-AA55-CBAFC4594B1B}.Release|x64.ActiveCfg = Release|x64
-		{ED645D4D-5A8E-4376-AA55-CBAFC4594B1B}.Release|x64.Build.0 = Release|x64
 		{A74F918B-D16F-4EE9-B988-2981A38FD72A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A74F918B-D16F-4EE9-B988-2981A38FD72A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A74F918B-D16F-4EE9-B988-2981A38FD72A}.Debug|x64.ActiveCfg = Debug|Any CPU

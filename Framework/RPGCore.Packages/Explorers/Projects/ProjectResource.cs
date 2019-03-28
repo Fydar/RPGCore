@@ -38,7 +38,7 @@ namespace RPGCore.Packages
 
 		public Task<byte[]> LoadDataAsync()
 		{
-			var filePath = Entry.FullName;
+			string filePath = Entry.FullName;
 			return Task.Run(() => File.ReadAllBytes(filePath));
 		}
 	}
