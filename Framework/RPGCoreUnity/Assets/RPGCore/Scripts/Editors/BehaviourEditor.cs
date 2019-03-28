@@ -23,7 +23,7 @@ namespace RPGCore.Unity.Editors
 
         public void OnGUI()
         {
-            CurrentPackage = (PackageImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(PackageImport));
+            CurrentPackage = (PackageImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(PackageImport), true);
 
             var explorer = CurrentPackage.Explorer;
 
