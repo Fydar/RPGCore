@@ -55,7 +55,7 @@ namespace RPGCore.Packages
 
 		public static ProjectExplorer Load (string path)
 		{
-			var rootFiles = Directory.GetFiles (path);
+			string[] rootFiles = Directory.GetFiles (path);
 			string bprojPath = null;
 			for (int i = 0; i < rootFiles.Length; i++)
 			{
@@ -72,8 +72,8 @@ namespace RPGCore.Packages
 				bProj = BProjModel.Load (bprojPath)
 			};
 
-			var directories = Directory.GetDirectories (path);
-			foreach (var folder in directories)
+			string[] directories = Directory.GetDirectories (path);
+			foreach (string folder in directories)
 			{
 				var directoryInfo = new DirectoryInfo (folder);
 				var projectFolder = new ProjectAsset (directoryInfo);
@@ -95,7 +95,7 @@ namespace RPGCore.Packages
 					using (var zipStream = manifest.Open ())
 					{
 						string json = JsonConvert.SerializeObject (bProj);
-						var bytes = Encoding.UTF8.GetBytes (json);
+						byte[] bytes = Encoding.UTF8.GetBytes (json);
 						zipStream.Write (bytes, 0, bytes.Length);
 					}
 
@@ -103,7 +103,7 @@ namespace RPGCore.Packages
 					{
 						foreach (var resource in asset.Resources)
 						{
-							archive.CreateEntryFromFile (resource.Entry.FullName, asset.Archive.Name + "/" + asset.ToString (), CompressionLevel.Fastest);
+							archive.CreateEntryFromFile (resource.Entry.FullName, asset.Archive.Name + "/" + resource.Name, CompressionLevel.Fastest);
 							Console.WriteLine ("Exported " + resource);
 						}
 					}
