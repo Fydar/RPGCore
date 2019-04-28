@@ -41,6 +41,38 @@ namespace RPGCore.Unity.Editors
 			{
 				packageImport.Reload ();
 			}
+
+			if (GUILayout.Button ("Create"))
+			{
+				string path = AssetDatabase.GetAssetPath (target);
+				path = path.Substring (0, path.LastIndexOf ('/'));
+				Debug.Log (path);
+
+				foreach (var asset in packageImport.Explorer.Assets)
+				{
+					string assetFolder = path + "/" + asset.Root;
+					if (!AssetDatabase.IsValidFolder (assetFolder))
+					{
+						assetFolder = AssetDatabase.CreateFolder (path, asset.Root);
+						assetFolder = AssetDatabase.GUIDToAssetPath (assetFolder);
+					}
+
+					string assetImportPath = assetFolder + "/" + asset.Name + ".asset";
+
+					var assetImport = AssetDatabase.LoadAssetAtPath<AssetImport> (assetImportPath);
+					if (assetImport == null)
+					{
+						assetImport = CreateInstance<AssetImport> ();
+						AssetDatabase.CreateAsset (assetImport, assetImportPath);
+					}
+
+					var assetIcon = asset.FindIcon().LoadImage ();
+
+					AssetDatabase.AddObjectToAsset (assetIcon, assetImport);
+					AssetDatabase.ImportAsset (AssetDatabase.GetAssetPath (assetIcon));
+
+				}
+			}
 		}
 	}
 }

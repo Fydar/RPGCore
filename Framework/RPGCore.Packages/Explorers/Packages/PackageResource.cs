@@ -11,13 +11,7 @@ namespace RPGCore.Packages
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
 
-		public string Name
-		{
-			get
-			{
-				return PackageKey.Substring (PackageKey.LastIndexOf ('/') + 1);
-			}
-		}
+		public string Name { get; }
 
 		public PackageResource (PackageExplorer package, ZipArchiveEntry packageEntry)
 		{
@@ -26,6 +20,8 @@ namespace RPGCore.Packages
 
 			CompressedSize = packageEntry.CompressedLength;
 			UncompressedSize = packageEntry.Length;
+			
+			Name = PackageKey;
 		}
 
 		public byte[] LoadData ()
