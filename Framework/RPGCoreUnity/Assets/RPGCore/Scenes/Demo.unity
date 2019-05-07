@@ -1055,7 +1055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 597d74d404f8aa54199e12c2a34afccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Package: {fileID: 11400000, guid: deb022618d77b0b4d8afd6fc163df86c, type: 2}
+  Package: {fileID: 0}
   Holder: {fileID: 273230272}
   Assets:
     SampleButton: {fileID: 504694941}
@@ -1263,7 +1263,7 @@ MonoBehaviour:
   m_Sprite: {fileID: 21300000, guid: 1d345837af23c664297bde72c7bd250c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
-  m_FillCenter: 1
+  m_FillCenter: 0
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
