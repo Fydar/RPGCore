@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace RPGCore.Unity.Editors
@@ -65,6 +67,8 @@ namespace RPGCore.Unity.Editors
 						assetImport = CreateInstance<AssetImport> ();
 						AssetDatabase.CreateAsset (assetImport, assetImportPath);
 					}
+					
+					AssetImporter.GetAtPath (assetImportPath).SetAssetBundleNameAndVariant (target.name, "");
 
 					var assetIcon = asset.FindIcon().LoadImage ();
 
@@ -72,6 +76,20 @@ namespace RPGCore.Unity.Editors
 					AssetDatabase.ImportAsset (AssetDatabase.GetAssetPath (assetIcon));
 
 				}
+			}
+
+			if (GUILayout.Button ("Export"))
+			{
+				string path = AssetDatabase.GetAssetPath (target);
+				path = path.Substring (0, path.LastIndexOf ('/'));
+				string exportDirectory = path + "/" + target.name + DateTime.Now.ToString("ddmmyy");
+				if (!Directory.Exists (exportDirectory))
+				{
+					Directory.CreateDirectory (exportDirectory);
+				}
+				Debug.Log (exportDirectory);
+
+				var manifest = BuildPipeline.BuildAssetBundles (exportDirectory, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
 			}
 		}
 	}
