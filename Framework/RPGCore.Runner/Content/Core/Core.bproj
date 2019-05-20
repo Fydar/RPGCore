@@ -1,4 +1,26 @@
-{
-  "Name": "Core",
-  "Description": "Core"
-}
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <Properties>
+    <Name>Core</Name>
+    <Version>0.1.0</Version>
+  </Properties>
+
+  <Builds>
+  
+    <BuildTarget name="Client/Tools">
+
+    </BuildTarget>
+  
+    <BuildTarget name="Server">
+      <Exclude filename="*.png" />
+    </BuildTarget>
+
+  </Builds>
+
+  <References>
+    <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+    <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
+  </References>
+
+</Project>

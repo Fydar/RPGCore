@@ -52,7 +52,7 @@ namespace RPGCore.Behaviour
 			foreach (var asset in proj.Assets)
 			{
 				Console.WriteLine ("\t" + asset.Archive.Name);
-				foreach (var resource in asset.Resources)
+				foreach (var resource in asset.ProjectResources)
 				{
 					Console.WriteLine ("\t\t" + resource);
 				}
@@ -65,7 +65,7 @@ namespace RPGCore.Behaviour
 			foreach (var asset in exportedPackage.Assets)
 			{
 				Console.WriteLine (asset.Root);
-				foreach (var resource in asset.Resources)
+				foreach (var resource in asset.PackageResources)
 				{
 					Console.WriteLine ("\t" + resource.ToString ());
 				}
