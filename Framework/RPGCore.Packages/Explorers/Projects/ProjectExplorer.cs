@@ -41,11 +41,11 @@ namespace RPGCore.Packages
 			}
 		}
 
-		private BProjModel bProj;
+		public BProjModel bProj;
 
-		public string Name => bProj.Name;
-		public string Version => bProj.Version;
-		public PackageDependancy[] Dependancies => bProj.Dependancies;
+		public string Name => bProj.Properties.Name;
+		public string Version => bProj.Properties.Version;
+		public Reference[] References => bProj.References;
 		public IProjectAssetCollection Assets { get; private set; }
 
 		IPackageAssetCollection IPackageExplorer.Assets => (IPackageAssetCollection)Assets;
@@ -84,30 +84,30 @@ namespace RPGCore.Packages
 			return project;
 		}
 
+		public void Dispose()
+		{
+
+		}
+
 		public void Export (string path)
 		{
-			if (File.Exists (path))
-				File.Delete (path);
-
-			using (var fileStream = new FileStream (path, FileMode.CreateNew))
+			using (var fileStream = new FileStream (path, FileMode.Create, FileAccess.Write))
+			using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Create, false))
 			{
-				using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Create, true))
+				var manifest = archive.CreateEntry ("Main.bmft");
+				using (var zipStream = manifest.Open ())
 				{
-					var manifest = archive.CreateEntry ("Main.bmft");
-					using (var zipStream = manifest.Open ())
-					{
-						string json = JsonConvert.SerializeObject (bProj);
-						byte[] bytes = Encoding.UTF8.GetBytes (json);
-						zipStream.Write (bytes, 0, bytes.Length);
-					}
+					string json = JsonConvert.SerializeObject (bProj);
+					byte[] bytes = Encoding.UTF8.GetBytes (json);
+					zipStream.Write (bytes, 0, bytes.Length);
+				}
 
-					foreach (var asset in Assets)
+				foreach (var asset in Assets)
+				{
+					foreach (var resource in asset.ProjectResources)
 					{
-						foreach (var resource in asset.Resources)
-						{
-							archive.CreateEntryFromFile (resource.Entry.FullName, asset.Archive.Name + "/" + resource.Name, CompressionLevel.Fastest);
-							Console.WriteLine ("Exported " + resource);
-						}
+						archive.CreateEntryFromFile (resource.Entry.FullName, asset.Archive.Name + "/" + resource.Name, CompressionLevel.Fastest);
+						Console.WriteLine ("Exported " + resource);
 					}
 				}
 			}

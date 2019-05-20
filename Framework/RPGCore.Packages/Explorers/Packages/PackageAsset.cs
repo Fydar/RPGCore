@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO.Compression;
 
 namespace RPGCore.Packages
@@ -6,7 +7,7 @@ namespace RPGCore.Packages
 	{
 		public PackageExplorer Package;
 		public readonly string Root;
-		public readonly PackageResource[] Resources;
+		public readonly PackageResource[] PackageResources;
 
 		public string Name
 		{
@@ -16,21 +17,23 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public PackageAsset (PackageExplorer package, string root, ZipArchiveEntry[] entries)
+        public IEnumerable<IResource> Resources => PackageResources;
+
+        public PackageAsset (PackageExplorer package, string root, ZipArchiveEntry[] entries)
 		{
 			Package = package;
 			Root = root;
 
-			Resources = new PackageResource[entries.Length];
+			PackageResources = new PackageResource[entries.Length];
 			for (int i = 0; i < entries.Length; i++)
 			{
-				Resources[i] = new PackageResource (package, entries[i]);
+				PackageResources[i] = new PackageResource (package, entries[i]);
 			}
 		}
 
 		public IResource GetResource (string path)
 		{
-			foreach (var resource in Resources)
+			foreach (var resource in PackageResources)
 			{
 				if (resource.Name.Substring (Root.Length) == path)
 				{

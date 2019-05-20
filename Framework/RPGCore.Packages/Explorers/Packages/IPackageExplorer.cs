@@ -1,10 +1,12 @@
-﻿namespace RPGCore.Packages
+﻿using System;
+
+namespace RPGCore.Packages
 {
-	public interface IPackageExplorer
+	public interface IPackageExplorer : IDisposable
 	{
 		string Name { get; }
 		string Version { get; }
-		PackageDependancy[] Dependancies { get; }
+		Reference[] References { get; }
 		IPackageAssetCollection Assets { get; }
 	}
 }

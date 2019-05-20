@@ -42,14 +42,19 @@ namespace RPGCore.Packages
 		private BProjModel bProj;
 		private string Path;
 
-		public string Name => bProj.Name;
-		public string Version => bProj.Version;
-		public PackageDependancy[] Dependancies => bProj.Dependancies;
+		public string Name => bProj.Properties.Name;
+		public string Version => bProj.Properties.Version;
+		public Reference[] References => bProj.References;
 		public IPackageAssetCollection Assets { get; private set; }
 
 		public PackageExplorer ()
 		{
 			Assets = new PackageAssetCollection ();
+		}
+
+		public void Dispose()
+		{
+
 		}
 
 		public byte[] OpenAsset (string packageKey)
@@ -117,6 +122,7 @@ namespace RPGCore.Packages
 						package.Assets.Add (asset);
 					}
 				}
+				fileStream.Close();
 			}
 
 			return package;
