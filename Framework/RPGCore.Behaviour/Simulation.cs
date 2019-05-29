@@ -58,7 +58,7 @@ namespace RPGCore.Behaviour
 				}
 			}
 
-			proj.Export ("Content/Core.bpkg");
+			proj.Export ("Content/");
 
 			Console.WriteLine ("Exported package...");
 			var exportedPackage = PackageExplorer.Load ("Content/Core.bpkg");

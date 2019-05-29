@@ -25,70 +25,100 @@ namespace RPGCore.Packages.Tool
 
                 Console.WriteLine($"bpack v{versionString}");
                 Console.WriteLine("Usage:");
-                Console.WriteLine("  bpack build");
+                Console.WriteLine("  bpack build [path]");
                 Console.WriteLine("    Builds the .bproj at the active directory.");
                 return (int)ExitCode.Success;
             }
 
-            if (args[0].Equals("build", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var folder = new DirectoryInfo("./");
-                var bprojs = folder.GetFiles("*.bproj", SearchOption.TopDirectoryOnly);
+            string command = args[0];
+            string subCommand = args.Length > 1 ? args[1] : "";
 
-                if (bprojs.Length != 1)
+            if (command.Equals("build", StringComparison.InvariantCultureIgnoreCase))
+            {
+                FileInfo file;
+                if (subCommand == "")
                 {
-                    if (bprojs.Length == 0)
+                    file = FindFileOfType(".bproj");
+                }
+                else
+                {
+                    file = new FileInfo(subCommand);
+                }
+
+                var project = ProjectExplorer.Load(file.DirectoryName);
+
+                string exportDirectory = "./bin/";
+                Directory.CreateDirectory(exportDirectory);
+
+                project.Export(exportDirectory);
+            }
+            else if (command.Equals("format", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (subCommand == "all")
+                {
+                    var files = FindFilesOfType(".csproj");
+
+                    foreach (var file in files)
                     {
-                        Console.WriteLine("No \".bproj\" files found.");
-                        return (int)ExitCode.InvalidFilename;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Multiple \".bproj\" files found.");
-                        return (int)ExitCode.InvalidFilename;
+                        var projectFile = XmlProjectFile.Load(file.FullName);
+
+                        projectFile.Format();
+
+                        projectFile.Save(file.FullName);
                     }
                 }
                 else
                 {
-                    var bproj = bprojs[0];
-
-                    var project = ProjectExplorer.Load(bproj.DirectoryName);
-
-                    string exportDirectory = "./bin/";
-                    Directory.CreateDirectory(exportDirectory);
-
-                    project.Export(Path.Combine(exportDirectory, project.Name + ".bpkg"));
-                }
-            }
-            else
-            {
-                var folder = new DirectoryInfo("./");
-                var bprojs = folder.GetFiles("*.bproj", SearchOption.TopDirectoryOnly);
-
-                if (bprojs.Length != 1)
-                {
-                    if (bprojs.Length == 0)
+                    var file = FindFileOfType(".bproj");
+                    if (file != null)
                     {
-                        Console.WriteLine("No \".bproj\" files found.");
-                        return (int)ExitCode.InvalidFilename;
+                        var project = ProjectExplorer.Load(file.DirectoryName);
+
+                        project.Definition.Format();
+
+                        project.Definition.Save(file.FullName);
                     }
                     else
                     {
-                        Console.WriteLine("Multiple \".bproj\" files found.");
-                        return (int)ExitCode.InvalidFilename;
+                        file = FindFileOfType(".csproj");
+
+                        var projectFile = XmlProjectFile.Load(file.FullName);
+
+                        projectFile.Format();
+
+                        projectFile.Save(file.FullName);
                     }
                 }
-                else
-                {
-                    var bproj = bprojs[0];
-
-                    var project = ProjectExplorer.Load(bproj.DirectoryName);
-
-                    project.bProj.Save(bproj.FullName);
-                }
             }
-            
+
             return (int)ExitCode.Success;
+        }
+
+        private static FileInfo FindFileOfType(string extension)
+        {
+            var folder = new DirectoryInfo("./");
+            var bprojs = folder.GetFiles($"*{extension}", SearchOption.TopDirectoryOnly);
+            if (bprojs.Length != 1)
+            {
+                if (bprojs.Length == 0)
+                {
+                    Console.WriteLine($"No \"{extension}\" files found.");
+                    return null;
+                }
+                else
+                {
+                    Console.WriteLine($"Multiple \"{extension}\" files found.");
+                    return null;
+                }
+            }
+
+            return bprojs[0];
+        }
+
+        private static FileInfo[] FindFilesOfType(string extension, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            var folder = new DirectoryInfo("./");
+            return folder.GetFiles($"*{extension}", searchOption);
         }
     }
 }

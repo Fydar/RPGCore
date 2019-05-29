@@ -1,4 +1,4 @@
-dotnet pack
+dotnet pack --verbosity minimal
 
 dotnet tool uninstall -g RPGCore.Packages.Tool
 
