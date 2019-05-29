@@ -39,12 +39,11 @@ namespace RPGCore.Packages
 			}
 		}
 
-		private BProjModel bProj;
+		private ProjectDefinitionFile bProj;
 		private string Path;
 
 		public string Name => bProj.Properties.Name;
 		public string Version => bProj.Properties.Version;
-		public Reference[] References => bProj.References;
 		public IPackageAssetCollection Assets { get; private set; }
 
 		public PackageExplorer ()

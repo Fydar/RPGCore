@@ -2,7 +2,7 @@
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <Properties>
-    <Name>Core</Name>
+    <Name>Tutorial</Name>
     <Version>0.1.0</Version>
   </Properties>
 
@@ -18,5 +18,9 @@
     </BuildTarget>
 
   </Builds>
+
+  <References>
+    <ProjectReference Include="..\..\Core\Core.bproj" />
+  </References>
 
 </Project>

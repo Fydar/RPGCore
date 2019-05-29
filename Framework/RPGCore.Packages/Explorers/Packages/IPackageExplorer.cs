@@ -6,7 +6,6 @@ namespace RPGCore.Packages
 	{
 		string Name { get; }
 		string Version { get; }
-		Reference[] References { get; }
 		IPackageAssetCollection Assets { get; }
 	}
 }
