@@ -1,3 +1,4 @@
+using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 
@@ -21,7 +22,12 @@ namespace RPGCore.Packages
 			CompressedSize = packageEntry.CompressedLength;
 			UncompressedSize = packageEntry.Length;
 			
-			Name = PackageKey;
+			Name = packageEntry.Name;
+		}
+
+		public PackageStream LoadStream()
+		{
+			return Package.LoadStream(PackageKey);
 		}
 
 		public byte[] LoadData ()

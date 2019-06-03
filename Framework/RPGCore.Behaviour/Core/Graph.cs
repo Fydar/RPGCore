@@ -1,18 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace RPGCore.Behaviour
 {
 	public class Graph
 	{
-		public readonly Dictionary<string, Node> NodesMap;
 		public readonly Node[] Nodes;
 		public readonly int OutputCount;
 
-		public Graph (Dictionary<string, Node> nodesMap, int outputCount)
+		public Graph (Node[] nodes, int outputCount)
 		{
-			NodesMap = nodesMap;
-			Nodes = NodesMap.Values.ToArray ();
+			Nodes = nodes;
 			OutputCount = outputCount;
 		}
 

@@ -31,11 +31,11 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public IResource GetResource (string path)
+		public IResource GetResource (string name)
 		{
 			foreach (var resource in PackageResources)
 			{
-				if (resource.Name.Substring (Root.Length) == path)
+				if (resource.Name == name)
 				{
 					return resource;
 				}

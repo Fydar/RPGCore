@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Runner/bin/Debug/netcoreapp2.1/Runner.dll",
+            "program": "${workspaceFolder}/RPGCore.Runner/bin/Debug/netcoreapp2.2/RPGCore.Runner.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",

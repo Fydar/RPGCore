@@ -1,25 +1,33 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace RPGCore.Behaviour
 {
-	public struct PackageBehaviour
+	public struct SerializedGraph
 	{
 		public string Name;
 		public string Description;
 		public string Type;
+
 		public Dictionary<string, string> CustomData;
-		public Dictionary<string, PackageNode> Nodes;
+		public Dictionary<string, SerializedNode> Nodes;
 
 		public Graph Unpack ()
 		{
-			var nodes = new Dictionary<string, Node> (Nodes.Count);
-			int index = 0;
+			var nodes = new List<Node> (Nodes.Count);
 
 			var outputIds = new List<string> ();
 			foreach (var nodeKvp in Nodes)
 			{
-				var nodeType = System.Type.GetType (nodeKvp.Value.Type);
+				var node = nodeKvp.Value;
+				var nodeType = System.Type.GetType (node.Type);
+
+				if (nodeType == null)
+				{
+					throw new InvalidOperationException($"Unable to unpack node \"{nodeKvp.Key}\" of type \"{node.Type}\" on the graph ${Name}. Type could not be resolved.");
+				}
 
 				foreach (var field in nodeType.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 				{
@@ -32,11 +40,10 @@ namespace RPGCore.Behaviour
 			int outputCounter = -1;
 			foreach (var nodeKvp in Nodes)
 			{
-				nodes[nodeKvp.Key] = nodeKvp.Value.Unpack (outputIds, ref outputCounter);
-				index++;
+				nodes.Add(nodeKvp.Value.Unpack (outputIds, ref outputCounter));
 			}
 
-			var graph = new Graph (nodes, outputIds.Count);
+			var graph = new Graph (nodes.ToArray (), outputIds.Count);
 			return graph;
 		}
 	}

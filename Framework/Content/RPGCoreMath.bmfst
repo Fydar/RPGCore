@@ -1,0 +1,146 @@
+{
+  "Types": {
+    "Name": null,
+    "Version": null,
+    "Types": [
+      {
+        "Name": "Boolean",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "String",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Int32",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Byte",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Int64",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Int16",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "UInt32",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "UInt64",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "UInt16",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "SByte",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Char",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Enum",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Single",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Double",
+        "Description": null,
+        "Conversions": []
+      },
+      {
+        "Name": "Decimal",
+        "Description": null,
+        "Conversions": []
+      }
+    ]
+  },
+  "Nodes": {
+    "Name": null,
+    "Version": null,
+    "Nodes": [
+      {
+        "Name": "StatsNode",
+        "Description": null,
+        "Inputs": [
+          {
+            "Name": "ValueA",
+            "Description": null,
+            "Type": "Int32"
+          },
+          {
+            "Name": "ValueB",
+            "Description": null,
+            "Type": "Int32"
+          }
+        ],
+        "Outputs": null,
+        "Fields": [
+          {
+            "Name": "TooltipFormat",
+            "Description": null,
+            "Type": "String",
+            "Attributes": []
+          }
+        ]
+      },
+      {
+        "Name": "RollNode",
+        "Description": null,
+        "Inputs": null,
+        "Outputs": [
+          {
+            "Name": "Output",
+            "Description": null,
+            "Type": "Int32"
+          }
+        ],
+        "Fields": [
+          {
+            "Name": "TooltipFormat",
+            "Description": null,
+            "Type": "String",
+            "Attributes": []
+          },
+          {
+            "Name": "MinValue",
+            "Description": null,
+            "Type": "Int32",
+            "Attributes": []
+          },
+          {
+            "Name": "MaxValue",
+            "Description": null,
+            "Type": "Int32",
+            "Attributes": []
+          }
+        ]
+      }
+    ]
+  }
+}
