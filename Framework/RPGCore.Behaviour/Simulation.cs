@@ -25,7 +25,7 @@ namespace RPGCore.Behaviour
 
 			Console.WriteLine ("Importing Graph...");
 
-			var proj = ProjectExplorer.Load ("Content/Core");
+			var proj = ProjectExplorer.Load ("Content/Tutorial");
 			Console.WriteLine (proj.Name);
 			Console.WriteLine ("\t\"" + proj.Name + "\"");
 			foreach (var asset in proj.Assets)
@@ -37,7 +37,7 @@ namespace RPGCore.Behaviour
 				}
 			}
 
-			proj.Export ("Content/");
+			proj.Export ("Content/Temp");
 
 			Console.WriteLine ("Exported package...");
 			var exportedPackage = PackageExplorer.Load ("Content/Core.bpkg");

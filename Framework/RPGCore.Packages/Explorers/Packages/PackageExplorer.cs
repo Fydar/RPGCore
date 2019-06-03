@@ -12,6 +12,8 @@ namespace RPGCore.Packages
         public Stream InternalStream;
         public IDisposable[] Components;
 
+		private bool Disposed;
+
         public override bool CanRead => InternalStream.CanRead;
 
         public override bool CanSeek => InternalStream.CanSeek;
@@ -53,14 +55,23 @@ namespace RPGCore.Packages
             InternalStream.Write(buffer, offset, count);
         }
 
-        public new void Dispose()
-        {
-            InternalStream.Dispose();
-            foreach (var component in Components)
-            {
-                component.Dispose();
-            }
-        }
+		~PackageStream()
+		{
+			Dispose(false);
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+			if (!Disposed)
+			{
+				foreach (var component in Components)
+				{
+					component.Dispose();
+				}
+				Disposed = true;
+			}
+		}
     }
 
     public class PackageExplorer : IPackageExplorer
