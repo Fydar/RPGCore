@@ -3,6 +3,7 @@ using RPGCore.Behaviour.Manifest;
 using RPGCore.Packages;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading;
 
 namespace RPGCore.Behaviour
@@ -11,28 +12,6 @@ namespace RPGCore.Behaviour
 	{
 		public void Start ()
 		{
-			IntEventField left = new IntEventField (1);
-			IntEventField right = new IntEventField (3);
-
-			left += (int newValue) =>
-			{
-				Console.WriteLine ("New Value: " + newValue);
-			};
-
-			left.Value += 5;
-
-			Console.WriteLine ($"{left.Value} + {right.Value} = " + (left + right).Calculate ());
-
-			IntEventField one = new IntEventField (1);
-
-			IntEventField test = new IntEventField (left + right + one);
-
-			left.Value++;
-			right.Value++;
-
-			Console.WriteLine ($"{left.Value} + {right.Value} + {one.Value} = " + test.Value);
-
-
 			var nodes = NodeManifest.Construct (new Type[] { typeof (StatsNode), typeof (RollNode) });
 			var types = TypeManifest.ConstructBaseTypes ();
 
@@ -70,8 +49,19 @@ namespace RPGCore.Behaviour
 					Console.WriteLine ("\t" + resource.ToString ());
 				}
 			}
+			
+			var fireballAsset = exportedPackage.Assets["Fireball"];
+			var data = fireballAsset.GetResource("Main.bhvr").LoadStream();
+			
+			SerializedGraph packageItem;
+			
+			using (var sr = new StreamReader(data))
+			using (var reader = new JsonTextReader(sr))
+			{
+				var serializer = new JsonSerializer();
+				packageItem = serializer.Deserialize<SerializedGraph>(reader);
+			}
 
-			var packageItem = JsonConvert.DeserializeObject<PackageBehaviour> (File.ReadAllText ("Content/Core/Longsword/Main.bhvr"));
 			Console.WriteLine ("Imported: " + packageItem.Name);
 			var unpackedGraph = packageItem.Unpack ();
 

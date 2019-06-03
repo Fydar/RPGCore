@@ -15,5 +15,10 @@ namespace RPGCore.Behaviour
         {
             return Convert.ToString(Id);
         }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }

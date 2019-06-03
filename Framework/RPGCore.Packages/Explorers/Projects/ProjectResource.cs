@@ -25,6 +25,7 @@ namespace RPGCore.Packages
 			CompressedSize = 0;
 			UncompressedSize = 0;
 		}
+		
 
 		public byte[] LoadData ()
 		{
@@ -46,5 +47,10 @@ namespace RPGCore.Packages
 		{
 			return Name;
 		}
-	}
+
+        public PackageStream LoadStream()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }
