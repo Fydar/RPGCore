@@ -104,6 +104,8 @@ namespace RPGCore.Packages
                 reference.IncludeInBuild(path);
             }
 
+            Directory.CreateDirectory(path);
+
             using (var fileStream = new FileStream(bpkgPath, FileMode.Create, FileAccess.Write))
             using (var archive = new ZipArchive(fileStream, ZipArchiveMode.Create, false))
             {
