@@ -5,7 +5,7 @@
 		private readonly Graph graph;
 		private Node[] nodes;
 		private readonly INodeInstance[] nodeInstances;
-		private readonly object[] connections;
+		private readonly Connection[] connections;
 
 		public GraphInstance (Graph graph)
 		{
@@ -13,7 +13,7 @@
 			nodes = graph.Nodes;
 			int nodeCount = graph.Nodes.Length;
 			nodeInstances = new INodeInstance[nodeCount];
-			connections = new object[graph.OutputCount];
+			connections = new Connection[graph.OutputCount];
 
 			// Map and create tokens
 			for (int i = 0; i < nodeCount; i++)
@@ -90,17 +90,12 @@
 			return new InputMap (socket, typeof (T), connection);
 		}
 
-		public void Connect (ref InputSocket input, out INodeInstance connection)
-		{
-			connection = nodeInstances[input.TargetId];
-		}
-
 		private Connection<T> GetOrCreateConnection<T> (int id)
 		{
 			if (id < 0)
 				return null;
 
-			object shared = connections[id];
+			var shared = connections[id];
 			if (shared == null)
 			{
 				shared = new Connection<T> ();
@@ -114,7 +109,7 @@
 			if (id < 0)
 				return null;
 
-			object shared = connections[id];
+			var shared = connections[id];
 			return (Connection<T>)shared;
 		}
 	}

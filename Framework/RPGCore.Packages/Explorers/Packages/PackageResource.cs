@@ -25,7 +25,7 @@ namespace RPGCore.Packages
 			Name = packageEntry.Name;
 		}
 
-		public PackageStream LoadStream()
+		public Stream LoadStream()
 		{
 			return Package.LoadStream(PackageKey);
 		}

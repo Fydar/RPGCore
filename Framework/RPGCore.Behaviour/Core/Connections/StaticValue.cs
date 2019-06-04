@@ -4,7 +4,8 @@ namespace RPGCore.Behaviour
 {
 	public class StaticValue<T> : IInput<T>
 	{
-		private event Action onAfterChanged;
+		public event Action OnAfterChanged;
+
 		private readonly T internalValue;
 
 		public StaticValue (T value)
@@ -17,18 +18,6 @@ namespace RPGCore.Behaviour
 			get
 			{
 				return internalValue;
-			}
-		}
-
-		public Action OnAfterChanged
-		{
-			get
-			{
-				return onAfterChanged;
-			}
-			set
-			{
-				onAfterChanged = value;
 			}
 		}
 	}

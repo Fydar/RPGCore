@@ -4,45 +4,23 @@ namespace RPGCore.Behaviour
 {
 	public class RequestingConnection<T> : IInput<T>, IOutput<T>, ILazyOutput<T>
 	{
-		private Action onAfterChanged;
+		public event Action OnAfterChanged;
+		public event Action OnRequested;
+
 		private T internalValue;
 
 		public T Value
 		{
 			get
 			{
-				if (onAfterChanged != null)
-					onAfterChanged ();
+				if (OnRequested != null)
+					OnRequested ();
 
 				return internalValue;
 			}
 			set
 			{
 				internalValue = value;
-			}
-		}
-
-		public Action OnAfterChanged
-		{
-			get
-			{
-				return onAfterChanged;
-			}
-			set
-			{
-				onAfterChanged = value;
-			}
-		}
-
-		public Action OnRequested
-		{
-			get
-			{
-				return onAfterChanged;
-			}
-			set
-			{
-				onAfterChanged = value;
 			}
 		}
 	}

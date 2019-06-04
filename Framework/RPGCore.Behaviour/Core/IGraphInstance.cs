@@ -9,6 +9,5 @@
 		OutputMap Connect<T> (ref OutputSocket socket, out ILazyOutput<T> connection);
 		InputMap Connect<T> (ref InputSocket socket, out T connection)
 			where T : INodeInstance;
-		void Connect (ref InputSocket input, out INodeInstance connection);
 	}
 }

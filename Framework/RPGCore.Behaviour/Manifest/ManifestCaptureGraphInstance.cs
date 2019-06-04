@@ -53,10 +53,5 @@
 			connection = default (T);
 			return new InputMap (socket, typeof (T), connection);
 		}
-
-		public void Connect (ref InputSocket input, out INodeInstance connection)
-		{
-			connection = null;
-		}
 	}
 }
