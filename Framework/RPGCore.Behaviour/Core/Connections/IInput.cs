@@ -4,6 +4,6 @@ namespace RPGCore.Behaviour
 {
 	public interface IInput<T> : ILazyInput<T>
 	{
-		Action OnAfterChanged { get; set; }
+		event Action OnAfterChanged;
 	}
 }

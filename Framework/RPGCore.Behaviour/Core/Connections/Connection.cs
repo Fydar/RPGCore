@@ -2,48 +2,33 @@
 
 namespace RPGCore.Behaviour
 {
-	public class Connection<T> : IInput<T>, IOutput<T>, ILazyOutput<T>
-	{
-		private Action onAfterChanged;
-		private T internalValue;
+    public class Connection
+    {
+        public event Action OnAfterChanged;
+        public event Action OnRequested;
 
-		public T Value
-		{
-			get
-			{
-				return internalValue;
-			}
-			set
-			{
-				internalValue = value;
+        protected void InvokeAfterChanged()
+        {
+            if (OnAfterChanged != null)
+                OnAfterChanged ();
+        }
+    }
 
-				if (onAfterChanged != null)
-					onAfterChanged ();
-			}
-		}
+    public class Connection<T> : Connection, IInput<T>, IOutput<T>, ILazyOutput<T>
+    {
+        private T internalValue;
 
-		public Action OnAfterChanged
-		{
-			get
-			{
-				return onAfterChanged;
-			}
-			set
-			{
-				onAfterChanged = value;
-			}
-		}
-
-		public Action OnRequested
-		{
-			get
-			{
-				return onAfterChanged;
-			}
-			set
-			{
-				onAfterChanged = value;
-			}
-		}
-	}
+        public T Value
+        {
+            get
+            {
+                return internalValue;
+            }
+            set
+            {
+                internalValue = value;
+                InvokeAfterChanged ();
+            }
+        }
+    }
 }

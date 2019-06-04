@@ -48,9 +48,9 @@ namespace RPGCore.Packages
 			return Name;
 		}
 
-        public PackageStream LoadStream()
+        public Stream LoadStream()
         {
-            throw new System.NotImplementedException();
+			return File.Open (Entry.FullName, FileMode.Open);
         }
     }
 }

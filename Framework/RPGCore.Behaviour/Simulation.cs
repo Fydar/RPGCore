@@ -40,7 +40,7 @@ namespace RPGCore.Behaviour
 			proj.Export ("Content/Temp");
 
 			Console.WriteLine ("Exported package...");
-			var exportedPackage = PackageExplorer.Load ("Content/Core.bpkg");
+			var exportedPackage = PackageExplorer.Load ("Content/Temp/Core.bpkg");
 			foreach (var asset in exportedPackage.Assets)
 			{
 				Console.WriteLine (asset.Root);
