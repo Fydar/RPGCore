@@ -1,16 +1,33 @@
-﻿namespace RPGCore.Behaviour
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+namespace RPGCore.Behaviour
 {
 	public class GraphInstance : IGraphInstance
 	{
 		private readonly Graph graph;
-		private Node[] nodes;
-		private readonly INodeInstance[] nodeInstances;
+		public INodeInstance[] nodeInstances;
 		private readonly Connection[] connections;
 
-		public GraphInstance (Graph graph)
+		public INodeInstance this[LocalId id]
+		{
+			get {
+				for (int i = 0; i < graph.Nodes.Length; i++)
+				{
+					Node node = graph.Nodes[i];
+					if (node.Id == id)
+					{
+						return nodeInstances[i];
+					}
+				}
+				return null;
+			}
+		}
+
+		public GraphInstance (Graph graph, IDictionary<LocalId, JObject> data = null)
 		{
 			this.graph = graph;
-			nodes = graph.Nodes;
 			int nodeCount = graph.Nodes.Length;
 			nodeInstances = new INodeInstance[nodeCount];
 			connections = new Connection[graph.OutputCount];
@@ -19,7 +36,15 @@
 			for (int i = 0; i < nodeCount; i++)
 			{
 				var node = graph.Nodes[i];
-				nodeInstances[i] = node.Create ();
+				
+				if (data != null && data.TryGetValue(node.Id, out var instanceData))
+				{
+					nodeInstances[i] = (INodeInstance)instanceData.ToObject(node.MetadataType);
+				}
+				else
+				{
+					nodeInstances[i] = node.Create ();
+				}
 			}
 
 			// Allow all used inputs to setup their connections.
@@ -50,6 +75,28 @@
 			{
 				node.Remove ();
 			}
+		}
+
+		public SerializedGraphInstance Pack()
+		{
+			var nodeMap = new Dictionary<LocalId, JObject>();
+
+			for (int i = 0; i < nodeInstances.Length; i++)
+			{
+				var instance = nodeInstances[i];
+				var node = graph.Nodes[i];
+				
+				var serializer = new JsonSerializer();
+				serializer.ContractResolver = new IgnoreInputsResolver();
+				
+				nodeMap.Add(node.Id, JObject.FromObject(instance, serializer));
+			}
+
+			return new SerializedGraphInstance()
+			{
+				GraphType = graph.Name,
+				NodeInstances = nodeMap
+			};
 		}
 
 		public INodeInstance GetNode<T> ()

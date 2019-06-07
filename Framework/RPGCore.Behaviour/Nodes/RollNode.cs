@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace RPGCore.Behaviour
 {
@@ -19,7 +20,9 @@ namespace RPGCore.Behaviour
 		public class Metadata : INodeInstance
 		{
 			private Actor target;
+			[JsonIgnore]
 			public IOutput<int> output;
+			[JsonIgnore]
 			public IOutput<int> rollValue;
 
 			public void Setup (IGraphInstance graph, Node parent, Actor target)

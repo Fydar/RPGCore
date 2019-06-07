@@ -2,6 +2,8 @@
 {
 	public interface IGraphInstance : IBehaviour
 	{
+		INodeInstance this[LocalId id] { get; }
+		
 		void Setup (Actor target);
 
 		InputMap Connect<T> (ref InputSocket socket, out IInput<T> connection);

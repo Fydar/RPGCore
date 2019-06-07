@@ -5,6 +5,8 @@
 		private Node node;
 		private INodeInstance instance;
 
+		public INodeInstance this[LocalId id] => null;
+
 		public ManifestCaptureGraphInstance (Node singleNodeGraph)
 		{
 			node = singleNodeGraph;
