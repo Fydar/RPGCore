@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace RPGCore.Behaviour
 {
@@ -24,10 +25,14 @@ namespace RPGCore.Behaviour
 			public string seed;
 			private Actor target;
 
+			public Metadata()
+			{
+				seed = Guid.NewGuid ().ToString ();
+			}
+
 			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
-				seed = Guid.NewGuid ().ToString ();
 
 				StatsNode stats = (StatsNode)parent;
 

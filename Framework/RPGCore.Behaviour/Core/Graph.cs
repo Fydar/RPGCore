@@ -1,23 +1,45 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace RPGCore.Behaviour
 {
 	public class Graph
 	{
+		public string Name;
 		public readonly Node[] Nodes;
 		public readonly int OutputCount;
 
-		public Graph (Node[] nodes, int outputCount)
+		public Node this[LocalId id]
+		{
+			get
+			{
+				foreach (var node in Nodes)
+				{
+					if (node.Id == id)
+					{
+						return node;
+					}
+				}
+				return null;
+			}
+		}
+
+		public Graph(Node[] nodes, int outputCount)
 		{
 			Nodes = nodes;
 			OutputCount = outputCount;
 		}
 
-		public IBehaviour Setup (Actor target)
+		public GraphInstance Setup(Actor target, IDictionary<LocalId, JObject> data = null)
 		{
-			var graph = new GraphInstance (this);
-			graph.Setup (target);
+			var graph = Create(data);
+			graph.Setup(target);
 			return graph;
+		}
+
+		public GraphInstance Create(IDictionary<LocalId, JObject> data = null)
+		{
+			return new GraphInstance(this, data);
 		}
 	}
 }

@@ -2,6 +2,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
 
 namespace RPGCore.Behaviour
@@ -12,31 +14,36 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor _Editor;
 
-		public Node Unpack (List<string> outputIds, ref int outputCounter)
+		public Node Unpack(string id, List<string> outputIds, ref int outputCounter)
 		{
-			var nodeType = System.Type.GetType (Type);
+			var nodeType = System.Type.GetType(Type);
 
-			var jsonSerializer = new JsonSerializer ();
-			jsonSerializer.Converters.Add (new InputSocketConverter (outputIds));
+			var jsonSerializer = new JsonSerializer();
+			jsonSerializer.Converters.Add(new InputSocketConverter(outputIds));
+			jsonSerializer.Converters.Add(new LocalIdJsonConverter());
 			object nodeObject = Data.ToObject(nodeType, jsonSerializer);
 
-			foreach (var field in nodeType.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+			foreach (var field in nodeType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
-				if (field.FieldType == typeof (OutputSocket))
+				if (field.FieldType == typeof(OutputSocket))
 				{
-					field.SetValue (nodeObject, new OutputSocket (++outputCounter));
+					field.SetValue(nodeObject, new OutputSocket(++outputCounter));
 				}
 			}
 
-			return (Node)nodeObject;
+			var node = (Node)nodeObject;
+
+			node.Id = new LocalId(id);
+
+			return node;
 		}
 	}
 
 	class InputSocketConverter : JsonConverter
 	{
-        private readonly List<string> Ids;
+		private readonly List<string> Ids;
 
-        public override bool CanWrite
+		public override bool CanWrite
 		{
 			get { return false; }
 		}
@@ -46,10 +53,10 @@ namespace RPGCore.Behaviour
 			return (objectType == typeof(InputSocket));
 		}
 
-		public InputSocketConverter (List<string> ids)
+		public InputSocketConverter(List<string> ids)
 		{
-            Ids = ids;
-        }
+			Ids = ids;
+		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{

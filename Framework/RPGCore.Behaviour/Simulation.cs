@@ -77,6 +77,21 @@ namespace RPGCore.Behaviour
 			}
 			instancedItem.Remove ();
 
+			var packedInstance = ((GraphInstance)instancedItem).Pack();
+			string serializedGraph = packedInstance.AsJson();
+			Console.WriteLine(serializedGraph);
+			
+			var deserialized = JsonConvert.DeserializeObject<SerializedGraphInstance>(serializedGraph);
+			var unpackedInstance = deserialized.Unpack(unpackedGraph);
+
+			unpackedInstance.Setup(player);
+			for (int i = 0; i < 5; i++)
+			{
+				Thread.Sleep (100);
+				player.Health.Value -= 20;
+			}
+			unpackedInstance.Remove ();
+			
 			for (int i = 0; i < 5; i++)
 			{
 				Thread.Sleep (100);

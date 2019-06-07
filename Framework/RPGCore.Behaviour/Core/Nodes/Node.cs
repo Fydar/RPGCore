@@ -1,7 +1,14 @@
-﻿namespace RPGCore.Behaviour
+﻿using System;
+using Newtonsoft.Json;
+
+namespace RPGCore.Behaviour
 {
 	public abstract class Node
 	{
+		[JsonIgnore]
+		public LocalId Id { get; set; }
+
+		public abstract Type MetadataType { get; }
 		public abstract INodeInstance Create ();
 		public abstract void Setup (IGraphInstance graph, INodeInstance metadata, Actor target);
 
@@ -12,6 +19,8 @@
 	public abstract class Node<T> : Node
 		where T : INodeInstance, new()
 	{
+		public override Type MetadataType => typeof(T);
+
 		public abstract InputMap[] Inputs (IGraphInstance graph, T instance);
 		public abstract OutputMap[] Outputs (IGraphInstance graph, T instance);
 

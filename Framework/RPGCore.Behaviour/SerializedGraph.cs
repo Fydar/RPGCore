@@ -40,7 +40,7 @@ namespace RPGCore.Behaviour
 			int outputCounter = -1;
 			foreach (var nodeKvp in Nodes)
 			{
-				nodes.Add(nodeKvp.Value.Unpack (outputIds, ref outputCounter));
+				nodes.Add(nodeKvp.Value.Unpack (nodeKvp.Key, outputIds, ref outputCounter));
 			}
 
 			var graph = new Graph (nodes.ToArray (), outputIds.Count);
