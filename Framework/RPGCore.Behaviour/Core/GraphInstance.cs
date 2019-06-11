@@ -9,6 +9,7 @@ namespace RPGCore.Behaviour
 		private readonly Graph graph;
 		public INodeInstance[] nodeInstances;
 		private readonly Connection[] connections;
+		private readonly  IDictionary<LocalId, JObject> data;
 
 		public INodeInstance this[LocalId id]
 		{
@@ -28,6 +29,8 @@ namespace RPGCore.Behaviour
 		public GraphInstance (Graph graph, IDictionary<LocalId, JObject> data = null)
 		{
 			this.graph = graph;
+			this.data = data;
+			
 			int nodeCount = graph.Nodes.Length;
 			nodeInstances = new INodeInstance[nodeCount];
 			connections = new Connection[graph.OutputCount];
@@ -39,7 +42,10 @@ namespace RPGCore.Behaviour
 				
 				if (data != null && data.TryGetValue(node.Id, out var instanceData))
 				{
-					nodeInstances[i] = (INodeInstance)instanceData.ToObject(node.MetadataType);
+					var serializer = new JsonSerializer();
+					serializer.Converters.Add(new OutputConverter());
+
+					nodeInstances[i] = (INodeInstance)instanceData.ToObject(node.MetadataType, serializer);
 				}
 				else
 				{
@@ -111,26 +117,37 @@ namespace RPGCore.Behaviour
 			return null;
 		}
 
-		public InputMap Connect<T> (ref InputSocket socket, out IInput<T> connection)
+		public InputMap Connect<T> (ref InputSocket socket, ref IInput<T> connection)
 		{
 			connection = GetOrCreateConnection<T> (socket.TargetId);
 
 			return new InputMap (socket, typeof (T), connection);
 		}
 
-		public OutputMap Connect<T> (ref OutputSocket socket, out IOutput<T> connection)
+		public OutputMap Connect<T> (ref OutputSocket socket, ref IOutput<T> connection)
 		{
-			connection = GetConnection<T> (socket.Id);
-			return new OutputMap (socket, typeof (T), connection);
+			var newConnection = GetConnection<T> (socket.Id);
+			if (connection != null)
+			{
+				newConnection.Value = ((Connection<T>)connection).Value;
+			}
+			connection = newConnection;
+			
+			return new OutputMap (socket, typeof (T), newConnection);
 		}
 
-		public OutputMap Connect<T> (ref OutputSocket socket, out ILazyOutput<T> connection)
+		public OutputMap Connect<T> (ref OutputSocket socket, ref ILazyOutput<T> connection)
 		{
-			connection = GetConnection<T> (socket.Id);
-			return new OutputMap (socket, typeof (T), connection);
+			var newConnection = GetConnection<T> (socket.Id);
+			if (connection != null)
+			{
+				newConnection.Value = ((Connection<T>)connection).Value;
+			}
+			connection = newConnection;
+			return new OutputMap (socket, typeof (T), newConnection);
 		}
 
-		public InputMap Connect<T> (ref InputSocket socket, out T connection)
+		public InputMap Connect<T> (ref InputSocket socket, ref T connection)
 			where T : INodeInstance
 		{
 			connection = (T)nodeInstances[socket.TargetId];

@@ -20,7 +20,7 @@ namespace RPGCore.Runner
 			simulator = new Simulator ();
 			simulator.Start ();
 
-			Console.ReadKey ();
+			Console.ReadLine ();
 		}
 	}
 }
