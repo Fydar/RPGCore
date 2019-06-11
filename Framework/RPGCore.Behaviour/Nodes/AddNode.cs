@@ -3,38 +3,38 @@ using Newtonsoft.Json;
 
 namespace RPGCore.Behaviour
 {
-	public class StatsNode : Node<StatsNode.Metadata>
+	public class AddNode : Node<AddNode.Metadata>
 	{
 		public InputSocket ValueA;
 		public InputSocket ValueB;
-		public string TooltipFormat = "{0}";
+		
+		public OutputSocket Output;
 
 		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => new[]
 		{
-			graph.Connect(ref ValueA, out instance.valueA),
-			graph.Connect(ref ValueB, out instance.valueB)
+			graph.Connect(ref ValueA, ref instance.valueA),
+			graph.Connect(ref ValueB, ref instance.valueB)
 		};
 
-		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => null;
+		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => new[]
+		{
+			graph.Connect(ref Output, ref instance.Output)
+		};
 
 		public class Metadata : INodeInstance
 		{
 			public IInput<int> valueA;
 			public IInput<int> valueB;
 
-			public string seed;
-			private Actor target;
+			public IOutput<int> Output;
 
-			public Metadata()
-			{
-				seed = Guid.NewGuid ().ToString ();
-			}
+			private Actor target;
 
 			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
 
-				StatsNode stats = (StatsNode)parent;
+				AddNode stats = (AddNode)parent;
 
 				valueA.OnAfterChanged += Log;
 				valueB.OnAfterChanged += Log;
@@ -70,7 +70,7 @@ namespace RPGCore.Behaviour
 				public void OnAfterChanged ()
 				{
 					Console.ForegroundColor = ConsoleColor.Gray;
-					Console.WriteLine ("StatsNode: New value of " + (Meta.valueA.Value + Meta.valueB.Value).ToString () + " on " + Meta.target);
+					Console.WriteLine ("StatsNode: Damaged on " + (Meta.valueA.Value + Meta.valueB.Value).ToString () + " on " + Meta.target);
 				}
 
 				public void Dispose ()

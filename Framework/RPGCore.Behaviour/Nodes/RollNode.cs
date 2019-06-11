@@ -14,28 +14,32 @@ namespace RPGCore.Behaviour
 
 		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => new[]
 		{
-			graph.Connect(ref Output, out instance.output),
+			graph.Connect(ref Output, ref instance.Output),
 		};
 
 		public class Metadata : INodeInstance
 		{
 			private Actor target;
-			[JsonIgnore]
-			public IOutput<int> output;
-			[JsonIgnore]
-			public IOutput<int> rollValue;
+			
+			public int Seed;
+			public IOutput<int> Output;
 
 			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
 				RollNode stats = (RollNode)parent;
 
-				int newValue = new Random ().Next (stats.MinValue, stats.MaxValue);
+				while (Seed == 0)
+				{
+					Seed = new Random().Next();
+				}
+
+				int newValue = new Random (Seed).Next (stats.MinValue, stats.MaxValue);
 
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
-				Console.WriteLine ("RollNode: Setup Behaviour on " + this.target + " with a value of " + newValue);
+				Console.WriteLine ("RollNode: Output set to " + newValue);
 
-				output.Value = newValue;
+				Output.Value = newValue;
 			}
 
 			public void Remove ()

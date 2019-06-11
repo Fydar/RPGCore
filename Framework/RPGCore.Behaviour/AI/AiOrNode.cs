@@ -10,8 +10,8 @@ namespace RPGCore.Behaviour
 
 		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => new[]
 		{
-			graph.Connect(ref RequirementA, out instance.requirementA),
-			graph.Connect(ref RequirementB, out instance.requirementB)
+			graph.Connect(ref RequirementA, ref instance.requirementA),
+			graph.Connect(ref RequirementB, ref instance.requirementB)
 		};
 
 		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => null;
@@ -44,8 +44,8 @@ namespace RPGCore.Behaviour
 				this.target = target;
 				AiOrNode stats = (AiOrNode)parent;
 
-				graph.Connect (ref stats.RequirementA, out requirementA);
-				graph.Connect (ref stats.RequirementB, out requirementB);
+				graph.Connect (ref stats.RequirementA, ref requirementA);
+				graph.Connect (ref stats.RequirementB, ref requirementB);
 
 				Console.ForegroundColor = ConsoleColor.Gray;
 				//Console.WriteLine("AiOrNode: Fetching A " + requirementA.Weight);

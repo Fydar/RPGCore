@@ -6,12 +6,12 @@ namespace RPGCore.Behaviour
 	{
 		public OutputSocket Source;
 		public Type ConnectionType;
-		public object Link;
+		public Connection Connection;
 
-		public OutputMap (OutputSocket source, Type connectionType, object link)
+		public OutputMap (OutputSocket source, Type connectionType, Connection connection)
 		{
 			Source = source;
-			Link = link;
+			Connection = connection;
 			ConnectionType = connectionType;
 		}
 	}

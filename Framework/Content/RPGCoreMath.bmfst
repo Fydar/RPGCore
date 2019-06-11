@@ -85,7 +85,7 @@
     "Version": null,
     "Nodes": [
       {
-        "Name": "StatsNode",
+        "Name": "AddNode",
         "Description": null,
         "Inputs": [
           {
@@ -99,15 +99,14 @@
             "Type": "Int32"
           }
         ],
-        "Outputs": null,
-        "Fields": [
+        "Outputs": [
           {
-            "Name": "TooltipFormat",
+            "Name": "Output",
             "Description": null,
-            "Type": "String",
-            "Attributes": []
+            "Type": "Int32"
           }
-        ]
+        ],
+        "Fields": []
       },
       {
         "Name": "RollNode",

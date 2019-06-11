@@ -9,7 +9,7 @@ namespace RPGCore.Behaviour
 		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => null;
 		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => new[]
 		{
-			graph.Connect(ref Rand, out instance.random)
+			graph.Connect(ref Rand, ref instance.random)
 		};
 
 		public class Metadata : IAiNode
