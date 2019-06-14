@@ -5,8 +5,9 @@ namespace RPGCore.Packages
 {
 	public interface IResource
 	{
-		long CompressedSize { get; }
 		string Name { get; }
+		string FullName { get; }
+		long CompressedSize { get; }
 		long UncompressedSize { get; }
 
 		Stream LoadStream ();

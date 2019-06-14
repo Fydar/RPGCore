@@ -63,7 +63,6 @@ namespace RPGCore.Packages
 
             var entry = archive.GetEntry(packageKey);
 
-            byte[] buffer = new byte[entry.Length];
             var zipStream = entry.Open();
 
             return new PackageStream(zipStream, fileStream, archive);

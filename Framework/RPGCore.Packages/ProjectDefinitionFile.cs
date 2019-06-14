@@ -82,7 +82,7 @@ namespace RPGCore.Packages
 
     public abstract class Reference
     {
-        public abstract void IncludeInBuild(string output);
+        public abstract void IncludeInBuild(ProjectExplorer source, string output);
     }
 
     public class ProjectReference : Reference
@@ -108,10 +108,10 @@ namespace RPGCore.Packages
             Element = element;
         }
 
-        public override void IncludeInBuild(string output)
+        public override void IncludeInBuild(ProjectExplorer source, string output)
         {
             var accessPath = Path.Combine(File.Path, IncludePath);
-            var projectExplorer = ProjectExplorer.Load(accessPath);
+            var projectExplorer = ProjectExplorer.Load(accessPath, source.Importers);
             projectExplorer.Export(Path.Combine(output));
         }
     }

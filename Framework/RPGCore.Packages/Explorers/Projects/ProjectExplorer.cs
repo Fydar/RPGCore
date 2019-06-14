@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 
 namespace RPGCore.Packages
@@ -47,6 +48,8 @@ namespace RPGCore.Packages
         public string Version => Definition.Properties.Version;
         public IProjectAssetCollection Assets { get; private set; }
 
+        public List<ResourceImporter> Importers;
+
         IPackageAssetCollection IPackageExplorer.Assets => (IPackageAssetCollection)Assets;
 
         public ProjectExplorer()
@@ -54,7 +57,7 @@ namespace RPGCore.Packages
             Assets = new ProjectFolderCollection();
         }
 
-        public static ProjectExplorer Load(string path)
+        public static ProjectExplorer Load(string path, List<ResourceImporter> importers)
         {
             string bprojPath = null;
             if (path.EndsWith(".bproj"))
@@ -81,6 +84,22 @@ namespace RPGCore.Packages
                 Definition = ProjectDefinitionFile.Load(bprojPath)
             };
 
+            var ignoredDirectories = new List<string>()
+            {
+                Path.Combine(path, "bin")
+            };
+
+            foreach (var filePath in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
+            {
+                if (ignoredDirectories.Any(p => filePath.StartsWith(p)))
+                {
+                    continue;
+                }
+                
+            }
+
+            project.Importers = importers;
+
             string[] directories = Directory.GetDirectories(path);
             foreach (string folder in directories)
             {
@@ -101,7 +120,7 @@ namespace RPGCore.Packages
             string bpkgPath = Path.Combine(path, Name + ".bpkg");
             foreach (var reference in Definition.References)
             {
-                reference.IncludeInBuild(path);
+                reference.IncludeInBuild(this, path);
             }
 
             Directory.CreateDirectory(path);
@@ -122,8 +141,35 @@ namespace RPGCore.Packages
                 {
                     foreach (var resource in asset.ProjectResources)
                     {
-                        archive.CreateEntryFromFile(resource.Entry.FullName, asset.Archive.Name + "/" + resource.Name, CompressionLevel.Fastest);
-                        Console.WriteLine("Exported " + resource);
+                        ResourceImporter porter = null;
+                        foreach (var importer in Importers)
+                        {
+                            if (resource.Name.EndsWith("." + importer.ImportExtensions))
+                            {
+                                porter = importer;
+                                break;
+                            }
+                        }
+
+                        string entryName = asset.Archive.Name + "/" + resource.Name;
+                        long size = resource.UncompressedSize;
+
+                        ZipArchiveEntry entry;
+                        if (porter == null)
+                        {
+                            entry = archive.CreateEntryFromFile(resource.Entry.FullName, entryName, CompressionLevel.Fastest);
+                        }
+                        else
+                        {
+                            entry = archive.CreateEntry(entryName);
+
+                            using (var zipStream = entry.Open())
+                            {
+                                porter.BuildResource(resource, zipStream);
+                            }
+                        }
+
+                        Console.WriteLine($"Exported {entryName}, {size:#,##0} bytes");
                     }
                 }
             }

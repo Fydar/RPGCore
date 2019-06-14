@@ -11,9 +11,9 @@ public class AssetRenderer : MonoBehaviour
 	public Text Name;
 	public RawImage Icon;
 	
-	public void Render(PackageAsset asset)
+	public void Render(IAsset asset)
 	{
-		Name.text = asset.Root;
+		Name.text = asset.Name;
 		Icon.texture = asset.FindIcon ().LoadImage();
 	}
 }

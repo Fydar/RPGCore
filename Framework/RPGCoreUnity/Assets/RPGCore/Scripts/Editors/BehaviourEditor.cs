@@ -7,10 +7,10 @@ namespace RPGCore.Unity.Editors
 {
     public class BehaviourEditor : EditorWindow
     {
-        public PackageImport CurrentPackage;
+        public ProjectImport CurrentPackage;
 
         public bool HasCurrentAsset;
-        public PackageAsset CurrentAsset;
+        public IAsset CurrentAsset;
         public string CurrentAssetJson;
 
         [MenuItem("Window/Behaviour")]
@@ -23,7 +23,7 @@ namespace RPGCore.Unity.Editors
 
         public void OnGUI()
         {
-            CurrentPackage = (PackageImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(PackageImport), true);
+            CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(ProjectImport), true);
 
             var explorer = CurrentPackage.Explorer;
 
@@ -50,13 +50,13 @@ namespace RPGCore.Unity.Editors
             }
         }
 
-	    public static PackageResource FindBhvr (PackageAsset asset)
+	    public static IResource FindBhvr (IAsset asset)
         {
-            for (int i = 0; i < asset.Resources.Length; i++)
+            foreach (var resource in asset.Resources)
             {
-                if (asset.Resources[i].Name.EndsWith (".bhvr", System.StringComparison.Ordinal))
+                if (resource.Name.EndsWith (".bhvr", System.StringComparison.Ordinal))
                 {
-                    return asset.Resources[i];
+                    return resource;
                 }
             }
             return default (PackageResource);

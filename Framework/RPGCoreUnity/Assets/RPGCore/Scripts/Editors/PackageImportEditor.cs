@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-	[CustomEditor(typeof(PackageImport))]
-	public class PackageImportEditor : Editor
+	[CustomEditor(typeof(ProjectImport))]
+	public class ProjectImportEditor : Editor
 	{
 		Texture2D Spritesheet;
 		
@@ -14,12 +14,12 @@ namespace RPGCore.Unity.Editors
 		{
 			DrawDefaultInspector ();
 
-			var packageImport = (PackageImport)target;
+			var projectImport = (ProjectImport)target;
 
 			GUILayout.Space (8);
 
 			EditorGUILayout.BeginVertical (EditorStyles.helpBox);
-			foreach (var asset in packageImport.Explorer.Assets)
+			foreach (var asset in projectImport.Explorer.Assets)
 			{
 				EditorGUILayout.LabelField (asset.ToString (), EditorStyles.boldLabel);
 
@@ -41,7 +41,7 @@ namespace RPGCore.Unity.Editors
 
 			if (GUILayout.Button ("Reload"))
 			{
-				packageImport.Reload ();
+				projectImport.Reload ();
 			}
 
 			if (GUILayout.Button ("Create"))
@@ -50,12 +50,12 @@ namespace RPGCore.Unity.Editors
 				path = path.Substring (0, path.LastIndexOf ('/'));
 				Debug.Log (path);
 
-				foreach (var asset in packageImport.Explorer.Assets)
+				foreach (var asset in projectImport.Explorer.Assets)
 				{
-					string assetFolder = path + "/" + asset.Root;
+					string assetFolder = path + "/" + asset.Name;
 					if (!AssetDatabase.IsValidFolder (assetFolder))
 					{
-						assetFolder = AssetDatabase.CreateFolder (path, asset.Root);
+						assetFolder = AssetDatabase.CreateFolder (path, asset.Name);
 						assetFolder = AssetDatabase.GUIDToAssetPath (assetFolder);
 					}
 
