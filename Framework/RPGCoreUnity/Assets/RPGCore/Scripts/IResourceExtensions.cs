@@ -15,13 +15,13 @@ public static class IResourceExtensions
 		return loadedImage;
 	}
 
-	public static PackageResource FindIcon (this PackageAsset asset)
+	public static IResource FindIcon (this IAsset asset)
 	{
-		for (int i = 0; i < asset.Resources.Length; i++)
+		foreach (var resource in asset.Resources)
 		{
-			if (asset.Resources[i].Name.EndsWith (".png", System.StringComparison.Ordinal))
+			if (resource.Name.EndsWith (".png", System.StringComparison.Ordinal))
 			{
-				return asset.Resources[i];
+				return resource;
 			}
 		}
 		return default (PackageResource);

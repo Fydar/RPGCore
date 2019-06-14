@@ -26,7 +26,7 @@ namespace RPGCore.Packages
 				if (file.Extension == ".bpkg")
 					continue;
 
-				projectResources.Add(new ProjectResource (file));
+				projectResources.Add(new ProjectResource (file.FullName, file));
 			}
 
 			ProjectResources = projectResources.ToArray();

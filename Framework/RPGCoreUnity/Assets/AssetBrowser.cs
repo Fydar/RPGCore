@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AssetBrowser : MonoBehaviour
 {
-	public PackageImport Package;
+	public ProjectImport Package;
 
 	public RectTransform Holder;
 	public AssetRendererPool Assets;

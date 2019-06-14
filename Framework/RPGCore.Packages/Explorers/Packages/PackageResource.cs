@@ -7,38 +7,37 @@ namespace RPGCore.Packages
 	public class PackageResource : IResource
 	{
 		private readonly PackageExplorer Package;
-		private readonly string PackageKey;
+
+		public string Name { get; }
+		public string FullName { get; }
 
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
 
-		public string Name { get; }
-
 		public PackageResource (PackageExplorer package, ZipArchiveEntry packageEntry)
 		{
 			Package = package;
-			PackageKey = packageEntry.FullName;
+			Name = packageEntry.Name;
+			FullName = packageEntry.FullName;
 
 			CompressedSize = packageEntry.CompressedLength;
 			UncompressedSize = packageEntry.Length;
-			
-			Name = packageEntry.Name;
 		}
 
 		public Stream LoadStream()
 		{
-			return Package.LoadStream(PackageKey);
+			return Package.LoadStream(FullName);
 		}
 
 		public byte[] LoadData ()
 		{
-			return Package.OpenAsset (PackageKey);
+			return Package.OpenAsset (FullName);
 		}
 
 		public Task<byte[]> LoadDataAsync ()
 		{
 			var pkg = Package;
-			string pkgKey = PackageKey;
+			string pkgKey = FullName;
 			return Task.Run (() => pkg.OpenAsset (pkgKey));
 		}
 

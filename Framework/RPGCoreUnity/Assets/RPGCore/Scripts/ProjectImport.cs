@@ -4,19 +4,19 @@ using UnityEngine;
 namespace RPGCore.Unity
 {
 	[CreateAssetMenu(menuName = "RPGCore/Package Import")]
-	public class PackageImport : ScriptableObject
+	public class ProjectImport : ScriptableObject
 	{
 		public string RelativePath;
 
-		private PackageExplorer explorer;
+		private ProjectExplorer explorer;
 
-		public PackageExplorer Explorer
+		public ProjectExplorer Explorer
 		{
 			get
 			{
 				if (explorer == null)
 				{
-					explorer = PackageExplorer.Load (RelativePath);
+					explorer = ProjectExplorer.Load (RelativePath);
 				}
 				return explorer;
 			}

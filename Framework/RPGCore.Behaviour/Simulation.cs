@@ -2,12 +2,13 @@
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Packages;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
 
 namespace RPGCore.Behaviour
-{
+{	
 	public class Simulation
 	{
 		public void Start ()
@@ -25,7 +26,10 @@ namespace RPGCore.Behaviour
 
 			Console.WriteLine ("Importing Graph...");
 
-			var proj = ProjectExplorer.Load ("Content/Tutorial");
+			var proj = ProjectExplorer.Load ("Content/Tutorial", new List<ResourceImporter>()
+			{
+				new BhvrImporter()
+			});
 			Console.WriteLine (proj.Name);
 			Console.WriteLine ("\t\"" + proj.Name + "\"");
 			foreach (var asset in proj.Assets)
@@ -37,6 +41,7 @@ namespace RPGCore.Behaviour
 				}
 			}
 
+			Console.WriteLine(new DirectoryInfo("Content/Temp").FullName);
 			proj.Export ("Content/Temp");
 
 			Console.WriteLine ("Exported package...");

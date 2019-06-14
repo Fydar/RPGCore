@@ -10,22 +10,20 @@ namespace RPGCore.Packages
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
 
-		public string Name
-		{
-			get
-			{
-				return Entry.Name;
-			}
-		}
+		public string Name { get; }
 
-		public ProjectResource (FileInfo entry)
+		public string FullName { get; }
+
+		public ProjectResource (string projectKey, FileInfo entry)
 		{
 			Entry = entry;
 
-			CompressedSize = 0;
-			UncompressedSize = 0;
+			UncompressedSize = entry.Length;
+			CompressedSize = UncompressedSize;
+
+			Name = Entry.Name;
+			FullName = projectKey;
 		}
-		
 
 		public byte[] LoadData ()
 		{
@@ -43,14 +41,14 @@ namespace RPGCore.Packages
 			return result;
 		}
 
-		public override string ToString ()
-		{
-			return Name;
-		}
-
         public Stream LoadStream()
         {
 			return File.Open (Entry.FullName, FileMode.Open);
         }
+
+		public override string ToString ()
+		{
+			return FullName;
+		}
     }
 }

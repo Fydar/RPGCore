@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 	{
 		public string Type;
 		public JObject Data;
-		public PackageNodeEditor _Editor;
+		public PackageNodeEditor Editor;
 
 		public Node Unpack(string id, List<string> outputIds, ref int outputCounter)
 		{
