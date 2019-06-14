@@ -7,9 +7,8 @@ namespace RPGCore.Behaviour
 	public class GraphInstance : IGraphInstance
 	{
 		private readonly Graph graph;
-		public INodeInstance[] nodeInstances;
+		private readonly INodeInstance[] nodeInstances;
 		private readonly Connection[] connections;
-		private readonly  IDictionary<LocalId, JObject> data;
 
 		public INodeInstance this[LocalId id]
 		{
@@ -29,7 +28,6 @@ namespace RPGCore.Behaviour
 		public GraphInstance (Graph graph, IDictionary<LocalId, JObject> data = null)
 		{
 			this.graph = graph;
-			this.data = data;
 			
 			int nodeCount = graph.Nodes.Length;
 			nodeInstances = new INodeInstance[nodeCount];

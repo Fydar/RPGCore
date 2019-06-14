@@ -11,6 +11,8 @@ namespace RPGCore.Packages
 {
     public class ProjectExplorer : IPackageExplorer
     {
+        public long UncompressedSize { get; private set; }
+
         private class ProjectFolderCollection : IProjectAssetCollection
         {
             private Dictionary<string, ProjectAsset> assets;
@@ -107,6 +109,17 @@ namespace RPGCore.Packages
                 var projectFolder = new ProjectAsset(directoryInfo);
                 project.Assets.Add(projectFolder);
             }
+
+            long totalSize = 0;
+            foreach (var asset in project.Assets)
+            {
+                foreach (var resource in asset.Resources)
+                {
+                    totalSize += resource.UncompressedSize;
+                }
+            }
+            project.UncompressedSize = totalSize;
+
             return project;
         }
 
@@ -137,6 +150,8 @@ namespace RPGCore.Packages
                     zipStream.Write(bytes, 0, bytes.Length);
                 }
 
+                long currentProgress = 0;
+
                 foreach (var asset in Assets)
                 {
                     foreach (var resource in asset.ProjectResources)
@@ -157,7 +172,7 @@ namespace RPGCore.Packages
                         ZipArchiveEntry entry;
                         if (porter == null)
                         {
-                            entry = archive.CreateEntryFromFile(resource.Entry.FullName, entryName, CompressionLevel.Fastest);
+                            entry = archive.CreateEntryFromFile(resource.Entry.FullName, entryName, CompressionLevel.Optimal);
                         }
                         else
                         {
@@ -169,7 +184,11 @@ namespace RPGCore.Packages
                             }
                         }
 
-                        Console.WriteLine($"Exported {entryName}, {size:#,##0} bytes");
+                        currentProgress += size;
+
+                        double progress = (currentProgress / (double)UncompressedSize) * 100;
+
+                        Console.WriteLine($"{progress:0.0}% Exported {entryName}, {size:#,##0} bytes");
                     }
                 }
             }
