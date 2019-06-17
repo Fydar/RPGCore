@@ -32,13 +32,9 @@ namespace RPGCore.Behaviour
 			});
 			Console.WriteLine (proj.Name);
 			Console.WriteLine ("\t\"" + proj.Name + "\"");
-			foreach (var asset in proj.Assets)
+			foreach (var resource in proj.Resources)
 			{
-				Console.WriteLine ("\t" + asset.Archive.Name);
-				foreach (var resource in asset.ProjectResources)
-				{
-					Console.WriteLine ("\t\t" + resource);
-				}
+				Console.WriteLine ("\t" + resource.FullName);
 			}
 
 			Console.WriteLine(new DirectoryInfo("Content/Temp").FullName);
@@ -46,17 +42,9 @@ namespace RPGCore.Behaviour
 
 			Console.WriteLine ("Exported package...");
 			var exportedPackage = PackageExplorer.Load ("Content/Temp/Core.bpkg");
-			foreach (var asset in exportedPackage.Assets)
-			{
-				Console.WriteLine (asset.Root);
-				foreach (var resource in asset.PackageResources)
-				{
-					Console.WriteLine ("\t" + resource.ToString ());
-				}
-			}
 			
-			var fireballAsset = exportedPackage.Assets["Fireball"];
-			var data = fireballAsset.GetResource("Main.bhvr").LoadStream();
+			var fireballAsset = exportedPackage.Resources["Fireball/Main.bhvr"];
+			var data = fireballAsset.LoadStream();
 			
 			SerializedGraph packageItem;
 			

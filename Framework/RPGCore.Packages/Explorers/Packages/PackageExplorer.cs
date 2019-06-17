@@ -9,11 +9,11 @@ namespace RPGCore.Packages
 {
     public class PackageExplorer : IPackageExplorer
     {
-        private class PackageAssetCollection : IPackageAssetCollection
+        private class PackageResourceCollection : IPackageResourceCollection
         {
-            private Dictionary<string, PackageAsset> items;
+            private Dictionary<string, PackageResource> items;
 
-            public PackageAsset this[string key]
+            public PackageResource this[string key]
             {
                 get
                 {
@@ -21,14 +21,14 @@ namespace RPGCore.Packages
                 }
             }
 
-            public void Add(PackageAsset asset)
+            public void Add(PackageResource asset)
             {
                 if (items == null)
-                    items = new Dictionary<string, PackageAsset>();
-                items.Add(asset.ToString(), asset);
+                    items = new Dictionary<string, PackageResource>();
+                items.Add(asset.FullName, asset);
             }
 
-            public IEnumerator<PackageAsset> GetEnumerator()
+            public IEnumerator<PackageResource> GetEnumerator()
             {
                 return items.Values.GetEnumerator();
             }
@@ -44,11 +44,11 @@ namespace RPGCore.Packages
 
         public string Name => bProj.Properties.Name;
         public string Version => bProj.Properties.Version;
-        public IPackageAssetCollection Assets { get; private set; }
+        public IPackageResourceCollection Resources { get; private set; }
 
         public PackageExplorer()
         {
-            Assets = new PackageAssetCollection();
+            Resources = new PackageResourceCollection();
         }
 
         public void Dispose()
@@ -103,34 +103,10 @@ namespace RPGCore.Packages
                         string json = Encoding.UTF8.GetString(buffer);
                     }
 
-                    string pathPrefix = null;
-                    var pathEntries = new List<ZipArchiveEntry>();
                     foreach (var projectEntry in archive.Entries)
                     {
-                        int pathPrefixIndex = projectEntry.FullName.IndexOf('/');
-                        if (pathPrefixIndex == -1)
-                        {
-                            Console.WriteLine("Not adding \"" + projectEntry.FullName + "\" as an item.");
-                            continue;
-                        }
-                        string newPathIndex = projectEntry.FullName.Substring(0, pathPrefixIndex);
-
-                        if (pathPrefix == null)
-                            pathPrefix = newPathIndex;
-
-                        if (pathPrefix != newPathIndex)
-                        {
-                            var asset = new PackageAsset(package, pathPrefix, pathEntries.ToArray());
-                            pathEntries.Clear();
-                            package.Assets.Add(asset);
-                            pathPrefix = newPathIndex;
-                        }
-                        pathEntries.Add(projectEntry);
-                    }
-                    if (pathEntries.Count != 0)
-                    {
-                        var asset = new PackageAsset(package, pathPrefix, pathEntries.ToArray());
-                        package.Assets.Add(asset);
+                        var resource = new PackageResource(package, projectEntry);
+                        package.Resources.Add(resource);
                     }
                 }
                 fileStream.Close();
