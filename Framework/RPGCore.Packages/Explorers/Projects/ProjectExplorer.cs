@@ -13,34 +13,34 @@ namespace RPGCore.Packages
     {
         public long UncompressedSize { get; private set; }
 
-        private class ProjectFolderCollection : IProjectAssetCollection
+        private class ProjectResourceCollection : IProjectResourceCollection
         {
-            private Dictionary<string, ProjectAsset> assets;
+            private Dictionary<string, ProjectResource> resources;
 
-            public ProjectAsset this[string key]
+            public ProjectResource this[string key]
             {
                 get
                 {
-                    return assets[key];
+                    return resources[key];
                 }
             }
 
-            public void Add(ProjectAsset folder)
+            public void Add(ProjectResource folder)
             {
-                if (assets == null)
-                    assets = new Dictionary<string, ProjectAsset>();
+                if (resources == null)
+                    resources = new Dictionary<string, ProjectResource>();
 
-                assets.Add(folder.Archive.Name, folder);
+                resources.Add(folder.FullName, folder);
             }
 
-            public IEnumerator<ProjectAsset> GetEnumerator()
+            public IEnumerator<ProjectResource> GetEnumerator()
             {
-                return assets.Values.GetEnumerator();
+                return resources.Values.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return assets.Values.GetEnumerator();
+                return resources.Values.GetEnumerator();
             }
         }
 
@@ -48,15 +48,15 @@ namespace RPGCore.Packages
 
         public string Name => Definition.Properties.Name;
         public string Version => Definition.Properties.Version;
-        public IProjectAssetCollection Assets { get; private set; }
+        public IProjectResourceCollection Resources { get; private set; }
 
         public List<ResourceImporter> Importers;
 
-        IPackageAssetCollection IPackageExplorer.Assets => (IPackageAssetCollection)Assets;
+        IPackageResourceCollection IPackageExplorer.Resources => (IPackageResourceCollection)Resources;
 
         public ProjectExplorer()
         {
-            Assets = new ProjectFolderCollection();
+            Resources = new ProjectResourceCollection();
         }
 
         public static ProjectExplorer Load(string path, List<ResourceImporter> importers)
@@ -83,13 +83,17 @@ namespace RPGCore.Packages
 
             var project = new ProjectExplorer
             {
-                Definition = ProjectDefinitionFile.Load(bprojPath)
+                Definition = ProjectDefinitionFile.Load(bprojPath),
+                Importers = importers
             };
 
             var ignoredDirectories = new List<string>()
             {
                 Path.Combine(path, "bin")
             };
+
+            string normalizedPath = path.Replace('\\', '/');
+            long totalSize = 0;
 
             foreach (var filePath in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
             {
@@ -98,25 +102,19 @@ namespace RPGCore.Packages
                     continue;
                 }
                 
-            }
+                string packageKey = filePath
+                    .Replace('\\', '/')
+                    .Replace(normalizedPath + "/", "");
 
-            project.Importers = importers;
+                // var relative = new Uri(new FileInfo(path).FullName).MakeRelativeUri(new Uri (filePath));
 
-            string[] directories = Directory.GetDirectories(path);
-            foreach (string folder in directories)
-            {
-                var directoryInfo = new DirectoryInfo(folder);
-                var projectFolder = new ProjectAsset(directoryInfo);
-                project.Assets.Add(projectFolder);
-            }
+                var file = new FileInfo(filePath);
+                                
+                var resource = new ProjectResource(packageKey, file);
 
-            long totalSize = 0;
-            foreach (var asset in project.Assets)
-            {
-                foreach (var resource in asset.Resources)
-                {
-                    totalSize += resource.UncompressedSize;
-                }
+                project.Resources.Add(resource);
+                
+                totalSize += resource.UncompressedSize;
             }
             project.UncompressedSize = totalSize;
 
@@ -152,44 +150,41 @@ namespace RPGCore.Packages
 
                 long currentProgress = 0;
 
-                foreach (var asset in Assets)
+                foreach (var resource in Resources)
                 {
-                    foreach (var resource in asset.ProjectResources)
+                    ResourceImporter porter = null;
+                    foreach (var importer in Importers)
                     {
-                        ResourceImporter porter = null;
-                        foreach (var importer in Importers)
+                        if (resource.Name.EndsWith("." + importer.ImportExtensions))
                         {
-                            if (resource.Name.EndsWith("." + importer.ImportExtensions))
-                            {
-                                porter = importer;
-                                break;
-                            }
+                            porter = importer;
+                            break;
                         }
-
-                        string entryName = asset.Archive.Name + "/" + resource.Name;
-                        long size = resource.UncompressedSize;
-
-                        ZipArchiveEntry entry;
-                        if (porter == null)
-                        {
-                            entry = archive.CreateEntryFromFile(resource.Entry.FullName, entryName, CompressionLevel.Optimal);
-                        }
-                        else
-                        {
-                            entry = archive.CreateEntry(entryName);
-
-                            using (var zipStream = entry.Open())
-                            {
-                                porter.BuildResource(resource, zipStream);
-                            }
-                        }
-
-                        currentProgress += size;
-
-                        double progress = (currentProgress / (double)UncompressedSize) * 100;
-
-                        Console.WriteLine($"{progress:0.0}% Exported {entryName}, {size:#,##0} bytes");
                     }
+
+                    string entryName = resource.FullName;
+                    long size = resource.UncompressedSize;
+
+                    ZipArchiveEntry entry;
+                    if (porter == null)
+                    {
+                        entry = archive.CreateEntryFromFile(resource.Entry.FullName, entryName, CompressionLevel.Optimal);
+                    }
+                    else
+                    {
+                        entry = archive.CreateEntry(entryName);
+
+                        using (var zipStream = entry.Open())
+                        {
+                            porter.BuildResource(resource, zipStream);
+                        }
+                    }
+
+                    currentProgress += size;
+
+                    double progress = (currentProgress / (double)UncompressedSize) * 100;
+
+                    Console.WriteLine($"{progress:0.0}% Exported {entryName}, {size:#,##0} bytes");
                 }
             }
         }
