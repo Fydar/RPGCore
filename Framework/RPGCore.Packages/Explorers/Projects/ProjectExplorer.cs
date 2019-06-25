@@ -102,14 +102,17 @@ namespace RPGCore.Packages
                     continue;
                 }
                 
+                var file = new FileInfo(filePath);
+
+                if (file.Extension == ".bproj")
+                {
+                    continue;
+                }
+
                 string packageKey = filePath
                     .Replace('\\', '/')
                     .Replace(normalizedPath + "/", "");
-
-                // var relative = new Uri(new FileInfo(path).FullName).MakeRelativeUri(new Uri (filePath));
-
-                var file = new FileInfo(filePath);
-                                
+                    
                 var resource = new ProjectResource(packageKey, file);
 
                 project.Resources.Add(resource);

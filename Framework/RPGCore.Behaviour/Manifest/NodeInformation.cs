@@ -4,20 +4,16 @@ using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
 {
-	public struct NodeInformation
+	public class NodeInformation : EditableTargetInformation
 	{
-		public string Name;
-		public string Description;
-
 		public SocketInformation[] Inputs;
 		public SocketInformation[] Outputs;
-		public FieldInformation[] Fields;
 
 		public static NodeInformation Construct (Type nodeType)
 		{
 			var nodeInformation = new NodeInformation
 			{
-				Name = nodeType.Name
+				Name = nodeType.FullName
 			};
 
 			var typeDefinition = new Type[] { typeof (IGraphInstance), nodeType.BaseType.GenericTypeArguments[0] };
@@ -49,7 +45,7 @@ namespace RPGCore.Behaviour.Manifest
 				}
 				else
 				{
-					fieldInfos.Add (FieldInformation.Construct (field));
+					fieldInfos.Add (FieldInformation.Construct (field, nodeTemplate));
 				}
 			}
 			nodeInformation.Fields = fieldInfos.ToArray ();
