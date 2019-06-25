@@ -46,6 +46,11 @@ namespace RPGCore.Packages
 			return File.Open (Entry.FullName, FileMode.Open);
         }
 
+        public StreamWriter WriteStream()
+        {
+			return new StreamWriter(Entry.FullName, false);
+        }
+
 		public override string ToString ()
 		{
 			return FullName;

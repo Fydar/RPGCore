@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
+using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -36,7 +38,42 @@ namespace RPGCore.Behaviour
 			{
 				Console.WriteLine ("\t" + resource.FullName);
 			}
+			var editorTargetResource = proj.Resources["Tutorial Gamerules/Main.bhvr"];
+			var editorTargetData = editorTargetResource.LoadStream();
 
+			SerializedGraph editorTarget;
+			
+			var serializer = new JsonSerializer();
+
+			using (var sr = new StreamReader(editorTargetData))
+			using (var reader = new JsonTextReader(sr))
+			{
+				editorTarget = serializer.Deserialize<SerializedGraph>(reader);
+			}
+
+			var editNode = editorTarget.Nodes.First();
+			var typeData = manifest.Nodes.Nodes
+				.Where(t => t.Name == editNode.Value.Type)
+				.First();
+			
+			var editor = new EditorObject(typeData, editNode.Value.Data);
+
+			foreach (var field in editor)
+			{
+				Console.WriteLine($"{field.Property.Name}: {field.Property.Value} ({field.Information.Type})");
+				if (field.Information.Name == "MaxValue")
+				{
+					field.Property.Value = ((int)field.Property.Value) + 10;
+				}
+			}
+
+			using (var file = editorTargetResource.WriteStream())
+			{
+				serializer.Serialize(new JsonTextWriter(file)
+					{ Formatting = Formatting.Indented }, editorTarget);
+			}
+			
+			
 			Console.WriteLine(new DirectoryInfo("Content/Temp").FullName);
 			proj.Export ("Content/Temp");
 
@@ -51,7 +88,6 @@ namespace RPGCore.Behaviour
 			using (var sr = new StreamReader(data))
 			using (var reader = new JsonTextReader(sr))
 			{
-				var serializer = new JsonSerializer();
 				packageItem = serializer.Deserialize<SerializedGraph>(reader);
 			}
 

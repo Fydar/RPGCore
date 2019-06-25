@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 		public string Type;
 
 		public Dictionary<string, string> CustomData;
-		public Dictionary<string, SerializedNode> Nodes;
+		public Dictionary<LocalId, SerializedNode> Nodes;
 
 		public Graph Unpack ()
 		{

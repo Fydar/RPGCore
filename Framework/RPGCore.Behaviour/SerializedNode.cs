@@ -14,7 +14,7 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node Unpack(string id, List<string> outputIds, ref int outputCounter)
+		public Node Unpack(LocalId id, List<string> outputIds, ref int outputCounter)
 		{
 			var nodeType = System.Type.GetType(Type);
 
@@ -33,7 +33,7 @@ namespace RPGCore.Behaviour
 
 			var node = (Node)nodeObject;
 
-			node.Id = new LocalId(id);
+			node.Id = id;
 
 			return node;
 		}
