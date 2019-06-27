@@ -8,41 +8,7 @@ using System.Xml.Serialization;
 
 namespace RPGCore.Packages
 {
-    public class ProjectDefinitionProperties
-    {
-        private XmlNode Element;
-
-        public string Name
-        {
-            get
-            {
-                return Element.SelectSingleNode("Name").InnerXml;
-            }
-            set
-            {
-                Element.SelectSingleNode("Name").InnerXml = value;
-            }
-        }
-
-        public string Version
-        {
-            get
-            {
-                return Element.SelectSingleNode("Version").InnerXml;
-            }
-            set
-            {
-                Element.SelectSingleNode("Version").InnerXml = value;
-            }
-        }
-
-        public ProjectDefinitionProperties(XmlNode element)
-        {
-            Element = element;
-        }
-    }
-
-    public class ProjectDefinitionFile : XmlProjectFile
+	public class ProjectDefinitionFile : XmlProjectFile
     {
         public ProjectDefinitionProperties Properties;
         public List<Reference> References;
@@ -53,14 +19,25 @@ namespace RPGCore.Packages
             Properties = new ProjectDefinitionProperties(Document.GetElementsByTagName("Properties").Item(0));
 
             References = new List<Reference>();
-            var referencesTag = Document.GetElementsByTagName("ProjectReference");
-            for (int i = 0; i < referencesTag.Count; i++)
+            var projectReferenceTags = Document.GetElementsByTagName("ProjectReference");
+            for (int i = 0; i < projectReferenceTags.Count; i++)
             {
-                var projectReferenceElement = referencesTag.Item(i);
+                var projectReferenceElement = projectReferenceTags.Item(i);
 
                 if (projectReferenceElement is XmlElement element)
                 {
                    References.Add(new ProjectReference(this, element));
+                }
+            }
+
+            var resourceReferenceTags = Document.GetElementsByTagName("ResourceReference");
+            for (int i = 0; i < resourceReferenceTags.Count; i++)
+            {
+                var resourceReferenceElement = resourceReferenceTags.Item(i);
+
+                if (resourceReferenceElement is XmlElement element)
+                {
+                   References.Add(new ResourceReference(this, element));
                 }
             }
         }
@@ -77,42 +54,6 @@ namespace RPGCore.Packages
             var model = new ProjectDefinitionFile(doc);
             model.Path = path;
             return model;
-        }
-    }
-
-    public abstract class Reference
-    {
-        public abstract void IncludeInBuild(ProjectExplorer source, string output);
-    }
-
-    public class ProjectReference : Reference
-    {
-        public ProjectDefinitionFile File;
-        public XmlElement Element;
-
-        public string IncludePath
-        {
-            get
-            {
-                return Element.Attributes["Include"].Value;
-            }
-            set
-            {
-               Element.Attributes["Include"].Value = value;
-            }
-        }
-        
-        public ProjectReference(ProjectDefinitionFile file, XmlElement element)
-        {
-            File = file;
-            Element = element;
-        }
-
-        public override void IncludeInBuild(ProjectExplorer source, string output)
-        {
-            var accessPath = Path.Combine(File.Path, IncludePath);
-            var projectExplorer = ProjectExplorer.Load(accessPath, source.Importers);
-            projectExplorer.Export(Path.Combine(output));
         }
     }
 }

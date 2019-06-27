@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
 {
 	public struct TypeInformation
 	{
-		public string Name;
 		public string Description;
-		public TypeConversion[] Conversions;
+		public Dictionary<string, TypeConversion> ImplicitConversions;
 
 		public static TypeInformation Construct (Type type)
 		{
-			var typeInformation = new TypeInformation
+			var typeInformation = new TypeInformation();
+			var conversions = new Dictionary<string, TypeConversion> ();
+
+			var methods = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+
+			foreach (var method in methods)
 			{
-				Name = type.Name
-			};
-			var conversions = new List<TypeConversion> ();
+				if (method.Name == "op_implicit")
+				{
+					conversions.Add(method.ReturnType.FullName, TypeConversion.Construct(method));
+				}
+			}
 
-			//var methods = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
-
-			typeInformation.Conversions = conversions.ToArray ();
+			typeInformation.ImplicitConversions = conversions;
 			return typeInformation;
 		}
 	}

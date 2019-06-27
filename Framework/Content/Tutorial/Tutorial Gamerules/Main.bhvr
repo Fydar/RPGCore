@@ -8,8 +8,12 @@
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
         "MinValue": 1,
-        "MaxValue": 65,
-        "TooltipFormat": "{0}"
+        "MaxValue": 235,
+        "TooltipFormat": "{0}",
+        "Data": {
+          "Hi": 0,
+          "Goodbyte": false
+        }
       },
       "Editor": {
         "Position": {

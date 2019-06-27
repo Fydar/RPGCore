@@ -8,27 +8,54 @@ namespace RPGCore.Behaviour.Manifest
 		public string Name;
 		public string Description;
 		public string Type;
-		public JValue DefaultValue;
+		public JToken DefaultValue;
 		public string[] Attributes;
 
-		public static FieldInformation Construct (FieldInfo field, object defaultInstance)
+		public static FieldInformation Construct(FieldInfo field, object defaultInstance)
 		{
-			object[] attributes = field.GetCustomAttributes (false);
+			object[] attributes = field.GetCustomAttributes(false);
 			string[] attributeIds = new string[attributes.Length];
 			for (int i = 0; i < attributes.Length; i++)
 			{
-				attributeIds[i] = attributes.GetType ().Name;
+				attributeIds[i] = attributes.GetType().Name;
 			}
 
-			var defaultValue = field.GetValue(defaultInstance);
-
-			var fieldInformation = new FieldInformation
+			FieldInformation fieldInformation;
+			if (typeof(InputSocket).IsAssignableFrom(field.FieldType))
 			{
-				Type = field.FieldType.Name,
-				Name = field.Name,
-				Attributes = attributeIds,
-				DefaultValue = new JValue(defaultValue)
-			};
+				fieldInformation = new FieldInformation()
+				{
+					Type = "InputSocket",
+					Name = field.Name,
+					Attributes = attributeIds,
+					DefaultValue = new JValue((object)null)
+				};
+			}
+			else
+			{
+				var defaultValue = field.GetValue(defaultInstance);
+
+			try{
+				fieldInformation = new FieldInformation
+				{
+					Type = field.FieldType.Name,
+					Name = field.Name,
+					Attributes = attributeIds,
+					DefaultValue = new JValue(defaultValue)
+				};
+			}
+			catch
+			{
+				fieldInformation = new FieldInformation
+				{
+					Type = field.FieldType.Name,
+					Name = field.Name,
+					Attributes = attributeIds,
+					DefaultValue = JObject.FromObject(defaultValue)
+				};
+			}
+			}
+
 
 			return fieldInformation;
 		}

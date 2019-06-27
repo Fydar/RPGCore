@@ -11,10 +11,7 @@ namespace RPGCore.Behaviour.Manifest
 
 		public static NodeInformation Construct (Type nodeType)
 		{
-			var nodeInformation = new NodeInformation
-			{
-				Name = nodeType.FullName
-			};
+			var nodeInformation = new NodeInformation();
 
 			var typeDefinition = new Type[] { typeof (IGraphInstance), nodeType.BaseType.GenericTypeArguments[0] };
 			var inputsProperty = nodeType.GetMethod ("Inputs", typeDefinition);
@@ -31,13 +28,7 @@ namespace RPGCore.Behaviour.Manifest
 			var fieldInfos = new List<FieldInformation> ();
 			foreach (var field in nodeType.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
-				if (field.FieldType == typeof (InputSocket))
-				{
-					field.SetValue (nodeTemplate, new InputSocket (inputId));
-					inputId++;
-					inputSocketFields.Add (field);
-				}
-				else if (field.FieldType == typeof (OutputSocket))
+				if (field.FieldType == typeof (OutputSocket))
 				{
 					field.SetValue (nodeTemplate, new OutputSocket (outputId));
 					outputId++;
@@ -45,6 +36,12 @@ namespace RPGCore.Behaviour.Manifest
 				}
 				else
 				{
+					if (field.FieldType == typeof (InputSocket))
+					{
+						field.SetValue (nodeTemplate, new InputSocket (inputId));
+						inputId++;
+						inputSocketFields.Add (field);
+					}
 					fieldInfos.Add (FieldInformation.Construct (field, nodeTemplate));
 				}
 			}

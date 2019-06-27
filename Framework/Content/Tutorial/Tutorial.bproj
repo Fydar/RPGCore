@@ -21,6 +21,7 @@
 
   <References>
     <ProjectReference Include="..\..\Core\Core.bproj" />
+    <ResourceReference Name="RPGCoreMath.bmfst" Include="..\..\RPGCoreMath.bmfst" />
   </References>
 
 </Project>

@@ -3,12 +3,18 @@ using Newtonsoft.Json;
 
 namespace RPGCore.Behaviour
 {
+	public struct ExtraData
+	{
+		public int Hi;
+		public bool Goodbyte;
+	}
 	public class RollNode : Node<RollNode.Metadata>
 	{
 		public OutputSocket Output = new OutputSocket ();
 		public string TooltipFormat = "{0}";
 		public int MinValue = 2;
 		public int MaxValue = 12;
+		public ExtraData Data;
 
 		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => null;
 
