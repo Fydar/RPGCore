@@ -112,7 +112,7 @@ namespace RPGCore.Packages
                 string packageKey = filePath
                     .Replace('\\', '/')
                     .Replace(normalizedPath + "/", "");
-                    
+
                 var resource = new ProjectResource(packageKey, file);
 
                 project.Resources.Add(resource);
@@ -131,13 +131,15 @@ namespace RPGCore.Packages
 
         public void Export(string path)
         {
+            Directory.CreateDirectory(path);
+
+            var buildProcess = new ProjectBuildProcess(this, path);
+
             string bpkgPath = Path.Combine(path, Name + ".bpkg");
             foreach (var reference in Definition.References)
             {
-                reference.IncludeInBuild(this, path);
+                reference.IncludeInBuild(buildProcess, path);
             }
-
-            Directory.CreateDirectory(path);
 
             using (var fileStream = new FileStream(bpkgPath, FileMode.Create, FileAccess.Write))
             using (var archive = new ZipArchive(fileStream, ZipArchiveMode.Create, false))
@@ -145,8 +147,7 @@ namespace RPGCore.Packages
                 var manifest = archive.CreateEntry("Main.bmft");
                 using (var zipStream = manifest.Open())
                 {
-                    string json = "{\"placeholder\": \"json manifest\"}";
-                    //string json = JsonConvert.SerializeObject (Definition);
+                    string json = JsonConvert.SerializeObject (buildProcess.PackageDefinition);
                     byte[] bytes = Encoding.UTF8.GetBytes(json);
                     zipStream.Write(bytes, 0, bytes.Length);
                 }

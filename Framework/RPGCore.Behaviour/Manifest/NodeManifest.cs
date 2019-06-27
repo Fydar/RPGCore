@@ -8,13 +8,13 @@ namespace RPGCore.Behaviour.Manifest
 	{
 		public string Name;
 		public string Version;
-		public NodeInformation[] Nodes;
+		public Dictionary<string, NodeInformation> Nodes;
 
 		public static NodeManifest Construct ()
 		{
 			var manifest = new NodeManifest ();
 
-			var information = new List<NodeInformation> ();
+			var information = new Dictionary<string, NodeInformation> ();
 			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ())
 			{
 				foreach (var type in assembly.GetTypes ())
@@ -24,11 +24,11 @@ namespace RPGCore.Behaviour.Manifest
 
 					if (typeof (Node).IsAssignableFrom (type))
 					{
-						information.Add (NodeInformation.Construct (type));
+						information.Add (type.FullName, NodeInformation.Construct (type));
 					}
 				}
 			}
-			manifest.Nodes = information.ToArray ();
+			manifest.Nodes = information;
 			return manifest;
 		}
 
@@ -36,12 +36,12 @@ namespace RPGCore.Behaviour.Manifest
 		{
 			var manifest = new NodeManifest ();
 
-			var information = new List<NodeInformation> ();
+			var information = new Dictionary<string, NodeInformation> ();
 			foreach (var type in types)
 			{
-				information.Add (NodeInformation.Construct (type));
+				information.Add (type.FullName, NodeInformation.Construct (type));
 			}
-			manifest.Nodes = information.ToArray ();
+			manifest.Nodes = information;
 			return manifest;
 		}
 

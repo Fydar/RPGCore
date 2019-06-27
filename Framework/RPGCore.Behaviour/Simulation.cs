@@ -52,9 +52,7 @@ namespace RPGCore.Behaviour
 			}
 
 			var editNode = editorTarget.Nodes.First();
-			var typeData = manifest.Nodes.Nodes
-				.Where(t => t.Name == editNode.Value.Type)
-				.First();
+			var typeData = manifest.Nodes.Nodes[editNode.Value.Type];
 			
 			var editor = new EditorObject(typeData, editNode.Value.Data);
 
