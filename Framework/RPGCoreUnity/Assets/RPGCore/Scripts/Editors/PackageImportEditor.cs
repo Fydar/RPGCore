@@ -19,18 +19,10 @@ namespace RPGCore.Unity.Editors
 			GUILayout.Space (8);
 
 			EditorGUILayout.BeginVertical (EditorStyles.helpBox);
-			foreach (var asset in projectImport.Explorer.Assets)
+			foreach (var resource in projectImport.Explorer.Resources)
 			{
-				EditorGUILayout.LabelField (asset.ToString (), EditorStyles.boldLabel);
-
-				EditorGUI.indentLevel++;
-				foreach (var resource in asset.Resources)
-				{
-					EditorGUILayout.LabelField (resource.Name);
-				}
-				EditorGUI.indentLevel--;
+				EditorGUILayout.LabelField (resource.Name);
 			}
-			EditorGUILayout.EndVertical ();
 			
 			if (Spritesheet != null)
 			{
@@ -50,16 +42,16 @@ namespace RPGCore.Unity.Editors
 				path = path.Substring (0, path.LastIndexOf ('/'));
 				Debug.Log (path);
 
-				foreach (var asset in projectImport.Explorer.Assets)
+				/*foreach (var resource in projectImport.Explorer.Resources)
 				{
-					string assetFolder = path + "/" + asset.Name;
+					string assetFolder = path + "/" + resource.Name;
 					if (!AssetDatabase.IsValidFolder (assetFolder))
 					{
-						assetFolder = AssetDatabase.CreateFolder (path, asset.Name);
+						assetFolder = AssetDatabase.CreateFolder (path, resource.Name);
 						assetFolder = AssetDatabase.GUIDToAssetPath (assetFolder);
 					}
 
-					string assetImportPath = assetFolder + "/" + asset.Name + ".asset";
+					string assetImportPath = assetFolder + "/" + resource.Name + ".asset";
 
 					var assetImport = AssetDatabase.LoadAssetAtPath<AssetImport> (assetImportPath);
 					if (assetImport == null)
@@ -70,12 +62,12 @@ namespace RPGCore.Unity.Editors
 					
 					AssetImporter.GetAtPath (assetImportPath).SetAssetBundleNameAndVariant (target.name, "");
 
-					var assetIcon = asset.FindIcon().LoadImage ();
+					var assetIcon = resource.FindIcon().LoadImage ();
 
 					AssetDatabase.AddObjectToAsset (assetIcon, assetImport);
 					AssetDatabase.ImportAsset (AssetDatabase.GetAssetPath (assetIcon));
 
-				}
+				} */
 			}
 
 			if (GUILayout.Button ("Export"))

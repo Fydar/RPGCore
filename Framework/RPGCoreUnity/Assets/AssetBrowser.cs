@@ -14,10 +14,10 @@ public class AssetBrowser : MonoBehaviour
 	{
 		var explorer = Package.Explorer;
 
-		foreach (var asset in explorer.Assets)
+		foreach (var resource in explorer.Resources)
 		{
 			var assetRenderer = Assets.Grab (Holder);
-			assetRenderer.Render (asset);
+			assetRenderer.Render (resource);
 		}
 	}
 }

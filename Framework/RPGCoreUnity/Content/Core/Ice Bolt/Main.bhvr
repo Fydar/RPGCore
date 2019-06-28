@@ -1,17 +1,24 @@
 {
   "Name": "BronzeLongsword",
+  "Description": null,
+  "Type": null,
+  "CustomData": null,
   "Nodes": {
     "0a084c2c": {
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
-        "MinValue": 1,
-        "MaxValue": 5,
-        "TooltipFormat": "{0}"
+        "MinValue": 10,
+        "MaxValue": 15,
+        "TooltipFormat": "{0}",
+        "Data": {
+          "Hi": 0,
+          "Goodbyte": false
+        }
       },
-      "_Editor": {
+      "Editor": {
         "Position": {
-          "x": 362,
-          "y": 231
+          "x": 0,
+          "y": 0
         }
       }
     },
@@ -19,26 +26,30 @@
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
         "MinValue": 20,
-        "MaxValue": 40,
-        "TooltipFormat": "{0}"
+        "MaxValue": 30,
+        "TooltipFormat": "{0}",
+        "Data": {
+          "Hi": 0,
+          "Goodbyte": false
+        }
       },
-      "_Editor": {
+      "Editor": {
         "Position": {
-          "x": 362,
-          "y": 231
+          "x": 0,
+          "y": 0
         }
       }
     },
-    "a4f194f": {
-      "Type": "RPGCore.Behaviour.StatsNode",
+    "0a4f194f": {
+      "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
         "ValueA": "0a084c2c.Output",
         "ValueB": "4a41bc58.Output"
       },
-      "_Editor": {
+      "Editor": {
         "Position": {
-          "x": 362,
-          "y": 231
+          "x": 0,
+          "y": 0
         }
       }
     }
