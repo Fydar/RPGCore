@@ -1,5 +1,7 @@
 ﻿using RPGCore.Packages;
+using RPGCore.Behaviour;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace RPGCore.Unity
 {
@@ -16,7 +18,10 @@ namespace RPGCore.Unity
 			{
 				if (explorer == null)
 				{
-					explorer = ProjectExplorer.Load (RelativePath);
+					explorer = ProjectExplorer.Load (RelativePath, new List<ResourceImporter>()
+					{
+						new BhvrImporter()
+					});
 				}
 				return explorer;
 			}

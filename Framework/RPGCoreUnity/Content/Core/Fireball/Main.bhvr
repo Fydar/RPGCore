@@ -1,17 +1,24 @@
 {
   "Name": "Fireball",
+  "Description": null,
+  "Type": null,
+  "CustomData": null,
   "Nodes": {
     "0a084c2c": {
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
         "MinValue": 1,
         "MaxValue": 5,
-        "TooltipFormat": "{0}"
+        "TooltipFormat": "{0}",
+        "Data": {
+          "Hi": 0,
+          "Goodbyte": false
+        }
       },
-      "_Editor": {
+      "Editor": {
         "Position": {
-          "x": 162,
-          "y": 260
+          "x": 0,
+          "y": 0
         }
       }
     },
@@ -20,25 +27,29 @@
       "Data": {
         "MinValue": 20,
         "MaxValue": 25,
-        "TooltipFormat": "{0}"
+        "TooltipFormat": "{0}",
+        "Data": {
+          "Hi": 0,
+          "Goodbyte": false
+        }
       },
-      "_Editor": {
+      "Editor": {
         "Position": {
-          "x": 162,
-          "y": 260
+          "x": 0,
+          "y": 0
         }
       }
     },
-    "a4f194f": {
+    "0a4f194f": {
       "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
         "ValueA": "0a084c2c.Output",
         "ValueB": "472c7ba2.Output"
       },
-      "_Editor": {
+      "Editor": {
         "Position": {
-          "x": 362,
-          "y": 231
+          "x": 0,
+          "y": 0
         }
       }
     }
