@@ -1,5 +1,4 @@
 using System.IO;
-using System.Threading.Tasks;
 
 namespace RPGCore.Packages
 {
@@ -7,6 +6,6 @@ namespace RPGCore.Packages
 	{
 		public abstract string ImportExtensions { get; }
 
-		public abstract void BuildResource(IResource resource, Stream writer);
-    }
+		public abstract void BuildResource (IResource resource, Stream writer);
+	}
 }

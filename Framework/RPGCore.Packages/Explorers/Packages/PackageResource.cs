@@ -24,9 +24,9 @@ namespace RPGCore.Packages
 			UncompressedSize = packageEntry.Length;
 		}
 
-		public Stream LoadStream()
+		public Stream LoadStream ()
 		{
-			return Package.LoadStream(FullName);
+			return Package.LoadStream (FullName);
 		}
 
 		public byte[] LoadData ()

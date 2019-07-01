@@ -24,7 +24,7 @@ namespace RPGCore.Behaviour
 			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
-				AiRandNode stats = (AiRandNode)parent;
+				var stats = (AiRandNode)parent;
 
 				random.OnRequested += RandomRequested;
 
