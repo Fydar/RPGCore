@@ -6,7 +6,7 @@ using System.Globalization;
 namespace RPGCore.Behaviour
 {
 	[TypeConverter (typeof (LocalIdConverter))]
-	public struct LocalId
+	public struct LocalId : IEquatable<LocalId>
 	{
 		public static readonly LocalId None = new LocalId (0);
 
@@ -22,24 +22,34 @@ namespace RPGCore.Behaviour
 			Id = id;
 		}
 
+		public override bool Equals (object obj)
+		{
+			return obj is LocalId id && Equals (id);
+		}
+
+		public bool Equals (LocalId other)
+		{
+			return Id == other.Id;
+		}
+
+		public override int GetHashCode ()
+		{
+			return 2108858624 + Id.GetHashCode ();
+		}
+
 		public override string ToString ()
 		{
 			return Id.ToString ("x8");
 		}
 
-		public override int GetHashCode ()
-		{
-			return Id.GetHashCode ();
-		}
-
 		public static bool operator == (LocalId left, LocalId right)
 		{
-			return left.Id == right.Id;
+			return left.Equals (right);
 		}
 
 		public static bool operator != (LocalId left, LocalId right)
 		{
-			return left.Id != right.Id;
+			return !(left == right);
 		}
 	}
 
@@ -64,7 +74,7 @@ namespace RPGCore.Behaviour
 		}
 	}
 
-	public class LocalIdConverter : TypeConverter
+	class LocalIdConverter : TypeConverter
 	{
 		public override bool CanConvertFrom (ITypeDescriptorContext context, Type sourceType)
 		{
@@ -75,24 +85,18 @@ namespace RPGCore.Behaviour
 		{
 			string stringValue = value as string;
 
-			if (!string.IsNullOrEmpty (stringValue))
-			{
-				return new LocalId (stringValue);
-			}
-
-			return base.ConvertFrom (context, culture, value);
+			return !string.IsNullOrEmpty (stringValue)
+				? new LocalId (stringValue)
+				: base.ConvertFrom (context, culture, value);
 		}
 
 		public override object ConvertTo (ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
 			var localId = (LocalId)value;
 
-			if (localId != null && destinationType == typeof (string))
-			{
-				return localId.ToString ();
-			}
-
-			return base.ConvertTo (context, culture, value, destinationType);
+			return localId != null && destinationType == typeof (string)
+				? localId.ToString ()
+				: base.ConvertTo (context, culture, value, destinationType);
 		}
 	}
 }
