@@ -59,7 +59,7 @@ namespace RPGCore.Behaviour
 			foreach (var field in editor)
 			{
 				Console.WriteLine($"{field.Property.Name}: {field.Property.Value} ({field.Information.Type})");
-				if (field.Information.Name == "MaxValue")
+				if (field.Property.Name == "MaxValue")
 				{
 					field.Property.Value = ((int)field.Property.Value) + 10;
 				}

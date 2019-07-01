@@ -22,7 +22,7 @@ namespace RPGCore.Unity.Editors
 		public SerializedGraph editorTarget;
 		public List<EditorObject> editors;
 
-		JsonSerializer serializer = new JsonSerializer();
+		private JsonSerializer serializer = new JsonSerializer();
 
 		[MenuItem("Window/Behaviour")]
 		public static void Open()
@@ -96,6 +96,7 @@ namespace RPGCore.Unity.Editors
 
 				foreach (var editor in editors)
 				{
+					
 					EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 					foreach (var field in editor)
 					{
