@@ -5,14 +5,10 @@ using Newtonsoft.Json.Linq;
 
 namespace RPGCore.Behaviour.Manifest
 {
-	public class JsonValueTypeInformation
+	public class JsonValueTypeInformation : TypeInformation
 	{
-		public string Name;
-		public string Description;
 		public FieldInformation[] Fields;
 		public JValue DefaultValue;
-
-		public Dictionary<string, TypeConversion> ImplicitConversions;
 
 		public static JsonValueTypeInformation Construct(Type type)
 		{
