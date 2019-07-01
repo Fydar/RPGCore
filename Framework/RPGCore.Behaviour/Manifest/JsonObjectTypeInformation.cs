@@ -4,13 +4,9 @@ using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
 {
-	public class JsonObjectTypeInformation
+	public class JsonObjectTypeInformation : TypeInformation
 	{
-		public string Name;
-		public string Description;
 		public Dictionary<string, FieldInformation> Fields;
-
-		public Dictionary<string, TypeConversion> ImplicitConversions;
 
 		public static JsonObjectTypeInformation Construct(Type type)
 		{
