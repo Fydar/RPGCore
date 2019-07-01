@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
@@ -12,10 +12,11 @@ namespace RPGCore.Behaviour
 
 		public INodeInstance this[LocalId id]
 		{
-			get {
+			get
+			{
 				for (int i = 0; i < graph.Nodes.Length; i++)
 				{
-					Node node = graph.Nodes[i];
+					var node = graph.Nodes[i];
 					if (node.Id == id)
 					{
 						return nodeInstances[i];
@@ -28,7 +29,7 @@ namespace RPGCore.Behaviour
 		public GraphInstance (Graph graph, IDictionary<LocalId, JObject> data = null)
 		{
 			this.graph = graph;
-			
+
 			int nodeCount = graph.Nodes.Length;
 			nodeInstances = new INodeInstance[nodeCount];
 			connections = new Connection[graph.OutputCount];
@@ -37,13 +38,13 @@ namespace RPGCore.Behaviour
 			for (int i = 0; i < nodeCount; i++)
 			{
 				var node = graph.Nodes[i];
-				
-				if (data != null && data.TryGetValue(node.Id, out var instanceData))
-				{
-					var serializer = new JsonSerializer();
-					serializer.Converters.Add(new OutputConverter());
 
-					nodeInstances[i] = (INodeInstance)instanceData.ToObject(node.MetadataType, serializer);
+				if (data != null && data.TryGetValue (node.Id, out var instanceData))
+				{
+					var serializer = new JsonSerializer ();
+					serializer.Converters.Add (new OutputConverter ());
+
+					nodeInstances[i] = (INodeInstance)instanceData.ToObject (node.MetadataType, serializer);
 				}
 				else
 				{
@@ -81,22 +82,24 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public SerializedGraphInstance Pack()
+		public SerializedGraphInstance Pack ()
 		{
-			var nodeMap = new Dictionary<LocalId, JObject>();
+			var nodeMap = new Dictionary<LocalId, JObject> ();
 
 			for (int i = 0; i < nodeInstances.Length; i++)
 			{
 				var instance = nodeInstances[i];
 				var node = graph.Nodes[i];
-				
-				var serializer = new JsonSerializer();
-				serializer.ContractResolver = new IgnoreInputsResolver();
-				
-				nodeMap.Add(node.Id, JObject.FromObject(instance, serializer));
+
+				var serializer = new JsonSerializer
+				{
+					ContractResolver = new IgnoreInputsResolver ()
+				};
+
+				nodeMap.Add (node.Id, JObject.FromObject (instance, serializer));
 			}
 
-			return new SerializedGraphInstance()
+			return new SerializedGraphInstance ()
 			{
 				GraphType = graph.Name,
 				NodeInstances = nodeMap
@@ -110,7 +113,9 @@ namespace RPGCore.Behaviour
 				var node = nodeInstances[i];
 
 				if (node.GetType () == typeof (T))
+				{
 					return node;
+				}
 			}
 			return null;
 		}
@@ -130,7 +135,7 @@ namespace RPGCore.Behaviour
 				newConnection.Value = ((Connection<T>)connection).Value;
 			}
 			connection = newConnection;
-			
+
 			return new OutputMap (socket, typeof (T), newConnection);
 		}
 
@@ -155,7 +160,9 @@ namespace RPGCore.Behaviour
 		private Connection<T> GetOrCreateConnection<T> (int id)
 		{
 			if (id < 0)
+			{
 				return null;
+			}
 
 			var shared = connections[id];
 			if (shared == null)
@@ -169,7 +176,9 @@ namespace RPGCore.Behaviour
 		private Connection<T> GetConnection<T> (int id)
 		{
 			if (id < 0)
+			{
 				return null;
+			}
 
 			var shared = connections[id];
 			return (Connection<T>)shared;

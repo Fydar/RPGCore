@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Runner", "RPGCore.Runner\RPGCore.Runner.csproj", "{5EC6394B-AAB5-488A-A3A9-86181E5A578A}"
 EndProject
@@ -10,6 +10,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Behaviour.UnitTests", "RPGCore.Behaviour.UnitTests\RPGCore.Behaviour.UnitTests.csproj", "{B823B7EA-D10E-4E2B-AE46-16CDA1D7C5B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Packages", "RPGCore.Packages\RPGCore.Packages.csproj", "{A74F918B-D16F-4EE9-B988-2981A38FD72A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F12F88D8-C148-4DA1-9953-CA2C29A25E2A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

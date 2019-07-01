@@ -2,8 +2,8 @@
 {
 	public sealed class ManifestCaptureGraphInstance : IGraphInstance
 	{
-		private Node node;
-		private INodeInstance instance;
+		private readonly Node node;
+		private readonly INodeInstance instance;
 
 		public INodeInstance this[LocalId id] => null;
 

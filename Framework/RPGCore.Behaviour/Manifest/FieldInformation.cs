@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
 {
@@ -11,49 +11,50 @@ namespace RPGCore.Behaviour.Manifest
 		public JToken DefaultValue;
 		public string[] Attributes;
 
-		public static FieldInformation Construct(FieldInfo field, object defaultInstance)
+		public static FieldInformation Construct (FieldInfo field, object defaultInstance)
 		{
-			object[] attributes = field.GetCustomAttributes(false);
+			object[] attributes = field.GetCustomAttributes (false);
 			string[] attributeIds = new string[attributes.Length];
 			for (int i = 0; i < attributes.Length; i++)
 			{
-				attributeIds[i] = attributes.GetType().Name;
+				attributeIds[i] = attributes.GetType ().Name;
 			}
 
 			FieldInformation fieldInformation;
-			if (typeof(InputSocket).IsAssignableFrom(field.FieldType))
+			if (typeof (InputSocket).IsAssignableFrom (field.FieldType))
 			{
-				fieldInformation = new FieldInformation()
+				fieldInformation = new FieldInformation ()
 				{
 					Type = "InputSocket",
 					Name = field.Name,
 					Attributes = attributeIds,
-					DefaultValue = new JValue((object)null)
+					DefaultValue = new JValue ((object)null)
 				};
 			}
 			else
 			{
-				var defaultValue = field.GetValue(defaultInstance);
+				object defaultValue = field.GetValue (defaultInstance);
 
-			try{
-				fieldInformation = new FieldInformation
+				try
 				{
-					Type = field.FieldType.Name,
-					Name = field.Name,
-					Attributes = attributeIds,
-					DefaultValue = new JValue(defaultValue)
-				};
-			}
-			catch
-			{
-				fieldInformation = new FieldInformation
+					fieldInformation = new FieldInformation
+					{
+						Type = field.FieldType.Name,
+						Name = field.Name,
+						Attributes = attributeIds,
+						DefaultValue = new JValue (defaultValue)
+					};
+				}
+				catch
 				{
-					Type = field.FieldType.Name,
-					Name = field.Name,
-					Attributes = attributeIds,
-					DefaultValue = JObject.FromObject(defaultValue)
-				};
-			}
+					fieldInformation = new FieldInformation
+					{
+						Type = field.FieldType.Name,
+						Name = field.Name,
+						Attributes = attributeIds,
+						DefaultValue = JObject.FromObject (defaultValue)
+					};
+				}
 			}
 
 

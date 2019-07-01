@@ -1,28 +1,26 @@
-using System;
-
 namespace RPGCore.Behaviour
 {
-    public struct LocalPropertyId
-    {
-        private LocalId Target;
-        private string Property;
+	public struct LocalPropertyId
+	{
+		private LocalId Target;
+		private readonly string Property;
 
-        public LocalPropertyId(string id)
-        {
-            string[] components = id.Split('.');
+		public LocalPropertyId (string id)
+		{
+			string[] components = id.Split ('.');
 
-            Target = new LocalId(components[0]);
-            Property = components[1];
-        }
+			Target = new LocalId (components[0]);
+			Property = components[1];
+		}
 
-        public override string ToString()
-        {
-            return $"{Target}.{Property}";
-        }
+		public override string ToString ()
+		{
+			return $"{Target}.{Property}";
+		}
 
-        public override int GetHashCode()
-        {
-            return Target.GetHashCode() ^ Property.GetHashCode();
-        }
-    }
+		public override int GetHashCode ()
+		{
+			return Target.GetHashCode () ^ Property.GetHashCode ();
+		}
+	}
 }

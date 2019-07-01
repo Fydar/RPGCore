@@ -14,7 +14,9 @@
 		public override string ToString ()
 		{
 			if (Source == null)
+			{
 				return "Terminating " + Weight;
+			}
 
 			return Weight + " on " + Source + " (" + Source.GetHashCode () + ")";
 		}

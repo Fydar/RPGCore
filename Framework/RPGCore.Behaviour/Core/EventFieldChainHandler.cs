@@ -22,7 +22,9 @@ namespace RPGCore.Behaviour
 		public void OnBeforeChanged ()
 		{
 			if (ChainedField == null)
+			{
 				return;
+			}
 
 			ChainedField.Handlers[this].Clear ();
 		}
@@ -45,7 +47,9 @@ namespace RPGCore.Behaviour
 			SourceField.Handlers[TargetField].Clear ();
 
 			if (ChainedField == null)
+			{
 				return;
+			}
 
 			ChainedField.Handlers[this].Clear ();
 		}

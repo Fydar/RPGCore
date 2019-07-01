@@ -23,26 +23,14 @@ namespace RPGCore.Behaviour
 
 			private Actor target;
 
-			public int LocalWeight
-			{
-				get
-				{
-					return 0;
-				}
-			}
+			public int LocalWeight => 0;
 
-			public IAiNode Source
-			{
-				get
-				{
-					return new Random ().Next (0, 2) == 1 ? requirementA : requirementB;
-				}
-			}
+			public IAiNode Source => new Random ().Next (0, 2) == 1 ? requirementA : requirementB;
 
 			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
-				AiOrNode stats = (AiOrNode)parent;
+				var stats = (AiOrNode)parent;
 
 				graph.Connect (ref stats.RequirementA, ref requirementA);
 				graph.Connect (ref stats.RequirementB, ref requirementB);
