@@ -3,13 +3,13 @@ using Newtonsoft.Json.Serialization;
 
 namespace RPGCore.Behaviour
 {
-	class IgnoreInputsResolver : DefaultContractResolver
+	internal class IgnoreInputsResolver : DefaultContractResolver
 	{
-		protected override JsonProperty CreateProperty(System.Reflection.MemberInfo member, MemberSerialization memberSerialization)
+		protected override JsonProperty CreateProperty (System.Reflection.MemberInfo member, MemberSerialization memberSerialization)
 		{
-			var prop = base.CreateProperty(member, memberSerialization);
+			var prop = base.CreateProperty (member, memberSerialization);
 
-			if (typeof(IInput).IsAssignableFrom(prop.PropertyType))
+			if (typeof (IInput).IsAssignableFrom (prop.PropertyType))
 			{
 				prop.Ignored = true;
 			}

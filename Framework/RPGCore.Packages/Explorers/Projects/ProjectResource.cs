@@ -41,19 +41,19 @@ namespace RPGCore.Packages
 			return result;
 		}
 
-        public Stream LoadStream()
-        {
+		public Stream LoadStream ()
+		{
 			return File.Open (Entry.FullName, FileMode.Open);
-        }
+		}
 
-        public StreamWriter WriteStream()
-        {
-			return new StreamWriter(Entry.FullName, false);
-        }
+		public StreamWriter WriteStream ()
+		{
+			return new StreamWriter (Entry.FullName, false);
+		}
 
 		public override string ToString ()
 		{
 			return FullName;
 		}
-    }
+	}
 }

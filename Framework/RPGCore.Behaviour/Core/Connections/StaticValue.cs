@@ -13,12 +13,6 @@ namespace RPGCore.Behaviour
 			internalValue = value;
 		}
 
-		public T Value
-		{
-			get
-			{
-				return internalValue;
-			}
-		}
+		public T Value => internalValue;
 	}
 }

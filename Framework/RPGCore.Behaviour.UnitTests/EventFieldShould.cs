@@ -16,8 +16,8 @@ namespace RPGCore.Behaviour.UnitTests
 
 		public class AddToListEventHandler<T> : IEventFieldHandler
 		{
-			private EventField<T> source;
-			private List<T> target;
+			private readonly EventField<T> source;
+			private readonly List<T> target;
 
 			public AddToListEventHandler (EventField<T> source, List<T> target)
 			{
@@ -107,7 +107,7 @@ namespace RPGCore.Behaviour.UnitTests
 			Assert.AreEqual (expectedValues.Length, damages.Count);
 			for (int i = 0; i < damages.Count; i++)
 			{
-				int damage = (int)damages[i];
+				int damage = damages[i];
 				Assert.AreEqual (expectedValues[i], damage);
 			}
 		}

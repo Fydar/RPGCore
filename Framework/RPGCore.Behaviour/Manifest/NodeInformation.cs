@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour.Manifest
 
 		public static NodeInformation Construct (Type nodeType)
 		{
-			var nodeInformation = new NodeInformation();
+			var nodeInformation = new NodeInformation ();
 
 			var typeDefinition = new Type[] { typeof (IGraphInstance), nodeType.BaseType.GenericTypeArguments[0] };
 			var inputsProperty = nodeType.GetMethod ("Inputs", typeDefinition);

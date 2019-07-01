@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Newtonsoft.Json.Linq;
 
 namespace RPGCore.Behaviour
 {
@@ -26,7 +25,7 @@ namespace RPGCore.Behaviour
 
 				if (nodeType == null)
 				{
-					throw new InvalidOperationException($"Unable to unpack node \"{nodeKvp.Key}\" of type \"{node.Type}\" on the graph ${Name}. Type could not be resolved.");
+					throw new InvalidOperationException ($"Unable to unpack node \"{nodeKvp.Key}\" of type \"{node.Type}\" on the graph ${Name}. Type could not be resolved.");
 				}
 
 				foreach (var field in nodeType.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
@@ -40,7 +39,7 @@ namespace RPGCore.Behaviour
 			int outputCounter = -1;
 			foreach (var nodeKvp in Nodes)
 			{
-				nodes.Add(nodeKvp.Value.Unpack (nodeKvp.Key, outputIds, ref outputCounter));
+				nodes.Add (nodeKvp.Value.Unpack (nodeKvp.Key, outputIds, ref outputCounter));
 			}
 
 			var graph = new Graph (nodes.ToArray (), outputIds.Count);

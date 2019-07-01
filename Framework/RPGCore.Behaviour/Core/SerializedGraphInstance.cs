@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
@@ -11,43 +10,51 @@ namespace RPGCore.Behaviour
 		public string GraphType;
 		public Dictionary<LocalId, JObject> NodeInstances;
 
-		public GraphInstance Unpack(Graph graphType)
+		public GraphInstance Unpack (Graph graphType)
 		{
-			var graph = graphType.Create(NodeInstances);
+			var graph = graphType.Create (NodeInstances);
 
 			return graph;
 		}
 
-		public string AsJson()
+		public string AsJson ()
 		{
-			var settings = new JsonSerializerSettings();
-			settings.Converters.Add(new LocalIdJsonConverter());
+			var settings = new JsonSerializerSettings ();
+			settings.Converters.Add (new LocalIdJsonConverter ());
 
-			return JsonConvert.SerializeObject(this, settings);
+			return JsonConvert.SerializeObject (this, settings);
 		}
 	}
 
 	public class OutputConverter : JsonConverter
-    {
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null)
-                return null;
+	{
+		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			if (reader.TokenType == JsonToken.Null)
+			{
+				return null;
+			}
 
-            var type = typeof(Connection<>);
+			var type = typeof (Connection<>);
 
-			type = type.MakeGenericType(objectType.GenericTypeArguments);
-			
-            var jobject = JObject.Load(reader);
-            return jobject.ToObject(type, serializer);
-        }
+			type = type.MakeGenericType (objectType.GenericTypeArguments);
 
-        public override bool CanConvert(Type objectType) =>  typeof(IOutput).IsAssignableFrom(objectType)
-			&& !typeof(Connection).IsAssignableFrom(objectType);
+			var jobject = JObject.Load (reader);
+			return jobject.ToObject (type, serializer);
+		}
 
-        public override bool CanWrite => false;
+		public override bool CanConvert (Type objectType)
+		{
+			return typeof (IOutput).IsAssignableFrom (objectType)
+&& !typeof (Connection).IsAssignableFrom (objectType);
+		}
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotSupportedException("JsonCreationConverter should only be used while deserializing.");
-    }
+		public override bool CanWrite => false;
+
+		public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			throw new NotSupportedException ("JsonCreationConverter should only be used while deserializing.");
+		}
+	}
 
 }

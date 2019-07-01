@@ -13,15 +13,11 @@ namespace RPGCore.Behaviour
 		{
 			get
 			{
-				if (OnRequested != null)
-					OnRequested ();
+				OnRequested?.Invoke ();
 
 				return internalValue;
 			}
-			set
-			{
-				internalValue = value;
-			}
+			set => internalValue = value;
 		}
 	}
 }

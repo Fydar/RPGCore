@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace RPGCore.Behaviour
 {
@@ -16,28 +15,34 @@ namespace RPGCore.Behaviour
 		public int MaxValue = 12;
 		public ExtraData Data;
 
-		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => null;
-
-		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance)
 		{
+			return null;
+		}
+
+		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance)
+		{
+			return new[]
+{
 			graph.Connect(ref Output, ref instance.Output),
 		};
+		}
 
 		public class Metadata : INodeInstance
 		{
 			private Actor target;
-			
+
 			public int Seed;
 			public IOutput<int> Output;
 
 			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
 				this.target = target;
-				RollNode stats = (RollNode)parent;
+				var stats = (RollNode)parent;
 
 				while (Seed == 0)
 				{
-					Seed = new Random().Next();
+					Seed = new Random ().Next ();
 				}
 
 				int newValue = new Random (Seed).Next (stats.MinValue, stats.MaxValue);

@@ -9,188 +9,184 @@ using System.Text;
 
 namespace RPGCore.Packages
 {
-    public class ProjectExplorer : IPackageExplorer
-    {
-        public long UncompressedSize { get; private set; }
+	public class ProjectExplorer : IPackageExplorer
+	{
+		public long UncompressedSize { get; private set; }
 
-        private class ProjectResourceCollection : IProjectResourceCollection
-        {
-            private Dictionary<string, ProjectResource> resources;
+		private class ProjectResourceCollection : IProjectResourceCollection
+		{
+			private Dictionary<string, ProjectResource> resources;
 
-            public ProjectResource this[string key]
-            {
-                get
-                {
-                    return resources[key];
-                }
-            }
+			public ProjectResource this[string key] => resources[key];
 
-            public void Add(ProjectResource folder)
-            {
-                if (resources == null)
-                    resources = new Dictionary<string, ProjectResource>();
+			public void Add (ProjectResource folder)
+			{
+				if (resources == null)
+				{
+					resources = new Dictionary<string, ProjectResource> ();
+				}
 
-                resources.Add(folder.FullName, folder);
-            }
+				resources.Add (folder.FullName, folder);
+			}
 
-            public IEnumerator<ProjectResource> GetEnumerator()
-            {
-                return resources.Values.GetEnumerator();
-            }
+			public IEnumerator<ProjectResource> GetEnumerator ()
+			{
+				return resources.Values.GetEnumerator ();
+			}
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return resources.Values.GetEnumerator();
-            }
-        }
+			IEnumerator IEnumerable.GetEnumerator ()
+			{
+				return resources.Values.GetEnumerator ();
+			}
+		}
 
-        public ProjectDefinitionFile Definition;
+		public ProjectDefinitionFile Definition;
 
-        public string Name => Definition.Properties.Name;
-        public string Version => Definition.Properties.Version;
-        public IProjectResourceCollection Resources { get; private set; }
+		public string Name => Definition.Properties.Name;
+		public string Version => Definition.Properties.Version;
+		public IProjectResourceCollection Resources { get; private set; }
 
-        public List<ResourceImporter> Importers;
+		public List<ResourceImporter> Importers;
 
-        IPackageResourceCollection IPackageExplorer.Resources => (IPackageResourceCollection)Resources;
+		IPackageResourceCollection IPackageExplorer.Resources => (IPackageResourceCollection)Resources;
 
-        public ProjectExplorer()
-        {
-            Resources = new ProjectResourceCollection();
-        }
+		public ProjectExplorer ()
+		{
+			Resources = new ProjectResourceCollection ();
+		}
 
-        public static ProjectExplorer Load(string path, List<ResourceImporter> importers)
-        {
-            string bprojPath = null;
-            if (path.EndsWith(".bproj"))
-            {
-                bprojPath = path;
-				path = new DirectoryInfo(path).Parent.FullName;
-            }
-            else
-            {
-                string[] rootFiles = Directory.GetFiles(path);
-                for (int i = 0; i < rootFiles.Length; i++)
-                {
-                    string rootFile = rootFiles[i];
-                    if (rootFile.EndsWith(".bproj", StringComparison.Ordinal))
-                    {
-                        bprojPath = rootFile;
-                        break;
-                    }
-                }
-            }
+		public static ProjectExplorer Load (string path, List<ResourceImporter> importers)
+		{
+			string bprojPath = null;
+			if (path.EndsWith (".bproj"))
+			{
+				bprojPath = path;
+				path = new DirectoryInfo (path).Parent.FullName;
+			}
+			else
+			{
+				string[] rootFiles = Directory.GetFiles (path);
+				for (int i = 0; i < rootFiles.Length; i++)
+				{
+					string rootFile = rootFiles[i];
+					if (rootFile.EndsWith (".bproj", StringComparison.Ordinal))
+					{
+						bprojPath = rootFile;
+						break;
+					}
+				}
+			}
 
-            var project = new ProjectExplorer
-            {
-                Definition = ProjectDefinitionFile.Load(bprojPath),
-                Importers = importers
-            };
+			var project = new ProjectExplorer
+			{
+				Definition = ProjectDefinitionFile.Load (bprojPath),
+				Importers = importers
+			};
 
-            var ignoredDirectories = new List<string>()
-            {
-                Path.Combine(path, "bin")
-            };
+			var ignoredDirectories = new List<string> ()
+			{
+				Path.Combine(path, "bin")
+			};
 
-            string normalizedPath = path.Replace('\\', '/');
-            long totalSize = 0;
+			string normalizedPath = path.Replace ('\\', '/');
+			long totalSize = 0;
 
-            foreach (var filePath in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
-            {
-                if (ignoredDirectories.Any(p => filePath.StartsWith(p)))
-                {
-                    continue;
-                }
-                
-                var file = new FileInfo(filePath);
+			foreach (string filePath in Directory.EnumerateFiles (path, "*", SearchOption.AllDirectories))
+			{
+				if (ignoredDirectories.Any (p => filePath.StartsWith (p)))
+				{
+					continue;
+				}
 
-                if (file.Extension == ".bproj")
-                {
-                    continue;
-                }
+				var file = new FileInfo (filePath);
 
-                string packageKey = filePath
-                    .Replace('\\', '/')
-                    .Replace(normalizedPath + "/", "");
+				if (file.Extension == ".bproj")
+				{
+					continue;
+				}
 
-                var resource = new ProjectResource(packageKey, file);
+				string packageKey = filePath
+					.Replace ('\\', '/')
+					.Replace (normalizedPath + "/", "");
 
-                project.Resources.Add(resource);
-                
-                totalSize += resource.UncompressedSize;
-            }
-            project.UncompressedSize = totalSize;
+				var resource = new ProjectResource (packageKey, file);
 
-            return project;
-        }
+				project.Resources.Add (resource);
 
-        public void Dispose()
-        {
+				totalSize += resource.UncompressedSize;
+			}
+			project.UncompressedSize = totalSize;
 
-        }
+			return project;
+		}
 
-        public void Export(string path)
-        {
-            Directory.CreateDirectory(path);
+		public void Dispose ()
+		{
 
-            var buildProcess = new ProjectBuildProcess(this, path);
+		}
 
-            string bpkgPath = Path.Combine(path, Name + ".bpkg");
-            foreach (var reference in Definition.References)
-            {
-                reference.IncludeInBuild(buildProcess, path);
-            }
+		public void Export (string path)
+		{
+			Directory.CreateDirectory (path);
 
-            using (var fileStream = new FileStream(bpkgPath, FileMode.Create, FileAccess.Write))
-            using (var archive = new ZipArchive(fileStream, ZipArchiveMode.Create, false))
-            {
-                var manifest = archive.CreateEntry("Main.bmft");
-                using (var zipStream = manifest.Open())
-                {
-                    string json = JsonConvert.SerializeObject (buildProcess.PackageDefinition);
-                    byte[] bytes = Encoding.UTF8.GetBytes(json);
-                    zipStream.Write(bytes, 0, bytes.Length);
-                }
+			var buildProcess = new ProjectBuildProcess (this, path);
 
-                long currentProgress = 0;
+			string bpkgPath = Path.Combine (path, Name + ".bpkg");
+			foreach (var reference in Definition.References)
+			{
+				reference.IncludeInBuild (buildProcess, path);
+			}
 
-                foreach (var resource in Resources)
-                {
-                    ResourceImporter porter = null;
-                    foreach (var importer in Importers)
-                    {
-                        if (resource.Name.EndsWith("." + importer.ImportExtensions))
-                        {
-                            porter = importer;
-                            break;
-                        }
-                    }
+			using (var fileStream = new FileStream (bpkgPath, FileMode.Create, FileAccess.Write))
+			using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Create, false))
+			{
+				var manifest = archive.CreateEntry ("Main.bmft");
+				using (var zipStream = manifest.Open ())
+				{
+					string json = JsonConvert.SerializeObject (buildProcess.PackageDefinition);
+					byte[] bytes = Encoding.UTF8.GetBytes (json);
+					zipStream.Write (bytes, 0, bytes.Length);
+				}
 
-                    string entryName = resource.FullName;
-                    long size = resource.UncompressedSize;
+				long currentProgress = 0;
 
-                    ZipArchiveEntry entry;
-                    if (porter == null)
-                    {
-                        entry = archive.CreateEntryFromFile(resource.Entry.FullName, entryName, CompressionLevel.Optimal);
-                    }
-                    else
-                    {
-                        entry = archive.CreateEntry(entryName);
+				foreach (var resource in Resources)
+				{
+					ResourceImporter porter = null;
+					foreach (var importer in Importers)
+					{
+						if (resource.Name.EndsWith ("." + importer.ImportExtensions))
+						{
+							porter = importer;
+							break;
+						}
+					}
 
-                        using (var zipStream = entry.Open())
-                        {
-                            porter.BuildResource(resource, zipStream);
-                        }
-                    }
+					string entryName = resource.FullName;
+					long size = resource.UncompressedSize;
 
-                    currentProgress += size;
+					ZipArchiveEntry entry;
+					if (porter == null)
+					{
+						entry = archive.CreateEntryFromFile (resource.Entry.FullName, entryName, CompressionLevel.Optimal);
+					}
+					else
+					{
+						entry = archive.CreateEntry (entryName);
 
-                    double progress = (currentProgress / (double)UncompressedSize) * 100;
+						using (var zipStream = entry.Open ())
+						{
+							porter.BuildResource (resource, zipStream);
+						}
+					}
 
-                    Console.WriteLine($"{progress:0.0}% Exported {entryName}, {size:#,##0} bytes");
-                }
-            }
-        }
-    }
+					currentProgress += size;
+
+					double progress = (currentProgress / (double)UncompressedSize) * 100;
+
+					Console.WriteLine ($"{progress:0.0}% Exported {entryName}, {size:#,##0} bytes");
+				}
+			}
+		}
+	}
 }
