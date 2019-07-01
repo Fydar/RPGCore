@@ -8,41 +8,56 @@ namespace RPGCore.Behaviour.Manifest
 	{
 		public string Name;
 		public string Version;
-		public Dictionary<string, TypeInformation> Types;
+		public Dictionary<string, JsonValueTypeInformation> JsonTypes;
+		public Dictionary<string, JsonObjectTypeInformation> ObjectTypes;
 
-		public static TypeManifest Construct (Type[] types)
+		public static TypeManifest Construct (Type[] valueTypes, Type[] objectTypes)
 		{
 			var manifest = new TypeManifest ();
-
-			var information = new Dictionary<string, TypeInformation> ();
-			foreach (var type in types)
+			
+			var valueTypeInformation = new Dictionary<string, JsonValueTypeInformation> ();
+			foreach (var type in valueTypes)
 			{
-				information.Add (type.Name, TypeInformation.Construct (type));
+				valueTypeInformation.Add (type.Name, JsonValueTypeInformation.Construct (type));
 			}
-			manifest.Types = information;
+			manifest.JsonTypes = valueTypeInformation;
+
+			var objectTypeInformation = new Dictionary<string, JsonObjectTypeInformation> ();
+			foreach (var type in objectTypes)
+			{
+				objectTypeInformation.Add (type.Name, JsonObjectTypeInformation.Construct (type));
+			}
+			manifest.ObjectTypes = objectTypeInformation;
+
 			return manifest;
 		}
 
 		public static TypeManifest ConstructBaseTypes ()
 		{
-			return Construct (new Type[]
-			{
-				typeof(bool),
-				typeof(string),
-				typeof(int),
-				typeof(byte),
-				typeof(long),
-				typeof(short),
-				typeof(uint),
-				typeof(ulong),
-				typeof(ushort),
-				typeof(sbyte),
-				typeof(char),
-				typeof(Enum),
-				typeof(float),
-				typeof(double),
-				typeof(decimal),
-			});
+			return Construct (
+				new Type[]
+				{
+					typeof(bool),
+					typeof(string),
+					typeof(int),
+					typeof(byte),
+					typeof(long),
+					typeof(short),
+					typeof(uint),
+					typeof(ulong),
+					typeof(ushort),
+					typeof(sbyte),
+					typeof(char),
+					typeof(Enum),
+					typeof(float),
+					typeof(double),
+					typeof(decimal),
+				},
+				new Type[]
+				{
+					typeof(ExtraData)
+				}
+			);
 		}
 
 		public override string ToString ()

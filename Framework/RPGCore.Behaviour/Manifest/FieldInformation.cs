@@ -5,7 +5,6 @@ namespace RPGCore.Behaviour.Manifest
 {
 	public class FieldInformation
 	{
-		public string Name;
 		public string Description;
 		public string Type;
 		public JToken DefaultValue;
@@ -26,34 +25,37 @@ namespace RPGCore.Behaviour.Manifest
 				fieldInformation = new FieldInformation()
 				{
 					Type = "InputSocket",
-					Name = field.Name,
 					Attributes = attributeIds,
 					DefaultValue = new JValue((object)null)
 				};
 			}
 			else
 			{
-				var defaultValue = field.GetValue(defaultInstance);
+				object defaultValue = null;
+				
+				if (defaultInstance != null)
+				{
+					field.GetValue(defaultInstance);
+				}
 
-			try{
-				fieldInformation = new FieldInformation
+				try
 				{
-					Type = field.FieldType.Name,
-					Name = field.Name,
-					Attributes = attributeIds,
-					DefaultValue = new JValue(defaultValue)
-				};
-			}
-			catch
-			{
-				fieldInformation = new FieldInformation
+					fieldInformation = new FieldInformation
+					{
+						Type = field.FieldType.Name,
+						Attributes = attributeIds,
+						DefaultValue = new JValue(defaultValue)
+					};
+				}
+				catch
 				{
-					Type = field.FieldType.Name,
-					Name = field.Name,
-					Attributes = attributeIds,
-					DefaultValue = JObject.FromObject(defaultValue)
-				};
-			}
+					fieldInformation = new FieldInformation
+					{
+						Type = field.FieldType.Name,
+						Attributes = attributeIds,
+						DefaultValue = JObject.FromObject(defaultValue)
+					};
+				}
 			}
 
 

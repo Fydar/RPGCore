@@ -27,14 +27,14 @@ namespace RPGCore.Behaviour.Editor
 	public class EditorObject : IEnumerable<EditorField>
 	{
 		public JObject Serialized;
-		public EditableTargetInformation Information;
+		public JsonObjectTypeInformation Information;
 
-		public EditorObject(EditableTargetInformation information, JObject serialized)
+		public EditorObject(JsonObjectTypeInformation information, JObject serialized)
 		{
 			Information = information;
 			Serialized = serialized ?? throw new ArgumentNullException();
 
-			var fieldNames = new HashSet<string>(information.Fields.Select(f => f.Name));
+			var fieldNames = new HashSet<string>(information.Fields.Select(f => f.Key));
 
 			// Remove any additional fields.
 			foreach (var item in serialized.Children<JProperty>().ToList())
@@ -48,9 +48,9 @@ namespace RPGCore.Behaviour.Editor
 			// Populate missing fields with default values.
 			foreach (var field in information.Fields)
 			{
-				if (!serialized.ContainsKey(field.Name))
+				if (!serialized.ContainsKey(field.Key))
 				{
-					serialized.Add(field.Name, field.DefaultValue);
+					serialized.Add(field.Key, field.Value.DefaultValue);
 				}
 			}
 		}
@@ -62,9 +62,9 @@ namespace RPGCore.Behaviour.Editor
 				FieldInformation information = null;
 				foreach (var info in Information.Fields)
 				{
-					if (info.Name == property.Name)
+					if (info.Key == property.Name)
 					{
-						information = info;
+						information = info.Value;
 						break;
 					}
 				}

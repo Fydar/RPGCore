@@ -4,7 +4,6 @@ namespace RPGCore.Behaviour.Manifest
 {
 	public struct SocketInformation
 	{
-		public string Name;
 		public string Description;
 		public string Type;
 
@@ -12,8 +11,7 @@ namespace RPGCore.Behaviour.Manifest
 		{
 			var socketInformation = new SocketInformation
 			{
-				Type = socket.ConnectionType.Name,
-				Name = field.Name
+				Type = socket.ConnectionType.Name
 			};
 
 			return socketInformation;
@@ -23,8 +21,7 @@ namespace RPGCore.Behaviour.Manifest
 		{
 			var socketInformation = new SocketInformation
 			{
-				Type = socket.ConnectionType.Name,
-				Name = field.Name
+				Type = socket.ConnectionType.Name
 			};
 
 			return socketInformation;
