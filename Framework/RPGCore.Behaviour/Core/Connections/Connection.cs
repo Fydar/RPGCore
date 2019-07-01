@@ -9,10 +9,7 @@ namespace RPGCore.Behaviour
 
 		protected void InvokeAfterChanged ()
 		{
-			if (OnAfterChanged != null)
-			{
-				OnAfterChanged ();
-			}
+			OnAfterChanged?.Invoke ();
 		}
 	}
 

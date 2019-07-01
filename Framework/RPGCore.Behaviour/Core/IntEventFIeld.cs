@@ -34,7 +34,7 @@ namespace RPGCore.Behaviour
 
 		public IntEventField (IIntCalculation calculation)
 		{
-			var eventField = new IntEventField (calculation.Calculate ());
+			new IntEventField (calculation.Calculate ());
 
 			//calculation.left.OnChanged += () => { eventField.Value = calculation.Calculate(); };
 			//calculation.right.OnChanged += () => { eventField.Value = calculation.Calculate(); };

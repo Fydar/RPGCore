@@ -21,7 +21,7 @@ namespace RPGCore.Behaviour
 
 			foreach (var node in serializedGraph.Nodes)
 			{
-				node.Value.Editor = default (PackageNodeEditor);
+				node.Value.Editor = default;
 			}
 
 			using (var streamWriter = new StreamWriter (writer))
