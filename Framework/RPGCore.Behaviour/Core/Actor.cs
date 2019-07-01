@@ -11,8 +11,10 @@ namespace RPGCore.Behaviour
 		public Actor ()
 		{
 			behaviours = new List<INodeInstance> ();
-			Health = new EventField<int> ();
-			Health.Value = 100;
+			Health = new EventField<int>
+			{
+				Value = 100
+			};
 		}
 
 		public override string ToString ()

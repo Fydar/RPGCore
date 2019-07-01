@@ -2,11 +2,11 @@
 
 namespace RPGCore.Runner
 {
-	class Program
+	internal class Program
 	{
 		public static Simulator simulator;
 
-		static void Main (string[] args)
+		private static void Main (string[] args)
 		{
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.WriteLine ("-----------------------");

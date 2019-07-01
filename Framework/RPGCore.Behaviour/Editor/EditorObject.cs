@@ -1,14 +1,9 @@
+using Newtonsoft.Json.Linq;
+using RPGCore.Behaviour.Manifest;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using RPGCore.Behaviour.Manifest;
-using RPGCore.Packages;
 
 namespace RPGCore.Behaviour.Editor
 {
@@ -17,7 +12,7 @@ namespace RPGCore.Behaviour.Editor
 		public FieldInformation Information;
 		public JProperty Property;
 
-		public EditorField(FieldInformation information, JProperty property)
+		public EditorField (FieldInformation information, JProperty property)
 		{
 			Information = information;
 			Property = property;
@@ -29,35 +24,35 @@ namespace RPGCore.Behaviour.Editor
 		public JObject Serialized;
 		public EditableTargetInformation Information;
 
-		public EditorObject(EditableTargetInformation information, JObject serialized)
+		public EditorObject (EditableTargetInformation information, JObject serialized)
 		{
 			Information = information;
-			Serialized = serialized ?? throw new ArgumentNullException();
+			Serialized = serialized ?? throw new ArgumentNullException ();
 
-			var fieldNames = new HashSet<string>(information.Fields.Select(f => f.Name));
+			var fieldNames = new HashSet<string> (information.Fields.Select (f => f.Name));
 
 			// Remove any additional fields.
-			foreach (var item in serialized.Children<JProperty>().ToList())
+			foreach (var item in serialized.Children<JProperty> ().ToList ())
 			{
-				if (!fieldNames.Contains(item.Name))
+				if (!fieldNames.Contains (item.Name))
 				{
-					item.Remove();
+					item.Remove ();
 				}
 			}
 
 			// Populate missing fields with default values.
 			foreach (var field in information.Fields)
 			{
-				if (!serialized.ContainsKey(field.Name))
+				if (!serialized.ContainsKey (field.Name))
 				{
-					serialized.Add(field.Name, field.DefaultValue);
+					serialized.Add (field.Name, field.DefaultValue);
 				}
 			}
 		}
 
-		public IEnumerator<EditorField> GetEnumerator()
+		public IEnumerator<EditorField> GetEnumerator ()
 		{
-			foreach (var property in Serialized.Properties())
+			foreach (var property in Serialized.Properties ())
 			{
 				FieldInformation information = null;
 				foreach (var info in Information.Fields)
@@ -69,13 +64,13 @@ namespace RPGCore.Behaviour.Editor
 					}
 				}
 
-				yield return new EditorField(information, property);
+				yield return new EditorField (information, property);
 			}
 		}
 
-		IEnumerator IEnumerable.GetEnumerator()
+		IEnumerator IEnumerable.GetEnumerator ()
 		{
-			return ((IEnumerable<EditorField>)this).GetEnumerator();
+			return ((IEnumerable<EditorField>)this).GetEnumerator ();
 		}
 	}
 }

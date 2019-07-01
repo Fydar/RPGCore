@@ -1,59 +1,61 @@
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace RPGCore.Packages
 {
 	public class ProjectDefinitionFile : XmlProjectFile
-    {
-        public ProjectDefinitionProperties Properties;
-        public List<Reference> References;
+	{
+		public ProjectDefinitionProperties Properties;
+		public List<Reference> References;
 
-        public ProjectDefinitionFile(XmlDocument document)
-            : base (document)
-        {
-            Properties = new ProjectDefinitionProperties(Document.GetElementsByTagName("Properties").Item(0));
+		public ProjectDefinitionFile (XmlDocument document)
+			: base (document)
+		{
+			Properties = new ProjectDefinitionProperties (Document.GetElementsByTagName ("Properties").Item (0));
 
-            References = new List<Reference>();
-            var projectReferenceTags = Document.GetElementsByTagName("ProjectReference");
-            for (int i = 0; i < projectReferenceTags.Count; i++)
-            {
-                var projectReferenceElement = projectReferenceTags.Item(i);
+			References = new List<Reference> ();
+			var projectReferenceTags = Document.GetElementsByTagName ("ProjectReference");
+			for (int i = 0; i < projectReferenceTags.Count; i++)
+			{
+				var projectReferenceElement = projectReferenceTags.Item (i);
 
-                if (projectReferenceElement is XmlElement element)
-                {
-                   References.Add(new ProjectReference(this, element));
-                }
-            }
+				if (projectReferenceElement is XmlElement element)
+				{
+					References.Add (new ProjectReference (this, element));
+				}
+			}
 
-            var resourceReferenceTags = Document.GetElementsByTagName("ResourceReference");
-            for (int i = 0; i < resourceReferenceTags.Count; i++)
-            {
-                var resourceReferenceElement = resourceReferenceTags.Item(i);
+			var resourceReferenceTags = Document.GetElementsByTagName ("ResourceReference");
+			for (int i = 0; i < resourceReferenceTags.Count; i++)
+			{
+				var resourceReferenceElement = resourceReferenceTags.Item (i);
 
-                if (resourceReferenceElement is XmlElement element)
-                {
-                   References.Add(new ResourceReference(this, element));
-                }
-            }
-        }
+				if (resourceReferenceElement is XmlElement element)
+				{
+					References.Add (new ResourceReference (this, element));
+				}
+			}
+		}
 
-        public static new ProjectDefinitionFile Load(string path)
-        {
-            if (!File.Exists(path))
-                return null;
+		public static new ProjectDefinitionFile Load (string path)
+		{
+			if (!File.Exists (path))
+			{
+				return null;
+			}
 
-            var doc = new XmlDocument();
-            doc.PreserveWhitespace = true;
-            doc.Load(path);
+			var doc = new XmlDocument
+			{
+				PreserveWhitespace = true
+			};
+			doc.Load (path);
 
-            var model = new ProjectDefinitionFile(doc);
-            model.Path = path;
-            return model;
-        }
-    }
+			var model = new ProjectDefinitionFile (doc)
+			{
+				Path = path
+			};
+			return model;
+		}
+	}
 }

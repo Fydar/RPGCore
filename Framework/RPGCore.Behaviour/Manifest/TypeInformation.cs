@@ -11,16 +11,16 @@ namespace RPGCore.Behaviour.Manifest
 
 		public static TypeInformation Construct (Type type)
 		{
-			var typeInformation = new TypeInformation();
+			var typeInformation = new TypeInformation ();
 			var conversions = new Dictionary<string, TypeConversion> ();
 
-			var methods = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+			var methods = type.GetMethods (BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
 
 			foreach (var method in methods)
 			{
 				if (method.Name == "op_implicit")
 				{
-					conversions.Add(method.ReturnType.FullName, TypeConversion.Construct(method));
+					conversions.Add (method.ReturnType.FullName, TypeConversion.Construct (method));
 				}
 			}
 

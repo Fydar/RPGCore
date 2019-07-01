@@ -20,7 +20,9 @@ namespace RPGCore.Behaviour.Manifest
 				foreach (var type in assembly.GetTypes ())
 				{
 					if (type.IsAbstract)
+					{
 						continue;
+					}
 
 					if (typeof (Node).IsAssignableFrom (type))
 					{

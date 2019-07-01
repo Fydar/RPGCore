@@ -1,5 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace RPGCore.Behaviour
 {
@@ -19,7 +19,7 @@ namespace RPGCore.Behaviour
 	public abstract class Node<T> : Node
 		where T : INodeInstance, new()
 	{
-		public override Type MetadataType => typeof(T);
+		public override Type MetadataType => typeof (T);
 
 		public abstract InputMap[] Inputs (IGraphInstance graph, T instance);
 		public abstract OutputMap[] Outputs (IGraphInstance graph, T instance);

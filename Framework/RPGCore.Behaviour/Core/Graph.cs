@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
@@ -24,22 +24,22 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Graph(Node[] nodes, int outputCount)
+		public Graph (Node[] nodes, int outputCount)
 		{
 			Nodes = nodes;
 			OutputCount = outputCount;
 		}
 
-		public GraphInstance Setup(Actor target, IDictionary<LocalId, JObject> data = null)
+		public GraphInstance Setup (Actor target, IDictionary<LocalId, JObject> data = null)
 		{
-			var graph = Create(data);
-			graph.Setup(target);
+			var graph = Create (data);
+			graph.Setup (target);
 			return graph;
 		}
 
-		public GraphInstance Create(IDictionary<LocalId, JObject> data = null)
+		public GraphInstance Create (IDictionary<LocalId, JObject> data = null)
 		{
-			return new GraphInstance(this, data);
+			return new GraphInstance (this, data);
 		}
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace RPGCore.Behaviour
 {
@@ -7,19 +6,25 @@ namespace RPGCore.Behaviour
 	{
 		public InputSocket ValueA;
 		public InputSocket ValueB;
-		
+
 		public OutputSocket Output;
 
-		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance)
 		{
+			return new[]
+{
 			graph.Connect(ref ValueA, ref instance.valueA),
 			graph.Connect(ref ValueB, ref instance.valueB)
 		};
+		}
 
-		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => new[]
+		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance)
 		{
+			return new[]
+{
 			graph.Connect(ref Output, ref instance.Output)
 		};
+		}
 
 		public class Metadata : INodeInstance
 		{
@@ -34,7 +39,7 @@ namespace RPGCore.Behaviour
 			{
 				this.target = target;
 
-				AddNode stats = (AddNode)parent;
+				var stats = (AddNode)parent;
 
 				valueA.OnAfterChanged += Log;
 				valueB.OnAfterChanged += Log;
@@ -53,7 +58,7 @@ namespace RPGCore.Behaviour
 				Console.WriteLine ("StatsNode: Removed Behaviour on " + target);
 			}
 
-			struct LogOnChanged : IEventFieldHandler
+			private struct LogOnChanged : IEventFieldHandler
 			{
 				public Metadata Meta;
 

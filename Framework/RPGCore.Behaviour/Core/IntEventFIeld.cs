@@ -16,10 +16,7 @@ namespace RPGCore.Behaviour
 
 		public int Value
 		{
-			get
-			{
-				return internalValue;
-			}
+			get => internalValue;
 			set
 			{
 				internalValue = value;
@@ -37,7 +34,7 @@ namespace RPGCore.Behaviour
 
 		public IntEventField (IIntCalculation calculation)
 		{
-			IntEventField eventField = new IntEventField (calculation.Calculate ());
+			var eventField = new IntEventField (calculation.Calculate ());
 
 			//calculation.left.OnChanged += () => { eventField.Value = calculation.Calculate(); };
 			//calculation.right.OnChanged += () => { eventField.Value = calculation.Calculate(); };

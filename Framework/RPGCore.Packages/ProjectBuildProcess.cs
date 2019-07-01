@@ -15,9 +15,9 @@ namespace RPGCore.Packages
 
 		public Dictionary<string, ResourceDependancyDefinition> ResourceDependancies;
 
-		public PackageDefinitionFile()
+		public PackageDefinitionFile ()
 		{
-			ResourceDependancies = new Dictionary<string, ResourceDependancyDefinition>();
+			ResourceDependancies = new Dictionary<string, ResourceDependancyDefinition> ();
 		}
 	}
 
@@ -29,12 +29,12 @@ namespace RPGCore.Packages
 
 		public PackageDefinitionFile PackageDefinition;
 
-		public ProjectBuildProcess(ProjectExplorer source, string outputFolder)
+		public ProjectBuildProcess (ProjectExplorer source, string outputFolder)
 		{
 			Source = source;
 			OutputFolder = outputFolder;
 
-			PackageDefinition = new PackageDefinitionFile();
+			PackageDefinition = new PackageDefinitionFile ();
 		}
 	}
 }
