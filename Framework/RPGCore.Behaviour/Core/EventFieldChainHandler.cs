@@ -34,7 +34,7 @@ namespace RPGCore.Behaviour
 			ChainedField = Chain (SourceField.Value);
 			if (ChainedField == null)
 			{
-				TargetField.Value = default;
+				TargetField.Value = default(B);
 				return;
 			}
 

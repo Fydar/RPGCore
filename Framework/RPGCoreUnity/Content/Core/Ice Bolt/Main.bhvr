@@ -1,5 +1,5 @@
 {
-  "Name": "BronzeLongsword",
+  "Name": "Fireball",
   "Description": null,
   "Type": null,
   "CustomData": null,
@@ -7,8 +7,8 @@
     "0a084c2c": {
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
-        "MinValue": 10,
-        "MaxValue": 15,
+        "MinValue": 1,
+        "MaxValue": 5,
         "TooltipFormat": "{0}",
         "Data": {
           "Hi": 0,
@@ -22,11 +22,11 @@
         }
       }
     },
-    "4a41bc58": {
+    "472c7ba2": {
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
         "MinValue": 20,
-        "MaxValue": 30,
+        "MaxValue": 25,
         "TooltipFormat": "{0}",
         "Data": {
           "Hi": 0,
@@ -44,7 +44,7 @@
       "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
         "ValueA": "0a084c2c.Output",
-        "ValueB": "4a41bc58.Output"
+        "ValueB": "472c7ba2.Output"
       },
       "Editor": {
         "Position": {

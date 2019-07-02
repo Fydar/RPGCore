@@ -2,144 +2,194 @@
   "Types": {
     "Name": null,
     "Version": null,
-    "Types": [
-      {
-        "Name": "Boolean",
+    "JsonTypes": {
+      "Boolean": {
+        "Fields": null,
+        "DefaultValue": false,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "String",
+      "String": {
+        "Fields": null,
+        "DefaultValue": null,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Int32",
+      "Int32": {
+        "Fields": null,
+        "DefaultValue": 0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Byte",
+      "Byte": {
+        "Fields": null,
+        "DefaultValue": 0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Int64",
+      "Int64": {
+        "Fields": null,
+        "DefaultValue": 0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Int16",
+      "Int16": {
+        "Fields": null,
+        "DefaultValue": 0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "UInt32",
+      "UInt32": {
+        "Fields": null,
+        "DefaultValue": 0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "UInt64",
+      "UInt64": {
+        "Fields": null,
+        "DefaultValue": 0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "UInt16",
+      "UInt16": {
+        "Fields": null,
+        "DefaultValue": 0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "SByte",
+      "SByte": {
+        "Fields": null,
+        "DefaultValue": 0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Char",
+      "Char": {
+        "Fields": null,
+        "DefaultValue": "\u0000",
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Enum",
+      "Enum": {
+        "Fields": null,
+        "DefaultValue": null,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Single",
+      "Single": {
+        "Fields": null,
+        "DefaultValue": 0.0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Double",
+      "Double": {
+        "Fields": null,
+        "DefaultValue": 0.0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       },
-      {
-        "Name": "Decimal",
+      "Decimal": {
+        "Fields": null,
+        "DefaultValue": 0.0,
         "Description": null,
-        "Conversions": []
+        "ImplicitConversions": {}
       }
-    ]
+    },
+    "ObjectTypes": {
+      "ExtraData": {
+        "Fields": {
+          "Hi": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "Goodbyte": {
+            "Description": null,
+            "Type": "Boolean",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "Description": null,
+        "ImplicitConversions": {}
+      }
+    }
   },
   "Nodes": {
     "Name": null,
     "Version": null,
-    "Nodes": [
-      {
-        "Name": "AddNode",
-        "Description": null,
-        "Inputs": [
-          {
-            "Name": "ValueA",
+    "Nodes": {
+      "RPGCore.Behaviour.AddNode": {
+        "Inputs": {
+          "ValueA": {
             "Description": null,
             "Type": "Int32"
           },
-          {
-            "Name": "ValueB",
+          "ValueB": {
             "Description": null,
             "Type": "Int32"
           }
-        ],
-        "Outputs": [
-          {
-            "Name": "Output",
+        },
+        "Outputs": {
+          "Output": {
             "Description": null,
             "Type": "Int32"
           }
-        ],
-        "Fields": []
-      },
-      {
-        "Name": "RollNode",
+        },
+        "Fields": {
+          "ValueA": {
+            "Description": null,
+            "Type": "InputSocket",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "ValueB": {
+            "Description": null,
+            "Type": "InputSocket",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
         "Description": null,
+        "ImplicitConversions": null
+      },
+      "RPGCore.Behaviour.RollNode": {
         "Inputs": null,
-        "Outputs": [
-          {
-            "Name": "Output",
+        "Outputs": {
+          "Output": {
             "Description": null,
             "Type": "Int32"
           }
-        ],
-        "Fields": [
-          {
-            "Name": "TooltipFormat",
+        },
+        "Fields": {
+          "TooltipFormat": {
             "Description": null,
             "Type": "String",
+            "DefaultValue": null,
             "Attributes": []
           },
-          {
-            "Name": "MinValue",
+          "MinValue": {
             "Description": null,
             "Type": "Int32",
+            "DefaultValue": null,
             "Attributes": []
           },
-          {
-            "Name": "MaxValue",
+          "MaxValue": {
             "Description": null,
             "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "Data": {
+            "Description": null,
+            "Type": "ExtraData",
+            "DefaultValue": null,
             "Attributes": []
           }
-        ]
+        },
+        "Description": null,
+        "ImplicitConversions": null
       }
-    ]
+    }
   }
 }

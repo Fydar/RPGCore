@@ -14,11 +14,13 @@ namespace RPGCore.Behaviour.Editor
 {
 	public struct EditorField
 	{
+		public string Name;
 		public FieldInformation Information;
-		public JProperty Property;
+		public JValue Property;
 
-		public EditorField(FieldInformation information, JProperty property)
+		public EditorField(string name, FieldInformation information, JValue property)
 		{
+			Name = name;
 			Information = information;
 			Property = property;
 		}
@@ -26,20 +28,20 @@ namespace RPGCore.Behaviour.Editor
 
 	public class EditorObject : IEnumerable<EditorField>
 	{
+		public BehaviourManifest Manifest;
 		public JObject Serialized;
 		public JsonObjectTypeInformation Information;
 
-		public EditorObject(JsonObjectTypeInformation information, JObject serialized)
+		public EditorObject(BehaviourManifest manifest, JsonObjectTypeInformation information, JObject serialized)
 		{
+			Manifest = manifest;
 			Information = information;
 			Serialized = serialized ?? throw new ArgumentNullException();
-
-			var fieldNames = new HashSet<string>(information.Fields.Select(f => f.Key));
 
 			// Remove any additional fields.
 			foreach (var item in serialized.Children<JProperty>().ToList())
 			{
-				if (!fieldNames.Contains(item.Name))
+				if (!information.Fields.Keys.Contains(item.Name))
 				{
 					item.Remove();
 				}
@@ -57,19 +59,14 @@ namespace RPGCore.Behaviour.Editor
 
 		public IEnumerator<EditorField> GetEnumerator()
 		{
-			foreach (var property in Serialized.Properties())
+			foreach (var field in Information.Fields)
 			{
-				FieldInformation information = null;
-				foreach (var info in Information.Fields)
-				{
-					if (info.Key == property.Name)
-					{
-						information = info.Value;
-						break;
-					}
-				}
+				var property = Serialized[field.Key];
 
-				yield return new EditorField(information, property);
+				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
+				{
+					yield return new EditorField(field.Key, field.Value, (JValue)property);
+				}
 			}
 		}
 

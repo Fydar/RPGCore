@@ -54,14 +54,14 @@ namespace RPGCore.Behaviour
 			var editNode = editorTarget.Nodes.First();
 			var typeData = manifest.Nodes.Nodes[editNode.Value.Type];
 			
-			var editor = new EditorObject(typeData, editNode.Value.Data);
+			var editor = new EditorObject(manifest, typeData, editNode.Value.Data);
 
 			foreach (var field in editor)
 			{
-				Console.WriteLine($"{field.Property.Name}: {field.Property.Value} ({field.Information.Type})");
-				if (field.Property.Name == "MaxValue")
+				Console.WriteLine($"{field.Name}: {field.Property.Value} ({field.Information.Type})");
+				if (field.Name == "MaxValue")
 				{
-					field.Property.Value = ((int)field.Property.Value) + 10;
+					field.Property.Value = ((int)(long)field.Property.Value) + 10;
 				}
 			}
 
