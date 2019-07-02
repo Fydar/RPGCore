@@ -18,11 +18,12 @@ namespace RPGCore.Runner
 			Console.Write (" Framework\n");
 			Console.WriteLine ("-----------------------");
 
-			if (!File.Exists ("Content"))
+			var directory = new DirectoryInfo ("Content");
+			if (!directory.Exists)
 			{
-				var directory = new DirectoryInfo ("bin/Debug/netcoreapp2.2");
-				Directory.SetCurrentDirectory (directory.FullName);
+				directory = new DirectoryInfo ("RPGCoreUnity/Content");
 			}
+			Directory.SetCurrentDirectory (directory.Parent.FullName);
 
 			simulator = new Simulator ();
 			simulator.Start ();
