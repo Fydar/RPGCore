@@ -32,6 +32,7 @@ namespace RPGCore.Behaviour
 					return left;
 				}
 			}
+
 			private readonly EventField<T> field;
 			private List<KeyValuePair<object, IEventFieldHandler>> handlers;
 
