@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -45,7 +46,7 @@ namespace RPGCore.Packages.Tool
                     file = new FileInfo(subCommand);
                 }
 
-                var project = ProjectExplorer.Load(file.DirectoryName);
+                var project = ProjectExplorer.Load(file.DirectoryName, new List<ResourceImporter>());
 
                 string exportDirectory = "./bin/";
                 Directory.CreateDirectory(exportDirectory);
@@ -56,7 +57,7 @@ namespace RPGCore.Packages.Tool
             {
                 if (subCommand == "all")
                 {
-                    var files = FindFilesOfType(".csproj");
+                    var files = FindFilesOfType(".csproj", SearchOption.AllDirectories);
 
                     foreach (var file in files)
                     {
@@ -72,7 +73,7 @@ namespace RPGCore.Packages.Tool
                     var file = FindFileOfType(".bproj");
                     if (file != null)
                     {
-                        var project = ProjectExplorer.Load(file.DirectoryName);
+                        var project = ProjectExplorer.Load(file.DirectoryName, new List<ResourceImporter>());
 
                         project.Definition.Format();
 
