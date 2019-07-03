@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace RPGCore.Packages
 {
@@ -8,7 +9,7 @@ namespace RPGCore.Packages
 	/// </summary>
 	public struct MemorySize : IEquatable<MemorySize>
 	{
-		public const ulong Denomination = 1024;
+		public const ulong Denomination = 1000;
 
 		private const ulong KilobyteSize = Denomination;
 		private const ulong MegabyteSize = KilobyteSize * Denomination;
@@ -18,15 +19,15 @@ namespace RPGCore.Packages
 		private const string ByteSuffix = "b";
 		private const string KilobyteSuffix = "kB";
 		private const string MegabyteSuffix = "MB";
-		private const string GigabyteSuffix = "MB";
+		private const string GigabyteSuffix = "GB";
 
 		public ulong Bytes { get; set; }
 
-		public float Kilobytes
+		public double Kilobytes
 		{
 			get
 			{
-				return ((float)Bytes) / KilobyteSize;
+				return ((double)Bytes) / KilobyteSize;
 			}
 			set
 			{
@@ -34,11 +35,11 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public float Megabytes
+		public double Megabytes
 		{
 			get
 			{
-				return ((float)Bytes) / KilobyteSize;
+				return ((double)Bytes) / KilobyteSize;
 			}
 			set
 			{
@@ -46,11 +47,11 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public float Gigabytes
+		public double Gigabytes
 		{
 			get
 			{
-				return ((float)Bytes) / GigabyteSize;
+				return ((double)Bytes) / GigabyteSize;
 			}
 			set
 			{
@@ -58,16 +59,51 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public float Terrabytes
+		public double Terrabytes
 		{
 			get
 			{
-				return ((float)Bytes) / TerrabyteSize;
+				return ((double)Bytes) / TerrabyteSize;
 			}
 			set
 			{
 				Bytes = (ulong)(value * TerrabyteSize);
 			}
+		}
+
+		public MemorySize (byte bytes)
+		{
+			Bytes = bytes;
+		}
+
+		public MemorySize (sbyte bytes)
+		{
+			Bytes = (ulong)bytes;
+		}
+
+		public MemorySize (short bytes)
+		{
+			Bytes = (ulong)bytes;
+		}
+
+		public MemorySize (ushort bytes)
+		{
+			Bytes = bytes;
+		}
+
+		public MemorySize (int bytes)
+		{
+			Bytes = (ulong)bytes;
+		}
+
+		public MemorySize (uint bytes)
+		{
+			Bytes = bytes;
+		}
+
+		public MemorySize (long bytes)
+		{
+			Bytes = (ulong)bytes;
 		}
 
 		public MemorySize (ulong bytes)
@@ -78,6 +114,11 @@ namespace RPGCore.Packages
 		public static MemorySize SizeOf (string data)
 		{
 			return new MemorySize ((ulong)data.Length * 2);
+		}
+
+		public static MemorySize SizeOf (string data, Encoding encoding)
+		{
+			return new MemorySize ((ulong)encoding.GetByteCount (data));
 		}
 
 		public static MemorySize SizeOf (byte[] data)
@@ -109,18 +150,9 @@ namespace RPGCore.Packages
 
 		public override bool Equals (object obj) => obj is MemorySize size && Equals (size);
 
-		public bool Equals (MemorySize other) => Bytes == other.Bytes && Kilobytes == other.Kilobytes && Megabytes == other.Megabytes && Gigabytes == other.Gigabytes && Terrabytes == other.Terrabytes;
+		public bool Equals (MemorySize other) => Bytes == other.Bytes;
 
-		public override int GetHashCode ()
-		{
-			int hashCode = 263278701;
-			hashCode = hashCode * -1521134295 + Bytes.GetHashCode ();
-			hashCode = hashCode * -1521134295 + Kilobytes.GetHashCode ();
-			hashCode = hashCode * -1521134295 + Megabytes.GetHashCode ();
-			hashCode = hashCode * -1521134295 + Gigabytes.GetHashCode ();
-			hashCode = hashCode * -1521134295 + Terrabytes.GetHashCode ();
-			return hashCode;
-		}
+		public override int GetHashCode () => 1182642244 + Bytes.GetHashCode ();
 
 		public static bool operator == (MemorySize left, MemorySize right)
 		{
