@@ -48,10 +48,10 @@ namespace RPGCore.Behaviour.Manifest
 					typeof(ushort),
 					typeof(sbyte),
 					typeof(char),
-					typeof(Enum),
 					typeof(float),
 					typeof(double),
 					typeof(decimal),
+					typeof(InputSocket),
 				},
 				new Type[]
 				{

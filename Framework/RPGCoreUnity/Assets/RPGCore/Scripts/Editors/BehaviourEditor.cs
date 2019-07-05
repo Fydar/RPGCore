@@ -107,16 +107,7 @@ namespace RPGCore.Unity.Editors
 		public static void DrawEditor(EditorObject editor)
 		{
 			foreach (var field in editor)
-			{
-				if (field.ObjectTypeInfo != null)
-				{
-					Console.WriteLine($"{field.Name}: {field.JsonObject} ({field.Info.Type})");
-				}
-				else
-				{
-					Console.WriteLine($"{field.Name}: {field.JsonValue.Value} ({field.Info.Type})");
-				}
-				
+			{				
 				if (field.Info.Type == "Int32")
 				{
 					EditorGUI.BeginChangeCheck();
@@ -144,6 +135,15 @@ namespace RPGCore.Unity.Editors
 						field.JsonValue.Value = newValue;
 					}
 				}
+				else if (field.Info.Type == "InputSocket")
+				{
+					EditorGUI.BeginChangeCheck();
+					EditorGUILayout.LabelField(field.Name, field.JsonValue.ToObject<string>());
+					if (EditorGUI.EndChangeCheck())
+					{
+						//field.JsonValue.Value = newValue;
+					}
+				}
 				else if (field.ObjectTypeInfo != null)
 				{
 					EditorGUILayout.LabelField(field.Name);
@@ -154,6 +154,10 @@ namespace RPGCore.Unity.Editors
 					DrawEditor(objectEditor);
 					
 					EditorGUI.indentLevel--;
+				}
+				else
+				{
+					EditorGUILayout.LabelField(field.Name, "Unknown Type");
 				}
 			}
 		}
