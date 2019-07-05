@@ -5,7 +5,6 @@ namespace RPGCore.Behaviour
 	public class Connection
 	{
 		public event Action OnAfterChanged;
-		public event Action OnRequested;
 
 		protected void InvokeAfterChanged ()
 		{
@@ -13,7 +12,7 @@ namespace RPGCore.Behaviour
 		}
 	}
 
-	public class Connection<T> : Connection, IInput<T>, IOutput<T>, ILazyOutput<T>
+	public class Connection<T> : Connection
 	{
 		private T internalValue;
 

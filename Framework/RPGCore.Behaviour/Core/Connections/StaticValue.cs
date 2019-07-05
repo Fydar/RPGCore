@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public class StaticValue<T> : IInput<T>
+	public class StaticValue<T>
 	{
 		public event Action OnAfterChanged;
 

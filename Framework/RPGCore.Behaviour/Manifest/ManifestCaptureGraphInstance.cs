@@ -31,21 +31,15 @@
 			return instance;
 		}
 
-		public InputMap Connect<T> (ref InputSocket socket, ref IInput<T> connection)
+		public InputMap Connect<T> (ref InputSocket socket, ref Input<T> connection)
 		{
-			connection = null;
+			connection = new Input<T> (null);
 			return new InputMap (socket, typeof (T), connection);
 		}
 
-		public OutputMap Connect<T> (ref OutputSocket socket, ref IOutput<T> connection)
+		public OutputMap Connect<T> (ref OutputSocket socket, ref Output<T> connection)
 		{
-			connection = null;
-			return new OutputMap (socket, typeof (T), null);
-		}
-
-		public OutputMap Connect<T> (ref OutputSocket socket, ref ILazyOutput<T> connection)
-		{
-			connection = null;
+			connection = new Output<T>(null);
 			return new OutputMap (socket, typeof (T), null);
 		}
 
