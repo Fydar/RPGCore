@@ -69,12 +69,6 @@
         "Description": null,
         "ImplicitConversions": {}
       },
-      "Enum": {
-        "Fields": null,
-        "DefaultValue": null,
-        "Description": null,
-        "ImplicitConversions": {}
-      },
       "Single": {
         "Fields": null,
         "DefaultValue": 0.0,
@@ -90,6 +84,12 @@
       "Decimal": {
         "Fields": null,
         "DefaultValue": 0.0,
+        "Description": null,
+        "ImplicitConversions": {}
+      },
+      "InputSocket": {
+        "Fields": null,
+        "DefaultValue": null,
         "Description": null,
         "ImplicitConversions": {}
       }

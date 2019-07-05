@@ -35,13 +35,20 @@ namespace RPGCore.Behaviour.Manifest
 			catch
 			{
 			}
+
 			if (type == typeof(char))
 			{
 				typeInformation.DefaultValue = new JValue(default(char).ToString());
 			}
 			else
 			{
-				typeInformation.DefaultValue = new JValue(defaultInstance);
+				try
+				{
+					typeInformation.DefaultValue = new JValue(defaultInstance);
+				}
+				catch
+				{
+				}
 			}
 
 			return typeInformation;
