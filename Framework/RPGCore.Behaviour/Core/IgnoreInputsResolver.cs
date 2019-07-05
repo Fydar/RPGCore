@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
 
 namespace RPGCore.Behaviour
 {
@@ -9,11 +10,25 @@ namespace RPGCore.Behaviour
 		{
 			var prop = base.CreateProperty (member, memberSerialization);
 
-			if (typeof (IInput).IsAssignableFrom (prop.PropertyType))
+			if (IsSubclassOfRawGeneric(typeof(Input<>), prop.PropertyType))
 			{
 				prop.Ignored = true;
 			}
 			return prop;
+		}
+
+		private static bool IsSubclassOfRawGeneric (Type generic, Type toCheck)
+		{
+			while (toCheck != null && toCheck != typeof (object))
+			{
+				var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition () : toCheck;
+				if (generic == cur)
+				{
+					return true;
+				}
+				toCheck = toCheck.BaseType;
+			}
+			return false;
 		}
 	}
 }

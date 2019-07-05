@@ -35,18 +35,19 @@ namespace RPGCore.Behaviour
 				return null;
 			}
 
-			var type = typeof (Connection<>);
+			var connectionType = typeof (Connection<>).MakeGenericType (objectType.GenericTypeArguments);
+			var outputType = typeof (Output<>).MakeGenericType (objectType.GenericTypeArguments);
 
-			type = type.MakeGenericType (objectType.GenericTypeArguments);
+			object connectionObject = JObject.Load (reader).ToObject (connectionType, serializer);
+			object outputObject = Activator.CreateInstance (outputType, connectionObject);
 
-			var jobject = JObject.Load (reader);
-			return jobject.ToObject (type, serializer);
+			return outputObject;
 		}
 
 		public override bool CanConvert (Type objectType)
 		{
-			return typeof (IOutput).IsAssignableFrom (objectType)
-&& !typeof (Connection).IsAssignableFrom (objectType);
+			return IsSubclassOfRawGeneric (typeof (Output<>), objectType)
+				&& !typeof (Connection).IsAssignableFrom (objectType);
 		}
 
 		public override bool CanWrite => false;
@@ -54,6 +55,20 @@ namespace RPGCore.Behaviour
 		public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			throw new NotSupportedException ("JsonCreationConverter should only be used while deserializing.");
+		}
+
+		private static bool IsSubclassOfRawGeneric (Type generic, Type toCheck)
+		{
+			while (toCheck != null && toCheck != typeof (object))
+			{
+				var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition () : toCheck;
+				if (generic == cur)
+				{
+					return true;
+				}
+				toCheck = toCheck.BaseType;
+			}
+			return false;
 		}
 	}
 

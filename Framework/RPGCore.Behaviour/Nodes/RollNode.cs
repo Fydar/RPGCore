@@ -7,6 +7,7 @@ namespace RPGCore.Behaviour
 		public int Hi;
 		public bool Goodbyte;
 	}
+
 	public class RollNode : Node<RollNode.Metadata>
 	{
 		public OutputSocket Output = new OutputSocket ();
@@ -24,10 +25,11 @@ namespace RPGCore.Behaviour
 
 		public class Metadata : INodeInstance
 		{
-			private Actor target;
+			public Output<int> Output;
 
 			public int Seed;
-			public IOutput<int> Output;
+
+			private Actor target;
 
 			public void Setup (IGraphInstance graph, Node parent, Actor target)
 			{
@@ -44,10 +46,7 @@ namespace RPGCore.Behaviour
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
 				Console.WriteLine ("RollNode: Output set to " + newValue);
 
-				if (Output != null)
-				{
-					Output.Value = newValue;
-				}
+				Output.Value = newValue;
 			}
 
 			public void Remove ()

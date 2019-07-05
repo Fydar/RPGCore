@@ -120,36 +120,25 @@ namespace RPGCore.Behaviour
 			return null;
 		}
 
-		public InputMap Connect<T> (ref InputSocket socket, ref IInput<T> connection)
+		public InputMap Connect<T> (ref InputSocket socket, ref Input<T> connection)
 		{
 			if (socket.TargetId > 0)
 			{
-				connection = GetOrCreateConnection<T> (socket.TargetId);
+				connection = new Input<T>(GetOrCreateConnection<T> (socket.TargetId));
 			}
 
 			return new InputMap (socket, typeof (T), connection);
 		}
 
-		public OutputMap Connect<T> (ref OutputSocket socket, ref IOutput<T> connection)
+		public OutputMap Connect<T> (ref OutputSocket socket, ref Output<T> output)
 		{
 			var newConnection = GetConnection<T> (socket.Id);
-			if (connection != null)
+			if (newConnection != null && output.Connection != null)
 			{
-				newConnection.Value = ((Connection<T>)connection).Value;
+				newConnection.Value = output.Connection.Value;
 			}
-			connection = newConnection;
+			output = new Output<T>(newConnection);
 
-			return new OutputMap (socket, typeof (T), newConnection);
-		}
-
-		public OutputMap Connect<T> (ref OutputSocket socket, ref ILazyOutput<T> connection)
-		{
-			var newConnection = GetConnection<T> (socket.Id);
-			if (connection != null)
-			{
-				newConnection.Value = ((Connection<T>)connection).Value;
-			}
-			connection = newConnection;
 			return new OutputMap (socket, typeof (T), newConnection);
 		}
 

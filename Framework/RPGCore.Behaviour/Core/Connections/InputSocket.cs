@@ -1,7 +1,10 @@
-﻿namespace RPGCore.Behaviour
+﻿using System.Diagnostics;
+
+namespace RPGCore.Behaviour
 {
 	public struct InputSocket : ISocket
 	{
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private int internalTargetId;
 
 		public int TargetId
