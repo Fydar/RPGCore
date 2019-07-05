@@ -15,18 +15,34 @@ namespace RPGCore.Behaviour.Editor
 	public struct EditorField
 	{
 		public string Name;
-		public FieldInformation Information;
-		public JValue Property;
+		public FieldInformation Info;
 
-		public EditorField(string name, FieldInformation information, JValue property)
+		public JsonValueTypeInformation ValueTypeInfo;
+		public JValue JsonValue;
+
+		public JsonObjectTypeInformation ObjectTypeInfo;
+		public JObject JsonObject;
+
+		public EditorField(string name, FieldInformation info, JsonValueTypeInformation typeInfo, JValue jsonValue)
+			: this()
 		{
 			Name = name;
-			Information = information;
-			Property = property;
+			Info = info;
+			ValueTypeInfo = typeInfo;
+			JsonValue = jsonValue;
+		}
+
+		public EditorField(string name, FieldInformation info, JsonObjectTypeInformation typeInfo, JObject jsonObject)
+			: this()
+		{
+			Name = name;
+			Info = info;
+			ObjectTypeInfo = typeInfo;
+			JsonObject = jsonObject;
 		}
 	}
 
-	public class EditorObject : IEnumerable<EditorField>
+	public struct EditorObject : IEnumerable<EditorField>
 	{
 		public BehaviourManifest Manifest;
 		public JObject Serialized;
@@ -65,7 +81,11 @@ namespace RPGCore.Behaviour.Editor
 
 				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
 				{
-					yield return new EditorField(field.Key, field.Value, (JValue)property);
+					yield return new EditorField(field.Key, field.Value, typeInformation, (JValue)property);
+				}
+				else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out var objectTypeInfo))
+				{
+					yield return new EditorField(field.Key, field.Value, objectTypeInfo, (JObject)property);
 				}
 			}
 		}

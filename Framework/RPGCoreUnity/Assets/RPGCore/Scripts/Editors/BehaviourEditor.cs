@@ -80,8 +80,8 @@ namespace RPGCore.Unity.Editors
 					foreach (var editNode in editorTarget.Nodes)
 					{
 						var typeData = manifest.Nodes.Nodes[editNode.Value.Type];
-
-						editors.Add(new EditorObject(typeData, editNode.Value.Data));
+						
+						editors.Add(new EditorObject(manifest, typeData, editNode.Value.Data));
 					}
 				}
 
@@ -96,37 +96,65 @@ namespace RPGCore.Unity.Editors
 
 				foreach (var editor in editors)
 				{
-					
 					EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-					foreach (var field in editor)
-					{
-						if (field.Information.Type == "Int32")
-						{
-							EditorGUI.BeginChangeCheck();
-							int newValue = EditorGUILayout.IntField(field.Information.Name, (int)field.Property.Value);
-							if (EditorGUI.EndChangeCheck())
-							{
-								field.Property.Value = newValue;
-							}
-						}
-						else if (field.Information.Type == "String")
-						{
-							EditorGUI.BeginChangeCheck();
-							string newValue = EditorGUILayout.TextField(field.Information.Name, (string)field.Property.Value);
-							if (EditorGUI.EndChangeCheck())
-							{
-								field.Property.Value = newValue;
-							}
-						}
-						else
-						{
-							EditorGUILayout.LabelField(field.Information.Name);
-							EditorGUILayout.TextArea(field.Property.Value.ToString());
-						}
-					}
+					DrawEditor(editor);
 					EditorGUILayout.EndVertical();
 				}
 
+			}
+		}
+
+		public static void DrawEditor(EditorObject editor)
+		{
+			foreach (var field in editor)
+			{
+				if (field.ObjectTypeInfo != null)
+				{
+					Console.WriteLine($"{field.Name}: {field.JsonObject} ({field.Info.Type})");
+				}
+				else
+				{
+					Console.WriteLine($"{field.Name}: {field.JsonValue.Value} ({field.Info.Type})");
+				}
+				
+				if (field.Info.Type == "Int32")
+				{
+					EditorGUI.BeginChangeCheck();
+					int newValue = EditorGUILayout.IntField(field.Name, field.JsonValue.ToObject<int>());
+					if (EditorGUI.EndChangeCheck())
+					{
+						field.JsonValue.Value = newValue;
+					}
+				}
+				else if (field.Info.Type == "String")
+				{
+					EditorGUI.BeginChangeCheck();
+					string newValue = EditorGUILayout.TextField(field.Name, field.JsonValue.ToObject<string>());
+					if (EditorGUI.EndChangeCheck())
+					{
+						field.JsonValue.Value = newValue;
+					}
+				}
+				else if (field.Info.Type == "Boolean")
+				{
+					EditorGUI.BeginChangeCheck();
+					bool newValue = EditorGUILayout.Toggle(field.Name, field.JsonValue.ToObject<bool>());
+					if (EditorGUI.EndChangeCheck())
+					{
+						field.JsonValue.Value = newValue;
+					}
+				}
+				else if (field.ObjectTypeInfo != null)
+				{
+					EditorGUILayout.LabelField(field.Name);
+
+					EditorGUI.indentLevel++;
+
+					var objectEditor = new EditorObject(editor.Manifest, field.ObjectTypeInfo, field.JsonObject);
+					DrawEditor(objectEditor);
+					
+					EditorGUI.indentLevel--;
+				}
 			}
 		}
 	}
