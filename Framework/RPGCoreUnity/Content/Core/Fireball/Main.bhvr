@@ -25,7 +25,7 @@
     "472c7ba2": {
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
-        "MinValue": 20,
+        "MinValue": 15,
         "MaxValue": 25,
         "TooltipFormat": "{0}",
         "Data": {

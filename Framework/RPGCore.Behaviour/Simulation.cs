@@ -58,10 +58,17 @@ namespace RPGCore.Behaviour
 
 			foreach (var field in editor)
 			{
-				Console.WriteLine($"{field.Name}: {field.Property.Value} ({field.Information.Type})");
+				if (field.ObjectTypeInfo != null)
+				{
+					Console.WriteLine($"{field.Name}: {field.JsonObject} ({field.Info.Type})");
+				}
+				else
+				{
+					Console.WriteLine($"{field.Name}: {field.JsonValue.Value} ({field.Info.Type})");
+				}
 				if (field.Name == "MaxValue")
 				{
-					field.Property.Value = ((int)(long)field.Property.Value) + 10;
+					field.JsonValue.Value = field.JsonValue.ToObject<int>() + 10;
 				}
 			}
 

@@ -7,8 +7,8 @@
     "0a084c2c": {
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
-        "MinValue": 1,
-        "MaxValue": 5,
+        "MinValue": 5,
+        "MaxValue": 15,
         "TooltipFormat": "{0}",
         "Data": {
           "Hi": 0,
