@@ -122,7 +122,10 @@ namespace RPGCore.Behaviour
 
 		public InputMap Connect<T> (ref InputSocket socket, ref IInput<T> connection)
 		{
-			connection = GetOrCreateConnection<T> (socket.TargetId);
+			if (socket.TargetId > 0)
+			{
+				connection = GetOrCreateConnection<T> (socket.TargetId);
+			}
 
 			return new InputMap (socket, typeof (T), connection);
 		}
@@ -153,7 +156,11 @@ namespace RPGCore.Behaviour
 		public InputMap Connect<T> (ref InputSocket socket, ref T connection)
 			where T : INodeInstance
 		{
-			connection = (T)nodeInstances[socket.TargetId];
+			if (socket.TargetId > 0)
+			{
+				connection = (T)nodeInstances[socket.TargetId];
+			}
+
 			return new InputMap (socket, typeof (T), connection);
 		}
 

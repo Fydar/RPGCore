@@ -2,11 +2,23 @@
 {
 	public struct InputSocket : ISocket
 	{
-		public int TargetId;
+		private int internalTargetId;
+
+		public int TargetId
+		{
+			get
+			{
+				return internalTargetId - 1;
+			}
+			set
+			{
+				internalTargetId = value + 1;
+			}
+		}
 
 		public InputSocket (int targetId)
 		{
-			TargetId = targetId;
+			internalTargetId = targetId + 1;
 		}
 	}
 }

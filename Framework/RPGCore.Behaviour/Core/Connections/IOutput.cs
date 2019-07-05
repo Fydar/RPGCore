@@ -6,6 +6,6 @@
 
 	public interface IOutput<T> : IOutput
 	{
-		T Value { set; }
+		T Value { get; set; }
 	}
 }

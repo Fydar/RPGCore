@@ -44,7 +44,10 @@ namespace RPGCore.Behaviour
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
 				Console.WriteLine ("RollNode: Output set to " + newValue);
 
-				Output.Value = newValue;
+				if (Output != null)
+				{
+					Output.Value = newValue;
+				}
 			}
 
 			public void Remove ()

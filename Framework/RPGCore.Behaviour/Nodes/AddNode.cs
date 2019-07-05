@@ -22,8 +22,8 @@ namespace RPGCore.Behaviour
 
 		public class Metadata : INodeInstance
 		{
-			public IInput<int> valueA;
-			public IInput<int> valueB;
+			public IInput<int> valueA = new StaticValue<int>(10);
+			public IInput<int> valueB = new StaticValue<int> (20);
 
 			public IOutput<int> Output;
 

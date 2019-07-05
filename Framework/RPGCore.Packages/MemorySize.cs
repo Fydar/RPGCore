@@ -7,7 +7,7 @@ namespace RPGCore.Packages
 	/// <summary>
 	/// A simple structure that formats for bytes. 
 	/// </summary>
-	public struct MemorySize : IEquatable<MemorySize>
+	public struct MemorySize : IEquatable<MemorySize>, IComparable<MemorySize>, IFormattable
 	{
 		public const ulong Denomination = 1000;
 
@@ -71,36 +71,6 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public MemorySize (byte bytes)
-		{
-			Bytes = bytes;
-		}
-
-		public MemorySize (sbyte bytes)
-		{
-			Bytes = (ulong)bytes;
-		}
-
-		public MemorySize (short bytes)
-		{
-			Bytes = (ulong)bytes;
-		}
-
-		public MemorySize (ushort bytes)
-		{
-			Bytes = bytes;
-		}
-
-		public MemorySize (int bytes)
-		{
-			Bytes = (ulong)bytes;
-		}
-
-		public MemorySize (uint bytes)
-		{
-			Bytes = bytes;
-		}
-
 		public MemorySize (long bytes)
 		{
 			Bytes = (ulong)bytes;
@@ -154,6 +124,10 @@ namespace RPGCore.Packages
 
 		public override int GetHashCode () => 1182642244 + Bytes.GetHashCode ();
 
+		public int CompareTo (MemorySize other) => Bytes.CompareTo (other.Bytes);
+
+		public string ToString (string format, IFormatProvider formatProvider) => Bytes.ToString (format, formatProvider);
+
 		public static bool operator == (MemorySize left, MemorySize right)
 		{
 			return left.Equals (right);
@@ -162,6 +136,26 @@ namespace RPGCore.Packages
 		public static bool operator != (MemorySize left, MemorySize right)
 		{
 			return !(left == right);
+		}
+
+		public static MemorySize operator + (MemorySize left, MemorySize right)
+		{
+			return new MemorySize (left.Bytes + right.Bytes);
+		}
+
+		public static MemorySize operator - (MemorySize left, MemorySize right)
+		{
+			return new MemorySize (left.Bytes + right.Bytes);
+		}
+
+		public static MemorySize operator * (MemorySize left, double right)
+		{
+			return new MemorySize (Convert.ToUInt64 (left.Bytes * right));
+		}
+
+		public static MemorySize operator / (MemorySize left, double right)
+		{
+			return new MemorySize (Convert.ToUInt64 (left.Bytes / right));
 		}
 	}
 }
