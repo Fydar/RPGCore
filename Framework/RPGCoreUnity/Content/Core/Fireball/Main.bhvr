@@ -43,7 +43,6 @@
     "0a4f194f": {
       "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
-        "ValueA": "0a084c2c.Output",
         "ValueB": "472c7ba2.Output"
       },
       "Editor": {
