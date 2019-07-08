@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
@@ -14,6 +15,7 @@ namespace RPGCore.Behaviour
 
 	public class Connection<T> : Connection
 	{
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private T internalValue;
 
 		public T Value
@@ -25,5 +27,7 @@ namespace RPGCore.Behaviour
 				InvokeAfterChanged ();
 			}
 		}
+
+		public override string ToString () => $"Connection, Value = {internalValue}";
 	}
 }

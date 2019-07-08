@@ -9,6 +9,8 @@ namespace RPGCore.Behaviour
 		private readonly Graph graph;
 		private readonly INodeInstance[] nodeInstances;
 		private readonly Connection[] connections;
+		private readonly InputMap[][] allInputs;
+		private readonly OutputMap[][] allOutputs;
 
 		public INodeInstance this[LocalId id]
 		{
@@ -52,16 +54,19 @@ namespace RPGCore.Behaviour
 				}
 			}
 
+			allInputs = new InputMap[nodeCount][];
+			allOutputs = new OutputMap[nodeCount][];
+
 			// Allow all used inputs to setup their connections.
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Inputs (this, nodeInstances[i]);
+				allInputs[i] = graph.Nodes[i].Inputs (this, nodeInstances[i]);
 			}
 
 			// Allow all outputs to assign themselves to that connection
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Outputs (this, nodeInstances[i]);
+				allOutputs[i] = graph.Nodes[i].Outputs (this, nodeInstances[i]);
 			}
 		}
 
@@ -127,7 +132,7 @@ namespace RPGCore.Behaviour
 				connection = new Input<T>(GetOrCreateConnection<T> (socket.TargetId));
 			}
 
-			return new InputMap (socket, typeof (T), connection);
+			return new InputMap (socket, typeof (T));
 		}
 
 		public OutputMap Connect<T> (ref OutputSocket socket, ref Output<T> output)
@@ -139,7 +144,7 @@ namespace RPGCore.Behaviour
 			}
 			output = new Output<T>(newConnection);
 
-			return new OutputMap (socket, typeof (T), newConnection);
+			return new OutputMap (socket, typeof (T));
 		}
 
 		public InputMap Connect<T> (ref InputSocket socket, ref T connection)
@@ -150,7 +155,7 @@ namespace RPGCore.Behaviour
 				connection = (T)nodeInstances[socket.TargetId];
 			}
 
-			return new InputMap (socket, typeof (T), connection);
+			return new InputMap (socket, typeof (T));
 		}
 
 		private Connection<T> GetOrCreateConnection<T> (int id)

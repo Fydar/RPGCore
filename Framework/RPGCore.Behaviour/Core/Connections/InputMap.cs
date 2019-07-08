@@ -6,13 +6,13 @@ namespace RPGCore.Behaviour
 	{
 		public InputSocket Source;
 		public Type ConnectionType;
-		public object Link;
 
-		public InputMap (InputSocket source, Type connectionType, object link)
+		public InputMap (InputSocket source, Type connectionType)
 		{
 			Source = source;
-			Link = link;
 			ConnectionType = connectionType;
 		}
+
+		public override string ToString () => $"{Source} of type {ConnectionType}";
 	}
 }
