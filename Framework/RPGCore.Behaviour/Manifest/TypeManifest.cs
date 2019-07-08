@@ -52,10 +52,15 @@ namespace RPGCore.Behaviour.Manifest
 					typeof(double),
 					typeof(decimal),
 					typeof(InputSocket),
+					typeof(LocalId),
 				},
 				new Type[]
 				{
-					typeof(ExtraData)
+					typeof(SerializedGraph),
+					typeof(SerializedNode),
+					typeof(PackageNodeEditor),
+					typeof(PackageNodePosition),
+					typeof(ExtraData),
 				}
 			);
 		}

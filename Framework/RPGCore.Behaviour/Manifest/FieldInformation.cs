@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 
 namespace RPGCore.Behaviour.Manifest
@@ -38,11 +39,21 @@ namespace RPGCore.Behaviour.Manifest
 					field.GetValue(defaultInstance);
 				}
 
+				string typeName;
+				if (typeof(IDictionary).IsAssignableFrom(field.FieldType))
+				{
+					typeName = $"Dictionary of {field.FieldType.GetGenericArguments()[1].Name}";
+				}
+				else
+				{
+					typeName = field.FieldType.Name;
+				}
+
 				try
 				{
 					fieldInformation = new FieldInformation
 					{
-						Type = field.FieldType.Name,
+						Type = typeName,
 						Attributes = attributeIds,
 						DefaultValue = new JValue(defaultValue)
 					};
@@ -51,7 +62,7 @@ namespace RPGCore.Behaviour.Manifest
 				{
 					fieldInformation = new FieldInformation
 					{
-						Type = field.FieldType.Name,
+						Type = typeName,
 						Attributes = attributeIds,
 						DefaultValue = JObject.FromObject(defaultValue)
 					};
