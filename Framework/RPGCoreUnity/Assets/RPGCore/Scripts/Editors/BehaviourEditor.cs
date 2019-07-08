@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace RPGCore.Unity.Editors
 {
@@ -18,9 +19,10 @@ namespace RPGCore.Unity.Editors
 		public ProjectImport CurrentPackage;
 
 		public bool HasCurrentResource;
+		public bool HasEditor;
 		public ProjectResource CurrentResource;
-		public SerializedGraph editorTarget;
-		public List<EditorObject> editors;
+		public JObject editorTarget;
+		public EditorObject graphEditor;
 
 		private JsonSerializer serializer = new JsonSerializer();
 
@@ -49,13 +51,13 @@ namespace RPGCore.Unity.Editors
 				{
 					CurrentResource = resource;
 					HasCurrentResource = true;
-					editors = null;
+					HasEditor = false;
 				}
 			}
 
 			if (HasCurrentResource && CurrentResource != null)
 			{
-				if (editors == null)
+				if (HasEditor == false)
 				{
 					Debug.Log(CurrentResource);
 
@@ -64,7 +66,8 @@ namespace RPGCore.Unity.Editors
 					using (var sr = new StreamReader(editorTargetData))
 					using (var reader = new JsonTextReader(sr))
 					{
-						editorTarget = serializer.Deserialize<SerializedGraph>(reader);
+						editorTarget = JObject.Load(reader);
+						// editorTarget = serializer.Deserialize(reader);
 					}
 
 					var nodes = NodeManifest.Construct(new Type[] { typeof(AddNode), typeof(RollNode) });
@@ -76,13 +79,9 @@ namespace RPGCore.Unity.Editors
 						Types = types
 					};
 
-					editors = new List<EditorObject>();
-					foreach (var editNode in editorTarget.Nodes)
-					{
-						var typeData = manifest.Nodes.Nodes[editNode.Value.Type];
-						
-						editors.Add(new EditorObject(manifest, typeData, editNode.Value.Data));
-					}
+
+					graphEditor = new EditorObject(manifest, manifest.Types.ObjectTypes["SerializedGraph"], editorTarget);
+					HasEditor = true;
 				}
 
 				if (GUILayout.Button("Save"))
@@ -94,13 +93,9 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
-				foreach (var editor in editors)
-				{
-					EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-					DrawEditor(editor);
-					EditorGUILayout.EndVertical();
-				}
-
+				EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+				DrawEditor(graphEditor);
+				EditorGUILayout.EndVertical();
 			}
 		}
 

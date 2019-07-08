@@ -92,9 +92,105 @@
         "DefaultValue": null,
         "Description": null,
         "ImplicitConversions": {}
+      },
+      "LocalId": {
+        "Fields": null,
+        "DefaultValue": null,
+        "Description": null,
+        "ImplicitConversions": {}
       }
     },
     "ObjectTypes": {
+      "SerializedGraph": {
+        "Fields": {
+          "Name": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "Description": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "Type": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "CustomData": {
+            "Description": null,
+            "Type": "Dictionary of String",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "Nodes": {
+            "Description": null,
+            "Type": "Dictionary of SerializedNode",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "Description": null,
+        "ImplicitConversions": {}
+      },
+      "SerializedNode": {
+        "Fields": {
+          "Type": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "Data": {
+            "Description": null,
+            "Type": "JObject",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "Editor": {
+            "Description": null,
+            "Type": "PackageNodeEditor",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "Description": null,
+        "ImplicitConversions": {}
+      },
+      "PackageNodeEditor": {
+        "Fields": {
+          "Position": {
+            "Description": null,
+            "Type": "PackageNodePosition",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "Description": null,
+        "ImplicitConversions": {}
+      },
+      "PackageNodePosition": {
+        "Fields": {
+          "x": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "y": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "Description": null,
+        "ImplicitConversions": {}
+      },
       "ExtraData": {
         "Fields": {
           "Hi": {
