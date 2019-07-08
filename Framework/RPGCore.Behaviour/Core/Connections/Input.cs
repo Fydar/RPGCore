@@ -6,6 +6,8 @@ namespace RPGCore.Behaviour
 	{
 		public Connection<T> Connection { get; }
 
+		public bool IsConnected => Connection != null;
+
 		public T Value => Connection != null
 			? Connection.Value
 			: default(T);
@@ -32,5 +34,7 @@ namespace RPGCore.Behaviour
 		{
 			Connection = connection;
 		}
+
+		public override string ToString () => $"Inputted {Connection}";
 	}
 }
