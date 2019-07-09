@@ -87,6 +87,23 @@ namespace RPGCore.Behaviour.Editor
 				{
 					yield return new EditorField(field.Key, field.Value, objectTypeInfo, (JObject)property);
 				}
+				else
+				{
+					bool found = false;
+					EditorField tryReturn = default(EditorField);
+					try
+					{
+						tryReturn = new EditorField(field.Key, field.Value, null, (JObject)property);
+						found = true;
+					}
+					catch
+					{
+					}
+					if (found)
+					{
+						yield return tryReturn;
+					}
+				}
 			}
 		}
 

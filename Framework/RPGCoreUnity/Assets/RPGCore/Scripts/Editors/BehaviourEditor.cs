@@ -79,7 +79,6 @@ namespace RPGCore.Unity.Editors
 						Types = types
 					};
 
-
 					graphEditor = new EditorObject(manifest, manifest.Types.ObjectTypes["SerializedGraph"], editorTarget);
 					HasEditor = true;
 				}
@@ -102,7 +101,7 @@ namespace RPGCore.Unity.Editors
 		public static void DrawEditor(EditorObject editor)
 		{
 			foreach (var field in editor)
-			{				
+			{
 				if (field.Info.Type == "Int32")
 				{
 					EditorGUI.BeginChangeCheck();
@@ -138,6 +137,26 @@ namespace RPGCore.Unity.Editors
 					{
 						//field.JsonValue.Value = newValue;
 					}
+				}
+				else if (field.Info.Type.StartsWith ("Dictionary of "))
+				{
+					var valueTypeString = field.Info.Type.Substring(14);
+					Debug.Log(valueTypeString);
+					
+					EditorGUILayout.LabelField(field.Name);
+
+					EditorGUI.indentLevel++;
+
+					foreach (var valueToken in field.JsonObject.Properties())
+					{
+						EditorGUILayout.LabelField(valueToken.Name);
+						EditorGUI.indentLevel++;
+						var objectEditor = new EditorObject(editor.Manifest, editor.Manifest.Types.ObjectTypes[valueTypeString], (JObject)valueToken.Value);
+						DrawEditor(objectEditor);
+						EditorGUI.indentLevel--;
+					}
+					
+					EditorGUI.indentLevel--;
 				}
 				else if (field.ObjectTypeInfo != null)
 				{
