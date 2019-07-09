@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
-	public class GraphInstance : IGraphInstance
+	public class GraphInstance : IGraphInstance, IGraphConnections
 	{
 		private readonly Graph graph;
 		private readonly INodeInstance[] nodeInstances;
@@ -34,7 +34,6 @@ namespace RPGCore.Behaviour
 
 			int nodeCount = graph.Nodes.Length;
 			nodeInstances = new INodeInstance[nodeCount];
-			connections = new Connection[graph.OutputCount];
 
 			// Map and create tokens
 			for (int i = 0; i < nodeCount; i++)
@@ -54,16 +53,17 @@ namespace RPGCore.Behaviour
 				}
 			}
 
-			allInputs = new InputMap[nodeCount][];
-			allOutputs = new OutputMap[nodeCount][];
+			connections = new Connection[graph.OutputCount];
 
 			// Allow all used inputs to setup their connections.
+			allInputs = new InputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
 				allInputs[i] = graph.Nodes[i].Inputs (this, nodeInstances[i]);
 			}
 
 			// Allow all outputs to assign themselves to that connection
+			allOutputs = new OutputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
 				allOutputs[i] = graph.Nodes[i].Outputs (this, nodeInstances[i]);
@@ -125,7 +125,7 @@ namespace RPGCore.Behaviour
 			return null;
 		}
 
-		public InputMap Connect<T> (ref InputSocket socket, ref Input<T> connection)
+		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref Input<T> connection)
 		{
 			if (socket.TargetId > 0)
 			{
@@ -135,7 +135,7 @@ namespace RPGCore.Behaviour
 			return new InputMap (socket, typeof (T));
 		}
 
-		public OutputMap Connect<T> (ref OutputSocket socket, ref Output<T> output)
+		OutputMap IGraphConnections.Connect<T> (ref OutputSocket socket, ref Output<T> output)
 		{
 			var newConnection = GetConnection<T> (socket.Id);
 			if (newConnection != null && output.Connection != null)
@@ -147,8 +147,7 @@ namespace RPGCore.Behaviour
 			return new OutputMap (socket, typeof (T));
 		}
 
-		public InputMap Connect<T> (ref InputSocket socket, ref T connection)
-			where T : INodeInstance
+		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref T connection)
 		{
 			if (socket.TargetId > 0)
 			{

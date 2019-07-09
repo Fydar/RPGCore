@@ -9,13 +9,13 @@ namespace RPGCore.Behaviour
 
 		public OutputSocket Output;
 
-		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => new[]
+		public override InputMap[] Inputs (IGraphConnections graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref ValueA, ref instance.valueA),
 			graph.Connect(ref ValueB, ref instance.valueB)
 		};
 
-		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => new[]
+		public override OutputMap[] Outputs (IGraphConnections graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref Output, ref instance.Output)
 		};
