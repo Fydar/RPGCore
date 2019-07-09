@@ -25,6 +25,7 @@
 
   <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
     <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Packages.dll Assets/Plugins/RPGCore'" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Packages.pdb Assets/Plugins/RPGCore'" />
   </Target>
 
 </Project>
