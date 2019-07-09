@@ -129,7 +129,7 @@ namespace RPGCore.Behaviour
 		{
 			if (socket.TargetId > 0)
 			{
-				connection = new Input<T>(GetOrCreateConnection<T> (socket.TargetId));
+				connection = new Input<T> (GetOrCreateConnection<T> (socket.TargetId));
 			}
 
 			return new InputMap (socket, typeof (T));
@@ -142,7 +142,7 @@ namespace RPGCore.Behaviour
 			{
 				newConnection.Value = output.Connection.Value;
 			}
-			output = new Output<T>(newConnection);
+			output = new Output<T> (newConnection);
 
 			return new OutputMap (socket, typeof (T));
 		}

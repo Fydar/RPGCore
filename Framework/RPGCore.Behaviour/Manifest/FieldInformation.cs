@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Reflection;
-using Newtonsoft.Json.Linq;
 
 namespace RPGCore.Behaviour.Manifest
 {
@@ -11,38 +11,38 @@ namespace RPGCore.Behaviour.Manifest
 		public JToken DefaultValue;
 		public string[] Attributes;
 
-		public static FieldInformation Construct(FieldInfo field, object defaultInstance)
+		public static FieldInformation Construct (FieldInfo field, object defaultInstance)
 		{
-			object[] attributes = field.GetCustomAttributes(false);
+			object[] attributes = field.GetCustomAttributes (false);
 			string[] attributeIds = new string[attributes.Length];
 			for (int i = 0; i < attributes.Length; i++)
 			{
-				attributeIds[i] = attributes.GetType().Name;
+				attributeIds[i] = attributes.GetType ().Name;
 			}
 
 			FieldInformation fieldInformation;
-			if (typeof(InputSocket).IsAssignableFrom(field.FieldType))
+			if (typeof (InputSocket).IsAssignableFrom (field.FieldType))
 			{
-				fieldInformation = new FieldInformation()
+				fieldInformation = new FieldInformation ()
 				{
 					Type = "InputSocket",
 					Attributes = attributeIds,
-					DefaultValue = new JValue((object)null)
+					DefaultValue = new JValue ((object)null)
 				};
 			}
 			else
 			{
 				object defaultValue = null;
-				
+
 				if (defaultInstance != null)
 				{
-					field.GetValue(defaultInstance);
+					field.GetValue (defaultInstance);
 				}
 
 				string typeName;
-				if (typeof(IDictionary).IsAssignableFrom(field.FieldType))
+				if (typeof (IDictionary).IsAssignableFrom (field.FieldType))
 				{
-					typeName = $"Dictionary of {field.FieldType.GetGenericArguments()[1].Name}";
+					typeName = $"Dictionary of {field.FieldType.GetGenericArguments ()[1].Name}";
 				}
 				else
 				{
@@ -55,7 +55,7 @@ namespace RPGCore.Behaviour.Manifest
 					{
 						Type = typeName,
 						Attributes = attributeIds,
-						DefaultValue = new JValue(defaultValue)
+						DefaultValue = new JValue (defaultValue)
 					};
 				}
 				catch
@@ -64,7 +64,7 @@ namespace RPGCore.Behaviour.Manifest
 					{
 						Type = typeName,
 						Attributes = attributeIds,
-						DefaultValue = JObject.FromObject(defaultValue)
+						DefaultValue = JObject.FromObject (defaultValue)
 					};
 				}
 			}

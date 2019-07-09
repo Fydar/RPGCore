@@ -24,6 +24,6 @@ namespace RPGCore.Behaviour
 			internalTargetId = targetId + 1;
 		}
 
-		public override string ToString () => $"Input {TargetId.ToString()}";
+		public override string ToString () => $"Input {TargetId.ToString ()}";
 	}
 }

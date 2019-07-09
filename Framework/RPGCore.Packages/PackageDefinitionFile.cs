@@ -9,9 +9,9 @@ namespace RPGCore.Packages
 
 		public Dictionary<string, ResourceDependancyDefinition> ResourceDependancies;
 
-		public PackageDefinitionFile()
+		public PackageDefinitionFile ()
 		{
-			ResourceDependancies = new Dictionary<string, ResourceDependancyDefinition>();
+			ResourceDependancies = new Dictionary<string, ResourceDependancyDefinition> ();
 		}
 	}
 }
