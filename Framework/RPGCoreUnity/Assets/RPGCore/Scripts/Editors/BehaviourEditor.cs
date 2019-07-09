@@ -102,6 +102,14 @@ namespace RPGCore.Unity.Editors
 		{
 			foreach (var field in editor)
 			{
+				if (field.JsonObject != null)
+				{
+					EditorGUILayout.LabelField(field.JsonObject.Path);
+				}
+				else
+				{
+					EditorGUILayout.LabelField(field.JsonValue.Path);
+				}
 				if (field.Info.Type == "Int32")
 				{
 					EditorGUI.BeginChangeCheck();

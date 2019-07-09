@@ -4,104 +4,250 @@
     "Version": null,
     "JsonTypes": {
       "Boolean": {
-        "Fields": null,
-        "DefaultValue": false,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "Boolean",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": false
       },
       "String": {
-        "Fields": null,
-        "DefaultValue": null,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "_stringLength": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": [
+              "Object[]"
+            ]
+          },
+          "_firstChar": {
+            "Description": null,
+            "Type": "Char",
+            "DefaultValue": null,
+            "Attributes": [
+              "Object[]"
+            ]
+          }
+        },
+        "DefaultValue": null
       },
       "Int32": {
-        "Fields": null,
-        "DefaultValue": 0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0
       },
       "Byte": {
-        "Fields": null,
-        "DefaultValue": 0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "Byte",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0
       },
       "Int64": {
-        "Fields": null,
-        "DefaultValue": 0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "Int64",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0
       },
       "Int16": {
-        "Fields": null,
-        "DefaultValue": 0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "Int16",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0
       },
       "UInt32": {
-        "Fields": null,
-        "DefaultValue": 0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "UInt32",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0
       },
       "UInt64": {
-        "Fields": null,
-        "DefaultValue": 0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "UInt64",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0
       },
       "UInt16": {
-        "Fields": null,
-        "DefaultValue": 0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "UInt16",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0
       },
       "SByte": {
-        "Fields": null,
-        "DefaultValue": 0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "SByte",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0
       },
       "Char": {
-        "Fields": null,
-        "DefaultValue": "\u0000",
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "Char",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": "\u0000"
       },
       "Single": {
-        "Fields": null,
-        "DefaultValue": 0.0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "Single",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0.0
       },
       "Double": {
-        "Fields": null,
-        "DefaultValue": 0.0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "m_value": {
+            "Description": null,
+            "Type": "Double",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0.0
       },
       "Decimal": {
-        "Fields": null,
-        "DefaultValue": 0.0,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "flags": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "hi": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "lo": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          },
+          "mid": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": 0.0
       },
       "InputSocket": {
-        "Fields": null,
-        "DefaultValue": null,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "internalTargetId": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": [
+              "Object[]"
+            ]
+          }
+        },
+        "DefaultValue": {
+          "TargetId": -1
+        }
       },
       "LocalId": {
-        "Fields": null,
-        "DefaultValue": null,
         "Description": null,
-        "ImplicitConversions": {}
+        "ImplicitConversions": {},
+        "Fields": {
+          "Id": {
+            "Description": null,
+            "Type": "UInt64",
+            "DefaultValue": null,
+            "Attributes": []
+          }
+        },
+        "DefaultValue": "00000000"
       }
     },
     "ObjectTypes": {
       "SerializedGraph": {
+        "Description": null,
+        "ImplicitConversions": {},
         "Fields": {
           "Name": {
             "Description": null,
@@ -134,10 +280,17 @@
             "Attributes": []
           }
         },
-        "Description": null,
-        "ImplicitConversions": {}
+        "DefaultValue": {
+          "Name": null,
+          "Description": null,
+          "Type": null,
+          "CustomData": null,
+          "Nodes": null
+        }
       },
       "SerializedNode": {
+        "Description": null,
+        "ImplicitConversions": {},
         "Fields": {
           "Type": {
             "Description": null,
@@ -158,10 +311,20 @@
             "Attributes": []
           }
         },
-        "Description": null,
-        "ImplicitConversions": {}
+        "DefaultValue": {
+          "Type": null,
+          "Data": null,
+          "Editor": {
+            "Position": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        }
       },
       "PackageNodeEditor": {
+        "Description": null,
+        "ImplicitConversions": {},
         "Fields": {
           "Position": {
             "Description": null,
@@ -170,10 +333,16 @@
             "Attributes": []
           }
         },
-        "Description": null,
-        "ImplicitConversions": {}
+        "DefaultValue": {
+          "Position": {
+            "x": 0,
+            "y": 0
+          }
+        }
       },
       "PackageNodePosition": {
+        "Description": null,
+        "ImplicitConversions": {},
         "Fields": {
           "x": {
             "Description": null,
@@ -188,10 +357,14 @@
             "Attributes": []
           }
         },
-        "Description": null,
-        "ImplicitConversions": {}
+        "DefaultValue": {
+          "x": 0,
+          "y": 0
+        }
       },
       "ExtraData": {
+        "Description": null,
+        "ImplicitConversions": {},
         "Fields": {
           "Hi": {
             "Description": null,
@@ -206,8 +379,10 @@
             "Attributes": []
           }
         },
-        "Description": null,
-        "ImplicitConversions": {}
+        "DefaultValue": {
+          "Hi": 0,
+          "Goodbyte": false
+        }
       }
     }
   },
@@ -232,6 +407,8 @@
             "Type": "Int32"
           }
         },
+        "Description": null,
+        "ImplicitConversions": null,
         "Fields": {
           "ValueA": {
             "Description": null,
@@ -246,8 +423,7 @@
             "Attributes": []
           }
         },
-        "Description": null,
-        "ImplicitConversions": null
+        "DefaultValue": null
       },
       "RPGCore.Behaviour.RollNode": {
         "Inputs": null,
@@ -257,6 +433,8 @@
             "Type": "Int32"
           }
         },
+        "Description": null,
+        "ImplicitConversions": null,
         "Fields": {
           "TooltipFormat": {
             "Description": null,
@@ -283,8 +461,7 @@
             "Attributes": []
           }
         },
-        "Description": null,
-        "ImplicitConversions": null
+        "DefaultValue": null
       }
     }
   }

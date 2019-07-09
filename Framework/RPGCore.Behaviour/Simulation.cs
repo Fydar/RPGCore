@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Packages;
@@ -58,17 +59,11 @@ namespace RPGCore.Behaviour
 
 			foreach (var field in editor)
 			{
-				if (field.ObjectTypeInfo != null)
-				{
-					Console.WriteLine($"{field.Name}: {field.JsonObject} ({field.Info.Type})");
-				}
-				else
-				{
-					Console.WriteLine($"{field.Name}: {field.JsonValue.Value} ({field.Info.Type})");
-				}
+				Console.WriteLine($"{field.Name}: {field.Json} ({field.Info.Type})");
 				if (field.Name == "MaxValue")
 				{
-					field.JsonValue.Value = field.JsonValue.ToObject<int>() + 10;
+					var newObject = JToken.FromObject(field.Json.ToObject<int>() + 10);
+					field.Json.Replace(newObject);
 				}
 			}
 

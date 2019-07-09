@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
 {
-	public class NodeInformation : JsonObjectTypeInformation
+	public class NodeInformation : TypeInformation
 	{
 		public Dictionary<string, SocketInformation> Inputs;
 		public Dictionary<string, SocketInformation> Outputs;

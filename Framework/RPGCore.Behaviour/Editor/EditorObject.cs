@@ -16,44 +16,31 @@ namespace RPGCore.Behaviour.Editor
 	{
 		public string Name;
 		public FieldInformation Info;
+		public TypeInformation Type;
+		public JToken Json;
+		
+		private BehaviourManifest Manifest;
 
-		public JsonValueTypeInformation ValueTypeInfo;
-		public JValue JsonValue;
-
-		public JsonObjectTypeInformation ObjectTypeInfo;
-		public JObject JsonObject;
-
-		public EditorField(string name, FieldInformation info, JsonValueTypeInformation typeInfo, JValue jsonValue)
+		public EditorField(BehaviourManifest manifest, string name, FieldInformation info, TypeInformation type, JToken json)
 			: this()
 		{
+			Manifest = manifest;
 			Name = name;
 			Info = info;
-			ValueTypeInfo = typeInfo;
-			JsonValue = jsonValue;
-		}
+			Type = type;
+			Json = json;
 
-		public EditorField(string name, FieldInformation info, JsonObjectTypeInformation typeInfo, JObject jsonObject)
-			: this()
-		{
-			Name = name;
-			Info = info;
-			ObjectTypeInfo = typeInfo;
-			JsonObject = jsonObject;
+			if (Json.Type == JTokenType.Object)
+			{
+				EditorObject.PopulateMissing((JObject)Json, type);
+			}
 		}
 	}
 
 	public struct EditorObject : IEnumerable<EditorField>
 	{
-		public BehaviourManifest Manifest;
-		public JObject Serialized;
-		public JsonObjectTypeInformation Information;
-
-		public EditorObject(BehaviourManifest manifest, JsonObjectTypeInformation information, JObject serialized)
+		public static void PopulateMissing(JObject serialized, TypeInformation information)
 		{
-			Manifest = manifest;
-			Information = information;
-			Serialized = serialized ?? throw new ArgumentNullException();
-
 			// Remove any additional fields.
 			foreach (var item in serialized.Children<JProperty>().ToList())
 			{
@@ -73,6 +60,19 @@ namespace RPGCore.Behaviour.Editor
 			}
 		}
 
+		public BehaviourManifest Manifest;
+		public JObject Serialized;
+		public TypeInformation Information;
+
+		public EditorObject(BehaviourManifest manifest, TypeInformation information, JObject serialized)
+		{
+			Manifest = manifest;
+			Information = information;
+			Serialized = serialized ?? throw new ArgumentNullException();
+
+			PopulateMissing(serialized, information);
+		}
+
 		public IEnumerator<EditorField> GetEnumerator()
 		{
 			foreach (var field in Information.Fields)
@@ -81,28 +81,15 @@ namespace RPGCore.Behaviour.Editor
 
 				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
 				{
-					yield return new EditorField(field.Key, field.Value, typeInformation, (JValue)property);
+					yield return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
 				}
-				else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out var objectTypeInfo))
+				else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out typeInformation))
 				{
-					yield return new EditorField(field.Key, field.Value, objectTypeInfo, (JObject)property);
+					yield return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
 				}
-				else
+				else if (Manifest.Nodes.Nodes.TryGetValue(field.Value.Type, out var nodeInformation))
 				{
-					bool found = false;
-					EditorField tryReturn = default(EditorField);
-					try
-					{
-						tryReturn = new EditorField(field.Key, field.Value, null, (JObject)property);
-						found = true;
-					}
-					catch
-					{
-					}
-					if (found)
-					{
-						yield return tryReturn;
-					}
+					yield return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
 				}
 			}
 		}
