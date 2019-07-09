@@ -16,9 +16,9 @@ namespace RPGCore.Behaviour
 		public int MaxValue = 12;
 		public ExtraData Data;
 
-		public override InputMap[] Inputs (IGraphInstance graph, Metadata instance) => null;
+		public override InputMap[] Inputs (IGraphConnections graph, Metadata instance) => null;
 
-		public override OutputMap[] Outputs (IGraphInstance graph, Metadata instance) => new[]
+		public override OutputMap[] Outputs (IGraphConnections graph, Metadata instance) => new[]
 		{
 			graph.Connect(ref Output, ref instance.Output),
 		};

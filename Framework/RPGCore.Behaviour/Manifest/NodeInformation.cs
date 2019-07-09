@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour.Manifest
 		{
 			var nodeInformation = new NodeInformation ();
 
-			var typeDefinition = new Type[] { typeof (IGraphInstance), nodeType.BaseType.GenericTypeArguments[0] };
+			var typeDefinition = new Type[] { typeof (IGraphConnections), nodeType.BaseType.GenericTypeArguments[0] };
 			var inputsProperty = nodeType.GetMethod ("Inputs", typeDefinition);
 			var outputsProperty = nodeType.GetMethod ("Outputs", typeDefinition);
 

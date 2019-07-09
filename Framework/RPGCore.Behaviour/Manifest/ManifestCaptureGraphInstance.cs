@@ -1,11 +1,9 @@
 ﻿namespace RPGCore.Behaviour
 {
-	public sealed class ManifestCaptureGraphInstance : IGraphInstance
+	public sealed class ManifestCaptureGraphInstance : IGraphConnections
 	{
 		private readonly Node node;
 		private readonly INodeInstance instance;
-
-		public INodeInstance this[LocalId id] => null;
 
 		public ManifestCaptureGraphInstance (Node singleNodeGraph)
 		{
@@ -14,21 +12,6 @@
 
 			node.Inputs (this, instance);
 			node.Outputs (this, instance);
-		}
-
-		public void Setup (Actor target)
-		{
-			node.Setup (this, instance, target);
-		}
-
-		public void Remove ()
-		{
-			instance.Remove ();
-		}
-
-		public INodeInstance GetNode<T> ()
-		{
-			return instance;
 		}
 
 		public InputMap Connect<T> (ref InputSocket socket, ref Input<T> connection)

@@ -12,8 +12,8 @@ namespace RPGCore.Behaviour
 		public abstract INodeInstance Create ();
 		public abstract void Setup (IGraphInstance graph, INodeInstance metadata, Actor target);
 
-		public abstract InputMap[] Inputs (IGraphInstance graph, object instance);
-		public abstract OutputMap[] Outputs (IGraphInstance graph, object instance);
+		public abstract InputMap[] Inputs (IGraphConnections graph, object instance);
+		public abstract OutputMap[] Outputs (IGraphConnections graph, object instance);
 	}
 
 	public abstract class Node<T> : Node
@@ -21,20 +21,20 @@ namespace RPGCore.Behaviour
 	{
 		public override Type MetadataType => typeof (T);
 
-		public abstract InputMap[] Inputs (IGraphInstance graph, T instance);
-		public abstract OutputMap[] Outputs (IGraphInstance graph, T instance);
+		public abstract InputMap[] Inputs (IGraphConnections graph, T instance);
+		public abstract OutputMap[] Outputs (IGraphConnections graph, T instance);
 
 		public override INodeInstance Create ()
 		{
 			return new T ();
 		}
 
-		public sealed override InputMap[] Inputs (IGraphInstance graph, object instance)
+		public sealed override InputMap[] Inputs (IGraphConnections graph, object instance)
 		{
 			return Inputs (graph, (T)instance);
 		}
 
-		public sealed override OutputMap[] Outputs (IGraphInstance graph, object instance)
+		public sealed override OutputMap[] Outputs (IGraphConnections graph, object instance)
 		{
 			return Outputs (graph, (T)instance);
 		}
