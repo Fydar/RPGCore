@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 		{
 			var prop = base.CreateProperty (member, memberSerialization);
 
-			if (IsSubclassOfRawGeneric(typeof(Input<>), prop.PropertyType))
+			if (IsSubclassOfRawGeneric (typeof (Input<>), prop.PropertyType))
 			{
 				prop.Ignored = true;
 			}

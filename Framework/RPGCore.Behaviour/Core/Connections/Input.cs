@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 
 		public T Value => Connection != null
 			? Connection.Value
-			: default(T);
+			: default (T);
 
 		public event Action OnAfterChanged
 		{

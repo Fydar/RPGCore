@@ -14,7 +14,7 @@ namespace RPGCore.Behaviour.Manifest
 		public static TypeManifest Construct (Type[] valueTypes, Type[] objectTypes)
 		{
 			var manifest = new TypeManifest ();
-			
+
 			var valueTypeInformation = new Dictionary<string, TypeInformation> ();
 			foreach (var type in valueTypes)
 			{

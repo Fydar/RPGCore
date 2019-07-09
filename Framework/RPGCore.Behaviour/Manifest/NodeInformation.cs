@@ -53,13 +53,13 @@ namespace RPGCore.Behaviour.Manifest
 
 			if (inputsArray != null)
 			{
-				nodeInformation.Inputs = new Dictionary<string, SocketInformation>(inputsArray.Length);
+				nodeInformation.Inputs = new Dictionary<string, SocketInformation> (inputsArray.Length);
 
 				for (int i = 0; i < inputsArray.Length; i++)
 				{
 					var map = inputsArray[i];
 					var field = inputSocketFields[map.Source.TargetId];
-					nodeInformation.Inputs.Add(field.Name, SocketInformation.Construct (field, map));
+					nodeInformation.Inputs.Add (field.Name, SocketInformation.Construct (field, map));
 				}
 			}
 			else
@@ -69,13 +69,13 @@ namespace RPGCore.Behaviour.Manifest
 
 			if (outputsArray != null)
 			{
-				nodeInformation.Outputs = new Dictionary<string, SocketInformation>(outputsArray.Length);
+				nodeInformation.Outputs = new Dictionary<string, SocketInformation> (outputsArray.Length);
 
 				for (int i = 0; i < outputsArray.Length; i++)
 				{
 					var map = outputsArray[i];
 					var field = outputSocketFields[map.Source.Id];
-					nodeInformation.Outputs.Add(field.Name, SocketInformation.Construct (field, map));
+					nodeInformation.Outputs.Add (field.Name, SocketInformation.Construct (field, map));
 				}
 			}
 			else

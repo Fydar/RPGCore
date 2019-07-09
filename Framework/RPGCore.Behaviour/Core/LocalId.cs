@@ -74,7 +74,7 @@ namespace RPGCore.Behaviour
 		}
 	}
 
-	class LocalIdConverter : TypeConverter
+	internal class LocalIdConverter : TypeConverter
 	{
 		public override bool CanConvertFrom (ITypeDescriptorContext context, Type sourceType)
 		{
