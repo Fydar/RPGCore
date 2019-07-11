@@ -98,89 +98,81 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
+		public static void DrawField(EditorField field)
+		{
+			// EditorGUILayout.LabelField(field.Json.Path);
+			if (field.Info.Type == "Int32")
+			{
+				EditorGUI.BeginChangeCheck();
+				int newValue = EditorGUILayout.IntField(field.Name, field.Json.ToObject<int>());
+				if (EditorGUI.EndChangeCheck())
+				{
+					var replace = JToken.FromObject(newValue);
+					field.Json.Replace(replace);
+				}
+			}
+			else if (field.Info.Type == "String")
+			{
+				EditorGUI.BeginChangeCheck();
+				string newValue = EditorGUILayout.TextField(field.Name, field.Json.ToObject<string>());
+				if (EditorGUI.EndChangeCheck())
+				{
+					var replace = JToken.FromObject(newValue);
+					field.Json.Replace(replace);
+				}
+			}
+			else if (field.Info.Type == "Boolean")
+			{
+				EditorGUI.BeginChangeCheck();
+				bool newValue = EditorGUILayout.Toggle(field.Name, field.Json.ToObject<bool>());
+				if (EditorGUI.EndChangeCheck())
+				{
+					var replace = JToken.FromObject(newValue);
+					field.Json.Replace(replace);
+				}
+			}
+			else if (field.Info.Type == "InputSocket")
+			{
+				EditorGUI.BeginChangeCheck();
+				EditorGUILayout.LabelField(field.Name, field.Json.ToObject<string>());
+				if (EditorGUI.EndChangeCheck())
+				{
+					//field.Json.Value = newValue;
+				}
+			}
+			else if (field.Info.Format == FieldFormat.Dictionary)
+			{
+				EditorGUILayout.LabelField(field.Name);
+
+				EditorGUI.indentLevel++;
+				foreach (var childField in field)
+				{
+					DrawField(childField);
+				}
+				EditorGUI.indentLevel--;
+			}
+			else if (field.Info != null)
+			{
+				EditorGUILayout.LabelField(field.Name);
+
+				EditorGUI.indentLevel++;
+				foreach (var childField in field)
+				{
+					DrawField(childField);
+				}
+				EditorGUI.indentLevel--;
+			}
+			else
+			{
+				EditorGUILayout.LabelField(field.Name, "Unknown Type");
+			}
+		}
+
 		public static void DrawEditor(EditorObject editor)
 		{
 			foreach (var field in editor)
 			{
-				if (field.JsonObject != null)
-				{
-					EditorGUILayout.LabelField(field.JsonObject.Path);
-				}
-				else
-				{
-					EditorGUILayout.LabelField(field.JsonValue.Path);
-				}
-				if (field.Info.Type == "Int32")
-				{
-					EditorGUI.BeginChangeCheck();
-					int newValue = EditorGUILayout.IntField(field.Name, field.JsonValue.ToObject<int>());
-					if (EditorGUI.EndChangeCheck())
-					{
-						field.JsonValue.Value = newValue;
-					}
-				}
-				else if (field.Info.Type == "String")
-				{
-					EditorGUI.BeginChangeCheck();
-					string newValue = EditorGUILayout.TextField(field.Name, field.JsonValue.ToObject<string>());
-					if (EditorGUI.EndChangeCheck())
-					{
-						field.JsonValue.Value = newValue;
-					}
-				}
-				else if (field.Info.Type == "Boolean")
-				{
-					EditorGUI.BeginChangeCheck();
-					bool newValue = EditorGUILayout.Toggle(field.Name, field.JsonValue.ToObject<bool>());
-					if (EditorGUI.EndChangeCheck())
-					{
-						field.JsonValue.Value = newValue;
-					}
-				}
-				else if (field.Info.Type == "InputSocket")
-				{
-					EditorGUI.BeginChangeCheck();
-					EditorGUILayout.LabelField(field.Name, field.JsonValue.ToObject<string>());
-					if (EditorGUI.EndChangeCheck())
-					{
-						//field.JsonValue.Value = newValue;
-					}
-				}
-				else if (field.Info.Type.StartsWith ("Dictionary of "))
-				{
-					var valueTypeString = field.Info.Type.Substring(14);
-					Debug.Log(valueTypeString);
-					
-					EditorGUILayout.LabelField(field.Name);
-
-					EditorGUI.indentLevel++;
-
-					foreach (var valueToken in field.JsonObject.Properties())
-					{
-						EditorGUILayout.LabelField(valueToken.Name);
-						EditorGUI.indentLevel++;
-						var objectEditor = new EditorObject(editor.Manifest, editor.Manifest.Types.ObjectTypes[valueTypeString], (JObject)valueToken.Value);
-						DrawEditor(objectEditor);
-						EditorGUI.indentLevel--;
-					}
-					
-					EditorGUI.indentLevel--;
-				}
-				else if (field.ObjectTypeInfo != null)
-				{
-					EditorGUILayout.LabelField(field.Name);
-
-					EditorGUI.indentLevel++;
-
-					var objectEditor = new EditorObject(editor.Manifest, field.ObjectTypeInfo, field.JsonObject);
-					DrawEditor(objectEditor);
-					
-					EditorGUI.indentLevel--;
-				}
-				else
-				{
-					EditorGUILayout.LabelField(field.Name, "Unknown Type");
-				}
+				DrawField(field);
 			}
 		}
 	}
