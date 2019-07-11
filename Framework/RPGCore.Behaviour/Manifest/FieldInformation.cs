@@ -4,12 +4,22 @@ using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
 {
+	public enum FieldFormat
+	{
+		None,
+		Object,
+		Dictionary,
+		List
+	}
+
 	public class FieldInformation
 	{
 		public string Description;
 		public string Type;
 		public JToken DefaultValue;
 		public string[] Attributes;
+		public FieldFormat Format;
+		public FieldInformation ValueFormat;
 
 		public static FieldInformation Construct (FieldInfo field, object defaultInstance)
 		{
@@ -39,15 +49,7 @@ namespace RPGCore.Behaviour.Manifest
 					field.GetValue (defaultInstance);
 				}
 
-				string typeName;
-				if (typeof (IDictionary).IsAssignableFrom (field.FieldType))
-				{
-					typeName = $"Dictionary of {field.FieldType.GetGenericArguments ()[1].Name}";
-				}
-				else
-				{
-					typeName = field.FieldType.Name;
-				}
+				string typeName = field.FieldType.Name;
 
 				try
 				{
@@ -66,6 +68,26 @@ namespace RPGCore.Behaviour.Manifest
 						Attributes = attributeIds,
 						DefaultValue = JObject.FromObject (defaultValue)
 					};
+				}
+
+				if (typeof (IDictionary).IsAssignableFrom (field.FieldType))
+				{
+					fieldInformation.Format = FieldFormat.Dictionary;
+					fieldInformation.Type = field.FieldType.GetGenericArguments()[1].Name;
+
+					fieldInformation.ValueFormat = new FieldInformation()
+					{
+						Type = field.FieldType.GetGenericArguments()[1].Name,
+						Format = FieldFormat.Object
+					};
+				}
+				else if (field.FieldType.IsArray)
+				{
+					fieldInformation.Format = FieldFormat.List;
+				}
+				else
+				{
+					fieldInformation.Format = FieldFormat.Object;
 				}
 			}
 

@@ -1,6 +1,6 @@
 {
   "Name": "Ice Bolt",
-  "Description": null,
+  "Description": "Fires a fast travelling bolt of ice.",
   "Type": null,
   "CustomData": null,
   "Nodes": {

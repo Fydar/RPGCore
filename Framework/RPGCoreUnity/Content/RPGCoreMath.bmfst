@@ -6,211 +6,85 @@
       "Boolean": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "Boolean",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": false
       },
       "String": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "_stringLength": {
-            "Description": null,
-            "Type": "Int32",
-            "DefaultValue": null,
-            "Attributes": [
-              "Object[]"
-            ]
-          },
-          "_firstChar": {
-            "Description": null,
-            "Type": "Char",
-            "DefaultValue": null,
-            "Attributes": [
-              "Object[]"
-            ]
-          }
-        },
+        "Fields": null,
         "DefaultValue": null
       },
       "Int32": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "Int32",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0
       },
       "Byte": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "Byte",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0
       },
       "Int64": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "Int64",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0
       },
       "Int16": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "Int16",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0
       },
       "UInt32": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "UInt32",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0
       },
       "UInt64": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "UInt64",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0
       },
       "UInt16": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "UInt16",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0
       },
       "SByte": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "SByte",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0
       },
       "Char": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "Char",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": "\u0000"
       },
       "Single": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "Single",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0.0
       },
       "Double": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "m_value": {
-            "Description": null,
-            "Type": "Double",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0.0
       },
       "Decimal": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "flags": {
-            "Description": null,
-            "Type": "Int32",
-            "DefaultValue": null,
-            "Attributes": []
-          },
-          "hi": {
-            "Description": null,
-            "Type": "Int32",
-            "DefaultValue": null,
-            "Attributes": []
-          },
-          "lo": {
-            "Description": null,
-            "Type": "Int32",
-            "DefaultValue": null,
-            "Attributes": []
-          },
-          "mid": {
-            "Description": null,
-            "Type": "Int32",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": 0.0
       },
       "InputSocket": {
@@ -223,7 +97,9 @@
             "DefaultValue": null,
             "Attributes": [
               "Object[]"
-            ]
+            ],
+            "Format": 1,
+            "ValueFormat": null
           }
         },
         "DefaultValue": {
@@ -233,14 +109,7 @@
       "LocalId": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "Id": {
-            "Description": null,
-            "Type": "UInt64",
-            "DefaultValue": null,
-            "Attributes": []
-          }
-        },
+        "Fields": null,
         "DefaultValue": "00000000"
       }
     },
@@ -253,31 +122,55 @@
             "Description": null,
             "Type": "String",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "Description": {
             "Description": null,
             "Type": "String",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "Type": {
             "Description": null,
             "Type": "String",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "CustomData": {
             "Description": null,
-            "Type": "Dictionary of String",
+            "Type": "String",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 2,
+            "ValueFormat": {
+              "Description": null,
+              "Type": "String",
+              "DefaultValue": null,
+              "Attributes": null,
+              "Format": 1,
+              "ValueFormat": null
+            }
           },
           "Nodes": {
             "Description": null,
-            "Type": "Dictionary of SerializedNode",
+            "Type": "SerializedNode",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 2,
+            "ValueFormat": {
+              "Description": null,
+              "Type": "SerializedNode",
+              "DefaultValue": null,
+              "Attributes": null,
+              "Format": 1,
+              "ValueFormat": null
+            }
           }
         },
         "DefaultValue": {
@@ -296,19 +189,25 @@
             "Description": null,
             "Type": "String",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "Data": {
             "Description": null,
             "Type": "JObject",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "Editor": {
             "Description": null,
             "Type": "PackageNodeEditor",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           }
         },
         "DefaultValue": {
@@ -330,7 +229,9 @@
             "Description": null,
             "Type": "PackageNodePosition",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           }
         },
         "DefaultValue": {
@@ -348,13 +249,17 @@
             "Description": null,
             "Type": "Int32",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "y": {
             "Description": null,
             "Type": "Int32",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           }
         },
         "DefaultValue": {
@@ -370,13 +275,17 @@
             "Description": null,
             "Type": "Int32",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "Goodbyte": {
             "Description": null,
             "Type": "Boolean",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           }
         },
         "DefaultValue": {
@@ -414,13 +323,17 @@
             "Description": null,
             "Type": "InputSocket",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 0,
+            "ValueFormat": null
           },
           "ValueB": {
             "Description": null,
             "Type": "InputSocket",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 0,
+            "ValueFormat": null
           }
         },
         "DefaultValue": null
@@ -440,25 +353,33 @@
             "Description": null,
             "Type": "String",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "MinValue": {
             "Description": null,
             "Type": "Int32",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "MaxValue": {
             "Description": null,
             "Type": "Int32",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           },
           "Data": {
             "Description": null,
             "Type": "ExtraData",
             "DefaultValue": null,
-            "Attributes": []
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
           }
         },
         "DefaultValue": null

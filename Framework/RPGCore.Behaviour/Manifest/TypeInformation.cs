@@ -35,8 +35,7 @@ namespace RPGCore.Behaviour.Manifest
 			}
 			typeInformation.ImplicitConversions = conversions;
 
-
-			// Fields
+			// Instancing
 			object defaultInstance = null;
 			try
 			{
@@ -46,22 +45,27 @@ namespace RPGCore.Behaviour.Manifest
 			{
 			}
 
-			var fieldInfos = new Dictionary<string, FieldInformation> ();
-			foreach (var field in type.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-			{
-				if (field.FieldType == typeof (OutputSocket))
-				{
-					continue;
-				}
-
-				fieldInfos.Add (field.Name, FieldInformation.Construct (field, defaultInstance));
-			}
-			typeInformation.Fields = fieldInfos;
-
 			// Default Value
 			if (defaultInstance != null)
 			{
 				typeInformation.DefaultValue = JToken.FromObject (defaultInstance);
+			}
+
+			// Fields
+			if (typeInformation.DefaultValue != null &&
+				typeInformation.DefaultValue.Type == JTokenType.Object)
+			{
+				var fieldInfos = new Dictionary<string, FieldInformation> ();
+				foreach (var field in type.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+				{
+					if (field.FieldType == typeof (OutputSocket))
+					{
+						continue;
+					}
+
+					fieldInfos.Add (field.Name, FieldInformation.Construct (field, defaultInstance));
+				}
+				typeInformation.Fields = fieldInfos;
 			}
 		}
 	}

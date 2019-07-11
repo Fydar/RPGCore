@@ -1,6 +1,6 @@
 {
   "Name": "Fireball",
-  "Description": null,
+  "Description": "Fires a ball of fire that explodes on impact.",
   "Type": null,
   "CustomData": null,
   "Nodes": {
