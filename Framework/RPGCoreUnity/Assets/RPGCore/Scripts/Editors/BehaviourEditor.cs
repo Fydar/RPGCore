@@ -16,6 +16,13 @@ namespace RPGCore.Unity.Editors
 {
 	public class BehaviourEditor : EditorWindow
 	{
+
+		private Vector2 dragging_Position = Vector2.zero;
+		private bool dragging_IsDragging;
+		private Rect screenRect;
+
+		private Event currentEvent;
+
 		public ProjectImport CurrentPackage;
 
 		public bool HasCurrentResource;
@@ -34,8 +41,35 @@ namespace RPGCore.Unity.Editors
 			window.Show();
 		}
 
+		private void OnEnable ()
+		{
+			if (EditorGUIUtility.isProSkin)
+				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.DarkThemeIcon);
+			else
+				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
+		}
+
 		public void OnGUI()
 		{
+			screenRect = new Rect (0, EditorGUIUtility.singleLineHeight + 1,
+				position.width, position.height - (EditorGUIUtility.singleLineHeight + 1));
+
+			currentEvent = Event.current;
+
+			if (currentEvent.type == EventType.MouseUp && dragging_IsDragging)
+			{
+				dragging_IsDragging = false;
+				currentEvent.Use ();
+			}
+
+			// HandleDragAndDrop (screenRect);
+
+			DrawBackground (screenRect, dragging_Position);
+			DrawTopBar ();
+
+
+
+
 			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(ProjectImport), true);
 
 			var explorer = CurrentPackage.Explorer;
@@ -174,6 +208,84 @@ namespace RPGCore.Unity.Editors
 			{
 				DrawField(field);
 			}
+		}
+
+
+
+
+		private void DrawBackground (Rect backgroundRect, Vector2 viewPosition)
+		{
+			if (Event.current.type == EventType.MouseMove)
+				return;
+
+			if (!HasEditor)
+			{
+				EditorGUI.LabelField (backgroundRect, "No Graph Selected", BehaviourGUIStyles.Instance.informationTextStyle);
+				return;
+			}
+
+#if HOVER_EFFECTS
+			if (dragging_IsDragging)
+			{
+				EditorGUIUtility.AddCursorRect (backgroundRect, MouseCursor.Pan);
+			}
+#endif
+
+			/*if (Application.isPlaying)
+				EditorGUI.DrawRect (screenRect, new Color (0.7f, 0.7f, 0.7f));*/
+
+			float gridScale = 0.5f;
+
+			DrawImageTiled (backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale * 3);
+
+			Color originalTintColour = GUI.color;
+
+			GUI.color = new Color (1, 1, 1, 0.6f);
+			DrawImageTiled (backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale);
+
+			GUI.color = originalTintColour;
+
+			if (Application.isPlaying)
+			{
+				Rect runtimeInfo = new Rect (backgroundRect);
+				runtimeInfo.yMin = runtimeInfo.yMax - 48;
+				EditorGUI.LabelField (runtimeInfo, "Playmode Enabled: You may change values but you can't edit connections",
+					BehaviourGUIStyles.Instance.informationTextStyle);
+			}
+		}
+
+		private void DrawImageTiled (Rect rect, Texture2D texture, Vector2 positon, float zoom = 0.8f)
+		{
+			if (texture == null)
+				return;
+
+			if (currentEvent.type != EventType.Repaint)
+				return;
+
+			Vector2 tileOffset = new Vector2 ((-positon.x / texture.width) * zoom, (positon.y / texture.height) * zoom);
+
+			Vector2 tileAmount = new Vector2 (Mathf.Round (rect.width * zoom) / texture.width,
+				Mathf.Round (rect.height * zoom) / texture.height);
+
+			tileOffset.y -= tileAmount.y;
+			GUI.DrawTextureWithTexCoords (rect, texture, new Rect (tileOffset, tileAmount), true);
+		}
+
+
+
+
+
+
+
+		private void DrawTopBar ()
+		{
+			EditorGUILayout.BeginHorizontal (EditorStyles.toolbar, GUILayout.ExpandWidth (true));
+
+			if (GUILayout.Button (CurrentPackage?.name, EditorStyles.toolbarButton, GUILayout.Width (100)))
+			{
+			}
+
+			EditorGUILayout.EndHorizontal ();
 		}
 	}
 }
