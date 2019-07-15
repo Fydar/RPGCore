@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour.Manifest
 		List
 	}
 
-	public class FieldInformation
+	public sealed class FieldInformation
 	{
 		public string Description;
 		public string Type;

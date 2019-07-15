@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 		public bool Goodbyte;
 	}
 
-	public class RollNode : Node<RollNode.Metadata>
+	public sealed class RollNode : Node<RollNode.Metadata>
 	{
 		public OutputSocket Output = new OutputSocket ();
 		public string TooltipFormat = "{0}";
@@ -23,7 +23,7 @@ namespace RPGCore.Behaviour
 			graph.Connect(ref Output, ref instance.Output),
 		};
 
-		public class Metadata : INodeInstance
+		public sealed class Metadata : INodeInstance
 		{
 			public Output<int> Output;
 

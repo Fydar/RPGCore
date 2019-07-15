@@ -3,7 +3,7 @@ using System.IO;
 
 namespace RPGCore.Runner
 {
-	internal class Program
+	internal sealed class Program
 	{
 		public static Simulator simulator;
 

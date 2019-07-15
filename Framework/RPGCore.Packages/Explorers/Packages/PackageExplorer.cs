@@ -6,9 +6,9 @@ using System.Text;
 
 namespace RPGCore.Packages
 {
-	public class PackageExplorer : IPackageExplorer
+	public sealed class PackageExplorer : IPackageExplorer
 	{
-		private class PackageResourceCollection : IPackageResourceCollection
+		private sealed class PackageResourceCollection : IPackageResourceCollection
 		{
 			private Dictionary<string, PackageResource> items;
 

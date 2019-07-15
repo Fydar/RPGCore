@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public class Connection
+	public abstract class Connection
 	{
 		public event Action OnAfterChanged;
 
@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour
 		}
 	}
 
-	public class Connection<T> : Connection
+	public sealed class Connection<T> : Connection
 	{
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private T internalValue;

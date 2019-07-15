@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
-	public class Graph
+	public sealed class Graph
 	{
 		public string Name;
 		public readonly Node[] Nodes;

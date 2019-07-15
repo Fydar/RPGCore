@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace RPGCore.Packages
 {
-	public class PackageResource : IResource
+	public sealed class PackageResource : IResource
 	{
 		private readonly PackageExplorer Package;
 

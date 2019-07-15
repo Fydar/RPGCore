@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
-	public class GraphInstance : IGraphInstance, IGraphConnections
+	public sealed class GraphInstance : IGraphInstance, IGraphConnections
 	{
 		private readonly Graph graph;
 		private readonly INodeInstance[] nodeInstances;

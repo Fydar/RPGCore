@@ -9,11 +9,11 @@ using System.Text;
 
 namespace RPGCore.Packages
 {
-	public class ProjectExplorer : IPackageExplorer
+	public sealed class ProjectExplorer : IPackageExplorer
 	{
 		public long UncompressedSize { get; private set; }
 
-		private class ProjectResourceCollection : IProjectResourceCollection
+		private sealed class ProjectResourceCollection : IProjectResourceCollection
 		{
 			private Dictionary<string, ProjectResource> resources;
 

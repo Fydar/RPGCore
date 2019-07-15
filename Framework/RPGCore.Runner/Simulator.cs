@@ -2,7 +2,7 @@
 
 namespace RPGCore.Runner
 {
-	public class Simulator
+	public sealed class Simulator
 	{
 		public Simulation simulation;
 

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace RPGCore.Behaviour
 {
-	public class SerializedNode
+	public sealed class SerializedNode
 	{
 		public string Type;
 		public JObject Data;
@@ -37,7 +37,7 @@ namespace RPGCore.Behaviour
 		}
 	}
 
-	internal class InputSocketConverter : JsonConverter
+	internal sealed class InputSocketConverter : JsonConverter
 	{
 		private readonly List<string> Ids;
 

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace RPGCore.Packages.Tool
 {
-	internal class Program
+	internal sealed class Program
 	{
 		private enum ExitCode : int
 		{
