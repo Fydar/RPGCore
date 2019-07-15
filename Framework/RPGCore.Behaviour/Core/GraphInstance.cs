@@ -70,6 +70,84 @@ namespace RPGCore.Behaviour
 			}
 		}
 
+		public InputSource GetSource<T> (Input<T> input)
+		{
+			if (input.Connection == null)
+				return new InputSource ();
+
+			int connectionId = -1;
+			for (int i = 0; i < connections.Length; i++)
+			{
+				var connection = connections[i];
+
+				if (connection == input.Connection)
+				{
+					connectionId = i;
+					break;
+				}
+			}
+
+			if (connectionId == -1)
+				return new InputSource ();
+
+			for (int x = 0; x < allOutputs.Length; x++)
+			{
+				var outputSet = allOutputs[x];
+
+				for (int y = 0; y < outputSet.Length; y++)
+				{
+					var output = outputSet[y];
+
+					if (output.ConnectionId == connectionId)
+					{
+						var instance = nodeInstances[x];
+						var node = graph.Nodes[x];
+						return new InputSource (node, instance, output);
+					}
+				}
+			}
+			return new InputSource ();
+		}
+
+		public OutputSource GetSource<T> (Output<T> output)
+		{
+			if (output.Connection == null)
+				return new OutputSource ();
+
+			int connectionId = -1;
+			for (int i = 0; i < connections.Length; i++)
+			{
+				var connection = connections[i];
+
+				if (connection == output.Connection)
+				{
+					connectionId = i;
+					break;
+				}
+			}
+
+			if (connectionId == -1)
+				return new OutputSource ();
+
+			for (int x = 0; x < allOutputs.Length; x++)
+			{
+				var inputSet = allInputs[x];
+
+				for (int y = 0; y < inputSet.Length; y++)
+				{
+					var input = inputSet[y];
+
+					if (input.ConnectionId == connectionId)
+					{
+						var instance = nodeInstances[x];
+						var node = graph.Nodes[x];
+						return new OutputSource (node, instance, input);
+					}
+				}
+			}
+			return new OutputSource ();
+		}
+
 		public void Setup (Actor target)
 		{
 			int nodeCount = graph.Nodes.Length;
@@ -127,9 +205,9 @@ namespace RPGCore.Behaviour
 
 		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref Input<T> connection)
 		{
-			if (socket.TargetId > 0)
+			if (socket.ConnectionId > 0)
 			{
-				connection = new Input<T> (GetOrCreateConnection<T> (socket.TargetId));
+				connection = new Input<T> (GetOrCreateConnection<T> (socket.ConnectionId));
 			}
 
 			return new InputMap (socket, typeof (T));
@@ -149,9 +227,9 @@ namespace RPGCore.Behaviour
 
 		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref T connection)
 		{
-			if (socket.TargetId > 0)
+			if (socket.ConnectionId > 0)
 			{
-				connection = (T)nodeInstances[socket.TargetId];
+				connection = (T)nodeInstances[socket.ConnectionId];
 			}
 
 			return new InputMap (socket, typeof (T));

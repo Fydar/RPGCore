@@ -40,7 +40,10 @@ namespace RPGCore.Behaviour
 				target.Health.Handlers[this] += new LogOnChanged (this);
 
 				Console.ForegroundColor = ConsoleColor.Green;
-				Console.WriteLine ("StatsNode: Setup Behaviour on " + this.target);
+				Console.WriteLine ($"StatsNode: Setup Behaviour on {target}");
+
+				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (valueA)}");
+				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (valueB)}");
 			}
 
 			public void Remove ()
@@ -49,7 +52,7 @@ namespace RPGCore.Behaviour
 				valueA.OnAfterChanged -= Log;
 
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine ("StatsNode: Removed Behaviour on " + target);
+				Console.WriteLine ($"StatsNode: Removed Behaviour on {target}");
 			}
 
 			private struct LogOnChanged : IEventFieldHandler
