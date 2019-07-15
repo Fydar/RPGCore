@@ -58,7 +58,7 @@ namespace RPGCore.Behaviour.Manifest
 				for (int i = 0; i < inputsArray.Length; i++)
 				{
 					var map = inputsArray[i];
-					var field = inputSocketFields[map.Source.TargetId];
+					var field = inputSocketFields[map.Source.ConnectionId];
 					nodeInformation.Inputs.Add (field.Name, SocketInformation.Construct (field, map));
 				}
 			}
@@ -74,7 +74,7 @@ namespace RPGCore.Behaviour.Manifest
 				for (int i = 0; i < outputsArray.Length; i++)
 				{
 					var map = outputsArray[i];
-					var field = outputSocketFields[map.Source.Id];
+					var field = outputSocketFields[map.ConnectionId];
 					nodeInformation.Outputs.Add (field.Name, SocketInformation.Construct (field, map));
 				}
 			}

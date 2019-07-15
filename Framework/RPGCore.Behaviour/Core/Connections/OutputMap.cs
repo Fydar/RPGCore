@@ -4,15 +4,15 @@ namespace RPGCore.Behaviour
 {
 	public struct OutputMap
 	{
-		public OutputSocket Source;
+		public int ConnectionId;
 		public Type ConnectionType;
 
 		public OutputMap (OutputSocket source, Type connectionType)
 		{
-			Source = source;
 			ConnectionType = connectionType;
+			ConnectionId = source.Id;
 		}
 
-		public override string ToString () => $"{Source} of type {ConnectionType}";
+		public override string ToString () => $"Output to Connection {ConnectionId} of type {ConnectionType}";
 	}
 }

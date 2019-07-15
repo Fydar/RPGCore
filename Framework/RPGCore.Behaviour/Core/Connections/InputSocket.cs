@@ -5,25 +5,25 @@ namespace RPGCore.Behaviour
 	public struct InputSocket : ISocket
 	{
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		private int internalTargetId;
+		private int internalConnectionId;
 
-		public int TargetId
+		public int ConnectionId
 		{
 			get
 			{
-				return internalTargetId - 1;
+				return internalConnectionId - 1;
 			}
 			set
 			{
-				internalTargetId = value + 1;
+				internalConnectionId = value + 1;
 			}
 		}
 
-		public InputSocket (int targetId)
+		public InputSocket (int connectionId)
 		{
-			internalTargetId = targetId + 1;
+			internalConnectionId = connectionId + 1;
 		}
 
-		public override string ToString () => $"Input {TargetId.ToString ()}";
+		public override string ToString () => $"Input {ConnectionId.ToString ()}";
 	}
 }
