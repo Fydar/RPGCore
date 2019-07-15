@@ -64,6 +64,7 @@ namespace RPGCore.Unity.Editors
 
 			// HandleDragAndDrop (screenRect);
 
+
 			DrawBackground (screenRect, dragging_Position);
 			DrawTopBar ();
 
@@ -130,6 +131,20 @@ namespace RPGCore.Unity.Editors
 				DrawEditor(graphEditor);
 				EditorGUILayout.EndVertical();
 			}
+
+
+
+
+			
+
+			foreach (var node in graphEditor["Nodes"])
+			{
+				
+			}
+
+
+			
+			HandleInput();
 		}
 
 		public static void DrawField(EditorField field)
@@ -210,7 +225,32 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
+		
+		private void HandleInput ()
+		{
+			if (currentEvent.type == EventType.KeyDown)
+			{
+				
+			}
+			else if (currentEvent.type == EventType.MouseDrag && dragging_IsDragging)
+			{
+				dragging_Position += currentEvent.delta;
+				Repaint ();
+			}
+			else if (screenRect.Contains (currentEvent.mousePosition))
+			{
+				if (currentEvent.type == EventType.MouseDown)
+				{
+					GUI.UnfocusWindow ();
+					GUI.FocusControl ("");
 
+					dragging_IsDragging = true;
+
+					currentEvent.Use ();
+					Repaint ();
+				}
+			}
+		}
 
 
 		private void DrawBackground (Rect backgroundRect, Vector2 viewPosition)
