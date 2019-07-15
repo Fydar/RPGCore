@@ -45,21 +45,40 @@ namespace RPGCore.Behaviour.Editor
 			{
 				foreach (var field in Type.Fields)
 				{
-					var property = Json[field.Key];
+					yield return this[field.Key];
+				}
+			}
+		}
 
-					if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
+		public EditorField this[string key]
+		{
+			get
+			{
+				KeyValuePair<string, FieldInformation> field = new KeyValuePair<string, FieldInformation>();
+				foreach (var potentialField in Type.Fields)
+				{
+					if (potentialField.Key == key)
 					{
-						yield return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
-					}
-					else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out typeInformation))
-					{
-						yield return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
-					}
-					else if (Manifest.Nodes.Nodes.TryGetValue(field.Value.Type, out var nodeInformation))
-					{
-						yield return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
+						field = potentialField;
+						break;
 					}
 				}
+
+				var property = Json[key];
+
+				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
+				{
+					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
+				}
+				else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out typeInformation))
+				{
+					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
+				}
+				else if (Manifest.Nodes.Nodes.TryGetValue(field.Value.Type, out var nodeInformation))
+				{
+					return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
+				}
+				throw new InvalidOperationException();
 			}
 		}
 
@@ -93,23 +112,23 @@ namespace RPGCore.Behaviour.Editor
 		}
 
 		public BehaviourManifest Manifest;
-		public JObject Serialized;
-		public TypeInformation Information;
+		public JObject Json;
+		public TypeInformation Type;
 
 		public EditorObject(BehaviourManifest manifest, TypeInformation information, JObject serialized)
 		{
 			Manifest = manifest;
-			Information = information;
-			Serialized = serialized ?? throw new ArgumentNullException();
+			Type = information;
+			Json = serialized ?? throw new ArgumentNullException();
 
 			PopulateMissing(serialized, information);
 		}
 
 		public IEnumerator<EditorField> GetEnumerator()
 		{
-			foreach (var field in Information.Fields)
+			foreach (var field in Type.Fields)
 			{
-				var property = Serialized[field.Key];
+				var property = Json[field.Key];
 
 				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
 				{
@@ -123,6 +142,38 @@ namespace RPGCore.Behaviour.Editor
 				{
 					yield return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
 				}
+			}
+		}
+
+		public EditorField this[string key]
+		{
+			get
+			{
+				KeyValuePair<string, FieldInformation> field = new KeyValuePair<string, FieldInformation>();
+				foreach (var potentialField in Type.Fields)
+				{
+					if (potentialField.Key == key)
+					{
+						field = potentialField;
+						break;
+					}
+				}
+
+				var property = Json[key];
+
+				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
+				{
+					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
+				}
+				else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out typeInformation))
+				{
+					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
+				}
+				else if (Manifest.Nodes.Nodes.TryGetValue(field.Value.Type, out var nodeInformation))
+				{
+					return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
+				}
+				throw new InvalidOperationException();
 			}
 		}
 
