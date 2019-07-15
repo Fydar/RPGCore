@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace RPGCore.Packages
 {
-	public class ProjectResource : IResource
+	public sealed class ProjectResource : IResource
 	{
 		public readonly FileInfo Entry;
 

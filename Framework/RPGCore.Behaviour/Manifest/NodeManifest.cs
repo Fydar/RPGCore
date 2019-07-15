@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour.Manifest
 {
-	public class NodeManifest
+	public sealed class NodeManifest
 	{
 		public string Name;
 		public string Version;

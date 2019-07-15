@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
 {
-	public class NodeInformation : TypeInformation
+	public sealed class NodeInformation : TypeInformation
 	{
 		public Dictionary<string, SocketInformation> Inputs;
 		public Dictionary<string, SocketInformation> Outputs;
@@ -58,7 +58,7 @@ namespace RPGCore.Behaviour.Manifest
 				for (int i = 0; i < inputsArray.Length; i++)
 				{
 					var map = inputsArray[i];
-					var field = inputSocketFields[map.Source.ConnectionId];
+					var field = inputSocketFields[map.ConnectionId];
 					nodeInformation.Inputs.Add (field.Name, SocketInformation.Construct (field, map));
 				}
 			}

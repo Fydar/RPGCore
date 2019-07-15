@@ -2,7 +2,7 @@ using System;
 
 namespace RPGCore.Behaviour
 {
-	public class EventFieldChainHandler<T, B> : IEventFieldHandler
+	public sealed class EventFieldChainHandler<T, B> : IEventFieldHandler
 	{
 		public EventField<T> SourceField;
 		public EventField<B> TargetField;

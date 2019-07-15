@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace RPGCore.Behaviour.Manifest
 {
-	public class BehaviourManifest
+	public sealed class BehaviourManifest
 	{
 		public TypeManifest Types;
 		public NodeManifest Nodes;

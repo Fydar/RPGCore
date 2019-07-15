@@ -3,7 +3,7 @@ using System.IO;
 
 namespace RPGCore.Packages
 {
-	public class PackageStream : Stream, IDisposable
+	public sealed class PackageStream : Stream, IDisposable
 	{
 		public Stream InternalStream;
 		public IDisposable[] Components;

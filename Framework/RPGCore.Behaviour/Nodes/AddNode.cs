@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public class AddNode : Node<AddNode.Metadata>
+	public sealed class AddNode : Node<AddNode.Metadata>
 	{
 		public InputSocket ValueA;
 		public InputSocket ValueB;
@@ -20,7 +20,7 @@ namespace RPGCore.Behaviour
 			graph.Connect(ref Output, ref instance.Output)
 		};
 
-		public class Metadata : INodeInstance
+		public sealed class Metadata : INodeInstance
 		{
 			public Input<int> valueA;
 			public Input<int> valueB;

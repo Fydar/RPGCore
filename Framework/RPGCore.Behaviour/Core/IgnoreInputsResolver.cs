@@ -4,7 +4,7 @@ using System;
 
 namespace RPGCore.Behaviour
 {
-	internal class IgnoreInputsResolver : DefaultContractResolver
+	internal sealed class IgnoreInputsResolver : DefaultContractResolver
 	{
 		protected override JsonProperty CreateProperty (System.Reflection.MemberInfo member, MemberSerialization memberSerialization)
 		{

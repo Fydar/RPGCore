@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace RPGCore.Behaviour
 {
-	public class Simulation
+	public sealed class Simulation
 	{
 		public void Start ()
 		{

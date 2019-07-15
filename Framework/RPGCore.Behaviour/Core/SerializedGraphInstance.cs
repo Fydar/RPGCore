@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
-	public class SerializedGraphInstance
+	public sealed class SerializedGraphInstance
 	{
 		public string GraphType;
 		public Dictionary<LocalId, JObject> NodeInstances;
@@ -26,7 +26,7 @@ namespace RPGCore.Behaviour
 		}
 	}
 
-	public class OutputConverter : JsonConverter
+	public sealed class OutputConverter : JsonConverter
 	{
 		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
