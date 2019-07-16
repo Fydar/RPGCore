@@ -91,7 +91,7 @@
         "Description": null,
         "ImplicitConversions": {},
         "Fields": {
-          "internalTargetId": {
+          "internalConnectionId": {
             "Description": null,
             "Type": "Int32",
             "DefaultValue": null,
@@ -103,7 +103,7 @@
           }
         },
         "DefaultValue": {
-          "TargetId": -1
+          "ConnectionId": -1
         }
       },
       "LocalId": {
