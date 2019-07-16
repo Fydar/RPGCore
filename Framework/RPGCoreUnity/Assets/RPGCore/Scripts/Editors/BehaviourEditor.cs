@@ -127,20 +127,61 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
+				/*
 				EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 				DrawEditor(graphEditor);
 				EditorGUILayout.EndVertical();
+				*/
+
+				foreach (var node in graphEditor["Nodes"])
+				{
+					var nodeEditor = node["Editor"];
+					var nodeEditorPosition = nodeEditor["Position"];
+
+					var nodeRect = new Rect(
+						dragging_Position.x + nodeEditorPosition["x"].Json.ToObject<int>(),
+						dragging_Position.y + nodeEditorPosition["y"].Json.ToObject<int>(),
+						50,
+						70
+					);
+
+					if (Event.current.type == EventType.Repaint)
+					{
+						BehaviourGraphResources.Instance.NodeStyle.Draw(nodeRect, false, false, false, false);
+					}
+
+					Debug.Log(node.Json);
+					Debug.Log(node.Info.Type);
+					Debug.Log(string.Join(", ", node.Type.Fields));
+
+					GUILayout.BeginArea(nodeRect);
+
+					var nodeData = node.Json["Data"];
+					var nodeType = node["Type"];
+					
+					var field = new EditorField();
+					TypeInformation typeInformation;
+					NodeInformation nodeInformation;
+					if (node.Manifest.Types.JsonTypes.TryGetValue(nodeType.Json.ToObject<string>(), out typeInformation))
+					{
+						field = new EditorField(node.Manifest, node.Name, null, typeInformation, nodeData);
+					}
+					else if (node.Manifest.Types.ObjectTypes.TryGetValue(nodeType.Json.ToObject<string>(), out typeInformation))
+					{
+						field = new EditorField(node.Manifest, node.Name, null, typeInformation, nodeData);
+					}
+					else if (node.Manifest.Nodes.Nodes.TryGetValue(nodeType.Json.ToObject<string>(), out nodeInformation))
+					{
+						field = new EditorField(node.Manifest, node.Name, null, nodeInformation, nodeData);
+					}
+
+					DrawField(field);
+
+					GUILayout.EndArea();
+				}
 			}
-
-
-
-
 			
 
-			foreach (var node in graphEditor["Nodes"])
-			{
-				
-			}
 
 
 			

@@ -14,7 +14,7 @@ namespace RPGCore.Behaviour.Editor
 		public TypeInformation Type;
 		public JToken Json;
 
-		private BehaviourManifest Manifest;
+		public BehaviourManifest Manifest;
 
 		public EditorField(BehaviourManifest manifest, string name, FieldInformation info, TypeInformation type, JToken json)
 			: this()
@@ -66,6 +66,9 @@ namespace RPGCore.Behaviour.Editor
 
 				var property = Json[key];
 
+				if (field.Value.Type == "JObject")
+					return new EditorField(Manifest, field.Key, field.Value, null, property);
+
 				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
 				{
 					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
@@ -78,7 +81,7 @@ namespace RPGCore.Behaviour.Editor
 				{
 					return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
 				}
-				throw new InvalidOperationException();
+				throw new InvalidOperationException("Could not find type " + field.Value.Type);
 			}
 		}
 
