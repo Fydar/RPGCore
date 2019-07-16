@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace RPGCore.Behaviour
 {
-	public struct SerializedGraph
+	public class SerializedGraph
 	{
 		public string Name;
 		public string Description;

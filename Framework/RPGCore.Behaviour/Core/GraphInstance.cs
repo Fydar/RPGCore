@@ -109,10 +109,10 @@ namespace RPGCore.Behaviour
 			return new InputSource ();
 		}
 
-		public OutputSource GetSource<T> (Output<T> output)
+		public IEnumerable<OutputSource> GetSource<T> (Output<T> output)
 		{
 			if (output.Connection == null)
-				return new OutputSource ();
+				yield break;
 
 			int connectionId = -1;
 			for (int i = 0; i < connections.Length; i++)
@@ -127,7 +127,7 @@ namespace RPGCore.Behaviour
 			}
 
 			if (connectionId == -1)
-				return new OutputSource ();
+				yield break;
 
 			for (int x = 0; x < allOutputs.Length; x++)
 			{
@@ -141,11 +141,10 @@ namespace RPGCore.Behaviour
 					{
 						var instance = nodeInstances[x];
 						var node = graph.Nodes[x];
-						return new OutputSource (node, instance, input);
+						yield return new OutputSource (node, instance, input);
 					}
 				}
 			}
-			return new OutputSource ();
 		}
 
 		public void Setup (Actor target)
