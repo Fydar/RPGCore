@@ -17,8 +17,8 @@
       },
       "Editor": {
         "Position": {
-          "x": 61,
-          "y": -101
+          "x": -111,
+          "y": 45
         }
       }
     },
@@ -35,20 +35,21 @@
       },
       "Editor": {
         "Position": {
-          "x": -75,
-          "y": -111
+          "x": -117,
+          "y": -141
         }
       }
     },
     "0a4f194f": {
       "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
-        "ValueB": "472c7ba2.Output"
+        "ValueB": "472c7ba2.Output",
+        "ValueA": null
       },
       "Editor": {
         "Position": {
-          "x": 50,
-          "y": 0
+          "x": 112,
+          "y": -55
         }
       }
     }
