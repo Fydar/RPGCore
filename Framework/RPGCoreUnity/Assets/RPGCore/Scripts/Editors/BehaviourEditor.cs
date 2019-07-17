@@ -16,9 +16,11 @@ namespace RPGCore.Unity.Editors
 {
 	public class BehaviourEditor : EditorWindow
 	{
-
+		public string selectedNode = null;
 		private Vector2 dragging_Position = Vector2.zero;
 		private bool dragging_IsDragging;
+		private bool dragging_NodeDragging;
+
 		private Rect screenRect;
 
 		private Event currentEvent;
@@ -30,6 +32,7 @@ namespace RPGCore.Unity.Editors
 		public ProjectResource CurrentResource;
 		public JObject editorTarget;
 		public EditorObject graphEditor;
+
 
 		private JsonSerializer serializer = new JsonSerializer();
 
@@ -59,6 +62,7 @@ namespace RPGCore.Unity.Editors
 			if (currentEvent.type == EventType.MouseUp && dragging_IsDragging)
 			{
 				dragging_IsDragging = false;
+				dragging_NodeDragging = false;
 				currentEvent.Use ();
 			}
 
@@ -127,12 +131,6 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
-				/*
-				EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-				DrawEditor(graphEditor);
-				EditorGUILayout.EndVertical();
-				*/
-
 				foreach (var node in graphEditor["Nodes"])
 				{
 					var nodeEditor = node["Editor"];
@@ -141,49 +139,65 @@ namespace RPGCore.Unity.Editors
 					var nodeRect = new Rect(
 						dragging_Position.x + nodeEditorPosition["x"].Json.ToObject<int>(),
 						dragging_Position.y + nodeEditorPosition["y"].Json.ToObject<int>(),
-						50,
-						70
+						200,
+						160
 					);
 
+					bool startDrag = false;
 					if (Event.current.type == EventType.Repaint)
 					{
-						BehaviourGraphResources.Instance.NodeStyle.Draw(nodeRect, false, false, false, false);
+						BehaviourGraphResources.Instance.NodeStyle.Draw(nodeRect,
+							false, node.Name == selectedNode, false, false);
 					}
+					else if (Event.current.type == EventType.MouseDown)
+					{
+						if (nodeRect.Contains(Event.current.mousePosition))
+						{
+							selectedNode = node.Name;
+							dragging_NodeDragging = true;
 
-					Debug.Log(node.Json);
-					Debug.Log(node.Info.Type);
-					Debug.Log(string.Join(", ", node.Type.Fields));
+							Debug.Log("StartDrag " + selectedNode);
+							startDrag = true;
+						}
+					}
 
 					GUILayout.BeginArea(nodeRect);
 
 					var nodeData = node.Json["Data"];
 					var nodeType = node["Type"];
 					
+					var fieldInformation = new FieldInformation();
+					fieldInformation.Type = nodeType.Json.ToObject<string>();
+
 					var field = new EditorField();
 					TypeInformation typeInformation;
 					NodeInformation nodeInformation;
 					if (node.Manifest.Types.JsonTypes.TryGetValue(nodeType.Json.ToObject<string>(), out typeInformation))
 					{
-						field = new EditorField(node.Manifest, node.Name, null, typeInformation, nodeData);
+						field = new EditorField(node.Manifest, node.Name, fieldInformation, typeInformation, nodeData);
 					}
 					else if (node.Manifest.Types.ObjectTypes.TryGetValue(nodeType.Json.ToObject<string>(), out typeInformation))
 					{
-						field = new EditorField(node.Manifest, node.Name, null, typeInformation, nodeData);
+						field = new EditorField(node.Manifest, node.Name, fieldInformation, typeInformation, nodeData);
 					}
 					else if (node.Manifest.Nodes.Nodes.TryGetValue(nodeType.Json.ToObject<string>(), out nodeInformation))
 					{
-						field = new EditorField(node.Manifest, node.Name, null, nodeInformation, nodeData);
+						field = new EditorField(node.Manifest, node.Name, fieldInformation, nodeInformation, nodeData);
 					}
 
-					DrawField(field);
+					foreach (var childField in field)
+					{
+						DrawField(childField);
+					}
 
+					if (startDrag)
+					{
+						Event.current.Use();
+					}
+					
 					GUILayout.EndArea();
 				}
 			}
-			
-
-
-
 			
 			HandleInput();
 		}
@@ -191,7 +205,7 @@ namespace RPGCore.Unity.Editors
 		public static void DrawField(EditorField field)
 		{
 			// EditorGUILayout.LabelField(field.Json.Path);
-			if (field.Info.Type == "Int32")
+			if (field.Field.Type == "Int32")
 			{
 				EditorGUI.BeginChangeCheck();
 				int newValue = EditorGUILayout.IntField(field.Name, field.Json.ToObject<int>());
@@ -201,7 +215,7 @@ namespace RPGCore.Unity.Editors
 					field.Json.Replace(replace);
 				}
 			}
-			else if (field.Info.Type == "String")
+			else if (field.Field.Type == "String")
 			{
 				EditorGUI.BeginChangeCheck();
 				string newValue = EditorGUILayout.TextField(field.Name, field.Json.ToObject<string>());
@@ -211,7 +225,7 @@ namespace RPGCore.Unity.Editors
 					field.Json.Replace(replace);
 				}
 			}
-			else if (field.Info.Type == "Boolean")
+			else if (field.Field.Type == "Boolean")
 			{
 				EditorGUI.BeginChangeCheck();
 				bool newValue = EditorGUILayout.Toggle(field.Name, field.Json.ToObject<bool>());
@@ -221,7 +235,7 @@ namespace RPGCore.Unity.Editors
 					field.Json.Replace(replace);
 				}
 			}
-			else if (field.Info.Type == "InputSocket")
+			else if (field.Field.Type == "InputSocket")
 			{
 				EditorGUI.BeginChangeCheck();
 				EditorGUILayout.LabelField(field.Name, field.Json.ToObject<string>());
@@ -230,7 +244,7 @@ namespace RPGCore.Unity.Editors
 					//field.Json.Value = newValue;
 				}
 			}
-			else if (field.Info.Format == FieldFormat.Dictionary)
+			else if (field.Field.Format == FieldFormat.Dictionary)
 			{
 				EditorGUILayout.LabelField(field.Name);
 
@@ -241,7 +255,7 @@ namespace RPGCore.Unity.Editors
 				}
 				EditorGUI.indentLevel--;
 			}
-			else if (field.Info != null)
+			else if (field.Field != null)
 			{
 				EditorGUILayout.LabelField(field.Name);
 
@@ -275,17 +289,32 @@ namespace RPGCore.Unity.Editors
 			}
 			else if (currentEvent.type == EventType.MouseDrag && dragging_IsDragging)
 			{
-				dragging_Position += currentEvent.delta;
+				if (dragging_NodeDragging)
+				{
+					var pos = graphEditor["Nodes"][selectedNode]["Editor"]["Position"];
+
+					var replace = JToken.FromObject(pos["x"].Json.ToObject<int>() + ((int)currentEvent.delta.x));
+					pos["x"].Json.Replace(replace);
+					
+					replace = JToken.FromObject(pos["y"].Json.ToObject<int>() + ((int)currentEvent.delta.y));
+					pos["y"].Json.Replace(replace);
+				}
+				else
+				{
+					dragging_Position += currentEvent.delta;
+				}
 				Repaint ();
 			}
-			else if (screenRect.Contains (currentEvent.mousePosition))
-			{
-				if (currentEvent.type == EventType.MouseDown)
+			else if (currentEvent.type == EventType.MouseDown)
+			{	
+				if (screenRect.Contains (currentEvent.mousePosition))
 				{
 					GUI.UnfocusWindow ();
 					GUI.FocusControl ("");
 
+					Debug.Log("Start Drag Window");
 					dragging_IsDragging = true;
+					dragging_NodeDragging = false;
 
 					currentEvent.Use ();
 					Repaint ();
@@ -363,6 +392,11 @@ namespace RPGCore.Unity.Editors
 			EditorGUILayout.BeginHorizontal (EditorStyles.toolbar, GUILayout.ExpandWidth (true));
 
 			if (GUILayout.Button (CurrentPackage?.name, EditorStyles.toolbarButton, GUILayout.Width (100)))
+			{
+			}
+
+			
+			if (GUILayout.Button (selectedNode, EditorStyles.toolbarButton, GUILayout.Width (100)))
 			{
 			}
 
