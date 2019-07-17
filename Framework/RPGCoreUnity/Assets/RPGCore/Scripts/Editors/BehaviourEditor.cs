@@ -154,9 +154,9 @@ namespace RPGCore.Unity.Editors
 						if (nodeRect.Contains(Event.current.mousePosition))
 						{
 							selectedNode = node.Name;
+							dragging_IsDragging = true;
 							dragging_NodeDragging = true;
 
-							Debug.Log("StartDrag " + selectedNode);
 							startDrag = true;
 						}
 					}
@@ -192,6 +192,9 @@ namespace RPGCore.Unity.Editors
 
 					if (startDrag)
 					{
+						GUI.UnfocusWindow ();
+						GUI.FocusControl ("");
+
 						Event.current.Use();
 					}
 					
@@ -291,13 +294,13 @@ namespace RPGCore.Unity.Editors
 			{
 				if (dragging_NodeDragging)
 				{
-					var pos = graphEditor["Nodes"][selectedNode]["Editor"]["Position"];
+					var pos = graphEditor["Nodes"].Json[selectedNode]["Editor"]["Position"];
 
-					var replace = JToken.FromObject(pos["x"].Json.ToObject<int>() + ((int)currentEvent.delta.x));
-					pos["x"].Json.Replace(replace);
+					var replace = JToken.FromObject(pos["x"].ToObject<int>() + ((int)currentEvent.delta.x));
+					pos["x"].Replace(replace);
 					
-					replace = JToken.FromObject(pos["y"].Json.ToObject<int>() + ((int)currentEvent.delta.y));
-					pos["y"].Json.Replace(replace);
+					replace = JToken.FromObject(pos["y"].ToObject<int>() + ((int)currentEvent.delta.y));
+					pos["y"].Replace(replace);
 				}
 				else
 				{
@@ -312,7 +315,6 @@ namespace RPGCore.Unity.Editors
 					GUI.UnfocusWindow ();
 					GUI.FocusControl ("");
 
-					Debug.Log("Start Drag Window");
 					dragging_IsDragging = true;
 					dragging_NodeDragging = false;
 
@@ -396,7 +398,7 @@ namespace RPGCore.Unity.Editors
 			}
 
 			
-			if (GUILayout.Button (selectedNode, EditorStyles.toolbarButton, GUILayout.Width (100)))
+			if (GUILayout.Button (selectedNode + " " + dragging_NodeDragging, EditorStyles.toolbarButton, GUILayout.Width (100)))
 			{
 			}
 
