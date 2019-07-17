@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour.Editor
 	public struct EditorField : IEnumerable<EditorField>
 	{
 		public string Name;
-		public FieldInformation Info;
+		public FieldInformation Field;
 		public TypeInformation Type;
 		public JToken Json;
 
@@ -21,12 +21,12 @@ namespace RPGCore.Behaviour.Editor
 		{
 			Manifest = manifest;
 			Name = name;
-			Info = info;
+			Field = info;
 			Type = type;
 			Json = json;
 
 			if (Json.Type == JTokenType.Object
-				&& Info?.Format != FieldFormat.Dictionary)
+				&& Field?.Format != FieldFormat.Dictionary)
 			{
 				EditorObject.PopulateMissing((JObject)Json, type);
 			}
@@ -34,11 +34,11 @@ namespace RPGCore.Behaviour.Editor
 
 		public IEnumerator<EditorField> GetEnumerator()
 		{
-			if (Info.Format == FieldFormat.Dictionary)
+			if (Field.Format == FieldFormat.Dictionary)
 			{
 				foreach (var property in ((JObject)Json).Properties())
 				{
-					yield return new EditorField(Manifest, property.Name, Info.ValueFormat, Type, property.Value);
+					yield return new EditorField(Manifest, property.Name, Field.ValueFormat, Type, property.Value);
 				}
 			}
 			else

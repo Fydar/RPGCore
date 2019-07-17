@@ -58,7 +58,7 @@ namespace RPGCore.Behaviour
 
 			foreach (var field in editor)
 			{
-				Console.WriteLine ($"{field.Name}: {field.Json} ({field.Info.Type})");
+				Console.WriteLine ($"{field.Name}: {field.Json} ({field.Field.Type})");
 				if (field.Name == "MaxValue")
 				{
 					var newObject = JToken.FromObject (field.Json.ToObject<int> () + 10);
