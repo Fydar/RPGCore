@@ -59,20 +59,11 @@ namespace RPGCore.Unity.Editors
 
 			currentEvent = Event.current;
 
-			if (currentEvent.type == EventType.MouseUp && dragging_IsDragging)
-			{
-				dragging_IsDragging = false;
-				dragging_NodeDragging = false;
-				currentEvent.Use ();
-			}
-
 			// HandleDragAndDrop (screenRect);
 
 
 			DrawBackground (screenRect, dragging_Position);
 			DrawTopBar ();
-
-
 
 
 			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(ProjectImport), true);
@@ -142,27 +133,16 @@ namespace RPGCore.Unity.Editors
 						200,
 						160
 					);
-
+					
 					bool startDrag = false;
 					if (Event.current.type == EventType.Repaint)
 					{
 						BehaviourGraphResources.Instance.NodeStyle.Draw(nodeRect,
 							false, node.Name == selectedNode, false, false);
 					}
-					else if (Event.current.type == EventType.MouseDown)
-					{
-						if (nodeRect.Contains(Event.current.mousePosition))
-						{
-							selectedNode = node.Name;
-							dragging_IsDragging = true;
-							dragging_NodeDragging = true;
-
-							startDrag = true;
-						}
-					}
 
 					GUILayout.BeginArea(nodeRect);
-
+					
 					var nodeData = node.Json["Data"];
 					var nodeType = node["Type"];
 					
@@ -190,15 +170,22 @@ namespace RPGCore.Unity.Editors
 						DrawField(childField);
 					}
 
-					if (startDrag)
-					{
-						GUI.UnfocusWindow ();
-						GUI.FocusControl ("");
-
-						Event.current.Use();
-					}
-					
 					GUILayout.EndArea();
+
+					if (Event.current.type == EventType.MouseDown)
+					{
+						if (nodeRect.Contains(Event.current.mousePosition))
+						{
+							selectedNode = node.Name;
+							dragging_IsDragging = true;
+							dragging_NodeDragging = true;
+
+							GUI.UnfocusWindow ();
+							GUI.FocusControl ("");
+
+							Event.current.Use();
+						}
+					}
 				}
 			}
 			
@@ -286,6 +273,13 @@ namespace RPGCore.Unity.Editors
 		
 		private void HandleInput ()
 		{
+			if (currentEvent.type == EventType.MouseUp && dragging_IsDragging)
+			{
+				dragging_IsDragging = false;
+				dragging_NodeDragging = false;
+				currentEvent.Use ();
+			}
+
 			if (currentEvent.type == EventType.KeyDown)
 			{
 				
