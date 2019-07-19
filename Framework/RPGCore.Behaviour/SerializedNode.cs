@@ -12,34 +12,41 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node Unpack (LocalId id, List<string> outputIds, ref int outputCounter)
+		public Node UnpackInputs (LocalId id, List<string> outputIds, List<string> connectionIds, ref int outputCounter)
 		{
 			var nodeType = System.Type.GetType (Type);
 
 			var jsonSerializer = new JsonSerializer ();
-			jsonSerializer.Converters.Add (new InputSocketConverter (outputIds));
+
+			jsonSerializer.Converters.Add (new InputSocketConverter (outputIds, connectionIds));
 			jsonSerializer.Converters.Add (new LocalIdJsonConverter ());
 			object nodeObject = Data.ToObject (nodeType, jsonSerializer);
+
+			var node = (Node)nodeObject;
+			node.Id = id;
+
+			return node;
+		}
+
+		public static void UnpackOutputs(List<string> connectionIds, Node node)
+		{
+			var nodeType = node.GetType ();
 
 			foreach (var field in nodeType.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
 				if (field.FieldType == typeof (OutputSocket))
 				{
-					field.SetValue (nodeObject, new OutputSocket (++outputCounter));
+					int connectionId = connectionIds.IndexOf (node.Id + "." + field.Name);
+					field.SetValue (node, new OutputSocket (connectionId));
 				}
 			}
-
-			var node = (Node)nodeObject;
-
-			node.Id = id;
-
-			return node;
 		}
 	}
 
 	internal sealed class InputSocketConverter : JsonConverter
 	{
-		private readonly List<string> Ids;
+		private readonly List<string> MappedInputs;
+		private readonly List<string> OutputIds;
 
 		public override bool CanWrite => false;
 
@@ -48,9 +55,10 @@ namespace RPGCore.Behaviour
 			return (objectType == typeof (InputSocket));
 		}
 
-		public InputSocketConverter (List<string> ids)
+		public InputSocketConverter (List<string> outputIds, List<string> mappedInputs)
 		{
-			Ids = ids;
+			OutputIds = outputIds;
+			MappedInputs = mappedInputs;
 		}
 
 		public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
@@ -60,7 +68,21 @@ namespace RPGCore.Behaviour
 
 		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			return new InputSocket (Ids.IndexOf (reader.Value.ToString ()));
+			if (reader.Value == null)
+			{
+				return new InputSocket ();
+			}
+
+			string inputSource = reader.Value.ToString ();
+
+			int connectionId = MappedInputs.IndexOf (inputSource);
+			if (connectionId == -1)
+			{
+				connectionId = MappedInputs.Count;
+				MappedInputs.Add (inputSource);
+			}
+
+			return new InputSocket (connectionId);
 		}
 	}
 }
