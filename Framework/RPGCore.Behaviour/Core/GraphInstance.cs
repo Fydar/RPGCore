@@ -53,7 +53,7 @@ namespace RPGCore.Behaviour
 				}
 			}
 
-			connections = new Connection[graph.OutputCount];
+			connections = new Connection[graph.ConnectionsCount];
 
 			// Allow all used inputs to setup their connections.
 			allInputs = new InputMap[nodeCount][];
