@@ -204,7 +204,7 @@ namespace RPGCore.Behaviour
 
 		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref Input<T> connection)
 		{
-			if (socket.ConnectionId > 0)
+			if (socket.ConnectionId >= 0)
 			{
 				connection = new Input<T> (GetOrCreateConnection<T> (socket.ConnectionId));
 			}
@@ -226,7 +226,7 @@ namespace RPGCore.Behaviour
 
 		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref T connection)
 		{
-			if (socket.ConnectionId > 0)
+			if (socket.ConnectionId >= 0)
 			{
 				connection = (T)nodeInstances[socket.ConnectionId];
 			}

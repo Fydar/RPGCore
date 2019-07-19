@@ -36,10 +36,16 @@ namespace RPGCore.Behaviour
 					}
 				}
 			}
+			var connectionIds = new List<string> ();
 			int outputCounter = -1;
 			foreach (var nodeKvp in Nodes)
 			{
-				nodes.Add (nodeKvp.Value.Unpack (nodeKvp.Key, outputIds, ref outputCounter));
+				nodes.Add (nodeKvp.Value.UnpackInputs (nodeKvp.Key, outputIds, connectionIds, ref outputCounter));
+			}
+
+			foreach (var node in nodes)
+			{
+				SerializedNode.UnpackOutputs (connectionIds, node);
 			}
 
 			var graph = new Graph (nodes.ToArray (), outputIds.Count);
