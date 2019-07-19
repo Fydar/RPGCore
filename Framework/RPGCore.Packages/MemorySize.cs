@@ -39,11 +39,11 @@ namespace RPGCore.Packages
 		{
 			get
 			{
-				return ((double)Bytes) / KilobyteSize;
+				return ((double)Bytes) / MegabyteSize;
 			}
 			set
 			{
-				Bytes = (ulong)(value * KilobyteSize);
+				Bytes = (ulong)(value * MegabyteSize);
 			}
 		}
 
@@ -126,7 +126,22 @@ namespace RPGCore.Packages
 
 		public int CompareTo (MemorySize other) => Bytes.CompareTo (other.Bytes);
 
-		public string ToString (string format, IFormatProvider formatProvider) => Bytes.ToString (format, formatProvider);
+		public string ToString (string format, IFormatProvider formatProvider)
+		{
+			if (Gigabytes < 1.0f)
+			{
+				if (Megabytes < 1.0f)
+				{
+					if (Kilobytes < 1.0f)
+					{
+						return $"{Bytes.ToString (format, formatProvider)} {ByteSuffix}";
+					}
+					return $"{Kilobytes.ToString (format, formatProvider)} {KilobyteSuffix}";
+				}
+				return $"{Megabytes.ToString (format, formatProvider)} {MegabyteSuffix}";
+			}
+			return $"{Gigabytes.ToString (format, formatProvider)} {GigabyteSuffix}";
+		}
 
 		public static bool operator == (MemorySize left, MemorySize right)
 		{
