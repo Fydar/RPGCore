@@ -12,13 +12,13 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node UnpackInputs (LocalId id, List<string> outputIds, List<string> connectionIds, ref int outputCounter)
+		public Node UnpackInputs (LocalId id, List<string> connectionIds, ref int outputCounter)
 		{
 			var nodeType = System.Type.GetType (Type);
 
 			var jsonSerializer = new JsonSerializer ();
 
-			jsonSerializer.Converters.Add (new InputSocketConverter (outputIds, connectionIds));
+			jsonSerializer.Converters.Add (new InputSocketConverter (connectionIds));
 			jsonSerializer.Converters.Add (new LocalIdJsonConverter ());
 			object nodeObject = Data.ToObject (nodeType, jsonSerializer);
 
@@ -46,7 +46,6 @@ namespace RPGCore.Behaviour
 	internal sealed class InputSocketConverter : JsonConverter
 	{
 		private readonly List<string> MappedInputs;
-		private readonly List<string> OutputIds;
 
 		public override bool CanWrite => false;
 
@@ -55,9 +54,8 @@ namespace RPGCore.Behaviour
 			return (objectType == typeof (InputSocket));
 		}
 
-		public InputSocketConverter (List<string> outputIds, List<string> mappedInputs)
+		public InputSocketConverter (List<string> mappedInputs)
 		{
-			OutputIds = outputIds;
 			MappedInputs = mappedInputs;
 		}
 

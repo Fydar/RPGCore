@@ -7,7 +7,7 @@ namespace RPGCore.Behaviour
 	{
 		public string Name;
 		public readonly Node[] Nodes;
-		public readonly int OutputCount;
+		public readonly int ConnectionsCount;
 
 		public Node this[LocalId id]
 		{
@@ -24,10 +24,10 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Graph (Node[] nodes, int outputCount)
+		public Graph (Node[] nodes, int connectionCount)
 		{
 			Nodes = nodes;
-			OutputCount = outputCount;
+			ConnectionsCount = connectionCount;
 		}
 
 		public GraphInstance Setup (Actor target, IDictionary<LocalId, JObject> data = null)
