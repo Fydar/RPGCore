@@ -55,18 +55,18 @@ namespace RPGCore.Behaviour
 
 			connections = new Connection[graph.ConnectionsCount];
 
-			// Allow all used inputs to setup their connections.
-			allInputs = new InputMap[nodeCount][];
-			for (int i = 0; i < nodeCount; i++)
-			{
-				allInputs[i] = graph.Nodes[i].Inputs (this, nodeInstances[i]);
-			}
-
-			// Allow all outputs to assign themselves to that connection
+			// Allow all outputs to make their output type visible
 			allOutputs = new OutputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
 				allOutputs[i] = graph.Nodes[i].Outputs (this, nodeInstances[i]);
+			}
+
+			// Allow inputs to subscribe to those outputs.
+			allInputs = new InputMap[nodeCount][];
+			for (int i = 0; i < nodeCount; i++)
+			{
+				allInputs[i] = graph.Nodes[i].Inputs (this, nodeInstances[i]);
 			}
 		}
 
@@ -206,7 +206,7 @@ namespace RPGCore.Behaviour
 		{
 			if (socket.ConnectionId >= 0)
 			{
-				connection = new Input<T> (GetOrCreateConnection<T> (socket.ConnectionId));
+				connection = new Input<T> (GetConnection<T> (socket.ConnectionId));
 			}
 
 			return new InputMap (socket, typeof (T));
@@ -214,7 +214,7 @@ namespace RPGCore.Behaviour
 
 		OutputMap IGraphConnections.Connect<T> (ref OutputSocket socket, ref Output<T> output)
 		{
-			var newConnection = GetConnection<T> (socket.Id);
+			var newConnection = GetOrCreateConnection<T> (socket.Id);
 			if (newConnection != null && output.Connection != null)
 			{
 				newConnection.Value = output.Connection.Value;
