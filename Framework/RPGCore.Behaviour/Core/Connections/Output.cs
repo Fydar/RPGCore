@@ -24,5 +24,17 @@ namespace RPGCore.Behaviour
 		{
 			Connection = connection;
 		}
+
+		public override string ToString ()
+		{
+			if (IsConnected)
+			{
+				return $"Outputted {Connection}";
+			}
+			else
+			{
+				return "Unconnected Output";
+			}
+		}
 	}
 }

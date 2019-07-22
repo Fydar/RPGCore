@@ -212,6 +212,9 @@ namespace RPGCore.Behaviour
 			{
 				var outputSet = allOutputs[x];
 
+				if (outputSet == null)
+					continue;
+
 				for (int y = 0; y < outputSet.Length; y++)
 				{
 					var output = outputSet[y];
@@ -237,9 +240,12 @@ namespace RPGCore.Behaviour
 			if (connectionId == -1)
 				yield break;
 
-			for (int x = 0; x < allOutputs.Length; x++)
+			for (int x = 0; x < allInputs.Length; x++)
 			{
 				var inputSet = allInputs[x];
+
+				if (inputSet == null)
+					continue;
 
 				for (int y = 0; y < inputSet.Length; y++)
 				{

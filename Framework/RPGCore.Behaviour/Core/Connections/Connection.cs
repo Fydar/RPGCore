@@ -20,6 +20,7 @@ namespace RPGCore.Behaviour
 
 		public override event Action OnAfterChanged;
 
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public override object ObjectValue
 		{
 			get
@@ -53,6 +54,6 @@ namespace RPGCore.Behaviour
 			OnAfterChanged?.Invoke ();
 		}
 
-		public override string ToString() => $"Connection, Value = {GenericValue}";
+		public override string ToString() => $"Connection {ConnectionId}, Value = {GenericValue}";
 	}
 }

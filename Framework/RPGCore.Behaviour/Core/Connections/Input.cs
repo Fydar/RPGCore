@@ -35,6 +35,16 @@ namespace RPGCore.Behaviour
 			Connection = (Connection<T>)connection;
 		}
 
-		public override string ToString () => $"Inputted {Connection}";
+		public override string ToString ()
+		{
+			if (IsConnected)
+			{
+				return $"Inputted {Connection}";
+			}
+			else
+			{
+				return "Unconnected Input";
+			}
+		}
 	}
 }
