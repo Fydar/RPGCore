@@ -16,7 +16,7 @@
 
 		public InputMap Connect<T> (ref InputSocket socket, ref Input<T> connection)
 		{
-			connection = new Input<T> (null);
+			connection = new Input<T> ();
 			return new InputMap (socket, typeof (T));
 		}
 
