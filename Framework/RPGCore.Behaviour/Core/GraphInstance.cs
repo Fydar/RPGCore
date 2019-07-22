@@ -134,7 +134,7 @@ namespace RPGCore.Behaviour
 				if (connection.ObjectValue.GetType () == typeof (int)
 					&& typeof (T) == typeof (float))
 				{
-					var converter = new IntToFloatConverter ();
+					var converter = new IntToFloatConverter (socket.ConnectionId);
 
 					converter.SetSource (connection);
 
@@ -181,7 +181,7 @@ namespace RPGCore.Behaviour
 			var shared = connections[id];
 			if (shared == null)
 			{
-				shared = new Connection<T> ();
+				shared = new Connection<T> (id);
 				connections[id] = shared;
 			}
 			return (Connection<T>)shared;
@@ -203,17 +203,7 @@ namespace RPGCore.Behaviour
 			if (input.Connection == null)
 				return new InputSource ();
 
-			int connectionId = -1;
-			for (int i = 0; i < connections.Length; i++)
-			{
-				var connection = connections[i];
-
-				if (connection == input.Connection)
-				{
-					connectionId = i;
-					break;
-				}
-			}
+			int connectionId = input.Connection.ConnectionId;
 
 			if (connectionId == -1)
 				return new InputSource ();
@@ -242,17 +232,7 @@ namespace RPGCore.Behaviour
 			if (output.Connection == null)
 				yield break;
 
-			int connectionId = -1;
-			for (int i = 0; i < connections.Length; i++)
-			{
-				var connection = connections[i];
-
-				if (connection == output.Connection)
-				{
-					connectionId = i;
-					break;
-				}
-			}
+			int connectionId = output.Connection.ConnectionId;
 
 			if (connectionId == -1)
 				yield break;
