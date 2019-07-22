@@ -13,6 +13,16 @@ namespace RPGCore.Behaviour
 			ConnectionId = source.Id;
 		}
 
-		public override string ToString () => $"Output to Connection {ConnectionId} of type {ConnectionType}";
+		public override string ToString ()
+		{
+			if (ConnectionId == -1)
+			{
+				return $"Unmapped Output of type {ConnectionType}";
+			}
+			else
+			{
+				return $"Output {ConnectionId} of type {ConnectionType}";
+			}
+		}
 	}
 }
