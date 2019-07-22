@@ -4,6 +4,43 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
+	public interface IConnectionTypeConverter<B>
+	{
+		B Convert (Connection source);
+	}
+
+	public interface IConnectionConverter<T>
+	{
+		T Value { get; }
+
+		void SetSource(Connection source);
+	}
+
+
+	public struct IntToFloatConverter : IConnectionConverter<float>
+	{
+		public Connection<int> Source;
+
+		public float Value => Source.Value;
+
+		public void SetSource(Connection source)
+		{
+			Source = (Connection<int>)source;
+		}
+	}
+
+	public struct NoTypeConverter<T> : IConnectionConverter<T>
+	{
+		public Connection<T> Source;
+
+		public T Value => Source.Value;
+
+		public void SetSource(Connection source)
+		{
+			Source = (Connection<T>)source;
+		}
+	}
+
 	public sealed class GraphInstance : IGraphInstance, IGraphConnections
 	{
 		private readonly Graph graph;
@@ -68,6 +105,131 @@ namespace RPGCore.Behaviour
 			{
 				allInputs[i] = graph.Nodes[i].Inputs (this, nodeInstances[i]);
 			}
+		}
+
+		public void Setup (Actor target)
+		{
+			int nodeCount = graph.Nodes.Length;
+			for (int i = 0; i < nodeCount; i++)
+			{
+				graph.Nodes[i].Setup (this, nodeInstances[i], target);
+			}
+		}
+
+		public void Remove ()
+		{
+			foreach (var node in nodeInstances)
+			{
+				node.Remove ();
+			}
+		}
+
+		public SerializedGraphInstance Pack ()
+		{
+			var nodeMap = new Dictionary<LocalId, JObject> ();
+
+			for (int i = 0; i < nodeInstances.Length; i++)
+			{
+				var instance = nodeInstances[i];
+				var node = graph.Nodes[i];
+
+				var serializer = new JsonSerializer
+				{
+					ContractResolver = new IgnoreInputsResolver ()
+				};
+
+				nodeMap.Add (node.Id, JObject.FromObject (instance, serializer));
+			}
+
+			return new SerializedGraphInstance ()
+			{
+				GraphType = graph.Name,
+				NodeInstances = nodeMap
+			};
+		}
+
+		public INodeInstance GetNode<T> ()
+		{
+			for (int i = nodeInstances.Length - 1; i >= 0; i--)
+			{
+				var node = nodeInstances[i];
+
+				if (node.GetType () == typeof (T))
+				{
+					return node;
+				}
+			}
+			return null;
+		}
+
+		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref Input<T> input)
+		{
+			if (socket.ConnectionId >= 0)
+			{
+				var connectionObject = GetConnection<T> (socket.ConnectionId);
+				input = new Input<T> ();
+
+				if (connectionObject.ObjectValue.GetType() == typeof(int)
+					&& typeof (T) == typeof(float))
+				{
+					input.SetConnection(connectionObject, new IntToFloatConverter());
+				}
+				else
+				{
+					input.SetConnection(connectionObject, new NoTypeConverter<T>());
+				}
+			}
+
+			return new InputMap (socket, typeof (T));
+		}
+
+		OutputMap IGraphConnections.Connect<T> (ref OutputSocket socket, ref Output<T> output)
+		{
+			var newConnection = GetOrCreateConnection<T> (socket.Id);
+			if (newConnection != null && output.Connection != null)
+			{
+				newConnection.Value = output.Connection.Value;
+			}
+			output = new Output<T> (newConnection);
+
+			return new OutputMap (socket, typeof (T));
+		}
+
+		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref T node)
+		{
+			if (socket.ConnectionId >= 0)
+			{
+				node = (T)nodeInstances[socket.ConnectionId];
+			}
+
+			return new InputMap (socket, typeof (T));
+		}
+
+		private Connection<T> GetOrCreateConnection<T> (int id)
+		{
+			if (id < 0)
+			{
+				return null;
+			}
+
+			var shared = connections[id];
+			if (shared == null)
+			{
+				shared = new Connection<T> ();
+				connections[id] = shared;
+			}
+			return (Connection<T>)shared;
+		}
+
+		private Connection GetConnection<T> (int id)
+		{
+			if (id < 0)
+			{
+				return null;
+			}
+
+			var shared = connections[id];
+			return shared;
 		}
 
 		public InputSource GetSource<T> (Input<T> input)
@@ -145,120 +307,6 @@ namespace RPGCore.Behaviour
 					}
 				}
 			}
-		}
-
-		public void Setup (Actor target)
-		{
-			int nodeCount = graph.Nodes.Length;
-			for (int i = 0; i < nodeCount; i++)
-			{
-				graph.Nodes[i].Setup (this, nodeInstances[i], target);
-			}
-		}
-
-		public void Remove ()
-		{
-			foreach (var node in nodeInstances)
-			{
-				node.Remove ();
-			}
-		}
-
-		public SerializedGraphInstance Pack ()
-		{
-			var nodeMap = new Dictionary<LocalId, JObject> ();
-
-			for (int i = 0; i < nodeInstances.Length; i++)
-			{
-				var instance = nodeInstances[i];
-				var node = graph.Nodes[i];
-
-				var serializer = new JsonSerializer
-				{
-					ContractResolver = new IgnoreInputsResolver ()
-				};
-
-				nodeMap.Add (node.Id, JObject.FromObject (instance, serializer));
-			}
-
-			return new SerializedGraphInstance ()
-			{
-				GraphType = graph.Name,
-				NodeInstances = nodeMap
-			};
-		}
-
-		public INodeInstance GetNode<T> ()
-		{
-			for (int i = nodeInstances.Length - 1; i >= 0; i--)
-			{
-				var node = nodeInstances[i];
-
-				if (node.GetType () == typeof (T))
-				{
-					return node;
-				}
-			}
-			return null;
-		}
-
-		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref Input<T> connection)
-		{
-			if (socket.ConnectionId >= 0)
-			{
-				connection = new Input<T> (GetConnection<T> (socket.ConnectionId));
-			}
-
-			return new InputMap (socket, typeof (T));
-		}
-
-		OutputMap IGraphConnections.Connect<T> (ref OutputSocket socket, ref Output<T> output)
-		{
-			var newConnection = GetOrCreateConnection<T> (socket.Id);
-			if (newConnection != null && output.Connection != null)
-			{
-				newConnection.Value = output.Connection.Value;
-			}
-			output = new Output<T> (newConnection);
-
-			return new OutputMap (socket, typeof (T));
-		}
-
-		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref T connection)
-		{
-			if (socket.ConnectionId >= 0)
-			{
-				connection = (T)nodeInstances[socket.ConnectionId];
-			}
-
-			return new InputMap (socket, typeof (T));
-		}
-
-		private Connection<T> GetOrCreateConnection<T> (int id)
-		{
-			if (id < 0)
-			{
-				return null;
-			}
-
-			var shared = connections[id];
-			if (shared == null)
-			{
-				shared = new Connection<T> ();
-				connections[id] = shared;
-			}
-			return (Connection<T>)shared;
-		}
-
-		private Connection<T> GetConnection<T> (int id)
-		{
-			if (id < 0)
-			{
-				return null;
-			}
-
-			var shared = connections[id];
-			return (Connection<T>)shared;
 		}
 	}
 }

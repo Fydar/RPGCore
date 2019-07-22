@@ -8,7 +8,7 @@
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
         "MinValue": 1,
-        "MaxValue": 285,
+        "MaxValue": 295,
         "TooltipFormat": "{0}",
         "Data": {
           "Hi": 0,

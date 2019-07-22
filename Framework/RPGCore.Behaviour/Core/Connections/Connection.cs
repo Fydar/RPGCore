@@ -7,16 +7,31 @@ namespace RPGCore.Behaviour
 	{
 		public event Action OnAfterChanged;
 
-		protected void InvokeAfterChanged ()
+		public abstract object ObjectValue { get; set; }
+
+		protected void InvokeAfterChanged()
 		{
-			OnAfterChanged?.Invoke ();
+			OnAfterChanged?.Invoke();
 		}
 	}
 
 	public sealed class Connection<T> : Connection
 	{
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private T internalValue;
+
+		public override object ObjectValue
+		{
+			get
+			{
+				return internalValue;
+			}
+			set
+			{
+				internalValue = (T)value;
+				InvokeAfterChanged();
+			}
+		}
 
 		public T Value
 		{
@@ -24,10 +39,10 @@ namespace RPGCore.Behaviour
 			set
 			{
 				internalValue = value;
-				InvokeAfterChanged ();
+				InvokeAfterChanged();
 			}
 		}
 
-		public override string ToString () => $"Connection, Value = {internalValue}";
+		public override string ToString() => $"Connection, Value = {internalValue}";
 	}
 }
