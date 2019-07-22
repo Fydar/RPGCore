@@ -5,6 +5,8 @@ namespace RPGCore.Behaviour
 {
 	public abstract class Connection
 	{
+		public virtual int ConnectionId { get; set; }
+
 		public abstract event Action OnAfterChanged;
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
@@ -39,6 +41,11 @@ namespace RPGCore.Behaviour
 				GenericValue = value;
 				InvokeAfterChanged();
 			}
+		}
+
+		public Connection(int connectionId)
+		{
+			ConnectionId = connectionId;
 		}
 
 		protected void InvokeAfterChanged ()
