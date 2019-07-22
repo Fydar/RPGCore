@@ -4,14 +4,12 @@ namespace RPGCore.Behaviour
 {
 	public struct Input<T>
 	{
-		private IConnectionConverter<T> Converter { get; set; }
-
-		public Connection Connection { get; private set; }
+		public Connection<T> Connection { get; private set; }
 
 		public bool IsConnected => Connection != null;
 
 		public T Value => Connection != null
-			? Converter.Value
+			? Connection.Value
 			: default (T);
 
 		public event Action OnAfterChanged
@@ -32,12 +30,9 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void SetConnection(Connection connection, IConnectionConverter<T> converter)
+		public Input(Connection connection)
 		{
-			Connection = connection;
-			
-			Converter = converter;
-			Converter.SetSource(connection);
+			Connection = (Connection<T>)connection;
 		}
 
 		public override string ToString () => $"Inputted {Connection}";

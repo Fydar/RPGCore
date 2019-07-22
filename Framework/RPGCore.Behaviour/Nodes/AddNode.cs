@@ -22,8 +22,8 @@ namespace RPGCore.Behaviour
 
 		public sealed class Metadata : INodeInstance
 		{
-			public Input<int> valueA;
-			public Input<int> valueB;
+			public Input<float> valueA;
+			public Input<float> valueB;
 
 			public Output<int> Output;
 

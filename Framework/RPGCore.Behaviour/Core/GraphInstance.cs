@@ -4,43 +4,6 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
-	public interface IConnectionTypeConverter<B>
-	{
-		B Convert (Connection source);
-	}
-
-	public interface IConnectionConverter<T>
-	{
-		T Value { get; }
-
-		void SetSource(Connection source);
-	}
-
-
-	public struct IntToFloatConverter : IConnectionConverter<float>
-	{
-		public Connection<int> Source;
-
-		public float Value => Source.Value;
-
-		public void SetSource(Connection source)
-		{
-			Source = (Connection<int>)source;
-		}
-	}
-
-	public struct NoTypeConverter<T> : IConnectionConverter<T>
-	{
-		public Connection<T> Source;
-
-		public T Value => Source.Value;
-
-		public void SetSource(Connection source)
-		{
-			Source = (Connection<T>)source;
-		}
-	}
-
 	public sealed class GraphInstance : IGraphInstance, IGraphConnections
 	{
 		private readonly Graph graph;
@@ -166,17 +129,20 @@ namespace RPGCore.Behaviour
 		{
 			if (socket.ConnectionId >= 0)
 			{
-				var connectionObject = GetConnection<T> (socket.ConnectionId);
-				input = new Input<T> ();
+				var connection = GetConnection<T> (socket.ConnectionId);
 
-				if (connectionObject.ObjectValue.GetType() == typeof(int)
-					&& typeof (T) == typeof(float))
+				if (connection.ObjectValue.GetType () == typeof (int)
+					&& typeof (T) == typeof (float))
 				{
-					input.SetConnection(connectionObject, new IntToFloatConverter());
+					var converter = new IntToFloatConverter ();
+
+					converter.SetSource (connection);
+
+					input = new Input<T> (converter);
 				}
 				else
 				{
-					input.SetConnection(connectionObject, new NoTypeConverter<T>());
+					input = new Input<T> (connection);
 				}
 			}
 

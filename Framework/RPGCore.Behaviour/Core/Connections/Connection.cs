@@ -5,44 +5,47 @@ namespace RPGCore.Behaviour
 {
 	public abstract class Connection
 	{
-		public event Action OnAfterChanged;
+		public abstract event Action OnAfterChanged;
 
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		public abstract object ObjectValue { get; set; }
-
-		protected void InvokeAfterChanged()
-		{
-			OnAfterChanged?.Invoke();
-		}
 	}
 
-	public sealed class Connection<T> : Connection
+	public class Connection<T> : Connection
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private T internalValue;
+		private T GenericValue;
+
+		public override event Action OnAfterChanged;
 
 		public override object ObjectValue
 		{
 			get
 			{
-				return internalValue;
+				return GenericValue;
 			}
 			set
 			{
-				internalValue = (T)value;
+				GenericValue = (T)value;
 				InvokeAfterChanged();
 			}
 		}
 
-		public T Value
+		public virtual T Value
 		{
-			get => internalValue;
+			get => GenericValue;
 			set
 			{
-				internalValue = value;
+				GenericValue = value;
 				InvokeAfterChanged();
 			}
 		}
 
-		public override string ToString() => $"Connection, Value = {internalValue}";
+		protected void InvokeAfterChanged ()
+		{
+			OnAfterChanged?.Invoke ();
+		}
+
+		public override string ToString() => $"Connection, Value = {GenericValue}";
 	}
 }
