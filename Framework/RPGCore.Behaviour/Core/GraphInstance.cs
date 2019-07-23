@@ -12,6 +12,8 @@ namespace RPGCore.Behaviour
 		private readonly InputMap[][] allInputs;
 		private readonly OutputMap[][] allOutputs;
 
+		private INodeInstance currentNode;
+
 		public INodeInstance this[LocalId id]
 		{
 			get
@@ -59,14 +61,16 @@ namespace RPGCore.Behaviour
 			allOutputs = new OutputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
-				allOutputs[i] = graph.Nodes[i].Outputs (this, nodeInstances[i]);
+				currentNode = nodeInstances[i];
+				allOutputs[i] = graph.Nodes[i].Outputs (this, currentNode);
 			}
 
 			// Allow inputs to subscribe to those outputs.
 			allInputs = new InputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
-				allInputs[i] = graph.Nodes[i].Inputs (this, nodeInstances[i]);
+				currentNode = nodeInstances[i];
+				allInputs[i] = graph.Nodes[i].Inputs (this, currentNode);
 			}
 		}
 
@@ -75,7 +79,8 @@ namespace RPGCore.Behaviour
 			int nodeCount = graph.Nodes.Length;
 			for (int i = 0; i < nodeCount; i++)
 			{
-				graph.Nodes[i].Setup (this, nodeInstances[i], target);
+				currentNode = nodeInstances[i];
+				graph.Nodes[i].Setup (this, currentNode, target);
 			}
 		}
 
@@ -138,11 +143,11 @@ namespace RPGCore.Behaviour
 
 					converter.SetSource (connection);
 
-					input = new Input<T> (converter);
+					input = new Input<T> (currentNode, converter);
 				}
 				else
 				{
-					input = new Input<T> (connection);
+					input = new Input<T> (currentNode, connection);
 				}
 			}
 
