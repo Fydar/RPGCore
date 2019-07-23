@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RPGCore.Behaviour
@@ -13,12 +14,20 @@ namespace RPGCore.Behaviour
 		public abstract object ObjectValue { get; set; }
 	}
 
+	public struct InputCallback
+	{
+		public INodeInstance Node;
+		public Action Callback;
+	}
+
 	public class Connection<T> : Connection
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private T GenericValue;
 
 		public override event Action OnAfterChanged;
+
+		public List<InputCallback> Subscribers;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public override object ObjectValue
@@ -32,6 +41,11 @@ namespace RPGCore.Behaviour
 				GenericValue = (T)value;
 				InvokeAfterChanged();
 			}
+		}
+
+		public void Subscribe(INodeInstance target, Action callback)
+		{
+			Subscribers.Add(new InputCallback());
 		}
 
 		public virtual T Value

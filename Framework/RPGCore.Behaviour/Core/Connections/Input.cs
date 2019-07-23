@@ -5,6 +5,7 @@ namespace RPGCore.Behaviour
 	public struct Input<T>
 	{
 		public Connection<T> Connection { get; private set; }
+		public INodeInstance Parent { get; private set; }
 
 		public bool IsConnected => Connection != null;
 
@@ -30,8 +31,9 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Input(Connection connection)
+		public Input(INodeInstance parent, Connection connection)
 		{
+			Parent = parent;
 			Connection = (Connection<T>)connection;
 		}
 
