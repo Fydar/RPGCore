@@ -4,12 +4,6 @@ namespace RPGCore.Behaviour
 {
 	public class IntToFloatConverter : Connection<float>
 	{
-		public override event Action OnAfterChanged
-		{
-			add => Source.OnAfterChanged += value;
-			remove => Source.OnAfterChanged -= value;
-		}
-
 		public override int ConnectionId => Source.ConnectionId;
 
 		public Connection<int> Source;
@@ -24,6 +18,12 @@ namespace RPGCore.Behaviour
 			: base (connectionId)
 		{
 		}
+
+		public override void Subscribe (INodeInstance node, Action callback) =>
+			Source.Subscribe (node, callback);
+
+		public override void Unsubscribe (INodeInstance node, Action callback) =>
+			Source.Unsubscribe (node, callback);
 
 		public void SetSource (Connection source)
 		{

@@ -20,14 +20,14 @@ namespace RPGCore.Behaviour
 				if (Connection == null)
 					return;
 
-				Connection.OnAfterChanged += value;
+				Connection.Subscribe (Parent, value);
 			}
 			remove
 			{
 				if (Connection == null)
 					return;
 
-				Connection.OnAfterChanged -= value;
+				Connection.Unsubscribe (Parent, value);
 			}
 		}
 

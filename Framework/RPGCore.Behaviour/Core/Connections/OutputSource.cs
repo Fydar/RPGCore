@@ -15,6 +15,16 @@ namespace RPGCore.Behaviour
 			InputInformation = outputMapping;
 		}
 
-		public override string ToString () => $"Output {InputInformation.ConnectionId} from node {Instance}";
+		public override string ToString ()
+		{
+			if (Instance == null)
+			{
+				return $"No Input";
+			}
+			else
+			{
+				return $"Input {InputInformation.ConnectionId} from node {Instance}";
+			}
+		}
 	}
 }
