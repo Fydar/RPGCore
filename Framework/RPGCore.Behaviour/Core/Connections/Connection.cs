@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -8,8 +9,6 @@ namespace RPGCore.Behaviour
 	{
 		public virtual int ConnectionId { get; set; }
 
-		public abstract event Action OnAfterChanged;
-
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		public abstract object ObjectValue { get; set; }
 	}
@@ -18,15 +17,20 @@ namespace RPGCore.Behaviour
 	{
 		public INodeInstance Node;
 		public Action Callback;
+
+		public InputCallback(INodeInstance node, Action callback)
+		{
+			Node = node;
+			Callback = callback;
+		}
 	}
 
 	public class Connection<T> : Connection
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private T GenericValue;
-
-		public override event Action OnAfterChanged;
-
+		
+		[JsonIgnore]
 		public List<InputCallback> Subscribers;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -43,9 +47,29 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Subscribe(INodeInstance target, Action callback)
+		public virtual void Subscribe (INodeInstance node, Action callback)
 		{
-			Subscribers.Add(new InputCallback());
+			if (Subscribers == null)
+				Subscribers = new List<InputCallback> ();
+
+			Subscribers.Add (new InputCallback (node, callback));
+		}
+
+		public virtual void Unsubscribe (INodeInstance node, Action callback)
+		{
+			if (Subscribers == null)
+				return;
+
+			for (int i = Subscribers.Count - 1; i >= 0; i--)
+			{
+				var subscriber = Subscribers[i];
+
+				if (subscriber.Node == node
+					&& subscriber.Callback == callback)
+				{
+					Subscribers.RemoveAt (i);
+				}
+			}
 		}
 
 		public virtual T Value
@@ -65,7 +89,13 @@ namespace RPGCore.Behaviour
 
 		protected void InvokeAfterChanged ()
 		{
-			OnAfterChanged?.Invoke ();
+			if (Subscribers == null)
+				return;
+
+			foreach (var subscriber in Subscribers)
+			{
+				subscriber.Callback?.Invoke ();
+			}
 		}
 
 		public override string ToString() => $"Connection {ConnectionId}, Value = {GenericValue}";
