@@ -7,28 +7,28 @@ using System.Linq;
 
 namespace RPGCore.Behaviour.Editor
 {
-	public struct EditorField : IEnumerable<EditorField>
+	public class EditorField : IEnumerable<EditorField>
 	{
 		public string Name;
 		public FieldInformation Field;
 		public TypeInformation Type;
 		public JToken Json;
 
-		public BehaviourManifest Manifest;
+		public EditorSession Session;
 
-		public EditorField(BehaviourManifest manifest, string name, FieldInformation info, TypeInformation type, JToken json)
-			: this()
+		public EditorField(EditorSession session, JToken json, string name, FieldInformation info)
 		{
-			Manifest = manifest;
+			Session = session;
 			Name = name;
 			Field = info;
-			Type = type;
 			Json = json;
+
+			Type = session.GetTypeInformation(info.Type);
 
 			if (Json.Type == JTokenType.Object
 				&& Field?.Format != FieldFormat.Dictionary)
 			{
-				EditorObject.PopulateMissing((JObject)Json, type);
+				PopulateMissing((JObject)Json, Type);
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace RPGCore.Behaviour.Editor
 			{
 				foreach (var property in ((JObject)Json).Properties())
 				{
-					yield return new EditorField(Manifest, property.Name, Field.ValueFormat, Type, property.Value);
+					yield return new EditorField(Session, property.Value, property.Name, Field.ValueFormat);
 				}
 			}
 			else
@@ -66,22 +66,7 @@ namespace RPGCore.Behaviour.Editor
 
 				var property = Json[key];
 
-				if (field.Value.Type == "JObject")
-					return new EditorField(Manifest, field.Key, field.Value, null, property);
-
-				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
-				{
-					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
-				}
-				else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out typeInformation))
-				{
-					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
-				}
-				else if (Manifest.Nodes.Nodes.TryGetValue(field.Value.Type, out var nodeInformation))
-				{
-					return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
-				}
-				throw new InvalidOperationException("Could not find type " + field.Value.Type);
+				return new EditorField(Session, property, field.Key, field.Value);
 			}
 		}
 
@@ -89,10 +74,7 @@ namespace RPGCore.Behaviour.Editor
 		{
 			return ((IEnumerable<EditorField>)this).GetEnumerator();
 		}
-	}
-
-	public struct EditorObject : IEnumerable<EditorField>
-	{
+		
 		public static void PopulateMissing(JObject serialized, TypeInformation information)
 		{
 			// Remove any additional fields.
@@ -113,76 +95,54 @@ namespace RPGCore.Behaviour.Editor
 				}
 			}
 		}
+	}
 
+	public class EditorSession
+	{
 		public BehaviourManifest Manifest;
 		public JObject Json;
 		public TypeInformation Type;
 
-		public EditorObject(BehaviourManifest manifest, TypeInformation information, JObject serialized)
+		public EditorField Root;
+
+		public EditorSession(BehaviourManifest manifest, object instance)
 		{
 			Manifest = manifest;
-			Type = information;
-			Json = serialized ?? throw new ArgumentNullException();
-
-			PopulateMissing(serialized, information);
-		}
-
-		public IEnumerator<EditorField> GetEnumerator()
-		{
-			foreach (var field in Type.Fields)
+			Root = new EditorField(this, JObject.FromObject(instance), "root", new FieldInformation()
 			{
-				var property = Json[field.Key];
-
-				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
-				{
-					yield return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
-				}
-				else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out typeInformation))
-				{
-					yield return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
-				}
-				else if (Manifest.Nodes.Nodes.TryGetValue(field.Value.Type, out var nodeInformation))
-				{
-					yield return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
-				}
-			}
+				Type = instance.GetType().FullName
+			});
 		}
 
-		public EditorField this[string key]
+		public EditorSession(BehaviourManifest manifest, JObject instance, string type)
 		{
-			get
+			Manifest = manifest;
+			Root = new EditorField(this, instance, "root", new FieldInformation()
 			{
-				KeyValuePair<string, FieldInformation> field = new KeyValuePair<string, FieldInformation>();
-				foreach (var potentialField in Type.Fields)
-				{
-					if (potentialField.Key == key)
-					{
-						field = potentialField;
-						break;
-					}
-				}
-
-				var property = Json[key];
-
-				if (Manifest.Types.JsonTypes.TryGetValue(field.Value.Type, out var typeInformation))
-				{
-					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
-				}
-				else if (Manifest.Types.ObjectTypes.TryGetValue(field.Value.Type, out typeInformation))
-				{
-					return new EditorField(Manifest, field.Key, field.Value, typeInformation, property);
-				}
-				else if (Manifest.Nodes.Nodes.TryGetValue(field.Value.Type, out var nodeInformation))
-				{
-					return new EditorField(Manifest, field.Key, field.Value, nodeInformation, property);
-				}
-				throw new InvalidOperationException();
-			}
+				Type = type
+			});
 		}
 
-		IEnumerator IEnumerable.GetEnumerator()
+		public static TypeInformation GetTypeInformation(BehaviourManifest manifest, string type)
 		{
-			return ((IEnumerable<EditorField>)this).GetEnumerator();
+			if (manifest.Types.JsonTypes.TryGetValue(type, out var jsonType))
+			{
+				return jsonType;
+			}
+			if (manifest.Types.ObjectTypes.TryGetValue(type, out var objectType))
+			{
+				return objectType;
+			}
+			if (manifest.Nodes.Nodes.TryGetValue(type, out var nodeType))
+			{
+				return nodeType;
+			}
+			return null;
+		}
+
+		public TypeInformation GetTypeInformation(string type)
+		{
+			return GetTypeInformation(Manifest, type);
 		}
 	}
 }

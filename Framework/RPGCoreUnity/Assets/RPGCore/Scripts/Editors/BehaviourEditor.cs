@@ -31,7 +31,7 @@ namespace RPGCore.Unity.Editors
 		public bool HasEditor;
 		public ProjectResource CurrentResource;
 		public JObject editorTarget;
-		public EditorObject graphEditor;
+		public EditorSession graphEditor;
 
 
 		private JsonSerializer serializer = new JsonSerializer();
@@ -109,7 +109,7 @@ namespace RPGCore.Unity.Editors
 						Types = types
 					};
 
-					graphEditor = new EditorObject(manifest, manifest.Types.ObjectTypes["SerializedGraph"], editorTarget);
+					graphEditor = new EditorSession(manifest, editorTarget, "SerializedGraph");
 					HasEditor = true;
 				}
 
@@ -122,7 +122,7 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
-				foreach (var node in graphEditor["Nodes"])
+				foreach (var node in graphEditor.Root["Nodes"])
 				{
 					var nodeEditor = node["Editor"];
 					var nodeEditorPosition = nodeEditor["Position"];
@@ -149,22 +149,9 @@ namespace RPGCore.Unity.Editors
 					var fieldInformation = new FieldInformation();
 					fieldInformation.Type = nodeType.Json.ToObject<string>();
 
-					var field = new EditorField();
-					TypeInformation typeInformation;
-					NodeInformation nodeInformation;
-					if (node.Manifest.Types.JsonTypes.TryGetValue(nodeType.Json.ToObject<string>(), out typeInformation))
-					{
-						field = new EditorField(node.Manifest, node.Name, fieldInformation, typeInformation, nodeData);
-					}
-					else if (node.Manifest.Types.ObjectTypes.TryGetValue(nodeType.Json.ToObject<string>(), out typeInformation))
-					{
-						field = new EditorField(node.Manifest, node.Name, fieldInformation, typeInformation, nodeData);
-					}
-					else if (node.Manifest.Nodes.Nodes.TryGetValue(nodeType.Json.ToObject<string>(), out nodeInformation))
-					{
-						field = new EditorField(node.Manifest, node.Name, fieldInformation, nodeInformation, nodeData);
-					}
-
+					var field = new EditorField(graphEditor, nodeData, node.Name,
+						fieldInformation);
+				
 					foreach (var childField in field)
 					{
 						DrawField(childField);
@@ -262,9 +249,9 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		public static void DrawEditor(EditorObject editor)
+		public static void DrawEditor(EditorSession editor)
 		{
-			foreach (var field in editor)
+			foreach (var field in editor.Root)
 			{
 				DrawField(field);
 			}
@@ -288,7 +275,7 @@ namespace RPGCore.Unity.Editors
 			{
 				if (dragging_NodeDragging)
 				{
-					var pos = graphEditor["Nodes"].Json[selectedNode]["Editor"]["Position"];
+					var pos = graphEditor.Root["Nodes"].Json[selectedNode]["Editor"]["Position"];
 
 					var replace = JToken.FromObject(pos["x"].ToObject<int>() + ((int)currentEvent.delta.x));
 					pos["x"].Replace(replace);
