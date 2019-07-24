@@ -4,7 +4,7 @@ namespace RPGCore.Behaviour
 {
 	public struct Input<T>
 	{
-		public Connection<T> Connection { get; private set; }
+		public IConnection<T> Connection { get; private set; }
 		public INodeInstance Parent { get; private set; }
 
 		public bool IsConnected => Connection != null;
@@ -31,10 +31,10 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Input(INodeInstance parent, Connection connection)
+		public Input(INodeInstance parent, IConnection connection)
 		{
 			Parent = parent;
-			Connection = (Connection<T>)connection;
+			Connection = (IConnection<T>)connection;
 		}
 
 		public override string ToString ()

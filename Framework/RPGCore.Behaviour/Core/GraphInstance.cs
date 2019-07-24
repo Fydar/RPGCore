@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 	{
 		private readonly Graph graph;
 		private readonly INodeInstance[] nodeInstances;
-		private readonly Connection[] connections;
+		private readonly IConnection[] connections;
 		private readonly InputMap[][] allInputs;
 		private readonly OutputMap[][] allOutputs;
 
@@ -55,7 +55,7 @@ namespace RPGCore.Behaviour
 				}
 			}
 
-			connections = new Connection[graph.ConnectionsCount];
+			connections = new IConnection[graph.ConnectionsCount];
 
 			// Allow all outputs to make their output type visible
 			allOutputs = new OutputMap[nodeCount][];
@@ -136,11 +136,10 @@ namespace RPGCore.Behaviour
 			{
 				var connection = GetConnection<T> (socket.ConnectionId);
 
-				if (connection.ObjectValue.GetType () == typeof (int)
+				if (connection.ConnectionType == typeof (int)
 					&& typeof (T) == typeof (float))
 				{
-					var converter = new IntToFloatConverter (socket.ConnectionId);
-
+					var converter = new IntToFloatConverter ();
 					converter.SetSource (connection);
 
 					input = new Input<T> (currentNode, converter);
@@ -176,7 +175,7 @@ namespace RPGCore.Behaviour
 			return new InputMap (socket, typeof (T));
 		}
 
-		private Connection<T> GetOrCreateConnection<T> (int id)
+		private IConnection<T> GetOrCreateConnection<T> (int id)
 		{
 			if (id < 0)
 			{
@@ -186,13 +185,13 @@ namespace RPGCore.Behaviour
 			var shared = connections[id];
 			if (shared == null)
 			{
-				shared = new Connection<T> (id);
+				shared = new BasicConnection<T> (id);
 				connections[id] = shared;
 			}
-			return (Connection<T>)shared;
+			return (IConnection<T>)shared;
 		}
 
-		private Connection GetConnection<T> (int id)
+		private IConnection GetConnection<T> (int id)
 		{
 			if (id < 0)
 			{
