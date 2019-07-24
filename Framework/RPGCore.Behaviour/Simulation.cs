@@ -50,11 +50,10 @@ namespace RPGCore.Behaviour
 			}
 
 			var editNode = editorTarget.Nodes.First ();
-			var typeData = manifest.Nodes.Nodes[editNode.Value.Type];
 
-			var editor = new EditorObject (manifest, typeData, editNode.Value.Data);
+			var editor = new EditorSession (manifest, editNode.Value.Data, editNode.Value.Type);
 
-			foreach (var field in editor)
+			foreach (var field in editor.Root)
 			{
 				Console.WriteLine ($"{field.Name}: {field.Json} ({field.Field.Type})");
 				if (field.Name == "MaxValue")
