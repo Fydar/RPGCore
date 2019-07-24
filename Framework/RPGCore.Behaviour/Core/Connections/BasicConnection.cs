@@ -7,20 +7,37 @@ namespace RPGCore.Behaviour
 {
 	public class BasicConnection<T> : IConnection<T>
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private T GenericValue;
-		
+
 		[JsonIgnore]
-		public List<InputCallback> Subscribers;
+		public List<ConnectionSubscription> Subscribers;
 
 		public int ConnectionId { get; }
 
 		public virtual void Subscribe (INodeInstance node, Action callback)
 		{
 			if (Subscribers == null)
-				Subscribers = new List<InputCallback> ();
+				Subscribers = new List<ConnectionSubscription> ();
 
-			Subscribers.Add (new InputCallback (node, callback));
+			var subscription = new ConnectionSubscription();
+			foreach (var previousSubscribers in Subscribers)
+			{
+				if (subscription.Node == previousSubscribers.Node)
+				{
+					subscription = previousSubscribers;
+				}
+			}
+			if (subscription.Node == null)
+			{
+				subscription = new ConnectionSubscription (node);
+				subscription.Callbacks.Add (callback);
+				Subscribers.Add (subscription);
+			}
+			else
+			{
+				subscription.Callbacks.Add (callback);
+			}
 		}
 
 		public virtual void Unsubscribe (INodeInstance node, Action callback)
@@ -32,10 +49,17 @@ namespace RPGCore.Behaviour
 			{
 				var subscriber = Subscribers[i];
 
-				if (subscriber.Node == node
-					&& subscriber.Callback == callback)
+				if (subscriber.Node == node)
 				{
-					Subscribers.RemoveAt (i);
+					for (int j = subscriber.Callbacks.Count - 1; j >= 0; j--)
+					{
+						var findCallback = subscriber.Callbacks[j];
+
+						if (callback == findCallback)
+						{
+							subscriber.Callbacks.RemoveAt (j);
+						}
+					}
 				}
 			}
 		}
@@ -46,13 +70,13 @@ namespace RPGCore.Behaviour
 			set
 			{
 				GenericValue = value;
-				InvokeAfterChanged();
+				InvokeAfterChanged ();
 			}
 		}
 
 		public Type ConnectionType => typeof (T);
 
-		public BasicConnection(int connectionId)
+		public BasicConnection (int connectionId)
 		{
 			ConnectionId = connectionId;
 		}
@@ -64,10 +88,13 @@ namespace RPGCore.Behaviour
 
 			foreach (var subscriber in Subscribers)
 			{
-				subscriber.Callback?.Invoke ();
+				foreach (var callback in subscriber.Callbacks)
+				{
+					callback?.Invoke ();
+				}
 			}
 		}
 
-		public override string ToString() => $"Connection {ConnectionId}, Value = {GenericValue}";
+		public override string ToString () => $"Connection {ConnectionId}, Value = {GenericValue}";
 	}
 }
