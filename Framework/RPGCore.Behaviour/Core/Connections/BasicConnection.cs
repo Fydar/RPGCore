@@ -5,27 +5,7 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public abstract class Connection
-	{
-		public virtual int ConnectionId { get; set; }
-
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		public abstract object ObjectValue { get; set; }
-	}
-
-	public struct InputCallback
-	{
-		public INodeInstance Node;
-		public Action Callback;
-
-		public InputCallback(INodeInstance node, Action callback)
-		{
-			Node = node;
-			Callback = callback;
-		}
-	}
-
-	public class Connection<T> : Connection
+	public class BasicConnection<T> : IConnection<T>
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private T GenericValue;
@@ -33,19 +13,7 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public List<InputCallback> Subscribers;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public override object ObjectValue
-		{
-			get
-			{
-				return GenericValue;
-			}
-			set
-			{
-				GenericValue = (T)value;
-				InvokeAfterChanged();
-			}
-		}
+		public int ConnectionId { get; }
 
 		public virtual void Subscribe (INodeInstance node, Action callback)
 		{
@@ -82,7 +50,9 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Connection(int connectionId)
+		public Type ConnectionType => typeof (T);
+
+		public BasicConnection(int connectionId)
 		{
 			ConnectionId = connectionId;
 		}

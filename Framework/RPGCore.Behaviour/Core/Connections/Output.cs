@@ -4,7 +4,7 @@ namespace RPGCore.Behaviour
 {
 	public struct Output<T>
 	{
-		public Connection<T> Connection { get; }
+		public IConnection<T> Connection { get; }
 
 		[JsonIgnore]
 		public bool IsConnected => Connection != null;
@@ -20,7 +20,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Output (Connection<T> connection)
+		public Output (IConnection<T> connection)
 		{
 			Connection = connection;
 		}

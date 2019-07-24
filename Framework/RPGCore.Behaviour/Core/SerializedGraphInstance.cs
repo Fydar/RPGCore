@@ -35,7 +35,7 @@ namespace RPGCore.Behaviour
 				return null;
 			}
 
-			var connectionType = typeof (Connection<>).MakeGenericType (objectType.GenericTypeArguments);
+			var connectionType = typeof (BasicConnection<>).MakeGenericType (objectType.GenericTypeArguments);
 			var outputType = typeof (Output<>).MakeGenericType (objectType.GenericTypeArguments);
 
 			object connectionObject = JObject.Load (reader).ToObject (connectionType, serializer);
@@ -47,7 +47,7 @@ namespace RPGCore.Behaviour
 		public override bool CanConvert (Type objectType)
 		{
 			return IsSubclassOfRawGeneric (typeof (Output<>), objectType)
-				&& !typeof (Connection).IsAssignableFrom (objectType);
+				&& !typeof (IConnection).IsAssignableFrom (objectType);
 		}
 
 		public override bool CanWrite => false;
