@@ -25,7 +25,7 @@ namespace RPGCore.Behaviour
 			public Input<float> valueA;
 			public Input<float> valueB;
 
-			public Output<int> Output;
+			public Output<float> Output;
 
 			private Actor target;
 
@@ -44,6 +44,11 @@ namespace RPGCore.Behaviour
 
 				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (valueA)}");
 				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (valueB)}");
+			}
+
+			public void OnInputChanged ()
+			{
+				Output.Value = valueA.Value + valueB.Value;
 			}
 
 			public void Remove ()

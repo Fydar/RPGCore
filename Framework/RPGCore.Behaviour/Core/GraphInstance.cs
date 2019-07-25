@@ -134,7 +134,7 @@ namespace RPGCore.Behaviour
 		{
 			if (socket.ConnectionId >= 0)
 			{
-				var connection = GetConnection<T> (socket.ConnectionId);
+				var connection = GetConnection (socket.ConnectionId);
 
 				if (connection.ConnectionType == typeof (int)
 					&& typeof (T) == typeof (float))
@@ -191,15 +191,11 @@ namespace RPGCore.Behaviour
 			return (IConnection<T>)shared;
 		}
 
-		private IConnection GetConnection<T> (int id)
+		private IConnection GetConnection (int id)
 		{
-			if (id < 0)
-			{
-				return null;
-			}
-
-			var shared = connections[id];
-			return shared;
+			return id < 0
+				? null
+				: connections[id];
 		}
 
 		public InputSource GetSource<T> (Input<T> input)

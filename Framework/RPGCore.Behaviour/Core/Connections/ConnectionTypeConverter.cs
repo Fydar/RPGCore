@@ -37,5 +37,7 @@ namespace RPGCore.Behaviour
 		{
 			Source = (IConnection<A>)source;
 		}
+
+		public void RegisterInput (INodeInstance node) => Source.RegisterInput (node);
 	}
 }
