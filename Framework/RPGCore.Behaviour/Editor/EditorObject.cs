@@ -16,6 +16,8 @@ namespace RPGCore.Behaviour.Editor
 
 		public EditorSession Session;
 
+		public Dictionary<string, EditorField> Children;
+
 		public EditorField(EditorSession session, JToken json, string name, FieldInformation info)
 		{
 			Session = session;
@@ -30,43 +32,39 @@ namespace RPGCore.Behaviour.Editor
 			{
 				PopulateMissing((JObject)Json, Type);
 			}
-		}
 
-		public IEnumerator<EditorField> GetEnumerator()
-		{
+			Children = new Dictionary<string, EditorField>();
 			if (Field.Format == FieldFormat.Dictionary)
 			{
 				foreach (var property in ((JObject)Json).Properties())
 				{
-					yield return new EditorField(Session, property.Value, property.Name, Field.ValueFormat);
+					Children.Add(property.Name, new EditorField(Session, property.Value, property.Name, Field.ValueFormat));
 				}
 			}
 			else
 			{
-				foreach (var field in Type.Fields)
+				if (Type.Fields == null)
 				{
-					yield return this[field.Key];
+					foreach (var field in Type.Fields)
+					{
+						var property = Json[field.Key];
+
+						Children.Add(field.Key, new EditorField(Session, property, field.Key, field.Value));
+					}
 				}
 			}
+		}
+
+		public IEnumerator<EditorField> GetEnumerator()
+		{
+			return ((IEnumerable<EditorField>)Children.Values).GetEnumerator();
 		}
 
 		public EditorField this[string key]
 		{
 			get
 			{
-				KeyValuePair<string, FieldInformation> field = new KeyValuePair<string, FieldInformation>();
-				foreach (var potentialField in Type.Fields)
-				{
-					if (potentialField.Key == key)
-					{
-						field = potentialField;
-						break;
-					}
-				}
-
-				var property = Json[key];
-
-				return new EditorField(Session, property, field.Key, field.Value);
+				return Children[key];
 			}
 		}
 
