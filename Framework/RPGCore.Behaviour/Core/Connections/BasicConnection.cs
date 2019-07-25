@@ -11,17 +11,25 @@ namespace RPGCore.Behaviour
 		private T GenericValue;
 
 		[JsonIgnore]
-		public List<ConnectionSubscription> Subscribers;
+		public List<ConnectionSubscription> Consumers;
 
 		public int ConnectionId { get; }
 
+		public void RegisterInput (INodeInstance node)
+		{
+			if (Consumers == null)
+				Consumers = new List<ConnectionSubscription> ();
+
+			Consumers.Add (new ConnectionSubscription (node));
+		}
+
 		public virtual void Subscribe (INodeInstance node, Action callback)
 		{
-			if (Subscribers == null)
-				Subscribers = new List<ConnectionSubscription> ();
+			if (Consumers == null)
+				Consumers = new List<ConnectionSubscription> ();
 
 			var subscription = new ConnectionSubscription();
-			foreach (var previousSubscribers in Subscribers)
+			foreach (var previousSubscribers in Consumers)
 			{
 				if (subscription.Node == previousSubscribers.Node)
 				{
@@ -32,7 +40,7 @@ namespace RPGCore.Behaviour
 			{
 				subscription = new ConnectionSubscription (node);
 				subscription.Callbacks.Add (callback);
-				Subscribers.Add (subscription);
+				Consumers.Add (subscription);
 			}
 			else
 			{
@@ -42,12 +50,12 @@ namespace RPGCore.Behaviour
 
 		public virtual void Unsubscribe (INodeInstance node, Action callback)
 		{
-			if (Subscribers == null)
+			if (Consumers == null)
 				return;
 
-			for (int i = Subscribers.Count - 1; i >= 0; i--)
+			for (int i = Consumers.Count - 1; i >= 0; i--)
 			{
-				var subscriber = Subscribers[i];
+				var subscriber = Consumers[i];
 
 				if (subscriber.Node == node)
 				{
@@ -83,11 +91,13 @@ namespace RPGCore.Behaviour
 
 		protected void InvokeAfterChanged ()
 		{
-			if (Subscribers == null)
+			if (Consumers == null)
 				return;
 
-			foreach (var subscriber in Subscribers)
+			foreach (var subscriber in Consumers)
 			{
+				subscriber.Node.OnInputChanged ();
+
 				foreach (var callback in subscriber.Callbacks)
 				{
 					callback?.Invoke ();

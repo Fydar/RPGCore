@@ -54,6 +54,11 @@ namespace RPGCore.Behaviour
 				Console.ForegroundColor = ConsoleColor.DarkRed;
 				Console.WriteLine ("RollNode: Removed Behaviour on " + target);
 			}
+
+			public void OnInputChanged ()
+			{
+
+			}
 		}
 	}
 }
