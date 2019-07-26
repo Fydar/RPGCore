@@ -10,6 +10,7 @@ namespace RPGCore.Behaviour
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		Type ConnectionType { get; }
 
+		void RegisterConverter (IConnectionTypeConverter converter);
 		void RegisterInput (INodeInstance node);
 		void Subscribe (INodeInstance node, Action callback);
 		void Unsubscribe (INodeInstance node, Action callback);
