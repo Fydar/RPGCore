@@ -13,6 +13,9 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public List<ConnectionSubscription> Consumers;
 
+		[JsonIgnore]
+		public List<IConnectionTypeConverter> Converters;
+
 		public int ConnectionId { get; }
 
 		public void RegisterInput (INodeInstance node)
@@ -21,6 +24,14 @@ namespace RPGCore.Behaviour
 				Consumers = new List<ConnectionSubscription> ();
 
 			Consumers.Add (new ConnectionSubscription (node));
+		}
+
+		public void RegisterConverter (IConnectionTypeConverter converter)
+		{
+			if (Converters == null)
+				Converters = new List<IConnectionTypeConverter> ();
+
+			Converters.Add (converter);
 		}
 
 		public virtual void Subscribe (INodeInstance node, Action callback)

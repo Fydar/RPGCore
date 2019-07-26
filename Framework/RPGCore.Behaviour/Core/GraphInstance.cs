@@ -141,6 +141,7 @@ namespace RPGCore.Behaviour
 				{
 					var converter = new IntToFloatConverter ();
 					converter.SetSource (connection);
+					connection.RegisterConverter (converter);
 
 					input = new Input<T> (currentNode, converter);
 				}

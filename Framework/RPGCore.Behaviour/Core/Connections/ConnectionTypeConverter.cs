@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public abstract class ConnectionTypeConverter<A, B> : IConnection<B>
+	public abstract class ConnectionTypeConverter<A, B> : IConnection<B>, IConnectionTypeConverter
 	{
 		public int ConnectionId => Source.ConnectionId;
 
@@ -17,6 +17,10 @@ namespace RPGCore.Behaviour
 		protected abstract B Convert (A original);
 
 		public Type ConnectionType => Source.ConnectionType;
+
+		public Type ConvertFromType => typeof (A);
+
+		public Type ConvertToType => typeof (B);
 
 		public ConnectionTypeConverter ()
 		{
@@ -39,5 +43,7 @@ namespace RPGCore.Behaviour
 		}
 
 		public void RegisterInput (INodeInstance node) => Source.RegisterInput (node);
+
+		public void RegisterConverter (IConnectionTypeConverter converter) => Source.RegisterConverter (converter);
 	}
 }
