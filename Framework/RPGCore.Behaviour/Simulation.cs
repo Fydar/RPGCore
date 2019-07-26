@@ -34,10 +34,11 @@ namespace RPGCore.Behaviour
 			});
 			Console.WriteLine (proj.Name);
 			Console.WriteLine ("\t\"" + proj.Name + "\"");
-			foreach (var resource in proj.Resources)
+			foreach (var resource in ((IPackageExplorer)proj).Resources)
 			{
 				Console.WriteLine ("\t" + resource.FullName);
 			}
+
 			var editorTargetResource = proj.Resources["Tutorial Gamerules/Main.bhvr"];
 			var editorTargetData = editorTargetResource.LoadStream ();
 
