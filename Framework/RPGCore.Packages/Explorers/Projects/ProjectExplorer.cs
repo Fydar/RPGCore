@@ -13,30 +13,39 @@ namespace RPGCore.Packages
 	{
 		public long UncompressedSize { get; private set; }
 
-		private sealed class ProjectResourceCollection : IProjectResourceCollection
+		private sealed class ProjectResourceCollection : IProjectResourceCollection, IResourceCollection
 		{
-			private Dictionary<string, ProjectResource> resources;
+			private Dictionary<string, ProjectResource> Resources;
 
-			public ProjectResource this[string key] => resources[key];
+			public ProjectResource this[string key] => Resources[key];
+
+			IResource IResourceCollection.this[string key] => Resources[key];
 
 			public void Add (ProjectResource folder)
 			{
-				if (resources == null)
+				if (Resources == null)
 				{
-					resources = new Dictionary<string, ProjectResource> ();
+					Resources = new Dictionary<string, ProjectResource> ();
 				}
 
-				resources.Add (folder.FullName, folder);
+				Resources.Add (folder.FullName, folder);
 			}
+
+			public void Add (IResource folder) => throw new NotImplementedException ();
 
 			public IEnumerator<ProjectResource> GetEnumerator ()
 			{
-				return resources.Values.GetEnumerator ();
+				return Resources.Values.GetEnumerator ();
 			}
 
 			IEnumerator IEnumerable.GetEnumerator ()
 			{
-				return resources.Values.GetEnumerator ();
+				return Resources.Values.GetEnumerator ();
+			}
+
+			IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator ()
+			{
+				return Resources.Values.GetEnumerator ();
 			}
 		}
 
@@ -48,7 +57,7 @@ namespace RPGCore.Packages
 
 		public List<ResourceImporter> Importers;
 
-		IPackageResourceCollection IPackageExplorer.Resources => (IPackageResourceCollection)Resources;
+		IResourceCollection IPackageExplorer.Resources => (IResourceCollection)Resources;
 
 		public ProjectExplorer ()
 		{

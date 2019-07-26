@@ -8,23 +8,23 @@ namespace RPGCore.Packages
 {
 	public sealed class PackageExplorer : IPackageExplorer
 	{
-		private sealed class PackageResourceCollection : IPackageResourceCollection
+		private sealed class PackageResourceCollection : IResourceCollection
 		{
-			private Dictionary<string, PackageResource> items;
+			private Dictionary<string, IResource> items;
 
-			public PackageResource this[string key] => items[key];
+			public IResource this[string key] => items[key];
 
-			public void Add (PackageResource asset)
+			public void Add (IResource asset)
 			{
 				if (items == null)
 				{
-					items = new Dictionary<string, PackageResource> ();
+					items = new Dictionary<string, IResource> ();
 				}
 
 				items.Add (asset.FullName, asset);
 			}
 
-			public IEnumerator<PackageResource> GetEnumerator ()
+			public IEnumerator<IResource> GetEnumerator ()
 			{
 				return items.Values.GetEnumerator ();
 			}
@@ -40,7 +40,7 @@ namespace RPGCore.Packages
 
 		public string Name => bProj.Properties.Name;
 		public string Version => bProj.Properties.Version;
-		public IPackageResourceCollection Resources { get; private set; }
+		public IResourceCollection Resources { get; private set; }
 
 		public PackageExplorer ()
 		{
