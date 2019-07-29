@@ -46,12 +46,22 @@ namespace RPGCore.Packages.Tool
 					file = new FileInfo (subCommand);
 				}
 
-				var project = ProjectExplorer.Load (file.DirectoryName, new List<ResourceImporter> ());
+				var project = ProjectExplorer.Load (file.DirectoryName);
 
 				string exportDirectory = "./bin/";
 				Directory.CreateDirectory (exportDirectory);
 
-				project.Export (exportDirectory);
+				var consoleRenderer = new BuildConsoleRenderer ();
+
+				var buildPipeline = new BuildPipeline ()
+				{
+					BuildActions = new List<IBuildAction> ()
+					{
+						consoleRenderer
+					}
+				};
+				consoleRenderer.DrawProgressBar (32);
+				project.Export (buildPipeline, exportDirectory);
 			}
 			else if (command.Equals ("format", StringComparison.InvariantCultureIgnoreCase))
 			{
@@ -73,7 +83,7 @@ namespace RPGCore.Packages.Tool
 					var file = FindFileOfType (".bproj");
 					if (file != null)
 					{
-						var project = ProjectExplorer.Load (file.DirectoryName, new List<ResourceImporter> ());
+						var project = ProjectExplorer.Load (file.DirectoryName);
 
 						project.Definition.Format ();
 

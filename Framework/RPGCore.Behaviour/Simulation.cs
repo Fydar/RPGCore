@@ -28,10 +28,7 @@ namespace RPGCore.Behaviour
 
 			Console.WriteLine ("Importing Graph...");
 
-			var proj = ProjectExplorer.Load ("Content/Tutorial", new List<ResourceImporter> ()
-			{
-				new BhvrImporter()
-			});
+			var proj = ProjectExplorer.Load ("Content/Tutorial");
 			Console.WriteLine (proj.Name);
 			Console.WriteLine ("\t\"" + proj.Name + "\"");
 			foreach (var resource in ((IPackageExplorer)proj).Resources)
@@ -75,7 +72,23 @@ namespace RPGCore.Behaviour
 
 
 			Console.WriteLine (new DirectoryInfo ("Content/Temp").FullName);
-			proj.Export ("Content/Temp");
+
+			var consoleRenderer = new BuildConsoleRenderer ();
+
+			var buildPipeline = new BuildPipeline ()
+			{
+				Exporters = new List<ResourceExporter> ()
+				{
+					new BhvrExporter()
+				},
+				BuildActions = new List<IBuildAction>()
+				{
+					consoleRenderer
+				}
+			};
+
+			consoleRenderer.DrawProgressBar (32);
+			proj.Export (buildPipeline, "Content/Temp");
 
 			Console.WriteLine ("Exported package...");
 			var exportedPackage = PackageExplorer.Load ("Content/Temp/Core.bpkg");
