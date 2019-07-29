@@ -122,7 +122,7 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
-				Debug.Log("type " + graphEditor.Root.Field.Type);
+				/*.Log("type " + graphEditor.Root.Field.Type);
 				Debug.Log("type " + graphEditor.Root.Type.Fields);
 				foreach (var childType in graphEditor.Root.Type.Fields)
 				{
@@ -132,7 +132,7 @@ namespace RPGCore.Unity.Editors
 				foreach (var child in graphEditor.Root.Children)
 				{
 					Debug.Log(child);
-				}
+				} */
 				foreach (var node in graphEditor.Root["Nodes"])
 				{
 					var nodeEditor = node["Editor"];
@@ -201,6 +201,7 @@ namespace RPGCore.Unity.Editors
 				{
 					var replace = JToken.FromObject(newValue);
 					field.Json.Replace(replace);
+					field.Json = replace;
 				}
 			}
 			else if (field.Field.Type == "String")
@@ -211,6 +212,7 @@ namespace RPGCore.Unity.Editors
 				{
 					var replace = JToken.FromObject(newValue);
 					field.Json.Replace(replace);
+					field.Json = replace;
 				}
 			}
 			else if (field.Field.Type == "Boolean")
@@ -221,6 +223,7 @@ namespace RPGCore.Unity.Editors
 				{
 					var replace = JToken.FromObject(newValue);
 					field.Json.Replace(replace);
+					field.Json = replace;
 				}
 			}
 			else if (field.Field.Type == "InputSocket")
@@ -301,14 +304,18 @@ namespace RPGCore.Unity.Editors
 			{
 				if (dragging_NodeDragging)
 				{
-					var pos = graphEditor.Root["Nodes"].Json[selectedNode]["Editor"]["Position"];
+					var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
 
-					var replace = JToken.FromObject(pos["x"].ToObject<int>() + ((int)currentEvent.delta.x));
-					pos["x"].Replace(replace);
+					var posX = pos["x"];
+					var replaceX = JToken.FromObject(posX.Json.ToObject<int>() + ((int)currentEvent.delta.x));
+					posX.Json.Replace(replaceX);
+					posX.Json = replaceX;
 					
-					replace = JToken.FromObject(pos["y"].ToObject<int>() + ((int)currentEvent.delta.y));
-					pos["y"].Replace(replace);
-				}
+					/*var posY = pos["y"];
+					var replaceY = JToken.FromObject(posY.Json.ToObject<int>() + ((int)currentEvent.delta.y));
+					posY.Json.Replace(replaceY);
+					posY.Json = replaceY; */
+				}`
 				else
 				{
 					dragging_Position += currentEvent.delta;
