@@ -39,21 +39,21 @@ namespace RPGCore.Behaviour
 			var editorTargetResource = proj.Resources["Tutorial Gamerules/Main.bhvr"];
 			var editorTargetData = editorTargetResource.LoadStream ();
 
-			SerializedGraph editorTarget;
+			JObject editorTarget;
 
 			var serializer = new JsonSerializer ();
 
 			using (var sr = new StreamReader (editorTargetData))
 			using (var reader = new JsonTextReader (sr))
 			{
-				editorTarget = serializer.Deserialize<SerializedGraph> (reader);
+				editorTarget = JObject.Load (reader);
 			}
 
-			var editNode = editorTarget.Nodes.First ();
+			//var editNode = editorTarget.Nodes.First ();
 
-			var editor = new EditorSession (manifest, editNode.Value.Data, editNode.Value.Type);
+			var editor = new EditorSession (manifest, editorTarget, "SerializedGraph");
 
-			foreach (var field in editor.Root)
+			/*foreach (var field in editor.Root)
 			{
 				Console.WriteLine ($"{field.Name}: {field.Json} ({field.Field.Type})");
 				if (field.Name == "MaxValue")
@@ -61,7 +61,7 @@ namespace RPGCore.Behaviour
 					var newObject = JToken.FromObject (field.Json.ToObject<int> () + 10);
 					field.Json.Replace (newObject);
 				}
-			}
+			}*/
 
 			using (var file = editorTargetResource.WriteStream ())
 			{
