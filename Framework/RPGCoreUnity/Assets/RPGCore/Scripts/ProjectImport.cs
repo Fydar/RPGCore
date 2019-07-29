@@ -18,10 +18,7 @@ namespace RPGCore.Unity
 			{
 				if (explorer == null)
 				{
-					explorer = ProjectExplorer.Load (RelativePath, new List<ResourceImporter>()
-					{
-						new BhvrImporter()
-					});
+					explorer = ProjectExplorer.Load (RelativePath);
 				}
 				return explorer;
 			}

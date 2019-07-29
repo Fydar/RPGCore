@@ -9,11 +9,20 @@ namespace RPGCore.Packages
 		public int ProgressBarLength { get; private set; }
 		public int ProgressBarFill { get; private set; }
 
+		bool Animate = true;
+
 		public void DrawProgressBar (int length)
 		{
 			ProgressBarLength = length;
-			ProgressBarLeft = Console.CursorLeft;
-			ProgressBarTop = Console.CursorTop;
+			try
+			{
+				ProgressBarLeft = Console.CursorLeft;
+				ProgressBarTop = Console.CursorTop;
+			}
+			catch
+			{
+				Animate = false;
+			}
 			DrawBar (ProgressBarLeft, ProgressBarTop, 0, ProgressBarLength);
 		}
 
@@ -30,7 +39,10 @@ namespace RPGCore.Packages
 			{
 				lock (Console.Out)
 				{
-					Console.SetCursorPosition (left, top);
+					if (Animate)
+					{
+						Console.SetCursorPosition (left, top);
+					}
 
 					Console.Write ("Download ");
 					Console.Write (complete.ToString ("00%"));

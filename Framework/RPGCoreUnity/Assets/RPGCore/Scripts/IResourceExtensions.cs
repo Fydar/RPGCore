@@ -14,16 +14,4 @@ public static class IResourceExtensions
 
 		return loadedImage;
 	}
-
-	public static IResource FindIcon (this IAsset asset)
-	{
-		foreach (var resource in asset.Resources)
-		{
-			if (resource.Name.EndsWith (".png", System.StringComparison.Ordinal))
-			{
-				return resource;
-			}
-		}
-		return default (PackageResource);
-	}
 }
