@@ -99,16 +99,16 @@ namespace RPGCore.Unity.Editors
 						editorTarget = JObject.Load(reader);
 						// editorTarget = serializer.Deserialize(reader);
 					}
-
+					
 					var nodes = NodeManifest.Construct(new Type[] { typeof(AddNode), typeof(RollNode) });
 					var types = TypeManifest.ConstructBaseTypes();
 
 					var manifest = new BehaviourManifest()
 					{
 						Nodes = nodes,
-						Types = types
+						Types = types,
 					};
-
+					Debug.Log(editorTarget);
 					graphEditor = new EditorSession(manifest, editorTarget, "SerializedGraph");
 					HasEditor = true;
 				}
@@ -122,6 +122,17 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
+				Debug.Log("type " + graphEditor.Root.Field.Type);
+				Debug.Log("type " + graphEditor.Root.Type.Fields);
+				foreach (var childType in graphEditor.Root.Type.Fields)
+				{
+					Debug.Log("fiiield " + childType);
+				}
+				Debug.Log(graphEditor.Root.Children.Count);
+				foreach (var child in graphEditor.Root.Children)
+				{
+					Debug.Log(child);
+				}
 				foreach (var node in graphEditor.Root["Nodes"])
 				{
 					var nodeEditor = node["Editor"];
@@ -216,10 +227,25 @@ namespace RPGCore.Unity.Editors
 			{
 				EditorGUI.BeginChangeCheck();
 				EditorGUILayout.LabelField(field.Name, field.Json.ToObject<string>());
+				var renderPos = GUILayoutUtility.GetLastRect();
+				field.ViewBag["Position"] = renderPos;
 				if (EditorGUI.EndChangeCheck())
 				{
 					//field.Json.Value = newValue;
 				}
+
+				Vector3 start = new Vector3(renderPos.x, renderPos.y);
+				Vector3 end = new Vector3(renderPos.x - 100, renderPos.y - 100);
+				Vector3 startDir = new Vector3(-100, 0);
+				Vector3 endDir = new Vector3(100, 0);
+				
+				float distance = Vector3.Distance (start, end);
+				Vector3 startTan = start + (startDir * distance * 0.5f);
+				Vector3 endTan = end + (endDir * distance * 0.5f);
+
+				Color connectionColour = new Color (1.0f, 1.0f, 1.0f) * Color.Lerp (GUI.color, Color.white, 0.5f);
+				Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
+				BehaviourGraphResources.Instance.SmallConnection, 10);
 			}
 			else if (field.Field.Format == FieldFormat.Dictionary)
 			{

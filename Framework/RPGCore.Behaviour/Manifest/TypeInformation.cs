@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,16 @@ namespace RPGCore.Behaviour.Manifest
 				foreach (var field in type.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 				{
 					if (field.FieldType == typeof (OutputSocket))
+					{
+						continue;
+					}
+
+					if (field.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+					{
+						continue;
+					}
+
+					if (field.IsPrivate)
 					{
 						continue;
 					}

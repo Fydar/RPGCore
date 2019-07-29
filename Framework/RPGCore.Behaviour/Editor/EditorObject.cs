@@ -18,6 +18,8 @@ namespace RPGCore.Behaviour.Editor
 
 		public Dictionary<string, EditorField> Children;
 
+		public Dictionary<object, object> ViewBag = new Dictionary<object, object>();
+
 		public EditorField(EditorSession session, JToken json, string name, FieldInformation info)
 		{
 			Session = session;
@@ -36,20 +38,37 @@ namespace RPGCore.Behaviour.Editor
 			Children = new Dictionary<string, EditorField>();
 			if (Field.Format == FieldFormat.Dictionary)
 			{
-				foreach (var property in ((JObject)Json).Properties())
+				if (Json.Type != JTokenType.Null)
 				{
-					Children.Add(property.Name, new EditorField(Session, property.Value, property.Name, Field.ValueFormat));
+					foreach (var property in ((JObject)Json).Properties())
+					{
+						Children.Add(property.Name, new EditorField(Session, property.Value, property.Name, Field.ValueFormat));
+					}
 				}
 			}
 			else
 			{
-				if (Type.Fields == null)
+				if (Type.Fields != null)
 				{
 					foreach (var field in Type.Fields)
 					{
 						var property = Json[field.Key];
 
-						Children.Add(field.Key, new EditorField(Session, property, field.Key, field.Value));
+						if (field.Value.Type == "JObject")
+						{
+							var type = Json["Type"];
+
+							
+							Children.Add(field.Key, new EditorField(Session, property, field.Key, new FieldInformation()
+							{
+								Type = type.ToObject<string>(),
+								Format = FieldFormat.Object
+							}));
+						}
+						else
+						{
+							Children.Add(field.Key, new EditorField(Session, property, field.Key, field.Value));
+						}
 					}
 				}
 			}

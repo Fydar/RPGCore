@@ -90,18 +90,7 @@
       "InputSocket": {
         "Description": null,
         "ImplicitConversions": {},
-        "Fields": {
-          "internalConnectionId": {
-            "Description": null,
-            "Type": "Int32",
-            "DefaultValue": null,
-            "Attributes": [
-              "Object[]"
-            ],
-            "Format": 1,
-            "ValueFormat": null
-          }
-        },
+        "Fields": {},
         "DefaultValue": {
           "ConnectionId": -1
         }
@@ -303,11 +292,11 @@
         "Inputs": {
           "ValueA": {
             "Description": null,
-            "Type": "Int32"
+            "Type": "Single"
           },
           "ValueB": {
             "Description": null,
-            "Type": "Int32"
+            "Type": "Single"
           }
         },
         "Outputs": {
