@@ -55,8 +55,6 @@ namespace RPGCore.Packages
 		public string Version => Definition.Properties.Version;
 		public IProjectResourceCollection Resources { get; private set; }
 
-		public List<ResourceImporter> Importers;
-
 		IResourceCollection IPackageExplorer.Resources => (IResourceCollection)Resources;
 
 		public ProjectExplorer ()
@@ -64,7 +62,7 @@ namespace RPGCore.Packages
 			Resources = new ProjectResourceCollection ();
 		}
 
-		public static ProjectExplorer Load (string path, List<ResourceImporter> importers)
+		public static ProjectExplorer Load (string path)
 		{
 			string bprojPath = null;
 			if (path.EndsWith (".bproj"))
@@ -88,8 +86,7 @@ namespace RPGCore.Packages
 
 			var project = new ProjectExplorer
 			{
-				Definition = ProjectDefinitionFile.Load (bprojPath),
-				Importers = importers
+				Definition = ProjectDefinitionFile.Load (bprojPath)
 			};
 
 			var ignoredDirectories = new List<string> ()
@@ -134,68 +131,13 @@ namespace RPGCore.Packages
 
 		}
 
-		public void Export (string path)
+		public void Export (BuildPipeline pipeline, string path)
 		{
 			Directory.CreateDirectory (path);
 
-			var buildProcess = new ProjectBuildProcess (this, path);
+			var buildProcess = new ProjectBuildProcess (pipeline, this, path);
 
-			string bpkgPath = Path.Combine (path, Name + ".bpkg");
-			foreach (var reference in Definition.References)
-			{
-				reference.IncludeInBuild (buildProcess, path);
-			}
-
-			using (var fileStream = new FileStream (bpkgPath, FileMode.Create, FileAccess.Write))
-			using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Create, false))
-			{
-				var manifest = archive.CreateEntry ("Main.bmft");
-				using (var zipStream = manifest.Open ())
-				{
-					string json = JsonConvert.SerializeObject (buildProcess.PackageDefinition);
-					byte[] bytes = Encoding.UTF8.GetBytes (json);
-					zipStream.Write (bytes, 0, bytes.Length);
-				}
-
-				long currentProgress = 0;
-
-				foreach (var resource in Resources)
-				{
-					ResourceImporter porter = null;
-					foreach (var importer in Importers)
-					{
-						if (resource.Name.EndsWith ("." + importer.ImportExtensions))
-						{
-							porter = importer;
-							break;
-						}
-					}
-
-					string entryName = resource.FullName;
-					long size = resource.UncompressedSize;
-
-					ZipArchiveEntry entry;
-					if (porter == null)
-					{
-						entry = archive.CreateEntryFromFile (resource.Entry.FullName, entryName, CompressionLevel.Optimal);
-					}
-					else
-					{
-						entry = archive.CreateEntry (entryName);
-
-						using (var zipStream = entry.Open ())
-						{
-							porter.BuildResource (resource, zipStream);
-						}
-					}
-
-					currentProgress += size;
-
-					double progress = (currentProgress / (double)UncompressedSize) * 100;
-
-					Console.WriteLine ($"{progress:0.0}% Exported {entryName}, {size:#,##0} bytes");
-				}
-			}
+			buildProcess.PerformBuild ();
 		}
 	}
 }

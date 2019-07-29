@@ -4,9 +4,9 @@ using System.IO;
 
 namespace RPGCore.Behaviour
 {
-	public class BhvrImporter : ResourceImporter
+	public class BhvrExporter : ResourceExporter
 	{
-		public override string ImportExtensions => "bhvr";
+		public override string ExportExtensions => "bhvr";
 
 		public override void BuildResource (IResource resource, Stream writer)
 		{
