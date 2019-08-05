@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 		public bool Goodbyte;
 	}
 
-	public sealed class RollNode : Node<RollNode.Metadata>
+	public sealed class RollNode : Node<RollNode, RollNode.Metadata>
 	{
 		public OutputSocket Output = new OutputSocket ();
 		public string TooltipFormat = "{0}";
@@ -23,7 +23,7 @@ namespace RPGCore.Behaviour
 			graph.Connect(ref Output, ref instance.Output),
 		};
 
-		public sealed class Metadata : INodeInstance
+		public sealed class Metadata : Instance
 		{
 			public Output<int> Output;
 
@@ -31,17 +31,16 @@ namespace RPGCore.Behaviour
 
 			private Actor target;
 
-			public void Setup (IGraphInstance graph, Node parent, Actor target)
+			public override void Setup (IGraphInstance graph, Actor target)
 			{
 				this.target = target;
-				var stats = (RollNode)parent;
 
 				while (Seed == 0)
 				{
 					Seed = new Random ().Next ();
 				}
 
-				int newValue = new Random (Seed).Next (stats.MinValue, stats.MaxValue);
+				int newValue = new Random (Seed).Next (Node.MinValue, Node.MaxValue);
 
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
 				Console.WriteLine ("RollNode: Output set to " + newValue);
@@ -49,13 +48,13 @@ namespace RPGCore.Behaviour
 				Output.Value = newValue;
 			}
 
-			public void Remove ()
+			public override void Remove ()
 			{
 				Console.ForegroundColor = ConsoleColor.DarkRed;
 				Console.WriteLine ("RollNode: Removed Behaviour on " + target);
 			}
 
-			public void OnInputChanged ()
+			public override void OnInputChanged ()
 			{
 
 			}

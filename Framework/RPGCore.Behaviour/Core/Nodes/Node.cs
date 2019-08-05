@@ -16,32 +16,45 @@ namespace RPGCore.Behaviour
 		public abstract OutputMap[] Outputs (IGraphConnections graph, object instance);
 	}
 
-	public abstract class Node<T> : Node
-		where T : INodeInstance, new()
+	public abstract class Node<TNode, TInstance> : Node
+		where TNode : Node<TNode, TInstance>
+		where TInstance : INodeInstance, new()
 	{
-		public override Type MetadataType => typeof (T);
+		public abstract class Instance : INodeInstance
+		{
+			public TNode Node;
 
-		public abstract InputMap[] Inputs (IGraphConnections graph, T instance);
-		public abstract OutputMap[] Outputs (IGraphConnections graph, T instance);
+			public abstract void OnInputChanged ();
+			public abstract void Remove ();
+			public abstract void Setup (IGraphInstance graph, Actor target);
+		}
+
+		public override Type MetadataType => typeof (TInstance);
+
+		public abstract InputMap[] Inputs (IGraphConnections graph, TInstance instance);
+		public abstract OutputMap[] Outputs (IGraphConnections graph, TInstance instance);
 
 		public override INodeInstance Create ()
 		{
-			return new T ();
+			return new TInstance ();
 		}
 
 		public sealed override InputMap[] Inputs (IGraphConnections graph, object instance)
 		{
-			return Inputs (graph, (T)instance);
+			return Inputs (graph, (TInstance)instance);
 		}
 
 		public sealed override OutputMap[] Outputs (IGraphConnections graph, object instance)
 		{
-			return Outputs (graph, (T)instance);
+			return Outputs (graph, (TInstance)instance);
 		}
 
 		public sealed override void Setup (IGraphInstance graph, INodeInstance metadata, Actor target)
 		{
-			metadata.Setup (graph, this, target);
+			var instance = (Instance)metadata;
+			instance.Node = (TNode)this;
+
+			metadata.Setup (graph, target);
 		}
 	}
 }
