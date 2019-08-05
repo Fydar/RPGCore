@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public sealed class AddNode : Node<AddNode.Metadata>
+	public sealed class AddNode : Node<AddNode, AddNode.Metadata>
 	{
 		public InputSocket ValueA;
 		public InputSocket ValueB;
@@ -20,7 +20,7 @@ namespace RPGCore.Behaviour
 			graph.Connect(ref Output, ref instance.Output)
 		};
 
-		public sealed class Metadata : INodeInstance
+		public sealed class Metadata : Instance
 		{
 			public Input<float> valueA;
 			public Input<float> valueB;
@@ -29,11 +29,9 @@ namespace RPGCore.Behaviour
 
 			private Actor target;
 
-			public void Setup (IGraphInstance graph, Node parent, Actor target)
+			public override void Setup (IGraphInstance graph, Actor target)
 			{
 				this.target = target;
-
-				var stats = (AddNode)parent;
 
 				valueA.OnAfterChanged += Log;
 				valueB.OnAfterChanged += Log;
@@ -46,12 +44,12 @@ namespace RPGCore.Behaviour
 				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (valueB)}");
 			}
 
-			public void OnInputChanged ()
+			public override void OnInputChanged ()
 			{
 				Output.Value = valueA.Value + valueB.Value;
 			}
 
-			public void Remove ()
+			public override void Remove ()
 			{
 				target.Health.Handlers[this].Clear ();
 				valueA.OnAfterChanged -= Log;
