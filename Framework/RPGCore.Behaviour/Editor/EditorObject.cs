@@ -9,16 +9,73 @@ namespace RPGCore.Behaviour.Editor
 {
 	public class EditorField : IEnumerable<EditorField>
 	{
+		private interface IQueuedItem
+		{
+			void SetValue(EditorField field);
+		}
+
+		private class QueuedItem<T> : IQueuedItem
+		{
+			public T Value { get; set; }
+
+			public QueuedItem(T value)
+			{
+				Value = value;
+			}
+
+			public void SetValue(EditorField field)
+			{
+				var replace = JToken.FromObject(Value);
+				field.Json.Replace(replace);
+				field.Json = replace;
+			}
+		}
+
+
 		public string Name;
 		public FieldInformation Field;
 		public TypeInformation Type;
 		public JToken Json;
 
 		public EditorSession Session;
-
 		public Dictionary<string, EditorField> Children;
-
 		public Dictionary<object, object> ViewBag = new Dictionary<object, object>();
+		
+		private IQueuedItem Queued;
+
+		public void SetValue<T>(T value)
+		{
+			if (Queued == null)
+			{
+				Queued = new QueuedItem<T>(value);
+			}
+			else
+			{
+				((QueuedItem<T>)Queued).Value = value;
+			}
+		}
+
+		public T GetValue<T>()
+		{
+			if (Queued != null)
+			{
+				return ((QueuedItem<T>)Queued).Value;
+			}
+			else
+			{
+				return Json.ToObject<T>();
+			}
+		}
+
+		public void ApplyModifiedProperties()
+		{
+			if (Queued == null)
+			{
+				return;
+			}
+
+			Queued.SetValue(this);
+		}
 
 		public EditorField(EditorSession session, JToken json, string name, FieldInformation info)
 		{
