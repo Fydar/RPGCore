@@ -18,7 +18,7 @@ namespace RPGCore.Behaviour
 
 	public abstract class Node<TNode, TInstance> : Node
 		where TNode : Node<TNode, TInstance>
-		where TInstance : INodeInstance, new()
+		where TInstance : Node<TNode, TInstance>.Instance
 	{
 		public abstract class Instance : INodeInstance
 		{
@@ -33,11 +33,6 @@ namespace RPGCore.Behaviour
 
 		public abstract InputMap[] Inputs (IGraphConnections graph, TInstance instance);
 		public abstract OutputMap[] Outputs (IGraphConnections graph, TInstance instance);
-
-		public override INodeInstance Create ()
-		{
-			return new TInstance ();
-		}
 
 		public sealed override InputMap[] Inputs (IGraphConnections graph, object instance)
 		{

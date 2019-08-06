@@ -23,6 +23,8 @@ namespace RPGCore.Behaviour
 			graph.Connect(ref Output, ref instance.Output),
 		};
 
+		public override INodeInstance Create () => new Metadata ();
+
 		public sealed class Metadata : Instance
 		{
 			public Output<int> Output;
