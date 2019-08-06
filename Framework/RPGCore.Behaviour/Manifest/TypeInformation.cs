@@ -64,7 +64,7 @@ namespace RPGCore.Behaviour.Manifest
 						continue;
 					}
 
-					if (field.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+					if (field.GetCustomAttribute<JsonIgnoreAttribute> () != null)
 					{
 						continue;
 					}

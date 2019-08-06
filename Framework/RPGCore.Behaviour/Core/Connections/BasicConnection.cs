@@ -39,7 +39,7 @@ namespace RPGCore.Behaviour
 			if (Consumers == null)
 				Consumers = new List<ConnectionSubscription> ();
 
-			var subscription = new ConnectionSubscription();
+			var subscription = new ConnectionSubscription ();
 			foreach (var previousSubscribers in Consumers)
 			{
 				if (subscription.Node == previousSubscribers.Node)

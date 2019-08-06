@@ -27,15 +27,15 @@ namespace RPGCore.Behaviour
 
 		public sealed class Metadata : Instance
 		{
-			public Output<int> Output;
-
 			public int Seed;
 
-			private Actor target;
+			public Output<int> Output;
+
+			private Actor Target;
 
 			public override void Setup (IGraphInstance graph, Actor target)
 			{
-				this.target = target;
+				Target = target;
 
 				while (Seed == 0)
 				{
@@ -53,7 +53,7 @@ namespace RPGCore.Behaviour
 			public override void Remove ()
 			{
 				Console.ForegroundColor = ConsoleColor.DarkRed;
-				Console.WriteLine ("RollNode: Removed Behaviour on " + target);
+				Console.WriteLine ("RollNode: Removed Behaviour on " + Target);
 			}
 
 			public override void OnInputChanged ()

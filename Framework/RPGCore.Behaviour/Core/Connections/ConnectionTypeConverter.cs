@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 
 		public B Value
 		{
-			set => throw new InvalidOperationException("Cannot read value of type converter");
+			set => throw new InvalidOperationException ("Cannot read value of type converter");
 			get => Convert (Source.Value);
 		}
 
