@@ -73,11 +73,11 @@ namespace RPGCore.Behaviour.Manifest
 				if (typeof (IDictionary).IsAssignableFrom (field.FieldType))
 				{
 					fieldInformation.Format = FieldFormat.Dictionary;
-					fieldInformation.Type = field.FieldType.GetGenericArguments()[1].Name;
+					fieldInformation.Type = field.FieldType.GetGenericArguments ()[1].Name;
 
-					fieldInformation.ValueFormat = new FieldInformation()
+					fieldInformation.ValueFormat = new FieldInformation ()
 					{
-						Type = field.FieldType.GetGenericArguments()[1].Name,
+						Type = field.FieldType.GetGenericArguments ()[1].Name,
 						Format = FieldFormat.Object
 					};
 				}

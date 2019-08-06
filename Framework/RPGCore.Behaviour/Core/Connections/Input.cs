@@ -31,7 +31,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Input(INodeInstance parent, IConnection connection)
+		public Input (INodeInstance parent, IConnection connection)
 		{
 			Parent = parent;
 			Connection = (IConnection<T>)connection;

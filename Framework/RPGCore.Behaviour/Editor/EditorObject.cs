@@ -1,6 +1,5 @@
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour.Manifest;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,22 +10,22 @@ namespace RPGCore.Behaviour.Editor
 	{
 		private interface IQueuedItem
 		{
-			void SetValue(EditorField field);
+			void SetValue (EditorField field);
 		}
 
 		private class QueuedItem<T> : IQueuedItem
 		{
 			public T Value { get; set; }
 
-			public QueuedItem(T value)
+			public QueuedItem (T value)
 			{
 				Value = value;
 			}
 
-			public void SetValue(EditorField field)
+			public void SetValue (EditorField field)
 			{
-				var replace = JToken.FromObject(Value);
-				field.Json.Replace(replace);
+				var replace = JToken.FromObject (Value);
+				field.Json.Replace (replace);
 				field.Json = replace;
 			}
 		}
@@ -39,15 +38,15 @@ namespace RPGCore.Behaviour.Editor
 
 		public EditorSession Session;
 		public Dictionary<string, EditorField> Children;
-		public Dictionary<object, object> ViewBag = new Dictionary<object, object>();
-		
+		public Dictionary<object, object> ViewBag = new Dictionary<object, object> ();
+
 		private IQueuedItem Queued;
 
-		public void SetValue<T>(T value)
+		public void SetValue<T> (T value)
 		{
 			if (Queued == null)
 			{
-				Queued = new QueuedItem<T>(value);
+				Queued = new QueuedItem<T> (value);
 			}
 			else
 			{
@@ -55,7 +54,7 @@ namespace RPGCore.Behaviour.Editor
 			}
 		}
 
-		public T GetValue<T>()
+		public T GetValue<T> ()
 		{
 			if (Queued != null)
 			{
@@ -63,43 +62,43 @@ namespace RPGCore.Behaviour.Editor
 			}
 			else
 			{
-				return Json.ToObject<T>();
+				return Json.ToObject<T> ();
 			}
 		}
 
-		public void ApplyModifiedProperties()
+		public void ApplyModifiedProperties ()
 		{
 			if (Queued == null)
 			{
 				return;
 			}
 
-			Queued.SetValue(this);
+			Queued.SetValue (this);
 		}
 
-		public EditorField(EditorSession session, JToken json, string name, FieldInformation info)
+		public EditorField (EditorSession session, JToken json, string name, FieldInformation info)
 		{
 			Session = session;
 			Name = name;
 			Field = info;
 			Json = json;
 
-			Type = session.GetTypeInformation(info.Type);
+			Type = session.GetTypeInformation (info.Type);
 
 			if (Json.Type == JTokenType.Object
 				&& Field?.Format != FieldFormat.Dictionary)
 			{
-				PopulateMissing((JObject)Json, Type);
+				PopulateMissing ((JObject)Json, Type);
 			}
 
-			Children = new Dictionary<string, EditorField>();
+			Children = new Dictionary<string, EditorField> ();
 			if (Field.Format == FieldFormat.Dictionary)
 			{
 				if (Json.Type != JTokenType.Null)
 				{
-					foreach (var property in ((JObject)Json).Properties())
+					foreach (var property in ((JObject)Json).Properties ())
 					{
-						Children.Add(property.Name, new EditorField(Session, property.Value, property.Name, Field.ValueFormat));
+						Children.Add (property.Name, new EditorField (Session, property.Value, property.Name, Field.ValueFormat));
 					}
 				}
 			}
@@ -115,25 +114,25 @@ namespace RPGCore.Behaviour.Editor
 						{
 							var type = Json["Type"];
 
-							
-							Children.Add(field.Key, new EditorField(Session, property, field.Key, new FieldInformation()
+
+							Children.Add (field.Key, new EditorField (Session, property, field.Key, new FieldInformation ()
 							{
-								Type = type.ToObject<string>(),
+								Type = type.ToObject<string> (),
 								Format = FieldFormat.Object
 							}));
 						}
 						else
 						{
-							Children.Add(field.Key, new EditorField(Session, property, field.Key, field.Value));
+							Children.Add (field.Key, new EditorField (Session, property, field.Key, field.Value));
 						}
 					}
 				}
 			}
 		}
 
-		public IEnumerator<EditorField> GetEnumerator()
+		public IEnumerator<EditorField> GetEnumerator ()
 		{
-			return ((IEnumerable<EditorField>)Children.Values).GetEnumerator();
+			return ((IEnumerable<EditorField>)Children.Values).GetEnumerator ();
 		}
 
 		public EditorField this[string key]
@@ -144,28 +143,28 @@ namespace RPGCore.Behaviour.Editor
 			}
 		}
 
-		IEnumerator IEnumerable.GetEnumerator()
+		IEnumerator IEnumerable.GetEnumerator ()
 		{
-			return ((IEnumerable<EditorField>)this).GetEnumerator();
+			return ((IEnumerable<EditorField>)this).GetEnumerator ();
 		}
-		
-		public static void PopulateMissing(JObject serialized, TypeInformation information)
+
+		public static void PopulateMissing (JObject serialized, TypeInformation information)
 		{
 			// Remove any additional fields.
-			foreach (var item in serialized.Children<JProperty>().ToList())
+			foreach (var item in serialized.Children<JProperty> ().ToList ())
 			{
-				if (!information.Fields.Keys.Contains(item.Name))
+				if (!information.Fields.Keys.Contains (item.Name))
 				{
-					item.Remove();
+					item.Remove ();
 				}
 			}
 
 			// Populate missing fields with default values.
 			foreach (var field in information.Fields)
 			{
-				if (!serialized.ContainsKey(field.Key))
+				if (!serialized.ContainsKey (field.Key))
 				{
-					serialized.Add(field.Key, field.Value.DefaultValue);
+					serialized.Add (field.Key, field.Value.DefaultValue);
 				}
 			}
 		}
@@ -179,44 +178,44 @@ namespace RPGCore.Behaviour.Editor
 
 		public EditorField Root;
 
-		public EditorSession(BehaviourManifest manifest, object instance)
+		public EditorSession (BehaviourManifest manifest, object instance)
 		{
 			Manifest = manifest;
-			Root = new EditorField(this, JObject.FromObject(instance), "root", new FieldInformation()
+			Root = new EditorField (this, JObject.FromObject (instance), "root", new FieldInformation ()
 			{
-				Type = instance.GetType().FullName
+				Type = instance.GetType ().FullName
 			});
 		}
 
-		public EditorSession(BehaviourManifest manifest, JObject instance, string type)
+		public EditorSession (BehaviourManifest manifest, JObject instance, string type)
 		{
 			Manifest = manifest;
-			Root = new EditorField(this, instance, "root", new FieldInformation()
+			Root = new EditorField (this, instance, "root", new FieldInformation ()
 			{
 				Type = type
 			});
 		}
 
-		public static TypeInformation GetTypeInformation(BehaviourManifest manifest, string type)
+		public static TypeInformation GetTypeInformation (BehaviourManifest manifest, string type)
 		{
-			if (manifest.Types.JsonTypes.TryGetValue(type, out var jsonType))
+			if (manifest.Types.JsonTypes.TryGetValue (type, out var jsonType))
 			{
 				return jsonType;
 			}
-			if (manifest.Types.ObjectTypes.TryGetValue(type, out var objectType))
+			if (manifest.Types.ObjectTypes.TryGetValue (type, out var objectType))
 			{
 				return objectType;
 			}
-			if (manifest.Nodes.Nodes.TryGetValue(type, out var nodeType))
+			if (manifest.Nodes.Nodes.TryGetValue (type, out var nodeType))
 			{
 				return nodeType;
 			}
 			return null;
 		}
 
-		public TypeInformation GetTypeInformation(string type)
+		public TypeInformation GetTypeInformation (string type)
 		{
-			return GetTypeInformation(Manifest, type);
+			return GetTypeInformation (Manifest, type);
 		}
 	}
 }

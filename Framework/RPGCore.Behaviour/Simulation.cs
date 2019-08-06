@@ -6,7 +6,6 @@ using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 
 namespace RPGCore.Behaviour
@@ -80,7 +79,7 @@ namespace RPGCore.Behaviour
 				{
 					new BhvrExporter()
 				},
-				BuildActions = new List<IBuildAction>()
+				BuildActions = new List<IBuildAction> ()
 				{
 					consoleRenderer
 				}

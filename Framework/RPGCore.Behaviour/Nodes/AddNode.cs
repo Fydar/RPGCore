@@ -11,8 +11,8 @@ namespace RPGCore.Behaviour
 
 		public override InputMap[] Inputs (IGraphConnections graph, Metadata instance) => new[]
 		{
-			graph.Connect(ref ValueA, ref instance.valueA),
-			graph.Connect(ref ValueB, ref instance.valueB)
+			graph.Connect(ref ValueA, ref instance.ValueA),
+			graph.Connect(ref ValueB, ref instance.ValueB)
 		};
 
 		public override OutputMap[] Outputs (IGraphConnections graph, Metadata instance) => new[]
@@ -24,40 +24,41 @@ namespace RPGCore.Behaviour
 
 		public sealed class Metadata : Instance
 		{
-			public Input<float> valueA;
-			public Input<float> valueB;
+			public Input<float> ValueA;
+			public Input<float> ValueB;
 
 			public Output<float> Output;
 
-			private Actor target;
+			private Actor Target;
 
 			public override void Setup (IGraphInstance graph, Actor target)
 			{
-				this.target = target;
+				Target = target;
 
-				valueA.OnAfterChanged += Log;
-				valueB.OnAfterChanged += Log;
+				ValueA.OnAfterChanged += Log;
+				ValueB.OnAfterChanged += Log;
 				target.Health.Handlers[this] += new LogOnChanged (this);
 
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine ($"StatsNode: Setup Behaviour on {target}");
 
-				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (valueA)}");
-				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (valueB)}");
+				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (ValueA)}");
+				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (ValueB)}");
 			}
 
 			public override void OnInputChanged ()
 			{
-				Output.Value = valueA.Value + valueB.Value;
+				Output.Value = ValueA.Value + ValueB.Value;
 			}
 
 			public override void Remove ()
 			{
-				target.Health.Handlers[this].Clear ();
-				valueA.OnAfterChanged -= Log;
+				Target.Health.Handlers[this].Clear ();
+				ValueA.OnAfterChanged -= Log;
+				ValueB.OnAfterChanged -= Log;
 
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine ($"StatsNode: Removed Behaviour on {target}");
+				Console.WriteLine ($"StatsNode: Removed Behaviour on {Target}");
 			}
 
 			private struct LogOnChanged : IEventFieldHandler
@@ -77,7 +78,7 @@ namespace RPGCore.Behaviour
 				public void OnAfterChanged ()
 				{
 					Console.ForegroundColor = ConsoleColor.Gray;
-					Console.WriteLine ("StatsNode: Damaged on " + (Meta.valueA.Value + Meta.valueB.Value).ToString () + " on " + Meta.target);
+					Console.WriteLine ("StatsNode: Damaged on " + (Meta.ValueA.Value + Meta.ValueB.Value).ToString () + " on " + Meta.Target);
 				}
 
 				public void Dispose ()
@@ -89,7 +90,7 @@ namespace RPGCore.Behaviour
 			private void Log ()
 			{
 				Console.ForegroundColor = ConsoleColor.Gray;
-				Console.WriteLine ("StatsNode: New value of " + (valueA.Value + valueB.Value).ToString () + " on " + target);
+				Console.WriteLine ("StatsNode: New value of " + (ValueA.Value + ValueB.Value).ToString () + " on " + Target);
 			}
 		}
 	}

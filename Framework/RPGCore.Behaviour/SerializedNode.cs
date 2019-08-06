@@ -28,7 +28,7 @@ namespace RPGCore.Behaviour
 			return node;
 		}
 
-		public static void UnpackOutputs(List<string> connectionIds, Node node)
+		public static void UnpackOutputs (List<string> connectionIds, Node node)
 		{
 			var nodeType = node.GetType ();
 

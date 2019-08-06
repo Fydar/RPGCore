@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace RPGCore.Behaviour
 {
@@ -16,7 +14,7 @@ namespace RPGCore.Behaviour
 		public Graph Unpack ()
 		{
 			var nodes = new List<Node> (Nodes.Count);
-			
+
 			var connectionIds = new List<string> ();
 			int outputCounter = -1;
 			foreach (var nodeKvp in Nodes)
