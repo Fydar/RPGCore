@@ -122,25 +122,14 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
-				/*.Log("type " + graphEditor.Root.Field.Type);
-				Debug.Log("type " + graphEditor.Root.Type.Fields);
-				foreach (var childType in graphEditor.Root.Type.Fields)
-				{
-					Debug.Log("fiiield " + childType);
-				}
-				Debug.Log(graphEditor.Root.Children.Count);
-				foreach (var child in graphEditor.Root.Children)
-				{
-					Debug.Log(child);
-				} */
 				foreach (var node in graphEditor.Root["Nodes"])
 				{
 					var nodeEditor = node["Editor"];
 					var nodeEditorPosition = nodeEditor["Position"];
 
 					var nodeRect = new Rect(
-						dragging_Position.x + nodeEditorPosition["x"].Json.ToObject<int>(),
-						dragging_Position.y + nodeEditorPosition["y"].Json.ToObject<int>(),
+						dragging_Position.x + nodeEditorPosition["x"].GetValue<int>(),
+						dragging_Position.y + nodeEditorPosition["y"].GetValue<int>(),
 						200,
 						160
 					);
@@ -237,6 +226,8 @@ namespace RPGCore.Unity.Editors
 					//field.Json.Value = newValue;
 				}
 
+				// EditorGUI.DrawRect(renderPos, Color.red);
+				
 				Vector3 start = new Vector3(renderPos.x, renderPos.y);
 				Vector3 end = new Vector3(renderPos.x - 100, renderPos.y - 100);
 				Vector3 startDir = new Vector3(-100, 0);
@@ -248,7 +239,7 @@ namespace RPGCore.Unity.Editors
 
 				Color connectionColour = new Color (1.0f, 1.0f, 1.0f) * Color.Lerp (GUI.color, Color.white, 0.5f);
 				Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
-				BehaviourGraphResources.Instance.SmallConnection, 10);
+					BehaviourGraphResources.Instance.SmallConnection, 10);
 			}
 			else if (field.Field.Format == FieldFormat.Dictionary)
 			{
@@ -294,6 +285,14 @@ namespace RPGCore.Unity.Editors
 				dragging_IsDragging = false;
 				dragging_NodeDragging = false;
 				currentEvent.Use ();
+
+				var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
+
+				var posX = pos["x"];
+				posX.ApplyModifiedProperties();
+				
+				var posY = pos["y"];
+				posY.ApplyModifiedProperties();
 			}
 
 			if (currentEvent.type == EventType.KeyDown)
@@ -307,15 +306,11 @@ namespace RPGCore.Unity.Editors
 					var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
 
 					var posX = pos["x"];
-					var replaceX = JToken.FromObject(posX.Json.ToObject<int>() + ((int)currentEvent.delta.x));
-					posX.Json.Replace(replaceX);
-					posX.Json = replaceX;
+					posX.SetValue(posX.GetValue<int>() + ((int)currentEvent.delta.x));
 					
-					/*var posY = pos["y"];
-					var replaceY = JToken.FromObject(posY.Json.ToObject<int>() + ((int)currentEvent.delta.y));
-					posY.Json.Replace(replaceY);
-					posY.Json = replaceY; */
-				}`
+					var posY = pos["y"];
+					posY.SetValue(posY.GetValue<int>() + ((int)currentEvent.delta.y));
+				}
 				else
 				{
 					dragging_Position += currentEvent.delta;
