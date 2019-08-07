@@ -1,15 +1,19 @@
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace RPGCore.Behaviour
 {
 	[TypeConverter (typeof (LocalIdConverter))]
+	[DebuggerDisplay ("{ToString(),nq}")]
 	public struct LocalId : IEquatable<LocalId>
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public static readonly LocalId None = new LocalId (0);
 
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private readonly ulong Id;
 
 		public LocalId (string id)
