@@ -145,12 +145,20 @@ namespace RPGCore.Unity.Editors
 					
 					var nodeData = node.Json["Data"];
 					var nodeType = node["Type"];
-					
-					var fieldInformation = new FieldInformation();
-					fieldInformation.Type = nodeType.Json.ToObject<string>();
 
-					var field = new EditorField(graphEditor, nodeData, node.Name,
-						fieldInformation);
+					object fieldObject;
+					if (!node.ViewBag.TryGetValue("Generic", out fieldObject))
+					{
+						var fieldInformation = new FieldInformation();
+						fieldInformation.Type = nodeType.Json.ToObject<string>();
+
+						fieldObject = new EditorField(graphEditor, nodeData, node.Name,
+							fieldInformation);
+							
+						node.ViewBag["Generic"] = fieldObject;
+					}
+					var field = (EditorField)fieldObject;
+					
 				
 					foreach (var childField in field)
 					{
@@ -173,6 +181,62 @@ namespace RPGCore.Unity.Editors
 							Event.current.Use();
 						}
 					}
+				}
+
+				foreach (var node in graphEditor.Root["Nodes"])
+				{
+					var nodeEditor = node["Editor"];
+					var nodeEditorPosition = nodeEditor["Position"];
+					
+					var nodePositionX = nodeEditorPosition["x"].GetValue<int>() + dragging_Position.x;
+					var nodePositionY = nodeEditorPosition["y"].GetValue<int>() + dragging_Position.y;
+
+					var nodeData = node.Json["Data"];
+					var nodeType = node["Type"];
+
+					object fieldObject;
+					if (!node.ViewBag.TryGetValue("Generic", out fieldObject))
+					{
+						var fieldInformation = new FieldInformation();
+						fieldInformation.Type = nodeType.Json.ToObject<string>();
+
+						fieldObject = new EditorField(graphEditor, nodeData, node.Name,
+							fieldInformation);
+							
+						node.ViewBag["Generic"] = fieldObject;
+					}
+					var field = (EditorField)fieldObject;
+
+
+					foreach (var childField in field)
+					{
+
+						if (childField.Field.Type == "InputSocket")
+						{
+							object renderPosObject;
+							var renderPos = new Rect();;
+							if (childField.ViewBag.TryGetValue("Position", out renderPosObject))
+							{
+								renderPos = (Rect)renderPosObject;
+							}
+							else
+							{
+								Debug.LogError(childField.Name + " has no position");
+							}
+
+							renderPos.x += nodePositionX;
+							renderPos.y += nodePositionY;
+
+							// EditorGUI.DrawRect(renderPos, Color.red);
+
+							Vector3 start = new Vector3(renderPos.x, renderPos.y);
+							Vector3 end = new Vector3(renderPos.x - 100, renderPos.y - 100);
+							Vector3 startDir = new Vector3(-1, 0);
+							Vector3 endDir = new Vector3(1, 0);
+							
+							DrawConnection(start, end, startDir, endDir);
+						}
+					}				
 				}
 			}
 			
@@ -227,19 +291,6 @@ namespace RPGCore.Unity.Editors
 				}
 
 				// EditorGUI.DrawRect(renderPos, Color.red);
-				
-				Vector3 start = new Vector3(renderPos.x, renderPos.y);
-				Vector3 end = new Vector3(renderPos.x - 100, renderPos.y - 100);
-				Vector3 startDir = new Vector3(-100, 0);
-				Vector3 endDir = new Vector3(100, 0);
-				
-				float distance = Vector3.Distance (start, end);
-				Vector3 startTan = start + (startDir * distance * 0.5f);
-				Vector3 endTan = end + (endDir * distance * 0.5f);
-
-				Color connectionColour = new Color (1.0f, 1.0f, 1.0f) * Color.Lerp (GUI.color, Color.white, 0.5f);
-				Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
-					BehaviourGraphResources.Instance.SmallConnection, 10);
 			}
 			else if (field.Field.Format == FieldFormat.Dictionary)
 			{
@@ -267,6 +318,17 @@ namespace RPGCore.Unity.Editors
 			{
 				EditorGUILayout.LabelField(field.Name, "Unknown Type");
 			}
+		}
+
+		public static void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+		{
+			float distance = Vector3.Distance (start, end);
+			Vector3 startTan = start + (startDir * distance * 0.5f);
+			Vector3 endTan = end + (endDir * distance * 0.5f);
+
+			Color connectionColour = new Color (1.0f, 0.8f, 0.8f);
+			Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
+				BehaviourGraphResources.Instance.SmallConnection, 10);
 		}
 
 		public static void DrawEditor(EditorSession editor)
