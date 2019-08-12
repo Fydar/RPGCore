@@ -18,6 +18,16 @@ namespace RPGCore.Behaviour
 
 		public LocalId (string id)
 		{
+			if (string.IsNullOrWhiteSpace(id))
+			{
+				Id = 0;
+				return;
+			}
+
+			if (id.StartsWith ("0x", StringComparison.OrdinalIgnoreCase))
+			{
+				id = id.Substring (2);
+			}
 			Id = ulong.Parse (id, NumberStyles.HexNumber);
 		}
 
@@ -43,7 +53,7 @@ namespace RPGCore.Behaviour
 
 		public override string ToString ()
 		{
-			return Id.ToString ("x8");
+			return "0x" + Id.ToString ("x8");
 		}
 
 		public static bool operator == (LocalId left, LocalId right)
