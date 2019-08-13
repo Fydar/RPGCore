@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace RPGCore.Packages.Tool
+namespace RPGCore.CLI
 {
 	internal sealed class Program
 	{

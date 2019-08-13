@@ -12,16 +12,16 @@ Open up Command Prompt as Administrator and run the following command:
 
 ```assoc .bpkg=CompressedFolder```
 
-## RPGCore.Packages.Tool
+## RPGCore.CLI
 
-`RPGCore.Packages.Tool` is a command line tool that enables building, formating and otherwise modifying `.bproj` and `.bpkg`'s.
+`RPGCore.CLI` is a command line tool that enables building, formating and otherwise modifying `.bproj` and `.bpkg`'s.
 
 ### Installation
 
-Run the following command to install `RPGCore.Packages.Tool`:
+Run the following command to install `RPGCore.CLI`:
 
 ```
-dotnet tool install -g RPGCore.Packages.Tool
+dotnet tool install -g RPGCore.CLI
 ```
 
 ### Commands
