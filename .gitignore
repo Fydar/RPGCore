@@ -27,15 +27,15 @@ ExportedObj/
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
-RPGCore/*.sln
-RPGCore/*.csproj
-RPGCore/[Ll]ibrary/
-RPGCore/Assets/AssetStoreTools*
+[Pp]rototype/*.sln
+[Pp]rototype/*.csproj
+[Pp]rototype/[Ll]ibrary/
+[Pp]rototype/Assets/AssetStoreTools*
 
-Framework/RPGCoreUnity/*.sln
-Framework/RPGCoreUnity/*.csproj
-Framework/RPGCoreUnity/[Ll]ibrary/
-Framework/RPGCoreUnity/Assets/AssetStoreTools*
+src/RPGCoreUnity/*.sln
+src/RPGCoreUnity/*.csproj
+src/RPGCoreUnity/[Ll]ibrary/
+src/RPGCoreUnity/Assets/AssetStoreTools*
 
 # Builds
 *.apk
