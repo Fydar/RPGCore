@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node UnpackInputs (LocalId id, List<string> connectionIds, ref int outputCounter)
+		public Node UnpackInputs (LocalId id, List<LocalPropertyId> connectionIds, ref int outputCounter)
 		{
 			var nodeType = System.Type.GetType (Type);
 
@@ -28,7 +28,7 @@ namespace RPGCore.Behaviour
 			return node;
 		}
 
-		public static void UnpackOutputs (List<string> connectionIds, Node node)
+		public static void UnpackOutputs (List<LocalPropertyId> connectionIds, Node node)
 		{
 			var nodeType = node.GetType ();
 
@@ -36,7 +36,7 @@ namespace RPGCore.Behaviour
 			{
 				if (field.FieldType == typeof (OutputSocket))
 				{
-					int connectionId = connectionIds.IndexOf (node.Id + "." + field.Name);
+					int connectionId = connectionIds.IndexOf (new LocalPropertyId (node.Id, field.Name));
 					field.SetValue (node, new OutputSocket (connectionId));
 				}
 			}
@@ -45,7 +45,7 @@ namespace RPGCore.Behaviour
 
 	internal sealed class InputSocketConverter : JsonConverter
 	{
-		private readonly List<string> MappedInputs;
+		private readonly List<LocalPropertyId> MappedInputs;
 
 		public override bool CanWrite => false;
 
@@ -54,7 +54,7 @@ namespace RPGCore.Behaviour
 			return (objectType == typeof (InputSocket));
 		}
 
-		public InputSocketConverter (List<string> mappedInputs)
+		public InputSocketConverter (List<LocalPropertyId> mappedInputs)
 		{
 			MappedInputs = mappedInputs;
 		}
@@ -71,7 +71,7 @@ namespace RPGCore.Behaviour
 				return new InputSocket ();
 			}
 
-			string inputSource = reader.Value.ToString ();
+			var inputSource = new LocalPropertyId (reader.Value.ToString ());
 
 			int connectionId = MappedInputs.IndexOf (inputSource);
 			if (connectionId == -1)

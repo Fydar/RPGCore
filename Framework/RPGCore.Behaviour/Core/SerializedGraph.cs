@@ -15,7 +15,7 @@ namespace RPGCore.Behaviour
 		{
 			var nodes = new List<Node> (Nodes.Count);
 
-			var connectionIds = new List<string> ();
+			var connectionIds = new List<LocalPropertyId> ();
 			int outputCounter = -1;
 			foreach (var nodeKvp in Nodes)
 			{
