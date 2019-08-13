@@ -18,14 +18,18 @@ namespace RPGCore.Behaviour
 			add
 			{
 				if (Connection == null)
+				{
 					return;
+				}
 
 				Connection.Subscribe (Parent, value);
 			}
 			remove
 			{
 				if (Connection == null)
+				{
 					return;
+				}
 
 				Connection.Unsubscribe (Parent, value);
 			}

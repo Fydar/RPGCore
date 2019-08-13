@@ -202,19 +202,25 @@ namespace RPGCore.Behaviour
 		public InputSource GetSource<T> (Input<T> input)
 		{
 			if (input.Connection == null)
+			{
 				return new InputSource ();
+			}
 
 			int connectionId = input.Connection.ConnectionId;
 
 			if (connectionId == -1)
+			{
 				return new InputSource ();
+			}
 
 			for (int x = 0; x < allOutputs.Length; x++)
 			{
 				var outputSet = allOutputs[x];
 
 				if (outputSet == null)
+				{
 					continue;
+				}
 
 				for (int y = 0; y < outputSet.Length; y++)
 				{
@@ -234,19 +240,25 @@ namespace RPGCore.Behaviour
 		public IEnumerable<OutputSource> GetSource<T> (Output<T> output)
 		{
 			if (output.Connection == null)
+			{
 				yield break;
+			}
 
 			int connectionId = output.Connection.ConnectionId;
 
 			if (connectionId == -1)
+			{
 				yield break;
+			}
 
 			for (int x = 0; x < allInputs.Length; x++)
 			{
 				var inputSet = allInputs[x];
 
 				if (inputSet == null)
+				{
 					continue;
+				}
 
 				for (int y = 0; y < inputSet.Length; y++)
 				{
