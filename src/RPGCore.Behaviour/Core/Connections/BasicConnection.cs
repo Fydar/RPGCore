@@ -21,7 +21,9 @@ namespace RPGCore.Behaviour
 		public void RegisterInput (INodeInstance node)
 		{
 			if (Consumers == null)
+			{
 				Consumers = new List<ConnectionSubscription> ();
+			}
 
 			Consumers.Add (new ConnectionSubscription (node));
 		}
@@ -29,7 +31,9 @@ namespace RPGCore.Behaviour
 		public void RegisterConverter (IConnectionTypeConverter converter)
 		{
 			if (Converters == null)
+			{
 				Converters = new List<IConnectionTypeConverter> ();
+			}
 
 			Converters.Add (converter);
 		}
@@ -37,7 +41,9 @@ namespace RPGCore.Behaviour
 		public virtual void Subscribe (INodeInstance node, Action callback)
 		{
 			if (Consumers == null)
+			{
 				Consumers = new List<ConnectionSubscription> ();
+			}
 
 			var subscription = new ConnectionSubscription ();
 			foreach (var previousSubscribers in Consumers)
@@ -62,7 +68,9 @@ namespace RPGCore.Behaviour
 		public virtual void Unsubscribe (INodeInstance node, Action callback)
 		{
 			if (Consumers == null)
+			{
 				return;
+			}
 
 			for (int i = Consumers.Count - 1; i >= 0; i--)
 			{
@@ -103,7 +111,9 @@ namespace RPGCore.Behaviour
 		protected void InvokeAfterChanged ()
 		{
 			if (Consumers == null)
+			{
 				return;
+			}
 
 			foreach (var subscriber in Consumers)
 			{

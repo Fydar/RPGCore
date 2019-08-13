@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 	[DebuggerDisplay ("{ToString(),nq}")]
 	public struct LocalId : IEquatable<LocalId>
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		public static readonly LocalId None = new LocalId (0);
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
@@ -18,7 +18,7 @@ namespace RPGCore.Behaviour
 
 		public LocalId (string id)
 		{
-			if (string.IsNullOrWhiteSpace(id))
+			if (string.IsNullOrWhiteSpace (id))
 			{
 				Id = 0;
 				return;

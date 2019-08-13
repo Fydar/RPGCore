@@ -14,7 +14,9 @@ namespace RPGCore.Behaviour
 			set
 			{
 				if (Connection == null)
+				{
 					return;
+				}
 
 				Connection.Value = value;
 			}
