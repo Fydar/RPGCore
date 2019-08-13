@@ -39,7 +39,7 @@ namespace RPGCore
 			else
 				parent = BuffsHolder;
 
-			BuffIndicator indicator = Indicator.Grab (parent);
+			var indicator = Indicator.Grab (parent);
 			indicator.transform.localScale = Vector3.one;
 
 			indicator.Setup (this, buff);

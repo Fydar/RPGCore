@@ -12,9 +12,9 @@ namespace RPGCore
 		public struct Route
 		{
 			public FieldInfo Member;
-			public System.Object Target;
+			public object Target;
 
-			public Route (FieldInfo member, System.Object target)
+			public Route (FieldInfo member, object target)
 			{
 				Member = member;
 				Target = target;
@@ -36,7 +36,7 @@ namespace RPGCore
 
 		public static CollectionInformation GetReflectionInformation (Type type)
 		{
-			Type collectionType = BaseCollectionType (type);
+			var collectionType = BaseCollectionType (type);
 			CollectionInformation information;
 
 			bool result = ReflectionCache.TryGetValue (collectionType, out information);
@@ -52,13 +52,13 @@ namespace RPGCore
 
 		public static Type BaseCollectionType (Type type)
 		{
-			Type currentType = type;
+			var currentType = type;
 			while (true)
 			{
 				if (currentType == null)
 					return null;
 
-				Type[] types = currentType.GetGenericArguments ();
+				var types = currentType.GetGenericArguments ();
 
 				if (types.Length != 1)
 				{
@@ -97,9 +97,9 @@ namespace RPGCore
 
 		private void Collect ()
 		{
-			List<T> foundObjects = new List<T> ();
+			var foundObjects = new List<T> ();
 
-			foreach (Route route in FindAllRoutes ())
+			foreach (var route in FindAllRoutes ())
 			{
 				foundObjects.Add ((T)FieldGetOrCreate (route.Member, route.Target));
 			}
@@ -109,11 +109,11 @@ namespace RPGCore
 
 		public override IEnumerable<Route> FindAllRoutes ()
 		{
-			CollectionInformation information = ReflectionInformation ();
+			var information = ReflectionInformation ();
 
-			foreach (FieldInfo info in information.directFields)
+			foreach (var info in information.directFields)
 			{
-				FieldInfo collectionInfo = GetType ().GetField (info.Name);
+				var collectionInfo = GetType ().GetField (info.Name);
 
 				if (collectionInfo.FieldType == typeof (T))
 				{
@@ -133,30 +133,30 @@ namespace RPGCore
 
 		public void OnBeforeSerialize ()
 		{
-			Type thisType = GetType ();
+			var thisType = GetType ();
 
-			List<string> directories = new List<string> ();
-			List<T> values = new List<T> ();
-			CollectionInformation information = ReflectionInformation ();
+			var directories = new List<string> ();
+			var values = new List<T> ();
+			var information = ReflectionInformation ();
 
-			foreach (FieldInfo info in information.directFields)
+			foreach (var info in information.directFields)
 			{
 				if (!typeof (EnumerableCollection).IsAssignableFrom (info.FieldType))
 					continue;
 
 				// Find all nested EnumerableCollections
 
-				FieldInfo childCollectionValue = thisType.GetField (info.Name);
+				var childCollectionValue = thisType.GetField (info.Name);
 
 				var collection = FieldGetOrCreate<EnumerableCollection<T>> (childCollectionValue, this);
 
 				string parent = info.Name + "/";
 
-				CollectionInformation childInformation = collection.ReflectionInformation ();
+				var childInformation = collection.ReflectionInformation ();
 
-				foreach (FieldInfo childInfo in childInformation.directFields)
+				foreach (var childInfo in childInformation.directFields)
 				{
-					FieldInfo collectionChildInfo = collection.GetType ().GetField (childInfo.Name);
+					var collectionChildInfo = collection.GetType ().GetField (childInfo.Name);
 
 					if (collectionChildInfo.FieldType == typeof (T))
 					{
@@ -172,7 +172,7 @@ namespace RPGCore
 
 		public void OnAfterDeserialize ()
 		{
-			Type thisType = GetType ();
+			var thisType = GetType ();
 
 			if (fieldDirectories == null || fieldValues == null)
 				return;
@@ -184,7 +184,7 @@ namespace RPGCore
 				int sperator = directory.IndexOf ('/');
 				string fieldName = directory.Substring (0, sperator);
 
-				FieldInfo thisField = GetSerializationField (thisType, fieldName);
+				var thisField = GetSerializationField (thisType, fieldName);
 
 				if (thisField == null)
 					continue;
@@ -192,11 +192,11 @@ namespace RPGCore
 				object obj = FieldGetOrCreate (thisField, this);
 
 				string childName = directory.Substring (sperator + 1);
-				FieldInfo childField = GetSerializationField (obj.GetType (), childName);
+				var childField = GetSerializationField (obj.GetType (), childName);
 				if (childField == null)
 					continue;
 
-				T value = fieldValues[i];
+				var value = fieldValues[i];
 				childField.SetValue (obj, value);
 			}
 		}
@@ -237,18 +237,18 @@ namespace RPGCore
 
 		private static FieldInfo GetSerializationField (Type type, string name)
 		{
-			FieldInfo thisField = type.GetField (name);
+			var thisField = type.GetField (name);
 
 			if (thisField != null)
 				return thisField;
 
 			// What we serialized got renamed and no longer exists.
-			FieldInfo[] fields = type.GetFields (BindingFlags.Public | BindingFlags.Instance);
-			foreach (FieldInfo field in fields)
+			var fields = type.GetFields (BindingFlags.Public | BindingFlags.Instance);
+			foreach (var field in fields)
 			{
-				var attributes = field.GetCustomAttributes (typeof (FormerlySerializedAsAttribute), true);
+				object[] attributes = field.GetCustomAttributes (typeof (FormerlySerializedAsAttribute), true);
 
-				foreach (var attribute in attributes)
+				foreach (object attribute in attributes)
 				{
 					var serializationAttribute = (FormerlySerializedAsAttribute)attribute;
 

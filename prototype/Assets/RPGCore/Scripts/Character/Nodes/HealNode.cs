@@ -12,8 +12,8 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			EventEntry eventInput = Event[context];
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			var eventInput = Event[context];
+			var targetInput = Target[context];
 			ConnectionEntry<int> effectInput = Effect[context];
 
 			eventInput.OnEventFired += () =>

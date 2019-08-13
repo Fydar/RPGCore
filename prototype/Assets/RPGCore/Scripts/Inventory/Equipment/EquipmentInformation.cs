@@ -18,15 +18,15 @@ namespace RPGCore.Inventories
 
 		public ItemSlot GenerateSlot (RPGCharacter character)
 		{
-			ItemSlotBehaviour[] slotBehaviour = new ItemSlotBehaviour[] {
+			var slotBehaviour = new ItemSlotBehaviour[] {
 				new Slot_EquippableSlot ()
 			};
 
-			ItemCondition[] slotCondition = new ItemCondition[] {
+			var slotCondition = new ItemCondition[] {
 				new EquipmentTypeCondition (AllowedItems)
 			};
 
-			ItemStorageSlot storageSlot = new ItemStorageSlot (character, slotBehaviour, slotCondition);
+			var storageSlot = new ItemStorageSlot (character, slotBehaviour, slotCondition);
 
 			storageSlot.SlotDecoration = SlotIcon;
 

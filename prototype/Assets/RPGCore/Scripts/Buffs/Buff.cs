@@ -155,7 +155,7 @@ namespace RPGCore
 		{
 			for (int i = Clocks.Count - 1; i >= 0; i--)
 			{
-				BuffClock clock = Clocks[i];
+				var clock = Clocks[i];
 
 				clock.Update (deltaTime);
 			}
@@ -176,7 +176,7 @@ namespace RPGCore
 		{
 			int counter = BaseStackSize.Value;
 
-			foreach (BuffClock addClock in Clocks)
+			foreach (var addClock in Clocks)
 			{
 				counter += addClock.StackSize.Value;
 			}

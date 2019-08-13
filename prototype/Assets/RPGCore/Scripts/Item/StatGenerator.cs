@@ -43,7 +43,7 @@ namespace RPGCore
 
 		public static int IntRange (IItemSeed context, short StatID, int min, int max)
 		{
-			int value = Mathf.RoundToInt (Mathf.Lerp ((float)min, (float)max, Value (context, StatID)));
+			int value = Mathf.RoundToInt (Mathf.Lerp (min, max, Value (context, StatID)));
 
 			if (value == max + 1)
 				return max;
@@ -52,14 +52,14 @@ namespace RPGCore
 
 		public static float FloatRange (IItemSeed context, short StatID, float min, float max)
 		{
-			return Mathf.Lerp ((float)min, (float)max, Value (context, StatID));
+			return Mathf.Lerp (min, max, Value (context, StatID));
 		}
 
 		private static int HashInts (short a, short b)
 		{
-			var A = (uint)(a >= 0 ? 2 * a : -2 * a - 1);
-			var B = (uint)(b >= 0 ? 2 * b : -2 * b - 1);
-			var C = (int)((A >= B ? A * A + A + B : A + B * B) / 2);
+			uint A = (uint)(a >= 0 ? 2 * a : -2 * a - 1);
+			uint B = (uint)(b >= 0 ? 2 * b : -2 * b - 1);
+			int C = (int)((A >= B ? A * A + A + B : A + B * B) / 2);
 
 			return a < 0 && b < 0 || a >= 0 && b >= 0 ? C : -C - 1;
 		}

@@ -30,7 +30,7 @@ namespace RPGCore.Audio
 			if (Pool.Count == currentGrabIndex)
 				ExpandPool ();
 
-			AudioSource item = Pool[currentGrabIndex];
+			var item = Pool[currentGrabIndex];
 			item.enabled = true;
 			currentGrabIndex++;
 
@@ -39,7 +39,7 @@ namespace RPGCore.Audio
 
 		public void Flush ()
 		{
-			foreach (AudioSource item in Pool)
+			foreach (var item in Pool)
 				item.enabled = false;
 
 			currentGrabIndex = 0;

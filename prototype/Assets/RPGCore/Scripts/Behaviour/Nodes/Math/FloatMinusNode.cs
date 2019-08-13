@@ -14,9 +14,9 @@ namespace RPGCore.Behaviour.Math
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<float> valueAInput = ValueA[context];
-			ConnectionEntry<float> valueBInput = ValueB[context];
-			ConnectionEntry<float> output = Output[context];
+			var valueAInput = ValueA[context];
+			var valueBInput = ValueB[context];
+			var output = Output[context];
 
 			Action updateHandler = () =>
 			{

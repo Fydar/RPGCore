@@ -38,13 +38,13 @@ namespace RPGCore.Tables
 
 			for (int i = 0; i < TableRolls.Length; i++)
 			{
-				ItemGenerator itemGenerator = TableRolls[i].Select ();
+				var itemGenerator = TableRolls[i].Select ();
 				if (itemGenerator == null)
 					continue;
 
 				if (itemGenerator.RewardTemplate != null)
 				{
-					ItemSurrogate generatedItem = itemGenerator.Generate ();
+					var generatedItem = itemGenerator.Generate ();
 					cachedGeneratedItems.Add (generatedItem);
 				}
 			}
@@ -62,12 +62,12 @@ namespace RPGCore.Tables
 
 			for (int i = 0; i < TableRolls.Length; i++)
 			{
-				ItemGenerator[] itemGenerator = TableRolls[i].SelectMultiple ();
+				var itemGenerator = TableRolls[i].SelectMultiple ();
 				for (int x = 0; x < itemGenerator.Length; x++)
 				{
 					if (itemGenerator[x].RewardTemplate)
 					{
-						ItemSurrogate generatedItem = itemGenerator[x].Generate ();
+						var generatedItem = itemGenerator[x].Generate ();
 						cachedGeneratedItems.Add (generatedItem);
 					}
 				}

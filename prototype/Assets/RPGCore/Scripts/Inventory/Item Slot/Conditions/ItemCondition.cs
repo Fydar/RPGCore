@@ -14,7 +14,7 @@ namespace RPGCore.Inventories
 			if (conditions == null)
 				return true;
 
-			foreach (ItemCondition condition in conditions)
+			foreach (var condition in conditions)
 			{
 				if (!condition.IsValid (item))
 					return false;

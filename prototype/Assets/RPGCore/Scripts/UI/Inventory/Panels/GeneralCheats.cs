@@ -19,7 +19,7 @@ namespace RPGCore.UI
 			if (Character.Quests.Count == 0)
 				return;
 
-			Quest completeQuest = Character.Quests[UnityEngine.Random.Range (0, Character.Quests.Count - 1)];
+			var completeQuest = Character.Quests[UnityEngine.Random.Range (0, Character.Quests.Count - 1)];
 
 			Character.Quests.Remove (completeQuest);
 

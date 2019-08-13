@@ -17,7 +17,7 @@ namespace RPGCore.Utility
 				currentRotation.y + (RotationSpeed * Time.deltaTime),
 				currentRotation.z);
 
-			Quaternion rotator = Quaternion.Euler (currentRotation);
+			var rotator = Quaternion.Euler (currentRotation);
 
 			lastRotation = rotator;
 

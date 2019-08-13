@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace RPGCore.Stats
@@ -67,7 +66,7 @@ namespace RPGCore.Stats
 
 			if (TextField != null)
 			{
-				TextField.text = String.Format (TextFormat, value, max);
+				TextField.text = string.Format (TextFormat, value, max);
 			}
 		}
 	}

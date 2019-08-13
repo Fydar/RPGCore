@@ -17,13 +17,13 @@ namespace RPGCore.Promotional.Screenshotter
 		{
 			if (Input.GetKeyDown (Capture))
 			{
-				RenderTexture rt = new RenderTexture (resWidth, resHeight, 24)
+				var rt = new RenderTexture (resWidth, resHeight, 24)
 				{
 					antiAliasing = 8
 				};
 
 				SourceCamera.targetTexture = rt;
-				Texture2D screenShot = new Texture2D (resWidth, resHeight, TextureFormat.RGBA32, false);
+				var screenShot = new Texture2D (resWidth, resHeight, TextureFormat.RGBA32, false);
 				SourceCamera.Render ();
 				RenderTexture.active = rt;
 				screenShot.ReadPixels (new Rect (0, 0, resWidth, resHeight), 0, 0);

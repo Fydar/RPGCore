@@ -43,7 +43,7 @@ namespace RPGCore.Utility
 
 		void ISerializationCallbackReceiver.OnAfterDeserialize ()
 		{
-			foreach (StaticDatabase database in DatabaseObjects)
+			foreach (var database in DatabaseObjects)
 			{
 				if (database == null)
 					continue;
@@ -52,7 +52,7 @@ namespace RPGCore.Utility
 					databases.Add (database.GetType (), database);
 			}
 
-			foreach (StaticDatabase database in databases.Values)
+			foreach (var database in databases.Values)
 			{
 				if (database == null)
 					continue;

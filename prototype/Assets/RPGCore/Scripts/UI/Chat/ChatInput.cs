@@ -21,7 +21,7 @@ public class ChatInput : MonoBehaviour
 		{
 			Commands = new Dictionary<string, ConsoleCommand> ();
 
-			GiveCommand nicknameCmd = new GiveCommand ();
+			var nicknameCmd = new GiveCommand ();
 			Commands.Add ("give", nicknameCmd);
 		}
 	}

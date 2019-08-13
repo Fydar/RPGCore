@@ -169,7 +169,7 @@ namespace RPGCore.Utility.Editors
 
 		private static Light CreateLight ()
 		{
-			GameObject lightGO = EditorUtility.CreateGameObjectWithHideFlags ("PreRenderLight", HideFlags.HideAndDontSave, typeof (Light));
+			var lightGO = EditorUtility.CreateGameObjectWithHideFlags ("PreRenderLight", HideFlags.HideAndDontSave, typeof (Light));
 			var light = lightGO.GetComponent<Light> ();
 			light.type = LightType.Directional;
 			light.intensity = 1.0f;
@@ -188,15 +188,15 @@ namespace RPGCore.Utility.Editors
 
 			Transform previewObject;
 
-			previewObject = (Transform)Object.Instantiate (model, null, false);
+			previewObject = Object.Instantiate (model, null, false);
 			previewObject.gameObject.hideFlags = HideFlags.HideAndDontSave;
 
 			SceneManager.MoveGameObjectToScene (previewObject.gameObject, m_Scene);
 			previewObject.transform.position = Vector3.zero;
 
 			bool wasActive = previewObject.gameObject.activeSelf;
-			Vector3 prevPos = previewObject.position;
-			Quaternion prevRot = previewObject.rotation;
+			var prevPos = previewObject.position;
+			var prevRot = previewObject.rotation;
 
 			try
 			{
@@ -206,12 +206,12 @@ namespace RPGCore.Utility.Editors
 				if (!wasActive)
 					previewObject.gameObject.SetActive (true);
 
-				Vector3 previewDir = previewObject.rotation * m_previewDirection;
+				var previewDir = previewObject.rotation * m_previewDirection;
 
 				renderersList.Clear ();
 				previewObject.GetComponentsInChildren (renderersList);
 
-				Bounds previewBounds = new Bounds ();
+				var previewBounds = new Bounds ();
 				bool init = false;
 				for (int i = 0; i < renderersList.Count; i++)
 				{
@@ -231,8 +231,8 @@ namespace RPGCore.Utility.Editors
 					return null;
 
 				boundsCenter = previewBounds.center;
-				Vector3 boundsExtents = previewBounds.extents;
-				Vector3 boundsSize = 2f * boundsExtents;
+				var boundsExtents = previewBounds.extents;
+				var boundsSize = 2f * boundsExtents;
 
 				aspect = (float)width / height;
 				renderCamera.aspect = aspect;
@@ -246,7 +246,7 @@ namespace RPGCore.Utility.Editors
 					minX = minY = Mathf.Infinity;
 					maxX = maxY = Mathf.NegativeInfinity;
 
-					Vector3 point = boundsCenter + boundsExtents;
+					var point = boundsCenter + boundsExtents;
 					ProjectBoundingBoxMinMax (point);
 					point.x -= boundsSize.x;
 					ProjectBoundingBoxMinMax (point);
@@ -273,7 +273,7 @@ namespace RPGCore.Utility.Editors
 
 					maxDistance = Mathf.NegativeInfinity;
 
-					Vector3 point = boundsCenter + boundsExtents;
+					var point = boundsCenter + boundsExtents;
 					CalculateMaxDistance (point);
 					point.x -= boundsSize.x;
 					CalculateMaxDistance (point);
@@ -296,8 +296,8 @@ namespace RPGCore.Utility.Editors
 				renderCamera.transform.position = boundsCenter - previewDir * distance;
 				renderCamera.farClipPlane = distance * 4f;
 
-				RenderTexture temp = RenderTexture.active;
-				RenderTexture renderTex = RenderTexture.GetTemporary (width, height, 16);
+				var temp = RenderTexture.active;
+				var renderTex = RenderTexture.GetTemporary (width, height, 16);
 				RenderTexture.active = renderTex;
 
 				if (TransparentBackground)
@@ -350,7 +350,7 @@ namespace RPGCore.Utility.Editors
 
 		private static void ProjectBoundingBoxMinMax (Vector3 point)
 		{
-			Vector3 localPoint = renderCamera.transform.InverseTransformPoint (point);
+			var localPoint = renderCamera.transform.InverseTransformPoint (point);
 			if (localPoint.x < minX)
 				minX = localPoint.x;
 			if (localPoint.x > maxX)
@@ -363,7 +363,7 @@ namespace RPGCore.Utility.Editors
 
 		private static void CalculateMaxDistance (Vector3 point)
 		{
-			Vector3 intersectionPoint = projectionPlaneHorizontal.ClosestPointOnPlane (point);
+			var intersectionPoint = projectionPlaneHorizontal.ClosestPointOnPlane (point);
 
 			float horizontalDistance = projectionPlaneHorizontal.GetDistanceToPoint (point);
 			float verticalDistance = projectionPlaneVertical.GetDistanceToPoint (point);

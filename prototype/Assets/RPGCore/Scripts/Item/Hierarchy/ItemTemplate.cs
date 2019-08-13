@@ -29,9 +29,9 @@ namespace RPGCore
 
 		public ItemSurrogate GenerateItem ()
 		{
-			ItemData data = new ItemData ();
+			var data = new ItemData ();
 
-			System.Random rand = new System.Random (Time.renderedFrameCount);
+			var rand = new System.Random (Time.renderedFrameCount);
 			data.seed.Value = (short)rand.Next (short.MinValue, short.MaxValue);
 
 			return GenerateItem (data);

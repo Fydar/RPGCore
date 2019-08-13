@@ -12,7 +12,7 @@ namespace RPGCore.Tooltips
 		{
 			string text = "";
 
-			foreach (Enchantment enchantment in target.Enchantments)
+			foreach (var enchantment in target.Enchantments)
 			{
 				if (enchantment == null)
 					continue;

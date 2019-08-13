@@ -31,7 +31,7 @@ public abstract class ConsoleMenu : ConsoleCommand
 	{
 		string helpString = "Sub Menus:";
 
-		foreach (KeyValuePair<string, ConsoleCommand> command in Commands)
+		foreach (var command in Commands)
 		{
 			helpString += "\n\t" + command.Key + ": " + command.Value.GetType ().Name;
 		}

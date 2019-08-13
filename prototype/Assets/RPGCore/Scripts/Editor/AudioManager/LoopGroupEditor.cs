@@ -18,7 +18,7 @@ namespace RPGCore.Audio.Editors
 
 			if (typeof (LoopGroup).IsAssignableFrom (asset.GetType ()))
 			{
-				LoopGroup group = (LoopGroup)asset;
+				var group = (LoopGroup)asset;
 				PreviewGroup (group);
 				return true;
 			}
@@ -27,7 +27,7 @@ namespace RPGCore.Audio.Editors
 
 		public override void OnInspectorGUI ()
 		{
-			LoopGroup group = (LoopGroup)target;
+			var group = (LoopGroup)target;
 
 			DrawDefaultInspector ();
 
@@ -40,7 +40,7 @@ namespace RPGCore.Audio.Editors
 
 		public static AudioClip PreviewGroup (LoopGroup group)
 		{
-			AudioClip clip = group.LoopedAudio;
+			var clip = group.LoopedAudio;
 			PlayClip (clip, group);
 			return clip;
 		}
@@ -49,7 +49,7 @@ namespace RPGCore.Audio.Editors
 		{
 			var go = EditorUtility.CreateGameObjectWithHideFlags ("PLAY_AUDIO_TEMP", HideFlags.HideAndDontSave);
 
-			AudioSource source = go.AddComponent<AudioSource> ();
+			var source = go.AddComponent<AudioSource> ();
 			source.clip = clip;
 			source.volume = UnityEngine.Random.Range (group.VolumeRange.x, group.VolumeRange.y);
 			source.pitch = UnityEngine.Random.Range (group.PitchRange.x, group.PitchRange.y);

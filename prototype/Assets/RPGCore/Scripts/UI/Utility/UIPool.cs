@@ -37,7 +37,7 @@ namespace RPGCore.UI
 			if (Pool.Count == currentGrabIndex)
 				ExpandPool (parent);
 
-			T item = Pool[currentGrabIndex];
+			var item = Pool[currentGrabIndex];
 			item.gameObject.SetActive (true);
 			if (item.transform.parent != parent)
 			{
@@ -62,7 +62,7 @@ namespace RPGCore.UI
 					SampleButton.gameObject.SetActive (false);
 			}
 
-			foreach (T item in Pool)
+			foreach (var item in Pool)
 				item.gameObject.SetActive (false);
 
 			currentGrabIndex = 0;
@@ -83,11 +83,11 @@ namespace RPGCore.UI
 
 		private void ExpandPool (Transform parent)
 		{
-			GameObject clone = GameObject.Instantiate (SampleButton.gameObject, parent) as GameObject;
+			var clone = GameObject.Instantiate (SampleButton.gameObject, parent) as GameObject;
 			clone.transform.localScale = Vector3.one;
 			clone.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.zero;
 
-			T button = clone.GetComponent<T> ();
+			var button = clone.GetComponent<T> ();
 			Pool.Add (button);
 		}
 	}

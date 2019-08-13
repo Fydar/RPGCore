@@ -53,7 +53,7 @@ namespace RPGCore
 				{
 					prefix.Template.SetupGraph (prefix);
 
-					IInputNode<ItemSurrogate>[] itemNodes = prefix.Template.GetNodes<IInputNode<ItemSurrogate>> ();
+					var itemNodes = prefix.Template.GetNodes<IInputNode<ItemSurrogate>> ();
 					foreach (var itemNode in itemNodes)
 					{
 						itemNode.SetTarget (prefix, this);
@@ -91,7 +91,7 @@ namespace RPGCore
 				{
 					suffix.Template.SetupGraph (suffix);
 
-					IInputNode<ItemSurrogate>[] itemNodes = suffix.Template.GetNodes<IInputNode<ItemSurrogate>> ();
+					var itemNodes = suffix.Template.GetNodes<IInputNode<ItemSurrogate>> ();
 					foreach (var itemNode in itemNodes)
 					{
 						itemNode.SetTarget (suffix, this);
@@ -107,7 +107,7 @@ namespace RPGCore
 				yield return Prefix;
 				yield return Suffix;
 
-				foreach (Enchantment enchantment in craftingMods)
+				foreach (var enchantment in craftingMods)
 				{
 					yield return enchantment;
 				}
@@ -240,7 +240,7 @@ namespace RPGCore
 		{
 			get
 			{
-				EquiptableItemNode equiptable = template.GetNode<EquiptableItemNode> ();
+				var equiptable = template.GetNode<EquiptableItemNode> ();
 
 				if (equiptable == null)
 					return Slot.None;
@@ -276,13 +276,13 @@ namespace RPGCore
 		{
 			Chat.Instance.Log (owner.Value.name + " used " + RichText);
 
-			ActivatableNode activatableNode = template.GetNode<ActivatableNode> ();
+			var activatableNode = template.GetNode<ActivatableNode> ();
 			activatableNode.TryUse (this, owner.Value);
 		}
 
 		public void AddCraftingMod (Enchantment enchantment)
 		{
-			EnchantmantData newData = new EnchantmantData (enchantment);
+			var newData = new EnchantmantData (enchantment);
 
 			craftingMods.Add (enchantment);
 			data.modsData.Add (newData);
@@ -295,7 +295,7 @@ namespace RPGCore
 
 		public void RemoveAllCraftingMods ()
 		{
-			foreach (Enchantment enchantment in craftingMods)
+			foreach (var enchantment in craftingMods)
 			{
 				RemoveCraftingMod (craftingMods.IndexOf (enchantment));
 			}
@@ -303,7 +303,7 @@ namespace RPGCore
 
 		public void RemoveCraftingMod (int id)
 		{
-			Enchantment enchant = craftingMods[id];
+			var enchant = craftingMods[id];
 
 			craftingMods.RemoveAt (id);
 			data.modsData.RemoveAt (id);

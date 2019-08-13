@@ -18,10 +18,10 @@ public static class ToolsMenu
 
 	public static bool Process (string dir)
 	{
-		var subdirs = Directory.GetDirectories (dir);
+		string[] subdirs = Directory.GetDirectories (dir);
 
 		int deletedCount = 0;
-		foreach (var subdir in subdirs)
+		foreach (string subdir in subdirs)
 		{
 			if (Process (subdir))
 			{
@@ -32,9 +32,9 @@ public static class ToolsMenu
 		if (deletedCount >= subdirs.Length)
 		{
 			// optimisation - don't query the file list if we have subdirs
-			var files = Directory.GetFiles (dir);
+			string[] files = Directory.GetFiles (dir);
 
-			var delete = false;
+			bool delete = false;
 			if (files.Length == 0)
 			{
 				delete = true;

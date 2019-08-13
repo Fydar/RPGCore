@@ -14,8 +14,8 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			ConnectionEntry<float> valueInput = Value[context];
+			var targetInput = Target[context];
+			var valueInput = Value[context];
 
 			Action updateListener = () =>
 			{

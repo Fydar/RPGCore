@@ -16,13 +16,13 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> centerInput = Center[context];
-			ConnectionEntry<bool> includeCasterInput = IncludeCaster[context];
-			ConnectionEntry<float> distanceInput = Distance[context];
-			CharacterConnection.EntryCollection targetsOutput = Targets.GetEntry (context);
+			var centerInput = Center[context];
+			var includeCasterInput = IncludeCaster[context];
+			var distanceInput = Distance[context];
+			var targetsOutput = Targets.GetEntry (context);
 
-			GameObject proximityHolder = new GameObject ("Proximity Cheacker");
-			ProximityChecker proximity = proximityHolder.AddComponent<ProximityChecker> ();
+			var proximityHolder = new GameObject ("Proximity Cheacker");
+			var proximity = proximityHolder.AddComponent<ProximityChecker> ();
 			proximity.enabled = false;
 
 			proximity.Conditions += (RPGCharacter target) =>

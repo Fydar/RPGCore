@@ -16,8 +16,8 @@ namespace RPGCore.Behaviour.Events
 
 			// Debug.Log (fieldInputObject);
 
-			ConnectionEntry fieldInput = (ConnectionEntry)fieldInputObject;
-			EventEntry onChangedOutput = onChanged[context];
+			var fieldInput = (ConnectionEntry)fieldInputObject;
+			var onChangedOutput = onChanged[context];
 
 			Action eventHandler = () =>
 			{

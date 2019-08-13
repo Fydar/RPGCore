@@ -58,7 +58,7 @@ namespace RPGCore
 
 		public short RandomSeed ()
 		{
-			System.Random rand = new System.Random (Time.renderedFrameCount);
+			var rand = new System.Random (Time.renderedFrameCount);
 
 			return (short)rand.Next (short.MinValue, short.MaxValue);
 		}

@@ -6,14 +6,14 @@ namespace RPGCore.Inventories
 	{
 		private void OnDisable ()
 		{
-			ItemSlotManager[] managers = GetComponentsInChildren<ItemSlotManager> (true);
-			foreach (ItemSlotManager manager in managers)
+			var managers = GetComponentsInChildren<ItemSlotManager> (true);
+			foreach (var manager in managers)
 			{
 				manager.Unhover ();
 			}
 
-			ItemRenderer[] renderers = GetComponentsInChildren<ItemRenderer> (true);
-			foreach (ItemRenderer renderer in renderers)
+			var renderers = GetComponentsInChildren<ItemRenderer> (true);
+			foreach (var renderer in renderers)
 			{
 				renderer.Unhover ();
 			}

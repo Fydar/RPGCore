@@ -53,7 +53,7 @@ namespace RPGCore.Utility
 
 			public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 			{
-				EventField target = (EventField)GetTargetObjectOfProperty (property);
+				var target = (EventField)GetTargetObjectOfProperty (property);
 
 				property.Next (true);
 
@@ -71,16 +71,16 @@ namespace RPGCore.Utility
 
 			public static object GetTargetObjectOfProperty (SerializedProperty prop)
 			{
-				var path = prop.propertyPath.Replace (".Array.data[", "[");
+				string path = prop.propertyPath.Replace (".Array.data[", "[");
 				object obj = prop.serializedObject.targetObject;
-				var elements = path.Split ('.');
+				string[] elements = path.Split ('.');
 
-				foreach (var element in elements)
+				foreach (string element in elements)
 				{
 					if (element.Contains ("["))
 					{
-						var elementName = element.Substring (0, element.IndexOf ("["));
-						var index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[")).Replace ("[", "").Replace ("]", ""));
+						string elementName = element.Substring (0, element.IndexOf ("["));
+						int index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[")).Replace ("[", "").Replace ("]", ""));
 						obj = GetObjectValue (obj, elementName, index);
 					}
 					else

@@ -44,8 +44,8 @@ namespace RPGCore.UI
 
 			for (int i = 0; i < buttons.Length; i++)
 			{
-				PopupButton button = buttons[i];
-				UIPopupButton uiButton = ButtonPool.Grab (ButtonsHolder);
+				var button = buttons[i];
+				var uiButton = ButtonPool.Grab (ButtonsHolder);
 				uiButton.Setup (this, button);
 			}
 

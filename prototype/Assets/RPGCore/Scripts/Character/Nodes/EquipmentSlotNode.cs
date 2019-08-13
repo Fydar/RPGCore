@@ -16,9 +16,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			ConnectionEntry<ItemSurrogate> itemOutput = Item[context];
-			ConnectionEntry<bool> isEquippedOutput = IsEquipped[context];
+			var targetInput = Target[context];
+			var itemOutput = Item[context];
+			var isEquippedOutput = IsEquipped[context];
 
 			Action eventHandler = () =>
 			{

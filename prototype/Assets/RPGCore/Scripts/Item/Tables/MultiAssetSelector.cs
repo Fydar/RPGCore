@@ -10,7 +10,7 @@ namespace RPGCore.Tables
 
 		public T[] SelectMultiple ()
 		{
-			T[] selected = new T[Rolls];
+			var selected = new T[Rolls];
 
 			for (uint i = 0; i < Rolls; i++)
 			{

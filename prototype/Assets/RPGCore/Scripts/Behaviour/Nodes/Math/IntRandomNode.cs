@@ -15,7 +15,7 @@ namespace RPGCore.Behaviour.Math
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			EventEntry rerollInput = Reroll[context];
+			var rerollInput = Reroll[context];
 			ConnectionEntry<int> minInput = Min[context];
 			ConnectionEntry<int> maxInput = Max[context];
 			ConnectionEntry<int> output = Output[context];

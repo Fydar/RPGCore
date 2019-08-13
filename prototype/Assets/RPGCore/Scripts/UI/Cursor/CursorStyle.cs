@@ -24,13 +24,13 @@ namespace RPGCore.UI.CursorManagement
 
 			public override void OnInspectorGUI ()
 			{
-				CursorStyle style = (CursorStyle)target;
+				var style = (CursorStyle)target;
 				DrawDefaultInspector ();
 
 				GUILayout.Space (20);
 
-				Rect pointRow = GUILayoutUtility.GetRect (0, 160);
-				Rect pointRect = new Rect (pointRow)
+				var pointRow = GUILayoutUtility.GetRect (0, 160);
+				var pointRect = new Rect (pointRow)
 				{
 					x = pointRow.x + (pointRow.width * 0.5f) - (pointRow.height * 0.5f),
 					width = pointRow.height,
@@ -49,20 +49,20 @@ namespace RPGCore.UI.CursorManagement
 					}
 				}
 
-				Vector2 pointerPoint = new Vector2 (
+				var pointerPoint = new Vector2 (
 					Mathf.Lerp (pointRect.xMin, pointRect.xMax, style.Hotspot.x / style.Graphic.width),
 					Mathf.Lerp (pointRect.yMin, pointRect.yMax, style.Hotspot.y / style.Graphic.height));
 
-				Rect horizontal = new Rect (pointRect.xMin, pointerPoint.y - 1, pointRect.width, 1);
-				Rect vertical = new Rect (pointerPoint.x - 1, pointRect.yMin, 1, pointRect.width);
+				var horizontal = new Rect (pointRect.xMin, pointerPoint.y - 1, pointRect.width, 1);
+				var vertical = new Rect (pointerPoint.x - 1, pointRect.yMin, 1, pointRect.width);
 
 				EditorGUI.DrawRect (horizontal, Color.red);
 				EditorGUI.DrawRect (vertical, Color.red);
 
 				GUILayout.Space (20);
 
-				Rect rect = GUILayoutUtility.GetRect (0, 96);
-				Rect previewRect = new Rect (rect)
+				var rect = GUILayoutUtility.GetRect (0, 96);
+				var previewRect = new Rect (rect)
 				{
 					x = rect.x + (rect.width * 0.5f) - (rect.height * 0.5f),
 					width = rect.height,
@@ -85,7 +85,7 @@ namespace RPGCore.UI.CursorManagement
 
 			public override Texture2D RenderStaticPreview (string assetPath, Object[] subAssets, int width, int height)
 			{
-				CursorStyle style = (CursorStyle)target;
+				var style = (CursorStyle)target;
 
 				return Instantiate (style.Graphic);
 			}

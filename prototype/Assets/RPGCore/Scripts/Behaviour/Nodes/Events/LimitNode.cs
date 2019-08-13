@@ -17,12 +17,12 @@ namespace RPGCore.Behaviour.Events
 		protected override void OnSetup (IBehaviourContext context)
 		{
 			ConnectionEntry<int> firesInput = Fires[context];
-			ConnectionEntry<float> perSecondsInput = PerSeconds[context];
-			ConnectionEntry<float> spacingInput = Spacing[context];
-			EventEntry eventInput = Event[context];
-			EventEntry limitedtOutput = Limited[context];
+			var perSecondsInput = PerSeconds[context];
+			var spacingInput = Spacing[context];
+			var eventInput = Event[context];
+			var limitedtOutput = Limited[context];
 
-			Queue<float> FiringTimes = new Queue<float> ();
+			var FiringTimes = new Queue<float> ();
 			float lastFiringTime = float.MinValue;
 
 			eventInput.OnEventFired += () =>

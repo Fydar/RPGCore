@@ -160,7 +160,7 @@ namespace RPGCore.Inventories
 				return;
 			}
 
-			Slot_Pair pairSlot = slot.GetSlotBehaviour<Slot_Pair> ();
+			var pairSlot = slot.GetSlotBehaviour<Slot_Pair> ();
 			if (pairSlot != null && pairSlot.pair.Item != null)
 			{
 				if (pairSlot.pair.Item.EquiptableSlot == Slot.TwoHanded)
@@ -403,12 +403,12 @@ namespace RPGCore.Inventories
 			if (currentObject != null)
 				Destroy (currentObject);
 
-			ItemRendererLayer renderLayer = ItemRendererLayer.Get (id);
+			var renderLayer = ItemRendererLayer.Get (id);
 
 			currentObject = Instantiate (prefab, renderLayer.objectHolder.transform) as GameObject;
 			currentObject.layer = renderLayer.gameObject.layer;
 
-			MeshRenderer itemMesh = currentObject.GetComponent<MeshRenderer> ();
+			var itemMesh = currentObject.GetComponent<MeshRenderer> ();
 			itemMesh.receiveShadows = false;
 			itemMesh.shadowCastingMode = ShadowCastingMode.Off;
 			itemMesh.lightProbeUsage = LightProbeUsage.Off;
@@ -430,21 +430,21 @@ namespace RPGCore.Inventories
 			if (lastTemplate == null)
 				return;
 
-			ItemRendererLayer renderLayer = ItemRendererLayer.Get (id);
-			MeshFilter meshFilter = currentObject.GetComponent<MeshFilter> ();
+			var renderLayer = ItemRendererLayer.Get (id);
+			var meshFilter = currentObject.GetComponent<MeshFilter> ();
 
-			Vector3 rectTransformCenter = rectTransform.position;
+			var rectTransformCenter = rectTransform.position;
 
-			Vector2 point = new Vector2 (rectTransformCenter.x, rectTransformCenter.y);
+			var point = new Vector2 (rectTransformCenter.x, rectTransformCenter.y);
 
-			Rect screenRect = RectTransformUtility.PixelAdjustRect (rectTransform, null);
+			var screenRect = RectTransformUtility.PixelAdjustRect (rectTransform, null);
 
-			Ray ray = renderLayer.layerCamera.ScreenPointToRay (point);
+			var ray = renderLayer.layerCamera.ScreenPointToRay (point);
 
 			float maxSize = Mathf.Max (meshFilter.mesh.bounds.size.x, meshFilter.mesh.bounds.size.y,
 				meshFilter.mesh.bounds.size.z) / lastTemplate.RenderScale;
 
-			float heightPerc = ((screenRect.height / Screen.height) * ((float)Screen.height / 2560.0f)) *
+			float heightPerc = ((screenRect.height / Screen.height) * (Screen.height / 2560.0f)) *
 				renderLayer.layerCamera.orthographicSize * 3.0f;
 
 			float newScale = (heightPerc / maxSize) * scaleMultiplier;
@@ -480,7 +480,7 @@ namespace RPGCore.Inventories
 
 		private IEnumerator BounceCoroutine ()
 		{
-			TimedLoop loop = new TimedLoop (0.25f);
+			var loop = new TimedLoop (0.25f);
 
 			foreach (float time in loop)
 			{

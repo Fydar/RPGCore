@@ -152,7 +152,7 @@ namespace RPGCore
 
 		public override ItemSurrogate GenerateItem (ItemData data)
 		{
-			ItemSurrogate newItem = new ItemSurrogate
+			var newItem = new ItemSurrogate
 			{
 				data = data,
 				template = this
@@ -160,7 +160,7 @@ namespace RPGCore
 
 			this.SetupGraph (newItem);
 
-			IInputNode<ItemSurrogate>[] itemNodes = this.GetNodes<IInputNode<ItemSurrogate>> ();
+			var itemNodes = this.GetNodes<IInputNode<ItemSurrogate>> ();
 			foreach (var itemNode in itemNodes)
 			{
 				itemNode.SetTarget (newItem, newItem);
@@ -168,7 +168,7 @@ namespace RPGCore
 
 			if (prefix != null)
 			{
-				EnchantmentTemplate template = prefix.GetEnchantment ();
+				var template = prefix.GetEnchantment ();
 
 				if (template != null)
 				{
@@ -178,7 +178,7 @@ namespace RPGCore
 
 			if (suffix != null)
 			{
-				EnchantmentTemplate template = suffix.GetEnchantment ();
+				var template = suffix.GetEnchantment ();
 
 				if (template != null)
 				{

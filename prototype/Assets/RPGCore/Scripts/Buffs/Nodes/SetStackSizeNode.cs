@@ -11,12 +11,12 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			EventEntry setInput = Set[context];
+			var setInput = Set[context];
 			ConnectionEntry<int> sizeInput = Size[context];
 
 			setInput.OnEventFired += () =>
 			{
-				Buff buff = (Buff)context;
+				var buff = (Buff)context;
 
 				buff.BaseStackSize.Value = 0;
 			};

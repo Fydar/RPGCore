@@ -20,8 +20,8 @@ namespace RPGCore.Behaviour.Connections
 
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			SerializedProperty sourceProperty = property.FindPropertyRelative ("SourceNode");
-			Rect inputNoteRect = EditorGUI.PrefixLabel (position, label);
+			var sourceProperty = property.FindPropertyRelative ("SourceNode");
+			var inputNoteRect = EditorGUI.PrefixLabel (position, label);
 
 			if (sourceProperty.objectReferenceValue != null)
 			{
@@ -87,7 +87,7 @@ namespace RPGCore.Behaviour.Connections
 
 		public EventEntry GetEntry (IBehaviourContext context)
 		{
-			if (this.SourceNode == null)
+			if (SourceNode == null)
 				return defaultEntry;
 
 			EventEntry foundEntry;
@@ -97,9 +97,9 @@ namespace RPGCore.Behaviour.Connections
 
 			bool result = ContextCahce.TryGetValue (context, out foundEntry);
 
-			EventOutput sourceOutput = (EventOutput)SourceSocket;
+			var sourceOutput = (EventOutput)SourceSocket;
 
-			EventEntry connectionEntry = sourceOutput[context];
+			var connectionEntry = sourceOutput[context];
 
 			if (!result)
 			{
@@ -139,10 +139,10 @@ namespace RPGCore.Behaviour.Connections
 		public override void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 		{
 			float distance = Vector3.Distance (start, end);
-			Vector3 startTan = start + (startDir * distance * 0.5f);
-			Vector3 endTan = end + (endDir * distance * 0.5f);
+			var startTan = start + (startDir * distance * 0.5f);
+			var endTan = end + (endDir * distance * 0.5f);
 
-			Color connectionColour = new Color (0.9f, 1.0f, 0.9f) * Color.Lerp (GUI.color, Color.white, 0.5f);
+			var connectionColour = new Color (0.9f, 1.0f, 0.9f) * Color.Lerp (GUI.color, Color.white, 0.5f);
 			Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
 				BehaviourGraphResources.Instance.DefaultTrail, 14);
 		}
@@ -205,10 +205,10 @@ namespace RPGCore.Behaviour.Connections
 		public override void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 		{
 			float distance = Vector3.Distance (start, end);
-			Vector3 startTan = start + (startDir * distance * 0.5f);
-			Vector3 endTan = end + (endDir * distance * 0.5f);
+			var startTan = start + (startDir * distance * 0.5f);
+			var endTan = end + (endDir * distance * 0.5f);
 
-			Color connectionColour = new Color (0.9f, 1.0f, 0.9f) * Color.Lerp (GUI.color, Color.white, 0.5f);
+			var connectionColour = new Color (0.9f, 1.0f, 0.9f) * Color.Lerp (GUI.color, Color.white, 0.5f);
 			Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
 				BehaviourGraphResources.Instance.DefaultTrail, 14);
 		}

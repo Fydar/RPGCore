@@ -19,8 +19,8 @@ namespace RPGCore.Inventories
 
 			for (int i = 0; i < current.Items.Count; i++)
 			{
-				ItemSlot slot = current.Items[i];
-				ItemSlotManager manager = Slots[i];
+				var slot = current.Items[i];
+				var manager = Slots[i];
 
 				manager.Setup (slot);
 				OnSlotAdd (manager);

@@ -39,7 +39,7 @@ namespace RPGCore.Editors.Utility
 			elementCount = Mathf.CeilToInt ((area.height + localOffset) / height);
 			indexOffset = Mathf.Max (0, (int)(Mathf.Floor (viewScroll / height)));
 
-			Rect verticalScrollRect = new Rect (area)
+			var verticalScrollRect = new Rect (area)
 			{
 				xMin = area.xMax - EditorGUIUtility.singleLineHeight
 			};

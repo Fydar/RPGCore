@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RPGCore.Stats
 {
@@ -8,8 +7,8 @@ namespace RPGCore.Stats
 	{
 		public void SetupReferences ()
 		{
-			IEnumerator<StateInstance> stats = GetEnumerator ();
-			IEnumerator<StateInformation> info = StateInformationDatabase.Instance.StateInfos.GetEnumerator ();
+			var stats = GetEnumerator ();
+			var info = StateInformationDatabase.Instance.StateInfos.GetEnumerator ();
 
 			while (stats.MoveNext ())
 			{

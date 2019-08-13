@@ -10,14 +10,14 @@ namespace RPGCore.Utility.Editors
 	{
 		public override Texture2D RenderStaticPreview (string assetPath, Object[] subAssets, int width, int height)
 		{
-			ItemRarity rarity = (ItemRarity)target;
+			var rarity = (ItemRarity)target;
 
-			Color colorA = rarity.HeaderText;
-			Color colorB = rarity.HeaderBackground;
+			var colorA = rarity.HeaderText;
+			var colorB = rarity.HeaderBackground;
 
 			if ((colorA.r + colorA.g + colorA.b) * 0.33f < (colorB.r + colorB.g + colorB.b) * 0.33f)
 			{
-				Color temp = colorA;
+				var temp = colorA;
 				colorA = colorB;
 				colorB = temp;
 			}
@@ -27,7 +27,7 @@ namespace RPGCore.Utility.Editors
 
 		public Texture2D RenderShader (Color primary, Color secondary, int width, int height)
 		{
-			Texture2D preview = new Texture2D (width, height);
+			var preview = new Texture2D (width, height);
 
 			for (int x = 0; x < width; x++)
 			{

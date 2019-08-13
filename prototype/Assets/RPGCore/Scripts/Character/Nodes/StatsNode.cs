@@ -19,22 +19,22 @@ namespace RPGCore
 
 		public string Description (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			ConnectionEntry<float> effectInput = Effect[context];
+			var targetInput = Target[context];
+			var effectInput = Effect[context];
 
 			if (targetInput.Value == null)
 				return "";
 
-			StatInstance inst = targetInput.Value.Stats[entry];
+			var inst = targetInput.Value.Stats[entry];
 
 			return Display.Replace ("{0}", inst.Info.RenderModifier (effectInput.Value, Scaling));
 		}
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			ConnectionEntry<bool> activeInput = Active[context];
-			ConnectionEntry<float> effectInput = Effect[context];
+			var targetInput = Target[context];
+			var activeInput = Active[context];
+			var effectInput = Effect[context];
 
 			StatInstance.Modifier modifier = null;
 			bool isActive = false;

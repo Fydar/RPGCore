@@ -40,7 +40,7 @@ namespace RPGCore.Inventories
 				{
 					for (int i = 0; i < Behaviours.Length; i++)
 					{
-						ItemSlotBehaviour behaviour = Behaviours[i];
+						var behaviour = Behaviours[i];
 
 						behaviour.OnExitSlot (this);
 
@@ -63,7 +63,7 @@ namespace RPGCore.Inventories
 				{
 					for (int i = 0; i < Behaviours.Length; i++)
 					{
-						ItemSlotBehaviour behaviour = Behaviours[i];
+						var behaviour = Behaviours[i];
 
 						behaviour.OnEnterSlot (this);
 
@@ -110,7 +110,7 @@ namespace RPGCore.Inventories
 			avoidEmptySlots = _avoidEmptySlots;
 			OriginalSlot = originalSlot;
 
-			foreach (ItemSlot slot in OriginalSlot)
+			foreach (var slot in OriginalSlot)
 			{
 				if (slot == null)
 					continue;
@@ -121,7 +121,7 @@ namespace RPGCore.Inventories
 					{
 						for (int i = 0; i < Behaviours.Length; i++)
 						{
-							ItemSlotBehaviour behaviour = Behaviours[i];
+							var behaviour = Behaviours[i];
 
 							behaviour.OnEnterSlot (this);
 
@@ -142,7 +142,7 @@ namespace RPGCore.Inventories
 					{
 						for (int i = 0; i < Behaviours.Length; i++)
 						{
-							ItemSlotBehaviour behaviour = Behaviours[i];
+							var behaviour = Behaviours[i];
 
 							behaviour.OnExitSlot (this);
 
@@ -162,7 +162,7 @@ namespace RPGCore.Inventories
 			{
 				for (int i = 0; i < Behaviours.Length; i++)
 				{
-					ItemSlotBehaviour behaviour = Behaviours[i];
+					var behaviour = Behaviours[i];
 
 					behaviour.OnEnterSlot (this);
 
@@ -263,7 +263,7 @@ namespace RPGCore.Inventories
 			{
 				for (int i = 0; i < CurrentSlot.Behaviours.Length; i++)
 				{
-					ItemSlotBehaviour behaviour = CurrentSlot.Behaviours[i];
+					var behaviour = CurrentSlot.Behaviours[i];
 
 					if (behaviour.GetType () == typeof (T))
 					{
@@ -276,7 +276,7 @@ namespace RPGCore.Inventories
 			{
 				for (int i = 0; i < Behaviours.Length; i++)
 				{
-					ItemSlotBehaviour behaviour = Behaviours[i];
+					var behaviour = Behaviours[i];
 
 					if (behaviour.GetType () == typeof (T))
 					{

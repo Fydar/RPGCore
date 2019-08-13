@@ -23,7 +23,7 @@ namespace RPGCore.Behaviour.Logic
 		{
 			ConnectionEntry<int> valueAInput = ValueA[context];
 			ConnectionEntry<int> valueBInput = ValueB[context];
-			ConnectionEntry<bool> output = Output[context];
+			var output = Output[context];
 
 			Action updateHandler = () =>
 			{

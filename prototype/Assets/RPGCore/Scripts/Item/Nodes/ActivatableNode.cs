@@ -25,7 +25,7 @@ namespace RPGCore
 		{
 			ConnectionEntry<int> manaCostInput = ManaCost[context];
 			ConnectionEntry<int> quantityCostInput = QuantityCost[context];
-			EventEntry onActivateOutput = OnActivate[context];
+			var onActivateOutput = OnActivate[context];
 
 			if (CanCharacterUse (context, character))
 			{

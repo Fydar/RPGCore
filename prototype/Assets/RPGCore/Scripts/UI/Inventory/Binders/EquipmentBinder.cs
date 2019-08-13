@@ -58,7 +58,7 @@ namespace RPGCore.Inventories
 
 		private void ActivateSlot ()
 		{
-			ItemSurrogate item = manager.slot.Item;
+			var item = manager.slot.Item;
 
 			if (item != null)
 				item.TryUse ();

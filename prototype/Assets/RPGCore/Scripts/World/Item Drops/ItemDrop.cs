@@ -11,7 +11,7 @@ namespace RPGCore.World
 		{
 			item = _item;
 
-			GameObject render = Instantiate (item.Template.RenderPrefab, transform) as GameObject;
+			var render = Instantiate (item.Template.RenderPrefab, transform) as GameObject;
 
 			render.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
 			render.transform.position = transform.position;
@@ -19,9 +19,9 @@ namespace RPGCore.World
 
 		private void OnTriggerEnter (Collider other)
 		{
-			RPGCharacter character = other.GetComponent<RPGCharacter> ();
+			var character = other.GetComponent<RPGCharacter> ();
 
-			AddResult result = character.inventory.Add (item);
+			var result = character.inventory.Add (item);
 
 			if (result == AddResult.Complete)
 				Destroy (gameObject);

@@ -24,7 +24,7 @@ namespace RPGCore.World
 
 		private void OnDisable ()
 		{
-			foreach (RPGCharacter character in InProximity)
+			foreach (var character in InProximity)
 			{
 				if (OnExit != null)
 					OnExit (character);
@@ -38,13 +38,13 @@ namespace RPGCore.World
 			if (!enabled)
 				return;
 
-			RPGCharacter[] characters = RPGCharacter.All.ToArray ();
+			var characters = RPGCharacter.All.ToArray ();
 
-			Vector3 position = transform.position;
+			var position = transform.position;
 
 			for (int i = characters.Length - 1; i >= 0; i--)
 			{
-				RPGCharacter character = characters[i];
+				var character = characters[i];
 
 				if (character.gameObject.activeInHierarchy && Distance > Vector3.Distance (character.transform.position, position))
 				{

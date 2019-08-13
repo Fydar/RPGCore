@@ -13,11 +13,11 @@ namespace RPGCore
 			if (!property.isExpanded)
 				return EditorGUIUtility.singleLineHeight;
 
-			SerializedProperty directoriesProperty = property.FindPropertyRelative ("fieldDirectories");
-			SerializedProperty valuesProperty = property.FindPropertyRelative ("fieldValues");
+			var directoriesProperty = property.FindPropertyRelative ("fieldDirectories");
+			var valuesProperty = property.FindPropertyRelative ("fieldValues");
 			float total = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-			foreach (SerializedProperty child in GetChildren (property))
+			foreach (var child in GetChildren (property))
 			{
 				total += EditorGUI.GetPropertyHeight (child, label, true) + EditorGUIUtility.standardVerticalSpacing;
 			}
@@ -28,8 +28,8 @@ namespace RPGCore
 
 			for (int i = 0; i < directoriesProperty.arraySize; i++)
 			{
-				SerializedProperty directory = directoriesProperty.GetArrayElementAtIndex (i);
-				SerializedProperty value = valuesProperty.GetArrayElementAtIndex (i);
+				var directory = directoriesProperty.GetArrayElementAtIndex (i);
+				var value = valuesProperty.GetArrayElementAtIndex (i);
 
 				lastDirectorySeperator = directory.stringValue.IndexOf ('/');
 				string folderName = directory.stringValue.Substring (0, lastDirectorySeperator);
@@ -53,7 +53,7 @@ namespace RPGCore
 
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			Rect marchingRect = new Rect (position)
+			var marchingRect = new Rect (position)
 			{
 				height = EditorGUIUtility.singleLineHeight
 			};
@@ -66,10 +66,10 @@ namespace RPGCore
 			EditorGUI.indentLevel++;
 			marchingRect.y += marchingRect.height + EditorGUIUtility.standardVerticalSpacing;
 
-			SerializedProperty valuesProperty = property.FindPropertyRelative ("fieldValues");
-			SerializedProperty directoriesProperty = property.FindPropertyRelative ("fieldDirectories");
+			var valuesProperty = property.FindPropertyRelative ("fieldValues");
+			var directoriesProperty = property.FindPropertyRelative ("fieldDirectories");
 
-			foreach (SerializedProperty child in GetChildren (property))
+			foreach (var child in GetChildren (property))
 			{
 				marchingRect.height = EditorGUI.GetPropertyHeight (child);
 
@@ -84,7 +84,7 @@ namespace RPGCore
 
 			for (int i = 0; i < directoriesProperty.arraySize; i++)
 			{
-				SerializedProperty directory = directoriesProperty.GetArrayElementAtIndex (i);
+				var directory = directoriesProperty.GetArrayElementAtIndex (i);
 
 				lastDirectorySeperator = directory.stringValue.IndexOf ('/');
 				string folderName = directory.stringValue.Substring (0, lastDirectorySeperator);
@@ -101,7 +101,7 @@ namespace RPGCore
 
 				if (lastExpanded)
 				{
-					SerializedProperty value = valuesProperty.GetArrayElementAtIndex (i);
+					var value = valuesProperty.GetArrayElementAtIndex (i);
 					EditorGUI.indentLevel++;
 					marchingRect.height = EditorGUI.GetPropertyHeight (value);
 
@@ -121,7 +121,7 @@ namespace RPGCore
 		private static IEnumerable<SerializedProperty> GetChildren (SerializedProperty property)
 		{
 			property = property.Copy ();
-			SerializedProperty nextElement = property.Copy ();
+			var nextElement = property.Copy ();
 
 			if (!nextElement.NextVisible (false))
 				nextElement = null;

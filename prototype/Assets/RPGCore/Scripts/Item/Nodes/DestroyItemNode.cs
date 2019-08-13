@@ -15,8 +15,8 @@ namespace RPGCore
 		protected override void OnSetup (IBehaviourContext context)
 		{
 			ConnectionEntry<int> countInput = Count[context];
-			ConnectionEntry<ItemSurrogate> itemInput = Item[context];
-			EventEntry eventInput = Event[context];
+			var itemInput = Item[context];
+			var eventInput = Event[context];
 
 			Action updateHandler = () =>
 			{

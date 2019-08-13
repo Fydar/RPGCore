@@ -15,15 +15,15 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			EventEntry activateInput = Activate[context];
+			var targetInput = Target[context];
+			var activateInput = Activate[context];
 
 			activateInput.OnEventFired += () =>
 			{
 				if (targetInput.Value == null)
 					return;
 
-				PulseEffect visualEffect = Instantiate (Effect) as PulseEffect;
+				var visualEffect = Instantiate (Effect) as PulseEffect;
 				visualEffect.gameObject.SetActive (false);
 
 				visualEffect.transform.SetParent (targetInput.Value.transform);

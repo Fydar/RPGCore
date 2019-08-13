@@ -58,11 +58,11 @@ namespace RPGCore.Tooltips
 			fader.alpha = fade.Value;
 			fadeRenderLayer.color = new Color (1.0f, 1.0f, 1.0f, fade.Value);
 
-			Vector2 normalised = new Vector2 (Input.mousePosition.x / Screen.width,
+			var normalised = new Vector2 (Input.mousePosition.x / Screen.width,
 											 Input.mousePosition.y / Screen.height);
 
-			Vector2 newPivot = DefaultPositioning.pivot;
-			Vector2 modifiedAnchor = DefaultPositioning.anchorPivot;
+			var newPivot = DefaultPositioning.pivot;
+			var modifiedAnchor = DefaultPositioning.anchorPivot;
 			if (normalised.x < DefaultPositioning.flipPoint.x)
 			{
 				newPivot = new Vector2 (1.0f - newPivot.x, newPivot.y);
@@ -85,10 +85,10 @@ namespace RPGCore.Tooltips
 				{
 					holder.pivot = newPivot;
 
-					Vector3[] corners = new Vector3[4];
+					var corners = new Vector3[4];
 					currentTransform.GetWorldCorners (corners);
-					Vector3 topLeft = corners[0];
-					Vector3 bottomRight = corners[3];
+					var topLeft = corners[0];
+					var bottomRight = corners[3];
 
 					holder.position = new Vector3 (
 						Mathf.Lerp (topLeft.x, bottomRight.x, modifiedAnchor.x),
@@ -133,11 +133,11 @@ namespace RPGCore.Tooltips
 
 			for (int i = 0; i < elements.Length; i++)
 			{
-				TooltipElement element = elements[i];
+				var element = elements[i];
 
 				if (typeof (ITooltipTarget<T>).IsAssignableFrom (element.GetType ()))
 				{
-					ITooltipTarget<T> tooltipTarget = (ITooltipTarget<T>)element;
+					var tooltipTarget = (ITooltipTarget<T>)element;
 
 					element.gameObject.SetActive (true);
 					tooltipTarget.Render (target);
@@ -155,18 +155,18 @@ namespace RPGCore.Tooltips
 
 			for (int i = 0; i < elements.Length; i++)
 			{
-				TooltipElement element = elements[i];
+				var element = elements[i];
 
 				if (typeof (ITooltipTarget<A>).IsAssignableFrom (element.GetType ()))
 				{
-					ITooltipTarget<A> tooltipTarget = (ITooltipTarget<A>)element;
+					var tooltipTarget = (ITooltipTarget<A>)element;
 
 					tooltipTarget.Render (target);
 					element.gameObject.SetActive (true);
 				}
 				else if (typeof (ITooltipTarget<B>).IsAssignableFrom (element.GetType ()))
 				{
-					ITooltipTarget<B> tooltipTarget = (ITooltipTarget<B>)element;
+					var tooltipTarget = (ITooltipTarget<B>)element;
 
 					tooltipTarget.Render (fallback);
 					element.gameObject.SetActive (true);
@@ -190,7 +190,7 @@ namespace RPGCore.Tooltips
 		{
 			for (int i = 0; i < elements.Length; i++)
 			{
-				TooltipElement element = elements[i];
+				var element = elements[i];
 
 				element.gameObject.SetActive (false);
 			}
@@ -198,11 +198,11 @@ namespace RPGCore.Tooltips
 
 		private static TooltipElement[] GetChildElements (Transform target)
 		{
-			List<TooltipElement> tooltipElements = new List<TooltipElement> ();
+			var tooltipElements = new List<TooltipElement> ();
 
 			for (int i = 0; i < target.childCount; i++)
 			{
-				TooltipElement element = target.GetChild (i).GetComponent<TooltipElement> ();
+				var element = target.GetChild (i).GetComponent<TooltipElement> ();
 
 				if (element != null)
 				{

@@ -144,7 +144,7 @@ namespace RPGCore.Utility.InspectorLog
 			if (!paths.ContainsKey (pathHash))
 				paths.Add (pathHash, sourceFilePath);
 
-			LogItem item = new LogItem (message, category, pathHash, sourceLineNumber);
+			var item = new LogItem (message, category, pathHash, sourceLineNumber);
 			if (logHistory == null)
 				logHistory = new List<LogItem> ();
 			logHistory.Add (item);
@@ -281,11 +281,11 @@ namespace RPGCore.Utility.InspectorLog
 
 			label = new GUIContent (label.text, ConsoleIcon, label.tooltip);
 
-			Rect headerRect = new Rect (position)
+			var headerRect = new Rect (position)
 			{
 				height = EditorGUIUtility.singleLineHeight
 			};
-			Rect viewRect = new Rect (position)
+			var viewRect = new Rect (position)
 			{
 				yMin = headerRect.yMax
 			};
@@ -326,7 +326,7 @@ namespace RPGCore.Utility.InspectorLog
 		{
 			if (Event.current.type == EventType.Repaint)
 			{
-				Color originalColor = GUI.color;
+				var originalColor = GUI.color;
 				if (SelectedIndex == index)
 					GUI.color = new Color (0.25f, 0.45f, 1.0f, 1.0f);
 				else
@@ -387,10 +387,10 @@ namespace RPGCore.Utility.InspectorLog
 
 		private void TextCroppingField (Rect rect, GUIContent content)
 		{
-			GUIContent textContent = new GUIContent (content.text);
+			var textContent = new GUIContent (content.text);
 			float width = logTextStyle.CalcSize (textContent).x;
 
-			Rect iconRect = new Rect (rect.x, rect.y, rect.height, rect.height);
+			var iconRect = new Rect (rect.x, rect.y, rect.height, rect.height);
 			rect = new Rect (iconRect.xMax, iconRect.y, rect.width - iconRect.width, rect.height);
 
 			iconRect.x += logEntryStyle.padding.left * 0.5f;
@@ -400,7 +400,7 @@ namespace RPGCore.Utility.InspectorLog
 				float elipsisWidth = elipsisStyle.CalcSize (new GUIContent ("...")).x;
 
 				rect = new Rect (rect.x, rect.y, rect.width - elipsisWidth, rect.height);
-				Rect elipsisRect = new Rect (rect.xMax, rect.y, elipsisWidth, rect.height);
+				var elipsisRect = new Rect (rect.xMax, rect.y, elipsisWidth, rect.height);
 
 				GUI.color = Color.red;
 				logTextStyle.Draw (rect, textContent, false, false, false, false);
@@ -411,7 +411,7 @@ namespace RPGCore.Utility.InspectorLog
 				logTextStyle.Draw (rect, textContent, false, false, false, false);
 			}
 
-			Color originalColor = GUI.color;
+			var originalColor = GUI.color;
 			GUI.color = Color.white;
 			GUI.Box (iconRect, content.image, EditorStyles.label);
 			GUI.color = originalColor;

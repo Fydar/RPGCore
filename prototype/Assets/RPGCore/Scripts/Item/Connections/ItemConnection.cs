@@ -18,10 +18,10 @@ namespace RPGCore
 		public override void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 		{
 			float strength = Vector3.Distance (start, end) * 0.5f;
-			Vector3 startTan = start + (startDir * strength);
-			Vector3 endTan = end + (endDir * strength);
+			var startTan = start + (startDir * strength);
+			var endTan = end + (endDir * strength);
 
-			Color connectionColour = new Color (0.75f, 0.85f, 1.0f);
+			var connectionColour = new Color (0.75f, 0.85f, 1.0f);
 			Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
 				BehaviourGraphResources.Instance.DefaultTrail, 14);
 		}

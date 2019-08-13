@@ -100,7 +100,7 @@ namespace RPGCore
 
 		public ItemData Duplicate ()
 		{
-			ItemData newData = new ItemData ();
+			var newData = new ItemData ();
 
 			newData.seed.Value = seed.Value;
 			newData.quantity.Value = quantity.Value;

@@ -14,9 +14,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> ownerOutput = Owner[context];
-			EventEntry onReceiveOutput = OnReceive[context];
-			EventEntry onLooseOutput = OnLoose[context];
+			var ownerOutput = Owner[context];
+			var onReceiveOutput = OnReceive[context];
+			var onLooseOutput = OnLoose[context];
 			ConnectionEntry<int> stackSizeOutput = StackSize[context];
 
 			//equippedOutput.Value = character;
@@ -39,7 +39,7 @@ namespace RPGCore
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> equippedOutput = Owner[context];
+			var equippedOutput = Owner[context];
 
 			equippedOutput.Value = null;
 		}

@@ -13,13 +13,13 @@ namespace RPGCore.Inventories
 
 		public override AddResult Add (ItemSurrogate newItem)
 		{
-			List<ItemSlot> emptySlots = new List<ItemSlot> (Items.Count);
+			var emptySlots = new List<ItemSlot> (Items.Count);
 
 			//bool partiallyComplete = false;
 
 			for (int i = 0; i < Items.Count; i++)
 			{
-				ItemSlot slot = Items[i];
+				var slot = Items[i];
 
 				if (slot.Item == null)
 				{
@@ -27,7 +27,7 @@ namespace RPGCore.Inventories
 					continue;
 				}
 
-				AddResult result = slot.Add (newItem);
+				var result = slot.Add (newItem);
 
 				if (result == AddResult.Complete)
 				{
@@ -57,11 +57,11 @@ namespace RPGCore.Inventories
 					partiallyComplete = true;
 			}*/
 
-			AddResult lastAddResult = AddResult.None;
+			var lastAddResult = AddResult.None;
 
 			while (lastAddResult != AddResult.Complete)
 			{
-				ItemSlot newSlot = AddSlot ();
+				var newSlot = AddSlot ();
 
 				lastAddResult = newSlot.Add (newItem);
 
@@ -86,7 +86,7 @@ namespace RPGCore.Inventories
 		{
 			for (int i = 0; i < Items.Count; i++)
 			{
-				ItemSlot slot = Items[i];
+				var slot = Items[i];
 
 				if (slot.Item == newItem)
 				{

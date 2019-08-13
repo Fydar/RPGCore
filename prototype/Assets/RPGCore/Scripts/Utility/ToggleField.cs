@@ -16,20 +16,20 @@ namespace RPGCore.Utility
 		{
 			public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 			{
-				SerializedProperty valueProperty = property.FindPropertyRelative ("Value");
+				var valueProperty = property.FindPropertyRelative ("Value");
 
 				return EditorGUI.GetPropertyHeight (valueProperty);
 			}
 
 			public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 			{
-				SerializedProperty enabledProperty = property.FindPropertyRelative ("Enabled");
-				SerializedProperty valueProperty = property.FindPropertyRelative ("Value");
+				var enabledProperty = property.FindPropertyRelative ("Enabled");
+				var valueProperty = property.FindPropertyRelative ("Value");
 
-				Rect toggleRect = new Rect (position);
+				var toggleRect = new Rect (position);
 				toggleRect.xMax = toggleRect.xMin + 16;
 
-				Rect fieldRect = new Rect (position);
+				var fieldRect = new Rect (position);
 				fieldRect.xMin += 16;
 
 				enabledProperty.boolValue = EditorGUI.ToggleLeft (toggleRect, GUIContent.none, enabledProperty.boolValue);
