@@ -60,16 +60,16 @@ The remaining duration on the buff can also be used to drive the performance of 
 
 This work is licensed under the Apache License, Version 2.0, meaning you are free to use this work commercially under the conditions the LICENSE and NOTICE file is included within the source.
 
-[MainImage]: ./Screenshots/Main.png
+[MainImage]: ./docs/screenshots/Main.png
 
-[ChargingBuff]: ./Screenshots/ChargingBuff.png
-[ImmolateBuff]: ./Screenshots/ImmolateBuff.png
-[PosionedDebuff]: ./Screenshots/PosionedDebuff.png
+[ChargingBuff]: ./docs/screenshots/ChargingBuff.png
+[ImmolateBuff]: ./docs/screenshots/ImmolateBuff.png
+[PosionedDebuff]: ./docs/screenshots/PosionedDebuff.png
 
-[PoisonPotion]: ./Screenshots/PoisonPotion.png
-[FireCapeGraph]: ./Screenshots/FireCapeGraph.png
+[PoisonPotion]: ./docs/screenshots/PoisonPotion.png
+[FireCapeGraph]: ./docs/screenshots/FireCapeGraph.png
 
-[ItemIcons]: ./Screenshots/FireCapeTooltip.png
-[FireCapeTooltip]: ./Screenshots/FireCapeTooltip.png
-[HealthPotion]: ./Screenshots/HealthPotion.png
-[EnchantmentsTooltip]: ./Screenshots/EnchantmentsTooltip.png
+[ItemIcons]: ./docs/screenshots/FireCapeTooltip.png
+[FireCapeTooltip]: ./docs/screenshots/FireCapeTooltip.png
+[HealthPotion]: ./docs/screenshots/HealthPotion.png
+[EnchantmentsTooltip]: ./docs/screenshots/EnchantmentsTooltip.png
