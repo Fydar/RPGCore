@@ -38,7 +38,7 @@ namespace RPGCore.Inventories
 
 		public virtual void Clear ()
 		{
-			foreach (ItemSlot slot in Items)
+			foreach (var slot in Items)
 			{
 				slot.Remove ();
 			}
@@ -48,7 +48,7 @@ namespace RPGCore.Inventories
 		{
 			while (Items.Count < size)
 			{
-				ItemSlot slot = CreateItemSlot ();
+				var slot = CreateItemSlot ();
 
 				Items.Add (slot);
 
@@ -67,7 +67,7 @@ namespace RPGCore.Inventories
 
 		protected ItemSlot AddSlot ()
 		{
-			ItemSlot newSlot = CreateItemSlot ();
+			var newSlot = CreateItemSlot ();
 			Items.Add (newSlot);
 
 			if (OnSlotAdded != null)
@@ -80,7 +80,7 @@ namespace RPGCore.Inventories
 		{
 			for (int i = 0; i < size; i++)
 			{
-				ItemSlot slot = CreateItemSlot ();
+				var slot = CreateItemSlot ();
 				Items.Add (slot);
 
 				if (OnSlotAdded != null)

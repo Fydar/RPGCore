@@ -15,9 +15,9 @@ namespace RPGCore.Stats
 
 		private void Start ()
 		{
-			foreach (StatInstance stat in Char.Stats)
+			foreach (var stat in Char.Stats)
 			{
-				StatDrawer drawer = PrefabDrawer.Grab (Holder);
+				var drawer = PrefabDrawer.Grab (Holder);
 
 				drawer.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.zero;
 				drawer.transform.localScale = Vector3.one;

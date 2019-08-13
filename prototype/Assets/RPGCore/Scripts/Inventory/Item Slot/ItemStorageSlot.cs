@@ -102,21 +102,21 @@ namespace RPGCore.Inventories
 
 			if (other.Item == null)
 			{
-				ItemSurrogate swapItem = Item;
+				var swapItem = Item;
 
 				Item = null;
 				other.Item = swapItem;
 				return;
 			}
 
-			ItemSurrogate tempItem = other.Item;
+			var tempItem = other.Item;
 			other.Item = null;
 
-			AddResult result = Add (tempItem);
+			var result = Add (tempItem);
 
 			if (result == AddResult.None)
 			{
-				ItemSurrogate tempBItem = Item;
+				var tempBItem = Item;
 				Item = null;
 
 				other.Item = tempBItem;

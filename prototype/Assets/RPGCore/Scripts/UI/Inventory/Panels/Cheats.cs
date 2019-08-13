@@ -24,22 +24,22 @@ namespace RPGCore.Inventories
 		{
 			for (int i = 0; i < CheatItems.Length; i++)
 			{
-				ItemGenerator generator = CheatItems[i];
+				var generator = CheatItems[i];
 
-				GameObject clone = Instantiate (ButtonPrefab, Vector3.zero, Quaternion.identity, ParentHolder) as GameObject;
+				var clone = Instantiate (ButtonPrefab, Vector3.zero, Quaternion.identity, ParentHolder) as GameObject;
 				clone.transform.localScale = Vector3.one;
 				clone.transform.localRotation = Quaternion.identity;
 				clone.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.zero;
 
 				int cheatIndex = i;
 
-				Button button = clone.GetComponent<Button> ();
+				var button = clone.GetComponent<Button> ();
 				button.onClick.AddListener (new UnityAction (() =>
 				{
 					CheatItem (cheatIndex);
 				}));
 
-				ItemRenderer slotRenderer = clone.GetComponent<ItemRenderer> ();
+				var slotRenderer = clone.GetComponent<ItemRenderer> ();
 
 				slotRenderer.RenderGenerator (generator);
 			}
@@ -52,9 +52,9 @@ namespace RPGCore.Inventories
 				throw new System.ArgumentOutOfRangeException ("index", "The index provided is out of range.");
 			}
 
-			ItemGenerator generator = CheatItems[index];
+			var generator = CheatItems[index];
 
-			ItemSurrogate item = generator.Generate ();
+			var item = generator.Generate ();
 
 			Character.inventory.Add (item);
 		}
@@ -68,7 +68,7 @@ namespace RPGCore.Inventories
 
 		private void OnEnable ()
 		{
-			Cheats cheats = (Cheats)target;
+			var cheats = (Cheats)target;
 
 			list = new ReorderableList (serializedObject, serializedObject.FindProperty ("CheatItems"));
 

@@ -44,11 +44,11 @@ namespace RPGCore.Tables
 
 		public static void StandardOnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			SerializedProperty itemProperty = property.FindPropertyRelative ("Item");
-			SerializedProperty balanceProperty = property.FindPropertyRelative ("Balance");
+			var itemProperty = property.FindPropertyRelative ("Item");
+			var balanceProperty = property.FindPropertyRelative ("Balance");
 
-			Rect itemRect = new Rect (position.x, position.y, position.width * 0.95f - 40, position.height);
-			Rect balanceRect = new Rect (itemRect.xMax, position.y, position.width - itemRect.width, EditorGUIUtility.singleLineHeight);
+			var itemRect = new Rect (position.x, position.y, position.width * 0.95f - 40, position.height);
+			var balanceRect = new Rect (itemRect.xMax, position.y, position.width - itemRect.width, EditorGUIUtility.singleLineHeight);
 
 			EditorGUI.PropertyField (itemRect, itemProperty, GUIContent.none, false);
 

@@ -30,7 +30,7 @@ namespace RPGCore.Quests
 
 		public void GrantRewards (RPGCharacter character)
 		{
-			foreach (ItemGenerator generator in Rewards)
+			foreach (var generator in Rewards)
 			{
 				if (generator == null || generator.RewardTemplate == null)
 					continue;

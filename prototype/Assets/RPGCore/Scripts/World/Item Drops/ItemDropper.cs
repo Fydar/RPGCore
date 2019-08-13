@@ -21,7 +21,7 @@ namespace RPGCore.World
 				return;
 			}
 
-			ItemDrop drop = Instantiate (instance.DropPrefab) as ItemDrop;
+			var drop = Instantiate (instance.DropPrefab) as ItemDrop;
 
 			drop.transform.position = position;
 

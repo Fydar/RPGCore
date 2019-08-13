@@ -26,14 +26,14 @@ namespace RPGCore.UI
 
 		public static void CreateDamagePopup (int healthChange, Transform target)
 		{
-			FloatingText clone = Instantiate (instance.popupText, instance.canvas.transform);
+			var clone = Instantiate (instance.popupText, instance.canvas.transform);
 
 			clone.SetText (target, healthChange);
 		}
 
 		public static void CreateBuffPopup (string buffText, Transform target)
 		{
-			FloatingText clone = Instantiate (instance.popupText, instance.canvas.transform);
+			var clone = Instantiate (instance.popupText, instance.canvas.transform);
 
 			clone.SetText (target, buffText);
 		}

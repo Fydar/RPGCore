@@ -114,7 +114,7 @@ namespace RPGCore
 
 		public Modifier AddFlatModifier (int startingValue)
 		{
-			Modifier mod = new Modifier (this, startingValue);
+			var mod = new Modifier (this, startingValue);
 			FlatModifiers.Add (mod);
 
 			isDirty = true;
@@ -171,13 +171,13 @@ namespace RPGCore
 
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			SerializedProperty infoProperty = property.FindPropertyRelative ("Info");
-			SerializedProperty valueProperty = property.FindPropertyRelative ("baseValue");
+			var infoProperty = property.FindPropertyRelative ("Info");
+			var valueProperty = property.FindPropertyRelative ("baseValue");
 
 			if (infoProperty.objectReferenceValue == null)
 				return;
 
-			IntegerStack statInst = (IntegerStack)GetTargetObjectOfProperty (property);
+			var statInst = (IntegerStack)GetTargetObjectOfProperty (property);
 
 			Rect fieldRect;
 
@@ -200,16 +200,16 @@ namespace RPGCore
 
 		public static object GetTargetObjectOfProperty (SerializedProperty prop)
 		{
-			var path = prop.propertyPath.Replace (".Array.data[", "[");
+			string path = prop.propertyPath.Replace (".Array.data[", "[");
 			object obj = prop.serializedObject.targetObject;
-			var elements = path.Split ('.');
+			string[] elements = path.Split ('.');
 
-			foreach (var element in elements)
+			foreach (string element in elements)
 			{
 				if (element.Contains ("["))
 				{
-					var elementName = element.Substring (0, element.IndexOf ("["));
-					var index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[")).Replace ("[", "").Replace ("]", ""));
+					string elementName = element.Substring (0, element.IndexOf ("["));
+					int index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[")).Replace ("[", "").Replace ("]", ""));
 					obj = GetObjectValue (obj, elementName, index);
 				}
 				else

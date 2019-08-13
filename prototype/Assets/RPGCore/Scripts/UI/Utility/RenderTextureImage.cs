@@ -45,10 +45,10 @@ namespace RPGCore.Utility
 
 		private void RefreshRenderTexture ()
 		{
-			RenderTexture newRT = new RenderTexture (Screen.width, Screen.height, (int)depth, format);
+			var newRT = new RenderTexture (Screen.width, Screen.height, (int)depth, format);
 			newRT.antiAliasing = Antialiasing;
 
-			RenderTexture oldRT = targetCamera.targetTexture;
+			var oldRT = targetCamera.targetTexture;
 
 			targetCamera.targetTexture = newRT;
 			targetImage.texture = newRT;

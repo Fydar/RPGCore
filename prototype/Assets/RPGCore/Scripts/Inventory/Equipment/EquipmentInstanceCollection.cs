@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RPGCore.Inventories
 {
@@ -8,8 +7,8 @@ namespace RPGCore.Inventories
 	{
 		public void SetupReferences ()
 		{
-			IEnumerator<EquipmentInstance> Equipments = GetEnumerator ();
-			IEnumerator<EquipmentInformation> info = EquipmentInformationDatabase.Instance.EquipmentInfos.GetEnumerator ();
+			var Equipments = GetEnumerator ();
+			var info = EquipmentInformationDatabase.Instance.EquipmentInfos.GetEnumerator ();
 
 			while (Equipments.MoveNext ())
 			{

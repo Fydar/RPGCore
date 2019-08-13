@@ -80,7 +80,7 @@ namespace RPGCore.Inventories
 
 					if (positioner == DragPositioner.Offset)
 					{
-						Vector3 originalPosition = transform.position;
+						var originalPosition = transform.position;
 						transform.position = dragStartPosition;
 
 						ghost.RenderSlot (startSlot.slot);
@@ -134,7 +134,7 @@ namespace RPGCore.Inventories
 					}
 					else if (ItemSlotManager.CurrentlyHovered != null)
 					{
-						ItemSlotManager endSlot = ItemSlotManager.CurrentlyHovered;
+						var endSlot = ItemSlotManager.CurrentlyHovered;
 
 						endSlot.slot.Swap (startSlot.slot);
 					}

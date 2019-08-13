@@ -14,10 +14,10 @@ namespace RPGCore.Utility.Editors
 
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			CollectionEntry entry = (CollectionEntry)PropertyUtility.GetTargetObjectOfProperty (property);
+			var entry = (CollectionEntry)PropertyUtility.GetTargetObjectOfProperty (property);
 
-			SerializedProperty idProperty = property.FindPropertyRelative ("field");
-			CollectionInformation info = EnumerableCollection.GetReflectionInformation (entry.IndexType);
+			var idProperty = property.FindPropertyRelative ("field");
+			var info = EnumerableCollection.GetReflectionInformation (entry.IndexType);
 
 			string[] names = info.fieldNames;
 

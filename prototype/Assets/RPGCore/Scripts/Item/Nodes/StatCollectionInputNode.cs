@@ -25,8 +25,8 @@ namespace RPGCore
 
 		public StatInstance GetStat (ItemSurrogate context, CollectionEntry entry)
 		{
-			B statsCollection = StatsMapping[context];
-			StatInstance stat = statsCollection[entry];
+			var statsCollection = StatsMapping[context];
+			var stat = statsCollection[entry];
 			return stat;
 		}
 

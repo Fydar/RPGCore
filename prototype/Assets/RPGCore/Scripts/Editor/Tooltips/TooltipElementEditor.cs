@@ -14,7 +14,7 @@ namespace RPGCore.Tooltips.Editors
 		{
 			DrawTooltipTargets (target.GetType ());
 
-			SerializedProperty iterator = serializedObject.GetIterator ();
+			var iterator = serializedObject.GetIterator ();
 			iterator.NextVisible (true);
 
 			EditorGUI.BeginDisabledGroup (true);
@@ -41,13 +41,13 @@ namespace RPGCore.Tooltips.Editors
 				};
 			}
 
-			Type[] interfaces = elementType.GetInterfaces ();
+			var interfaces = elementType.GetInterfaces ();
 
 			GUILayout.Space (EditorGUIUtility.standardVerticalSpacing * 2);
 
 			EditorGUILayout.BeginVertical (EditorStyles.helpBox);
 
-			foreach (Type inheriting in interfaces)
+			foreach (var inheriting in interfaces)
 			{
 				if (inheriting.GetGenericTypeDefinition () != typeof (ITooltipTarget<>))
 					continue;

@@ -16,7 +16,7 @@ namespace RPGCore.Behaviour
 	{
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
-			SerializedProperty sourceProperty = property.FindPropertyRelative ("SourceNode");
+			var sourceProperty = property.FindPropertyRelative ("SourceNode");
 
 			if (sourceProperty.objectReferenceValue != null)
 			{
@@ -24,7 +24,7 @@ namespace RPGCore.Behaviour
 			}
 			else
 			{
-				SerializedProperty valueProperty = property.FindPropertyRelative ("defaultValue");
+				var valueProperty = property.FindPropertyRelative ("defaultValue");
 
 				if (valueProperty == null)
 					return EditorGUIUtility.singleLineHeight;
@@ -35,17 +35,17 @@ namespace RPGCore.Behaviour
 
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			SerializedProperty sourceProperty = property.FindPropertyRelative ("SourceNode");
+			var sourceProperty = property.FindPropertyRelative ("SourceNode");
 
 			if (sourceProperty.objectReferenceValue != null)
 			{
-				Rect inputNoteRect = EditorGUI.PrefixLabel (position, label);
+				var inputNoteRect = EditorGUI.PrefixLabel (position, label);
 				if (label != GUIContent.none)
 					EditorGUI.LabelField (inputNoteRect, "Input", EditorStyles.centeredGreyMiniLabel);
 			}
 			else
 			{
-				SerializedProperty valueProperty = property.FindPropertyRelative ("defaultValue");
+				var valueProperty = property.FindPropertyRelative ("defaultValue");
 
 				if (valueProperty != null)
 				{
@@ -53,7 +53,7 @@ namespace RPGCore.Behaviour
 					EditorGUI.PropertyField (position, valueProperty, label);
 					if (EditorGUI.EndChangeCheck ())
 					{
-						InputSocket inputSocket = (InputSocket)PropertyUtility.GetTargetObjectOfProperty (property);
+						var inputSocket = (InputSocket)PropertyUtility.GetTargetObjectOfProperty (property);
 						property.serializedObject.ApplyModifiedProperties ();
 						inputSocket.AfterContentChanged ();
 					}
@@ -101,10 +101,10 @@ namespace RPGCore.Behaviour
 		public virtual void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 		{
 			float distance = Vector3.Distance (start, end);
-			Vector3 startTan = start + (startDir * distance * 0.5f);
-			Vector3 endTan = end + (endDir * distance * 0.5f);
+			var startTan = start + (startDir * distance * 0.5f);
+			var endTan = end + (endDir * distance * 0.5f);
 
-			Color connectionColour = new Color (1.0f, 1.0f, 1.0f) * Color.Lerp (GUI.color, Color.white, 0.5f);
+			var connectionColour = new Color (1.0f, 1.0f, 1.0f) * Color.Lerp (GUI.color, Color.white, 0.5f);
 			Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
 				BehaviourGraphResources.Instance.SmallConnection, 10);
 		}
@@ -159,16 +159,16 @@ namespace RPGCore.Behaviour
 
 					if (typeof (ListOutput).IsAssignableFrom (SourceSocket.GetType ()))
 					{
-						ListOutput list = (ListOutput)SourceSocket;
+						var list = (ListOutput)SourceSocket;
 
-						EntryCollection entries = list.GetEntry (context);
+						var entries = list.GetEntry (context);
 
 						// If this is a root thing
 						if (ContextUtility.currentIndex == -1)
 						{
 							for (int i = 0; i < entries.Count; i++)
 							{
-								C entry = entries[i];
+								var entry = entries[i];
 								int index = i;
 								ContextUtility.currentIndex = index;
 
@@ -200,7 +200,7 @@ namespace RPGCore.Behaviour
 								Debug.Log (SourceSocket.GetType ().Name + " is not convertable to "
 									+ GetType ().Name);
 
-							ISocketConvertable<T> socket = (ISocketConvertable<T>)connectionEntry;
+							var socket = (ISocketConvertable<T>)connectionEntry;
 
 							connectionEntry.OnAfterChanged += () =>
 							{
@@ -212,15 +212,15 @@ namespace RPGCore.Behaviour
 					}
 					else
 					{
-						Socket sourceOutput = (Socket)SourceSocket;
+						var sourceOutput = (Socket)SourceSocket;
 
-						ConnectionEntry connectionEntry = sourceOutput.GetBaseEntry (context);
+						var connectionEntry = sourceOutput.GetBaseEntry (context);
 
 						if (!typeof (ISocketConvertable<T>).IsAssignableFrom (connectionEntry.GetType ()))
 							Debug.Log (SourceSocket.GetType ().Name + " is not convertable to "
 								+ GetType ().Name);
 
-						ISocketConvertable<T> socket = (ISocketConvertable<T>)connectionEntry;
+						var socket = (ISocketConvertable<T>)connectionEntry;
 
 						connectionEntry.OnAfterChanged += () =>
 						{
@@ -359,15 +359,15 @@ namespace RPGCore.Behaviour
 
 					contextCahce.Add (context, foundEntry);
 
-					Socket sourceOutput = (Socket)SourceSocket;
+					var sourceOutput = (Socket)SourceSocket;
 
-					ConnectionEntry connectionEntry = sourceOutput.GetBaseEntry (context);
+					var connectionEntry = sourceOutput.GetBaseEntry (context);
 
 					if (!typeof (ISocketConvertable<T>).IsAssignableFrom (connectionEntry.GetType ()))
 						Debug.Log (SourceSocket.GetType ().Name + " is not convertable to "
 							+ GetType ().Name);
 
-					ISocketConvertable<T> socket = (ISocketConvertable<T>)connectionEntry;
+					var socket = (ISocketConvertable<T>)connectionEntry;
 
 					connectionEntry.OnAfterChanged += () =>
 					{
@@ -438,7 +438,7 @@ namespace RPGCore.Behaviour
 					Debug.LogError ("Trying to add to " + GetType ().Name + " but it already contains "
 						+ value.ToString ());
 
-				C entry = new C
+				var entry = new C
 				{
 					Value = value
 				};
@@ -453,7 +453,7 @@ namespace RPGCore.Behaviour
 			{
 				for (int i = 0; i < Entries.Count; i++)
 				{
-					C entry = Entries[i];
+					var entry = Entries[i];
 
 					if (entry.Convert.Equals (value))
 					{
@@ -471,7 +471,7 @@ namespace RPGCore.Behaviour
 			{
 				for (int i = 0; i < Entries.Count; i++)
 				{
-					C entry = Entries[i];
+					var entry = Entries[i];
 
 					if (entry.Convert.Equals (value))
 					{
@@ -514,7 +514,7 @@ namespace RPGCore.Behaviour
 
 				ContextCahce.Remove (context);
 
-				EntryCollection entry = GetEntry (context);
+				var entry = GetEntry (context);
 
 				for (int i = 0; i < entry.Count; i++)
 				{

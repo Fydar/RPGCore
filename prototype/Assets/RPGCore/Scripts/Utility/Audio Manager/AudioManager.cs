@@ -13,7 +13,7 @@ namespace RPGCore.Audio
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		private static void OnRuntimeMethodLoad ()
 		{
-			GameObject singleton = new GameObject ("Audio Manager", typeof (AudioManager));
+			var singleton = new GameObject ("Audio Manager", typeof (AudioManager));
 			DontDestroyOnLoad (singleton);
 		}
 
@@ -32,7 +32,7 @@ namespace RPGCore.Audio
 
 		public void PlayClip (SfxGroup group)
 		{
-			AudioSource source = Pool.Grab ();
+			var source = Pool.Grab ();
 
 			source.clip = group.GetClip ();
 			source.volume = Random.Range (group.VolumeRange.x, group.VolumeRange.y);
@@ -43,7 +43,7 @@ namespace RPGCore.Audio
 
 		public void PlayClip (LoopGroup group, EffectFader fader)
 		{
-			AudioSource source = Pool.Grab ();
+			var source = Pool.Grab ();
 
 			source.clip = group.LoopedAudio;
 
@@ -57,7 +57,7 @@ namespace RPGCore.Audio
 
 		public void PlayMusic (MusicGroup group)
 		{
-			AudioSource source = Pool.Grab ();
+			var source = Pool.Grab ();
 
 			source.clip = group.Music[0];
 			source.volume = group.Volume;

@@ -36,7 +36,7 @@ namespace RPGCore.Inventories
 			managers = new List<ItemSlotManager> (current.Size);
 
 			IEnumerator<ItemSlot> slot = current.Items.GetEnumerator ();
-			IEnumerator<ItemSlotManager> manager = Slots.GetEnumerator ();
+			var manager = Slots.GetEnumerator ();
 
 			while (slot.MoveNext ())
 			{

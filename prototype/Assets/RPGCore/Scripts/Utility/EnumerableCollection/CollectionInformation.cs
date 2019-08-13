@@ -22,15 +22,15 @@ namespace RPGCore
 
 		public CollectionInformation (Type type)
 		{
-			Type collectionType = EnumerableCollection.BaseCollectionType (type);
+			var collectionType = EnumerableCollection.BaseCollectionType (type);
 
 			directFields = collectionType.GetFields (
 				BindingFlags.Instance | BindingFlags.Public |
 				BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
 
-			List<string> foundNames = new List<string> (directFields.Length);
+			var foundNames = new List<string> (directFields.Length);
 
-			foreach (FieldInfo targetField in directFields)
+			foreach (var targetField in directFields)
 			{
 				string lastName = targetField.Name;
 				if (targetField.FieldType.Name == "T")
@@ -39,9 +39,9 @@ namespace RPGCore
 				}
 				else if (typeof (EnumerableCollection).IsAssignableFrom (targetField.FieldType))
 				{
-					CollectionInformation information = EnumerableCollection.GetReflectionInformation (targetField.FieldType);
+					var information = EnumerableCollection.GetReflectionInformation (targetField.FieldType);
 
-					foreach (FieldInfo childInfo in information.directFields)
+					foreach (var childInfo in information.directFields)
 					{
 						if (childInfo.FieldType.Name == "T")
 						{

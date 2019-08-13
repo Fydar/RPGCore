@@ -100,7 +100,7 @@ namespace RPGCore.Inventories
 
 			slotAfterChangeHandler ();
 
-			Slot_Pair pairSlot = slot.GetSlotBehaviour<Slot_Pair> ();
+			var pairSlot = slot.GetSlotBehaviour<Slot_Pair> ();
 			if (pairSlot != null)
 			{
 				pairSlot.pair.onBeforeChanged += slotBeforeChangeHandler;
@@ -117,7 +117,7 @@ namespace RPGCore.Inventories
 				slot.onBeforeChanged -= slotBeforeChangeHandler;
 				slot.onAfterChanged -= slotAfterChangeHandler;
 
-				Slot_Pair pairSlot = slot.GetSlotBehaviour<Slot_Pair> ();
+				var pairSlot = slot.GetSlotBehaviour<Slot_Pair> ();
 				if (pairSlot != null)
 				{
 					pairSlot.pair.onBeforeChanged -= slotBeforeChangeHandler;

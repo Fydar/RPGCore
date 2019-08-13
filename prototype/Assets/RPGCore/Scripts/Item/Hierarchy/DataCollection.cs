@@ -22,7 +22,7 @@ namespace RPGCore
 			for (int i = 0; i < Names.Count; i++)
 			{
 				string name = Names[i];
-				DataEntry entry = Entries[i];
+				var entry = Entries[i];
 				Collection.Add (name, entry);
 			}
 		}

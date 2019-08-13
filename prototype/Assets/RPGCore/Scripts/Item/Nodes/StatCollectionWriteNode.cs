@@ -23,8 +23,8 @@ namespace RPGCore
 
 		public string Description (IBehaviourContext context)
 		{
-			ConnectionEntry<ItemSurrogate> targetInput = Target[context];
-			ConnectionEntry<float> effectInput = Effect[context];
+			var targetInput = Target[context];
+			var effectInput = Effect[context];
 
 			if (targetInput.Value == null)
 				return "";
@@ -36,9 +36,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<ItemSurrogate> targetInput = Target[context];
-			ConnectionEntry<bool> activeInput = Active[context];
-			ConnectionEntry<float> effectInput = Effect[context];
+			var targetInput = Target[context];
+			var activeInput = Active[context];
+			var effectInput = Effect[context];
 
 			StatInstance.Modifier modifier = null;
 			bool isActive = false;

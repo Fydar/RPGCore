@@ -15,9 +15,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<float> minInput = Min[context];
-			ConnectionEntry<float> maxInput = Max[context];
-			ConnectionEntry<float> output = Output[context];
+			var minInput = Min[context];
+			var maxInput = Max[context];
+			var output = Output[context];
 
 			Action updateHandler = () =>
 			{

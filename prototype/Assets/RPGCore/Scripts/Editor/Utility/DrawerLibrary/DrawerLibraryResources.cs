@@ -22,9 +22,9 @@ namespace RPGCore.Utility
 			{
 				if (instance == null || instance.Equals (null))
 				{
-					DrawerLibraryResources newInstance = CreateInstance<DrawerLibraryResources> ();
-					var path = AssetDatabase.GetAssetPath (MonoScript.FromScriptableObject (newInstance));
-					var dir = Path.GetDirectoryName (path);
+					var newInstance = CreateInstance<DrawerLibraryResources> ();
+					string path = AssetDatabase.GetAssetPath (MonoScript.FromScriptableObject (newInstance));
+					string dir = Path.GetDirectoryName (path);
 					instance = AssetDatabase.LoadAssetAtPath<DrawerLibraryResources> (Path.Combine (dir, typeof (DrawerLibraryResources).Name + ".asset"));
 
 					if (instance == null)

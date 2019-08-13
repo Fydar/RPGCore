@@ -28,15 +28,15 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			EventEntry applyInput = Apply[context];
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
+			var applyInput = Apply[context];
+			var targetInput = Target[context];
 			ConnectionEntry<int> stackSizeInput = StackSize[context];
 
 			applyInput.OnEventFired += () =>
 			{
 				if (Mode == ApplyMode.Add)
 				{
-					Buff buff = new Buff (this, context);
+					var buff = new Buff (this, context);
 					BuffClock buffClock = new BuffClockFixed (this, context);
 
 					buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
@@ -47,7 +47,7 @@ namespace RPGCore
 				}
 				else if (Mode == ApplyMode.Stack)
 				{
-					Buff buff = targetInput.Value.Buffs.Find (BuffToApply);
+					var buff = targetInput.Value.Buffs.Find (BuffToApply);
 
 					Debug.Log (BuffToApply.name);
 

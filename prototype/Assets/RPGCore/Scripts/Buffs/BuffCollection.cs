@@ -74,7 +74,7 @@ namespace RPGCore
 		{
 			for (int i = buffs.Count - 1; i >= 0; i--)
 			{
-				Buff buff = buffs[i];
+				var buff = buffs[i];
 
 				if (buff.buffTemplate == template)
 				{
@@ -89,7 +89,7 @@ namespace RPGCore
 		{
 			for (int i = buffs.Count - 1; i >= 0; i--)
 			{
-				Buff buff = buffs[i];
+				var buff = buffs[i];
 
 				buff.Update (deltaTime);
 			}

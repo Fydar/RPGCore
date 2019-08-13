@@ -18,7 +18,7 @@ namespace RPGCore.Behaviour
 
 		public static BehaviourNode GetNode (this IBehaviourGraph graph, Type nodeType)
 		{
-			foreach (BehaviourNode node in graph.AllNodes)
+			foreach (var node in graph.AllNodes)
 			{
 				if (nodeType.IsAssignableFrom (node.GetType ()))
 				{
@@ -31,9 +31,9 @@ namespace RPGCore.Behaviour
 		public static T[] GetNodes<T> (this IBehaviourGraph graph)
 			where T : class
 		{
-			List<T> foundNodes = new List<T> ();
+			var foundNodes = new List<T> ();
 
-			foreach (BehaviourNode node in graph.AllNodes)
+			foreach (var node in graph.AllNodes)
 			{
 				if (typeof (T).IsAssignableFrom (node.GetType ()))
 				{
@@ -45,7 +45,7 @@ namespace RPGCore.Behaviour
 
 		public static void SetupGraph (this IBehaviourGraph graph, IBehaviourContext context)
 		{
-			foreach (BehaviourNode node in graph.AllNodes)
+			foreach (var node in graph.AllNodes)
 			{
 				node.SetupContext (context);
 			}
@@ -53,13 +53,13 @@ namespace RPGCore.Behaviour
 
 		public static void RemoveGraph (this IBehaviourGraph graph, IBehaviourContext context)
 		{
-			foreach (BehaviourNode node in graph.AllNodes)
+			foreach (var node in graph.AllNodes)
 			{
-				BehaviourNode behaviourNode = node;
+				var behaviourNode = node;
 
 				behaviourNode.RemoveContext (context);
 
-				foreach (OutputSocket data in node.OutputSockets)
+				foreach (var data in node.OutputSockets)
 				{
 					if (data == null)
 						continue;
@@ -67,7 +67,7 @@ namespace RPGCore.Behaviour
 					data.RemoveContext (context);
 				}
 
-				foreach (InputSocket data in node.InputSockets)
+				foreach (var data in node.InputSockets)
 				{
 					if (data == null)
 						continue;

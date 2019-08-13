@@ -13,15 +13,15 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			EventEntry eventInput = Event[context];
-			ConnectionEntry<RPGCharacter> characterInput = Character[context];
+			var eventInput = Event[context];
+			var characterInput = Character[context];
 
 			Action updateHandler = () =>
 			{
 				if (characterInput.Value == null)
 					return;
 
-				ItemSurrogate item = Item.Generate ();
+				var item = Item.Generate ();
 
 				characterInput.Value.inventory.Add (item);
 			};

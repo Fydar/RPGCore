@@ -70,7 +70,7 @@ namespace RPGCore.Inventories
 				{
 					DefaultSlot.ShowEquipped ();
 
-					Slot_Pair pairSlot = forSlot.GetSlotBehaviour<Slot_Pair> ();
+					var pairSlot = forSlot.GetSlotBehaviour<Slot_Pair> ();
 					if (pairSlot != null && pairSlot.pair.Item != null)
 					{
 						if (pairSlot.pair.Item.EquiptableSlot == Slot.TwoHanded)

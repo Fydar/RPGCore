@@ -30,9 +30,9 @@ namespace RPGCore.Utility.Editors
 
 			if (property.objectReferenceValue == null)
 			{
-				ErrorIfNullAttribute errorAttribute = (ErrorIfNullAttribute)attribute;
+				var errorAttribute = (ErrorIfNullAttribute)attribute;
 
-				GUIContent content = new GUIContent ("", DrawerLibraryResources.Instance.ErrorIcon, errorAttribute.ErrorMessage);
+				var content = new GUIContent ("", DrawerLibraryResources.Instance.ErrorIcon, errorAttribute.ErrorMessage);
 				GUI.Label (new Rect (fieldRect.x - fieldRect.height - 2, fieldRect.y,
 					fieldRect.height, fieldRect.height), content);
 

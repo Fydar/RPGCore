@@ -32,9 +32,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			EventEntry applyInput = Apply[context];
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			ConnectionEntry<float> durationInput = Duration[context];
+			var applyInput = Apply[context];
+			var targetInput = Target[context];
+			var durationInput = Duration[context];
 			ConnectionEntry<int> stackSizeInput = StackSize[context];
 
 			IntegerStack.Modifier modifier = null;
@@ -52,7 +52,7 @@ namespace RPGCore
 					buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
 					modifier = buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
 
-					Buff buff = new Buff (BuffToApply, targetInput.Value, buffClock);
+					var buff = new Buff (BuffToApply, targetInput.Value, buffClock);
 
 					targetInput.Value.Buffs.Add (buff);
 				}
@@ -62,7 +62,7 @@ namespace RPGCore
 					buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
 					modifier = buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
 
-					Buff buff = targetInput.Value.Buffs.Find (BuffToApply);
+					var buff = targetInput.Value.Buffs.Find (BuffToApply);
 
 					if (buff == null)
 					{
@@ -76,7 +76,7 @@ namespace RPGCore
 				}
 				else if (Mode == ApplyMode.Refresh || Mode == ApplyMode.RefreshAndAdd)
 				{
-					Buff buff = targetInput.Value.Buffs.Find (BuffToApply);
+					var buff = targetInput.Value.Buffs.Find (BuffToApply);
 
 					if (buff == null)
 					{
@@ -104,7 +104,7 @@ namespace RPGCore
 				}
 				else if (Mode == ApplyMode.Add)
 				{
-					Buff buff = targetInput.Value.Buffs.Find (BuffToApply);
+					var buff = targetInput.Value.Buffs.Find (BuffToApply);
 
 					if (buff == null)
 					{

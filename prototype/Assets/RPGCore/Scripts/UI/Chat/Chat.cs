@@ -95,7 +95,7 @@ namespace RPGCore.UI
 
 		public void Log (string text)
 		{
-			Text textElement = textElements.Grab (holder);
+			var textElement = textElements.Grab (holder);
 
 			textElement.text = text;
 			editorLog.Log (text);

@@ -16,7 +16,7 @@ namespace RPGCore
 		{
 			for (int i = 0; i < referenceSlots.Count; i++)
 			{
-				ItemReferenceSlot slot = referenceSlots[i];
+				var slot = referenceSlots[i];
 
 				slot.SetSerializedID (i);
 			}

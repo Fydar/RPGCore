@@ -32,9 +32,9 @@ namespace RPGCore.Behaviour.Editor
 			{
 				if (instance == null || instance.Equals (null))
 				{
-					BehaviourGraphResources newInstance = CreateInstance<BehaviourGraphResources> ();
-					var path = AssetDatabase.GetAssetPath (MonoScript.FromScriptableObject (newInstance));
-					var dir = Path.GetDirectoryName (path);
+					var newInstance = CreateInstance<BehaviourGraphResources> ();
+					string path = AssetDatabase.GetAssetPath (MonoScript.FromScriptableObject (newInstance));
+					string dir = Path.GetDirectoryName (path);
 					instance = AssetDatabase.LoadAssetAtPath<BehaviourGraphResources> (Path.Combine (dir, typeof (BehaviourGraphResources).Name + ".asset"));
 
 					if (instance == null)

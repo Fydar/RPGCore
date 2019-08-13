@@ -18,7 +18,7 @@ namespace RPGCore.UI
 
 		public void Render (UIContextMenu menu, RectTransform holder)
 		{
-			UIContextFolder button = menu.FolderPool.Grab (holder);
+			var button = menu.FolderPool.Grab (holder);
 			button.Setup (menu, this);
 			Menu = menu;
 		}

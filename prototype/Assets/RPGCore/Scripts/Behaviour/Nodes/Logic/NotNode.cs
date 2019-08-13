@@ -17,8 +17,8 @@ namespace RPGCore.Behaviour.Logic
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<bool> valueAInput = ValueA[context];
-			ConnectionEntry<bool> output = Output[context];
+			var valueAInput = ValueA[context];
+			var output = Output[context];
 
 			Action updateHandler = () =>
 			{
@@ -42,13 +42,13 @@ namespace RPGCore.Behaviour.Logic
 
 		public override void DrawGUI (SerializedObject serializedObject, Rect position)
 		{
-			SerializedProperty valueAProperty = serializedObject.FindProperty ("ValueA");
-			SerializedProperty outputProperty = serializedObject.FindProperty ("Output");
+			var valueAProperty = serializedObject.FindProperty ("ValueA");
+			var outputProperty = serializedObject.FindProperty ("Output");
 
 			GUI.DrawTexture (position, BehaviourGraphResources.Instance.NotNodeGraphic, ScaleMode.ScaleToFit, true);
 
-			Rect valueARect = new Rect (position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-			Rect outputRect = new Rect (position.x, position.y + (EditorGUIUtility.singleLineHeight * 0.5f),
+			var valueARect = new Rect (position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+			var outputRect = new Rect (position.x, position.y + (EditorGUIUtility.singleLineHeight * 0.5f),
 								  position.width, EditorGUIUtility.singleLineHeight);
 
 			EditorGUI.PropertyField (valueARect, valueAProperty, GUIContent.none);

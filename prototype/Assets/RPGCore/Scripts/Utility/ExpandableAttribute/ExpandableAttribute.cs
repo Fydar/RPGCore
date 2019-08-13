@@ -77,12 +77,12 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 		if (!property.isExpanded)
 			return totalHeight;
 
-		SerializedObject targetObject = new SerializedObject (property.objectReferenceValue);
+		var targetObject = new SerializedObject (property.objectReferenceValue);
 
 		if (targetObject == null)
 			return totalHeight;
 
-		SerializedProperty field = targetObject.GetIterator ();
+		var field = targetObject.GetIterator ();
 
 		field.NextVisible (true);
 
@@ -104,7 +104,7 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 
 	public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 	{
-		Rect fieldRect = new Rect (position);
+		var fieldRect = new Rect (position);
 		fieldRect.height = EditorGUIUtility.singleLineHeight;
 
 		EditorGUI.PropertyField (fieldRect, property, label, true);
@@ -117,21 +117,21 @@ public class ExpandableAttributeDrawer : PropertyDrawer
 		if (!property.isExpanded)
 			return;
 
-		SerializedObject targetObject = new SerializedObject (property.objectReferenceValue);
+		var targetObject = new SerializedObject (property.objectReferenceValue);
 
 		if (targetObject == null)
 			return;
 
 		#region Format Field Rects
-		List<Rect> propertyRects = new List<Rect> ();
-		Rect marchingRect = new Rect (fieldRect);
+		var propertyRects = new List<Rect> ();
+		var marchingRect = new Rect (fieldRect);
 
-		Rect bodyRect = new Rect (fieldRect);
+		var bodyRect = new Rect (fieldRect);
 		bodyRect.xMin += EditorGUI.indentLevel * 14;
 		bodyRect.yMin += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing
 			+ OUTER_SPACING;
 
-		SerializedProperty field = targetObject.GetIterator ();
+		var field = targetObject.GetIterator ();
 		field.NextVisible (true);
 
 		marchingRect.y += INNER_SPACING + OUTER_SPACING;

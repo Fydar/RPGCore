@@ -16,7 +16,7 @@ namespace RPGCore.World
 
 		private void Start ()
 		{
-			ItemSurrogate item = generator.Generate ();
+			var item = generator.Generate ();
 
 			drop.SetItem (item);
 		}

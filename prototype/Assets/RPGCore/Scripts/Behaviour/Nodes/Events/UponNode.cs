@@ -14,9 +14,9 @@ namespace RPGCore.Behaviour.Events
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<bool> conditionInput = Condition[context];
-			EventEntry trueOutput = True[context];
-			EventEntry falseOutput = False[context];
+			var conditionInput = Condition[context];
+			var trueOutput = True[context];
+			var falseOutput = False[context];
 
 			Action eventHandler = () =>
 			{

@@ -44,7 +44,7 @@ namespace RPGCore.Inventories
 
 			for (int i = 0; i < current.Items.Count; i++)
 			{
-				ItemSlot slot = current.Items[i];
+				var slot = current.Items[i];
 
 				CreateManager (slot);
 			}
@@ -73,7 +73,7 @@ namespace RPGCore.Inventories
 		{
 			for (int i = 0; i < managers.Count; i++)
 			{
-				ItemSlotManager manager = managers[i];
+				var manager = managers[i];
 
 				if (manager.slot == slot)
 				{
@@ -92,7 +92,7 @@ namespace RPGCore.Inventories
 
 		protected ItemSlotManager CreateManager (ItemSlot slot)
 		{
-			ItemSlotManager clone = Instantiate (SlotPrefab, slotHolder);
+			var clone = Instantiate (SlotPrefab, slotHolder);
 			clone.transform.localRotation = Quaternion.identity;
 			clone.transform.localScale = Vector3.one;
 			clone.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.zero;
@@ -134,7 +134,7 @@ namespace RPGCore.Inventories
 
 			for (int i = 0; i < current.Items.Count; i++)
 			{
-				ItemSlot slot = current.Items[i];
+				var slot = current.Items[i];
 
 				if (HideEmpty && slot.Item == null)
 					continue;
@@ -162,7 +162,7 @@ namespace RPGCore.Inventories
 
 			for (int i = 0; i < managers.Count; i++)
 			{
-				ItemSlotManager manager = managers[i];
+				var manager = managers[i];
 
 				if (EventSystem.current.currentSelectedGameObject == manager.gameObject)
 				{
@@ -174,7 +174,7 @@ namespace RPGCore.Inventories
 
 			for (int i = 0; i < sorted.Count; i++)
 			{
-				ItemSlotManager manager = managers[i];
+				var manager = managers[i];
 
 				manager.gameObject.SetActive (true);
 
@@ -223,8 +223,8 @@ namespace RPGCore.Inventories
 			if (b.Item == null)
 				return -1;
 
-			Slot aSlot = a.Item.EquiptableSlot;
-			Slot bSlot = b.Item.EquiptableSlot;
+			var aSlot = a.Item.EquiptableSlot;
+			var bSlot = b.Item.EquiptableSlot;
 
 			if (aSlot == bSlot)
 			{

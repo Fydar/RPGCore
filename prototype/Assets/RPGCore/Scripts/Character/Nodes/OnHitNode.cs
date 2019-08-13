@@ -14,9 +14,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			ConnectionEntry<RPGCharacter> hitTargetOutput = HitTarget[context];
-			EventEntry onHitOutput = OnHit[context];
+			var targetInput = Target[context];
+			var hitTargetOutput = HitTarget[context];
+			var onHitOutput = OnHit[context];
 
 			bool isActive = false;
 

@@ -8,16 +8,16 @@ namespace RPGCore.Utility.Editors
 	{
 		public static object GetTargetObjectOfProperty (SerializedProperty prop)
 		{
-			var path = prop.propertyPath.Replace (".Array.data[", "[");
+			string path = prop.propertyPath.Replace (".Array.data[", "[");
 			object obj = prop.serializedObject.targetObject;
-			var elements = path.Split ('.');
+			string[] elements = path.Split ('.');
 
-			foreach (var element in elements)
+			foreach (string element in elements)
 			{
 				if (element.Contains ("["))
 				{
-					var elementName = element.Substring (0, element.IndexOf ("[", System.StringComparison.Ordinal));
-					var index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[", System.StringComparison.Ordinal)).Replace ("[", "").Replace ("]", ""));
+					string elementName = element.Substring (0, element.IndexOf ("[", System.StringComparison.Ordinal));
+					int index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[", System.StringComparison.Ordinal)).Replace ("[", "").Replace ("]", ""));
 					obj = GetValue_Imp (obj, elementName, index);
 				}
 				else

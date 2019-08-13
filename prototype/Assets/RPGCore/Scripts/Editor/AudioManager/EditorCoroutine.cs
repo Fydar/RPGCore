@@ -8,7 +8,7 @@ namespace RPGCore.Audio.Editors
 	{
 		public static EditorCoroutine Start (IEnumerator _routine)
 		{
-			EditorCoroutine coroutine = new EditorCoroutine (_routine);
+			var coroutine = new EditorCoroutine (_routine);
 			coroutine.StartInternal ();
 			return coroutine;
 		}

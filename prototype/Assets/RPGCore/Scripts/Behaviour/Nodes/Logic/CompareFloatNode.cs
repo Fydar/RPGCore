@@ -21,9 +21,9 @@ namespace RPGCore.Behaviour.Logic
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<float> valueAInput = ValueA[context];
-			ConnectionEntry<float> valueBInput = ValueB[context];
-			ConnectionEntry<bool> output = Output[context];
+			var valueAInput = ValueA[context];
+			var valueBInput = ValueB[context];
+			var output = Output[context];
 
 			Action updateHandler = () =>
 			{

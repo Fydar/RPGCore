@@ -22,9 +22,9 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			EventEntry applyOutput = Apply[context];
-			EventEntry removeOutput = Remove[context];
-			ConnectionEntry<RPGCharacter> targetOutput = Target[context];
+			var applyOutput = Apply[context];
+			var removeOutput = Remove[context];
+			var targetOutput = Target[context];
 
 			ConnectionEntry<int> ticksOutput = Ticks[context];
 			//ConnectionEntry<float> totalDurationOutput = TotalDuration[context];
@@ -45,19 +45,19 @@ namespace RPGCore
 
 		protected override void OnRemove (IBehaviourContext context)
 		{
-			EventEntry removeOutput = Remove[context];
-			ConnectionEntry<RPGCharacter> targetOutput = Target[context];
+			var removeOutput = Remove[context];
+			var targetOutput = Target[context];
 
 			targetOutput.Value = null;
 
-			EventEntry applyOutput = Apply[context];
+			var applyOutput = Apply[context];
 			applyOutput.Invoke ();
 		}
 
 		public void SetTarget (IBehaviourContext context, Buff target)
 		{
 			ConnectionEntry<int> stackSizeOutput = StackSize[context];
-			EventEntry onTickOutput = OnTick[context];
+			var onTickOutput = OnTick[context];
 
 			stackSizeOutput.Value = target.StackSize.Value;
 			target.StackSize.onChanged += () =>

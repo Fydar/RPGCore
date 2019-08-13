@@ -18,9 +18,9 @@ namespace RPGCore.Behaviour.Logic
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<bool> valueAInput = ValueA[context];
-			ConnectionEntry<bool> valueBInput = ValueB[context];
-			ConnectionEntry<bool> output = Output[context];
+			var valueAInput = ValueA[context];
+			var valueBInput = ValueB[context];
+			var output = Output[context];
 
 			Action updateHandler = () =>
 			{
@@ -45,16 +45,16 @@ namespace RPGCore.Behaviour.Logic
 
 		public override void DrawGUI (SerializedObject serializedObject, Rect position)
 		{
-			SerializedProperty valueAProperty = serializedObject.FindProperty ("ValueA");
-			SerializedProperty valueBProperty = serializedObject.FindProperty ("ValueB");
-			SerializedProperty outputProperty = serializedObject.FindProperty ("Output");
+			var valueAProperty = serializedObject.FindProperty ("ValueA");
+			var valueBProperty = serializedObject.FindProperty ("ValueB");
+			var outputProperty = serializedObject.FindProperty ("Output");
 
 			GUI.DrawTexture (position, BehaviourGraphResources.Instance.AndNodeGraphic, ScaleMode.ScaleToFit, true);
 
-			Rect valueARect = new Rect (position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-			Rect valueBRect = new Rect (position.x, valueARect.yMax + EditorGUIUtility.standardVerticalSpacing,
+			var valueARect = new Rect (position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+			var valueBRect = new Rect (position.x, valueARect.yMax + EditorGUIUtility.standardVerticalSpacing,
 				position.width, valueARect.height);
-			Rect outputRect = new Rect (position.x, position.y + (EditorGUIUtility.singleLineHeight * 0.5f),
+			var outputRect = new Rect (position.x, position.y + (EditorGUIUtility.singleLineHeight * 0.5f),
 								  position.width, EditorGUIUtility.singleLineHeight);
 
 			EditorGUI.PropertyField (valueARect, valueAProperty, GUIContent.none);

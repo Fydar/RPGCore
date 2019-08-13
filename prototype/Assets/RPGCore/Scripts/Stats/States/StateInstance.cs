@@ -55,10 +55,10 @@ namespace RPGCore.Stats
 
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			SerializedProperty infoProperty = property.FindPropertyRelative ("Info");
-			SerializedProperty valueProperty = property.FindPropertyRelative ("_value");
+			var infoProperty = property.FindPropertyRelative ("Info");
+			var valueProperty = property.FindPropertyRelative ("_value");
 
-			StateInformation stateInfo = (StateInformation)infoProperty.objectReferenceValue;
+			var stateInfo = (StateInformation)infoProperty.objectReferenceValue;
 
 			if (stateInfo != null)
 			{

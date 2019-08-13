@@ -85,7 +85,7 @@ namespace RPGCore.Behaviour
 			{
 				string path = paths[i];
 
-				FieldInfo field = currentTarget.GetType ().GetField (path);
+				var field = currentTarget.GetType ().GetField (path);
 
 				if (field == null)
 					return null;
@@ -105,17 +105,17 @@ namespace RPGCore.Behaviour
 		private T[] FindAllSockets<T> ()
 			where T : Socket
 		{
-			List<T> foundObjects = new List<T> ();
-			Stack<string> socketPath = new Stack<string> ();
+			var foundObjects = new List<T> ();
+			var socketPath = new Stack<string> ();
 
 			for (int i = 0; i < CollectionFields.Length; i++)
 			{
-				FieldInfo targetField = CollectionFields[i];
+				var targetField = CollectionFields[i];
 				socketPath.Push (targetField.Name);
 
 				if (typeof (T).IsAssignableFrom (targetField.FieldType))
 				{
-					T childSocket = (T)targetField.GetValue (this);
+					var childSocket = (T)targetField.GetValue (this);
 					if (childSocket == null)
 					{
 						childSocket = (T)Activator.CreateInstance (targetField.FieldType);
@@ -130,7 +130,7 @@ namespace RPGCore.Behaviour
 					if (!typeof (T).IsAssignableFrom (targetField.FieldType.BaseType.GetGenericArguments ()[0]))
 						continue;
 
-					EnumerableCollection enumer = (EnumerableCollection)targetField.GetValue (this);
+					var enumer = (EnumerableCollection)targetField.GetValue (this);
 
 					if (enumer == null)
 						continue;
@@ -147,7 +147,7 @@ namespace RPGCore.Behaviour
 
 						if (typeof (T).IsAssignableFrom (childObject.GetType ()))
 						{
-							T childSocket = (T)childObject;
+							var childSocket = (T)childObject;
 
 							socketPath.Push (child.Member.Name);
 							childSocket.SocketPath = string.Join (".", socketPath.Reverse ());
@@ -160,7 +160,7 @@ namespace RPGCore.Behaviour
 				}
 				else if (typeof (IEnumerable<T>).IsAssignableFrom (targetField.FieldType))
 				{
-					IEnumerable<T> childCollection = (IEnumerable<T>)targetField.GetValue (this);
+					var childCollection = (IEnumerable<T>)targetField.GetValue (this);
 					if (childCollection == null)
 						continue;
 
@@ -193,10 +193,10 @@ namespace RPGCore.Behaviour
 #if UNITY_EDITOR
 		public virtual Vector2 GetDiamentions ()
 		{
-			SerializedObject serializedObject = SerializedObjectPool.Grab (this);
+			var serializedObject = SerializedObjectPool.Grab (this);
 
 			float height = 0.0f;
-			SerializedProperty iterator = serializedObject.GetIterator ();
+			var iterator = serializedObject.GetIterator ();
 			iterator.Next (true);
 			iterator.NextVisible (false);
 			iterator.NextVisible (false);
@@ -211,9 +211,9 @@ namespace RPGCore.Behaviour
 
 		public virtual void DrawGUI (SerializedObject serializedObject, Rect position)
 		{
-			Rect marchingRect = new Rect (position);
+			var marchingRect = new Rect (position);
 
-			SerializedProperty iterator = serializedObject.GetIterator ();
+			var iterator = serializedObject.GetIterator ();
 			iterator.Next (true);
 			iterator.NextVisible (false);
 			iterator.NextVisible (false);

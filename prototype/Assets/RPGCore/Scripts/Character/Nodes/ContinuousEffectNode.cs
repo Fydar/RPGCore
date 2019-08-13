@@ -16,10 +16,10 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			ConnectionEntry<bool> whilstInput = Whilst[context];
+			var targetInput = Target[context];
+			var whilstInput = Whilst[context];
 
-			ContinuousEffect visualEffect = Instantiate (Effect) as ContinuousEffect;
+			var visualEffect = Instantiate (Effect) as ContinuousEffect;
 			visualEffect.gameObject.SetActive (false);
 
 			Action changeHandler = () =>

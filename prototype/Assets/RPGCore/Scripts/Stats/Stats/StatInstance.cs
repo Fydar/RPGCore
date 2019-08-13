@@ -103,7 +103,7 @@ namespace RPGCore.Stats
 
 		public Modifier AddFlatModifier (float startingValue)
 		{
-			Modifier mod = new Modifier (this, startingValue);
+			var mod = new Modifier (this, startingValue);
 			FlatModifiers.Add (mod);
 
 			isDirty = true;
@@ -113,7 +113,7 @@ namespace RPGCore.Stats
 
 		public Modifier AddBaseMultiplierModifier (float value)
 		{
-			Modifier mod = new Modifier (this, value);
+			var mod = new Modifier (this, value);
 			MultBaseModifiers.Add (mod);
 
 			isDirty = true;
@@ -123,7 +123,7 @@ namespace RPGCore.Stats
 
 		public Modifier AddMultiplierModifier (float value)
 		{
-			Modifier mod = new Modifier (this, value);
+			var mod = new Modifier (this, value);
 			MultModifiers.Add (mod);
 
 			isDirty = true;
@@ -196,10 +196,10 @@ namespace RPGCore.Stats
 
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			SerializedProperty infoProperty = property.FindPropertyRelative ("Info");
-			SerializedProperty valueProperty = property.FindPropertyRelative ("baseValue");
+			var infoProperty = property.FindPropertyRelative ("Info");
+			var valueProperty = property.FindPropertyRelative ("baseValue");
 
-			StatInformation statInfo = (StatInformation)infoProperty.objectReferenceValue;
+			var statInfo = (StatInformation)infoProperty.objectReferenceValue;
 
 			if (statInfo != null)
 			{

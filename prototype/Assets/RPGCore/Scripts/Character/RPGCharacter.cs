@@ -55,9 +55,9 @@ namespace RPGCore
 			Stats.SetupReferences ();
 			States.SetupReferences ();
 
-			List<ItemSlot> slots = new List<ItemSlot> ();
+			var slots = new List<ItemSlot> ();
 
-			foreach (EquipmentInformation info in EquipmentInformationDatabase.Instance.EquipmentInfos)
+			foreach (var info in EquipmentInformationDatabase.Instance.EquipmentInfos)
 			{
 				slots.Add (info.GenerateSlot (this));
 			}
@@ -169,7 +169,7 @@ namespace RPGCore
 
 			gameObject.SetActive (false);
 
-			foreach (ItemSurrogate loot in Loot.Select ())
+			foreach (var loot in Loot.Select ())
 			{
 				if (loot != null)
 					ItemDropper.DropItem (transform.position, loot);
@@ -189,7 +189,7 @@ namespace RPGCore
 	{
 		private void OnEnable ()
 		{
-			RPGCharacter character = (RPGCharacter)target;
+			var character = (RPGCharacter)target;
 			character.Stats.SetupReferences ();
 			character.States.SetupReferences ();
 		}
@@ -198,11 +198,11 @@ namespace RPGCore
 		{
 			DrawDefaultInspector ();
 
-			RPGCharacter character = (RPGCharacter)target;
+			var character = (RPGCharacter)target;
 
 			if (character.Buffs != null && character.Buffs.Count != 0)
 			{
-				foreach (Buff buff in character.Buffs)
+				foreach (var buff in character.Buffs)
 				{
 					if (buff == null)
 						continue;
@@ -210,7 +210,7 @@ namespace RPGCore
 					EditorGUI.indentLevel++;
 					EditorGUILayout.LabelField (buff.StackSize.Value.ToString () + "   " + buff.buffTemplate.name, EditorStyles.boldLabel);
 
-					Rect iconRect = GUILayoutUtility.GetLastRect ();
+					var iconRect = GUILayoutUtility.GetLastRect ();
 					iconRect = EditorGUI.IndentedRect (iconRect);
 					iconRect.xMax = iconRect.xMin + iconRect.height;
 					iconRect.x -= iconRect.height;
@@ -218,21 +218,21 @@ namespace RPGCore
 					DrawCustomIcon (iconRect, buff.buffTemplate.Icon);
 
 					EditorGUI.indentLevel++;
-					foreach (BuffClock clock in buff.Clocks)
+					foreach (var clock in buff.Clocks)
 					{
-						Rect rect = GUILayoutUtility.GetRect (0, 16);
+						var rect = GUILayoutUtility.GetRect (0, 16);
 
 						rect = EditorGUI.IndentedRect (rect);
 
 						if (typeof (BuffClockDecaying).IsAssignableFrom (clock.GetType ()))
 						{
-							BuffClockDecaying decayingClock = (BuffClockDecaying)clock;
+							var decayingClock = (BuffClockDecaying)clock;
 
 							EditorGUI.ProgressBar (rect, decayingClock.TimeRemaining / decayingClock.Duration, decayingClock.StackSize.Value.ToString ());
 						}
 						else if (typeof (BuffClockFixed).IsAssignableFrom (clock.GetType ()))
 						{
-							BuffClockFixed fixedClock = (BuffClockFixed)clock;
+							var fixedClock = (BuffClockFixed)clock;
 
 							EditorGUI.ProgressBar (rect, 1.0f, fixedClock.StackSize.Value.ToString ());
 						}
@@ -248,7 +248,7 @@ namespace RPGCore
 
 		private void Update ()
 		{
-			RPGCharacter character = (RPGCharacter)target;
+			var character = (RPGCharacter)target;
 
 			if (character.Buffs != null && character.Buffs.Count != 0)
 				Repaint ();
@@ -276,14 +276,14 @@ namespace RPGCore
 
 		private static void DrawCustomIcon (Rect rect, Texture texture, Rect textureRect)
 		{
-			Rect normalisedTextureRect = RemapRect (textureRect, texture.width, texture.height);
+			var normalisedTextureRect = RemapRect (textureRect, texture.width, texture.height);
 
 			GUI.DrawTextureWithTexCoords (rect, texture, normalisedTextureRect, true);
 		}
 
 		private static Rect RemapRect (Rect rect, float width, float height)
 		{
-			Rect remapedRect = new Rect (rect);
+			var remapedRect = new Rect (rect);
 
 			remapedRect.x /= width;
 			remapedRect.width /= width;

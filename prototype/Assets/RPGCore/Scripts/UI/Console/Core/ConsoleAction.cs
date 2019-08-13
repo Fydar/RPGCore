@@ -9,14 +9,14 @@ public abstract class ConsoleAction : ConsoleCommand
 
 	protected ConsoleAction ()
 	{
-		Type thisType = GetType ();
+		var thisType = GetType ();
 		Usages = new List<Delegate> ();
 
 		var methods = thisType.GetMethods (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
 
 		for (int i = 0; i < methods.Length; i++)
 		{
-			MethodInfo method = methods[i];
+			var method = methods[i];
 
 			object[] commandUsageAttibutes = method.GetCustomAttributes (typeof (CommandUsageAttribute), true);
 
@@ -39,7 +39,7 @@ public abstract class ConsoleAction : ConsoleCommand
 	public static Delegate GetDelegateFromMethod (MethodInfo method, object target)
 	{
 		var args = method.GetParameters ();
-		Type[] types = new Type[args.Length];
+		var types = new Type[args.Length];
 
 		for (int i = 0; i < args.Length; i++)
 		{
@@ -95,7 +95,7 @@ public abstract class ConsoleAction : ConsoleCommand
 	{
 		string helpString = "Help for command";
 
-		foreach (Delegate usage in Usages)
+		foreach (var usage in Usages)
 		{
 			helpString += "\n\t" + usage.Method.Name;
 		}
@@ -110,7 +110,7 @@ public abstract class ConsoleAction : ConsoleCommand
 		for (int j = 0; j < parameters.Length - offset; j++)
 		{
 			var useParam = useParameters[j];
-			var stringParam = parameters[j + offset];
+			string stringParam = parameters[j + offset];
 
 			bool success;
 			object compiledParam = ConsoleCommand.PhraseParameter (stringParam, useParam.ParameterType, out success);

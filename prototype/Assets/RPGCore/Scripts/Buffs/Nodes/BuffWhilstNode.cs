@@ -29,8 +29,8 @@ namespace RPGCore
 
 		protected override void OnSetup (IBehaviourContext context)
 		{
-			ConnectionEntry<RPGCharacter> targetInput = Target[context];
-			ConnectionEntry<bool> whilstInput = Whilst[context];
+			var targetInput = Target[context];
+			var whilstInput = Whilst[context];
 			ConnectionEntry<int> stackSizeInput = StackSize[context];
 
 			bool isActive = false;

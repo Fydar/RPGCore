@@ -66,7 +66,7 @@ namespace RPGCore.Tooltips
 				statsPool.Grab (tableHolder).Setup ("Armour", armourNode.GetStats (target).Armour.Value.ToString ("0"), armourNode.GetStats (target).Armour.ModifiersCount > 1);
 			}
 
-			INodeDescription[] tooltipNodes = target.Template.GetNodes<INodeDescription> ();
+			var tooltipNodes = target.Template.GetNodes<INodeDescription> ();
 			if (tooltipNodes.Length != 0)
 			{
 				effectsHolder.gameObject.SetActive (true);
@@ -86,7 +86,7 @@ namespace RPGCore.Tooltips
 				if (Enchantment == null)
 					continue;
 
-				INodeDescription[] enchantmentTooltipNodes = Enchantment.Template.GetNodes<INodeDescription> ();
+				var enchantmentTooltipNodes = Enchantment.Template.GetNodes<INodeDescription> ();
 				if (enchantmentTooltipNodes.Length != 0)
 				{
 					found = true;
