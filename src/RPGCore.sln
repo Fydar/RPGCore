@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Inventory", "RPGCore.Inventory\RPGCore.Inventory.csproj", "{602BF71D-5B05-4A75-8AFA-0C35613F8482}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Inventories", "RPGCore.Inventories\RPGCore.Inventories.csproj", "{602BF71D-5B05-4A75-8AFA-0C35613F8482}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Items", "RPGCore.Items\RPGCore.Items.csproj", "{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}"
 EndProject
