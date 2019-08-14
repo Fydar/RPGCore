@@ -7,5 +7,6 @@ namespace RPGCore.Items
 	/// </summary>
 	public class StackableItem : Item
 	{
+		public int Quantity { get; set; }
 	}
 }

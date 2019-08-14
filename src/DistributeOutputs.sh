@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-unity_project_path="$(git rev-parse --show-toplevel)/RPGCoreUnity"
+unity_project_path="$(git rev-parse --show-toplevel)/src/RPGCoreUnity"
 
 if [ ! -d "$unity_project_path" ]; then
     echo "Couldn't find target destination to distribute build output."
