@@ -18,9 +18,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Inventories", "RPGCore.Inventories\RPGCore.Inventories.csproj", "{602BF71D-5B05-4A75-8AFA-0C35613F8482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Inventories", "RPGCore.Inventories\RPGCore.Inventories.csproj", "{602BF71D-5B05-4A75-8AFA-0C35613F8482}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Items", "RPGCore.Items\RPGCore.Items.csproj", "{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Items", "RPGCore.Items\RPGCore.Items.csproj", "{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Items.UnitTests", "RPGCore.Items.UnitTests\RPGCore.Items.UnitTests.csproj", "{F617BD9F-554E-4ED9-AAB1-E383F6615716}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Inventories.UnitTests", "RPGCore.Inventories.UnitTests\RPGCore.Inventories.UnitTests.csproj", "{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Packages.UnitTests", "RPGCore.Packages.UnitTests\RPGCore.Packages.UnitTests.csproj", "{129CC906-B8B6-42EC-B120-95AEC668F22B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +91,30 @@ Global
 		{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}.Release|x64.ActiveCfg = Release|Any CPU
 		{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}.Release|x64.Build.0 = Release|Any CPU
+		{F617BD9F-554E-4ED9-AAB1-E383F6615716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F617BD9F-554E-4ED9-AAB1-E383F6615716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F617BD9F-554E-4ED9-AAB1-E383F6615716}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F617BD9F-554E-4ED9-AAB1-E383F6615716}.Debug|x64.Build.0 = Debug|Any CPU
+		{F617BD9F-554E-4ED9-AAB1-E383F6615716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F617BD9F-554E-4ED9-AAB1-E383F6615716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F617BD9F-554E-4ED9-AAB1-E383F6615716}.Release|x64.ActiveCfg = Release|Any CPU
+		{F617BD9F-554E-4ED9-AAB1-E383F6615716}.Release|x64.Build.0 = Release|Any CPU
+		{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}.Debug|x64.Build.0 = Debug|Any CPU
+		{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}.Release|x64.ActiveCfg = Release|Any CPU
+		{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}.Release|x64.Build.0 = Release|Any CPU
+		{129CC906-B8B6-42EC-B120-95AEC668F22B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{129CC906-B8B6-42EC-B120-95AEC668F22B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{129CC906-B8B6-42EC-B120-95AEC668F22B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{129CC906-B8B6-42EC-B120-95AEC668F22B}.Debug|x64.Build.0 = Debug|Any CPU
+		{129CC906-B8B6-42EC-B120-95AEC668F22B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{129CC906-B8B6-42EC-B120-95AEC668F22B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{129CC906-B8B6-42EC-B120-95AEC668F22B}.Release|x64.ActiveCfg = Release|Any CPU
+		{129CC906-B8B6-42EC-B120-95AEC668F22B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
