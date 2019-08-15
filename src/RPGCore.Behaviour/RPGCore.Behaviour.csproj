@@ -3,16 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>Anthony Marmont</Company>
-    <ApplicationIcon></ApplicationIcon>
-    <Win32Resource />
+    <Deterministic>true</Deterministic>    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>

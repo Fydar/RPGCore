@@ -2,10 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
   </ItemGroup>
+
+  <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Items.dll Assets/Plugins/RPGCore'" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Items.pdb Assets/Plugins/RPGCore'" />
+  </Target>
 
 </Project>
