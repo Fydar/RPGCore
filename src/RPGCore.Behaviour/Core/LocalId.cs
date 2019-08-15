@@ -65,6 +65,11 @@ namespace RPGCore.Behaviour
 		{
 			return !(left == right);
 		}
+
+		public static implicit operator LocalId (ulong source)
+		{
+			return new LocalId (source);
+		}
 	}
 
 	internal sealed class LocalIdJsonConverter : JsonConverter
