@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "GameSim": {
+    "RPGCore.Runner": {
       "commandName": "Project"
     }
   }

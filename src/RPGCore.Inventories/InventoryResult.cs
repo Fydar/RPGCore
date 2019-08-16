@@ -1,8 +1,8 @@
 ﻿namespace RPGCore.Inventory.Slots
 {
-	public struct AddResult
+	public struct InventoryResult
 	{
-		public enum AddStatus
+		public enum OperationStatus
 		{
 			None = 0,
 			Partial = 1,
@@ -10,10 +10,10 @@
 			Referenced = 3
 		}
 
-		public AddStatus Status;
+		public OperationStatus Status;
 		public int Quantity;
 
-		public AddResult (AddStatus status, int quantity)
+		public InventoryResult (OperationStatus status, int quantity)
 		{
 			Status = status;
 			Quantity = quantity;
