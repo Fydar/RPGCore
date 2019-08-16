@@ -1,4 +1,6 @@
-﻿namespace RPGCore.Inventory.Slots
+﻿using RPGCore.Items;
+
+namespace RPGCore.Inventory.Slots
 {
 	public struct InventoryResult
 	{
@@ -10,11 +12,13 @@
 			Referenced = 3
 		}
 
+		public Item ItemAdded;
 		public OperationStatus Status;
 		public int Quantity;
 
-		public InventoryResult (OperationStatus status, int quantity)
+		public InventoryResult (Item itemAdded, OperationStatus status, int quantity)
 		{
+			ItemAdded = itemAdded;
 			Status = status;
 			Quantity = quantity;
 		}

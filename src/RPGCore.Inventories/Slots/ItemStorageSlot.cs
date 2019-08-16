@@ -15,15 +15,23 @@ namespace RPGCore.Inventory.Slots
 		{
 			if (item is StackableItem stackableItem)
 			{
-				StoredItem = stackableItem;
+				if (MaxStackSize != 0 && stackableItem.Quantity > MaxStackSize)
+				{
+					var split = stackableItem.Take (MaxStackSize);
 
-				return new InventoryResult (InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
+					StoredItem = split;
+					return new InventoryResult (split, InventoryResult.OperationStatus.Partial, split.Quantity);
+				}
+
+				StoredItem = stackableItem;
+				
+				return new InventoryResult (stackableItem, InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
 			}
 			else if (item is UniqueItem uniqueItem)
 			{
 				StoredItem = uniqueItem;
 
-				return new InventoryResult (InventoryResult.OperationStatus.Complete, 1);
+				return new InventoryResult (uniqueItem, InventoryResult.OperationStatus.Complete, 1);
 			}
 			else
 			{
@@ -39,13 +47,13 @@ namespace RPGCore.Inventory.Slots
 			{
 				StoredItem = null;
 
-				return new InventoryResult (InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
+				return new InventoryResult (null, InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
 			}
 			else if (StoredItem is UniqueItem)
 			{
 				StoredItem = null;
 
-				return new InventoryResult (InventoryResult.OperationStatus.Complete, 1);
+				return new InventoryResult (null, InventoryResult.OperationStatus.Complete, 1);
 			}
 			else
 			{
