@@ -8,6 +8,7 @@ namespace RPGCore.Items
 	public class StackableItem : Item
 	{
 		public int Quantity { get; set; }
+		public int MaxStackSize { get; set; } = 64;
 
 		public StackableItem(ItemTemplate template, int quantity)
 		{
@@ -46,6 +47,11 @@ namespace RPGCore.Items
 		public override Item Duplicate ()
 		{
 			return new StackableItem (Template, Quantity);
+		}
+
+		public override string ToString ()
+		{
+			return $"{Quantity} x {Template}";
 		}
 	}
 }

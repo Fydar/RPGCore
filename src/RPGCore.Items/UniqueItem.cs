@@ -7,6 +7,11 @@ namespace RPGCore.Items
 	/// </summary>
 	public class UniqueItem : Item
 	{
+		public UniqueItem(ItemTemplate template)
+		{
+			Template = template;
+		}
+
 		public override Item Duplicate () => throw new NotImplementedException ();
 	}
 }

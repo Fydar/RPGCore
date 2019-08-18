@@ -4,6 +4,8 @@ namespace RPGCore.Inventory.Slots
 {
 	public struct InventoryResult
 	{
+		public static readonly InventoryResult None = new InventoryResult ();
+
 		public enum OperationStatus
 		{
 			None = 0,

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGCore.Items;
+using System;
 
 namespace RPGCore.Inventory.Slots
 {
@@ -11,5 +12,6 @@ namespace RPGCore.Inventory.Slots
 	/// </example>
 	public interface IInventoryConstraint
 	{
+		int QuantityCanAdd (IInventory slot, Item item);
 	}
 }
