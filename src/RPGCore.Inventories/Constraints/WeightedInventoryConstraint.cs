@@ -21,6 +21,11 @@ namespace RPGCore.Inventory.Slots
 
 		public int QuantityCanAdd (IInventory inventory, Item item)
 		{
+			if (item.Template.Weight == 0)
+			{
+				return int.MaxValue;
+			}
+
 			int currentWeight = 0;
 			foreach (var otherItem in inventory.Items)
 			{
@@ -38,6 +43,11 @@ namespace RPGCore.Inventory.Slots
 
 			int quantityCanAdd = remainingWeight / item.Template.Weight;
 			return quantityCanAdd;
+		}
+
+		public override string ToString ()
+		{
+			return $"Weight Constraint of {Weight}";
 		}
 	}
 }

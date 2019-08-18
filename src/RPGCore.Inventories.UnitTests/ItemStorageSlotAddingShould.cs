@@ -4,7 +4,7 @@ using RPGCore.Items;
 
 namespace RPGCore.Inventories.UnitTests
 {
-	public class ItemStorageSlotShould
+	public class ItemStorageSlotAddingShould
 	{
 		[Test, Parallelizable]
 		public void LimitedSlotCapacityForMultipleStackableItems ()

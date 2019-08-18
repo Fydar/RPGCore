@@ -1,20 +1,21 @@
-﻿using System;
+﻿using RPGCore.Items;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using RPGCore.Items;
 
 namespace RPGCore.Inventory.Slots
 {
 	public class ItemStorageSlot : ItemSlot
 	{
-		public int MaxStackSize;
+		internal Item StoredItem;
 
-		private Item StoredItem;
+		public int MaxStackSize { get; set; }
+
+		public IInventoryConstraint[] Constraints { get; }
+		public ISlotBehaviour[] Behaviours { get; }
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		public override Item CurrentItem => StoredItem;
-
-		public IInventoryConstraint[] Constraints { get; }
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		public override IEnumerable<Item> Items
@@ -30,9 +31,10 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public ItemStorageSlot (IInventoryConstraint[] constraints = null)
+		public ItemStorageSlot (IInventoryConstraint[] constraints = null, ISlotBehaviour[] behaviours = null)
 		{
 			Constraints = constraints;
+			Behaviours = behaviours;
 		}
 
 		public override InventoryResult AddItem (Item item)
@@ -44,12 +46,32 @@ namespace RPGCore.Inventory.Slots
 
 			if (item is StackableItem stackableItem)
 			{
+				int itemMaxStackSize = Math.Min (MaxStackSize, stackableItem.MaxStackSize);
+				if (itemMaxStackSize == 0)
+				{
+					itemMaxStackSize = int.MaxValue;
+				}
+
+				// Apply inventory constraints
+				int constrainedMaxSize = itemMaxStackSize;
+				if (Constraints != null)
+				{
+					foreach (var constraint in Constraints)
+					{
+						constrainedMaxSize = Math.Min (constrainedMaxSize, constraint.QuantityCanAdd (this, stackableItem));
+					}
+				}
+				if (constrainedMaxSize == 0)
+				{
+					return InventoryResult.None;
+				}
+
 				if (StoredItem == null)
 				{
-					if (MaxStackSize != 0 && stackableItem.Quantity > MaxStackSize)
+					if (constrainedMaxSize != 0 && stackableItem.Quantity > constrainedMaxSize)
 					{
 						// Split stack of items into a new stack.
-						var split = stackableItem.Take (MaxStackSize);
+						var split = stackableItem.Take (constrainedMaxSize);
 
 						StoredItem = split;
 						return new InventoryResult (split, InventoryResult.OperationStatus.Partial, split.Quantity);
@@ -62,44 +84,35 @@ namespace RPGCore.Inventory.Slots
 						return new InventoryResult (stackableItem, InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
 					}
 				}
-				else
+				else if (StoredItem.Template == stackableItem.Template)
 				{
-					if (StoredItem.Template == stackableItem.Template)
+					// Transfer quantities of items from one item to another.
+					var currentStackableItem = (StackableItem)StoredItem;
+
+					// Adjust for pre-exisiting capacity.
+					int quantityToAdd = constrainedMaxSize;
+					if (constrainedMaxSize != 0)
 					{
-						// Transfer quantities of items from one item to another.
-						int maxStackSize = Math.Min(MaxStackSize, stackableItem.MaxStackSize);
-						var currentStackableItem = (StackableItem)StoredItem;
+						quantityToAdd = Math.Min(constrainedMaxSize, 
+							Math.Min (stackableItem.Quantity, itemMaxStackSize - currentStackableItem.Quantity)
+						);
+					}
 
-						int quantityToAdd = int.MaxValue;
-						if (maxStackSize != 0)
-						{
-							quantityToAdd = Math.Min (stackableItem.Quantity, maxStackSize - currentStackableItem.Quantity);
-						}
+					if (quantityToAdd > 0)
+					{
+						currentStackableItem.Quantity += quantityToAdd;
+						stackableItem.Quantity -= quantityToAdd;
 
-						if (Constraints != null)
-						{
-							foreach (var constraint in Constraints)
-							{
-								quantityToAdd = Math.Min (quantityToAdd, constraint.QuantityCanAdd (this, stackableItem));
-							}
-						}
-
-						if (quantityToAdd == 0)
-						{
-							return InventoryResult.None;
-						}
-						else
-						{
-							currentStackableItem.Quantity += quantityToAdd;
-							stackableItem.Quantity -= quantityToAdd;
-
-							return new InventoryResult (currentStackableItem, InventoryResult.OperationStatus.Complete, quantityToAdd);
-						}
+						return new InventoryResult (currentStackableItem, InventoryResult.OperationStatus.Complete, quantityToAdd);
 					}
 					else
 					{
 						return InventoryResult.None;
 					}
+				}
+				else
+				{
+					return InventoryResult.None;
 				}
 			}
 			else if (item is UniqueItem uniqueItem)
@@ -155,17 +168,47 @@ namespace RPGCore.Inventory.Slots
 				throw new ArgumentNullException (nameof (item), "Cannot add \"null\" item to storage slot.");
 			}
 
-			throw new NotImplementedException ();
+			StoredItem = item;
+
+			if (StoredItem is StackableItem stackableItem)
+			{
+				return new InventoryResult (item, InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
+			}
+			else if (StoredItem is UniqueItem)
+			{
+				return new InventoryResult (item, InventoryResult.OperationStatus.Complete, 1);
+			}
+			else
+			{
+				throw new InvalidOperationException ($"Item in neither a {nameof (StackableItem)} nor a {nameof (UniqueItem)}.");
+			}
 		}
 
 		public override InventoryResult SwapInto (ItemSlot other)
 		{
 			if (other is null)
 			{
-				throw new ArgumentNullException (nameof (other), $"Cannot swap into a \"null\" {nameof(ItemSlot)}.");
+				throw new ArgumentNullException (nameof (other), $"Cannot swap into a \"null\" {nameof (ItemSlot)}.");
 			}
 
-			throw new NotImplementedException ();
+			if (other is ItemStorageSlot itemStorageSlot)
+			{
+				var temp = StoredItem;
+				StoredItem = itemStorageSlot.StoredItem;
+				itemStorageSlot.StoredItem = temp;
+
+				return new InventoryResult (itemStorageSlot.StoredItem, InventoryResult.OperationStatus.Complete, 0);
+			}
+			else if (other is ItemSelectSlot itemSelectSlot)
+			{
+				other.SetItem (StoredItem);
+
+				return new InventoryResult (itemSelectSlot.SelectedItem, InventoryResult.OperationStatus.Complete, 0);
+			}
+			else
+			{
+				throw new InvalidOperationException ($"Slot in neither a {nameof (ItemStorageSlot)} nor a {nameof (ItemSelectSlot)}.");
+			}
 		}
 	}
 }
