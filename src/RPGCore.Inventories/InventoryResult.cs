@@ -1,4 +1,5 @@
 ﻿using RPGCore.Items;
+using System;
 
 namespace RPGCore.Inventory.Slots
 {
@@ -10,8 +11,7 @@ namespace RPGCore.Inventory.Slots
 		{
 			None = 0,
 			Partial = 1,
-			Complete = 2,
-			Referenced = 3
+			Complete = 2
 		}
 
 		public Item ItemAdded;
@@ -23,6 +23,22 @@ namespace RPGCore.Inventory.Slots
 			ItemAdded = itemAdded;
 			Status = status;
 			Quantity = quantity;
+		}
+
+		public static InventoryResult CompleteWholeItem (Item item)
+		{
+			if (item is StackableItem stackableItem)
+			{
+				return new InventoryResult (item, OperationStatus.Complete, stackableItem.Quantity);
+			}
+			else if (item is UniqueItem)
+			{
+				return new InventoryResult (item, OperationStatus.Complete, 1);
+			}
+			else
+			{
+				throw new InvalidOperationException ($"Item in neither a {nameof (StackableItem)} nor a {nameof (UniqueItem)}.");
+			}
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace RPGCore.Items.UnitTests
 	public class StackableItemShould
 	{
 		[Test]
-		public void TakeITemFromStack ()
+		public void TakeItemFromStack ()
 		{
 			var sourceItem = new StackableItem (new ProceduralItemTemplate (), 12);
 

@@ -103,7 +103,14 @@ namespace RPGCore.Inventory.Slots
 						currentStackableItem.Quantity += quantityToAdd;
 						stackableItem.Quantity -= quantityToAdd;
 
-						return new InventoryResult (currentStackableItem, InventoryResult.OperationStatus.Complete, quantityToAdd);
+						if (stackableItem.Quantity == 0)
+						{
+							return new InventoryResult (currentStackableItem, InventoryResult.OperationStatus.Complete, quantityToAdd);
+						}
+						else
+						{
+							return new InventoryResult (currentStackableItem, InventoryResult.OperationStatus.Partial, quantityToAdd);
+						}
 					}
 					else
 					{
@@ -170,18 +177,7 @@ namespace RPGCore.Inventory.Slots
 
 			StoredItem = item;
 
-			if (StoredItem is StackableItem stackableItem)
-			{
-				return new InventoryResult (item, InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
-			}
-			else if (StoredItem is UniqueItem)
-			{
-				return new InventoryResult (item, InventoryResult.OperationStatus.Complete, 1);
-			}
-			else
-			{
-				throw new InvalidOperationException ($"Item in neither a {nameof (StackableItem)} nor a {nameof (UniqueItem)}.");
-			}
+			return InventoryResult.CompleteWholeItem (StoredItem);
 		}
 
 		public override InventoryResult SwapInto (ItemSlot other)

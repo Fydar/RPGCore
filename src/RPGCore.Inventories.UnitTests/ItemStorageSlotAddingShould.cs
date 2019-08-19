@@ -7,6 +7,46 @@ namespace RPGCore.Inventories.UnitTests
 	public class ItemStorageSlotAddingShould
 	{
 		[Test, Parallelizable]
+		public void CompleteOnFilledFromEmpty ()
+		{
+			var storageSlot = new ItemStorageSlot ()
+			{
+				MaxStackSize = 10
+			};
+
+			var template = new ProceduralItemTemplate ();
+
+			var itemToAddA = new StackableItem (template, 10);
+
+			var result = storageSlot.AddItem (itemToAddA);
+
+			Assert.AreEqual (10, result.Quantity);
+			Assert.AreEqual (InventoryResult.OperationStatus.Complete, result.Status);
+			Assert.AreEqual (itemToAddA, result.ItemAdded);
+		}
+
+		[Test, Parallelizable]
+		public void CompleteOnFilledFromPartial ()
+		{
+			var storageSlot = new ItemStorageSlot ()
+			{
+				MaxStackSize = 10
+			};
+
+			var template = new ProceduralItemTemplate ();
+
+			var itemToAddA = new StackableItem (template, 5);
+			var itemToAddB = new StackableItem (template, 5);
+
+			storageSlot.AddItem (itemToAddA);
+			var result = storageSlot.AddItem (itemToAddB);
+
+			Assert.AreEqual (5, result.Quantity);
+			Assert.AreEqual (InventoryResult.OperationStatus.Complete, result.Status);
+			Assert.AreEqual (itemToAddA, result.ItemAdded);
+		}
+
+		[Test, Parallelizable]
 		public void LimitedSlotCapacityForMultipleStackableItems ()
 		{
 			var storageSlot = new ItemStorageSlot ()
@@ -47,7 +87,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void NoneOnFullStackableSlot ()
+		public void NoneOnTryAddToFullStackableSlot ()
 		{
 			var storageSlot = new ItemStorageSlot ()
 			{
@@ -68,7 +108,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void NoneOnStackableOfDifferentTypeAddedToOccupiedSlot ()
+		public void NoneOnTryAddStackableOfDifferentTypeAddedToOccupiedSlot ()
 		{
 			var storageSlot = new ItemStorageSlot ();
 
@@ -85,7 +125,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void NoneOnUniqueItemAddedToOccupiedSlot ()
+		public void NoneOnTryAddUniqueItemAddedToOccupiedSlot ()
 		{
 			var storageSlot = new ItemStorageSlot ();
 
