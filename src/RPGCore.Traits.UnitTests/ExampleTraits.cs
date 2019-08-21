@@ -3,8 +3,8 @@
 namespace RPGCore.Traits.UnitTests
 {
 	public class CharacterTrait<TStat, TState> : TraitCollection<TStat, TState>
-		where TStat : class, new()
-		where TState : class, new()
+		where TStat : IFixedElement, new()
+		where TState : IFixedElement, new()
 	{
 		public TState Health;
 		public TStat MaxHealth;
@@ -14,8 +14,8 @@ namespace RPGCore.Traits.UnitTests
 	}
 
 	public class WeaponTraits<TStat, TState> : TraitCollection<TStat, TState>
-		where TStat : class, new()
-		where TState : class, new()
+		where TStat : IFixedElement, new()
+		where TState : IFixedElement, new()
 	{
 		public TStat Damage;
 		public TStat Quality;

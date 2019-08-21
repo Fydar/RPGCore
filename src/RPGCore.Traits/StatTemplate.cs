@@ -3,9 +3,16 @@ using System.Reflection;
 
 namespace RPGCore.Traits
 {
-	public class StatTemplate
+	public class StatTemplate : IFixedElement
 	{
-		public string Name;
 		public float MaxValue;
+		
+		public string Name { get; set; }
+		public string Identifier { get; set; }
+
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }

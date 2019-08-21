@@ -99,7 +99,7 @@
         "Description": null,
         "ImplicitConversions": {},
         "Fields": null,
-        "DefaultValue": "00000000"
+        "DefaultValue": "0x00000000"
       }
     },
     "ObjectTypes": {

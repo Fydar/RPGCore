@@ -8,16 +8,9 @@ namespace RPGCore.Traits.UnitTests
 		public void FindAllFields ()
 		{
 			var traitTemplates = new CharacterTrait<StatTemplate, StateTemplate> ();
+			var traitInstances = new CharacterTrait<StatInstance, StateInstance> ();
 
-			foreach (var state in traitTemplates.States)
-			{
-				TestContext.WriteLine (state);
-			}
-
-			foreach (var stat in traitTemplates.Stats)
-			{
-				TestContext.WriteLine (stat);
-			}
+			traitInstances.SetTemplate(traitTemplates);
 		}
 	}
 }

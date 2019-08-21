@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace RPGCore.Traits
 {
 	public class TraitCollection<TStat, TState>
-		where TStat : class, new()
-		where TState : class, new()
+		where TStat : IFixedElement, new()
+		where TState : IFixedElement, new()
 	{
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private TStat[] StatsCache;
+		
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private TState[] StatesCache;
 
 		public IEnumerable<TStat> Stats
@@ -35,7 +39,7 @@ namespace RPGCore.Traits
 		}
 
 		private T[] GetAllMembers<T> ()
-			where T : class, new()
+			where T : IFixedElement, new()
 		{
 			var targetType = GetType ();
 
@@ -56,6 +60,9 @@ namespace RPGCore.Traits
 					{
 						fieldValue = (T)fieldValueObject;
 					}
+					
+					fieldValue.Name = field.Name;
+					fieldValue.Identifier = field.Name;
 
 					foundMembers.Add (fieldValue);
 				}
