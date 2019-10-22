@@ -8,6 +8,7 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public LocalId Id { get; set; }
 
+		[JsonIgnore]
 		public abstract Type InstanceType { get; }
 		public abstract INodeInstance CreateInstance ();
 		public abstract void Setup (IGraphInstance graph, INodeInstance metadata, Actor target);
@@ -22,6 +23,7 @@ namespace RPGCore.Behaviour
 	{
 		public abstract class Instance : INodeInstance
 		{
+			[JsonIgnore]
 			public TNode Node;
 
 			public abstract void OnInputChanged ();
