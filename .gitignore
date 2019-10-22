@@ -36,7 +36,7 @@ src/RPGCoreUnity/*.sln
 src/RPGCoreUnity/*.csproj
 src/RPGCoreUnity/[Ll]ibrary/
 src/RPGCoreUnity/Assets/AssetStoreTools*
-!src/RPGCoreUnity/Assets/Plugins/Newtonsoft.Json.dll
+!src/RPGCoreUnity/Assets/**/*.dll
 
 # Builds
 *.apk
