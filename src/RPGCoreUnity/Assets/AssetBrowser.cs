@@ -1,6 +1,4 @@
-﻿using RPGCore.Packages;
-using RPGCore.UI;
-using RPGCore.Unity;
+﻿using RPGCore.Unity;
 using UnityEngine;
 
 public class AssetBrowser : MonoBehaviour
@@ -10,7 +8,7 @@ public class AssetBrowser : MonoBehaviour
 	public RectTransform Holder;
 	public AssetRendererPool Assets;
 
-	private void Start()
+	private void Start ()
 	{
 		var explorer = Package.Explorer;
 

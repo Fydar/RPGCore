@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RPGCore.Items;
+using System;
 using System.Collections.Generic;
-using RPGCore.Items;
 
 namespace RPGCore.Inventory.Slots
 {

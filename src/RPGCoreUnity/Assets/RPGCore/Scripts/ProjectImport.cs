@@ -1,11 +1,9 @@
 ﻿using RPGCore.Packages;
-using RPGCore.Behaviour;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace RPGCore.Unity
 {
-	[CreateAssetMenu(menuName = "RPGCore/Package Import")]
+	[CreateAssetMenu (menuName = "RPGCore/Package Import")]
 	public class ProjectImport : ScriptableObject
 	{
 		public string RelativePath;
@@ -24,7 +22,7 @@ namespace RPGCore.Unity
 			}
 		}
 
-		public void Reload()
+		public void Reload ()
 		{
 			explorer = null;
 		}

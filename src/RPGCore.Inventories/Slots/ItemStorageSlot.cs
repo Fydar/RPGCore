@@ -93,7 +93,7 @@ namespace RPGCore.Inventory.Slots
 					int quantityToAdd = constrainedMaxSize;
 					if (constrainedMaxSize != 0)
 					{
-						quantityToAdd = Math.Min(constrainedMaxSize, 
+						quantityToAdd = Math.Min (constrainedMaxSize,
 							Math.Min (stackableItem.Quantity, itemMaxStackSize - currentStackableItem.Quantity)
 						);
 					}

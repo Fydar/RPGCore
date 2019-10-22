@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace RPGCore.Behaviour
 {
 	public sealed class ActivatableItemNode : Node<ActivatableItemNode, ActivatableItemNode.ActivatableItemInstance>

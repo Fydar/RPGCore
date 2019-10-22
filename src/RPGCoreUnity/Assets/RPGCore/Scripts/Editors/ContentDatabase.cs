@@ -1,8 +1,6 @@
-﻿using System;
+﻿using RPGCore.Packages;
 using System.IO;
-using System.Collections.Generic;
 using UnityEngine;
-using RPGCore.Packages;
 
 public static class ContentDatabase
 {
@@ -15,8 +13,8 @@ public static class ContentDatabase
 			if (primaryPackage == null)
 			{
 				string path = ProjectConfiguration.ActiveConfiguration.References[0].RelativePath;
-				Debug.Log("Loading package at path: " + new FileInfo(path).FullName);
-				primaryPackage = PackageExplorer.Load(path);
+				Debug.Log ("Loading package at path: " + new FileInfo (path).FullName);
+				primaryPackage = PackageExplorer.Load (path);
 			}
 			return primaryPackage;
 		}

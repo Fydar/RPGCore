@@ -13,7 +13,9 @@ namespace RPGCore.Behaviour.Editor
 			get
 			{
 				if (instance == null)
+				{
 					instance = new BehaviourGUIStyles ();
+				}
 
 				return instance;
 			}

@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-	[CustomEditor(typeof(ProjectImport))]
+	[CustomEditor (typeof (ProjectImport))]
 	public class ProjectImportEditor : Editor
 	{
-		Texture2D Spritesheet;
-		
+		private Texture2D Spritesheet;
+
 		public override void OnInspectorGUI ()
 		{
 			DrawDefaultInspector ();
@@ -23,12 +23,12 @@ namespace RPGCore.Unity.Editors
 			{
 				EditorGUILayout.LabelField (resource.Name);
 			}
-			
+
 			if (Spritesheet != null)
 			{
 				var rect = GUILayoutUtility.GetRect (0, 250);
 				var centerRect = new Rect (rect.center.x - (rect.height * 0.5f), rect.y, rect.height, rect.height);
-				GUI.DrawTexture(centerRect, Spritesheet);
+				GUI.DrawTexture (centerRect, Spritesheet);
 			}
 
 			if (GUILayout.Button ("Reload"))
@@ -74,7 +74,7 @@ namespace RPGCore.Unity.Editors
 			{
 				string path = AssetDatabase.GetAssetPath (target);
 				path = path.Substring (0, path.LastIndexOf ('/'));
-				string exportDirectory = path + "/" + target.name + DateTime.Now.ToString("ddmmyy");
+				string exportDirectory = path + "/" + target.name + DateTime.Now.ToString ("ddmmyy");
 				if (!Directory.Exists (exportDirectory))
 				{
 					Directory.CreateDirectory (exportDirectory);

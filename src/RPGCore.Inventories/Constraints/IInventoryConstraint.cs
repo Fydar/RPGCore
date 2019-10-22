@@ -1,5 +1,4 @@
 ﻿using RPGCore.Items;
-using System;
 
 namespace RPGCore.Inventory.Slots
 {

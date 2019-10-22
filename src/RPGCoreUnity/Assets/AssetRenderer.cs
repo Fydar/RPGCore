@@ -10,13 +10,13 @@ public class AssetRenderer : MonoBehaviour
 {
 	public Text Name;
 	public RawImage Icon;
-	
-	public void Render(IResource resource)
+
+	public void Render (IResource resource)
 	{
 		Name.text = resource.Name;
-		if (resource.Name.EndsWith(".png"))
+		if (resource.Name.EndsWith (".png"))
 		{
-			Icon.texture = resource.LoadImage();
+			Icon.texture = resource.LoadImage ();
 		}
 	}
 }

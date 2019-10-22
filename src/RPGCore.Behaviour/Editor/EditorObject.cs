@@ -42,7 +42,7 @@ namespace RPGCore.Behaviour.Editor
 
 				var replace = JToken.FromObject (Value);
 
-				if (JToken.DeepEquals(replace, field.Json))
+				if (JToken.DeepEquals (replace, field.Json))
 				{
 					return;
 				}

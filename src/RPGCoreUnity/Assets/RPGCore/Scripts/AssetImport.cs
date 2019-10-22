@@ -1,5 +1,4 @@
-﻿using RPGCore.Packages;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPGCore.Unity
 {
