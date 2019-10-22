@@ -47,11 +47,11 @@ namespace RPGCore.Behaviour
 					var serializer = new JsonSerializer ();
 					serializer.Converters.Add (new OutputConverter ());
 
-					nodeInstances[i] = (INodeInstance)instanceData.ToObject (node.MetadataType, serializer);
+					nodeInstances[i] = (INodeInstance)instanceData.ToObject (node.InstanceType, serializer);
 				}
 				else
 				{
-					nodeInstances[i] = node.Create ();
+					nodeInstances[i] = node.CreateInstance ();
 				}
 			}
 

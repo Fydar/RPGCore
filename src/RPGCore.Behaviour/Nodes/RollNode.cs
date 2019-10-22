@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 		public bool Goodbyte;
 	}
 
-	public sealed class RollNode : Node<RollNode, RollNode.Metadata>
+	public sealed class RollNode : Node<RollNode, RollNode.RollInstance>
 	{
 		public OutputSocket Output = new OutputSocket ();
 		public string TooltipFormat = "{0}";
@@ -16,16 +16,16 @@ namespace RPGCore.Behaviour
 		public int MaxValue = 12;
 		public ExtraData Data;
 
-		public override InputMap[] Inputs (IGraphConnections graph, Metadata instance) => null;
+		public override InputMap[] Inputs (IGraphConnections graph, RollInstance instance) => null;
 
-		public override OutputMap[] Outputs (IGraphConnections graph, Metadata instance) => new[]
+		public override OutputMap[] Outputs (IGraphConnections graph, RollInstance instance) => new[]
 		{
 			graph.Connect(ref Output, ref instance.Output),
 		};
 
-		public override INodeInstance Create () => new Metadata ();
+		public override RollInstance Create () => new RollInstance ();
 
-		public sealed class Metadata : Instance
+		public sealed class RollInstance : Instance
 		{
 			public int Seed;
 

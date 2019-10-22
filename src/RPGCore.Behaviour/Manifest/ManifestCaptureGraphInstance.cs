@@ -8,7 +8,7 @@
 		public ManifestCaptureGraphInstance (Node singleNodeGraph)
 		{
 			node = singleNodeGraph;
-			instance = node.Create ();
+			instance = node.CreateInstance ();
 
 			node.Inputs (this, instance);
 			node.Outputs (this, instance);

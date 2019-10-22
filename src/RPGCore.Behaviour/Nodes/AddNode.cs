@@ -2,27 +2,27 @@
 
 namespace RPGCore.Behaviour
 {
-	public sealed class AddNode : Node<AddNode, AddNode.Metadata>
+	public sealed class AddNode : Node<AddNode, AddNode.AddInstance>
 	{
 		public InputSocket ValueA;
 		public InputSocket ValueB;
 
 		public OutputSocket Output;
 
-		public override InputMap[] Inputs (IGraphConnections graph, Metadata instance) => new[]
+		public override InputMap[] Inputs (IGraphConnections graph, AddInstance instance) => new[]
 		{
 			graph.Connect(ref ValueA, ref instance.ValueA),
 			graph.Connect(ref ValueB, ref instance.ValueB)
 		};
 
-		public override OutputMap[] Outputs (IGraphConnections graph, Metadata instance) => new[]
+		public override OutputMap[] Outputs (IGraphConnections graph, AddInstance instance) => new[]
 		{
 			graph.Connect(ref Output, ref instance.Output)
 		};
 
-		public override INodeInstance Create () => new Metadata ();
+		public override AddInstance Create () => new AddInstance ();
 
-		public sealed class Metadata : Instance
+		public sealed class AddInstance : Instance
 		{
 			public Input<float> ValueA;
 			public Input<float> ValueB;
@@ -63,9 +63,9 @@ namespace RPGCore.Behaviour
 
 			private struct LogOnChanged : IEventFieldHandler
 			{
-				public Metadata Meta;
+				public AddInstance Meta;
 
-				public LogOnChanged (Metadata meta)
+				public LogOnChanged (AddInstance meta)
 				{
 					Meta = meta;
 				}

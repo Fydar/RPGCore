@@ -8,8 +8,8 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public LocalId Id { get; set; }
 
-		public abstract Type MetadataType { get; }
-		public abstract INodeInstance Create ();
+		public abstract Type InstanceType { get; }
+		public abstract INodeInstance CreateInstance ();
 		public abstract void Setup (IGraphInstance graph, INodeInstance metadata, Actor target);
 
 		public abstract InputMap[] Inputs (IGraphConnections graph, INodeInstance instance);
@@ -29,10 +29,13 @@ namespace RPGCore.Behaviour
 			public abstract void Setup (IGraphInstance graph, Actor target);
 		}
 
-		public override Type MetadataType => typeof (TInstance);
+		public override Type InstanceType => typeof (TInstance);
 
 		public abstract InputMap[] Inputs (IGraphConnections graph, TInstance instance);
 		public abstract OutputMap[] Outputs (IGraphConnections graph, TInstance instance);
+		public abstract TInstance Create ();
+
+		public sealed override INodeInstance CreateInstance () => Create ();
 
 		public sealed override InputMap[] Inputs (IGraphConnections graph, INodeInstance instance)
 		{
