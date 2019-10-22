@@ -136,8 +136,9 @@ namespace RPGCore.Unity.Editors
 					);
 					if (Event.current.type == EventType.Repaint)
 					{
-						BehaviourGraphResources.Instance.NodeStyle.Draw (nodeRect,
-							false, node.Name == selectedNode, false, false);
+						bool selected = node.Name == selectedNode;
+						GUI.skin.window.Draw (nodeRect,
+							false, selected, selected, false);
 					}
 
 					GUILayout.BeginArea (nodeRect);
@@ -145,11 +146,13 @@ namespace RPGCore.Unity.Editors
 					var nodeData = node.Json["Data"];
 					var nodeType = node["Type"];
 
+					EditorGUILayout.LabelField (nodeType.GetValue<string> ());
+
 					object fieldObject;
 					if (!node.ViewBag.TryGetValue ("Generic", out fieldObject))
 					{
 						var fieldInformation = new FieldInformation ();
-						fieldInformation.Type = nodeType.Json.ToObject<string> ();
+						fieldInformation.Type = nodeType.GetValue<string> ();
 
 						fieldObject = new EditorField (graphEditor, nodeData, node.Name,
 							fieldInformation);
@@ -347,13 +350,17 @@ namespace RPGCore.Unity.Editors
 				dragging_NodeDragging = false;
 				currentEvent.Use ();
 
-				var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
+				if (!string.IsNullOrEmpty (selectedNode)
+					&& graphEditor != null)
+				{
+					var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
 
-				var posX = pos["x"];
-				posX.ApplyModifiedProperties ();
+					var posX = pos["x"];
+					posX.ApplyModifiedProperties ();
 
-				var posY = pos["y"];
-				posY.ApplyModifiedProperties ();
+					var posY = pos["y"];
+					posY.ApplyModifiedProperties ();
+				}
 			}
 
 			if (currentEvent.type == EventType.KeyDown)
