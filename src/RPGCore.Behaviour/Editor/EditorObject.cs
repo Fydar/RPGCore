@@ -15,7 +15,21 @@ namespace RPGCore.Behaviour.Editor
 
 		private class QueuedItem<T> : IQueuedItem
 		{
-			public T Value { get; set; }
+			public T Value
+			{
+				get
+				{
+					return ValueInternal;
+				}
+				set
+				{
+					ValueInternal = value;
+					IsDirty = true;
+				}
+			}
+
+			private T ValueInternal;
+			private bool IsDirty;
 
 			public QueuedItem (T value)
 			{
@@ -24,12 +38,17 @@ namespace RPGCore.Behaviour.Editor
 
 			public void SetValue (EditorField field)
 			{
+				if (!IsDirty)
+				{
+					return;
+				}
+
 				var replace = JToken.FromObject (Value);
 				field.Json.Replace (replace);
 				field.Json = replace;
+				IsDirty = false;
 			}
 		}
-
 
 		public string Name;
 		public FieldInformation Field;
