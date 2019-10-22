@@ -52,15 +52,18 @@ namespace RPGCore.Behaviour
 
 			var editor = new EditorSession (manifest, editorTarget, "SerializedGraph");
 
-			/*foreach (var field in editor.Root)
+			foreach (var field in editor.Root["Nodes"]["472c7ba2"]["Data"])
 			{
 				Console.WriteLine ($"{field.Name}: {field.Json} ({field.Field.Type})");
 				if (field.Name == "MaxValue")
 				{
-					var newObject = JToken.FromObject (field.Json.ToObject<int> () + 10);
-					field.Json.Replace (newObject);
+					field.SetValue (field.GetValue<int> () + 10);
+					field.ApplyModifiedProperties ();
+
+					field.SetValue (field.GetValue<int> ());
+					field.ApplyModifiedProperties ();
 				}
-			}*/
+			}
 
 			using (var file = editorTargetResource.WriteStream ())
 			{

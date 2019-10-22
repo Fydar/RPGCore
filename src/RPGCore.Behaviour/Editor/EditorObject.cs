@@ -17,10 +17,7 @@ namespace RPGCore.Behaviour.Editor
 		{
 			public T Value
 			{
-				get
-				{
-					return ValueInternal;
-				}
+				get => ValueInternal;
 				set
 				{
 					ValueInternal = value;
@@ -44,6 +41,12 @@ namespace RPGCore.Behaviour.Editor
 				}
 
 				var replace = JToken.FromObject (Value);
+
+				if (JToken.DeepEquals(replace, field.Json))
+				{
+					return;
+				}
+
 				field.Json.Replace (replace);
 				field.Json = replace;
 				IsDirty = false;
@@ -154,13 +157,7 @@ namespace RPGCore.Behaviour.Editor
 			return ((IEnumerable<EditorField>)Children.Values).GetEnumerator ();
 		}
 
-		public EditorField this[string key]
-		{
-			get
-			{
-				return Children[key];
-			}
-		}
+		public EditorField this[string key] => Children[key];
 
 		IEnumerator IEnumerable.GetEnumerator ()
 		{
