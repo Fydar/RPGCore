@@ -7,6 +7,18 @@ namespace RPGCore.Inventories.UnitTests
 	public class ItemSlotSwappingShould
 	{
 		[Test, Parallelizable]
+		public void EmptyStorageToEmptyStorage ()
+		{
+			var fromSlot = new ItemStorageSlot ();
+			var toSlot = new ItemStorageSlot ();
+
+			fromSlot.SwapInto (toSlot);
+
+			Assert.AreEqual (null, fromSlot.CurrentItem);
+			Assert.AreEqual (null, toSlot.CurrentItem);
+		}
+
+		[Test, Parallelizable]
 		public void EmptyStorageToFullStorage ()
 		{
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
@@ -54,18 +66,6 @@ namespace RPGCore.Inventories.UnitTests
 
 			Assert.AreEqual (toItem, fromSlot.CurrentItem);
 			Assert.AreEqual (fromItem, toSlot.CurrentItem);
-		}
-
-		[Test, Parallelizable]
-		public void EmptyStorageToEmptyStorage ()
-		{
-			var fromSlot = new ItemStorageSlot ();
-			var toSlot = new ItemStorageSlot ();
-
-			fromSlot.SwapInto (toSlot);
-
-			Assert.AreEqual (null, fromSlot.CurrentItem);
-			Assert.AreEqual (null, toSlot.CurrentItem);
 		}
 
 		/*[Test, Parallelizable]

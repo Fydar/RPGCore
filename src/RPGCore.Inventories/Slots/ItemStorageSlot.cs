@@ -188,7 +188,7 @@ namespace RPGCore.Inventory.Slots
 
 				return new InventoryTransaction ()
 				{
-					Status = TransactionStatus.Partial,
+					Status = TransactionStatus.Complete,
 					Items = new List<ItemTransaction>()
 					{
 						new ItemTransaction()

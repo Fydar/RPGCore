@@ -25,7 +25,9 @@ namespace RPGCore.Inventories.UnitTests
 			var itemToAddA = new StackableItem (template, 250);
 			var result = storageSlot.AddItem (itemToAddA);
 
-			Assert.AreEqual (250, ((StackableItem)result.ItemAdded).Quantity);
+			var firstTransaction = result.Items[0];
+
+			Assert.AreEqual (250, ((StackableItem)firstTransaction.Item).Quantity);
 		}
 
 		[Test, Parallelizable]
@@ -47,9 +49,7 @@ namespace RPGCore.Inventories.UnitTests
 			var itemToAdd = new StackableItem (template, 1);
 			var result = storageSlot.AddItem (itemToAdd);
 
-			Assert.AreEqual (0, result.Quantity);
-			Assert.AreEqual (InventoryTransaction.TransactionStatus.None, result.Status);
-			Assert.AreEqual (null, result.ItemAdded);
+			Assert.AreEqual (TransactionStatus.None, result.Status);
 		}
 
 		[Test, Parallelizable]
@@ -72,7 +72,9 @@ namespace RPGCore.Inventories.UnitTests
 
 			var result = storageSlot.AddItem (itemToAddA);
 
-			Assert.AreEqual (5, ((StackableItem)result.ItemAdded).Quantity);
+			var firstTransaction = result.Items[0];
+
+			Assert.AreEqual (5, ((StackableItem)firstTransaction.Item).Quantity);
 		}
 
 		[Test, Parallelizable]
@@ -97,9 +99,7 @@ namespace RPGCore.Inventories.UnitTests
 			storageSlot.AddItem (itemToAddA);
 			var result = storageSlot.AddItem (itemToAddB);
 
-			Assert.AreEqual (0, result.Quantity);
-			Assert.AreEqual (InventoryTransaction.TransactionStatus.None, result.Status);
-			Assert.AreEqual (null, result.ItemAdded);
+			Assert.AreEqual (TransactionStatus.None, result.Status);
 		}
 
 		[Test, Parallelizable]
@@ -124,7 +124,9 @@ namespace RPGCore.Inventories.UnitTests
 			storageSlot.AddItem (itemToAddA);
 			var result = storageSlot.AddItem (itemToAddB);
 
-			Assert.AreEqual (3, ((StackableItem)result.ItemAdded).Quantity);
+			var firstTransaction = result.Items[0];
+
+			Assert.AreEqual (3, ((StackableItem)firstTransaction.Item).Quantity);
 		}
 	}
 }

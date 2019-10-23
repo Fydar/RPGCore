@@ -20,9 +20,13 @@ namespace RPGCore.Inventories.UnitTests
 
 			var result = storageSlot.AddItem (itemToAddA);
 
-			Assert.AreEqual (10, result.Quantity);
+			var firstTransaction = result.Items[0];
+
 			Assert.AreEqual (TransactionStatus.Complete, result.Status);
-			Assert.AreEqual (itemToAddA, result.ItemAdded);
+			Assert.AreEqual (10, firstTransaction.Quantity);
+			Assert.AreEqual (itemToAddA, firstTransaction.Item);
+			Assert.AreEqual (null, firstTransaction.FromInventory);
+			Assert.AreEqual (storageSlot, firstTransaction.ToInventory);
 		}
 
 		[Test, Parallelizable]
@@ -41,9 +45,13 @@ namespace RPGCore.Inventories.UnitTests
 			storageSlot.AddItem (itemToAddA);
 			var result = storageSlot.AddItem (itemToAddB);
 
-			Assert.AreEqual (5, result.Quantity);
+			var firstTransaction = result.Items[0];
+
 			Assert.AreEqual (TransactionStatus.Complete, result.Status);
-			Assert.AreEqual (itemToAddA, result.ItemAdded);
+			Assert.AreEqual (5, firstTransaction.Quantity);
+			Assert.AreEqual (itemToAddA, firstTransaction.Item);
+			Assert.AreEqual (null, firstTransaction.FromInventory);
+			Assert.AreEqual (storageSlot, firstTransaction.ToInventory);
 		}
 
 		[Test, Parallelizable]
@@ -62,12 +70,16 @@ namespace RPGCore.Inventories.UnitTests
 			storageSlot.AddItem (itemToAddA);
 			var result = storageSlot.AddItem (itemToAddB);
 
+			var firstTransaction = result.Items[0];
+
 			Assert.AreEqual (5, itemToAddB.Quantity);
-			Assert.AreEqual (10, ((StackableItem)result.ItemAdded).Quantity);
+			Assert.AreEqual (10, ((StackableItem)firstTransaction.Item).Quantity);
+			Assert.AreEqual (null, firstTransaction.FromInventory);
+			Assert.AreEqual (storageSlot, firstTransaction.ToInventory);
 		}
 
 		[Test, Parallelizable]
-		public void LimitedSlotCapacityForStackableItems ()
+		public void LimitedSlotCapacityForSingleStackableItem ()
 		{
 			var storageSlot = new ItemStorageSlot ()
 			{
@@ -80,10 +92,29 @@ namespace RPGCore.Inventories.UnitTests
 
 			var result = storageSlot.AddItem (itemToAdd);
 
-			Assert.AreEqual (10, result.Quantity);
-			Assert.AreEqual (10, ((StackableItem)result.ItemAdded).Quantity);
+			var firstTransaction = result.Items[0];
+
+			Assert.AreEqual (10, firstTransaction.Quantity);
+			Assert.AreEqual (10, ((StackableItem)firstTransaction.Item).Quantity);
+			Assert.AreEqual (null, firstTransaction.FromInventory);
+			Assert.AreEqual (storageSlot, firstTransaction.ToInventory);
 
 			Assert.AreEqual (5, itemToAdd.Quantity);
+		}
+
+		[Test, Parallelizable]
+		public void NoneOnTryAddStackableOfDifferentTypeAddedToOccupiedSlot ()
+		{
+			var storageSlot = new ItemStorageSlot ();
+
+			var oldItem = new StackableItem (new ProceduralItemTemplate (), 5);
+			var newItem = new StackableItem (new ProceduralItemTemplate (), 10);
+
+			storageSlot.AddItem (oldItem);
+
+			var result = storageSlot.AddItem (newItem);
+
+			Assert.AreEqual (TransactionStatus.None, result.Status);
 		}
 
 		[Test, Parallelizable]
@@ -102,26 +133,7 @@ namespace RPGCore.Inventories.UnitTests
 			storageSlot.AddItem (itemToAddA);
 			var result = storageSlot.AddItem (itemToAddB);
 
-			Assert.AreEqual (0, result.Quantity);
 			Assert.AreEqual (TransactionStatus.None, result.Status);
-			Assert.AreEqual (null, result.ItemAdded);
-		}
-
-		[Test, Parallelizable]
-		public void NoneOnTryAddStackableOfDifferentTypeAddedToOccupiedSlot ()
-		{
-			var storageSlot = new ItemStorageSlot ();
-
-			var oldItem = new StackableItem (new ProceduralItemTemplate (), 5);
-			var newItem = new StackableItem (new ProceduralItemTemplate (), 10);
-
-			storageSlot.AddItem (oldItem);
-
-			var result = storageSlot.AddItem (newItem);
-
-			Assert.AreEqual (0, result.Quantity);
-			Assert.AreEqual (TransactionStatus.None, result.Status);
-			Assert.AreEqual (null, result.ItemAdded);
 		}
 
 		[Test, Parallelizable]
@@ -136,9 +148,7 @@ namespace RPGCore.Inventories.UnitTests
 
 			var result = storageSlot.AddItem (newItem);
 
-			Assert.AreEqual (0, result.Quantity);
 			Assert.AreEqual (TransactionStatus.None, result.Status);
-			Assert.AreEqual (null, result.ItemAdded);
 		}
 
 		[Test, Parallelizable]
@@ -148,9 +158,15 @@ namespace RPGCore.Inventories.UnitTests
 
 			var itemToAdd = new StackableItem (new ProceduralItemTemplate (), 10);
 
-			storageSlot.AddItem (itemToAdd);
+			var result = storageSlot.AddItem (itemToAdd);
 
+			var firstTransaction = result.Items[0];
+
+			Assert.AreEqual (TransactionStatus.Complete, result.Status);
 			Assert.AreEqual (itemToAdd, storageSlot.CurrentItem);
+
+			Assert.AreEqual (null, firstTransaction.FromInventory);
+			Assert.AreEqual (storageSlot, firstTransaction.ToInventory);
 		}
 
 		[Test, Parallelizable]
@@ -160,9 +176,15 @@ namespace RPGCore.Inventories.UnitTests
 
 			var itemToAdd = new UniqueItem (new ProceduralItemTemplate ());
 
-			storageSlot.AddItem (itemToAdd);
+			var result = storageSlot.AddItem (itemToAdd);
 
+			var firstTransaction = result.Items[0];
+
+			Assert.AreEqual (TransactionStatus.Complete, result.Status);
 			Assert.AreEqual (itemToAdd, storageSlot.CurrentItem);
+
+			Assert.AreEqual (null, firstTransaction.FromInventory);
+			Assert.AreEqual (storageSlot, firstTransaction.ToInventory);
 		}
 	}
 }
