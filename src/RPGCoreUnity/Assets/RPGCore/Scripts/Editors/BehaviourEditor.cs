@@ -69,20 +69,23 @@ namespace RPGCore.Unity.Editors
 
 			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField (CurrentPackage, typeof (ProjectImport), true);
 
-			var explorer = CurrentPackage.Explorer;
-
-			foreach (var resource in explorer.Resources)
+			if (CurrentPackage != null)
 			{
-				if (!resource.Name.EndsWith (".bhvr"))
-				{
-					continue;
-				}
+				var explorer = CurrentPackage.Explorer;
 
-				if (GUILayout.Button (resource.ToString ()))
+				foreach (var resource in explorer.Resources)
 				{
-					CurrentResource = resource;
-					HasCurrentResource = true;
-					HasEditor = false;
+					if (!resource.Name.EndsWith (".bhvr"))
+					{
+						continue;
+					}
+
+					if (GUILayout.Button (resource.ToString ()))
+					{
+						CurrentResource = resource;
+						HasCurrentResource = true;
+						HasEditor = false;
+					}
 				}
 			}
 
@@ -254,9 +257,8 @@ namespace RPGCore.Unity.Editors
 				int newValue = EditorGUILayout.IntField (field.Name, field.Json.ToObject<int> ());
 				if (EditorGUI.EndChangeCheck ())
 				{
-					var replace = JToken.FromObject (newValue);
-					field.Json.Replace (replace);
-					field.Json = replace;
+					field.SetValue (newValue);
+					field.ApplyModifiedProperties ();
 				}
 			}
 			else if (field.Field.Type == "String")
@@ -265,9 +267,8 @@ namespace RPGCore.Unity.Editors
 				string newValue = EditorGUILayout.TextField (field.Name, field.Json.ToObject<string> ());
 				if (EditorGUI.EndChangeCheck ())
 				{
-					var replace = JToken.FromObject (newValue);
-					field.Json.Replace (replace);
-					field.Json = replace;
+					field.SetValue (newValue);
+					field.ApplyModifiedProperties ();
 				}
 			}
 			else if (field.Field.Type == "Boolean")
@@ -276,9 +277,8 @@ namespace RPGCore.Unity.Editors
 				bool newValue = EditorGUILayout.Toggle (field.Name, field.Json.ToObject<bool> ());
 				if (EditorGUI.EndChangeCheck ())
 				{
-					var replace = JToken.FromObject (newValue);
-					field.Json.Replace (replace);
-					field.Json = replace;
+					field.SetValue (newValue);
+					field.ApplyModifiedProperties ();
 				}
 			}
 			else if (field.Field.Type == "InputSocket")

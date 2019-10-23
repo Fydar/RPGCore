@@ -267,8 +267,7 @@ namespace RPGCore.Behaviour
 					if (input.ConnectionId == connectionId)
 					{
 						var instance = nodeInstances[x];
-						var node = graph.Nodes[x];
-						yield return new OutputSource (node, instance, input);
+						yield return new OutputSource (instance, input);
 					}
 				}
 			}

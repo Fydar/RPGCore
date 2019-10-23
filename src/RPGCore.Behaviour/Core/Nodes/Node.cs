@@ -24,7 +24,9 @@ namespace RPGCore.Behaviour
 		public abstract class Instance : INodeInstance
 		{
 			[JsonIgnore]
-			public TNode Node;
+			public TNode Node { get; internal set; }
+
+			Node INodeInstance.Node => Node;
 
 			public abstract void OnInputChanged ();
 			public abstract void Remove ();

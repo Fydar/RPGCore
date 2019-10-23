@@ -45,7 +45,7 @@ namespace RPGCore.Behaviour
 				int newValue = new Random (Seed).Next (Node.MinValue, Node.MaxValue);
 
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
-				Console.WriteLine ("RollNode: Output set to " + newValue);
+				Console.WriteLine ("RollNode: Output set to " + newValue + $" outputting to {string.Join(", ", graph.GetSource(Output))}");
 
 				Output.Value = newValue;
 			}
