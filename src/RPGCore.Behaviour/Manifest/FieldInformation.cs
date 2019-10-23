@@ -91,7 +91,6 @@ namespace RPGCore.Behaviour.Manifest
 				}
 			}
 
-
 			return fieldInformation;
 		}
 	}

@@ -48,13 +48,11 @@ namespace RPGCore.Behaviour
 				editorTarget = JObject.Load (reader);
 			}
 
-			//var editNode = editorTarget.Nodes.First ();
-
 			var editor = new EditorSession (manifest, editorTarget, "SerializedGraph");
 
 			foreach (var field in editor.Root["Nodes"]["472c7ba2"]["Data"])
 			{
-				Console.WriteLine ($"{field.Name}: {field.Json} ({field.Field.Type})");
+				Console.WriteLine ($"{field}");
 				if (field.Name == "MaxValue")
 				{
 					field.SetValue (field.GetValue<int> () + 10);
@@ -70,7 +68,6 @@ namespace RPGCore.Behaviour
 				serializer.Serialize (new JsonTextWriter (file)
 				{ Formatting = Formatting.Indented }, editorTarget);
 			}
-
 
 			Console.WriteLine (new DirectoryInfo ("Content/Temp").FullName);
 

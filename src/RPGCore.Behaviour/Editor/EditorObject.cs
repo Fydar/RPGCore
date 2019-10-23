@@ -2,6 +2,7 @@ using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour.Manifest;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RPGCore.Behaviour.Editor
@@ -10,7 +11,7 @@ namespace RPGCore.Behaviour.Editor
 	{
 		private interface IQueuedItem
 		{
-			void SetValue (EditorField field);
+			void ApplyValue (EditorField field);
 		}
 
 		private class QueuedItem<T> : IQueuedItem
@@ -33,7 +34,7 @@ namespace RPGCore.Behaviour.Editor
 				Value = value;
 			}
 
-			public void SetValue (EditorField field)
+			public void ApplyValue (EditorField field)
 			{
 				if (!IsDirty)
 				{
@@ -56,13 +57,73 @@ namespace RPGCore.Behaviour.Editor
 		public string Name;
 		public FieldInformation Field;
 		public TypeInformation Type;
-		public JToken Json;
 
 		public EditorSession Session;
-		public Dictionary<string, EditorField> Children;
 		public Dictionary<object, object> ViewBag = new Dictionary<object, object> ();
 
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		private readonly Dictionary<string, EditorField> Children;
+		private JToken Json;
 		private IQueuedItem Queued;
+
+		public EditorField this[string key] => Children[key];
+
+		public EditorField (EditorSession session, JToken json, string name, FieldInformation info)
+		{
+			Session = session;
+			Name = name;
+			Field = info;
+			Json = json;
+
+			Type = session.Manifest.GetTypeInformation (info.Type);
+
+			if (Json.Type == JTokenType.Object
+				&& Field?.Format != FieldFormat.Dictionary)
+			{
+				PopulateMissing ((JObject)Json, Type);
+			}
+
+			Children = new Dictionary<string, EditorField> ();
+			if (Field.Format == FieldFormat.Dictionary)
+			{
+				if (Json.Type != JTokenType.Null)
+				{
+					foreach (var property in ((JObject)Json).Properties ())
+					{
+						Children.Add (property.Name, new EditorField (Session, property.Value, property.Name, Field.ValueFormat));
+					}
+				}
+			}
+			else if (Type.Fields != null)
+			{
+				foreach (var field in Type.Fields)
+				{
+					var property = Json[field.Key];
+
+					if (field.Value.Type == "JObject")
+					{
+						var type = Json["Type"];
+
+						var genericField = new FieldInformation ()
+						{
+							Type = type.ToObject<string> (),
+							Format = FieldFormat.Object,
+
+							Attributes = field.Value.Attributes,
+							DefaultValue = field.Value.DefaultValue,
+							Description = field.Value.Description,
+							ValueFormat = field.Value.ValueFormat
+						};
+
+						Children.Add (field.Key, new EditorField (Session, property, field.Key, genericField));
+					}
+					else
+					{
+						Children.Add (field.Key, new EditorField (Session, property, field.Key, field.Value));
+					}
+				}
+			}
+		}
 
 		public void SetValue<T> (T value)
 		{
@@ -95,61 +156,12 @@ namespace RPGCore.Behaviour.Editor
 				return;
 			}
 
-			Queued.SetValue (this);
+			Queued.ApplyValue (this);
 		}
 
-		public EditorField (EditorSession session, JToken json, string name, FieldInformation info)
+		public override string ToString ()
 		{
-			Session = session;
-			Name = name;
-			Field = info;
-			Json = json;
-
-			Type = session.GetTypeInformation (info.Type);
-
-			if (Json.Type == JTokenType.Object
-				&& Field?.Format != FieldFormat.Dictionary)
-			{
-				PopulateMissing ((JObject)Json, Type);
-			}
-
-			Children = new Dictionary<string, EditorField> ();
-			if (Field.Format == FieldFormat.Dictionary)
-			{
-				if (Json.Type != JTokenType.Null)
-				{
-					foreach (var property in ((JObject)Json).Properties ())
-					{
-						Children.Add (property.Name, new EditorField (Session, property.Value, property.Name, Field.ValueFormat));
-					}
-				}
-			}
-			else
-			{
-				if (Type.Fields != null)
-				{
-					foreach (var field in Type.Fields)
-					{
-						var property = Json[field.Key];
-
-						if (field.Value.Type == "JObject")
-						{
-							var type = Json["Type"];
-
-
-							Children.Add (field.Key, new EditorField (Session, property, field.Key, new FieldInformation ()
-							{
-								Type = type.ToObject<string> (),
-								Format = FieldFormat.Object
-							}));
-						}
-						else
-						{
-							Children.Add (field.Key, new EditorField (Session, property, field.Key, field.Value));
-						}
-					}
-				}
-			}
+			return $"{Field.Type} {Name} = {Json}";
 		}
 
 		public IEnumerator<EditorField> GetEnumerator ()
@@ -157,14 +169,12 @@ namespace RPGCore.Behaviour.Editor
 			return ((IEnumerable<EditorField>)Children.Values).GetEnumerator ();
 		}
 
-		public EditorField this[string key] => Children[key];
-
 		IEnumerator IEnumerable.GetEnumerator ()
 		{
 			return ((IEnumerable<EditorField>)this).GetEnumerator ();
 		}
 
-		public static void PopulateMissing (JObject serialized, TypeInformation information)
+		private static void PopulateMissing (JObject serialized, TypeInformation information)
 		{
 			// Remove any additional fields.
 			foreach (var item in serialized.Children<JProperty> ().ToList ())
@@ -189,49 +199,31 @@ namespace RPGCore.Behaviour.Editor
 	public class EditorSession
 	{
 		public BehaviourManifest Manifest;
-		public JObject Json;
-		public TypeInformation Type;
-
 		public EditorField Root;
 
 		public EditorSession (BehaviourManifest manifest, object instance)
 		{
 			Manifest = manifest;
-			Root = new EditorField (this, JObject.FromObject (instance), "root", new FieldInformation ()
+
+			var rootJson = JObject.FromObject (instance);
+			string type = instance.GetType ().FullName;
+
+			var rootField = new FieldInformation ()
 			{
-				Type = instance.GetType ().FullName
-			});
+				Type = type
+			};
+			Root = new EditorField (this, rootJson, "root", rootField);
 		}
 
 		public EditorSession (BehaviourManifest manifest, JObject instance, string type)
 		{
 			Manifest = manifest;
-			Root = new EditorField (this, instance, "root", new FieldInformation ()
+
+			var rootField = new FieldInformation ()
 			{
 				Type = type
-			});
-		}
-
-		public static TypeInformation GetTypeInformation (BehaviourManifest manifest, string type)
-		{
-			if (manifest.Types.JsonTypes.TryGetValue (type, out var jsonType))
-			{
-				return jsonType;
-			}
-			if (manifest.Types.ObjectTypes.TryGetValue (type, out var objectType))
-			{
-				return objectType;
-			}
-			if (manifest.Nodes.Nodes.TryGetValue (type, out var nodeType))
-			{
-				return nodeType;
-			}
-			return null;
-		}
-
-		public TypeInformation GetTypeInformation (string type)
-		{
-			return GetTypeInformation (Manifest, type);
+			};
+			Root = new EditorField (this, instance, "root", rootField);
 		}
 	}
 }

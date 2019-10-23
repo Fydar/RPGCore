@@ -91,13 +91,11 @@ namespace RPGCore.Unity.Editors
 				{
 					Debug.Log(CurrentResource);
 
-					var editorTargetData = CurrentResource.LoadStream();
-
-					using (var sr = new StreamReader(editorTargetData))
-					using (var reader = new JsonTextReader(sr))
+					using (var editorTargetData = CurrentResource.LoadStream ())
+					using (var sr = new StreamReader (editorTargetData))
+					using (var reader = new JsonTextReader (sr))
 					{
-						editorTarget = JObject.Load(reader);
-						// editorTarget = serializer.Deserialize(reader);
+						editorTarget = JObject.Load (reader);
 					}
 					
 					var nodes = NodeManifest.Construct(new Type[] { typeof(AddNode), typeof(RollNode) });
@@ -117,12 +115,19 @@ namespace RPGCore.Unity.Editors
 				{
 					using (var file = CurrentResource.WriteStream())
 					{
-						serializer.Serialize(new JsonTextWriter(file)
-						{ Formatting = Formatting.Indented }, editorTarget);
+						serializer.Serialize (
+							new JsonTextWriter (file)
+							{
+								Formatting = Formatting.Indented
+							},
+							editorTarget
+						);
 					}
 				}
 
-				foreach (var node in graphEditor.Root["Nodes"])
+				var graphEditorNodes = graphEditor.Root["Nodes"];
+
+				foreach (var node in graphEditorNodes)
 				{
 					var nodeEditor = node["Editor"];
 					var nodeEditorPosition = nodeEditor["Position"];
@@ -140,27 +145,13 @@ namespace RPGCore.Unity.Editors
 							false, node.Name == selectedNode, false, false);
 					}
 
-					GUILayout.BeginArea(nodeRect);
-					
-					var nodeData = node.Json["Data"];
+					GUILayout.BeginArea (nodeRect);
+
 					var nodeType = node["Type"];
+					EditorGUILayout.LabelField (nodeType.GetValue<string> ());
 
-					object fieldObject;
-					if (!node.ViewBag.TryGetValue("Generic", out fieldObject))
-					{
-						var fieldInformation = new FieldInformation();
-						fieldInformation.Type = nodeType.Json.ToObject<string>();
-
-						fieldObject = new EditorField(graphEditor, nodeData, node.Name,
-							fieldInformation);
-							
-						node.ViewBag["Generic"] = fieldObject;
-					}
-					var field = (EditorField)fieldObject;
-					
-					EditorGUILayout.LabelField(nodeType.Json.ToString());
-				
-					foreach (var childField in field)
+					var nodeData = node["Data"];
+					foreach (var childField in nodeData)
 					{
 						DrawField(childField);
 					}
@@ -183,7 +174,7 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
-				foreach (var node in graphEditor.Root["Nodes"])
+				foreach (var node in graphEditorNodes)
 				{
 					var nodeEditor = node["Editor"];
 					var nodeEditorPosition = nodeEditor["Position"];
@@ -191,36 +182,10 @@ namespace RPGCore.Unity.Editors
 					var nodePositionX = nodeEditorPosition["x"].GetValue<int>() + dragging_Position.x;
 					var nodePositionY = nodeEditorPosition["y"].GetValue<int>() + dragging_Position.y;
 
-					var nodeData = node.Json["Data"];
-					var nodeType = node["Type"];
-					
-					object fieldObject = null;
-					if (!node.ViewBag.TryGetValue("Generic", out fieldObject))
+					var nodeData = node["Data"];
+
+					foreach (var childField in nodeData)
 					{
-						var fieldInformation = new FieldInformation();
-						fieldInformation.Type = nodeType.Json.ToObject<string>();
-
-						fieldObject = new EditorField(graphEditor, nodeData, node.Name,
-							fieldInformation);
-							
-						node.ViewBag["Generic"] = fieldObject;
-					}
-					var field = (EditorField)fieldObject;
-
-					var outputSocketPositions = new Dictionary<string, Rect>();
-
-					var nodeInformation = (NodeInformation)field.Type;
-					if (nodeInformation.Outputs != null)
-					{
-						foreach (var output in nodeInformation.Outputs)
-						{
-							EditorGUILayout.LabelField(node.Name + "." + output.Key);
-						}
-					}
-
-					foreach (var childField in field)
-					{
-
 						if (childField.Field.Type == "InputSocket")
 						{
 							object renderPosObject;
@@ -237,14 +202,20 @@ namespace RPGCore.Unity.Editors
 							renderPos.x += nodePositionX;
 							renderPos.y += nodePositionY;
 
-							// EditorGUI.DrawRect(renderPos, Color.red);
+							var socketRect = new Rect (renderPos)
+							{
+								xMax = renderPos.xMin,
+								xMin = renderPos.xMin - renderPos.height
+							};
 
-							Vector3 start = new Vector3(renderPos.x, renderPos.y);
-							Vector3 end = new Vector3(renderPos.x - 100, renderPos.y - 100);
-							Vector3 startDir = new Vector3(-1, 0);
-							Vector3 endDir = new Vector3(1, 0);
-							
-							DrawConnection(start, end, startDir, endDir);
+							EditorGUI.DrawRect(socketRect, Color.red);
+
+							var start = new Vector3 (renderPos.x, renderPos.center.y);
+							var end = new Vector3 (renderPos.x - 100, renderPos.center.y - 100);
+							var startDir = new Vector3 (-1, 0);
+							var endDir = new Vector3 (1, 0);
+
+							DrawConnection (start, end, startDir, endDir);
 						}
 					}				
 				}
@@ -258,9 +229,9 @@ namespace RPGCore.Unity.Editors
 			// EditorGUILayout.LabelField(field.Json.Path);
 			if (field.Field.Type == "Int32")
 			{
-				EditorGUI.BeginChangeCheck();
-				int newValue = EditorGUILayout.IntField(field.Name, field.Json.ToObject<int>());
-				if (EditorGUI.EndChangeCheck())
+				EditorGUI.BeginChangeCheck ();
+				int newValue = EditorGUILayout.IntField (field.Name, field.GetValue<int> ());
+				if (EditorGUI.EndChangeCheck ())
 				{
 					var replace = JToken.FromObject(newValue);
 					field.Json.Replace(replace);
@@ -269,9 +240,9 @@ namespace RPGCore.Unity.Editors
 			}
 			else if (field.Field.Type == "String")
 			{
-				EditorGUI.BeginChangeCheck();
-				string newValue = EditorGUILayout.TextField(field.Name, field.Json.ToObject<string>());
-				if (EditorGUI.EndChangeCheck())
+				EditorGUI.BeginChangeCheck ();
+				string newValue = EditorGUILayout.TextField (field.Name, field.GetValue<string> ());
+				if (EditorGUI.EndChangeCheck ())
 				{
 					var replace = JToken.FromObject(newValue);
 					field.Json.Replace(replace);
@@ -280,9 +251,9 @@ namespace RPGCore.Unity.Editors
 			}
 			else if (field.Field.Type == "Boolean")
 			{
-				EditorGUI.BeginChangeCheck();
-				bool newValue = EditorGUILayout.Toggle(field.Name, field.Json.ToObject<bool>());
-				if (EditorGUI.EndChangeCheck())
+				EditorGUI.BeginChangeCheck ();
+				bool newValue = EditorGUILayout.Toggle (field.Name, field.GetValue<bool> ());
+				if (EditorGUI.EndChangeCheck ())
 				{
 					var replace = JToken.FromObject(newValue);
 					field.Json.Replace(replace);
@@ -291,9 +262,9 @@ namespace RPGCore.Unity.Editors
 			}
 			else if (field.Field.Type == "InputSocket")
 			{
-				EditorGUI.BeginChangeCheck();
-				EditorGUILayout.LabelField(field.Name, field.Json.ToObject<string>());
-				var renderPos = GUILayoutUtility.GetLastRect();
+				EditorGUI.BeginChangeCheck ();
+				EditorGUILayout.LabelField (field.Name, field.GetValue<string> ());
+				var renderPos = GUILayoutUtility.GetLastRect ();
 				field.ViewBag["Position"] = renderPos;
 				if (EditorGUI.EndChangeCheck())
 				{
