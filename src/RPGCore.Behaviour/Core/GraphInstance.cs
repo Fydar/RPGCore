@@ -272,5 +272,34 @@ namespace RPGCore.Behaviour
 				}
 			}
 		}
+
+		public T GetNodeInstance<T> ()
+			where T : INodeInstance
+		{
+			for (int i = 0; i < nodeInstances.Length; i++)
+			{
+				var instance = nodeInstances[i];
+
+				if (typeof(T).IsAssignableFrom(instance.GetType()))
+				{
+					return (T)instance;
+				}
+			}
+			return default;
+		}
+
+		public IEnumerable<T> GetNodeInstances<T> ()
+			where T : INodeInstance
+		{
+			for (int i = 0; i < nodeInstances.Length; i++)
+			{
+				var instance = nodeInstances[i];
+
+				if (typeof (T).IsAssignableFrom (instance.GetType ()))
+				{
+					yield return (T)instance;
+				}
+			}
+		}
 	}
 }
