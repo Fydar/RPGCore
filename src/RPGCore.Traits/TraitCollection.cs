@@ -4,6 +4,13 @@ using System.Reflection;
 
 namespace RPGCore.Traits
 {
+	/// <summary>
+	/// These staticly-defined collections are incredibly powerful for defining the majority of stats.
+	/// 
+	/// For some purposes, however, stats that are statically defined in this fashion may be inappropriate. For example;
+	/// if elemental damages (Fire, ice, lightning, e.t.c) where defined in data then these collections will need to be
+	/// able to grow to fit these new elements.
+	/// </summary>
 	public class TraitCollection<TStat, TState>
 		where TStat : IFixedElement, new()
 		where TState : IFixedElement, new()

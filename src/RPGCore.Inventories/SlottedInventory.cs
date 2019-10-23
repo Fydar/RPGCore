@@ -33,11 +33,19 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public override InventoryResult AddItem (Item item)
+		public override InventoryTransaction AddItem (Item item)
 		{
+			foreach (var slot in Slots)
+			{
+				var result = slot.AddItem(item);
 
-
-			return InventoryResult.None;
+				if (result.Status == TransactionStatus.Complete)
+				{
+					return result;
+				}
+			}
+			
+			return InventoryTransaction.None;
 		}
 	}
 }

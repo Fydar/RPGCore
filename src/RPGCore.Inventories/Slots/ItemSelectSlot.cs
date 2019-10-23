@@ -4,9 +4,12 @@ using System.Collections.Generic;
 
 namespace RPGCore.Inventory.Slots
 {
-	public class ItemSelectSlot : ItemSlot
+	public class ItemSelectSlot /*: ItemSlot */
 	{
+		/*
 		internal Item SelectedItem;
+
+		public ItemSelectSlotGroup Group;
 
 		public override Item CurrentItem => SelectedItem;
 
@@ -23,7 +26,12 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public override InventoryResult AddItem (Item item)
+		public ItemSelectSlot(ItemSelectSlotGroup group = null)
+		{
+			Group = group;
+		}
+
+		public override InventoryTransaction AddItem (Item item)
 		{
 			if (item is null)
 			{
@@ -34,11 +42,11 @@ namespace RPGCore.Inventory.Slots
 
 			if (item is StackableItem stackableItem)
 			{
-				return new InventoryResult (null, InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
+				return new InventoryTransaction (null, InventoryTransaction.TransactionStatus.Complete, stackableItem.Quantity);
 			}
 			else if (item is UniqueItem)
 			{
-				return new InventoryResult (null, InventoryResult.OperationStatus.Complete, 1);
+				return new InventoryTransaction (null, InventoryTransaction.TransactionStatus.Complete, 1);
 			}
 			else
 			{
@@ -46,7 +54,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public override InventoryResult MoveInto (Inventory other)
+		public override InventoryTransaction MoveInto (Inventory other)
 		{
 			if (other is null)
 			{
@@ -55,17 +63,17 @@ namespace RPGCore.Inventory.Slots
 
 			SelectedItem = null;
 
-			return new InventoryResult (null, InventoryResult.OperationStatus.Complete, 0);
+			return new InventoryTransaction (null, InventoryTransaction.TransactionStatus.Complete, 0);
 		}
 
-		public override InventoryResult RemoveItem ()
+		public override InventoryTransaction DestroyItem ()
 		{
 			SelectedItem = null;
 
-			return new InventoryResult (null, InventoryResult.OperationStatus.Complete, 0);
+			return new InventoryTransaction (null, InventoryTransaction.TransactionStatus.Complete, 0);
 		}
 
-		public override InventoryResult SetItem (Item item)
+		public override InventoryTransaction SetItem (Item item)
 		{
 			if (item is null)
 			{
@@ -76,11 +84,11 @@ namespace RPGCore.Inventory.Slots
 
 			if (item is StackableItem stackableItem)
 			{
-				return new InventoryResult (null, InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
+				return new InventoryTransaction (null, InventoryTransaction.TransactionStatus.Complete, stackableItem.Quantity);
 			}
 			else if (item is UniqueItem)
 			{
-				return new InventoryResult (null, InventoryResult.OperationStatus.Complete, 1);
+				return new InventoryTransaction (null, InventoryTransaction.TransactionStatus.Complete, 1);
 			}
 			else
 			{
@@ -88,7 +96,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public override InventoryResult SwapInto (ItemSlot other)
+		public override InventoryTransaction SwapInto (ItemSlot other)
 		{
 			if (other is null)
 			{
@@ -112,21 +120,22 @@ namespace RPGCore.Inventory.Slots
 
 			if (SelectedItem == null)
 			{
-				return InventoryResult.None;
+				return InventoryTransaction.None;
 			}
 
 			if (SelectedItem is StackableItem stackableItem)
 			{
-				return new InventoryResult (null, InventoryResult.OperationStatus.Complete, stackableItem.Quantity);
+				return new InventoryTransaction (null, InventoryTransaction.TransactionStatus.Complete, stackableItem.Quantity);
 			}
 			else if (SelectedItem is UniqueItem)
 			{
-				return new InventoryResult (null, InventoryResult.OperationStatus.Complete, 1);
+				return new InventoryTransaction (null, InventoryTransaction.TransactionStatus.Complete, 1);
 			}
 			else
 			{
 				throw new InvalidOperationException ($"Item in neither a {nameof (StackableItem)} nor a {nameof (UniqueItem)}.");
 			}
-		}
+		}*/
 	}
 }
+ 

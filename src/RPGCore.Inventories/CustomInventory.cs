@@ -14,11 +14,11 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public override InventoryResult AddItem (Item item)
+		public override InventoryTransaction AddItem (Item item)
 		{
 
 
-			return InventoryResult.None;
+			return InventoryTransaction.None;
 		}
 	}
 }

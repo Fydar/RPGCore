@@ -21,7 +21,7 @@ namespace RPGCore.Inventories.UnitTests
 			var result = storageSlot.AddItem (itemToAddA);
 
 			Assert.AreEqual (10, result.Quantity);
-			Assert.AreEqual (InventoryResult.OperationStatus.Complete, result.Status);
+			Assert.AreEqual (TransactionStatus.Complete, result.Status);
 			Assert.AreEqual (itemToAddA, result.ItemAdded);
 		}
 
@@ -42,7 +42,7 @@ namespace RPGCore.Inventories.UnitTests
 			var result = storageSlot.AddItem (itemToAddB);
 
 			Assert.AreEqual (5, result.Quantity);
-			Assert.AreEqual (InventoryResult.OperationStatus.Complete, result.Status);
+			Assert.AreEqual (TransactionStatus.Complete, result.Status);
 			Assert.AreEqual (itemToAddA, result.ItemAdded);
 		}
 
@@ -103,7 +103,7 @@ namespace RPGCore.Inventories.UnitTests
 			var result = storageSlot.AddItem (itemToAddB);
 
 			Assert.AreEqual (0, result.Quantity);
-			Assert.AreEqual (InventoryResult.OperationStatus.None, result.Status);
+			Assert.AreEqual (TransactionStatus.None, result.Status);
 			Assert.AreEqual (null, result.ItemAdded);
 		}
 
@@ -120,7 +120,7 @@ namespace RPGCore.Inventories.UnitTests
 			var result = storageSlot.AddItem (newItem);
 
 			Assert.AreEqual (0, result.Quantity);
-			Assert.AreEqual (InventoryResult.OperationStatus.None, result.Status);
+			Assert.AreEqual (TransactionStatus.None, result.Status);
 			Assert.AreEqual (null, result.ItemAdded);
 		}
 
@@ -137,7 +137,7 @@ namespace RPGCore.Inventories.UnitTests
 			var result = storageSlot.AddItem (newItem);
 
 			Assert.AreEqual (0, result.Quantity);
-			Assert.AreEqual (InventoryResult.OperationStatus.None, result.Status);
+			Assert.AreEqual (TransactionStatus.None, result.Status);
 			Assert.AreEqual (null, result.ItemAdded);
 		}
 

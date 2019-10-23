@@ -7,6 +7,6 @@ namespace RPGCore.Inventory.Slots
 	{
 		public abstract IEnumerable<Item> Items { get; }
 
-		public abstract InventoryResult AddItem (Item item);
+		public abstract InventoryTransaction AddItem (Item item);
 	}
 }
