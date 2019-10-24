@@ -17,6 +17,28 @@ namespace RPGCore.Items.UnitTests
 		}
 
 		[Test]
+		public void ThrowWhenTakeNegative ()
+		{
+			Assert.Throws<InvalidOperationException> (new TestDelegate (() =>
+			{
+				var sourceItem = new StackableItem (new ProceduralItemTemplate (), 6);
+
+				var resultItem = sourceItem.Take (-4);
+			}));
+		}
+
+		[Test]
+		public void ThrowWhenTakeNone ()
+		{
+			Assert.Throws<InvalidOperationException> (new TestDelegate (() =>
+			{
+				var sourceItem = new StackableItem (new ProceduralItemTemplate (), 6);
+
+				var resultItem = sourceItem.Take (0);
+			}));
+		}
+
+		[Test]
 		public void ThrowWhenUnableToTake ()
 		{
 			Assert.Throws<InvalidOperationException> (new TestDelegate (() =>

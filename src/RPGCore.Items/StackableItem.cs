@@ -25,6 +25,11 @@ namespace RPGCore.Items
 		/// <exception cref="InvalidOperationException">Thrown when <paramref name="quantity"/> is greater than or equal to the <see cref="Quantity"/> of this <see cref="StackableItem"/>.</exception>
 		public StackableItem Take (int quantity)
 		{
+			if (quantity <= 0)
+			{
+				throw new InvalidOperationException ($"Can't take less than or equal to 0 items from a {nameof (StackableItem)} stack.");
+			}
+
 			if (quantity > Quantity)
 			{
 				throw new InvalidOperationException ($"Can't take more items from a {nameof (StackableItem)} than there are in the stack.");
