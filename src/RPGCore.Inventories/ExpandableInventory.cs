@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace RPGCore.Inventory.Slots
 {
-	public class ExpandableInventory : Inventory
+	public class ExpandableInventory : IInventory
 	{
-		public override IEnumerable<Item> Items
+		public IEnumerable<IItem> Items
 		{
 			get
 			{
@@ -14,7 +14,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public override InventoryTransaction AddItem (Item item)
+		public InventoryTransaction AddItem (IItem item)
 		{
 
 

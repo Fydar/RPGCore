@@ -4,7 +4,7 @@ namespace RPGCore.Inventory
 {
 	public interface IInventoryBehaviour
 	{
-		void OnItemEnter (Item item);
-		void OnItemExit (Item item);
+		void OnItemEnter (IItem item);
+		void OnItemExit (IItem item);
 	}
 }

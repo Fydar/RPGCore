@@ -1,13 +1,12 @@
 ﻿using RPGCore.Items;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace RPGCore.Inventory.Slots
 {
-	public class SlottedInventory : Inventory
+	public class SlottedInventory : IInventory
 	{
-		private readonly List<ItemSlot> Slots;
+		private readonly List<IItemSlot> Slots;
 
 		public int Capacity { get; set; }
 		public IItemSlotFactory ItemSlotFactory { get; }
@@ -16,35 +15,29 @@ namespace RPGCore.Inventory.Slots
 		{
 			Capacity = capacity;
 			ItemSlotFactory = itemSlotFactory;
-			Slots = new List<ItemSlot> (capacity);
+			Slots = new List<IItemSlot> (capacity);
 
 			for (int i = 0; i < capacity; i++)
 			{
-				Slots[i] = ItemSlotFactory.Build();
+				Slots[i] = ItemSlotFactory.Build ();
 			}
 		}
 
 
-		public override IEnumerable<Item> Items
-		{
-			get
-			{
-				return Slots.Select (slot => slot.CurrentItem);
-			}
-		}
+		public IEnumerable<IItem> Items => Slots.Select (slot => slot.CurrentItem);
 
-		public override InventoryTransaction AddItem (Item item)
+		public InventoryTransaction AddItem (IItem item)
 		{
 			foreach (var slot in Slots)
 			{
-				var result = slot.AddItem(item);
+				var result = slot.AddItem (item);
 
 				if (result.Status == TransactionStatus.Complete)
 				{
 					return result;
 				}
 			}
-			
+
 			return InventoryTransaction.None;
 		}
 	}

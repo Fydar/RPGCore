@@ -5,13 +5,15 @@ namespace RPGCore.Items
 	/// <summary>
 	/// Stackable items have a quantity and all behaviours can't store data on a single item.
 	/// </summary>
-	public class StackableItem : Item
+	public class StackableItem : IItem
 	{
+		public ItemTemplate Template { get; }
 		public int Quantity { get; set; }
 		public int MaxStackSize { get; set; } = 64;
 
 		public StackableItem(ItemTemplate template, int quantity)
 		{
+			Template = template;
 			Template = template;
 			Quantity = quantity;
 		}
@@ -49,7 +51,7 @@ namespace RPGCore.Items
 		/// Creates a duplicate of this item.
 		/// </summary>
 		/// <returns>A duplicate of this item.</returns>
-		public override Item Duplicate ()
+		public IItem Duplicate ()
 		{
 			return new StackableItem (Template, Quantity);
 		}

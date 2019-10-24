@@ -19,7 +19,7 @@ namespace RPGCore.Inventory.Slots
 			Weight = weight;
 		}
 
-		public int QuantityCanAdd (IInventory inventory, Item item)
+		public int QuantityCanAdd (IInventory inventory, IItem item)
 		{
 			if (item.Template.Weight == 0)
 			{

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Inventory.Slots
 {
-	public class ItemSelectSlot /*: ItemSlot */
+	public class ItemSelectSlot /*: IItemSlot */
 	{
 		/*
 		internal Item SelectedItem;
@@ -138,4 +138,3 @@ namespace RPGCore.Inventory.Slots
 		}*/
 	}
 }
- 

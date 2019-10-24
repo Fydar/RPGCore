@@ -5,20 +5,14 @@ using System.Diagnostics;
 
 namespace RPGCore.Inventory.Slots
 {
-	public class ItemStorageSlot : ItemSlot
+	public class ItemStorageSlot : IItemSlot
 	{
-		internal Item StoredItem;
-
-		public int MaxStackSize { get; set; }
-
-		public IInventoryConstraint[] Constraints { get; }
 		public IInventoryBehaviour[] Behaviours { get; }
+		public IInventoryConstraint[] Constraints { get; }
+		public IItem CurrentItem => StoredItem;
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		public override Item CurrentItem => StoredItem;
-
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		public override IEnumerable<Item> Items
+		public IEnumerable<IItem> Items
 		{
 			get
 			{
@@ -31,13 +25,18 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
+		public int MaxStackSize { get; set; }
+
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		internal IItem StoredItem;
+
 		public ItemStorageSlot (IInventoryConstraint[] constraints = null, IInventoryBehaviour[] behaviours = null)
 		{
 			Constraints = constraints;
 			Behaviours = behaviours;
 		}
 
-		public override InventoryTransaction AddItem (Item item)
+		public InventoryTransaction AddItem (IItem item)
 		{
 			if (item is null)
 			{
@@ -77,7 +76,7 @@ namespace RPGCore.Inventory.Slots
 						return new InventoryTransaction ()
 						{
 							Status = TransactionStatus.Partial,
-							Items = new List<ItemTransaction>()
+							Items = new List<ItemTransaction> ()
 							{
 								new ItemTransaction()
 								{
@@ -98,7 +97,7 @@ namespace RPGCore.Inventory.Slots
 						return new InventoryTransaction ()
 						{
 							Status = TransactionStatus.Complete,
-							Items = new List<ItemTransaction>()
+							Items = new List<ItemTransaction> ()
 							{
 								new ItemTransaction()
 								{
@@ -136,7 +135,7 @@ namespace RPGCore.Inventory.Slots
 							return new InventoryTransaction ()
 							{
 								Status = TransactionStatus.Complete,
-								Items = new List<ItemTransaction>()
+								Items = new List<ItemTransaction> ()
 								{
 									new ItemTransaction()
 									{
@@ -154,7 +153,7 @@ namespace RPGCore.Inventory.Slots
 							return new InventoryTransaction ()
 							{
 								Status = TransactionStatus.Partial,
-								Items = new List<ItemTransaction>()
+								Items = new List<ItemTransaction> ()
 								{
 									new ItemTransaction()
 									{
@@ -189,7 +188,7 @@ namespace RPGCore.Inventory.Slots
 				return new InventoryTransaction ()
 				{
 					Status = TransactionStatus.Complete,
-					Items = new List<ItemTransaction>()
+					Items = new List<ItemTransaction> ()
 					{
 						new ItemTransaction()
 						{
@@ -208,24 +207,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public override InventoryTransaction MoveInto (Inventory other)
-		{
-			if (other is null)
-			{
-				throw new ArgumentNullException (nameof (other), "Cannot move into a \"null\" inventory.");
-			}
-
-			var result = other.AddItem (StoredItem);
-
-			if (result.Status == TransactionStatus.Complete)
-			{
-				StoredItem = null;
-			}
-
-			return result;
-		}
-
-		public override InventoryTransaction DestroyItem ()
+		public InventoryTransaction DestroyItem ()
 		{
 			if (StoredItem is StackableItem stackableItem)
 			{
@@ -234,7 +216,7 @@ namespace RPGCore.Inventory.Slots
 				return new InventoryTransaction ()
 				{
 					Status = TransactionStatus.Complete,
-					Items = new List<ItemTransaction>()
+					Items = new List<ItemTransaction> ()
 					{
 						new ItemTransaction()
 						{
@@ -250,11 +232,11 @@ namespace RPGCore.Inventory.Slots
 			else if (StoredItem is UniqueItem uniqueItem)
 			{
 				StoredItem = null;
-				
+
 				return new InventoryTransaction ()
 				{
 					Status = TransactionStatus.Complete,
-					Items = new List<ItemTransaction>()
+					Items = new List<ItemTransaction> ()
 					{
 						new ItemTransaction()
 						{
@@ -273,7 +255,96 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public override InventoryTransaction SetItem (Item item)
+		public InventoryTransaction DragInto (IInventory other)
+		{
+			if (other is null)
+			{
+				throw new ArgumentNullException (nameof (other), $"Cannot swap into a \"null\" {nameof (IItemSlot)}.");
+			}
+
+			if (other is ItemStorageSlot itemStorageSlot)
+			{
+				if (StoredItem == null)
+				{
+					return InventoryTransaction.None;
+				}
+
+				// Is item of same type?
+				if (itemStorageSlot.StoredItem == null ||
+					StoredItem.Template == itemStorageSlot.StoredItem.Template)
+				{
+					var addResult = itemStorageSlot.AddItem (StoredItem);
+
+					if (addResult.Status == TransactionStatus.Complete)
+					{
+						StoredItem = null;
+					}
+
+					return addResult;
+				}
+				else
+				{
+					var temp = StoredItem;
+					StoredItem = itemStorageSlot.StoredItem;
+					itemStorageSlot.StoredItem = temp;
+
+					int toQuantity = 1;
+					if (temp is StackableItem tempStackable)
+					{
+						toQuantity = tempStackable.Quantity;
+					}
+
+					return new InventoryTransaction ()
+					{
+						Status = TransactionStatus.Complete,
+						Items = new List<ItemTransaction> ()
+						{
+							new ItemTransaction()
+							{
+								FromInventory = this,
+								ToInventory = other,
+								Type = ItemTransactionType.Move,
+								Item = itemStorageSlot.StoredItem,
+								Quantity = toQuantity
+							}
+						}
+					};
+				}
+			}
+			/*else if (other is ItemSelectSlot itemSelectSlot)
+			{
+				other.SetItem (StoredItem);
+
+				return new InventoryTransaction ()
+				{
+					Status = TransactionStatus.Complete,
+					Items = new List<ItemTransaction>()
+				};
+			} */
+			else
+			{
+				throw new InvalidOperationException ($"Slot in neither a {nameof (ItemStorageSlot)} nor a {nameof (ItemSelectSlot)}.");
+			}
+		}
+
+		public InventoryTransaction MoveInto (IInventory other)
+		{
+			if (other is null)
+			{
+				throw new ArgumentNullException (nameof (other), "Cannot move into a \"null\" inventory.");
+			}
+
+			var result = other.AddItem (StoredItem);
+
+			if (result.Status == TransactionStatus.Complete)
+			{
+				StoredItem = null;
+			}
+
+			return result;
+		}
+
+		public InventoryTransaction SetItem (IItem item)
 		{
 			if (item is null)
 			{
@@ -289,7 +360,7 @@ namespace RPGCore.Inventory.Slots
 			var inventoryTransaction = new InventoryTransaction ()
 			{
 				Status = TransactionStatus.Partial,
-				Items = new List<ItemTransaction>()
+				Items = new List<ItemTransaction> ()
 				{
 					new ItemTransaction()
 					{
@@ -310,7 +381,7 @@ namespace RPGCore.Inventory.Slots
 					previousQuantity = stackableStoredItem.Quantity;
 				}
 
-				inventoryTransaction.Items.Add(new ItemTransaction()
+				inventoryTransaction.Items.Add (new ItemTransaction ()
 				{
 					Type = ItemTransactionType.Destroy,
 					Item = StoredItem,
@@ -323,11 +394,11 @@ namespace RPGCore.Inventory.Slots
 			return inventoryTransaction;
 		}
 
-		public override InventoryTransaction SwapInto (ItemSlot other)
+		public InventoryTransaction Swap (IItemSlot other)
 		{
 			if (other is null)
 			{
-				throw new ArgumentNullException (nameof (other), $"Cannot swap into a \"null\" {nameof (ItemSlot)}.");
+				throw new ArgumentNullException (nameof (other), $"Cannot swap into a \"null\" {nameof (IItemSlot)}.");
 			}
 
 			if (other is ItemStorageSlot itemStorageSlot)
@@ -345,7 +416,7 @@ namespace RPGCore.Inventory.Slots
 				return new InventoryTransaction ()
 				{
 					Status = TransactionStatus.Complete,
-					Items = new List<ItemTransaction>()
+					Items = new List<ItemTransaction> ()
 					{
 						new ItemTransaction()
 						{

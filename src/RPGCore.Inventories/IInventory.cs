@@ -5,6 +5,8 @@ namespace RPGCore.Inventory.Slots
 {
 	public interface IInventory
 	{
-		IEnumerable<Item> Items { get; }
+		IEnumerable<IItem> Items { get; }
+
+		InventoryTransaction AddItem (IItem item);
 	}
 }

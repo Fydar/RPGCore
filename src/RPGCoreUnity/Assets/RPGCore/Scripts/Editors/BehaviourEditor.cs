@@ -141,7 +141,7 @@ namespace RPGCore.Unity.Editors
 					
 					if (Event.current.type == EventType.Repaint)
 					{
-						BehaviourGraphResources.Instance.NodeStyle.Draw(nodeRect,
+						GUI.skin.window.Draw(nodeRect,
 							false, node.Name == selectedNode, false, false);
 					}
 
@@ -233,9 +233,7 @@ namespace RPGCore.Unity.Editors
 				int newValue = EditorGUILayout.IntField (field.Name, field.GetValue<int> ());
 				if (EditorGUI.EndChangeCheck ())
 				{
-					var replace = JToken.FromObject(newValue);
-					field.Json.Replace(replace);
-					field.Json = replace;
+					field.SetValue(newValue);
 				}
 			}
 			else if (field.Field.Type == "String")
@@ -244,9 +242,7 @@ namespace RPGCore.Unity.Editors
 				string newValue = EditorGUILayout.TextField (field.Name, field.GetValue<string> ());
 				if (EditorGUI.EndChangeCheck ())
 				{
-					var replace = JToken.FromObject(newValue);
-					field.Json.Replace(replace);
-					field.Json = replace;
+					field.SetValue (newValue);
 				}
 			}
 			else if (field.Field.Type == "Boolean")
@@ -255,9 +251,7 @@ namespace RPGCore.Unity.Editors
 				bool newValue = EditorGUILayout.Toggle (field.Name, field.GetValue<bool> ());
 				if (EditorGUI.EndChangeCheck ())
 				{
-					var replace = JToken.FromObject(newValue);
-					field.Json.Replace(replace);
-					field.Json = replace;
+					field.SetValue (newValue);
 				}
 			}
 			else if (field.Field.Type == "InputSocket")
@@ -323,19 +317,22 @@ namespace RPGCore.Unity.Editors
 		
 		private void HandleInput ()
 		{
-			if (currentEvent.type == EventType.MouseUp && dragging_IsDragging)
+			if (!string.IsNullOrEmpty(selectedNode))
 			{
-				dragging_IsDragging = false;
-				dragging_NodeDragging = false;
-				currentEvent.Use ();
+				if (currentEvent.type == EventType.MouseUp && dragging_IsDragging)
+				{
+					dragging_IsDragging = false;
+					dragging_NodeDragging = false;
+					currentEvent.Use ();
 
-				var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
+					var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
 
-				var posX = pos["x"];
-				posX.ApplyModifiedProperties();
-				
-				var posY = pos["y"];
-				posY.ApplyModifiedProperties();
+					var posX = pos["x"];
+					posX.ApplyModifiedProperties ();
+
+					var posY = pos["y"];
+					posY.ApplyModifiedProperties ();
+				}
 			}
 
 			if (currentEvent.type == EventType.KeyDown)
