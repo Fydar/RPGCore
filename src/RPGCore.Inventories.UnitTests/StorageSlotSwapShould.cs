@@ -35,6 +35,22 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
+		public void SwapEmptyToUnique ()
+		{
+			var toItem = new UniqueItem (new ProceduralItemTemplate ());
+
+			var fromSlot = new ItemStorageSlot ();
+			var toSlot = new ItemStorageSlot ();
+
+			toSlot.AddItem (toItem);
+
+			fromSlot.Swap (toSlot);
+
+			Assert.AreEqual (toItem, fromSlot.CurrentItem);
+			Assert.AreEqual (null, toSlot.CurrentItem);
+		}
+
+		[Test, Parallelizable]
 		public void SwapStackableToPartial ()
 		{
 			var template = new ProceduralItemTemplate ();
@@ -106,6 +122,84 @@ namespace RPGCore.Inventories.UnitTests
 			toSlot.AddItem (toItem);
 
 			fromSlot.Swap (toSlot);
+
+			Assert.AreEqual (toItem, fromSlot.CurrentItem);
+			Assert.AreEqual (fromItem, toSlot.CurrentItem);
+		}
+
+		[Test, Parallelizable]
+		public void SwapStackableToUnique ()
+		{
+			var template = new ProceduralItemTemplate ();
+
+			var fromItem = new StackableItem (template, 5);
+			var toItem = new UniqueItem (template);
+
+			var fromSlot = new ItemStorageSlot ();
+			var toSlot = new ItemStorageSlot ();
+
+			fromSlot.AddItem (fromItem);
+			toSlot.AddItem (toItem);
+
+			fromSlot.Swap (toSlot);
+
+			Assert.AreEqual (toItem, fromSlot.CurrentItem);
+			Assert.AreEqual (fromItem, toSlot.CurrentItem);
+		}
+
+		[Test, Parallelizable]
+		public void SwapUniqueToStackable ()
+		{
+			var template = new ProceduralItemTemplate ();
+
+			var fromItem = new UniqueItem (template);
+			var toItem = new StackableItem (template, 5);
+
+			var fromSlot = new ItemStorageSlot ();
+			var toSlot = new ItemStorageSlot ();
+
+			fromSlot.AddItem (fromItem);
+			toSlot.AddItem (toItem);
+
+			fromSlot.Swap (toSlot);
+
+			Assert.AreEqual (toItem, fromSlot.CurrentItem);
+			Assert.AreEqual (fromItem, toSlot.CurrentItem);
+		}
+
+		[Test, Parallelizable]
+		public void SwapUniqueToUnique ()
+		{
+			var template = new ProceduralItemTemplate ();
+
+			var fromItem = new UniqueItem (template);
+			var toItem = new UniqueItem (template);
+
+			var fromSlot = new ItemStorageSlot ();
+			var toSlot = new ItemStorageSlot ();
+
+			fromSlot.AddItem (fromItem);
+			toSlot.AddItem (toItem);
+
+			fromSlot.Swap (toSlot);
+
+			Assert.AreEqual (toItem, fromSlot.CurrentItem);
+			Assert.AreEqual (fromItem, toSlot.CurrentItem);
+		}
+
+		[Test, Parallelizable]
+		public void DragUniqueToUniqueOfDifferentType ()
+		{
+			var fromItem = new UniqueItem (new ProceduralItemTemplate ());
+			var toItem = new UniqueItem (new ProceduralItemTemplate ());
+
+			var fromSlot = new ItemStorageSlot ();
+			var toSlot = new ItemStorageSlot ();
+
+			fromSlot.AddItem (fromItem);
+			toSlot.AddItem (toItem);
+
+			fromSlot.DragInto (toSlot);
 
 			Assert.AreEqual (toItem, fromSlot.CurrentItem);
 			Assert.AreEqual (fromItem, toSlot.CurrentItem);

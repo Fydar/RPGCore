@@ -7,10 +7,8 @@ namespace RPGCore.Inventories.UnitTests
 	public class StorageSlotMovingShould
 	{
 		[Test, Parallelizable]
-		public void MoveEmptyToEmpty ()
+		public void MoveEmptyToEmptySlot ()
 		{
-			Assert.Ignore ();
-
 			var fromSlot = new ItemStorageSlot ();
 			var toSlot = new ItemStorageSlot ();
 
@@ -21,10 +19,8 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void MoveEmptyToStackable ()
+		public void MoveEmptyToStackableSlot ()
 		{
-			Assert.Ignore ();
-
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
 			var fromSlot = new ItemStorageSlot ();
@@ -34,62 +30,73 @@ namespace RPGCore.Inventories.UnitTests
 
 			fromSlot.MoveInto (toSlot);
 
-			Assert.AreEqual (toItem, fromSlot.CurrentItem);
-			Assert.AreEqual (null, toSlot.CurrentItem);
+			Assert.AreEqual (null, fromSlot.CurrentItem);
+			Assert.AreEqual (toItem, toSlot.CurrentItem);
 		}
 
 		[Test, Parallelizable]
-		public void MoveStackableToPartial ()
+		public void MoveEmptyToUniqueSlot ()
 		{
-			Assert.Ignore ();
+			var toItem = new UniqueItem (new ProceduralItemTemplate ());
 
+			var fromSlot = new ItemStorageSlot ();
+			var toSlot = new ItemStorageSlot ();
+
+			toSlot.AddItem (toItem);
+
+			fromSlot.MoveInto (toSlot);
+
+			Assert.AreEqual (null, fromSlot.CurrentItem);
+			Assert.AreEqual (toItem, toSlot.CurrentItem);
+		}
+
+		[Test, Parallelizable]
+		public void MoveStackableToStackableSlot ()
+		{
 			var template = new ProceduralItemTemplate ();
 
 			var fromItem = new StackableItem (template, 5);
 			var toItem = new StackableItem (template, 10);
 
 			var fromSlot = new ItemStorageSlot ();
+			var toSlot = new ItemStorageSlot ();
+
+			fromSlot.AddItem (fromItem);
+			toSlot.AddItem (toItem);
+
+			fromSlot.MoveInto (toSlot);
+
+			Assert.AreEqual (null, fromSlot.CurrentItem);
+			Assert.AreEqual (toItem, toSlot.CurrentItem);
+		}
+
+		[Test, Parallelizable]
+		public void MoveStackableToStackableSlotOverflow ()
+		{
+			var template = new ProceduralItemTemplate ();
+
+			var fromItem = new StackableItem (template, 10);
+			var toItem = new StackableItem (template, 5);
+
+			var fromSlot = new ItemStorageSlot ();
 			var toSlot = new ItemStorageSlot ()
 			{
-				MaxStackSize = 15
+				MaxStackSize = 10
 			};
 
 			fromSlot.AddItem (fromItem);
 			toSlot.AddItem (toItem);
 
-			fromSlot.MoveInto (toSlot);
+			var result = fromSlot.MoveInto (toSlot);
 
-			Assert.AreEqual (null, fromSlot.CurrentItem);
-			Assert.AreEqual (fromItem, toSlot.CurrentItem);
+			Assert.AreEqual (TransactionStatus.Partial, result.Status);
+			Assert.AreEqual (fromItem, fromSlot.CurrentItem);
+			Assert.AreEqual (toItem, toSlot.CurrentItem);
 		}
 
 		[Test, Parallelizable]
-		public void MoveStackableToStackable ()
+		public void MoveStackableToEmptySlot ()
 		{
-			Assert.Ignore ();
-
-			var template = new ProceduralItemTemplate ();
-
-			var fromItem = new StackableItem (template, 5);
-			var toItem = new StackableItem (template, 10);
-
-			var fromSlot = new ItemStorageSlot ();
-			var toSlot = new ItemStorageSlot ();
-
-			fromSlot.AddItem (fromItem);
-			toSlot.AddItem (toItem);
-
-			fromSlot.MoveInto (toSlot);
-
-			Assert.AreEqual (null, fromSlot.CurrentItem);
-			Assert.AreEqual (fromItem, toSlot.CurrentItem);
-		}
-
-		[Test, Parallelizable]
-		public void MoveStackableToEmpty ()
-		{
-			Assert.Ignore ();
-
 			var fromItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
 			var fromSlot = new ItemStorageSlot ();
@@ -104,10 +111,8 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void MoveStackableToStackableOfDifferentType ()
+		public void MoveStackableToStackableSlotOfDifferentType ()
 		{
-			Assert.Ignore ();
-
 			var fromItem = new StackableItem (new ProceduralItemTemplate (), 5);
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
@@ -119,8 +124,8 @@ namespace RPGCore.Inventories.UnitTests
 
 			fromSlot.MoveInto (toSlot);
 
-			Assert.AreEqual (toItem, fromSlot.CurrentItem);
-			Assert.AreEqual (fromItem, toSlot.CurrentItem);
+			Assert.AreEqual (fromItem, fromSlot.CurrentItem);
+			Assert.AreEqual (toItem, toSlot.CurrentItem);
 		}
 	}
 }

@@ -334,6 +334,11 @@ namespace RPGCore.Inventory.Slots
 				throw new ArgumentNullException (nameof (other), "Cannot move into a \"null\" inventory.");
 			}
 
+			if (StoredItem == null)
+			{
+				return InventoryTransaction.None;
+			}
+
 			var result = other.AddItem (StoredItem);
 
 			if (result.Status == TransactionStatus.Complete)
