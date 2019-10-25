@@ -380,7 +380,7 @@ namespace RPGCore.Inventory.Slots
 				inventoryTransaction.Items.Add (new ItemTransaction ()
 				{
 					FromInventory = this,
-					ToInventory = null;
+					ToInventory = null,
 					Item = StoredItem,
 					Quantity = previousQuantity
 				});

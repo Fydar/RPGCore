@@ -13,7 +13,7 @@ namespace RPGCore.Inventory.Slots
 		{
 			get
 			{
-				return CalculateType (from, to);
+				return CalculateType (FromInventory, ToInventory);
 			}
 		}
 
