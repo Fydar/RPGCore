@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour.Manifest;
 using System.Collections;
@@ -161,7 +162,7 @@ namespace RPGCore.Behaviour.Editor
 			}
 			else
 			{
-				return Json.ToObject<T> ();
+				return Json.ToObject<T> (Session.JsonSerializer);
 			}
 		}
 
@@ -217,12 +218,14 @@ namespace RPGCore.Behaviour.Editor
 		public BehaviourManifest Manifest;
 		public EditorField Root;
 		public JObject Instance;
+		public JsonSerializer JsonSerializer;
 
-		public EditorSession (BehaviourManifest manifest, object instance)
+		public EditorSession (BehaviourManifest manifest, object instance, JsonSerializer jsonSerializer)
 		{
 			Manifest = manifest;
+			JsonSerializer = jsonSerializer;
 
-			var rootJson = JObject.FromObject (instance);
+			var rootJson = JObject.FromObject (instance, JsonSerializer);
 			string type = instance.GetType ().FullName;
 			Instance = rootJson;
 
@@ -233,9 +236,10 @@ namespace RPGCore.Behaviour.Editor
 			Root = new EditorField (this, rootJson, "root", rootField);
 		}
 
-		public EditorSession (BehaviourManifest manifest, JObject instance, string type)
+		public EditorSession (BehaviourManifest manifest, JObject instance, string type, JsonSerializer jsonSerializer)
 		{
 			Manifest = manifest;
+			JsonSerializer = jsonSerializer;
 			Instance = instance;
 
 			var rootField = new FieldInformation ()

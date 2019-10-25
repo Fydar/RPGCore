@@ -5,6 +5,7 @@ using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Packages;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -21,7 +22,13 @@ namespace RPGCore.Unity.Editors
 		private ProjectResource CurrentResource;
 		private Rect ScreenRect;
 		private Event CurrentEvent;
-		private readonly JsonSerializer Serializer = new JsonSerializer ();
+		private readonly JsonSerializer Serializer = JsonSerializer.Create (new JsonSerializerSettings ()
+		{
+			Converters = new List<JsonConverter>()
+			{
+				new LocalPropertyIdJsonConverter()
+			}
+		});
 
 		[MenuItem ("Window/Behaviour")]
 		public static void Open ()
@@ -107,7 +114,7 @@ namespace RPGCore.Unity.Editors
 						Types = types,
 					};
 					Debug.Log (editorTarget);
-					var graphEditor = new EditorSession (manifest, editorTarget, "SerializedGraph");
+					var graphEditor = new EditorSession (manifest, editorTarget, "SerializedGraph", Serializer);
 
 					View.BeginSession (graphEditor);
 
@@ -116,6 +123,7 @@ namespace RPGCore.Unity.Editors
 
 				var graphEditorNodes = View.Session.Root["Nodes"];
 
+				// Draw Nodes
 				foreach (var node in graphEditorNodes)
 				{
 					var nodeEditor = node["Editor"];
@@ -163,6 +171,7 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
+				// Draw Connection Sockets
 				foreach (var node in graphEditorNodes)
 				{
 					var nodeEditor = node["Editor"];
@@ -178,7 +187,7 @@ namespace RPGCore.Unity.Editors
 						if (childField.Field.Type == "InputSocket")
 						{
 							object renderPosObject;
-							var renderPos = new Rect (); ;
+							var renderPos = new Rect ();
 							if (childField.ViewBag.TryGetValue ("Position", out renderPosObject))
 							{
 								renderPos = (Rect)renderPosObject;
@@ -198,16 +207,37 @@ namespace RPGCore.Unity.Editors
 							};
 
 							EditorGUI.DrawRect (socketRect, Color.red);
+							var socketProperty = childField.GetValue<LocalPropertyId> ();
 
-							var start = new Vector3 (renderPos.x, renderPos.center.y);
-							var end = new Vector3 (renderPos.x - 100, renderPos.center.y - 100);
-							var startDir = new Vector3 (-1, 0);
-							var endDir = new Vector3 (1, 0);
+							if (socketProperty != LocalPropertyId.None)
+							{
+								var start = new Vector3 (renderPos.x, renderPos.center.y);
+								var end = new Vector3 (renderPos.x - 100, renderPos.center.y - 100);
+								var startDir = new Vector3 (-1, 0);
+								var endDir = new Vector3 (1, 0);
 
-							DrawConnection (start, end, startDir, endDir);
+								if (Event.current.type == EventType.MouseDown)
+								{
+									if (socketRect.Contains (Event.current.mousePosition))
+									{
+										View.CurrentMode = BehaviourEditorView.Mode.CreatingConnection;
+										View.ConnectionStart = new LocalPropertyId (new LocalId (node.Name), childField.Name);
+
+										GUI.UnfocusWindow ();
+										GUI.FocusControl ("");
+
+										Event.current.Use ();
+									}
+								}
+
+								DrawConnection (start, end, startDir, endDir);
+							}
 						}
 					}
 				}
+
+				// Draw active connection
+				// TODO: Implement drawing of active connection.
 			}
 		}
 
@@ -360,6 +390,10 @@ namespace RPGCore.Unity.Editors
 						break;
 
 					case BehaviourEditorView.Mode.ViewDragging:
+						View.CurrentMode = BehaviourEditorView.Mode.None;
+						break;
+
+					case BehaviourEditorView.Mode.CreatingConnection:
 						View.CurrentMode = BehaviourEditorView.Mode.None;
 						break;
 				}

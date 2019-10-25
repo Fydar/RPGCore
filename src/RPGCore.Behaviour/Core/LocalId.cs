@@ -72,7 +72,7 @@ namespace RPGCore.Behaviour
 		}
 	}
 
-	internal sealed class LocalIdJsonConverter : JsonConverter
+	public sealed class LocalIdJsonConverter : JsonConverter
 	{
 		public override bool CanWrite => true;
 		public override bool CanRead => true;

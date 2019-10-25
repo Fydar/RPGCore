@@ -1,4 +1,5 @@
-﻿using RPGCore.Behaviour.Editor;
+﻿using RPGCore.Behaviour;
+using RPGCore.Behaviour.Editor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,11 +14,13 @@ namespace RPGCore.Unity.Editors
 			None,
 			NodeDragging,
 			ViewDragging,
+			CreatingConnection
 		}
 
 		[SerializeField] private Mode currentMode;
 		[SerializeField] private Vector2 panPosition;
 		[SerializeField] private HashSet<string> selection;
+		[SerializeField] private LocalPropertyId connectionStart;
 
 		public HashSet<string> Selection
 		{
@@ -40,6 +43,18 @@ namespace RPGCore.Unity.Editors
 			set
 			{
 				panPosition = value;
+			}
+		}
+
+		public LocalPropertyId ConnectionStart
+		{
+			get
+			{
+				return connectionStart;
+			}
+			set
+			{
+				connectionStart = value;
 			}
 		}
 

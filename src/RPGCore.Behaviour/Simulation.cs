@@ -48,18 +48,27 @@ namespace RPGCore.Behaviour
 				editorTarget = JObject.Load (reader);
 			}
 
-			var editor = new EditorSession (manifest, editorTarget, "SerializedGraph");
-
-			foreach (var field in editor.Root["Nodes"]["472c7ba2"]["Data"])
+			var editor = new EditorSession (manifest, editorTarget, "SerializedGraph", serializer);
+			
+			foreach (var node in editor.Root["Nodes"])
 			{
-				Console.WriteLine ($"{field}");
-				if (field.Name == "MaxValue")
-				{
-					field.SetValue (field.GetValue<int> () + 10);
-					field.ApplyModifiedProperties ();
+				var nodeData = node["Data"];
 
-					field.SetValue (field.GetValue<int> ());
-					field.ApplyModifiedProperties ();
+				foreach (var field in nodeData)
+				{
+					Console.WriteLine ($"{field}");
+					if (field.Name == "MaxValue")
+					{
+						field.SetValue (field.GetValue<int> () + 10);
+						field.ApplyModifiedProperties ();
+
+						field.SetValue (field.GetValue<int> ());
+						field.ApplyModifiedProperties ();
+					}
+					else if (field.Name == "ValueB")
+					{
+						Console.WriteLine (field.GetValue<LocalPropertyId> ());
+					}
 				}
 			}
 

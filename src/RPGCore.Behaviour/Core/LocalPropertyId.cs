@@ -18,6 +18,13 @@ namespace RPGCore.Behaviour
 
 		public LocalPropertyId (string expression)
 		{
+			if (string.IsNullOrEmpty(expression))
+			{
+				TargetIdentifier = LocalId.None;
+				PropertyPath = null;
+				return;
+			}
+
 			string[] elements = expression.Split ('.');
 
 			TargetIdentifier = new LocalId (elements[0]);
@@ -90,12 +97,14 @@ namespace RPGCore.Behaviour
 
 		private bool ArrayEquals (string[] left, string[] right)
 		{
-			if (left.Length != right.Length)
+			int leftLength = left?.Length ?? 0;
+
+			if (leftLength != (right?.Length ?? 0))
 			{
 				return false;
 			}
 
-			for (int i = 0; i < left.Length; i++)
+			for (int i = 0; i < leftLength; i++)
 			{
 				string leftElement = left[i];
 				string rightElement = right[i];
@@ -109,7 +118,7 @@ namespace RPGCore.Behaviour
 		}
 	}
 
-	internal sealed class LocalPropertyIdJsonConverter : JsonConverter
+	public sealed class LocalPropertyIdJsonConverter : JsonConverter
 	{
 		public override bool CanWrite => true;
 		public override bool CanRead => true;
@@ -126,7 +135,7 @@ namespace RPGCore.Behaviour
 
 		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			return new LocalPropertyId (reader.Value.ToString ());
+			return new LocalPropertyId (reader.Value?.ToString ());
 		}
 	}
 
