@@ -23,10 +23,6 @@ namespace RPGCore.Inventory.Slots
 		/// <remarks>
 		/// <para>This may have been caused by consuming, crafting, or user/admin action.
 		/// </remarks>
-		Destroy,
-
-		TransferIn,
-
-		TransferOut
+		Destroy
 	}
 }

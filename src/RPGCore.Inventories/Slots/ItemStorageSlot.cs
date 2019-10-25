@@ -82,7 +82,6 @@ namespace RPGCore.Inventory.Slots
 								{
 									FromInventory = null,
 									ToInventory = this,
-									Type = ItemTransactionType.Add,
 									Item = split,
 									Quantity = split.Quantity
 								}
@@ -103,7 +102,6 @@ namespace RPGCore.Inventory.Slots
 								{
 									FromInventory = null,
 									ToInventory = this,
-									Type = ItemTransactionType.Add,
 									Item = StoredItem,
 									Quantity = stackableItem.Quantity
 								}
@@ -141,7 +139,6 @@ namespace RPGCore.Inventory.Slots
 									{
 										FromInventory = null,
 										ToInventory = this,
-										Type = ItemTransactionType.Add,
 										Item = currentStackableItem,
 										Quantity = quantityToAdd
 									}
@@ -159,7 +156,6 @@ namespace RPGCore.Inventory.Slots
 									{
 										FromInventory = null,
 										ToInventory = this,
-										Type = ItemTransactionType.Add,
 										Item = currentStackableItem,
 										Quantity = quantityToAdd
 									}
@@ -194,7 +190,6 @@ namespace RPGCore.Inventory.Slots
 						{
 							FromInventory = null,
 							ToInventory = this,
-							Type = ItemTransactionType.Add,
 							Item = uniqueItem,
 							Quantity = 1
 						}
@@ -220,9 +215,8 @@ namespace RPGCore.Inventory.Slots
 					{
 						new ItemTransaction()
 						{
-							FromInventory = null,
-							ToInventory = this,
-							Type = ItemTransactionType.Destroy,
+							FromInventory = this,
+							ToInventory = null,
 							Item = stackableItem,
 							Quantity = stackableItem.Quantity
 						}
@@ -240,9 +234,8 @@ namespace RPGCore.Inventory.Slots
 					{
 						new ItemTransaction()
 						{
-							FromInventory = null,
-							ToInventory = this,
-							Type = ItemTransactionType.Destroy,
+							FromInventory = this,
+							ToInventory = null,
 							Item = uniqueItem,
 							Quantity = 1
 						}
@@ -303,7 +296,6 @@ namespace RPGCore.Inventory.Slots
 							{
 								FromInventory = this,
 								ToInventory = other,
-								Type = ItemTransactionType.Move,
 								Item = itemStorageSlot.StoredItem,
 								Quantity = toQuantity
 							}
@@ -371,7 +363,6 @@ namespace RPGCore.Inventory.Slots
 					{
 						FromInventory = null,
 						ToInventory = this,
-						Type = ItemTransactionType.Add,
 						Item = item,
 						Quantity = setQuantity
 					}
@@ -388,7 +379,8 @@ namespace RPGCore.Inventory.Slots
 
 				inventoryTransaction.Items.Add (new ItemTransaction ()
 				{
-					Type = ItemTransactionType.Destroy,
+					FromInventory = this,
+					ToInventory = null;
 					Item = StoredItem,
 					Quantity = previousQuantity
 				});
@@ -427,7 +419,6 @@ namespace RPGCore.Inventory.Slots
 						{
 							FromInventory = this,
 							ToInventory = other,
-							Type = ItemTransactionType.Move,
 							Item = itemStorageSlot.StoredItem,
 							Quantity = toQuantity
 						}
