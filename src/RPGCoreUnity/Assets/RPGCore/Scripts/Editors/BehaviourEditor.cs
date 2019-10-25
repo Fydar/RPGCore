@@ -1,83 +1,75 @@
-using UnityEngine;
-using UnityEditor;
-using RPGCore.Packages;
-using RPGCore.Behaviour;
-using RPGCore.Behaviour.Manifest;
-using RPGCore.Behaviour.Editor;
-using System.Text;
 using Newtonsoft.Json;
-using System.IO;
-using System.Linq;
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using RPGCore.Behaviour;
+using RPGCore.Behaviour.Editor;
+using RPGCore.Behaviour.Manifest;
+using RPGCore.Packages;
+using System;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
 	public class BehaviourEditor : EditorWindow
 	{
-		public string selectedNode = null;
-		private Vector2 dragging_Position = Vector2.zero;
-		private bool dragging_IsDragging;
-		private bool dragging_NodeDragging;
+		public BehaviourEditorView View;
 
-		private Rect screenRect;
+		private ProjectImport CurrentPackage;
+		private bool HasCurrentResource;
+		private bool HasEditor;
+		private ProjectResource CurrentResource;
+		private Rect ScreenRect;
+		private Event CurrentEvent;
+		private readonly JsonSerializer Serializer = new JsonSerializer ();
 
-		private Event currentEvent;
-
-		public ProjectImport CurrentPackage;
-
-		public bool HasCurrentResource;
-		public bool HasEditor;
-		public ProjectResource CurrentResource;
-		public JObject editorTarget;
-		public EditorSession graphEditor;
-
-
-		private JsonSerializer serializer = new JsonSerializer();
-
-		[MenuItem("Window/Behaviour")]
-		public static void Open()
+		[MenuItem ("Window/Behaviour")]
+		public static void Open ()
 		{
-			var window = EditorWindow.GetWindow<BehaviourEditor>();
+			var window = GetWindow<BehaviourEditor> ();
 
-			window.Show();
+			window.Show ();
 		}
 
 		private void OnEnable ()
 		{
 			if (EditorGUIUtility.isProSkin)
+			{
 				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.DarkThemeIcon);
+			}
 			else
+			{
 				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
+			}
 		}
 
-		public void OnGUI()
+		private void OnGUI ()
 		{
-			screenRect = new Rect (0, EditorGUIUtility.singleLineHeight + 1,
+			if (View == null)
+			{
+				View = new BehaviourEditorView ();
+			}
+
+			ScreenRect = new Rect (0, EditorGUIUtility.singleLineHeight + 1,
 				position.width, position.height - (EditorGUIUtility.singleLineHeight + 1));
 
-			currentEvent = Event.current;
+			CurrentEvent = Event.current;
 
-			// HandleDragAndDrop (screenRect);
-
-
-			DrawBackground (screenRect, dragging_Position);
+			DrawBackground (ScreenRect, View.PanPosition);
 			DrawTopBar ();
 
-
-			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(ProjectImport), true);
+			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField (CurrentPackage, typeof (ProjectImport), true);
 
 			var explorer = CurrentPackage.Explorer;
 
 			foreach (var resource in explorer.Resources)
 			{
-				if (!resource.Name.EndsWith(".bhvr"))
+				if (!resource.Name.EndsWith (".bhvr"))
 				{
 					continue;
 				}
 
-				if (GUILayout.Button(resource.ToString()))
+				if (GUILayout.Button (resource.ToString ()))
 				{
 					CurrentResource = resource;
 					HasCurrentResource = true;
@@ -85,64 +77,61 @@ namespace RPGCore.Unity.Editors
 				}
 			}
 
+			DrawNodes ();
+
+			HandleInput ();
+		}
+
+		private void DrawNodes ()
+		{
 			if (HasCurrentResource && CurrentResource != null)
 			{
 				if (HasEditor == false)
 				{
-					Debug.Log(CurrentResource);
+					Debug.Log (CurrentResource);
 
+					JObject editorTarget;
 					using (var editorTargetData = CurrentResource.LoadStream ())
 					using (var sr = new StreamReader (editorTargetData))
 					using (var reader = new JsonTextReader (sr))
 					{
 						editorTarget = JObject.Load (reader);
 					}
-					
-					var nodes = NodeManifest.Construct(new Type[] { typeof(AddNode), typeof(RollNode) });
-					var types = TypeManifest.ConstructBaseTypes();
 
-					var manifest = new BehaviourManifest()
+					var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode) });
+					var types = TypeManifest.ConstructBaseTypes ();
+
+					var manifest = new BehaviourManifest ()
 					{
 						Nodes = nodes,
 						Types = types,
 					};
-					Debug.Log(editorTarget);
-					graphEditor = new EditorSession(manifest, editorTarget, "SerializedGraph");
+					Debug.Log (editorTarget);
+					var graphEditor = new EditorSession (manifest, editorTarget, "SerializedGraph");
+
+					View.BeginSession (graphEditor);
+
 					HasEditor = true;
 				}
 
-				if (GUILayout.Button("Save"))
-				{
-					using (var file = CurrentResource.WriteStream())
-					{
-						serializer.Serialize (
-							new JsonTextWriter (file)
-							{
-								Formatting = Formatting.Indented
-							},
-							editorTarget
-						);
-					}
-				}
-
-				var graphEditorNodes = graphEditor.Root["Nodes"];
+				var graphEditorNodes = View.Session.Root["Nodes"];
 
 				foreach (var node in graphEditorNodes)
 				{
 					var nodeEditor = node["Editor"];
 					var nodeEditorPosition = nodeEditor["Position"];
 
-					var nodeRect = new Rect(
-						dragging_Position.x + nodeEditorPosition["x"].GetValue<int>(),
-						dragging_Position.y + nodeEditorPosition["y"].GetValue<int>(),
+					var nodeRect = new Rect (
+						View.PanPosition.x + nodeEditorPosition["x"].GetValue<int> (),
+						View.PanPosition.y + nodeEditorPosition["y"].GetValue<int> (),
 						200,
 						160
 					);
-					
+
 					if (Event.current.type == EventType.Repaint)
 					{
-						GUI.skin.window.Draw(nodeRect,
-							false, node.Name == selectedNode, false, false);
+						GUI.skin.window.Draw (nodeRect,
+							false, View.Selection.Contains (node.Name), false, false);
 					}
 
 					GUILayout.BeginArea (nodeRect);
@@ -153,23 +142,23 @@ namespace RPGCore.Unity.Editors
 					var nodeData = node["Data"];
 					foreach (var childField in nodeData)
 					{
-						DrawField(childField);
+						DrawField (childField);
 					}
 
-					GUILayout.EndArea();
+					GUILayout.EndArea ();
 
 					if (Event.current.type == EventType.MouseDown)
 					{
-						if (nodeRect.Contains(Event.current.mousePosition))
+						if (nodeRect.Contains (Event.current.mousePosition))
 						{
-							selectedNode = node.Name;
-							dragging_IsDragging = true;
-							dragging_NodeDragging = true;
+							View.Selection.Clear ();
+							View.Selection.Add (node.Name);
 
+							View.CurrentMode = BehaviourEditorView.Mode.NodeDragging;
 							GUI.UnfocusWindow ();
 							GUI.FocusControl ("");
 
-							Event.current.Use();
+							Event.current.Use ();
 						}
 					}
 				}
@@ -178,9 +167,9 @@ namespace RPGCore.Unity.Editors
 				{
 					var nodeEditor = node["Editor"];
 					var nodeEditorPosition = nodeEditor["Position"];
-					
-					var nodePositionX = nodeEditorPosition["x"].GetValue<int>() + dragging_Position.x;
-					var nodePositionY = nodeEditorPosition["y"].GetValue<int>() + dragging_Position.y;
+
+					float nodePositionX = nodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
+					float nodePositionY = nodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
 
 					var nodeData = node["Data"];
 
@@ -189,14 +178,14 @@ namespace RPGCore.Unity.Editors
 						if (childField.Field.Type == "InputSocket")
 						{
 							object renderPosObject;
-							var renderPos = new Rect();;
-							if (childField.ViewBag.TryGetValue("Position", out renderPosObject))
+							var renderPos = new Rect (); ;
+							if (childField.ViewBag.TryGetValue ("Position", out renderPosObject))
 							{
 								renderPos = (Rect)renderPosObject;
 							}
 							else
 							{
-								Debug.LogError(childField.Name + " has no position");
+								Debug.LogError (childField.Name + " has no position");
 							}
 
 							renderPos.x += nodePositionX;
@@ -208,7 +197,7 @@ namespace RPGCore.Unity.Editors
 								xMin = renderPos.xMin - renderPos.height
 							};
 
-							EditorGUI.DrawRect(socketRect, Color.red);
+							EditorGUI.DrawRect (socketRect, Color.red);
 
 							var start = new Vector3 (renderPos.x, renderPos.center.y);
 							var end = new Vector3 (renderPos.x - 100, renderPos.center.y - 100);
@@ -217,14 +206,20 @@ namespace RPGCore.Unity.Editors
 
 							DrawConnection (start, end, startDir, endDir);
 						}
-					}				
+					}
 				}
 			}
-			
-			HandleInput();
 		}
 
-		public static void DrawField(EditorField field)
+		public static void DrawEditor (EditorSession editor)
+		{
+			foreach (var field in editor.Root)
+			{
+				DrawField (field);
+			}
+		}
+
+		public static void DrawField (EditorField field)
 		{
 			// EditorGUILayout.LabelField(field.Json.Path);
 			if (field.Field.Type == "Int32")
@@ -233,7 +228,7 @@ namespace RPGCore.Unity.Editors
 				int newValue = EditorGUILayout.IntField (field.Name, field.GetValue<int> ());
 				if (EditorGUI.EndChangeCheck ())
 				{
-					field.SetValue(newValue);
+					field.SetValue (newValue);
 				}
 			}
 			else if (field.Field.Type == "String")
@@ -260,7 +255,7 @@ namespace RPGCore.Unity.Editors
 				EditorGUILayout.LabelField (field.Name, field.GetValue<string> ());
 				var renderPos = GUILayoutUtility.GetLastRect ();
 				field.ViewBag["Position"] = renderPos;
-				if (EditorGUI.EndChangeCheck())
+				if (EditorGUI.EndChangeCheck ())
 				{
 					//field.Json.Value = newValue;
 				}
@@ -269,115 +264,119 @@ namespace RPGCore.Unity.Editors
 			}
 			else if (field.Field.Format == FieldFormat.Dictionary)
 			{
-				EditorGUILayout.LabelField(field.Name);
+				EditorGUILayout.LabelField (field.Name);
 
 				EditorGUI.indentLevel++;
 				foreach (var childField in field)
 				{
-					DrawField(childField);
+					DrawField (childField);
 				}
 				EditorGUI.indentLevel--;
 			}
 			else if (field.Field != null)
 			{
-				EditorGUILayout.LabelField(field.Name);
+				EditorGUILayout.LabelField (field.Name);
 
 				EditorGUI.indentLevel++;
 				foreach (var childField in field)
 				{
-					DrawField(childField);
+					DrawField (childField);
 				}
 				EditorGUI.indentLevel--;
 			}
 			else
 			{
-				EditorGUILayout.LabelField(field.Name, "Unknown Type");
+				EditorGUILayout.LabelField (field.Name, "Unknown Type");
 			}
 		}
 
-		public static void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+		private static void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 		{
 			float distance = Vector3.Distance (start, end);
-			Vector3 startTan = start + (startDir * distance * 0.5f);
-			Vector3 endTan = end + (endDir * distance * 0.5f);
+			var startTan = start + (startDir * distance * 0.5f);
+			var endTan = end + (endDir * distance * 0.5f);
 
-			Color connectionColour = new Color (1.0f, 0.8f, 0.8f);
+			var connectionColour = new Color (1.0f, 0.8f, 0.8f);
 			Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
 				BehaviourGraphResources.Instance.SmallConnection, 10);
 		}
 
-		public static void DrawEditor(EditorSession editor)
-		{
-			foreach (var field in editor.Root)
-			{
-				DrawField(field);
-			}
-		}
-
-		
 		private void HandleInput ()
 		{
-			if (!string.IsNullOrEmpty(selectedNode))
+			if (CurrentEvent.type == EventType.MouseUp)
 			{
-				if (currentEvent.type == EventType.MouseUp && dragging_IsDragging)
+				switch (View.CurrentMode)
 				{
-					dragging_IsDragging = false;
-					dragging_NodeDragging = false;
-					currentEvent.Use ();
+					case BehaviourEditorView.Mode.NodeDragging:
+						CurrentEvent.Use ();
 
-					var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
+						foreach (string selectedNode in View.Selection)
+						{
+							var pos = View.Session.Root["Nodes"][selectedNode]["Editor"]["Position"];
 
-					var posX = pos["x"];
-					posX.ApplyModifiedProperties ();
+							var posX = pos["x"];
+							posX.ApplyModifiedProperties ();
 
-					var posY = pos["y"];
-					posY.ApplyModifiedProperties ();
-				}
-			}
+							var posY = pos["y"];
+							posY.ApplyModifiedProperties ();
+						}
+						View.CurrentMode = BehaviourEditorView.Mode.None;
+						break;
 
-			if (currentEvent.type == EventType.KeyDown)
-			{
-				
-			}
-			else if (currentEvent.type == EventType.MouseDrag && dragging_IsDragging)
-			{
-				if (dragging_NodeDragging)
-				{
-					var pos = graphEditor.Root["Nodes"][selectedNode]["Editor"]["Position"];
-
-					var posX = pos["x"];
-					posX.SetValue(posX.GetValue<int>() + ((int)currentEvent.delta.x));
-					
-					var posY = pos["y"];
-					posY.SetValue(posY.GetValue<int>() + ((int)currentEvent.delta.y));
-				}
-				else
-				{
-					dragging_Position += currentEvent.delta;
+					case BehaviourEditorView.Mode.ViewDragging:
+						View.CurrentMode = BehaviourEditorView.Mode.None;
+						break;
 				}
 				Repaint ();
 			}
-			else if (currentEvent.type == EventType.MouseDown)
-			{	
-				if (screenRect.Contains (currentEvent.mousePosition))
+			else if (CurrentEvent.type == EventType.KeyDown)
+			{
+
+			}
+			else if (CurrentEvent.type == EventType.MouseDrag)
+			{
+				switch (View.CurrentMode)
+				{
+					case BehaviourEditorView.Mode.NodeDragging:
+						foreach (string selectedNode in View.Selection)
+						{
+							var pos = View.Session.Root["Nodes"][selectedNode]["Editor"]["Position"];
+
+							var posX = pos["x"];
+							posX.SetValue (posX.GetValue<int> () + ((int)CurrentEvent.delta.x));
+
+							var posY = pos["y"];
+							posY.SetValue (posY.GetValue<int> () + ((int)CurrentEvent.delta.y));
+						}
+						break;
+
+					case BehaviourEditorView.Mode.ViewDragging:
+						View.PanPosition += CurrentEvent.delta;
+						break;
+				}
+				Repaint ();
+			}
+			else if (CurrentEvent.type == EventType.MouseDown)
+			{
+				if (ScreenRect.Contains (CurrentEvent.mousePosition))
 				{
 					GUI.UnfocusWindow ();
 					GUI.FocusControl ("");
 
-					dragging_IsDragging = true;
-					dragging_NodeDragging = false;
+					View.CurrentMode = BehaviourEditorView.Mode.ViewDragging;
 
-					currentEvent.Use ();
+					CurrentEvent.Use ();
 					Repaint ();
 				}
 			}
 		}
 
-
 		private void DrawBackground (Rect backgroundRect, Vector2 viewPosition)
 		{
 			if (Event.current.type == EventType.MouseMove)
+			{
 				return;
+			}
 
 			if (!HasEditor)
 			{
@@ -399,7 +398,7 @@ namespace RPGCore.Unity.Editors
 
 			DrawImageTiled (backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale * 3);
 
-			Color originalTintColour = GUI.color;
+			var originalTintColour = GUI.color;
 
 			GUI.color = new Color (1, 1, 1, 0.6f);
 			DrawImageTiled (backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale);
@@ -408,7 +407,7 @@ namespace RPGCore.Unity.Editors
 
 			if (Application.isPlaying)
 			{
-				Rect runtimeInfo = new Rect (backgroundRect);
+				var runtimeInfo = new Rect (backgroundRect);
 				runtimeInfo.yMin = runtimeInfo.yMax - 48;
 				EditorGUI.LabelField (runtimeInfo, "Playmode Enabled: You may change values but you can't edit connections",
 					BehaviourGUIStyles.Instance.informationTextStyle);
@@ -418,25 +417,23 @@ namespace RPGCore.Unity.Editors
 		private void DrawImageTiled (Rect rect, Texture2D texture, Vector2 positon, float zoom = 0.8f)
 		{
 			if (texture == null)
+			{
 				return;
+			}
 
-			if (currentEvent.type != EventType.Repaint)
+			if (CurrentEvent.type != EventType.Repaint)
+			{
 				return;
+			}
 
-			Vector2 tileOffset = new Vector2 ((-positon.x / texture.width) * zoom, (positon.y / texture.height) * zoom);
+			var tileOffset = new Vector2 ((-positon.x / texture.width) * zoom, (positon.y / texture.height) * zoom);
 
-			Vector2 tileAmount = new Vector2 (Mathf.Round (rect.width * zoom) / texture.width,
+			var tileAmount = new Vector2 (Mathf.Round (rect.width * zoom) / texture.width,
 				Mathf.Round (rect.height * zoom) / texture.height);
 
 			tileOffset.y -= tileAmount.y;
 			GUI.DrawTextureWithTexCoords (rect, texture, new Rect (tileOffset, tileAmount), true);
 		}
-
-
-
-
-
-
 
 		private void DrawTopBar ()
 		{
@@ -446,9 +443,30 @@ namespace RPGCore.Unity.Editors
 			{
 			}
 
-			
-			if (GUILayout.Button (selectedNode + " " + dragging_NodeDragging, EditorStyles.toolbarButton, GUILayout.Width (100)))
+			GUILayout.Space (6);
+
+			if (GUILayout.Button ("Save", EditorStyles.toolbarButton, GUILayout.Width (100)))
 			{
+				using (var file = CurrentResource.WriteStream ())
+				{
+					Serializer.Serialize (
+						new JsonTextWriter (file)
+						{
+							Formatting = Formatting.Indented
+						},
+						View.Session.Instance
+					);
+				}
+			}
+
+			if (GUILayout.Button (View.CurrentMode.ToString (), EditorStyles.toolbarButton, GUILayout.Width (100)))
+			{
+			}
+			foreach (string node in View.Selection)
+			{
+				if (GUILayout.Button (node, EditorStyles.toolbarButton, GUILayout.Width (100)))
+				{
+				}
 			}
 
 			EditorGUILayout.EndHorizontal ();

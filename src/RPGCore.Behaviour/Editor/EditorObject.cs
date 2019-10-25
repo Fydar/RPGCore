@@ -200,6 +200,7 @@ namespace RPGCore.Behaviour.Editor
 	{
 		public BehaviourManifest Manifest;
 		public EditorField Root;
+		public JObject Instance;
 
 		public EditorSession (BehaviourManifest manifest, object instance)
 		{
@@ -207,6 +208,7 @@ namespace RPGCore.Behaviour.Editor
 
 			var rootJson = JObject.FromObject (instance);
 			string type = instance.GetType ().FullName;
+			Instance = rootJson;
 
 			var rootField = new FieldInformation ()
 			{
@@ -218,6 +220,7 @@ namespace RPGCore.Behaviour.Editor
 		public EditorSession (BehaviourManifest manifest, JObject instance, string type)
 		{
 			Manifest = manifest;
+			Instance = instance;
 
 			var rootField = new FieldInformation ()
 			{
