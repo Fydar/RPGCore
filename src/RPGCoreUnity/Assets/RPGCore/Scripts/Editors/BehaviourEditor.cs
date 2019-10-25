@@ -133,7 +133,7 @@ namespace RPGCore.Unity.Editors
 						View.PanPosition.x + nodeEditorPosition["x"].GetValue<int> (),
 						View.PanPosition.y + nodeEditorPosition["y"].GetValue<int> (),
 						200,
-						160
+						180
 					);
 
 					if (Event.current.type == EventType.Repaint)
@@ -182,6 +182,21 @@ namespace RPGCore.Unity.Editors
 
 					var nodeData = node["Data"];
 
+					// Foreach Output
+					var outputRect = new Rect (nodePositionX + 202, nodePositionY + 6, 20, 20);
+					var nodeInfo = (NodeInformation)nodeData.Type;
+					foreach (var output in nodeInfo.Outputs)
+					{
+						if (CurrentEvent.type == EventType.Repaint)
+						{
+							EditorStyles.helpBox.Draw (outputRect, false, false, false, false);
+						}
+						//EditorGUI.DrawRect (outputRect, Color.red);
+
+						outputRect.y += outputRect.height + 4;
+					}
+
+					// Foreach Input
 					foreach (var childField in nodeData)
 					{
 						if (childField.Field.Type == "InputSocket")
@@ -206,8 +221,27 @@ namespace RPGCore.Unity.Editors
 								xMin = renderPos.xMin - renderPos.height
 							};
 
-							EditorGUI.DrawRect (socketRect, Color.red);
+							if (CurrentEvent.type == EventType.Repaint)
+							{
+								EditorStyles.helpBox.Draw (socketRect, false, false, false, false);
+							}
+							//EditorGUI.DrawRect (socketRect, Color.red);
+
 							var socketProperty = childField.GetValue<LocalPropertyId> ();
+
+							if (Event.current.type == EventType.MouseDown)
+							{
+								if (socketRect.Contains (Event.current.mousePosition))
+								{
+									View.CurrentMode = BehaviourEditorView.Mode.CreatingConnection;
+									View.ConnectionStart = new LocalPropertyId (new LocalId (node.Name), childField.Name);
+
+									GUI.UnfocusWindow ();
+									GUI.FocusControl ("");
+
+									Event.current.Use ();
+								}
+							}
 
 							if (socketProperty != LocalPropertyId.None)
 							{
@@ -215,20 +249,6 @@ namespace RPGCore.Unity.Editors
 								var end = new Vector3 (renderPos.x - 100, renderPos.center.y - 100);
 								var startDir = new Vector3 (-1, 0);
 								var endDir = new Vector3 (1, 0);
-
-								if (Event.current.type == EventType.MouseDown)
-								{
-									if (socketRect.Contains (Event.current.mousePosition))
-									{
-										View.CurrentMode = BehaviourEditorView.Mode.CreatingConnection;
-										View.ConnectionStart = new LocalPropertyId (new LocalId (node.Name), childField.Name);
-
-										GUI.UnfocusWindow ();
-										GUI.FocusControl ("");
-
-										Event.current.Use ();
-									}
-								}
 
 								DrawConnection (start, end, startDir, endDir);
 							}
@@ -256,7 +276,7 @@ namespace RPGCore.Unity.Editors
 			{
 				object expandedObject;
 				field.ViewBag.TryGetValue ("Expanded", out expandedObject);
-				bool expanded = expandedObject == null ? true : (bool)expandedObject;
+				bool expanded = expandedObject == null ? false : (bool)expandedObject;
 				expanded = EditorGUILayout.Foldout (expanded, field.Name, true);
 				field.ViewBag["Expanded"] = expanded;
 
@@ -336,7 +356,7 @@ namespace RPGCore.Unity.Editors
 			{
 				object expandedObject;
 				field.ViewBag.TryGetValue ("Expanded", out expandedObject);
-				bool expanded = expandedObject == null ? true : (bool)expandedObject;
+				bool expanded = expandedObject == null ? false : (bool)expandedObject;
 				expanded = EditorGUILayout.Foldout (expanded, field.Name, true);
 				field.ViewBag["Expanded"] = expanded;
 

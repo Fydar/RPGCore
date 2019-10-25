@@ -1,0 +1,91 @@
+{
+  "Name": "Ice Bolt",
+  "Description": "Fires a fast travelling bolt of ice.",
+  "Type": null,
+  "CustomData": null,
+  "Nodes": {
+    "0a084c2c": {
+      "Type": "RPGCore.Behaviour.RollNode",
+      "Data": {
+        "MinValue": 5,
+        "MaxValue": 15,
+        "TooltipFormat": "{0}",
+        "Data": {
+          "Hi": 0,
+          "Goodbyte": false
+        },
+        "Elements": null
+      },
+      "Editor": {
+        "Position": {
+          "x": -36,
+          "y": 46
+        }
+      }
+    },
+    "0a53abfca": {
+      "Type": "RPGCore.Behaviour.RollNode",
+      "Data": {
+        "MinValue": 5,
+        "MaxValue": 15,
+        "TooltipFormat": "{0}",
+        "Data": {
+          "Hi": 0,
+          "Goodbyte": false
+        },
+        "Elements": null
+      },
+      "Editor": {
+        "Position": {
+          "x": -254,
+          "y": -34
+        }
+      }
+    },
+    "472c7ba2": {
+      "Type": "RPGCore.Behaviour.RollNode",
+      "Data": {
+        "MinValue": 20,
+        "MaxValue": 25,
+        "TooltipFormat": "{0}",
+        "Data": {
+          "Hi": 0,
+          "Goodbyte": false
+        },
+        "Elements": null
+      },
+      "Editor": {
+        "Position": {
+          "x": -254,
+          "y": 143
+        }
+      }
+    },
+    "0a4f194f": {
+      "Type": "RPGCore.Behaviour.AddNode",
+      "Data": {
+        "ValueA": "0a084c2c.Output",
+        "ValueB": "472c7ba2.Output"
+      },
+      "Editor": {
+        "Position": {
+          "x": 214,
+          "y": -123
+        }
+      }
+    },
+    "0a16b3c6": {
+      "Type": "RPGCore.Behaviour.AddNode",
+      "Data": {
+        "ValueA": "0a084c2c.Output",
+        "ValueB": "472c7ba2.Output"
+      },
+      "Editor": {
+        "Position": {
+          "x": 218,
+          "y": 79
+        }
+      }
+    }
+  }
+}
