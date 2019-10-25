@@ -66,6 +66,8 @@ namespace RPGCore.Behaviour.Editor
 		private JToken Json;
 		private IQueuedItem Queued;
 
+		public int Count => Children.Count;
+
 		public EditorField this[string key] => Children[key];
 
 		public EditorField (EditorSession session, JToken json, string name, FieldInformation info)
@@ -91,6 +93,20 @@ namespace RPGCore.Behaviour.Editor
 					foreach (var property in ((JObject)Json).Properties ())
 					{
 						Children.Add (property.Name, new EditorField (Session, property.Value, property.Name, Field.ValueFormat));
+					}
+				}
+			}
+			else if (Field.Format == FieldFormat.List)
+			{
+				if (Json.Type != JTokenType.Null)
+				{
+					var children = ((JArray)Json).Children ();
+					int index = 0;
+					foreach (var token in children)
+					{
+						string childName = $"[{index}]";
+						Children.Add (childName, new EditorField (Session, token, childName, Field.ValueFormat));
+						index++;
 					}
 				}
 			}

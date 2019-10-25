@@ -14,15 +14,26 @@ namespace RPGCore.Behaviour.Manifest
 
 		public TypeInformation GetTypeInformation (string type)
 		{
-			if (Types.JsonTypes.TryGetValue (type, out var jsonType))
+			string lookupType;
+			int arrayIndex = type.LastIndexOf ('[');
+			if (arrayIndex == -1)
+			{
+				lookupType = type;
+			}
+			else
+			{
+				lookupType = type.Substring (0, arrayIndex);
+			}
+
+			if (Types.JsonTypes.TryGetValue (lookupType, out var jsonType))
 			{
 				return jsonType;
 			}
-			if (Types.ObjectTypes.TryGetValue (type, out var objectType))
+			if (Types.ObjectTypes.TryGetValue (lookupType, out var objectType))
 			{
 				return objectType;
 			}
-			if (Nodes.Nodes.TryGetValue (type, out var nodeType))
+			if (Nodes.Nodes.TryGetValue (lookupType, out var nodeType))
 			{
 				return nodeType;
 			}

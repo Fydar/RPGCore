@@ -222,13 +222,40 @@ namespace RPGCore.Unity.Editors
 		public static void DrawField (EditorField field)
 		{
 			// EditorGUILayout.LabelField(field.Json.Path);
-			if (field.Field.Type == "Int32")
+			if (field.Field.Format == FieldFormat.List)
+			{
+				object expandedObject;
+				field.ViewBag.TryGetValue ("Expanded", out expandedObject);
+				bool expanded = expandedObject == null ? true : (bool)expandedObject;
+				expanded = EditorGUILayout.Foldout (expanded, field.Name, true);
+				field.ViewBag["Expanded"] = expanded;
+
+				if (expanded)
+				{
+					EditorGUI.indentLevel++;
+
+					EditorGUI.BeginChangeCheck ();
+					int newIndex = EditorGUILayout.DelayedIntField ("Size", field.Count);
+					if (EditorGUI.EndChangeCheck())
+					{
+
+					}
+
+					foreach (var childField in field)
+					{
+						DrawField (childField);
+					}
+					EditorGUI.indentLevel--;
+				}
+			}
+			else if (field.Field.Type == "Int32")
 			{
 				EditorGUI.BeginChangeCheck ();
 				int newValue = EditorGUILayout.IntField (field.Name, field.GetValue<int> ());
 				if (EditorGUI.EndChangeCheck ())
 				{
 					field.SetValue (newValue);
+					field.ApplyModifiedProperties ();
 				}
 			}
 			else if (field.Field.Type == "String")
@@ -238,6 +265,7 @@ namespace RPGCore.Unity.Editors
 				if (EditorGUI.EndChangeCheck ())
 				{
 					field.SetValue (newValue);
+					field.ApplyModifiedProperties ();
 				}
 			}
 			else if (field.Field.Type == "Boolean")
@@ -247,6 +275,7 @@ namespace RPGCore.Unity.Editors
 				if (EditorGUI.EndChangeCheck ())
 				{
 					field.SetValue (newValue);
+					field.ApplyModifiedProperties ();
 				}
 			}
 			else if (field.Field.Type == "InputSocket")
@@ -273,16 +302,23 @@ namespace RPGCore.Unity.Editors
 				}
 				EditorGUI.indentLevel--;
 			}
-			else if (field.Field != null)
+			else if (field.Field.Format == FieldFormat.Object)
 			{
-				EditorGUILayout.LabelField (field.Name);
+				object expandedObject;
+				field.ViewBag.TryGetValue ("Expanded", out expandedObject);
+				bool expanded = expandedObject == null ? true : (bool)expandedObject;
+				expanded = EditorGUILayout.Foldout (expanded, field.Name, true);
+				field.ViewBag["Expanded"] = expanded;
 
-				EditorGUI.indentLevel++;
-				foreach (var childField in field)
+				if (expanded)
 				{
-					DrawField (childField);
+					EditorGUI.indentLevel++;
+					foreach (var childField in field)
+					{
+						DrawField (childField);
+					}
+					EditorGUI.indentLevel--;
 				}
-				EditorGUI.indentLevel--;
 			}
 			else
 			{

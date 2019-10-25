@@ -13,7 +13,11 @@
         "Data": {
           "Hi": 0,
           "Goodbyte": false
-        }
+        },
+        "Elements": [
+          10,
+          5
+        ]
       },
       "Editor": {
         "Position": {

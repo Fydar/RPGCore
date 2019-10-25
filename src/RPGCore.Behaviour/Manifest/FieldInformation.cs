@@ -83,7 +83,16 @@ namespace RPGCore.Behaviour.Manifest
 				}
 				else if (field.FieldType.IsArray)
 				{
+					var elementType = field.FieldType.GetElementType ();
+
 					fieldInformation.Format = FieldFormat.List;
+					fieldInformation.Type = elementType.Name;
+
+					fieldInformation.ValueFormat = new FieldInformation ()
+					{
+						Type = elementType.Name,
+						Format = FieldFormat.Object
+					};
 				}
 				else
 				{

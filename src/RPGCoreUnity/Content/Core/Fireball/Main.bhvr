@@ -13,7 +13,11 @@
         "Data": {
           "Hi": 0,
           "Goodbyte": false
-        }
+        },
+        "Elements": [
+          10,
+          15
+        ]
       },
       "Editor": {
         "Position": {
@@ -26,12 +30,13 @@
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
         "MinValue": 15,
-        "MaxValue": 25,
+        "MaxValue": 35,
         "TooltipFormat": "{0}",
         "Data": {
           "Hi": 0,
           "Goodbyte": false
-        }
+        },
+        "Elements": null
       },
       "Editor": {
         "Position": {

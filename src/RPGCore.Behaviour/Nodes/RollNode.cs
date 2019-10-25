@@ -15,6 +15,7 @@ namespace RPGCore.Behaviour
 		public int MinValue = 2;
 		public int MaxValue = 12;
 		public ExtraData Data;
+		public int[] Elements;
 
 		public override InputMap[] Inputs (IGraphConnections graph, RollInstance instance) => null;
 
