@@ -18,8 +18,8 @@
       },
       "Editor": {
         "Position": {
-          "x": 173,
-          "y": 193
+          "x": 12,
+          "y": 343
         }
       }
     },
@@ -37,8 +37,8 @@
       },
       "Editor": {
         "Position": {
-          "x": -47,
-          "y": 121
+          "x": 10,
+          "y": 147
         }
       }
     },
@@ -56,8 +56,8 @@
       },
       "Editor": {
         "Position": {
-          "x": 175,
-          "y": 392
+          "x": 289,
+          "y": 411
         }
       }
     },
@@ -69,21 +69,21 @@
       },
       "Editor": {
         "Position": {
-          "x": 470,
-          "y": 137
+          "x": 286,
+          "y": 206
         }
       }
     },
     "0a16b3c6": {
       "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
-        "ValueA": "0x0a084c2c.Output",
+        "ValueA": "0x0a4f194f.Output",
         "ValueB": "0x472c7ba2.Output"
       },
       "Editor": {
         "Position": {
-          "x": 469,
-          "y": 333
+          "x": 547,
+          "y": 287
         }
       }
     }
