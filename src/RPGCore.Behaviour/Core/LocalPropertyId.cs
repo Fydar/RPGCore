@@ -82,6 +82,10 @@ namespace RPGCore.Behaviour
 
 		public override string ToString ()
 		{
+			if (this == None)
+			{
+				return "0x00";
+			}
 			return TargetIdentifier.ToString () + "." + string.Join (".", PropertyPath);
 		}
 

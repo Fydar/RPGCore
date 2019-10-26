@@ -17,14 +17,12 @@ namespace RPGCore.Unity.Editors
 		public BehaviourEditorView View;
 
 		private ProjectImport CurrentPackage;
-		private bool HasCurrentResource;
-		private bool HasEditor;
 		private ProjectResource CurrentResource;
 		private Rect ScreenRect;
 		private Event CurrentEvent;
 		private readonly JsonSerializer Serializer = JsonSerializer.Create (new JsonSerializerSettings ()
 		{
-			Converters = new List<JsonConverter>()
+			Converters = new List<JsonConverter> ()
 			{
 				new LocalPropertyIdJsonConverter()
 			}
@@ -66,61 +64,54 @@ namespace RPGCore.Unity.Editors
 			DrawTopBar ();
 
 			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField (CurrentPackage, typeof (ProjectImport), true);
-
-			var explorer = CurrentPackage.Explorer;
-
-			foreach (var resource in explorer.Resources)
+			if (CurrentPackage != null)
 			{
-				if (!resource.Name.EndsWith (".bhvr"))
-				{
-					continue;
-				}
+				var explorer = CurrentPackage.Explorer;
 
-				if (GUILayout.Button (resource.ToString ()))
+				foreach (var resource in explorer.Resources)
 				{
-					CurrentResource = resource;
-					HasCurrentResource = true;
-					HasEditor = false;
+					if (!resource.Name.EndsWith (".bhvr"))
+					{
+						continue;
+					}
+
+					if (GUILayout.Button (resource.ToString ()))
+					{
+						CurrentResource = resource;
+						JObject editorTarget;
+						using (var editorTargetData = CurrentResource.LoadStream ())
+						using (var sr = new StreamReader (editorTargetData))
+						using (var reader = new JsonTextReader (sr))
+						{
+							editorTarget = JObject.Load (reader);
+						}
+
+						var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode) });
+						var types = TypeManifest.ConstructBaseTypes ();
+
+						var manifest = new BehaviourManifest ()
+						{
+							Nodes = nodes,
+							Types = types,
+						};
+						Debug.Log (editorTarget);
+						var graphEditor = new EditorSession (manifest, editorTarget, "SerializedGraph", Serializer);
+
+						View.BeginSession (graphEditor);
+					}
 				}
 			}
 
 			DrawNodes ();
+			DrawConnections ();
 
 			HandleInput ();
 		}
 
 		private void DrawNodes ()
 		{
-			if (HasCurrentResource && CurrentResource != null)
+			if (View.Session != null)
 			{
-				if (HasEditor == false)
-				{
-					Debug.Log (CurrentResource);
-
-					JObject editorTarget;
-					using (var editorTargetData = CurrentResource.LoadStream ())
-					using (var sr = new StreamReader (editorTargetData))
-					using (var reader = new JsonTextReader (sr))
-					{
-						editorTarget = JObject.Load (reader);
-					}
-
-					var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode) });
-					var types = TypeManifest.ConstructBaseTypes ();
-
-					var manifest = new BehaviourManifest ()
-					{
-						Nodes = nodes,
-						Types = types,
-					};
-					Debug.Log (editorTarget);
-					var graphEditor = new EditorSession (manifest, editorTarget, "SerializedGraph", Serializer);
-
-					View.BeginSession (graphEditor);
-
-					HasEditor = true;
-				}
-
 				var graphEditorNodes = View.Session.Root["Nodes"];
 
 				// Draw Nodes
@@ -170,8 +161,16 @@ namespace RPGCore.Unity.Editors
 						}
 					}
 				}
+			}
+		}
 
-				// Draw Connection Sockets
+		public void DrawConnections ()
+		{
+			if (View.Session != null)
+			{
+				var graphEditorNodes = View.Session.Root["Nodes"];
+
+				// Foreach output
 				foreach (var node in graphEditorNodes)
 				{
 					var nodeEditor = node["Editor"];
@@ -191,7 +190,35 @@ namespace RPGCore.Unity.Editors
 						{
 							EditorStyles.helpBox.Draw (outputRect, false, false, false, false);
 						}
-						//EditorGUI.DrawRect (outputRect, Color.red);
+						else if (CurrentEvent.type == EventType.MouseDown && outputRect.Contains (Event.current.mousePosition))
+						{
+							var outputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
+							View.BeginConnectionFromOutput (outputId);
+
+							GUI.UnfocusWindow ();
+							GUI.FocusControl ("");
+
+							Event.current.Use ();
+						}
+						else if (CurrentEvent.type == EventType.MouseUp && outputRect.Contains (Event.current.mousePosition))
+						{
+							if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+							{
+								if (!View.IsOutputSocket)
+								{
+									var thisOutputSocket = new LocalPropertyId (new LocalId (node.Name), output.Key);
+
+									View.ConnectionInput.SetValue (thisOutputSocket);
+									View.ConnectionInput.ApplyModifiedProperties ();
+									View.CurrentMode = BehaviourEditorView.Mode.None;
+
+									GUI.UnfocusWindow ();
+									GUI.FocusControl ("");
+
+									Event.current.Use ();
+								}
+							}
+						}
 
 						outputRect.y += outputRect.height + 4;
 					}
@@ -207,10 +234,6 @@ namespace RPGCore.Unity.Editors
 							{
 								renderPos = (Rect)renderPosObject;
 							}
-							else
-							{
-								Debug.LogError (childField.Name + " has no position");
-							}
 
 							renderPos.x += nodePositionX;
 							renderPos.y += nodePositionY;
@@ -225,39 +248,168 @@ namespace RPGCore.Unity.Editors
 							{
 								EditorStyles.helpBox.Draw (socketRect, false, false, false, false);
 							}
-							//EditorGUI.DrawRect (socketRect, Color.red);
-
-							var socketProperty = childField.GetValue<LocalPropertyId> ();
-
-							if (Event.current.type == EventType.MouseDown)
+							else if (CurrentEvent.type == EventType.MouseDown && socketRect.Contains (Event.current.mousePosition))
 							{
-								if (socketRect.Contains (Event.current.mousePosition))
+								var thisInputId = new LocalPropertyId (new LocalId (node.Name), childField.Name);
+
+								View.BeginConnectionFromInput (childField, node.Name);
+
+								GUI.UnfocusWindow ();
+								GUI.FocusControl ("");
+
+								Event.current.Use ();
+							}
+							else if (CurrentEvent.type == EventType.MouseUp && socketRect.Contains (Event.current.mousePosition))
+							{
+								if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
 								{
-									View.CurrentMode = BehaviourEditorView.Mode.CreatingConnection;
-									View.ConnectionStart = new LocalPropertyId (new LocalId (node.Name), childField.Name);
+									if (View.IsOutputSocket)
+									{
+										childField.SetValue (View.ConnectionOutput);
+										childField.ApplyModifiedProperties ();
+										View.CurrentMode = BehaviourEditorView.Mode.None;
 
-									GUI.UnfocusWindow ();
-									GUI.FocusControl ("");
+										GUI.UnfocusWindow ();
+										GUI.FocusControl ("");
 
-									Event.current.Use ();
+										Event.current.Use ();
+									}
 								}
 							}
 
-							if (socketProperty != LocalPropertyId.None)
+							var thisInputConnectedTo = childField.GetValue<LocalPropertyId> ();
+							if (thisInputConnectedTo != LocalPropertyId.None)
 							{
-								var start = new Vector3 (renderPos.x, renderPos.center.y);
-								var end = new Vector3 (renderPos.x - 100, renderPos.center.y - 100);
-								var startDir = new Vector3 (-1, 0);
-								var endDir = new Vector3 (1, 0);
+								bool foundNode = false;
+								var otherOutputRect = new Rect ();
+								foreach (var otherNode in graphEditorNodes)
+								{
+									var otherNodeEditor = otherNode["Editor"];
+									var otherNodeEditorPosition = otherNodeEditor["Position"];
 
-								DrawConnection (start, end, startDir, endDir);
+									float otherNodePositionX = otherNodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
+									float otherNodePositionY = otherNodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
+
+									var otherNodeData = otherNode["Data"];
+
+									// Foreach Output
+									otherOutputRect = new Rect (otherNodePositionX + 202, otherNodePositionY + 6, 20, 20);
+									var otherNodeInfo = (NodeInformation)otherNodeData.Type;
+									foreach (var output in otherNodeInfo.Outputs)
+									{
+										var otherOutputId = new LocalPropertyId (new LocalId (otherNode.Name), output.Key);
+
+										if (otherOutputId == thisInputConnectedTo)
+										{
+											foundNode = true;
+											break;
+										}
+
+										otherOutputRect.y += otherOutputRect.height + 4;
+									}
+									if (foundNode)
+									{
+										break;
+									}
+								}
+								if (foundNode)
+								{
+									var start = new Vector3 (otherOutputRect.x, otherOutputRect.center.y);
+									var end = new Vector3 (renderPos.x, renderPos.center.y);
+									var startDir = new Vector3 (1, 0);
+									var endDir = new Vector3 (-1, 0);
+
+									DrawConnection (start, end, startDir, endDir);
+								}
 							}
 						}
 					}
 				}
 
 				// Draw active connection
-				// TODO: Implement drawing of active connection.
+				if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+				{
+					if (View.IsOutputSocket)
+					{
+						// Draw Nodes
+						bool isFound = false;
+						var outputRect = new Rect ();
+						foreach (var node in graphEditorNodes)
+						{
+							var nodeEditor = node["Editor"];
+							var nodeEditorPosition = nodeEditor["Position"];
+
+							float nodePositionX = nodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
+							float nodePositionY = nodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
+
+							var nodeData = node["Data"];
+
+							// Foreach Output
+							var nodeInfo = (NodeInformation)nodeData.Type;
+							outputRect = new Rect (nodePositionX + 202, nodePositionY + 6, 20, 20);
+							foreach (var output in nodeInfo.Outputs)
+							{
+								var otherOutputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
+
+								if (otherOutputId == View.ConnectionOutput)
+								{
+									isFound = true;
+									break;
+								}
+
+								outputRect.y += outputRect.height + 4;
+							}
+							if (isFound)
+							{
+								break;
+							}
+						}
+
+						if (isFound)
+						{
+							var start = new Vector3 (outputRect.x, outputRect.center.y);
+							var end = new Vector3 (CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
+							var startDir = new Vector3 (1, 0);
+							var endDir = new Vector3 (-1, 0);
+
+							DrawConnection (start, end, startDir, endDir);
+						}
+					}
+					else
+					{
+						object renderPosObject;
+						var renderPos = new Rect ();
+						if (View.ConnectionInput.ViewBag.TryGetValue ("Position", out renderPosObject))
+						{
+							renderPos = (Rect)renderPosObject;
+						}
+
+						var inputNode = graphEditorNodes[View.ConnectionInputNodeId.ToString()];
+						var nodeEditor = inputNode["Editor"];
+						var nodeEditorPosition = nodeEditor["Position"];
+
+						float nodePositionX = nodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
+						float nodePositionY = nodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
+
+						var nodeData = inputNode["Data"];
+
+						renderPos.x += nodePositionX;
+						renderPos.y += nodePositionY;
+
+						var socketRect = new Rect (renderPos)
+						{
+							xMax = renderPos.xMin,
+							xMin = renderPos.xMin - renderPos.height
+						};
+
+						var start = new Vector3 (CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
+						var end = new Vector3 (socketRect.xMax, socketRect.center.y);
+						var startDir = new Vector3 (1, 0);
+						var endDir = new Vector3 (-1, 0);
+
+						DrawConnection (start, end, startDir, endDir);
+					}
+				}
 			}
 		}
 
@@ -286,7 +438,7 @@ namespace RPGCore.Unity.Editors
 
 					EditorGUI.BeginChangeCheck ();
 					int newIndex = EditorGUILayout.DelayedIntField ("Size", field.Count);
-					if (EditorGUI.EndChangeCheck())
+					if (EditorGUI.EndChangeCheck ())
 					{
 
 					}
@@ -331,7 +483,7 @@ namespace RPGCore.Unity.Editors
 			else if (field.Field.Type == "InputSocket")
 			{
 				EditorGUI.BeginChangeCheck ();
-				EditorGUILayout.LabelField (field.Name, field.GetValue<string> ());
+				EditorGUILayout.LabelField (field.Name, field.GetValue<LocalPropertyId> ().ToString ());
 				var renderPos = GUILayoutUtility.GetLastRect ();
 				field.ViewBag["Position"] = renderPos;
 				if (EditorGUI.EndChangeCheck ())
@@ -468,7 +620,7 @@ namespace RPGCore.Unity.Editors
 				return;
 			}
 
-			if (!HasEditor)
+			if (View.Session == null)
 			{
 				EditorGUI.LabelField (backgroundRect, "No Graph Selected", BehaviourGUIStyles.Instance.informationTextStyle);
 				return;
@@ -549,14 +701,8 @@ namespace RPGCore.Unity.Editors
 				}
 			}
 
-			if (GUILayout.Button (View.CurrentMode.ToString (), EditorStyles.toolbarButton, GUILayout.Width (100)))
+			if (GUILayout.Button (View.DescribeCurrentAction, EditorStyles.toolbarButton))
 			{
-			}
-			foreach (string node in View.Selection)
-			{
-				if (GUILayout.Button (node, EditorStyles.toolbarButton, GUILayout.Width (100)))
-				{
-				}
 			}
 
 			EditorGUILayout.EndHorizontal ();

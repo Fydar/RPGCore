@@ -13,12 +13,13 @@
         "Data": {
           "Hi": 0,
           "Goodbyte": false
-        }
+        },
+        "Elements": null
       },
       "Editor": {
         "Position": {
-          "x": -145,
-          "y": -123
+          "x": 186,
+          "y": 147
         }
       }
     },
@@ -31,12 +32,13 @@
         "Data": {
           "Hi": 0,
           "Goodbyte": false
-        }
+        },
+        "Elements": null
       },
       "Editor": {
         "Position": {
-          "x": -84,
-          "y": 63
+          "x": 186,
+          "y": 360
         }
       }
     },
@@ -48,8 +50,8 @@
       },
       "Editor": {
         "Position": {
-          "x": 157,
-          "y": -22
+          "x": 488,
+          "y": 263
         }
       }
     }

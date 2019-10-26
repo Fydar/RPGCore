@@ -18,8 +18,8 @@
       },
       "Editor": {
         "Position": {
-          "x": -36,
-          "y": 46
+          "x": 173,
+          "y": 193
         }
       }
     },
@@ -37,8 +37,8 @@
       },
       "Editor": {
         "Position": {
-          "x": -254,
-          "y": -34
+          "x": -47,
+          "y": 121
         }
       }
     },
@@ -56,34 +56,34 @@
       },
       "Editor": {
         "Position": {
-          "x": -254,
-          "y": 143
+          "x": 175,
+          "y": 392
         }
       }
     },
     "0a4f194f": {
       "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
-        "ValueA": "0a084c2c.Output",
-        "ValueB": "472c7ba2.Output"
+        "ValueA": "0xa53abfca.Output",
+        "ValueB": "0x0a084c2c.Output"
       },
       "Editor": {
         "Position": {
-          "x": 214,
-          "y": -123
+          "x": 470,
+          "y": 137
         }
       }
     },
     "0a16b3c6": {
       "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
-        "ValueA": "0a084c2c.Output",
-        "ValueB": "472c7ba2.Output"
+        "ValueA": "0x0a084c2c.Output",
+        "ValueB": "0x472c7ba2.Output"
       },
       "Editor": {
         "Position": {
-          "x": 218,
-          "y": 79
+          "x": 469,
+          "y": 333
         }
       }
     }
