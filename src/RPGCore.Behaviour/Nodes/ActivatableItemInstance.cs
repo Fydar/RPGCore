@@ -17,7 +17,7 @@ namespace RPGCore.Behaviour
 		{
 			public Output<int> Output;
 
-			public override void Setup (IGraphInstance graph, Actor target)
+			public override void Setup (IGraphInstance graph)
 			{
 
 			}

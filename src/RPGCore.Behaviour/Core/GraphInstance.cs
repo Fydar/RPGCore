@@ -74,13 +74,13 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Setup (Actor target)
+		public void Setup ()
 		{
 			int nodeCount = graph.Nodes.Length;
 			for (int i = 0; i < nodeCount; i++)
 			{
 				currentNode = nodeInstances[i];
-				graph.Nodes[i].Setup (this, currentNode, target);
+				graph.Nodes[i].Setup (this, currentNode);
 			}
 		}
 
@@ -299,6 +299,14 @@ namespace RPGCore.Behaviour
 				{
 					yield return (T)instance;
 				}
+			}
+		}
+
+		public void SetInput<T> (T input)
+		{
+			foreach (var node in GetNodeInstances<IInputNode<T>>())
+			{
+				node.OnReceiveInput (input);
 			}
 		}
 	}

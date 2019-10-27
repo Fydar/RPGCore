@@ -49,7 +49,7 @@ namespace RPGCore.Behaviour
 			}
 
 			var editor = new EditorSession (manifest, editorTarget, "SerializedGraph", serializer);
-			
+
 			foreach (var node in editor.Root["Nodes"])
 			{
 				var nodeData = node["Data"];
@@ -73,9 +73,12 @@ namespace RPGCore.Behaviour
 			}
 
 			using (var file = editorTargetResource.WriteStream ())
+			using (var jsonWriter = new JsonTextWriter (file)
 			{
-				serializer.Serialize (new JsonTextWriter (file)
-				{ Formatting = Formatting.Indented }, editorTarget);
+				Formatting = Formatting.Indented
+			})
+			{
+				serializer.Serialize (jsonWriter, editorTarget);
 			}
 
 			Console.WriteLine (new DirectoryInfo ("Content/Temp").FullName);
@@ -116,9 +119,10 @@ namespace RPGCore.Behaviour
 
 			Console.WriteLine ("Running Simulation...");
 
-			var player = new Actor ();
+			var player = new DemoPlayer ();
 
-			IBehaviour instancedItem = unpackedGraph.Setup (player);
+			IGraphInstance instancedItem = unpackedGraph.Setup ();
+			instancedItem.SetInput (player);
 			for (int i = 0; i < 5; i++)
 			{
 				Thread.Sleep (100);
@@ -133,7 +137,8 @@ namespace RPGCore.Behaviour
 			var deserialized = JsonConvert.DeserializeObject<SerializedGraphInstance> (serializedGraph);
 			var unpackedInstance = deserialized.Unpack (unpackedGraph);
 
-			unpackedInstance.Setup (player);
+			unpackedInstance.Setup ();
+			unpackedInstance.SetInput (player);
 			for (int i = 0; i < 5; i++)
 			{
 				Thread.Sleep (100);

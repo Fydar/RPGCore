@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RPGCore.Behaviour
+﻿namespace RPGCore.Behaviour
 {
 	public sealed class AddNode : Node<AddNode, AddNode.AddInstance>
 	{
@@ -22,28 +20,15 @@ namespace RPGCore.Behaviour
 
 		public override AddInstance Create () => new AddInstance ();
 
-		public sealed class AddInstance : Instance
+		public class AddInstance : Instance
 		{
 			public Input<float> ValueA;
 			public Input<float> ValueB;
 
 			public Output<float> Output;
 
-			private Actor Target;
-
-			public override void Setup (IGraphInstance graph, Actor target)
+			public override void Setup (IGraphInstance graph)
 			{
-				Target = target;
-
-				ValueA.OnAfterChanged += Log;
-				ValueB.OnAfterChanged += Log;
-				target.Health.Handlers[this] += new LogOnChanged (this);
-
-				Console.ForegroundColor = ConsoleColor.Green;
-				Console.WriteLine ($"StatsNode: Setup Behaviour on {target}");
-
-				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (ValueA)}");
-				Console.WriteLine ($"StatsNode: Connected to {graph.GetSource (ValueB)}");
 			}
 
 			public override void OnInputChanged ()
@@ -53,44 +38,6 @@ namespace RPGCore.Behaviour
 
 			public override void Remove ()
 			{
-				Target.Health.Handlers[this].Clear ();
-				ValueA.OnAfterChanged -= Log;
-				ValueB.OnAfterChanged -= Log;
-
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine ($"StatsNode: Removed Behaviour on {Target}");
-			}
-
-			private struct LogOnChanged : IEventFieldHandler
-			{
-				public AddInstance Meta;
-
-				public LogOnChanged (AddInstance meta)
-				{
-					Meta = meta;
-				}
-
-				public void OnBeforeChanged ()
-				{
-
-				}
-
-				public void OnAfterChanged ()
-				{
-					Console.ForegroundColor = ConsoleColor.Gray;
-					Console.WriteLine ("StatsNode: Damaged on " + (Meta.ValueA.Value + Meta.ValueB.Value).ToString () + " on " + Meta.Target);
-				}
-
-				public void Dispose ()
-				{
-
-				}
-			}
-
-			private void Log ()
-			{
-				Console.ForegroundColor = ConsoleColor.Gray;
-				Console.WriteLine ("StatsNode: New value of " + (ValueA.Value + ValueB.Value).ToString () + " on " + Target);
 			}
 		}
 	}

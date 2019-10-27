@@ -12,24 +12,6 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-	public class NodeFeature
-	{
-		public Rect LastRenderedPosition;
-	}
-
-	public class FieldFeature
-	{
-		public bool Expanded;
-		public Rect GlobalRenderedPosition;
-		public Rect LocalRenderedPosition;
-
-		public Rect InputSocketPosition => new Rect (GlobalRenderedPosition)
-		{
-			xMax = GlobalRenderedPosition.xMin,
-			xMin = GlobalRenderedPosition.xMin - GlobalRenderedPosition.height
-		};
-	}
-
 	public class BehaviourEditor : EditorWindow
 	{
 		public BehaviourEditorView View;
@@ -194,8 +176,6 @@ namespace RPGCore.Unity.Editors
 				// Foreach output
 				foreach (var node in graphEditorNodes)
 				{
-					var nodeFeature = node.GetOrCreateFeature<NodeFeature> ();
-
 					var nodeEditor = node["Editor"];
 					var nodeEditorPosition = nodeEditor["Position"];
 

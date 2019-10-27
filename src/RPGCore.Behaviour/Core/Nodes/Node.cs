@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public abstract Type InstanceType { get; }
 		public abstract INodeInstance CreateInstance ();
-		public abstract void Setup (IGraphInstance graph, INodeInstance metadata, Actor target);
+		public abstract void Setup (IGraphInstance graph, INodeInstance metadata);
 
 		public abstract InputMap[] Inputs (IGraphConnections graph, INodeInstance instance);
 		public abstract OutputMap[] Outputs (IGraphConnections graph, INodeInstance instance);
@@ -30,7 +30,7 @@ namespace RPGCore.Behaviour
 
 			public abstract void OnInputChanged ();
 			public abstract void Remove ();
-			public abstract void Setup (IGraphInstance graph, Actor target);
+			public abstract void Setup (IGraphInstance graph);
 		}
 
 		public override Type InstanceType => typeof (TInstance);
@@ -51,12 +51,12 @@ namespace RPGCore.Behaviour
 			return Outputs (graph, (TInstance)instance);
 		}
 
-		public sealed override void Setup (IGraphInstance graph, INodeInstance metadata, Actor target)
+		public sealed override void Setup (IGraphInstance graph, INodeInstance metadata)
 		{
 			var instance = (Instance)metadata;
 			instance.Node = (TNode)this;
 
-			metadata.Setup (graph, target);
+			metadata.Setup (graph);
 		}
 	}
 }

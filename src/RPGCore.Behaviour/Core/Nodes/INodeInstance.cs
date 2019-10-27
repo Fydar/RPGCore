@@ -5,7 +5,7 @@
 		Node Node { get; }
 
 		void OnInputChanged ();
-		void Setup (IGraphInstance graph, Actor target);
+		void Setup (IGraphInstance graph);
 		void Remove ();
 	}
 }

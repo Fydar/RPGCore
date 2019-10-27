@@ -2,13 +2,13 @@
 
 namespace RPGCore.Behaviour
 {
-	public class Actor
+	public class DemoPlayer
 	{
 		public List<INodeInstance> behaviours;
 
 		public EventField<int> Health;
 
-		public Actor ()
+		public DemoPlayer ()
 		{
 			behaviours = new List<INodeInstance> ();
 			Health = new EventField<int>
