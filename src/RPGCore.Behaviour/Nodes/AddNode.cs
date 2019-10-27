@@ -9,13 +9,13 @@
 
 		public override InputMap[] Inputs (IGraphConnections graph, AddInstance instance) => new[]
 		{
-			graph.Connect(ref ValueA, ref instance.ValueA),
-			graph.Connect(ref ValueB, ref instance.ValueB)
+			graph.Connect (ref ValueA, ref instance.ValueA),
+			graph.Connect (ref ValueB, ref instance.ValueB)
 		};
 
 		public override OutputMap[] Outputs (IGraphConnections graph, AddInstance instance) => new[]
 		{
-			graph.Connect(ref Output, ref instance.Output)
+			graph.Connect (ref Output, ref instance.Output)
 		};
 
 		public override AddInstance Create () => new AddInstance ();

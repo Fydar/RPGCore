@@ -14,7 +14,7 @@ namespace RPGCore.Behaviour
 	{
 		public void Start ()
 		{
-			var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode) });
+			var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode), typeof(OutputValueNode) });
 			var types = TypeManifest.ConstructBaseTypes ();
 
 			var manifest = new BehaviourManifest ()

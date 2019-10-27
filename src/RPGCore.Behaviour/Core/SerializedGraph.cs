@@ -16,10 +16,9 @@ namespace RPGCore.Behaviour
 			var nodes = new List<Node> (Nodes.Count);
 
 			var connectionIds = new List<LocalPropertyId> ();
-			int outputCounter = -1;
 			foreach (var nodeKvp in Nodes)
 			{
-				nodes.Add (nodeKvp.Value.UnpackInputs (nodeKvp.Key, connectionIds, ref outputCounter));
+				nodes.Add (nodeKvp.Value.UnpackInputs (nodeKvp.Key, connectionIds));
 			}
 
 			foreach (var node in nodes)

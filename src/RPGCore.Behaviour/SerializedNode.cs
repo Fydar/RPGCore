@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node UnpackInputs (LocalId id, List<LocalPropertyId> connectionIds, ref int outputCounter)
+		public Node UnpackInputs (LocalId id, List<LocalPropertyId> connectionIds)
 		{
 			var nodeType = System.Type.GetType (Type);
 

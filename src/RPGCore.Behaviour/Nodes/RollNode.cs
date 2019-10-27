@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 
 		public override OutputMap[] Outputs (IGraphConnections graph, RollInstance instance) => new[]
 		{
-			graph.Connect(ref Output, ref instance.Output),
+			graph.Connect (ref Output, ref instance.Output),
 		};
 
 		public override RollInstance Create () => new RollInstance ();
