@@ -12,6 +12,24 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
+	public class NodeFeature
+	{
+		public Rect LastRenderedPosition;
+	}
+
+	public class FieldFeature
+	{
+		public bool Expanded;
+		public Rect GlobalRenderedPosition;
+		public Rect LocalRenderedPosition;
+
+		public Rect InputSocketPosition => new Rect (GlobalRenderedPosition)
+		{
+			xMax = GlobalRenderedPosition.xMin,
+			xMin = GlobalRenderedPosition.xMin - GlobalRenderedPosition.height
+		};
+	}
+
 	public class BehaviourEditor : EditorWindow
 	{
 		public BehaviourEditorView View;
@@ -62,7 +80,15 @@ namespace RPGCore.Unity.Editors
 
 			DrawBackground (ScreenRect, View.PanPosition);
 			DrawTopBar ();
+			DrawAssetSelection ();
 
+			DrawNodes ();
+			DrawConnections ();
+			HandleInput ();
+		}
+
+		private void DrawAssetSelection ()
+		{
 			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField (CurrentPackage, typeof (ProjectImport), true);
 			if (CurrentPackage != null)
 			{
@@ -101,11 +127,6 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 			}
-
-			DrawNodes ();
-			DrawConnections ();
-
-			HandleInput ();
 		}
 
 		private void DrawNodes ()
@@ -127,7 +148,7 @@ namespace RPGCore.Unity.Editors
 						180
 					);
 
-					if (Event.current.type == EventType.Repaint)
+					if (CurrentEvent.type == EventType.Repaint)
 					{
 						GUI.skin.window.Draw (nodeRect,
 							false, View.Selection.Contains (node.Name), false, false);
@@ -146,9 +167,9 @@ namespace RPGCore.Unity.Editors
 
 					GUILayout.EndArea ();
 
-					if (Event.current.type == EventType.MouseDown)
+					if (CurrentEvent.type == EventType.MouseDown)
 					{
-						if (nodeRect.Contains (Event.current.mousePosition))
+						if (nodeRect.Contains (CurrentEvent.mousePosition))
 						{
 							View.Selection.Clear ();
 							View.Selection.Add (node.Name);
@@ -157,7 +178,7 @@ namespace RPGCore.Unity.Editors
 							GUI.UnfocusWindow ();
 							GUI.FocusControl ("");
 
-							Event.current.Use ();
+							CurrentEvent.Use ();
 						}
 					}
 				}
@@ -173,6 +194,8 @@ namespace RPGCore.Unity.Editors
 				// Foreach output
 				foreach (var node in graphEditorNodes)
 				{
+					var nodeFeature = node.GetOrCreateFeature<NodeFeature> ();
+
 					var nodeEditor = node["Editor"];
 					var nodeEditorPosition = nodeEditor["Position"];
 
@@ -190,7 +213,7 @@ namespace RPGCore.Unity.Editors
 						{
 							EditorStyles.helpBox.Draw (outputRect, false, false, false, false);
 						}
-						else if (CurrentEvent.type == EventType.MouseDown && outputRect.Contains (Event.current.mousePosition))
+						else if (CurrentEvent.type == EventType.MouseDown && outputRect.Contains (CurrentEvent.mousePosition))
 						{
 							var outputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
 							View.BeginConnectionFromOutput (outputId);
@@ -198,9 +221,9 @@ namespace RPGCore.Unity.Editors
 							GUI.UnfocusWindow ();
 							GUI.FocusControl ("");
 
-							Event.current.Use ();
+							CurrentEvent.Use ();
 						}
-						else if (CurrentEvent.type == EventType.MouseUp && outputRect.Contains (Event.current.mousePosition))
+						else if (CurrentEvent.type == EventType.MouseUp && outputRect.Contains (CurrentEvent.mousePosition))
 						{
 							if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
 							{
@@ -215,7 +238,7 @@ namespace RPGCore.Unity.Editors
 									GUI.UnfocusWindow ();
 									GUI.FocusControl ("");
 
-									Event.current.Use ();
+									CurrentEvent.Use ();
 								}
 							}
 						}
@@ -228,27 +251,21 @@ namespace RPGCore.Unity.Editors
 					{
 						if (childField.Field.Type == "InputSocket")
 						{
-							object renderPosObject;
-							var renderPos = new Rect ();
-							if (childField.ViewBag.TryGetValue ("Position", out renderPosObject))
-							{
-								renderPos = (Rect)renderPosObject;
-							}
+							var fieldFeature = childField.GetOrCreateFeature<FieldFeature> ();
 
-							renderPos.x += nodePositionX;
-							renderPos.y += nodePositionY;
+							fieldFeature.GlobalRenderedPosition = new Rect (
+								fieldFeature.LocalRenderedPosition.x + nodePositionX,
+								fieldFeature.LocalRenderedPosition.y + nodePositionY,
+								fieldFeature.LocalRenderedPosition.width,
+								fieldFeature.LocalRenderedPosition.height);
 
-							var socketRect = new Rect (renderPos)
-							{
-								xMax = renderPos.xMin,
-								xMin = renderPos.xMin - renderPos.height
-							};
+							var socketRect = fieldFeature.InputSocketPosition;
 
 							if (CurrentEvent.type == EventType.Repaint)
 							{
 								EditorStyles.helpBox.Draw (socketRect, false, false, false, false);
 							}
-							else if (CurrentEvent.type == EventType.MouseDown && socketRect.Contains (Event.current.mousePosition))
+							else if (CurrentEvent.type == EventType.MouseDown && socketRect.Contains (CurrentEvent.mousePosition))
 							{
 								var thisInputId = new LocalPropertyId (new LocalId (node.Name), childField.Name);
 
@@ -257,9 +274,9 @@ namespace RPGCore.Unity.Editors
 								GUI.UnfocusWindow ();
 								GUI.FocusControl ("");
 
-								Event.current.Use ();
+								CurrentEvent.Use ();
 							}
-							else if (CurrentEvent.type == EventType.MouseUp && socketRect.Contains (Event.current.mousePosition))
+							else if (CurrentEvent.type == EventType.MouseUp && socketRect.Contains (CurrentEvent.mousePosition))
 							{
 								if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
 								{
@@ -272,7 +289,7 @@ namespace RPGCore.Unity.Editors
 										GUI.UnfocusWindow ();
 										GUI.FocusControl ("");
 
-										Event.current.Use ();
+										CurrentEvent.Use ();
 									}
 								}
 							}
@@ -315,7 +332,7 @@ namespace RPGCore.Unity.Editors
 								if (foundNode)
 								{
 									var start = new Vector3 (otherOutputRect.x, otherOutputRect.center.y);
-									var end = new Vector3 (renderPos.x, renderPos.center.y);
+									var end = new Vector3 (fieldFeature.GlobalRenderedPosition.x, fieldFeature.GlobalRenderedPosition.center.y);
 									var startDir = new Vector3 (1, 0);
 									var endDir = new Vector3 (-1, 0);
 
@@ -377,14 +394,9 @@ namespace RPGCore.Unity.Editors
 					}
 					else
 					{
-						object renderPosObject;
-						var renderPos = new Rect ();
-						if (View.ConnectionInput.ViewBag.TryGetValue ("Position", out renderPosObject))
-						{
-							renderPos = (Rect)renderPosObject;
-						}
+						var startFieldFeature = View.ConnectionInput.GetOrCreateFeature<FieldFeature> ();
 
-						var inputNode = graphEditorNodes[View.ConnectionInputNodeId.ToString()];
+						var inputNode = graphEditorNodes[View.ConnectionInputNodeId.ToString ()];
 						var nodeEditor = inputNode["Editor"];
 						var nodeEditorPosition = nodeEditor["Position"];
 
@@ -393,14 +405,7 @@ namespace RPGCore.Unity.Editors
 
 						var nodeData = inputNode["Data"];
 
-						renderPos.x += nodePositionX;
-						renderPos.y += nodePositionY;
-
-						var socketRect = new Rect (renderPos)
-						{
-							xMax = renderPos.xMin,
-							xMin = renderPos.xMin - renderPos.height
-						};
+						var socketRect = startFieldFeature.InputSocketPosition;
 
 						var start = new Vector3 (CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
 						var end = new Vector3 (socketRect.xMax, socketRect.center.y);
@@ -426,13 +431,11 @@ namespace RPGCore.Unity.Editors
 			// EditorGUILayout.LabelField(field.Json.Path);
 			if (field.Field.Format == FieldFormat.List)
 			{
-				object expandedObject;
-				field.ViewBag.TryGetValue ("Expanded", out expandedObject);
-				bool expanded = expandedObject == null ? false : (bool)expandedObject;
-				expanded = EditorGUILayout.Foldout (expanded, field.Name, true);
-				field.ViewBag["Expanded"] = expanded;
+				var fieldFeature = field.GetOrCreateFeature<FieldFeature> ();
 
-				if (expanded)
+				fieldFeature.Expanded = EditorGUILayout.Foldout (fieldFeature.Expanded, field.Name, true);
+
+				if (fieldFeature.Expanded)
 				{
 					EditorGUI.indentLevel++;
 
@@ -482,10 +485,12 @@ namespace RPGCore.Unity.Editors
 			}
 			else if (field.Field.Type == "InputSocket")
 			{
+				var fieldFeature = field.GetOrCreateFeature<FieldFeature> ();
+
 				EditorGUI.BeginChangeCheck ();
 				EditorGUILayout.LabelField (field.Name, field.GetValue<LocalPropertyId> ().ToString ());
 				var renderPos = GUILayoutUtility.GetLastRect ();
-				field.ViewBag["Position"] = renderPos;
+				fieldFeature.LocalRenderedPosition = renderPos;
 				if (EditorGUI.EndChangeCheck ())
 				{
 					//field.Json.Value = newValue;
@@ -506,13 +511,11 @@ namespace RPGCore.Unity.Editors
 			}
 			else if (field.Field.Format == FieldFormat.Object)
 			{
-				object expandedObject;
-				field.ViewBag.TryGetValue ("Expanded", out expandedObject);
-				bool expanded = expandedObject == null ? false : (bool)expandedObject;
-				expanded = EditorGUILayout.Foldout (expanded, field.Name, true);
-				field.ViewBag["Expanded"] = expanded;
+				var fieldFeature = field.GetOrCreateFeature<FieldFeature> ();
 
-				if (expanded)
+				fieldFeature.Expanded = EditorGUILayout.Foldout (fieldFeature.Expanded, field.Name, true);
+
+				if (fieldFeature.Expanded)
 				{
 					EditorGUI.indentLevel++;
 					foreach (var childField in field)
@@ -615,7 +618,7 @@ namespace RPGCore.Unity.Editors
 
 		private void DrawBackground (Rect backgroundRect, Vector2 viewPosition)
 		{
-			if (Event.current.type == EventType.MouseMove)
+			if (CurrentEvent.type == EventType.MouseMove)
 			{
 				return;
 			}

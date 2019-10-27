@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour.Manifest;
 using System.Collections;
@@ -58,12 +57,11 @@ namespace RPGCore.Behaviour.Editor
 		public string Name;
 		public FieldInformation Field;
 		public TypeInformation Type;
-
 		public EditorSession Session;
-		public Dictionary<object, object> ViewBag = new Dictionary<object, object> ();
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private readonly Dictionary<string, EditorField> Children;
+		private readonly List<object> Features;
 		private JToken Json;
 		private IQueuedItem Queued;
 
@@ -71,22 +69,22 @@ namespace RPGCore.Behaviour.Editor
 
 		public EditorField this[string key] => Children[key];
 
-		public EditorField (EditorSession session, JToken json, string name, FieldInformation info)
+		public EditorField (EditorSession session, JToken json, string name, FieldInformation field)
 		{
+			Children = new Dictionary<string, EditorField> ();
+			Features = new List<object> ();
+
 			Session = session;
 			Name = name;
-			Field = info;
+			Field = field;
 			Json = json;
-
-			Type = session.Manifest.GetTypeInformation (info.Type);
+			Type = session.Manifest.GetTypeInformation (field.Type);
 
 			if (Json.Type == JTokenType.Object
 				&& Field?.Format != FieldFormat.Dictionary)
 			{
 				PopulateMissing ((JObject)Json, Type);
 			}
-
-			Children = new Dictionary<string, EditorField> ();
 			if (Field.Format == FieldFormat.Dictionary)
 			{
 				if (Json.Type != JTokenType.Null)
@@ -113,11 +111,11 @@ namespace RPGCore.Behaviour.Editor
 			}
 			else if (Type.Fields != null)
 			{
-				foreach (var field in Type.Fields)
+				foreach (var childField in Type.Fields)
 				{
-					var property = Json[field.Key];
+					var property = Json[childField.Key];
 
-					if (field.Value.Type == "JObject")
+					if (childField.Value.Type == "JObject")
 					{
 						var type = Json["Type"];
 
@@ -126,20 +124,48 @@ namespace RPGCore.Behaviour.Editor
 							Type = type.ToObject<string> (),
 							Format = FieldFormat.Object,
 
-							Attributes = field.Value.Attributes,
-							DefaultValue = field.Value.DefaultValue,
-							Description = field.Value.Description,
-							ValueFormat = field.Value.ValueFormat
+							Attributes = childField.Value.Attributes,
+							DefaultValue = childField.Value.DefaultValue,
+							Description = childField.Value.Description,
+							ValueFormat = childField.Value.ValueFormat
 						};
 
-						Children.Add (field.Key, new EditorField (Session, property, field.Key, genericField));
+						Children.Add (childField.Key, new EditorField (Session, property, childField.Key, genericField));
 					}
 					else
 					{
-						Children.Add (field.Key, new EditorField (Session, property, field.Key, field.Value));
+						Children.Add (childField.Key, new EditorField (Session, property, childField.Key, childField.Value));
 					}
 				}
 			}
+		}
+
+		public T GetFeature<T> ()
+			where T : class
+		{
+			var getFeatureType = typeof (T);
+			foreach (object feature in Features)
+			{
+				var featureType = feature.GetType ();
+				if (getFeatureType.IsAssignableFrom (featureType))
+				{
+					return (T)feature;
+				}
+			}
+			return null;
+		}
+
+		public T GetOrCreateFeature<T> ()
+			where T : class, new()
+		{
+			var feature = GetFeature<T> ();
+
+			if (feature == null)
+			{
+				feature = new T ();
+				Features.Add (feature);
+			}
+			return feature;
 		}
 
 		public void SetValue<T> (T value)
@@ -210,43 +236,6 @@ namespace RPGCore.Behaviour.Editor
 					serialized.Add (field.Key, field.Value.DefaultValue);
 				}
 			}
-		}
-	}
-
-	public class EditorSession
-	{
-		public BehaviourManifest Manifest;
-		public EditorField Root;
-		public JObject Instance;
-		public JsonSerializer JsonSerializer;
-
-		public EditorSession (BehaviourManifest manifest, object instance, JsonSerializer jsonSerializer)
-		{
-			Manifest = manifest;
-			JsonSerializer = jsonSerializer;
-
-			var rootJson = JObject.FromObject (instance, JsonSerializer);
-			string type = instance.GetType ().FullName;
-			Instance = rootJson;
-
-			var rootField = new FieldInformation ()
-			{
-				Type = type
-			};
-			Root = new EditorField (this, rootJson, "root", rootField);
-		}
-
-		public EditorSession (BehaviourManifest manifest, JObject instance, string type, JsonSerializer jsonSerializer)
-		{
-			Manifest = manifest;
-			JsonSerializer = jsonSerializer;
-			Instance = instance;
-
-			var rootField = new FieldInformation ()
-			{
-				Type = type
-			};
-			Root = new EditorField (this, instance, "root", rootField);
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace RPGCore.Behaviour.Manifest
 		public Dictionary<string, SocketInformation> Inputs;
 		public Dictionary<string, SocketInformation> Outputs;
 
-		public static NodeInformation Construct (Type nodeType)
+		public static NodeInformation ConstructNodeInformation (Type nodeType)
 		{
 			var nodeInformation = new NodeInformation ();
 
@@ -42,7 +42,7 @@ namespace RPGCore.Behaviour.Manifest
 						inputId++;
 						inputSocketFields.Add (field);
 					}
-					fieldInfos.Add (field.Name, FieldInformation.Construct (field, nodeTemplate));
+					fieldInfos.Add (field.Name, FieldInformation.ConstructFieldInformation (field, nodeTemplate));
 				}
 			}
 			nodeInformation.Fields = fieldInfos;

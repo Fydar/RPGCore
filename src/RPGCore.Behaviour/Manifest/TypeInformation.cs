@@ -74,7 +74,7 @@ namespace RPGCore.Behaviour.Manifest
 						continue;
 					}
 
-					fieldInfos.Add (field.Name, FieldInformation.Construct (field, defaultInstance));
+					fieldInfos.Add (field.Name, FieldInformation.ConstructFieldInformation (field, defaultInstance));
 				}
 				typeInformation.Fields = fieldInfos;
 			}
