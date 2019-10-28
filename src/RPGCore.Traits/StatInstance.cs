@@ -1,8 +1,6 @@
-﻿using System.Reflection;
-
-namespace RPGCore.Traits
+﻿namespace RPGCore.Traits
 {
-	public class StatInstance : IFixedElement, ITemplatedElement<StatTemplate>
+	public class StatInstance
 	{
 		public float CurrentValue;
 
@@ -10,11 +8,6 @@ namespace RPGCore.Traits
 		public string Identifier { get; set; }
 
 		public StatTemplate Template;
-
-		public void SetTemplate(StatTemplate template)
-		{
-			Template = template;
-		}
 
 		public override string ToString()
 		{
