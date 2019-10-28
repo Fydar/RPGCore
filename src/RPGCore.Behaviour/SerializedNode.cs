@@ -12,13 +12,11 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node UnpackInputs (LocalId id, List<LocalPropertyId> connectionIds)
+		public Node UnpackInputs (Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
 		{
-			var nodeType = System.Type.GetType (Type);
-
 			var jsonSerializer = new JsonSerializer ();
 
-			jsonSerializer.Converters.Add (new InputSocketConverter (connectionIds));
+			jsonSerializer.Converters.Add (new InputSocketConverter (validOutputs, connectionIds));
 			jsonSerializer.Converters.Add (new LocalIdJsonConverter ());
 			object nodeObject = Data.ToObject (nodeType, jsonSerializer);
 
@@ -45,6 +43,7 @@ namespace RPGCore.Behaviour
 
 	internal sealed class InputSocketConverter : JsonConverter
 	{
+		private readonly HashSet<LocalPropertyId> ValidOutputs;
 		private readonly List<LocalPropertyId> MappedInputs;
 
 		public override bool CanWrite => false;
@@ -54,8 +53,9 @@ namespace RPGCore.Behaviour
 			return (objectType == typeof (InputSocket));
 		}
 
-		public InputSocketConverter (List<LocalPropertyId> mappedInputs)
+		public InputSocketConverter (HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
 		{
+			ValidOutputs = validOutputs;
 			MappedInputs = mappedInputs;
 		}
 
@@ -72,6 +72,12 @@ namespace RPGCore.Behaviour
 			}
 
 			var inputSource = new LocalPropertyId (reader.Value.ToString ());
+
+			if (!ValidOutputs.Contains(inputSource))
+			{
+				Console.WriteLine ($"Ignoring desired input of \"{inputSource}\" as it is not valid.");
+				return new InputSocket ();
+			}
 
 			int connectionId = MappedInputs.IndexOf (inputSource);
 			if (connectionId == -1)
