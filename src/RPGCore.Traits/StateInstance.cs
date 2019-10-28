@@ -4,14 +4,7 @@
 	{
 		public float CurrentValue;
 
-		public string Name { get => null; set { } }
-		public string Identifier { get; set; }
-
+		public StateIdentifier Identifier { get; set; }
 		public StateTemplate Template;
-
-		public override string ToString ()
-		{
-			return Identifier;
-		}
 	}
 }

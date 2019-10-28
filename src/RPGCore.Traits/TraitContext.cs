@@ -9,5 +9,27 @@ namespace RPGCore.Traits
 	{
 		public Dictionary<StatIdentifier, StatTemplate> Stats;
 		public Dictionary<StateIdentifier, StateTemplate> States;
+
+		public StatTemplate this[StatIdentifier identifier]
+		{
+			get
+			{
+				if (Stats == null)
+					return null;
+
+				return Stats[identifier];
+			}
+		}
+
+		public StateTemplate this[StateIdentifier identifier]
+		{
+			get
+			{
+				if (States == null)
+					return null;
+
+				return States[identifier];
+			}
+		}
 	}
 }
