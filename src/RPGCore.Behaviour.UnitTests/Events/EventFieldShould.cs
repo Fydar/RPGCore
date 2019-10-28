@@ -51,12 +51,12 @@ namespace RPGCore.Behaviour.UnitTests
 		{
 			var target = new EventField<TestPlayer> ();
 
-			var mainhand = target.Watch ((e) => e?.Mainhand);
-			var mainhandDamage = mainhand.Watch ((e) => e?.Damage);
+			var mainhand = target.Watch (e => e?.Mainhand);
+			var mainhandDamage = mainhand.Watch (e => e?.Damage);
 
 			var damages = new List<int> ();
 
-			mainhandDamage.Handlers[this] += new AddToListEventHandler<int> (mainhandDamage, damages);
+			mainhandDamage.Handlers[this].Add(new AddToListEventHandler<int> (mainhandDamage, damages));
 
 			target.Value = new TestPlayer ()
 			{

@@ -2,10 +2,10 @@ namespace RPGCore.Behaviour
 {
 	public sealed class EventFieldMirrorHandler<T> : IEventFieldHandler
 	{
-		public EventField<T> SourceField;
+		public IEventField<T> SourceField;
 		public EventField<T> Target;
 
-		public EventFieldMirrorHandler (EventField<T> source, EventField<T> target)
+		public EventFieldMirrorHandler (IEventField<T> source, EventField<T> target)
 		{
 			SourceField = source;
 			Target = target;
