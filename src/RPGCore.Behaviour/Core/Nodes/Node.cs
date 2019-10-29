@@ -7,9 +7,6 @@ namespace RPGCore.Behaviour
 	{
 		[JsonIgnore]
 		public LocalId Id { get; set; }
-
-		[JsonIgnore]
-		public abstract Type InstanceType { get; }
 		public abstract INodeInstance CreateInstance ();
 		public abstract void Setup (IGraphInstance graph, INodeInstance metadata);
 
@@ -32,8 +29,6 @@ namespace RPGCore.Behaviour
 			public abstract void Remove ();
 			public abstract void Setup (IGraphInstance graph);
 		}
-
-		public override Type InstanceType => typeof (TInstance);
 
 		public abstract InputMap[] Inputs (IGraphConnections graph, TInstance instance);
 		public abstract OutputMap[] Outputs (IGraphConnections graph, TInstance instance);

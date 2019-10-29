@@ -7,7 +7,7 @@ namespace RPGCore.Behaviour
 {
 	public class HandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>, IDisposable
 	{
-		public struct ContextWrapped
+		public readonly struct ContextWrapped
 		{
 			private readonly IEventField Field;
 			private readonly object Context;

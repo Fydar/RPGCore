@@ -12,8 +12,10 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public List<IConnectionTypeConverter> Converters;
 
+		[JsonIgnore]
 		public int ConnectionId { get; }
 
+		[JsonIgnore]
 		public virtual Type ConnectionType => null;
 
 		public EventConnection (int connectionId)

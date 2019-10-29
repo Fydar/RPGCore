@@ -37,22 +37,25 @@ namespace RPGCore.Behaviour
 			int nodeCount = graph.Nodes.Length;
 			nodeInstances = new INodeInstance[nodeCount];
 
+			var serializer = new JsonSerializer ();
+			serializer.Converters.Add (new OutputConverter ());
+
 			// Map and create tokens
 			for (int i = 0; i < nodeCount; i++)
 			{
 				var node = graph.Nodes[i];
 
+				var instance = node.CreateInstance ();
+
 				if (data != null && data.TryGetValue (node.Id, out var instanceData))
 				{
-					var serializer = new JsonSerializer ();
-					serializer.Converters.Add (new OutputConverter ());
+					using (var sr = instanceData.CreateReader ())
+					{
+						serializer.Populate (sr, instance);
+					}
+				}
 
-					nodeInstances[i] = (INodeInstance)instanceData.ToObject (node.InstanceType, serializer);
-				}
-				else
-				{
-					nodeInstances[i] = node.CreateInstance ();
-				}
+				nodeInstances[i] = instance;
 			}
 
 			connections = new IConnection[graph.ConnectionsCount];
@@ -280,7 +283,7 @@ namespace RPGCore.Behaviour
 			{
 				var instance = nodeInstances[i];
 
-				if (typeof(T).IsAssignableFrom(instance.GetType()))
+				if (typeof (T).IsAssignableFrom (instance.GetType ()))
 				{
 					return (T)instance;
 				}
@@ -304,7 +307,7 @@ namespace RPGCore.Behaviour
 
 		public void SetInput<T> (T input)
 		{
-			foreach (var node in GetNodeInstances<IInputNode<T>>())
+			foreach (var node in GetNodeInstances<IInputNode<T>> ())
 			{
 				node.OnReceiveInput (input);
 			}

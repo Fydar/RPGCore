@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 
 namespace RPGCore.Behaviour
@@ -21,10 +22,13 @@ namespace RPGCore.Behaviour
 			}
 		}
 
+		[JsonIgnore]
 		public override Type ConnectionType => typeof (T);
 
+		[JsonIgnore]
 		public HandlerCollection Handlers { get; }
 
+		[JsonIgnore]
 		public IReadOnlyEventField<T> Mirroring { get; private set; }
 
 		private EventFieldMirrorHandler<T> MirrorHandler;
