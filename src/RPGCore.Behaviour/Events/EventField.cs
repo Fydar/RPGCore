@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
 	public class EventField<T> : IEventField<T>, IDisposable
 	{
+		[JsonIgnore]
 		public HandlerCollection Handlers { get; set; }
 		public Action OnBeforeChanged;
 		public Action OnAfterChanged;
@@ -30,6 +32,12 @@ namespace RPGCore.Behaviour
 		public EventField ()
 		{
 			Handlers = new HandlerCollection (this);
+		}
+
+		public EventField (T value)
+			: this ()
+		{
+			InternalValue = value;
 		}
 
 		public void Dispose ()

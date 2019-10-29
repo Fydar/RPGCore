@@ -14,13 +14,47 @@ namespace RPGCore.Behaviour
 			get => GenericValue;
 			set
 			{
-				Handlers.InvokeBeforeChanged ();
-				GenericValue = value;
-				Handlers.InvokeAfterChanged ();
+				if (!BufferEventsInternal)
+				{
+					Handlers.InvokeBeforeChanged ();
+					GenericValue = value;
+					Handlers.InvokeAfterChanged ();
 
-				InvokeAfterChanged ();
+					InvokeAfterChanged ();
+				}
+				else
+				{
+					Buffer = value;
+					BufferUsed = true;
+				}
 			}
 		}
+
+		private bool BufferUsed;
+		private T Buffer;
+
+		[JsonIgnore]
+		public override bool BufferEvents
+		{
+			get
+			{
+				return BufferEventsInternal;
+			}
+			set
+			{
+				if (BufferEventsInternal && !value)
+				{
+					if (BufferUsed)
+					{
+						BufferEventsInternal = value;
+						Value = Buffer;
+						BufferUsed = false;
+					}
+				}
+				BufferEventsInternal = value;
+			}
+		}
+		private bool BufferEventsInternal;
 
 		[JsonIgnore]
 		public override Type ConnectionType => typeof (T);

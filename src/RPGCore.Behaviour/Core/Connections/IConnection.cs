@@ -10,6 +10,9 @@ namespace RPGCore.Behaviour
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		Type ConnectionType { get; }
 
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		bool BufferEvents { get; set; }
+
 		void RegisterConverter (IConnectionTypeConverter converter);
 		void RegisterInput (INodeInstance node);
 		void Subscribe (INodeInstance node, Action callback);
@@ -19,6 +22,7 @@ namespace RPGCore.Behaviour
 	public interface IConnection<T> : IConnection, IEventField<T>
 	{
 		IReadOnlyEventField<T> Mirroring { get; }
+
 		void StartMirroring (IReadOnlyEventField<T> target);
 		void StopMirroring ();
 	}

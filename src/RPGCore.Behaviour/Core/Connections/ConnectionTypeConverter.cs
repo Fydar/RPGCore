@@ -26,6 +26,8 @@ namespace RPGCore.Behaviour
 
 		public IReadOnlyEventField<TOutput> Mirroring => null;
 
+		public bool BufferEvents { get; set; }
+
 		public ConnectionTypeConverter ()
 		{
 		}

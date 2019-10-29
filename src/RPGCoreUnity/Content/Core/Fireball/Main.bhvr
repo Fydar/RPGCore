@@ -4,6 +4,18 @@
   "Type": null,
   "CustomData": null,
   "Nodes": {
+    "1749d7ac": {
+      "Type": "RPGCore.Behaviour.ItemInputNode",
+      "Data": {
+
+      },
+      "Editor": {
+        "Position": {
+          "x": 200,
+          "y": 372
+        }
+      }
+    },
     "0a084c2c": {
       "Type": "RPGCore.Behaviour.RollNode",
       "Data": {
@@ -26,17 +38,10 @@
         }
       }
     },
-    "472c7ba2": {
-      "Type": "RPGCore.Behaviour.RollNode",
+    "74bd14a0": {
+      "Type": "RPGCore.Behaviour.GetStatNode",
       "Data": {
-        "MinValue": 15,
-        "MaxValue": 35,
-        "TooltipFormat": "{0}",
-        "Data": {
-          "Hi": 0,
-          "Goodbyte": false
-        },
-        "Elements": null
+        "Character": "1749d7ac.Character"
       },
       "Editor": {
         "Position": {
@@ -48,13 +53,25 @@
     "0a4f194f": {
       "Type": "RPGCore.Behaviour.AddNode",
       "Data": {
-        "ValueB": "0x472c7ba2.Output",
-        "ValueA": "0a4f194f.ValueA"
+        "ValueB": "0a084c2c.Output",
+        "ValueA": "74bd14a0.Output"
       },
       "Editor": {
         "Position": {
           "x": 486,
           "y": 220
+        }
+      }
+    },
+    "472a7ba2": {
+      "Type": "RPGCore.Behaviour.OutputValueNode",
+      "Data": {
+        "Value": "0a4f194f.Output"
+      },
+      "Editor": {
+        "Position": {
+          "x": 160,
+          "y": 161
         }
       }
     }

@@ -79,11 +79,42 @@ namespace RPGCore.Behaviour
 
 		public void Setup ()
 		{
+			// Stop events from taking effect immediately.
+			foreach (var connection in connections)
+			{
+				connection.BufferEvents = true;
+			}
+
 			int nodeCount = graph.Nodes.Length;
+
+			// Start allowing events to fire
+			for (int i = 0; i < nodeCount; i++)
+			{
+				var nodeInstance = nodeInstances[i];
+				var nodeInputs = allInputs[i];
+
+				if (nodeInputs == null)
+				{
+					continue;
+				}
+
+				foreach (var input in nodeInputs)
+				{
+					connections[input.ConnectionId].RegisterInput (nodeInstance);
+				}
+			}
+
+			// Run node setup process
 			for (int i = 0; i < nodeCount; i++)
 			{
 				currentNode = nodeInstances[i];
 				graph.Nodes[i].Setup (this, currentNode);
+			}
+
+			// Release all buffered events.
+			foreach (var connection in connections)
+			{
+				connection.BufferEvents = false;
 			}
 		}
 

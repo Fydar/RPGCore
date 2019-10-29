@@ -18,6 +18,8 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public virtual Type ConnectionType => null;
 
+		public virtual bool BufferEvents { get; set; }
+
 		public EventConnection (int connectionId)
 		{
 			ConnectionId = connectionId;
