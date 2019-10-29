@@ -1,21 +1,22 @@
 namespace RPGCore.Behaviour
 {
-	public sealed class ActivatableItemNode : Node<ActivatableItemNode, ActivatableItemNode.ActivatableItemInstance>
+	public sealed class ActivatableItemNode : Node<ActivatableItemNode>
 	{
 		public OutputSocket Output = new OutputSocket ();
 
-		public override InputMap[] Inputs (IGraphConnections graph, ActivatableItemInstance instance) => null;
 
-		public override OutputMap[] Outputs (IGraphConnections graph, ActivatableItemInstance instance) => new[]
-		{
-			graph.Connect(ref Output, ref instance.Output),
-		};
-
-		public override ActivatableItemInstance Create () => new ActivatableItemInstance ();
+		public override INodeInstance Create () => new ActivatableItemInstance ();
 
 		public sealed class ActivatableItemInstance : Instance
 		{
 			public Output<int> Output;
+
+			public override InputMap[] Inputs (IGraphConnections graph, ActivatableItemNode node) => null;
+
+			public override OutputMap[] Outputs (IGraphConnections graph, ActivatableItemNode node) => new[]
+			{
+				graph.Connect(ref node.Output, ref Output),
+			};
 
 			public override void Setup (IGraphInstance graph)
 			{

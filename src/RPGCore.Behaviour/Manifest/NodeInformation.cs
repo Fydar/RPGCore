@@ -13,12 +13,15 @@ namespace RPGCore.Behaviour.Manifest
 		{
 			var nodeInformation = new NodeInformation ();
 
-			var typeDefinition = new Type[] { typeof (IGraphConnections), nodeType.BaseType.GenericTypeArguments[1] };
-			var inputsProperty = nodeType.GetMethod ("Inputs", typeDefinition);
-			var outputsProperty = nodeType.GetMethod ("Outputs", typeDefinition);
-
+			var typeDefinition = new Type[] { typeof (IGraphConnections), nodeType.BaseType.GenericTypeArguments[0] };
 			var nodeTemplate = (Node)Activator.CreateInstance (nodeType);
-			object metadataInstance = Activator.CreateInstance (typeDefinition[1]);
+			object metadataInstance = nodeTemplate.CreateInstance ();
+
+			var instanceType = metadataInstance.GetType ();
+
+			var inputsProperty = instanceType.GetMethod ("Inputs", typeDefinition);
+			var outputsProperty = instanceType.GetMethod ("Outputs", typeDefinition);
+
 			var singleNodeGraph = new ManifestCaptureGraphInstance (nodeTemplate);
 
 			int inputId = 0;
@@ -47,9 +50,9 @@ namespace RPGCore.Behaviour.Manifest
 			}
 			nodeInformation.Fields = fieldInfos;
 
-			object[] connectParameters = { singleNodeGraph, metadataInstance };
-			var inputsArray = (InputMap[])inputsProperty.Invoke (nodeTemplate, connectParameters);
-			var outputsArray = (OutputMap[])outputsProperty.Invoke (nodeTemplate, connectParameters);
+			object[] connectParameters = { singleNodeGraph, nodeTemplate };
+			var inputsArray = (InputMap[])inputsProperty.Invoke (metadataInstance, connectParameters);
+			var outputsArray = (OutputMap[])outputsProperty.Invoke (metadataInstance, connectParameters);
 
 			if (inputsArray != null)
 			{

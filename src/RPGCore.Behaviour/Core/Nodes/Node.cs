@@ -10,13 +10,12 @@ namespace RPGCore.Behaviour
 		public abstract INodeInstance CreateInstance ();
 		public abstract void Setup (IGraphInstance graph, INodeInstance metadata);
 
-		public abstract InputMap[] Inputs (IGraphConnections graph, INodeInstance instance);
-		public abstract OutputMap[] Outputs (IGraphConnections graph, INodeInstance instance);
+		internal abstract InputMap[] Inputs (IGraphConnections graph, INodeInstance instance);
+		internal abstract OutputMap[] Outputs (IGraphConnections graph, INodeInstance instance);
 	}
 
-	public abstract class Node<TNode, TInstance> : Node
-		where TNode : Node<TNode, TInstance>
-		where TInstance : Node<TNode, TInstance>.Instance
+	public abstract class Node<TNode> : Node
+		where TNode : Node<TNode>
 	{
 		public abstract class Instance : INodeInstance
 		{
@@ -28,22 +27,23 @@ namespace RPGCore.Behaviour
 			public virtual void OnInputChanged () { }
 			public abstract void Remove ();
 			public abstract void Setup (IGraphInstance graph);
+
+			public abstract InputMap[] Inputs (IGraphConnections graph, TNode node);
+			public abstract OutputMap[] Outputs (IGraphConnections graph, TNode node);
 		}
 
-		public abstract InputMap[] Inputs (IGraphConnections graph, TInstance instance);
-		public abstract OutputMap[] Outputs (IGraphConnections graph, TInstance instance);
-		public abstract TInstance Create ();
+		public abstract INodeInstance Create ();
 
 		public sealed override INodeInstance CreateInstance () => Create ();
 
-		public sealed override InputMap[] Inputs (IGraphConnections graph, INodeInstance instance)
+		internal sealed override InputMap[] Inputs (IGraphConnections graph, INodeInstance instance)
 		{
-			return Inputs (graph, (TInstance)instance);
+			return ((Instance)instance).Inputs (graph, (TNode)this);
 		}
 
-		public sealed override OutputMap[] Outputs (IGraphConnections graph, INodeInstance instance)
+		internal sealed override OutputMap[] Outputs (IGraphConnections graph, INodeInstance instance)
 		{
-			return Outputs (graph, (TInstance)instance);
+			return ((Instance)instance).Outputs (graph, (TNode)this);
 		}
 
 		public sealed override void Setup (IGraphInstance graph, INodeInstance metadata)

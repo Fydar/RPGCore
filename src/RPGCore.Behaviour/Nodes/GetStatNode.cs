@@ -1,28 +1,28 @@
 ﻿namespace RPGCore.Behaviour
 {
-	public sealed class GetStatNode : Node<GetStatNode, GetStatNode.GetStatInstance>
+	public sealed class GetStatNode : Node<GetStatNode>
 	{
 		public InputSocket Character;
 
 		public OutputSocket Output;
 
-		public override InputMap[] Inputs (IGraphConnections graph, GetStatInstance instance) => new[]
-		{
-			graph.Connect (ref Character, ref instance.Character),
-		};
-
-		public override OutputMap[] Outputs (IGraphConnections graph, GetStatInstance instance) => new[]
-		{
-			graph.Connect (ref Output, ref instance.Output)
-		};
-
-		public override GetStatInstance Create () => new GetStatInstance ();
+		public override INodeInstance Create () => new GetStatInstance ();
 
 		public class GetStatInstance : Instance
 		{
 			public Input<DemoPlayer> Character;
 
 			public Output<int> Output;
+
+			public override InputMap[] Inputs (IGraphConnections graph, GetStatNode node) => new[]
+			{
+				graph.Connect (ref node.Character, ref Character),
+			};
+
+			public override OutputMap[] Outputs (IGraphConnections graph, GetStatNode node) => new[]
+			{
+				graph.Connect (ref node.Output, ref Output)
+			};
 
 			public override void Setup (IGraphInstance graph)
 			{
