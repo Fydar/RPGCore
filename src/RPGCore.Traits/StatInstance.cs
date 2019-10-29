@@ -10,7 +10,7 @@ namespace RPGCore.Traits
 
 		public StatTemplate Template;
 
-		public HandlerCollection<float> Handlers { get; set; }
+		public HandlerCollection Handlers { get; set; }
 
 		public List<StatModifier> FlatBaseModifiers;
 
@@ -21,7 +21,7 @@ namespace RPGCore.Traits
 
 		public StatInstance ()
 		{
-			Handlers = new HandlerCollection<float> (this);
+			Handlers = new HandlerCollection (this);
 		}
 
 		public override string ToString ()

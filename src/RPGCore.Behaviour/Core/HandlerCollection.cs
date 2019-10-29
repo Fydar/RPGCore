@@ -5,14 +5,14 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public struct HandlerCollection<T> : IEnumerable<KeyValuePair<object, IEventFieldHandler>>, IDisposable
+	public class HandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>, IDisposable
 	{
 		public struct ContextWrapped
 		{
-			private readonly IEventField<T> Field;
+			private readonly IEventField Field;
 			private readonly object Context;
 
-			public ContextWrapped (IEventField<T> field, object context)
+			public ContextWrapped (IEventField field, object context)
 			{
 				Field = field;
 				Context = context;
@@ -35,12 +35,12 @@ namespace RPGCore.Behaviour
 		}
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		private readonly IEventField<T> Field;
+		private readonly IEventField Field;
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private readonly List<KeyValuePair<object, IEventFieldHandler>> InternalHandlers;
 
-		public HandlerCollection (IEventField<T> field)
+		public HandlerCollection (IEventField field)
 		{
 			Field = field;
 			InternalHandlers = new List<KeyValuePair<object, IEventFieldHandler>> ();

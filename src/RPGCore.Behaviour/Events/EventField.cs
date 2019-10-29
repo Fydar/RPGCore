@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
 	public class EventField<T> : IEventField<T>, IDisposable
 	{
-		public HandlerCollection<T> Handlers { get; set; }
+		public HandlerCollection Handlers { get; set; }
 		public Action OnBeforeChanged;
 		public Action OnAfterChanged;
 
-		private T internalValue;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private T InternalValue;
 
 		public T Value
 		{
-			get => internalValue;
+			get => InternalValue;
 			set
 			{
 				Handlers.InvokeBeforeChanged ();
 				OnBeforeChanged?.Invoke ();
 
-				internalValue = value;
+				InternalValue = value;
 
 				Handlers.InvokeAfterChanged ();
 				OnAfterChanged?.Invoke ();
@@ -27,7 +29,7 @@ namespace RPGCore.Behaviour
 
 		public EventField ()
 		{
-			Handlers = new HandlerCollection<T> (this);
+			Handlers = new HandlerCollection (this);
 		}
 
 		public void Dispose ()

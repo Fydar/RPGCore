@@ -1,8 +1,12 @@
 ﻿namespace RPGCore.Behaviour
 {
-	public interface IEventField<T>
+	public interface IEventField
 	{
-		HandlerCollection<T> Handlers { get; set; }
+		HandlerCollection Handlers { get; }
+	}
+
+	public interface IEventField<T> : IEventField
+	{
 		T Value { get; }
 	}
 }
