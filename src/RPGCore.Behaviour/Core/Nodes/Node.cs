@@ -28,7 +28,7 @@ namespace RPGCore.Behaviour
 
 			Node INodeInstance.Node => Node;
 
-			public abstract void OnInputChanged ();
+			public virtual void OnInputChanged () { }
 			public abstract void Remove ();
 			public abstract void Setup (IGraphInstance graph);
 		}

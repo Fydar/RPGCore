@@ -2,25 +2,29 @@
 
 namespace RPGCore.Behaviour
 {
-	public abstract class ConnectionTypeConverter<A, B> : IConnection<B>, IConnectionTypeConverter
+	public abstract class ConnectionTypeConverter<TInput, TOutput> : IConnection<TOutput>, IConnectionTypeConverter
 	{
 		public int ConnectionId => Source.ConnectionId;
 
-		public IConnection<A> Source;
+		public IConnection<TInput> Source;
 
-		public B Value
+		public TOutput Value
 		{
 			set => throw new InvalidOperationException ("Cannot read value of type converter");
 			get => Convert (Source.Value);
 		}
 
-		protected abstract B Convert (A original);
+		protected abstract TOutput Convert (TInput original);
 
 		public Type ConnectionType => Source.ConnectionType;
 
-		public Type ConvertFromType => typeof (A);
+		public Type ConvertFromType => typeof (TInput);
 
-		public Type ConvertToType => typeof (B);
+		public Type ConvertToType => typeof (TOutput);
+
+		public HandlerCollection Handlers => Source.Handlers;
+
+		public IReadOnlyEventField<TOutput> Mirroring => null;
 
 		public ConnectionTypeConverter ()
 		{
@@ -28,7 +32,7 @@ namespace RPGCore.Behaviour
 
 		public ConnectionTypeConverter (IConnection source)
 		{
-			Source = (IConnection<A>)source;
+			Source = (IConnection<TInput>)source;
 		}
 
 		public void Subscribe (INodeInstance node, Action callback) =>
@@ -39,11 +43,16 @@ namespace RPGCore.Behaviour
 
 		public void SetSource (IConnection source)
 		{
-			Source = (IConnection<A>)source;
+			Source = (IConnection<TInput>)source;
 		}
 
 		public void RegisterInput (INodeInstance node) => Source.RegisterInput (node);
 
 		public void RegisterConverter (IConnectionTypeConverter converter) => Source.RegisterConverter (converter);
+		public void StartMirroring (IReadOnlyEventField<TOutput> target) => throw new InvalidOperationException ("Cannot read value of type converter");
+		public void StopMirroring () => throw new InvalidOperationException ("Cannot read value of type converter");
+		public void Dispose ()
+		{
+		}
 	}
 }

@@ -16,10 +16,10 @@ namespace RPGCore.Behaviour.UnitTests
 
 		public class AddToListEventHandler<T> : IEventFieldHandler
 		{
-			private readonly EventField<T> source;
+			private readonly IReadOnlyEventField<T> source;
 			private readonly List<T> target;
 
-			public AddToListEventHandler (EventField<T> source, List<T> target)
+			public AddToListEventHandler (IReadOnlyEventField<T> source, List<T> target)
 			{
 				this.source = source;
 				this.target = target;

@@ -1,6 +1,8 @@
-﻿namespace RPGCore.Behaviour
+﻿using System;
+
+namespace RPGCore.Behaviour
 {
-	public interface IEventField
+	public interface IEventField : IDisposable
 	{
 		HandlerCollection Handlers { get; }
 	}

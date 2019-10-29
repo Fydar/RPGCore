@@ -27,6 +27,16 @@ namespace RPGCore.Behaviour
 			Connection = connection;
 		}
 
+		public void StartMirroring (IReadOnlyEventField<T> target)
+		{
+			Connection.StartMirroring (target);
+		}
+
+		public void StopMirroring ()
+		{
+			Connection.StopMirroring ();
+		}
+
 		public override string ToString ()
 		{
 			if (IsConnected)

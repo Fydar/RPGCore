@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public struct Input<T>
+	public struct Input<T> : IReadOnlyEventField<T>
 	{
 		public IConnection<T> Connection { get; private set; }
 		public INodeInstance Parent { get; private set; }
@@ -12,6 +12,8 @@ namespace RPGCore.Behaviour
 		public T Value => Connection != null
 			? Connection.Value
 			: default (T);
+
+		public HandlerCollection Handlers => Connection.Handlers;
 
 		public event Action OnAfterChanged
 		{
@@ -51,6 +53,11 @@ namespace RPGCore.Behaviour
 			{
 				return "Unconnected Input";
 			}
+		}
+
+		public void Dispose ()
+		{
+			Connection.Dispose ();
 		}
 	}
 }
