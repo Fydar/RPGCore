@@ -6,7 +6,7 @@
 
 		public OutputSocket Output;
 
-		public override INodeInstance Create () => new GetStatInstance ();
+		public override Instance Create () => new GetStatInstance ();
 
 		public class GetStatInstance : Instance
 		{

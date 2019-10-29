@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 		public int MinValue = 2;
 		public int MaxValue = 12;
 
-		public override INodeInstance Create () => new RollInstance ();
+		public override Instance Create () => new RollInstance ();
 
 		public sealed class RollInstance : Instance
 		{

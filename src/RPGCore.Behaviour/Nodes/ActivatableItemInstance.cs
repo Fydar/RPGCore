@@ -5,7 +5,7 @@ namespace RPGCore.Behaviour
 		public OutputSocket Output = new OutputSocket ();
 
 
-		public override INodeInstance Create () => new ActivatableItemInstance ();
+		public override Instance Create () => new ActivatableItemInstance ();
 
 		public sealed class ActivatableItemInstance : Instance
 		{

@@ -6,7 +6,7 @@ namespace RPGCore.Behaviour
 	{
 		public InputSocket Value;
 
-		public override INodeInstance Create () => new OutputValueInstance ();
+		public override Instance Create () => new OutputValueInstance ();
 
 		public class OutputValueInstance : Instance
 		{

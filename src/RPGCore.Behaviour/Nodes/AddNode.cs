@@ -7,9 +7,9 @@
 
 		public OutputSocket Output;
 
-		public override INodeInstance Create () => new AddInstance ();
+		public override Instance Create () => new AddInstance ();
 
-		public class AddInstance : Instance<AddNode>
+		public class AddInstance : Instance
 		{
 			public Input<float> ValueA;
 			public Input<float> ValueB;

@@ -32,7 +32,7 @@ namespace RPGCore.Behaviour
 			public abstract OutputMap[] Outputs (IGraphConnections graph, TNode node);
 		}
 
-		public abstract INodeInstance Create ();
+		public abstract Instance Create ();
 
 		public sealed override INodeInstance CreateInstance () => Create ();
 
