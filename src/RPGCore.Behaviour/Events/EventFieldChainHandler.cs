@@ -4,13 +4,13 @@ namespace RPGCore.Behaviour
 {
 	public sealed class EventFieldChainHandler<T, B> : IEventFieldHandler
 	{
-		public IEventField<T> SourceField;
-		public EventField<B> TargetField;
-		public Func<T, IEventField<B>> Chain;
+		public IReadOnlyEventField<T> SourceField;
+		public IEventField<B> TargetField;
+		public Func<T, IReadOnlyEventField<B>> Chain;
 
-		private IEventField<B> ChainedField;
+		private IReadOnlyEventField<B> ChainedField;
 
-		public EventFieldChainHandler (IEventField<T> source, EventField<B> target, Func<T, IEventField<B>> chain)
+		public EventFieldChainHandler (IReadOnlyEventField<T> source, IEventField<B> target, Func<T, IReadOnlyEventField<B>> chain)
 		{
 			SourceField = source;
 			TargetField = target;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Traits
 {
-	public class StatInstance : IEventField<float>, IEventFieldHandler
+	public class StatInstance : IReadOnlyEventField<float>, IEventFieldHandler
 	{
 		public string Name { get => null; set { } }
 		public string Identifier { get; set; }
