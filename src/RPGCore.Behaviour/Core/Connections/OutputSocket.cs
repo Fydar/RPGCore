@@ -1,6 +1,6 @@
 ﻿namespace RPGCore.Behaviour
 {
-	public struct OutputSocket : ISocket
+	public struct OutputSocket
 	{
 		public int Id;
 

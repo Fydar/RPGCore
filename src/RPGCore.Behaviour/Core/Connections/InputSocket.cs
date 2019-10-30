@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public struct InputSocket : ISocket
+	public struct InputSocket
 	{
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private int internalConnectionId;
