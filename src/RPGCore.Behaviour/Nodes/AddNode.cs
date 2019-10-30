@@ -1,4 +1,6 @@
-﻿namespace RPGCore.Behaviour
+﻿using System;
+
+namespace RPGCore.Behaviour
 {
 	public sealed class AddNode : Node<AddNode>
 	{
@@ -33,7 +35,13 @@
 
 			public override void OnInputChanged ()
 			{
-				Output.Value = ValueA.Value + ValueB.Value;
+				float value = ValueA.Value + ValueB.Value;
+
+				// Console.ForegroundColor = ConsoleColor.DarkGray;
+				// Console.WriteLine ($"[{Node.Id}]: Adding {ValueA.Value} + {ValueB.Value} = {value}");
+				// Console.ResetColor ();
+
+				Output.Value = value;
 			}
 
 			public override void Remove ()

@@ -121,12 +121,13 @@ namespace RPGCore.Behaviour
 
 			var player = new DemoPlayer ();
 
-			IGraphInstance instancedItem = unpackedGraph.Setup ();
+			IGraphInstance instancedItem = unpackedGraph.Create ();
+			instancedItem.Setup ();
 			instancedItem.SetInput (player);
 			for (int i = 0; i < 5; i++)
 			{
 				Thread.Sleep (100);
-				player.Health.Value -= 20;
+				player.Health.Value -= 10;
 			}
 			instancedItem.Remove ();
 
@@ -137,8 +138,8 @@ namespace RPGCore.Behaviour
 			var deserialized = JsonConvert.DeserializeObject<SerializedGraphInstance> (serializedGraph);
 			var unpackedInstance = deserialized.Unpack (unpackedGraph);
 
-			unpackedInstance.Setup ();
 			unpackedInstance.SetInput (player);
+			unpackedInstance.Setup ();
 			for (int i = 0; i < 5; i++)
 			{
 				Thread.Sleep (100);

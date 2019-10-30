@@ -30,13 +30,6 @@ namespace RPGCore.Behaviour
 			ConnectionsCount = connectionCount;
 		}
 
-		public GraphInstance Setup (IDictionary<LocalId, JObject> data = null)
-		{
-			var graph = Create (data);
-			graph.Setup ();
-			return graph;
-		}
-
 		public GraphInstance Create (IDictionary<LocalId, JObject> data = null)
 		{
 			return new GraphInstance (this, data);

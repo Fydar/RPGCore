@@ -75,16 +75,16 @@ namespace RPGCore.Behaviour
 				currentNode = nodeInstances[i];
 				allInputs[i] = graph.Nodes[i].Inputs (this, currentNode);
 			}
-		}
 
-		public void Setup ()
-		{
 			// Stop events from taking effect immediately.
 			foreach (var connection in connections)
 			{
 				connection.BufferEvents = true;
 			}
+		}
 
+		public void Setup ()
+		{
 			int nodeCount = graph.Nodes.Length;
 
 			// Start allowing events to fire

@@ -25,7 +25,9 @@ namespace RPGCore.Behaviour
 
 			public override void OnInputChanged ()
 			{
+				Console.ForegroundColor = ConsoleColor.DarkGray;
 				Console.WriteLine ($"[{Node.Id}]: Outputting value {Value.Value}");
+				Console.ResetColor ();
 			}
 
 			public override void Remove ()
