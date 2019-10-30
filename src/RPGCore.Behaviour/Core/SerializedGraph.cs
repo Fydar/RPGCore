@@ -37,7 +37,7 @@ namespace RPGCore.Behaviour
 			{
 				var nodeType = System.Type.GetType (nodeKvp.Value.Type);
 
-				nodes.Add (nodeKvp.Value.UnpackInputs (nodeType, nodeKvp.Key, allValidOutputs, connectionIds));
+				nodes.Add (nodeKvp.Value.UnpackNodeAndInputs (nodeType, nodeKvp.Key, allValidOutputs, connectionIds));
 			}
 
 			// Tell all the outputs that are being used that they are connected.

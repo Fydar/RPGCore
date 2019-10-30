@@ -4,8 +4,6 @@
 	{
 		public OutputSocket Character;
 
-		public Node Node => throw new System.NotImplementedException ();
-
 		public override Instance Create () => new ItemInputInstance ();
 
 		public class ItemInputInstance : Instance, IInputNode<DemoPlayer>

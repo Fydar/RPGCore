@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node UnpackInputs (Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
+		public Node UnpackNodeAndInputs (Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
 		{
 			var jsonSerializer = new JsonSerializer ();
 
