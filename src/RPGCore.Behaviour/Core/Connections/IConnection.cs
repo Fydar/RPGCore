@@ -19,11 +19,7 @@ namespace RPGCore.Behaviour
 		void Unsubscribe (INodeInstance node, Action callback);
 	}
 
-	public interface IConnection<T> : IConnection, IEventField<T>
+	public interface IConnection<T> : IConnection, IReadOnlyEventField<T>
 	{
-		IReadOnlyEventField<T> Mirroring { get; }
-
-		void StartMirroring (IReadOnlyEventField<T> target);
-		void StopMirroring ();
 	}
 }

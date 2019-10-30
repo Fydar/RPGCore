@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public class BasicConnection<T> : EventConnection, IConnection<T>
+	public class OutputConnection<T> : EventConnection, IConnection<T>, IEventField<T>
 	{
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private T GenericValue;
@@ -67,7 +67,7 @@ namespace RPGCore.Behaviour
 
 		private EventFieldMirrorHandler<T> MirrorHandler;
 
-		public BasicConnection (int connectionId)
+		public OutputConnection (int connectionId)
 			: base (connectionId)
 		{
 			Handlers = new HandlerCollection (this);

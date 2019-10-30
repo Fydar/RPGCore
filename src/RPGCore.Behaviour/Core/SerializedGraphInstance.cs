@@ -35,7 +35,7 @@ namespace RPGCore.Behaviour
 				return null;
 			}
 
-			var connectionType = typeof (BasicConnection<>).MakeGenericType (objectType.GenericTypeArguments);
+			var connectionType = typeof (OutputConnection<>).MakeGenericType (objectType.GenericTypeArguments);
 			var outputType = typeof (Output<>).MakeGenericType (objectType.GenericTypeArguments);
 
 			object connectionObject = JObject.Load (reader).ToObject (connectionType, serializer);

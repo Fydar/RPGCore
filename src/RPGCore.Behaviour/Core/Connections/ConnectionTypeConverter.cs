@@ -8,11 +8,7 @@ namespace RPGCore.Behaviour
 
 		public IConnection<TInput> Source;
 
-		public TOutput Value
-		{
-			set => throw new InvalidOperationException ("Cannot read value of type converter");
-			get => Convert (Source.Value);
-		}
+		public TOutput Value => Convert (Source.Value);
 
 		protected abstract TOutput Convert (TInput original);
 
@@ -51,8 +47,7 @@ namespace RPGCore.Behaviour
 		public void RegisterInput (INodeInstance node) => Source.RegisterInput (node);
 
 		public void RegisterConverter (IConnectionTypeConverter converter) => Source.RegisterConverter (converter);
-		public void StartMirroring (IReadOnlyEventField<TOutput> target) => throw new InvalidOperationException ("Cannot read value of type converter");
-		public void StopMirroring () => throw new InvalidOperationException ("Cannot read value of type converter");
+		
 		public void Dispose ()
 		{
 		}

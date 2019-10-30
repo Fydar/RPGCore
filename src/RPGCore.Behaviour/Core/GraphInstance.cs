@@ -190,7 +190,7 @@ namespace RPGCore.Behaviour
 
 		OutputMap IGraphConnections.Connect<T> (ref OutputSocket socket, ref Output<T> output)
 		{
-			var newConnection = GetOrCreateConnection<T> (socket.Id);
+			var newConnection = GetOrCreateOutputConnection<T> (socket.Id);
 			if (newConnection != null && output.Connection != null)
 			{
 				newConnection.Value = output.Connection.Value;
@@ -210,20 +210,20 @@ namespace RPGCore.Behaviour
 			return new InputMap (socket, typeof (T));
 		}
 
-		private IConnection<T> GetOrCreateConnection<T> (int id)
+		private OutputConnection<T> GetOrCreateOutputConnection<T> (int id)
 		{
 			if (id < 0)
 			{
 				return null;
 			}
 
-			var shared = connections[id];
+			var shared = (OutputConnection<T>)connections[id];
 			if (shared == null)
 			{
-				shared = new BasicConnection<T> (id);
+				shared = new OutputConnection<T> (id);
 				connections[id] = shared;
 			}
-			return (IConnection<T>)shared;
+			return shared;
 		}
 
 		private IConnection GetConnection (int id)
