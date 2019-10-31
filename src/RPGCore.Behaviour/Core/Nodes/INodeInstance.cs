@@ -2,10 +2,10 @@
 {
 	public interface INodeInstance
 	{
-		Node Node { get; }
+		Node NodeBase { get; }
 
 		void OnInputChanged ();
-		void Setup (IGraphInstance graph);
+		void Setup ();
 		void Remove ();
 	}
 }

@@ -17,7 +17,7 @@
 				connections.Connect (ref Node.Character, ref Character)
 			};
 
-			public override void Setup (IGraphInstance graph)
+			public override void Setup ()
 			{
 			}
 

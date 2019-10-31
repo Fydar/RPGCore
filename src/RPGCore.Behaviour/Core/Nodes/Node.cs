@@ -7,6 +7,7 @@ namespace RPGCore.Behaviour
 	{
 		[JsonIgnore]
 		public LocalId Id { get; set; }
+
 		public abstract INodeInstance CreateInstance ();
 		public abstract void Setup (IGraphInstance graph, INodeInstance metadata);
 
@@ -17,20 +18,13 @@ namespace RPGCore.Behaviour
 	public abstract class Node<TNode> : Node
 		where TNode : Node<TNode>
 	{
-		public abstract class Instance : INodeInstance
+		public abstract class Instance : NodeInstanceBase
 		{
 			[JsonIgnore]
 			public TNode Node { get; internal set; }
 
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			Node INodeInstance.Node => Node;
-
-			public virtual void OnInputChanged () { }
-			public abstract void Remove ();
-			public abstract void Setup (IGraphInstance graph);
-
-			public abstract InputMap[] Inputs (IGraphConnections connections);
-			public abstract OutputMap[] Outputs (IGraphConnections connections);
+			internal override Node NodeBase => Node;
 		}
 
 		public abstract Instance Create ();
@@ -57,8 +51,9 @@ namespace RPGCore.Behaviour
 		{
 			var instance = (Instance)metadata;
 			instance.Node = (TNode)this;
+			instance.Graph = graph;
 
-			metadata.Setup (graph);
+			metadata.Setup ();
 		}
 	}
 }

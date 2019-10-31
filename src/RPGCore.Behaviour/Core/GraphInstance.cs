@@ -6,7 +6,6 @@ namespace RPGCore.Behaviour
 {
 	public sealed class GraphInstance : IGraphInstance, IGraphConnections
 	{
-		private readonly Graph graph;
 		private readonly INodeInstance[] nodeInstances;
 		private readonly IConnection[] connections;
 		private readonly InputMap[][] allInputs;
@@ -14,13 +13,15 @@ namespace RPGCore.Behaviour
 
 		private INodeInstance currentNode;
 
+		public Graph Template { get; }
+
 		public INodeInstance this[LocalId id]
 		{
 			get
 			{
-				for (int i = 0; i < graph.Nodes.Length; i++)
+				for (int i = 0; i < Template.Nodes.Length; i++)
 				{
-					var node = graph.Nodes[i];
+					var node = Template.Nodes[i];
 					if (node.Id == id)
 					{
 						return nodeInstances[i];
@@ -30,11 +31,11 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public GraphInstance (Graph graph, IDictionary<LocalId, JObject> data = null)
+		public GraphInstance (Graph template, IDictionary<LocalId, JObject> data = null)
 		{
-			this.graph = graph;
+			Template = template;
 
-			int nodeCount = graph.Nodes.Length;
+			int nodeCount = template.Nodes.Length;
 			nodeInstances = new INodeInstance[nodeCount];
 
 			var serializer = new JsonSerializer ();
@@ -43,7 +44,7 @@ namespace RPGCore.Behaviour
 			// Map and create tokens
 			for (int i = 0; i < nodeCount; i++)
 			{
-				var node = graph.Nodes[i];
+				var node = template.Nodes[i];
 
 				var instance = node.CreateInstance ();
 
@@ -58,14 +59,14 @@ namespace RPGCore.Behaviour
 				nodeInstances[i] = instance;
 			}
 
-			connections = new IConnection[graph.ConnectionsCount];
+			connections = new IConnection[template.ConnectionsCount];
 
 			// Allow all outputs to make their output type visible
 			allOutputs = new OutputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
 				currentNode = nodeInstances[i];
-				allOutputs[i] = graph.Nodes[i].Outputs (this, currentNode);
+				allOutputs[i] = template.Nodes[i].Outputs (this, currentNode);
 			}
 
 			// Allow inputs to subscribe to those outputs.
@@ -73,7 +74,7 @@ namespace RPGCore.Behaviour
 			for (int i = 0; i < nodeCount; i++)
 			{
 				currentNode = nodeInstances[i];
-				allInputs[i] = graph.Nodes[i].Inputs (this, currentNode);
+				allInputs[i] = template.Nodes[i].Inputs (this, currentNode);
 			}
 
 			// Stop events from taking effect immediately.
@@ -85,7 +86,7 @@ namespace RPGCore.Behaviour
 
 		public void Setup ()
 		{
-			int nodeCount = graph.Nodes.Length;
+			int nodeCount = Template.Nodes.Length;
 
 			// Start allowing events to fire
 			for (int i = 0; i < nodeCount; i++)
@@ -108,7 +109,7 @@ namespace RPGCore.Behaviour
 			for (int i = 0; i < nodeCount; i++)
 			{
 				currentNode = nodeInstances[i];
-				graph.Nodes[i].Setup (this, currentNode);
+				Template.Nodes[i].Setup (this, currentNode);
 			}
 
 			// Release all buffered events.
@@ -133,7 +134,7 @@ namespace RPGCore.Behaviour
 			for (int i = 0; i < nodeInstances.Length; i++)
 			{
 				var instance = nodeInstances[i];
-				var node = graph.Nodes[i];
+				var node = Template.Nodes[i];
 
 				var serializer = new JsonSerializer
 				{
@@ -145,7 +146,7 @@ namespace RPGCore.Behaviour
 
 			return new SerializedGraphInstance ()
 			{
-				GraphType = graph.Name,
+				GraphType = Template.Name,
 				NodeInstances = nodeMap
 			};
 		}
@@ -263,7 +264,7 @@ namespace RPGCore.Behaviour
 					if (output.ConnectionId == connectionId)
 					{
 						var instance = nodeInstances[x];
-						var node = graph.Nodes[x];
+						var node = Template.Nodes[x];
 						return new InputSource (node, instance, output);
 					}
 				}

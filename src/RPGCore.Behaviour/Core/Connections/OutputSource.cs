@@ -6,7 +6,7 @@ namespace RPGCore.Behaviour
 	{
 		public INodeInstance Instance;
 		public InputMap InputInformation;
-		public Node Node => Instance.Node;
+		public Node Node => Instance.NodeBase;
 
 		public OutputSource (INodeInstance instance, InputMap outputMapping)
 		{

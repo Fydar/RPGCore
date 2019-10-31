@@ -4,6 +4,8 @@ namespace RPGCore.Behaviour
 {
 	public interface IGraphInstance
 	{
+		Graph Template { get; }
+
 		INodeInstance this[LocalId id] { get; }
 
 		INodeInstance GetNode<T> ();

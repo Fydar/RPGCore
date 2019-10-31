@@ -23,7 +23,7 @@ namespace RPGCore.Behaviour
 				connections.Connect (ref Node.Output, ref Output),
 			};
 
-			public override void Setup (IGraphInstance graph)
+			public override void Setup ()
 			{
 				while (Seed == 0)
 				{
@@ -33,7 +33,7 @@ namespace RPGCore.Behaviour
 				int newValue = new Random (Seed).Next (Node.MinValue, Node.MaxValue);
 
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
-				Console.WriteLine ("RollNode: Output set to " + newValue + $" outputting to {string.Join (", ", graph.GetSource (Output))}");
+				Console.WriteLine ("RollNode: Output set to " + newValue + $" outputting to {string.Join (", ", Graph.GetSource (Output))}");
 
 				Output.Value = newValue;
 			}

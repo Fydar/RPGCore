@@ -19,7 +19,7 @@ namespace RPGCore.Behaviour
 
 			public override OutputMap[] Outputs (IGraphConnections connections) => null;
 
-			public override void Setup (IGraphInstance graph)
+			public override void Setup ()
 			{
 			}
 

@@ -24,7 +24,7 @@
 				connections.Connect (ref Node.Output, ref Output)
 			};
 
-			public override void Setup (IGraphInstance graph)
+			public override void Setup ()
 			{
 				var statValue = Character.Watch (c => c?.Health);
 
