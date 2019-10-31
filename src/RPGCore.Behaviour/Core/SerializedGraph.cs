@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -20,7 +21,7 @@ namespace RPGCore.Behaviour
 			var allValidOutputs = new HashSet<LocalPropertyId> ();
 			foreach (var nodeKvp in Nodes)
 			{
-				var nodeType = System.Type.GetType (nodeKvp.Value.Type);
+				var nodeType = GetType (nodeKvp.Value.Type);
 
 				foreach (var field in nodeType.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 				{
@@ -35,7 +36,7 @@ namespace RPGCore.Behaviour
 			var connectionIds = new List<LocalPropertyId> ();
 			foreach (var nodeKvp in Nodes)
 			{
-				var nodeType = System.Type.GetType (nodeKvp.Value.Type);
+				var nodeType = GetType (nodeKvp.Value.Type);
 
 				nodes.Add (nodeKvp.Value.UnpackNodeAndInputs (nodeType, nodeKvp.Key, allValidOutputs, connectionIds));
 			}
@@ -48,6 +49,25 @@ namespace RPGCore.Behaviour
 
 			var graph = new Graph (nodes.ToArray (), connectionIds.Count);
 			return graph;
+		}
+
+		private static Type GetType (string name)
+		{
+			Type nodeType = null;
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ())
+			{
+				nodeType = assembly.GetType (name);
+
+				if (nodeType != null)
+				{
+					break;
+				}
+			}
+			if (nodeType == null)
+			{
+				throw new InvalidOperationException ($"Cannot find type \"{name}\".");
+			}
+			return nodeType;
 		}
 	}
 }

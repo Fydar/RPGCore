@@ -5,7 +5,7 @@
   "CustomData": null,
   "Nodes": {
     "1749d7ac": {
-      "Type": "RPGCore.Behaviour.ItemInputNode",
+      "Type": "RPGCore.Demo.Nodes.ItemInputNode",
       "Data": {
 
       },
@@ -17,7 +17,7 @@
       }
     },
     "0a084c2c": {
-      "Type": "RPGCore.Behaviour.RollNode",
+      "Type": "RPGCore.Demo.Nodes.RollNode",
       "Data": {
         "MinValue": 1,
         "MaxValue": 5,
@@ -39,7 +39,7 @@
       }
     },
     "74bd14a0": {
-      "Type": "RPGCore.Behaviour.GetStatNode",
+      "Type": "RPGCore.Demo.Nodes.GetStatNode",
       "Data": {
         "Character": "1749d7ac.Character"
       },
@@ -51,7 +51,7 @@
       }
     },
     "0a4f194f": {
-      "Type": "RPGCore.Behaviour.AddNode",
+      "Type": "RPGCore.Demo.Nodes.AddNode",
       "Data": {
         "ValueB": "0a084c2c.Output",
         "ValueA": "74bd14a0.Output"
@@ -64,7 +64,7 @@
       }
     },
     "472a7ba2": {
-      "Type": "RPGCore.Behaviour.OutputValueNode",
+      "Type": "RPGCore.Demo.Nodes.OutputValueNode",
       "Data": {
         "Value": "0a4f194f.Output"
       },

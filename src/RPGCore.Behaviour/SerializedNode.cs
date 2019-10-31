@@ -14,10 +14,16 @@ namespace RPGCore.Behaviour
 
 		public Node UnpackNodeAndInputs (Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
 		{
+			if (nodeType is null)
+			{
+				throw new ArgumentNullException (nameof (nodeType));
+			}
+
 			var jsonSerializer = new JsonSerializer ();
 
 			jsonSerializer.Converters.Add (new InputSocketConverter (validOutputs, connectionIds));
 			jsonSerializer.Converters.Add (new LocalIdJsonConverter ());
+
 			object nodeObject = Data.ToObject (nodeType, jsonSerializer);
 
 			var node = (Node)nodeObject;

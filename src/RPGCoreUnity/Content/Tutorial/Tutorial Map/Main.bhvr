@@ -5,7 +5,7 @@
   "CustomData": null,
   "Nodes": {
     "0a084c2c": {
-      "Type": "RPGCore.Behaviour.RollNode",
+      "Type": "RPGCore.Demo.Nodes.RollNode",
       "Data": {
         "MinValue": 1,
         "MaxValue": 5,
@@ -23,7 +23,7 @@
       }
     },
     "472c7ba2": {
-      "Type": "RPGCore.Behaviour.RollNode",
+      "Type": "RPGCore.Demo.Nodes.RollNode",
       "Data": {
         "MinValue": 20,
         "MaxValue": 25,
@@ -41,7 +41,7 @@
       }
     },
     "0a4f194f": {
-      "Type": "RPGCore.Behaviour.AddNode",
+      "Type": "RPGCore.Demo.Nodes.AddNode",
       "Data": {
         "ValueA": "0a084c2c.Output",
         "ValueB": "472c7ba2.Output"

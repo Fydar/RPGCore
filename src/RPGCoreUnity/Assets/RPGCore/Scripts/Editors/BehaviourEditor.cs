@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RPGCore.Demo.Nodes;
 using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
@@ -94,7 +95,7 @@ namespace RPGCore.Unity.Editors
 							editorTarget = JObject.Load (reader);
 						}
 
-						var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode) });
+						var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode), typeof (OutputValueNode) });
 						var types = TypeManifest.ConstructBaseTypes ();
 
 						var manifest = new BehaviourManifest ()

@@ -1,10 +1,14 @@
-﻿namespace RPGCore.Behaviour
+﻿using Newtonsoft.Json;
+
+namespace RPGCore.Behaviour
 {
 	public abstract class NodeInstanceBase : INodeInstance
 	{
+		[JsonIgnore]
 		public IGraphInstance Graph { get; internal set; }
+		[JsonIgnore]
 		internal abstract Node NodeBase { get; }
-
+		
 		Node INodeInstance.NodeBase => NodeBase;
 
 		public virtual void OnInputChanged () { }
