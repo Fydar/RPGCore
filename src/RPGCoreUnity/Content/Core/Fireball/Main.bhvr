@@ -3,12 +3,46 @@
   "Description": "Fires a ball of fire that explodes on impact.",
   "Type": null,
   "CustomData": null,
+  "SubGraphs": {
+    "RepeatThis": {
+      "Name": "Fireball",
+      "Description": "Fires a ball of fire that explodes on impact.",
+      "Type": null,
+      "CustomData": null,
+      "SubGraphs": null,
+      "Nodes": {
+        "0a084c2c": {
+          "Type": "RPGCore.Demo.Nodes.RollNode",
+          "Data": {
+            "MinValue": 1,
+            "MaxValue": 99
+          },
+          "Editor": {
+            "Position": {
+              "x": 200,
+              "y": 372
+            }
+          }
+        },
+        "472a7ba2": {
+          "Type": "RPGCore.Demo.Nodes.OutputValueNode",
+          "Data": {
+            "Value": "0a084c2c.Output"
+          },
+          "Editor": {
+            "Position": {
+              "x": 160,
+              "y": 161
+            }
+          }
+        }
+      }
+    }
+  },
   "Nodes": {
     "1749d7ac": {
       "Type": "RPGCore.Demo.Nodes.ItemInputNode",
-      "Data": {
-
-      },
+      "Data": {},
       "Editor": {
         "Position": {
           "x": 200,
@@ -19,8 +53,8 @@
     "0a084c2c": {
       "Type": "RPGCore.Demo.Nodes.RollNode",
       "Data": {
-        "MinValue": 1,
-        "MaxValue": 5,
+        "MinValue": 3,
+        "MaxValue": 4,
         "TooltipFormat": "{0}",
         "Data": {
           "Hi": 0,
@@ -73,6 +107,13 @@
           "x": 160,
           "y": 161
         }
+      }
+    },
+    "9471ab3a": {
+      "Type": "RPGCore.Demo.Nodes.IterateNode",
+      "Data": {
+        "SubgraphId": "RepeatThis",
+        "Repetitions": "0a084c2c.Output"
       }
     }
   }

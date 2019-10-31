@@ -8,6 +8,7 @@ namespace RPGCore.Behaviour
 		public string Name;
 		public readonly Node[] Nodes;
 		public readonly int ConnectionsCount;
+		public Dictionary<string, Graph> SubGraphs;
 
 		public Node this[LocalId id]
 		{
@@ -24,10 +25,11 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Graph (Node[] nodes, int connectionCount)
+		public Graph (Node[] nodes, int connectionCount, Dictionary<string, Graph> subGraphs)
 		{
 			Nodes = nodes;
 			ConnectionsCount = connectionCount;
+			SubGraphs = subGraphs;
 		}
 
 		public GraphInstance Create (IDictionary<LocalId, JObject> data = null)

@@ -23,6 +23,7 @@ namespace RPGCore.Demo
 					typeof (OutputValueNode),
 					typeof (ItemInputNode),
 					typeof (GetStatNode),
+					typeof (IterateNode),
 				}
 			);
 			var types = TypeManifest.ConstructBaseTypes ();

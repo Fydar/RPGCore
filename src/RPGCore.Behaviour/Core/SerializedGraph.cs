@@ -12,6 +12,7 @@ namespace RPGCore.Behaviour
 
 		public Dictionary<string, string> CustomData;
 		public Dictionary<LocalId, SerializedNode> Nodes;
+		public Dictionary<string, SerializedGraph> SubGraphs;
 
 		public Graph Unpack ()
 		{
@@ -47,7 +48,17 @@ namespace RPGCore.Behaviour
 				SerializedNode.UnpackOutputs (connectionIds, node);
 			}
 
-			var graph = new Graph (nodes.ToArray (), connectionIds.Count);
+			Dictionary<string, Graph> templateSubgraphs = null;
+			if (SubGraphs != null && SubGraphs.Count > 0)
+			{
+				templateSubgraphs = new Dictionary<string, Graph> ();
+				foreach (var subgraph in SubGraphs)
+				{
+					templateSubgraphs.Add (subgraph.Key, subgraph.Value.Unpack ());
+				}
+			}
+
+			var graph = new Graph (nodes.ToArray (), connectionIds.Count, templateSubgraphs);
 			return graph;
 		}
 
