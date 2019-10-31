@@ -22,15 +22,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Inventories", "RPGC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Items", "RPGCore.Items\RPGCore.Items.csproj", "{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Items.UnitTests", "RPGCore.Items.UnitTests\RPGCore.Items.UnitTests.csproj", "{F617BD9F-554E-4ED9-AAB1-E383F6615716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Items.UnitTests", "RPGCore.Items.UnitTests\RPGCore.Items.UnitTests.csproj", "{F617BD9F-554E-4ED9-AAB1-E383F6615716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Inventories.UnitTests", "RPGCore.Inventories.UnitTests\RPGCore.Inventories.UnitTests.csproj", "{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Inventories.UnitTests", "RPGCore.Inventories.UnitTests\RPGCore.Inventories.UnitTests.csproj", "{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Packages.UnitTests", "RPGCore.Packages.UnitTests\RPGCore.Packages.UnitTests.csproj", "{129CC906-B8B6-42EC-B120-95AEC668F22B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Packages.UnitTests", "RPGCore.Packages.UnitTests\RPGCore.Packages.UnitTests.csproj", "{129CC906-B8B6-42EC-B120-95AEC668F22B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Traits", "RPGCore.Traits\RPGCore.Traits.csproj", "{B7A620C9-C4B8-4DDD-A68D-610405D9B365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits", "RPGCore.Traits\RPGCore.Traits.csproj", "{B7A620C9-C4B8-4DDD-A68D-610405D9B365}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Traits.UnitTests", "RPGCore.Traits.UnitTests\RPGCore.Traits.UnitTests.csproj", "{16483ACE-6A20-43A3-B164-AC89173A7AA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits.UnitTests", "RPGCore.Traits.UnitTests\RPGCore.Traits.UnitTests.csproj", "{16483ACE-6A20-43A3-B164-AC89173A7AA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Demo", "RPGCore.Demo\RPGCore.Demo.csproj", "{3886077F-F28A-485A-9F16-CD105DC075A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +137,14 @@ Global
 		{16483ACE-6A20-43A3-B164-AC89173A7AA9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16483ACE-6A20-43A3-B164-AC89173A7AA9}.Release|x64.ActiveCfg = Release|Any CPU
 		{16483ACE-6A20-43A3-B164-AC89173A7AA9}.Release|x64.Build.0 = Release|Any CPU
+		{3886077F-F28A-485A-9F16-CD105DC075A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3886077F-F28A-485A-9F16-CD105DC075A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3886077F-F28A-485A-9F16-CD105DC075A7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3886077F-F28A-485A-9F16-CD105DC075A7}.Debug|x64.Build.0 = Debug|Any CPU
+		{3886077F-F28A-485A-9F16-CD105DC075A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3886077F-F28A-485A-9F16-CD105DC075A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3886077F-F28A-485A-9F16-CD105DC075A7}.Release|x64.ActiveCfg = Release|Any CPU
+		{3886077F-F28A-485A-9F16-CD105DC075A7}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

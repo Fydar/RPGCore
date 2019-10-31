@@ -1,4 +1,6 @@
-﻿namespace RPGCore.Behaviour
+﻿using RPGCore.Behaviour;
+
+namespace RPGCore.Demo.Nodes
 {
 	public sealed class ItemInputNode : Node<ItemInputNode>
 	{

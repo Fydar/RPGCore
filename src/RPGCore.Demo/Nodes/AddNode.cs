@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RPGCore.Behaviour;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Demo.Nodes
 {
 	public sealed class AddNode : Node<AddNode>
 	{

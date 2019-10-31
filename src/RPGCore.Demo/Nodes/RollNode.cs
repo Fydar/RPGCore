@@ -1,6 +1,7 @@
-﻿using System;
+﻿using RPGCore.Behaviour;
+using System;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Demo.Nodes
 {
 	public sealed class RollNode : Node<RollNode>
 	{

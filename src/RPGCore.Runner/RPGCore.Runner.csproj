@@ -23,4 +23,8 @@
     <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Nodes\" />
+  </ItemGroup>
+
 </Project>

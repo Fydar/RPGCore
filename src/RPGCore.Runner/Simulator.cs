@@ -1,4 +1,5 @@
 ﻿using RPGCore.Behaviour;
+using RPGCore.Demo;
 
 namespace RPGCore.Runner
 {

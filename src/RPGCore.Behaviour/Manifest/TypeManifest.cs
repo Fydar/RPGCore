@@ -60,7 +60,6 @@ namespace RPGCore.Behaviour.Manifest
 					typeof(SerializedNode),
 					typeof(PackageNodeEditor),
 					typeof(PackageNodePosition),
-					typeof(ExtraData),
 				}
 			);
 		}

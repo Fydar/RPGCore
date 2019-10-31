@@ -1,20 +1,22 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
+using RPGCore.Demo.Nodes;
 using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Demo
 {
 	public sealed class Simulation
 	{
 		public void Start ()
 		{
-			var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode), typeof(OutputValueNode) });
+			var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode), typeof (OutputValueNode) });
 			var types = TypeManifest.ConstructBaseTypes ();
 
 			var manifest = new BehaviourManifest ()
