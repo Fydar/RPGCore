@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour.Manifest
 		{
 			var nodeInformation = new NodeInformation ();
 
-			var typeDefinition = new Type[] { typeof (IGraphConnections), nodeType.BaseType.GenericTypeArguments[0] };
+			var typeDefinition = new Type[] { typeof (IGraphConnections) };
 			var nodeTemplate = (Node)Activator.CreateInstance (nodeType);
 			object metadataInstance = nodeTemplate.CreateInstance ();
 
@@ -50,7 +50,10 @@ namespace RPGCore.Behaviour.Manifest
 			}
 			nodeInformation.Fields = fieldInfos;
 
-			object[] connectParameters = { singleNodeGraph, nodeTemplate };
+			var nodeProperty = instanceType.GetProperty ("Node");
+			nodeProperty.SetValue (metadataInstance, nodeTemplate);
+
+			object[] connectParameters = { singleNodeGraph };
 			var inputsArray = (InputMap[])inputsProperty.Invoke (metadataInstance, connectParameters);
 			var outputsArray = (OutputMap[])outputsProperty.Invoke (metadataInstance, connectParameters);
 
