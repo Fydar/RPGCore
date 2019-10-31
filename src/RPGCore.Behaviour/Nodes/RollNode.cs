@@ -16,11 +16,11 @@ namespace RPGCore.Behaviour
 
 			public Output<int> Output;
 
-			public override InputMap[] Inputs (IGraphConnections graph, RollNode node) => null;
+			public override InputMap[] Inputs (IGraphConnections connections) => null;
 
-			public override OutputMap[] Outputs (IGraphConnections graph, RollNode node) => new[]
+			public override OutputMap[] Outputs (IGraphConnections connections) => new[]
 			{
-				graph.Connect (ref node.Output, ref Output),
+				connections.Connect (ref Node.Output, ref Output),
 			};
 
 			public override void Setup (IGraphInstance graph)

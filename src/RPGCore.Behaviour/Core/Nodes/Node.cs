@@ -10,8 +10,8 @@ namespace RPGCore.Behaviour
 		public abstract INodeInstance CreateInstance ();
 		public abstract void Setup (IGraphInstance graph, INodeInstance metadata);
 
-		internal abstract InputMap[] Inputs (IGraphConnections graph, INodeInstance instance);
-		internal abstract OutputMap[] Outputs (IGraphConnections graph, INodeInstance instance);
+		internal abstract InputMap[] Inputs (IGraphConnections connections, INodeInstance instance);
+		internal abstract OutputMap[] Outputs (IGraphConnections connections, INodeInstance instance);
 	}
 
 	public abstract class Node<TNode> : Node
@@ -29,22 +29,28 @@ namespace RPGCore.Behaviour
 			public abstract void Remove ();
 			public abstract void Setup (IGraphInstance graph);
 
-			public abstract InputMap[] Inputs (IGraphConnections graph, TNode node);
-			public abstract OutputMap[] Outputs (IGraphConnections graph, TNode node);
+			public abstract InputMap[] Inputs (IGraphConnections connections);
+			public abstract OutputMap[] Outputs (IGraphConnections connections);
 		}
 
 		public abstract Instance Create ();
 
 		public sealed override INodeInstance CreateInstance () => Create ();
 
-		internal sealed override InputMap[] Inputs (IGraphConnections graph, INodeInstance instance)
+		internal sealed override InputMap[] Inputs (IGraphConnections connections, INodeInstance instance)
 		{
-			return ((Instance)instance).Inputs (graph, (TNode)this);
+			var castedInstance = (Instance)instance;
+			castedInstance.Node = (TNode)this;
+
+			return castedInstance.Inputs (connections);
 		}
 
-		internal sealed override OutputMap[] Outputs (IGraphConnections graph, INodeInstance instance)
+		internal sealed override OutputMap[] Outputs (IGraphConnections connections, INodeInstance instance)
 		{
-			return ((Instance)instance).Outputs (graph, (TNode)this);
+			var castedInstance = (Instance)instance;
+			castedInstance.Node = (TNode)this;
+
+			return castedInstance.Outputs (connections);
 		}
 
 		public sealed override void Setup (IGraphInstance graph, INodeInstance metadata)

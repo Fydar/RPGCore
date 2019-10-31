@@ -14,14 +14,14 @@
 
 			public Output<int> Output;
 
-			public override InputMap[] Inputs (IGraphConnections graph, GetStatNode node) => new[]
+			public override InputMap[] Inputs (IGraphConnections connections) => new[]
 			{
-				graph.Connect (ref node.Character, ref Character),
+				connections.Connect (ref Node.Character, ref Character),
 			};
 
-			public override OutputMap[] Outputs (IGraphConnections graph, GetStatNode node) => new[]
+			public override OutputMap[] Outputs (IGraphConnections connections) => new[]
 			{
-				graph.Connect (ref node.Output, ref Output)
+				connections.Connect (ref Node.Output, ref Output)
 			};
 
 			public override void Setup (IGraphInstance graph)

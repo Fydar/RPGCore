@@ -12,12 +12,12 @@ namespace RPGCore.Behaviour
 		{
 			public Input<float> Value;
 
-			public override InputMap[] Inputs (IGraphConnections graph, OutputValueNode node) => new[]
+			public override InputMap[] Inputs (IGraphConnections connections) => new[]
 			{
-				graph.Connect (ref node.Value, ref Value),
+				connections.Connect (ref Node.Value, ref Value),
 			};
 
-			public override OutputMap[] Outputs (IGraphConnections graph, OutputValueNode node) => null;
+			public override OutputMap[] Outputs (IGraphConnections connections) => null;
 
 			public override void Setup (IGraphInstance graph)
 			{

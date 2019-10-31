@@ -10,11 +10,11 @@
 		{
 			public Output<DemoPlayer> Character;
 
-			public override InputMap[] Inputs (IGraphConnections graph, ItemInputNode node) => null;
+			public override InputMap[] Inputs (IGraphConnections connections) => null;
 
-			public override OutputMap[] Outputs (IGraphConnections graph, ItemInputNode node) => new[]
+			public override OutputMap[] Outputs (IGraphConnections connections) => new[]
 			{
-				graph.Connect (ref node.Character, ref Character)
+				connections.Connect (ref Node.Character, ref Character)
 			};
 
 			public override void Setup (IGraphInstance graph)

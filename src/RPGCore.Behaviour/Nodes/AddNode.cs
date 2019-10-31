@@ -18,15 +18,15 @@ namespace RPGCore.Behaviour
 
 			public Output<float> Output;
 
-			public override InputMap[] Inputs (IGraphConnections graph, AddNode node) => new[]
+			public override InputMap[] Inputs (IGraphConnections connections) => new[]
 			{
-				graph.Connect (ref node.ValueA, ref ValueA),
-				graph.Connect (ref node.ValueB, ref ValueB)
+				connections.Connect (ref Node.ValueA, ref ValueA),
+				connections.Connect (ref Node.ValueB, ref ValueB)
 			};
 
-			public override OutputMap[] Outputs (IGraphConnections graph, AddNode node) => new[]
+			public override OutputMap[] Outputs (IGraphConnections connections) => new[]
 			{
-				graph.Connect (ref node.Output, ref Output)
+				connections.Connect (ref Node.Output, ref Output)
 			};
 
 			public override void Setup (IGraphInstance graph)
