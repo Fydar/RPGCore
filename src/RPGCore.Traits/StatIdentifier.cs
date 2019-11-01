@@ -31,7 +31,7 @@ namespace RPGCore.Traits
 			return !(left == right);
 		}
 
-		public static implicit operator StatIdentifier(string source)
+		public static implicit operator StatIdentifier (string source)
 		{
 			return new StatIdentifier (source);
 		}
