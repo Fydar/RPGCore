@@ -10,7 +10,7 @@ namespace RPGCore.Traits
 
 		public StatTemplate Template { get; internal set; }
 
-		public HandlerCollection Handlers { get; set; }
+		public EventFieldHandlerCollection Handlers { get; set; }
 
 		public List<StatModifier> BaseAdditiveModifiers;
 		public List<StatModifier> BaseSimpleModifiers;
@@ -24,7 +24,7 @@ namespace RPGCore.Traits
 
 		public StatInstance ()
 		{
-			Handlers = new HandlerCollection (this);
+			Handlers = new EventFieldHandlerCollection (this);
 		}
 
 		public override string ToString ()

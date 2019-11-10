@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour
 			? Connection.Value
 			: default (T);
 
-		public HandlerCollection Handlers => Connection.Handlers;
+		public EventFieldHandlerCollection Handlers => Connection.Handlers;
 
 		public event Action OnAfterChanged
 		{

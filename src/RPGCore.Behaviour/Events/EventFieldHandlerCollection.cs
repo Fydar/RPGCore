@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public class HandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>, IDisposable
+	public class EventFieldHandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>, IDisposable
 	{
 		public readonly struct ContextWrapped
 		{
@@ -40,7 +40,7 @@ namespace RPGCore.Behaviour
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private readonly List<KeyValuePair<object, IEventFieldHandler>> InternalHandlers;
 
-		public HandlerCollection (IEventField field)
+		public EventFieldHandlerCollection (IEventField field)
 		{
 			Field = field;
 			InternalHandlers = new List<KeyValuePair<object, IEventFieldHandler>> ();

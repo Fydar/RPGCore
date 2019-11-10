@@ -7,7 +7,7 @@ namespace RPGCore.Behaviour
 	public class EventField<T> : IEventField<T>, IDisposable
 	{
 		[JsonIgnore]
-		public HandlerCollection Handlers { get; set; }
+		public EventFieldHandlerCollection Handlers { get; set; }
 		public Action OnBeforeChanged;
 		public Action OnAfterChanged;
 
@@ -31,7 +31,7 @@ namespace RPGCore.Behaviour
 
 		public EventField ()
 		{
-			Handlers = new HandlerCollection (this);
+			Handlers = new EventFieldHandlerCollection (this);
 		}
 
 		public EventField (T value)

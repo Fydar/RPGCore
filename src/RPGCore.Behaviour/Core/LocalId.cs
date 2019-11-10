@@ -56,6 +56,13 @@ namespace RPGCore.Behaviour
 			return "0x" + Id.ToString ("x8");
 		}
 
+		public static LocalId NewId ()
+		{
+			byte[] buffer = new byte[8];
+			new Random ().NextBytes (buffer);
+			return new LocalId (BitConverter.ToUInt64 (buffer, 0));
+		}
+
 		public static bool operator == (LocalId left, LocalId right)
 		{
 			return left.Equals (right);

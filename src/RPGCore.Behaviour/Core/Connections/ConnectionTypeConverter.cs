@@ -18,7 +18,7 @@ namespace RPGCore.Behaviour
 
 		public Type ConvertToType => typeof (TOutput);
 
-		public HandlerCollection Handlers => Source.Handlers;
+		public EventFieldHandlerCollection Handlers => Source.Handlers;
 
 		public IReadOnlyEventField<TOutput> Mirroring => null;
 

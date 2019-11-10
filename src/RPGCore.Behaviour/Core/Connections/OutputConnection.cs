@@ -60,7 +60,7 @@ namespace RPGCore.Behaviour
 		public override Type ConnectionType => typeof (T);
 
 		[JsonIgnore]
-		public HandlerCollection Handlers { get; }
+		public EventFieldHandlerCollection Handlers { get; }
 
 		[JsonIgnore]
 		public IReadOnlyEventField<T> Mirroring { get; private set; }
@@ -70,7 +70,7 @@ namespace RPGCore.Behaviour
 		public OutputConnection (int connectionId)
 			: base (connectionId)
 		{
-			Handlers = new HandlerCollection (this);
+			Handlers = new EventFieldHandlerCollection (this);
 		}
 
 		public void StartMirroring (IReadOnlyEventField<T> target)
