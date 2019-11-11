@@ -3,13 +3,9 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
-	public interface IEventCollection : IDisposable
+	public interface IEventCollection<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
 	{
-		EventCollectionHandlerCollection Handlers { get; }
-	}
-
-	public interface IEventCollection<TKey, TValue> : IEventCollection, IEnumerable<KeyValuePair<TKey, TValue>>
-	{
+		EventCollectionHandlerCollection<TKey, TValue> Handlers { get; }
 		TValue this[TKey key] { get; }
 
 		bool ContainsKey (TKey key);

@@ -5,14 +5,14 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public class EventCollectionHandlerCollection : IEnumerable<KeyValuePair<object, IEventCollectionHandler>>, IDisposable
+	public class EventCollectionHandlerCollection<TKey, TValue> : IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>, IDisposable
 	{
 		public readonly struct ContextWrapped
 		{
-			private readonly IEventCollection Collection;
+			private readonly IEventCollection<TKey, TValue> Collection;
 			private readonly object Context;
 
-			public ContextWrapped (IEventCollection collection, object context)
+			public ContextWrapped (IEventCollection<TKey, TValue> collection, object context)
 			{
 				Collection = collection;
 				Context = context;
@@ -23,27 +23,27 @@ namespace RPGCore.Behaviour
 				Collection.Handlers.Clear (Context);
 			}
 
-			public void Add (IEventCollectionHandler handler)
+			public void Add (IEventCollectionHandler<TKey, TValue> handler)
 			{
-				Collection.Handlers.InternalHandlers.Add (new KeyValuePair<object, IEventCollectionHandler> (Context, handler));
+				Collection.Handlers.InternalHandlers.Add (new KeyValuePair<object, IEventCollectionHandler<TKey, TValue>> (Context, handler));
 			}
 
-			public void Remove (IEventCollectionHandler handler)
+			public void Remove (IEventCollectionHandler<TKey, TValue> handler)
 			{
-				Collection.Handlers.InternalHandlers.Remove (new KeyValuePair<object, IEventCollectionHandler> (Context, handler));
+				Collection.Handlers.InternalHandlers.Remove (new KeyValuePair<object, IEventCollectionHandler<TKey, TValue>> (Context, handler));
 			}
 		}
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		private readonly IEventCollection Collection;
+		private readonly IEventCollection<TKey, TValue> Collection;
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		private readonly List<KeyValuePair<object, IEventCollectionHandler>> InternalHandlers;
+		private readonly List<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> InternalHandlers;
 
-		public EventCollectionHandlerCollection (IEventCollection collection)
+		public EventCollectionHandlerCollection (IEventCollection<TKey, TValue> collection)
 		{
 			Collection = collection;
-			InternalHandlers = new List<KeyValuePair<object, IEventCollectionHandler>> ();
+			InternalHandlers = new List<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> ();
 		}
 
 		public ContextWrapped this[object context]
@@ -67,7 +67,7 @@ namespace RPGCore.Behaviour
 			InternalHandlers.Clear ();
 		}
 
-		public void InvokeAdd ()
+		public void InvokeAdd (TKey key, TValue value)
 		{
 			if (InternalHandlers == null)
 			{
@@ -76,11 +76,11 @@ namespace RPGCore.Behaviour
 
 			for (int i = 0; i < InternalHandlers.Count; i++)
 			{
-				InternalHandlers[i].Value.OnAdd ();
+				InternalHandlers[i].Value.OnAdd (key, value);
 			}
 		}
 
-		public void InvokeRemoved ()
+		public void InvokeRemoved (TKey key, TValue value)
 		{
 			if (InternalHandlers == null)
 			{
@@ -89,7 +89,7 @@ namespace RPGCore.Behaviour
 
 			for (int i = 0; i < InternalHandlers.Count; i++)
 			{
-				InternalHandlers[i].Value.OnRemove ();
+				InternalHandlers[i].Value.OnRemove (key, value);
 			}
 		}
 
@@ -106,14 +106,14 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public IEnumerator<KeyValuePair<object, IEventCollectionHandler>> GetEnumerator ()
+		public IEnumerator<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> GetEnumerator ()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler>>)InternalHandlers).GetEnumerator ();
+			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>)InternalHandlers).GetEnumerator ();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator ()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler>>)InternalHandlers).GetEnumerator ();
+			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>)InternalHandlers).GetEnumerator ();
 		}
 	}
 }

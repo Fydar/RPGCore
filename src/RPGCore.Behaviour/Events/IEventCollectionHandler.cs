@@ -2,9 +2,9 @@ using System;
 
 namespace RPGCore.Behaviour
 {
-	public interface IEventCollectionHandler : IDisposable
+	public interface IEventCollectionHandler<TKey, TValue> : IDisposable
 	{
-		void OnAdd ();
-		void OnRemove ();
+		void OnAdd (TKey key, TValue value);
+		void OnRemove (TKey key, TValue value);
 	}
 }

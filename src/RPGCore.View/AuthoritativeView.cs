@@ -23,6 +23,8 @@ namespace RPGCore.View
 	public abstract class Entity
 	{
 		public EntityRef Id;
+
+		public event Action<object> OnCreateEntityPacket;
 	}
 
 	public struct EntityRef
@@ -48,33 +50,28 @@ namespace RPGCore.View
 		{
 			View = view;
 
-			View.Entities.Handlers[this].Add (new CollectionSyncHandler(View.Entities, this));
+			View.Entities.Handlers[this].Add (new EntitySyncCollectionHandler(this));
 		}
 
-		class CollectionSyncHandler : IEventCollectionHandler
+		class EntitySyncCollectionHandler : IEventCollectionHandler<EntityRef, Entity>
 		{
-			private readonly IEventCollection collection;
 			private readonly ViewDispatcher dispatcher;
 
-			public CollectionSyncHandler(IEventCollection collection, ViewDispatcher dispatcher)
+			public EntitySyncCollectionHandler(ViewDispatcher dispatcher)
 			{
-				this.collection = collection;
 				this.dispatcher = dispatcher;
-			}
-
-			public void OnAdd ()
-			{
-				
-			}
-
-			public void OnRemove ()
-			{
-				throw new NotImplementedException ();
 			}
 
 			public void Dispose ()
 			{
+			}
 
+			public void OnAdd (EntityRef key, Entity value)
+			{
+			}
+
+			public void OnRemove (EntityRef key, Entity value)
+			{
 			}
 		}
 	}

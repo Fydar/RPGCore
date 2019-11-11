@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 	public class EventCollection<TKey, TValue> : IEventCollection<TKey, TValue>, IDisposable
 	{
 		[JsonIgnore]
-		public EventCollectionHandlerCollection Handlers { get; set; }
+		public EventCollectionHandlerCollection<TKey, TValue> Handlers { get; set; }
 
 		private readonly Dictionary<TKey, TValue> Collection;
 
@@ -16,7 +16,7 @@ namespace RPGCore.Behaviour
 
 		public EventCollection ()
 		{
-			Handlers = new EventCollectionHandlerCollection (this);
+			Handlers = new EventCollectionHandlerCollection<TKey, TValue> (this);
 			Collection = new Dictionary<TKey, TValue> ();
 		}
 
@@ -34,16 +34,20 @@ namespace RPGCore.Behaviour
 		{
 			Collection.Add (key, value);
 
-			Handlers.InvokeAdd ();
+			Handlers.InvokeAdd (key, value);
 		}
 
 		public bool Remove (TKey key)
 		{
+			if (!Collection.TryGetValue (key, out var eventObject))
+			{
+				return false;
+			}
+
 			bool result = Collection.Remove (key);
-			
 			if (result)
 			{
-				Handlers.InvokeRemoved ();
+				Handlers.InvokeRemoved (key, eventObject);
 			}
 
 			return result;
