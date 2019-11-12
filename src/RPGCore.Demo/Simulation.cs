@@ -5,6 +5,7 @@ using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Demo.Nodes;
 using RPGCore.Packages;
+using RPGCore.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,8 @@ namespace RPGCore.Demo
 	{
 		public void Start ()
 		{
+			new Server ().Run ();
+
 			var nodes = NodeManifest.Construct (
 				new Type[] {
 					typeof (AddNode),
