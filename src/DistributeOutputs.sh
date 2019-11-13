@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 {
     unity_project_path="$(git rev-parse --show-toplevel)/src/RPGCoreUnity"
 
@@ -11,6 +9,7 @@ set -e
     fi
     
     cp -fv $1 "$unity_project_path/$2"
+    exit 0
 } || {
     echo "Unable to copy files to target destination to distribute build output."
 }
