@@ -8,7 +8,7 @@
         exit 0
     fi
     
-    cp -fv $1 "$unity_project_path/$2"
+    cp -fv $1 "$unity_project_path/$2" | true
     exit 0
 } || {
     echo "Unable to copy files to target destination to distribute build output."
