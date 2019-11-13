@@ -1,5 +1,4 @@
 ﻿using RPGCore.Behaviour;
-using System;
 using System.Collections.Generic;
 
 namespace RPGCore.View

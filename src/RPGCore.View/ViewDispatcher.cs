@@ -17,6 +17,46 @@ namespace RPGCore.View
 			View.Entities.Handlers[this].Add (new EntitySyncCollectionHandler (this));
 		}
 
+		private class EntityFieldSyncHandler : IEventFieldHandler
+		{
+			private readonly ViewDispatcher dispatcher;
+			private readonly EntityRef entity;
+			private readonly string path;
+			private readonly IEventField field;
+
+			public EntityFieldSyncHandler (ViewDispatcher dispatcher, EntityRef entity, string path, IEventField field)
+			{
+				this.dispatcher = dispatcher;
+				this.entity = entity;
+				this.path = path;
+				this.field = field;
+			}
+
+			public void OnAfterChanged ()
+			{
+				object value = field.GetValue ();
+
+				var packet = new ViewPacket
+				{
+					PacketType = ViewPacket.ViewPacketType.UpdateEntity,
+					EntityType = value.GetType ().ToString (),
+					Data = JToken.FromObject (value),
+					Entity = entity,
+					FieldPath = path,
+				};
+
+				dispatcher.OnPacketGenerated?.Invoke (packet);
+			}
+
+			public void OnBeforeChanged ()
+			{
+			}
+
+			public void Dispose ()
+			{
+			}
+		}
+
 		private class EntitySyncCollectionHandler : IEventCollectionHandler<EntityRef, Entity>
 		{
 			private readonly ViewDispatcher dispatcher;
@@ -41,13 +81,18 @@ namespace RPGCore.View
 				};
 
 				dispatcher.OnPacketGenerated?.Invoke (packet);
+
+				foreach (var field in value.SyncedObjects)
+				{
+					field.Value.Handlers[this].Add (new EntityFieldSyncHandler (dispatcher, key, field.Key, field.Value));
+				}
 			}
 
 			public void OnRemove (EntityRef key, Entity value)
 			{
 				var packet = new ViewPacket
 				{
-					PacketType = ViewPacket.ViewPacketType.CreateEntity,
+					PacketType = ViewPacket.ViewPacketType.DestroyEntity,
 					EntityType = value.GetType ().ToString (),
 					Entity = key
 				};

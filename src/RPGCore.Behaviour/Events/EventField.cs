@@ -44,5 +44,15 @@ namespace RPGCore.Behaviour
 		{
 			Handlers.Dispose ();
 		}
+
+		object IEventField.GetValue ()
+		{
+			return Value;
+		}
+
+		void IEventField.SetValue (object value)
+		{
+			Value = (T)value;
+		}
 	}
 }

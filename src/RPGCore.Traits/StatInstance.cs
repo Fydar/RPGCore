@@ -254,5 +254,15 @@ namespace RPGCore.Traits
 		public void Dispose ()
 		{
 		}
+
+		object IEventField.GetValue ()
+		{
+			return Value;
+		}
+
+		void IEventField.SetValue (object value)
+		{
+			Value = (float)value;
+		}
 	}
 }

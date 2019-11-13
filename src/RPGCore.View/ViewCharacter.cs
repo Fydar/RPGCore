@@ -8,6 +8,7 @@ namespace RPGCore.View
 	{
 		public TraitCollection Traits;
 
+		public EventField<string> Name = new EventField<string> ();
 		public EventField<EntityRef> SelectedTarget = new EventField<EntityRef> ();
 
 		public ViewCharacter ()
@@ -22,13 +23,14 @@ namespace RPGCore.View
 		{
 			get
 			{
+				yield return new KeyValuePair<string, IEventField> ("name", Name);
 				yield return new KeyValuePair<string, IEventField> ("selectedTarget", SelectedTarget);
 			}
 		}
 
 		public override string ToString ()
 		{
-			return Id.ToString ();
+			return $"{Name.Value}({Id})";
 		}
 	}
 }

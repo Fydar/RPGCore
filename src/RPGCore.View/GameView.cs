@@ -1,4 +1,5 @@
 ﻿using RPGCore.Behaviour;
+using System.Linq;
 
 namespace RPGCore.View
 {
@@ -20,6 +21,15 @@ namespace RPGCore.View
 					break;
 
 				case ViewPacket.ViewPacketType.UpdateEntity:
+
+					var type = typeof (string);
+
+					object newValue = packet.Data.ToObject (type);
+
+					Entities[packet.Entity].SyncedObjects.Where (s => s.Key == packet.FieldPath)
+						.First ().Value.SetValue (newValue);
+
+
 					break;
 			}
 		}

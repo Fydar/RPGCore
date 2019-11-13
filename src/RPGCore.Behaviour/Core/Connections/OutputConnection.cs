@@ -106,5 +106,15 @@ namespace RPGCore.Behaviour
 
 			Handlers.Dispose ();
 		}
+
+		public object GetValue ()
+		{
+			return Value;
+		}
+
+		public void SetValue (object value)
+		{
+			Value = (T)value;
+		}
 	}
 }

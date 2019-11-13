@@ -17,6 +17,6 @@ namespace RPGCore.View
 		public EntityRef Entity;
 		public string FieldPath;
 		public string EntityType;
-		public JObject Data;
+		public JToken Data;
 	}
 }

@@ -51,5 +51,15 @@ namespace RPGCore.Behaviour
 		public void Dispose ()
 		{
 		}
+
+		public object GetValue ()
+		{
+			throw new NotImplementedException ();
+		}
+
+		public void SetValue (object value)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }
