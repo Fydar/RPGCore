@@ -8,8 +8,6 @@ namespace RPGCore.View
 	{
 		public EntityRef Id;
 
-		public event Action<object> OnCreateEntityPacket;
-
 		public abstract IEnumerable<KeyValuePair<string, IEventField>> SyncedObjects { get; }
 	}
 }
