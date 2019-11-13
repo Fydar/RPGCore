@@ -6,8 +6,8 @@ namespace RPGCore.Behaviour
 	{
 		EventFieldHandlerCollection Handlers { get; }
 
-		public object GetValue();
-		public void SetValue(object value);
+		object GetValue();
+		void SetValue(object value);
 	}
 
 	public interface IReadOnlyEventField<T> : IEventField
