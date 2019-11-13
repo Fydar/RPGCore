@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPGCore.Behaviour.Math
 {
-	[NodeInformation ("Int/Random")]
+	[NodeInformation("Int/Random")]
 	public class IntRandomNode : BehaviourNode
 	{
 		public EventInput Reroll;
@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour.Math
 
 		public IntOutput Output;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var rerollInput = Reroll[context];
 			ConnectionEntry<int> minInput = Min[context];
@@ -24,31 +24,31 @@ namespace RPGCore.Behaviour.Math
 
 			Action outputHandlder = () =>
 			{
-				output.Value = Mathf.RoundToInt (Mathf.Lerp (minInput.Value, maxInput.Value, roll));
+				output.Value = Mathf.RoundToInt(Mathf.Lerp(minInput.Value, maxInput.Value, roll));
 			};
 
 			Action rerollHandler = () =>
 			{
-				roll = UnityEngine.Random.Range (0.0f, 1.0f);
+				roll = UnityEngine.Random.Range(0.0f, 1.0f);
 
-				outputHandlder ();
+				outputHandlder();
 			};
 
 			rerollInput.OnEventFired += rerollHandler;
 			minInput.OnAfterChanged += outputHandlder;
 			maxInput.OnAfterChanged += outputHandlder;
 
-			rerollHandler ();
+			rerollHandler();
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 
 #if UNITY_EDITOR
-		public override Vector2 GetDiamentions ()
+		public override Vector2 GetDiamentions()
 		{
-			return new Vector2 (140, base.GetDiamentions ().y);
+			return new Vector2(140, base.GetDiamentions().y);
 		}
 #endif
 	}

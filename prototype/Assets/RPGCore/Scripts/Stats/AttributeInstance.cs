@@ -7,11 +7,11 @@ namespace RPGCore.Stats
 	{
 		public Action OnValueChanged;
 
-		public void InvokeChanged ()
+		public void InvokeChanged()
 		{
 			if (OnValueChanged != null)
 			{
-				OnValueChanged ();
+				OnValueChanged();
 			}
 		}
 

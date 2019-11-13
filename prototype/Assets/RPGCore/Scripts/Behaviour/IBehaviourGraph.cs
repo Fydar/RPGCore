@@ -10,17 +10,17 @@ namespace RPGCore.Behaviour
 
 	public static class IBehaviourGraphExtensions
 	{
-		public static T GetNode<T> (this IBehaviourGraph graph)
+		public static T GetNode<T>(this IBehaviourGraph graph)
 			where T : BehaviourNode
 		{
-			return (T)graph.GetNode (typeof (T));
+			return (T)graph.GetNode(typeof(T));
 		}
 
-		public static BehaviourNode GetNode (this IBehaviourGraph graph, Type nodeType)
+		public static BehaviourNode GetNode(this IBehaviourGraph graph, Type nodeType)
 		{
 			foreach (var node in graph.AllNodes)
 			{
-				if (nodeType.IsAssignableFrom (node.GetType ()))
+				if (nodeType.IsAssignableFrom(node.GetType()))
 				{
 					return node;
 				}
@@ -28,51 +28,55 @@ namespace RPGCore.Behaviour
 			return null;
 		}
 
-		public static T[] GetNodes<T> (this IBehaviourGraph graph)
+		public static T[] GetNodes<T>(this IBehaviourGraph graph)
 			where T : class
 		{
-			var foundNodes = new List<T> ();
+			var foundNodes = new List<T>();
 
 			foreach (var node in graph.AllNodes)
 			{
-				if (typeof (T).IsAssignableFrom (node.GetType ()))
+				if (typeof(T).IsAssignableFrom(node.GetType()))
 				{
-					foundNodes.Add ((T)(object)node);
+					foundNodes.Add((T)(object)node);
 				}
 			}
-			return foundNodes.ToArray ();
+			return foundNodes.ToArray();
 		}
 
-		public static void SetupGraph (this IBehaviourGraph graph, IBehaviourContext context)
+		public static void SetupGraph(this IBehaviourGraph graph, IBehaviourContext context)
 		{
 			foreach (var node in graph.AllNodes)
 			{
-				node.SetupContext (context);
+				node.SetupContext(context);
 			}
 		}
 
-		public static void RemoveGraph (this IBehaviourGraph graph, IBehaviourContext context)
+		public static void RemoveGraph(this IBehaviourGraph graph, IBehaviourContext context)
 		{
 			foreach (var node in graph.AllNodes)
 			{
 				var behaviourNode = node;
 
-				behaviourNode.RemoveContext (context);
+				behaviourNode.RemoveContext(context);
 
 				foreach (var data in node.OutputSockets)
 				{
 					if (data == null)
+					{
 						continue;
+					}
 
-					data.RemoveContext (context);
+					data.RemoveContext(context);
 				}
 
 				foreach (var data in node.InputSockets)
 				{
 					if (data == null)
+					{
 						continue;
+					}
 
-					data.RemoveContext (context);
+					data.RemoveContext(context);
 				}
 			}
 		}

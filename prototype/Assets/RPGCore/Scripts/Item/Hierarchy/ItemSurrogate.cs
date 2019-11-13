@@ -11,18 +11,18 @@ namespace RPGCore
 	public partial class ItemSurrogate : IItemSeed, IBehaviourContext
 	{
 		public ItemTemplate template;
-		public EventField<RPGCharacter> owner = new EventField<RPGCharacter> ();
-		public ItemData data = new ItemData ();
+		public EventField<RPGCharacter> owner = new EventField<RPGCharacter>();
+		public ItemData data = new ItemData();
 
 		public ItemTier ItemTier;
 
-		[Header ("Enchantments")]
+		[Header("Enchantments")]
 		[SerializeField]
 		private Enchantment prefix;
 		[SerializeField]
 		private Enchantment suffix;
 		[SerializeField]
-		private List<Enchantment> craftingMods = new List<Enchantment> ();
+		private List<Enchantment> craftingMods = new List<Enchantment>();
 
 		public Enchantment Prefix
 		{
@@ -34,29 +34,29 @@ namespace RPGCore
 			{
 				if (prefix != null)
 				{
-					prefix.Template.RemoveGraph (prefix);
+					prefix.Template.RemoveGraph(prefix);
 				}
 
 				if (value == null)
 				{
-					data.prefixData.Reset ();
+					data.prefixData.Reset();
 					prefix = null;
 					return;
 				}
 
-				data.prefixData = new EnchantmantData (value.Template);
+				data.prefixData = new EnchantmantData(value.Template);
 				prefix = value;
 
-				value.Setup (this, data.prefixData);
+				value.Setup(this, data.prefixData);
 
 				if (prefix != null)
 				{
-					prefix.Template.SetupGraph (prefix);
+					prefix.Template.SetupGraph(prefix);
 
-					var itemNodes = prefix.Template.GetNodes<IInputNode<ItemSurrogate>> ();
+					var itemNodes = prefix.Template.GetNodes<IInputNode<ItemSurrogate>>();
 					foreach (var itemNode in itemNodes)
 					{
-						itemNode.SetTarget (prefix, this);
+						itemNode.SetTarget(prefix, this);
 					}
 				}
 			}
@@ -72,29 +72,29 @@ namespace RPGCore
 			{
 				if (suffix != null)
 				{
-					suffix.Template.RemoveGraph (suffix);
+					suffix.Template.RemoveGraph(suffix);
 				}
 
 				if (value == null)
 				{
-					data.suffixData.Reset ();
+					data.suffixData.Reset();
 					suffix = null;
 					return;
 				}
 
-				data.suffixData = new EnchantmantData (value.Template);
+				data.suffixData = new EnchantmantData(value.Template);
 				suffix = value;
 
-				value.Setup (this, data.suffixData);
+				value.Setup(this, data.suffixData);
 
 				if (suffix != null)
 				{
-					suffix.Template.SetupGraph (suffix);
+					suffix.Template.SetupGraph(suffix);
 
-					var itemNodes = suffix.Template.GetNodes<IInputNode<ItemSurrogate>> ();
+					var itemNodes = suffix.Template.GetNodes<IInputNode<ItemSurrogate>>();
 					foreach (var itemNode in itemNodes)
 					{
-						itemNode.SetTarget (suffix, this);
+						itemNode.SetTarget(suffix, this);
 					}
 				}
 			}
@@ -226,10 +226,10 @@ namespace RPGCore
 			{
 				template = value;
 
-				data.seed.ResetEvents ();
-				data.experiance.ResetEvents ();
-				data.level.ResetEvents ();
-				data.quantity.ResetEvents ();
+				data.seed.ResetEvents();
+				data.experiance.ResetEvents();
+				data.level.ResetEvents();
+				data.quantity.ResetEvents();
 
 				Suffix = null;
 				Prefix = null;
@@ -240,10 +240,12 @@ namespace RPGCore
 		{
 			get
 			{
-				var equiptable = template.GetNode<EquiptableItemNode> ();
+				var equiptable = template.GetNode<EquiptableItemNode>();
 
 				if (equiptable == null)
+				{
 					return Slot.None;
+				}
 
 				return equiptable.slot;
 			}
@@ -253,7 +255,7 @@ namespace RPGCore
 		{
 			get
 			{
-				return template.GetNode<ActivatableNode> () != null;
+				return template.GetNode<ActivatableNode>() != null;
 			}
 		}
 
@@ -261,52 +263,55 @@ namespace RPGCore
 		{
 			get
 			{
-				return "<color=#" + ColorUtility.ToHtmlStringRGBA (Template.Rarity.NameColour) + ">[" + FullName + "]</color>";
+				return "<color=#" + ColorUtility.ToHtmlStringRGBA(Template.Rarity.NameColour) + ">[" + FullName + "]</color>";
 			}
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			if (template == null)
+			{
 				return "Unknown Item";
+			}
+
 			return FullName;
 		}
 
-		public void TryUse ()
+		public void TryUse()
 		{
-			Chat.Instance.Log (owner.Value.name + " used " + RichText);
+			Chat.Instance.Log(owner.Value.name + " used " + RichText);
 
-			var activatableNode = template.GetNode<ActivatableNode> ();
-			activatableNode.TryUse (this, owner.Value);
+			var activatableNode = template.GetNode<ActivatableNode>();
+			activatableNode.TryUse(this, owner.Value);
 		}
 
-		public void AddCraftingMod (Enchantment enchantment)
+		public void AddCraftingMod(Enchantment enchantment)
 		{
-			var newData = new EnchantmantData (enchantment);
+			var newData = new EnchantmantData(enchantment);
 
-			craftingMods.Add (enchantment);
-			data.modsData.Add (newData);
+			craftingMods.Add(enchantment);
+			data.modsData.Add(newData);
 		}
 
-		public void RemoveCraftingMod (Enchantment enchantment)
+		public void RemoveCraftingMod(Enchantment enchantment)
 		{
-			RemoveCraftingMod (craftingMods.IndexOf (enchantment));
+			RemoveCraftingMod(craftingMods.IndexOf(enchantment));
 		}
 
-		public void RemoveAllCraftingMods ()
+		public void RemoveAllCraftingMods()
 		{
 			foreach (var enchantment in craftingMods)
 			{
-				RemoveCraftingMod (craftingMods.IndexOf (enchantment));
+				RemoveCraftingMod(craftingMods.IndexOf(enchantment));
 			}
 		}
 
-		public void RemoveCraftingMod (int id)
+		public void RemoveCraftingMod(int id)
 		{
 			var enchant = craftingMods[id];
 
-			craftingMods.RemoveAt (id);
-			data.modsData.RemoveAt (id);
+			craftingMods.RemoveAt(id);
+			data.modsData.RemoveAt(id);
 		}
 	}
 }

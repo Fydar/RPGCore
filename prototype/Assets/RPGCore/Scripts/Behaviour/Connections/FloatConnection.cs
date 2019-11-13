@@ -8,20 +8,20 @@ using RPGCore.Behaviour.Editor;
 
 namespace RPGCore.Behaviour.Connections
 {
-	[ConnectionInformation ("Float", "A decimal number")]
+	[ConnectionInformation("Float", "A decimal number")]
 	public class FloatConnection : Connection<float, FloatConnection, ConnectionEntry<float>>
 	{
-		public static Color SocketColour = new Color (0.8f, 0.8f, 0.8f);
+		public static Color SocketColour = new Color(0.8f, 0.8f, 0.8f);
 
 #if UNITY_EDITOR
-		public override void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+		public override void DrawConnection(Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 		{
-			float distance = Vector3.Distance (start, end);
+			float distance = Vector3.Distance(start, end);
 			var startTan = start + (startDir * distance * 0.5f);
 			var endTan = end + (endDir * distance * 0.5f);
 
-			var connectionColour = new Color (0.9f, 0.9f, 0.9f) * Color.Lerp (GUI.color, Color.white, 0.5f);
-			Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
+			var connectionColour = new Color(0.9f, 0.9f, 0.9f) * Color.Lerp(GUI.color, Color.white, 0.5f);
+			Handles.DrawBezier(start, end, startTan, endTan, connectionColour,
 				BehaviourGraphResources.Instance.SmallConnection, 10);
 		}
 #endif
@@ -31,10 +31,10 @@ namespace RPGCore.Behaviour.Connections
 	public class FloatInput : FloatConnection.Input
 	{
 #if UNITY_EDITOR
-		public override void DrawSocket (Rect rect)
+		public override void DrawSocket(Rect rect)
 		{
-			GUI.color = new Color (0.8f, 0.8f, 0.8f) * Color.Lerp (GUI.color, Color.white, 0.5f);
-			base.DrawSocket (rect);
+			GUI.color = new Color(0.8f, 0.8f, 0.8f) * Color.Lerp(GUI.color, Color.white, 0.5f);
+			base.DrawSocket(rect);
 			GUI.color = Color.white;
 		}
 #endif
@@ -44,10 +44,10 @@ namespace RPGCore.Behaviour.Connections
 	public class FloatOutput : FloatConnection.Output
 	{
 #if UNITY_EDITOR
-		public override void DrawSocket (Rect rect)
+		public override void DrawSocket(Rect rect)
 		{
-			GUI.color = new Color (0.8f, 0.8f, 0.8f) * Color.Lerp (GUI.color, Color.white, 0.5f);
-			base.DrawSocket (rect);
+			GUI.color = new Color(0.8f, 0.8f, 0.8f) * Color.Lerp(GUI.color, Color.white, 0.5f);
+			base.DrawSocket(rect);
 			GUI.color = Color.white;
 		}
 #endif

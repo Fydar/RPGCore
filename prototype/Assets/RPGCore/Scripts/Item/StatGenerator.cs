@@ -4,7 +4,7 @@ namespace RPGCore
 {
 	public static class StatGenerator
 	{
-		public static float Value (IItemSeed context, short StatID)
+		public static float Value(IItemSeed context, short StatID)
 		{
 			if (StatID < 0)
 			{
@@ -13,7 +13,9 @@ namespace RPGCore
 				foreach (float[] overrides in context.NegativeOverrides)
 				{
 					if (overrides == null)
+					{
 						continue;
+					}
 
 					if (overrides.Length > negativeIDs)
 					{
@@ -26,7 +28,9 @@ namespace RPGCore
 			foreach (float[] overrides in context.PositiveOverrides)
 			{
 				if (overrides == null)
+				{
 					continue;
+				}
 
 				if (overrides.Length > StatID)
 				{
@@ -36,26 +40,29 @@ namespace RPGCore
 
 			int seed = (context.Seed.Value << 16) + StatID;
 
-			var rand = new System.Random (seed);
+			var rand = new System.Random(seed);
 
-			return (float)rand.NextDouble ();
+			return (float)rand.NextDouble();
 		}
 
-		public static int IntRange (IItemSeed context, short StatID, int min, int max)
+		public static int IntRange(IItemSeed context, short StatID, int min, int max)
 		{
-			int value = Mathf.RoundToInt (Mathf.Lerp (min, max, Value (context, StatID)));
+			int value = Mathf.RoundToInt(Mathf.Lerp(min, max, Value(context, StatID)));
 
 			if (value == max + 1)
+			{
 				return max;
+			}
+
 			return value;
 		}
 
-		public static float FloatRange (IItemSeed context, short StatID, float min, float max)
+		public static float FloatRange(IItemSeed context, short StatID, float min, float max)
 		{
-			return Mathf.Lerp (min, max, Value (context, StatID));
+			return Mathf.Lerp(min, max, Value(context, StatID));
 		}
 
-		private static int HashInts (short a, short b)
+		private static int HashInts(short a, short b)
 		{
 			uint A = (uint)(a >= 0 ? 2 * a : -2 * a - 1);
 			uint B = (uint)(b >= 0 ? 2 * b : -2 * b - 1);

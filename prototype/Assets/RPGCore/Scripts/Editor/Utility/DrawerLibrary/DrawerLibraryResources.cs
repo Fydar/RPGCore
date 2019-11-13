@@ -20,17 +20,17 @@ namespace RPGCore.Utility
 		{
 			get
 			{
-				if (instance == null || instance.Equals (null))
+				if (instance == null || instance.Equals(null))
 				{
-					var newInstance = CreateInstance<DrawerLibraryResources> ();
-					string path = AssetDatabase.GetAssetPath (MonoScript.FromScriptableObject (newInstance));
-					string dir = Path.GetDirectoryName (path);
-					instance = AssetDatabase.LoadAssetAtPath<DrawerLibraryResources> (Path.Combine (dir, typeof (DrawerLibraryResources).Name + ".asset"));
+					var newInstance = CreateInstance<DrawerLibraryResources>();
+					string path = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(newInstance));
+					string dir = Path.GetDirectoryName(path);
+					instance = AssetDatabase.LoadAssetAtPath<DrawerLibraryResources>(Path.Combine(dir, typeof(DrawerLibraryResources).Name + ".asset"));
 
 					if (instance == null)
 					{
 						instance = newInstance;
-						AssetDatabase.CreateAsset (instance, Path.Combine (dir, typeof (DrawerLibraryResources).Name + ".asset"));
+						AssetDatabase.CreateAsset(instance, Path.Combine(dir, typeof(DrawerLibraryResources).Name + ".asset"));
 					}
 				}
 

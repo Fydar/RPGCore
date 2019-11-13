@@ -25,18 +25,22 @@ namespace RPGCore.Inventories
 			get
 			{
 				if (item == null)
+				{
 					return false;
+				}
 
-				return item.template.GetNode<ActivatableNode> () != null;
+				return item.template.GetNode<ActivatableNode>() != null;
 			}
 		}
 
-		public void TryUse ()
+		public void TryUse()
 		{
 			if (item == null)
+			{
 				return;
+			}
 
-			item.TryUse ();
+			item.TryUse();
 		}
 
 		public RPGCharacter Owner
@@ -56,7 +60,9 @@ namespace RPGCore.Inventories
 			set
 			{
 				if (enabled == value)
+				{
 					return;
+				}
 
 				enabled = value;
 
@@ -68,7 +74,7 @@ namespace RPGCore.Inventories
 						{
 							var behaviour = Behaviours[i];
 
-							behaviour.OnSlotEnable (this);
+							behaviour.OnSlotEnable(this);
 						}
 					}
 					else
@@ -77,7 +83,7 @@ namespace RPGCore.Inventories
 						{
 							var behaviour = Behaviours[i];
 
-							behaviour.OnSlotDisable (this);
+							behaviour.OnSlotDisable(this);
 						}
 					}
 				}
@@ -105,15 +111,19 @@ namespace RPGCore.Inventories
 					{
 						var behaviour = Behaviours[i];
 
-						behaviour.OnExitSlot (this);
+						behaviour.OnExitSlot(this);
 
 						if (Enabled)
-							behaviour.OnSlotDisable (this);
+						{
+							behaviour.OnSlotDisable(this);
+						}
 					}
 				}
 
 				if (onBeforeChanged != null)
-					onBeforeChanged ();
+				{
+					onBeforeChanged();
+				}
 
 				if (nextItem != null)
 				{
@@ -129,15 +139,19 @@ namespace RPGCore.Inventories
 					{
 						var behaviour = Behaviours[i];
 
-						behaviour.OnEnterSlot (this);
+						behaviour.OnEnterSlot(this);
 
 						if (Enabled)
-							behaviour.OnSlotEnable (this);
+						{
+							behaviour.OnSlotEnable(this);
+						}
 					}
 				}
 
 				if (onAfterChanged != null)
-					onAfterChanged ();
+				{
+					onAfterChanged();
+				}
 			}
 		}
 
@@ -157,7 +171,7 @@ namespace RPGCore.Inventories
 			}
 		}
 
-		protected ItemSlot (RPGCharacter _owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
+		protected ItemSlot(RPGCharacter _owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
 		{
 			owner = _owner;
 			Behaviours = behaviours;
@@ -165,7 +179,7 @@ namespace RPGCore.Inventories
 
 			foreach (var behaviour in Behaviours)
 			{
-				behaviour.Setup (this);
+				behaviour.Setup(this);
 			}
 		}
 
@@ -173,45 +187,47 @@ namespace RPGCore.Inventories
 		/// Add an item to the slot.
 		/// </summary>
 		/// <param name="newItem">The new item to add.</param>
-		public abstract AddResult Add (ItemSurrogate newItem);
+		public abstract AddResult Add(ItemSurrogate newItem);
 
 		/// <summary>
 		/// Remove the item from the slot.
 		/// </summary>
-		public abstract void Remove ();
+		public abstract void Remove();
 
 		/// <summary>
 		/// Return the item back to the main inventory of this slot.
 		/// </summary>
-		public abstract void Return ();
+		public abstract void Return();
 
 		/// <summary>
 		/// Swap the item in this slot to another slot, allowing for stack sizes and slot constraints.
 		/// </summary>
 		/// <param name="other">The other slot to swap to.</param>
-		public abstract void Swap (ItemSlot other);
+		public abstract void Swap(ItemSlot other);
 
 		/// <summary>
 		/// Check if an item is valid in this slot
 		/// </summary>
 		/// <returns><c>true</c> if the item is valid in this slot; otherwise, <c>false</c>.</returns>
 		/// <param name="newItem">The item to compare.</param>
-		public bool IsValid (ItemSurrogate newItem)
+		public bool IsValid(ItemSurrogate newItem)
 		{
 			if (Conditions == null)
+			{
 				return true;
+			}
 
-			return Conditions.IsValid (newItem);
+			return Conditions.IsValid(newItem);
 		}
 
-		public virtual T GetSlotBehaviour<T> ()
+		public virtual T GetSlotBehaviour<T>()
 			where T : ItemSlotBehaviour
 		{
 			for (int i = 0; i < Behaviours.Length; i++)
 			{
 				var behaviour = Behaviours[i];
 
-				if (behaviour.GetType () == typeof (T))
+				if (behaviour.GetType() == typeof(T))
 				{
 					return (T)behaviour;
 				}
@@ -219,13 +235,17 @@ namespace RPGCore.Inventories
 			return null;
 		}
 
-		private void OnQuantityChanged ()
+		private void OnQuantityChanged()
 		{
 			if (Item == null)
+			{
 				return;
+			}
 
 			if (Item.Quantity == 0)
+			{
 				Item = null;
+			}
 		}
 	}
 }

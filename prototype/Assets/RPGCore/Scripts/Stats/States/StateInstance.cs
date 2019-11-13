@@ -32,31 +32,35 @@ namespace RPGCore.Stats
 			set
 			{
 				if (_value == value)
+				{
 					return;
+				}
 
 				delta = _value - value;
 
 				_value = value;
 
 				if (OnValueChanged != null)
-					OnValueChanged ();
+				{
+					OnValueChanged();
+				}
 			}
 		}
 	}
 
 #if UNITY_EDITOR
-	[CustomPropertyDrawer (typeof (StateInstance))]
+	[CustomPropertyDrawer(typeof(StateInstance))]
 	public class StateInstanceDrawer : PropertyDrawer
 	{
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			return base.GetPropertyHeight (property, label);
+			return base.GetPropertyHeight(property, label);
 		}
 
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			var infoProperty = property.FindPropertyRelative ("Info");
-			var valueProperty = property.FindPropertyRelative ("_value");
+			var infoProperty = property.FindPropertyRelative("Info");
+			var valueProperty = property.FindPropertyRelative("_value");
 
 			var stateInfo = (StateInformation)infoProperty.objectReferenceValue;
 
@@ -66,26 +70,26 @@ namespace RPGCore.Stats
 
 				if (stateInfo.accuracy != AttributeInformation.Accuracy.Float)
 				{
-					EditorGUI.BeginChangeCheck ();
-					float newValue = EditorGUI.IntField (position, label, Mathf.RoundToInt (valueProperty.floatValue));
-					if (EditorGUI.EndChangeCheck ())
+					EditorGUI.BeginChangeCheck();
+					float newValue = EditorGUI.IntField(position, label, Mathf.RoundToInt(valueProperty.floatValue));
+					if (EditorGUI.EndChangeCheck())
 					{
 						valueProperty.floatValue = newValue;
 					}
 				}
 				else
 				{
-					valueProperty.floatValue = EditorGUI.FloatField (position, label, valueProperty.floatValue);
+					valueProperty.floatValue = EditorGUI.FloatField(position, label, valueProperty.floatValue);
 				}
 
 				GUI.tooltip = null;
 			}
 			else
 			{
-				EditorGUI.LabelField (position, label);
+				EditorGUI.LabelField(position, label);
 			}
 
-			property.serializedObject.ApplyModifiedProperties ();
+			property.serializedObject.ApplyModifiedProperties();
 		}
 	}
 #endif

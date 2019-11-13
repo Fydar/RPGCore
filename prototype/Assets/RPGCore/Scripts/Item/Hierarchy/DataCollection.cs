@@ -7,46 +7,46 @@ namespace RPGCore
 	[Serializable]
 	public class DataCollection : ISerializationCallbackReceiver
 	{
-		private List<string> Names = new List<string> ();
-		private List<DataEntry> Entries = new List<DataEntry> ();
+		private List<string> Names = new List<string>();
+		private List<DataEntry> Entries = new List<DataEntry>();
 
-		private Dictionary<string, DataEntry> Collection = new Dictionary<string, DataEntry> ();
+		private Dictionary<string, DataEntry> Collection = new Dictionary<string, DataEntry>();
 
-		public void OnBeforeSerialize ()
+		public void OnBeforeSerialize()
 		{
 		}
 
-		public void OnAfterDeserialize ()
+		public void OnAfterDeserialize()
 		{
-			Collection.Clear ();
+			Collection.Clear();
 			for (int i = 0; i < Names.Count; i++)
 			{
 				string name = Names[i];
 				var entry = Entries[i];
-				Collection.Add (name, entry);
+				Collection.Add(name, entry);
 			}
 		}
 
-		public DataEntry GetElement (string key)
+		public DataEntry GetElement(string key)
 		{
 			DataEntry entry;
-			Collection.TryGetValue (key, out entry);
+			Collection.TryGetValue(key, out entry);
 			return entry;
 		}
 
-		public DataEntry AssureElement (string key)
+		public DataEntry AssureElement(string key)
 		{
 			DataEntry entry;
 
-			bool result = Collection.TryGetValue (key, out entry);
+			bool result = Collection.TryGetValue(key, out entry);
 
 			if (!result)
 			{
-				entry = new DataEntry ();
+				entry = new DataEntry();
 
-				Names.Add (key);
-				Entries.Add (entry);
-				Collection.Add (key, entry);
+				Names.Add(key);
+				Entries.Add(entry);
+				Collection.Add(key, entry);
 			}
 
 			return entry;

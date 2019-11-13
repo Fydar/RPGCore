@@ -11,12 +11,12 @@ using RPGCore.Behaviour.Editor;
 namespace RPGCore.Behaviour
 {
 #if UNITY_EDITOR
-	[CustomPropertyDrawer (typeof (InputSocket), true)]
+	[CustomPropertyDrawer(typeof(InputSocket), true)]
 	public class InputDrawer : PropertyDrawer
 	{
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			var sourceProperty = property.FindPropertyRelative ("SourceNode");
+			var sourceProperty = property.FindPropertyRelative("SourceNode");
 
 			if (sourceProperty.objectReferenceValue != null)
 			{
@@ -24,58 +24,62 @@ namespace RPGCore.Behaviour
 			}
 			else
 			{
-				var valueProperty = property.FindPropertyRelative ("defaultValue");
+				var valueProperty = property.FindPropertyRelative("defaultValue");
 
 				if (valueProperty == null)
+				{
 					return EditorGUIUtility.singleLineHeight;
+				}
 
-				return EditorGUI.GetPropertyHeight (valueProperty);
+				return EditorGUI.GetPropertyHeight(valueProperty);
 			}
 		}
 
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			var sourceProperty = property.FindPropertyRelative ("SourceNode");
+			var sourceProperty = property.FindPropertyRelative("SourceNode");
 
 			if (sourceProperty.objectReferenceValue != null)
 			{
-				var inputNoteRect = EditorGUI.PrefixLabel (position, label);
+				var inputNoteRect = EditorGUI.PrefixLabel(position, label);
 				if (label != GUIContent.none)
-					EditorGUI.LabelField (inputNoteRect, "Input", EditorStyles.centeredGreyMiniLabel);
+				{
+					EditorGUI.LabelField(inputNoteRect, "Input", EditorStyles.centeredGreyMiniLabel);
+				}
 			}
 			else
 			{
-				var valueProperty = property.FindPropertyRelative ("defaultValue");
+				var valueProperty = property.FindPropertyRelative("defaultValue");
 
 				if (valueProperty != null)
 				{
-					EditorGUI.BeginChangeCheck ();
-					EditorGUI.PropertyField (position, valueProperty, label);
-					if (EditorGUI.EndChangeCheck ())
+					EditorGUI.BeginChangeCheck();
+					EditorGUI.PropertyField(position, valueProperty, label);
+					if (EditorGUI.EndChangeCheck())
 					{
-						var inputSocket = (InputSocket)PropertyUtility.GetTargetObjectOfProperty (property);
-						property.serializedObject.ApplyModifiedProperties ();
-						inputSocket.AfterContentChanged ();
+						var inputSocket = (InputSocket)PropertyUtility.GetTargetObjectOfProperty(property);
+						property.serializedObject.ApplyModifiedProperties();
+						inputSocket.AfterContentChanged();
 					}
 				}
 			}
 
-			property.FindPropertyRelative ("drawRect").rectValue = position;
+			property.FindPropertyRelative("drawRect").rectValue = position;
 		}
 	}
-	[CustomPropertyDrawer (typeof (OutputSocket), true)]
+	[CustomPropertyDrawer(typeof(OutputSocket), true)]
 	public class OutputDrawer : PropertyDrawer
 	{
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			return EditorGUIUtility.singleLineHeight;
 		}
 
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			property.FindPropertyRelative ("drawRect").rectValue = position;
+			property.FindPropertyRelative("drawRect").rectValue = position;
 
-			EditorGUI.LabelField (position, label);
+			EditorGUI.LabelField(position, label);
 		}
 	}
 #endif
@@ -92,20 +96,22 @@ namespace RPGCore.Behaviour
 			get
 			{
 				if (instance == null)
-					instance = Activator.CreateInstance<B> ();
+				{
+					instance = Activator.CreateInstance<B>();
+				}
 
 				return instance;
 			}
 		}
 
-		public virtual void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+		public virtual void DrawConnection(Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 		{
-			float distance = Vector3.Distance (start, end);
+			float distance = Vector3.Distance(start, end);
 			var startTan = start + (startDir * distance * 0.5f);
 			var endTan = end + (endDir * distance * 0.5f);
 
-			var connectionColour = new Color (1.0f, 1.0f, 1.0f) * Color.Lerp (GUI.color, Color.white, 0.5f);
-			Handles.DrawBezier (start, end, startTan, endTan, connectionColour,
+			var connectionColour = new Color(1.0f, 1.0f, 1.0f) * Color.Lerp(GUI.color, Color.white, 0.5f);
+			Handles.DrawBezier(start, end, startTan, endTan, connectionColour,
 				BehaviourGraphResources.Instance.SmallConnection, 10);
 		}
 #endif
@@ -122,11 +128,11 @@ namespace RPGCore.Behaviour
 			{
 				get
 				{
-					return GetEntry (context);
+					return GetEntry(context);
 				}
 			}
 
-			public C GetEntry (IBehaviourContext context)
+			public C GetEntry(IBehaviourContext context)
 			{
 				if (SourceSocket == null)
 				{
@@ -142,26 +148,28 @@ namespace RPGCore.Behaviour
 				}
 
 				if (contextCahce == null)
-					contextCahce = new Dictionary<IBehaviourContext, C> ();
+				{
+					contextCahce = new Dictionary<IBehaviourContext, C>();
+				}
 
 				C foundEntry;
 
-				bool result = contextCahce.TryGetValue (context, out foundEntry);
+				bool result = contextCahce.TryGetValue(context, out foundEntry);
 
 				if (!result || ContextUtility.currentIndex != -1)
 				{
-					foundEntry = new C ();
+					foundEntry = new C();
 
 					if (ContextUtility.currentIndex == -1)
 					{
-						contextCahce.Add (context, foundEntry);
+						contextCahce.Add(context, foundEntry);
 					}
 
-					if (typeof (ListOutput).IsAssignableFrom (SourceSocket.GetType ()))
+					if (typeof(ListOutput).IsAssignableFrom(SourceSocket.GetType()))
 					{
 						var list = (ListOutput)SourceSocket;
 
-						var entries = list.GetEntry (context);
+						var entries = list.GetEntry(context);
 
 						// If this is a root thing
 						if (ContextUtility.currentIndex == -1)
@@ -172,20 +180,20 @@ namespace RPGCore.Behaviour
 								int index = i;
 								ContextUtility.currentIndex = index;
 
-								ParentNode.SetupContext (context);
+								ParentNode.SetupContext(context);
 							}
 							ContextUtility.currentIndex = -1;
 
 							entries.OnAddEntry += (C entry) =>
 							{
 								ContextUtility.currentIndex = entries.Count - 1;
-								ParentNode.SetupContext (context);
+								ParentNode.SetupContext(context);
 								ContextUtility.currentIndex = -1;
 							};
 
 							entries.OnRemoveEntry += (C entry) =>
 							{
-								entry.Value = default (T);
+								entry.Value = default(T);
 
 								//ContextUtility.currentIndex = entries.Count - 1;
 								//ParentNode.Remove (context);
@@ -196,9 +204,11 @@ namespace RPGCore.Behaviour
 						{
 							ConnectionEntry connectionEntry = entries[ContextUtility.currentIndex];
 
-							if (!typeof (ISocketConvertable<T>).IsAssignableFrom (connectionEntry.GetType ()))
-								Debug.Log (SourceSocket.GetType ().Name + " is not convertable to "
-									+ GetType ().Name);
+							if (!typeof(ISocketConvertable<T>).IsAssignableFrom(connectionEntry.GetType()))
+							{
+								Debug.Log(SourceSocket.GetType().Name + " is not convertable to "
+									+ GetType().Name);
+							}
 
 							var socket = (ISocketConvertable<T>)connectionEntry;
 
@@ -214,11 +224,13 @@ namespace RPGCore.Behaviour
 					{
 						var sourceOutput = (Socket)SourceSocket;
 
-						var connectionEntry = sourceOutput.GetBaseEntry (context);
+						var connectionEntry = sourceOutput.GetBaseEntry(context);
 
-						if (!typeof (ISocketConvertable<T>).IsAssignableFrom (connectionEntry.GetType ()))
-							Debug.Log (SourceSocket.GetType ().Name + " is not convertable to "
-								+ GetType ().Name);
+						if (!typeof(ISocketConvertable<T>).IsAssignableFrom(connectionEntry.GetType()))
+						{
+							Debug.Log(SourceSocket.GetType().Name + " is not convertable to "
+								+ GetType().Name);
+						}
 
 						var socket = (ISocketConvertable<T>)connectionEntry;
 
@@ -234,37 +246,41 @@ namespace RPGCore.Behaviour
 				return foundEntry;
 			}
 
-			public override ConnectionEntry GetBaseEntry (IBehaviourContext context)
+			public override ConnectionEntry GetBaseEntry(IBehaviourContext context)
 			{
-				return GetEntry (context);
+				return GetEntry(context);
 			}
 
-			public override object GetConnectionObject (IBehaviourContext context)
+			public override object GetConnectionObject(IBehaviourContext context)
 			{
-				Debug.Log ("Getting connection object for " + context.ToString ());
-				return GetEntry (context);
+				Debug.Log("Getting connection object for " + context.ToString());
+				return GetEntry(context);
 			}
 
-			public override void AfterContentChanged ()
+			public override void AfterContentChanged()
 			{
 				if (defaultEntry == null)
+				{
 					return;
+				}
 
 				defaultEntry.Value = defaultValue;
 			}
 
-			public override void RemoveContext (IBehaviourContext context)
+			public override void RemoveContext(IBehaviourContext context)
 			{
 				if (contextCahce == null)
+				{
 					return;
+				}
 
-				contextCahce.Remove (context);
+				contextCahce.Remove(context);
 			}
 
 #if UNITY_EDITOR
-			public override void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+			public override void DrawConnection(Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 			{
-				Instance.DrawConnection (start, end, startDir, endDir);
+				Instance.DrawConnection(start, end, startDir, endDir);
 			}
 #endif
 		}
@@ -277,46 +293,50 @@ namespace RPGCore.Behaviour
 			{
 				get
 				{
-					return GetEntry (context);
+					return GetEntry(context);
 				}
 			}
 
-			public override ConnectionEntry GetBaseEntry (IBehaviourContext context)
+			public override ConnectionEntry GetBaseEntry(IBehaviourContext context)
 			{
-				return GetEntry (context);
+				return GetEntry(context);
 			}
 
-			public C GetEntry (IBehaviourContext context)
+			public C GetEntry(IBehaviourContext context)
 			{
 				if (ContextCahce == null)
-					ContextCahce = new Dictionary<IBehaviourContext, C> ();
+				{
+					ContextCahce = new Dictionary<IBehaviourContext, C>();
+				}
 
 				C foundEntry;
 
-				bool result = ContextCahce.TryGetValue (context, out foundEntry);
+				bool result = ContextCahce.TryGetValue(context, out foundEntry);
 
 				if (!result)
 				{
-					foundEntry = new C ();
+					foundEntry = new C();
 
-					ContextCahce.Add (context, foundEntry);
+					ContextCahce.Add(context, foundEntry);
 				}
 
 				return foundEntry;
 			}
 
-			public override void RemoveContext (IBehaviourContext context)
+			public override void RemoveContext(IBehaviourContext context)
 			{
 				if (ContextCahce == null)
+				{
 					return;
+				}
 
-				ContextCahce.Remove (context);
+				ContextCahce.Remove(context);
 			}
 
 #if UNITY_EDITOR
-			public override void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+			public override void DrawConnection(Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 			{
-				Instance.DrawConnection (start, end, startDir, endDir);
+				Instance.DrawConnection(start, end, startDir, endDir);
 			}
 #endif
 		}
@@ -329,7 +349,7 @@ namespace RPGCore.Behaviour
 			private C defaultEntry;
 			private Dictionary<IBehaviourContext, C> contextCahce;
 
-			public C GetEntry (IBehaviourContext context)
+			public C GetEntry(IBehaviourContext context)
 			{
 				C foundEntry;
 
@@ -349,23 +369,27 @@ namespace RPGCore.Behaviour
 				}
 
 				if (contextCahce == null)
-					contextCahce = new Dictionary<IBehaviourContext, C> ();
+				{
+					contextCahce = new Dictionary<IBehaviourContext, C>();
+				}
 
-				bool result = contextCahce.TryGetValue (context, out foundEntry);
+				bool result = contextCahce.TryGetValue(context, out foundEntry);
 
 				if (!result)
 				{
-					foundEntry = new C ();
+					foundEntry = new C();
 
-					contextCahce.Add (context, foundEntry);
+					contextCahce.Add(context, foundEntry);
 
 					var sourceOutput = (Socket)SourceSocket;
 
-					var connectionEntry = sourceOutput.GetBaseEntry (context);
+					var connectionEntry = sourceOutput.GetBaseEntry(context);
 
-					if (!typeof (ISocketConvertable<T>).IsAssignableFrom (connectionEntry.GetType ()))
-						Debug.Log (SourceSocket.GetType ().Name + " is not convertable to "
-							+ GetType ().Name);
+					if (!typeof(ISocketConvertable<T>).IsAssignableFrom(connectionEntry.GetType()))
+					{
+						Debug.Log(SourceSocket.GetType().Name + " is not convertable to "
+							+ GetType().Name);
+					}
 
 					var socket = (ISocketConvertable<T>)connectionEntry;
 
@@ -378,31 +402,35 @@ namespace RPGCore.Behaviour
 				return foundEntry;
 			}
 
-			public override ConnectionEntry GetBaseEntry (IBehaviourContext context)
+			public override ConnectionEntry GetBaseEntry(IBehaviourContext context)
 			{
-				return GetEntry (context);
+				return GetEntry(context);
 			}
 
-			public override void AfterContentChanged ()
+			public override void AfterContentChanged()
 			{
 				if (defaultEntry == null)
+				{
 					return;
+				}
 
 				defaultEntry.Value = defaultValue;
 			}
 
-			public override void RemoveContext (IBehaviourContext context)
+			public override void RemoveContext(IBehaviourContext context)
 			{
 				if (contextCahce == null)
+				{
 					return;
+				}
 
-				contextCahce.Remove (context);
+				contextCahce.Remove(context);
 			}
 
 #if UNITY_EDITOR
-			public override void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+			public override void DrawConnection(Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 			{
-				Instance.DrawConnection (start, end, startDir, endDir);
+				Instance.DrawConnection(start, end, startDir, endDir);
 			}
 #endif
 		}
@@ -414,9 +442,9 @@ namespace RPGCore.Behaviour
 
 			private readonly List<C> Entries;
 
-			public EntryCollection ()
+			public EntryCollection()
 			{
-				Entries = new List<C> ();
+				Entries = new List<C>();
 			}
 
 			public C this[int i]
@@ -432,48 +460,54 @@ namespace RPGCore.Behaviour
 				}
 			}
 
-			public void Add (T value)
+			public void Add(T value)
 			{
-				if (Contains (value))
-					Debug.LogError ("Trying to add to " + GetType ().Name + " but it already contains "
-						+ value.ToString ());
+				if (Contains(value))
+				{
+					Debug.LogError("Trying to add to " + GetType().Name + " but it already contains "
+						+ value.ToString());
+				}
 
 				var entry = new C
 				{
 					Value = value
 				};
 
-				Entries.Add (entry);
+				Entries.Add(entry);
 
 				if (OnAddEntry != null)
-					OnAddEntry (entry);
+				{
+					OnAddEntry(entry);
+				}
 			}
 
-			public void Remove (T value)
+			public void Remove(T value)
 			{
 				for (int i = 0; i < Entries.Count; i++)
 				{
 					var entry = Entries[i];
 
-					if (entry.Convert.Equals (value))
+					if (entry.Convert.Equals(value))
 					{
-						Entries.RemoveAt (i);
+						Entries.RemoveAt(i);
 
 						if (OnRemoveEntry != null)
-							OnRemoveEntry (entry);
+						{
+							OnRemoveEntry(entry);
+						}
 
 						return;
 					}
 				}
 			}
 
-			public bool Contains (T value)
+			public bool Contains(T value)
 			{
 				for (int i = 0; i < Entries.Count; i++)
 				{
 					var entry = Entries[i];
 
-					if (entry.Convert.Equals (value))
+					if (entry.Convert.Equals(value))
 					{
 						return true;
 					}
@@ -488,45 +522,49 @@ namespace RPGCore.Behaviour
 
 			public IBehaviourContext currentContext;
 
-			public EntryCollection GetEntry (IBehaviourContext context)
+			public EntryCollection GetEntry(IBehaviourContext context)
 			{
 				if (ContextCahce == null)
-					ContextCahce = new Dictionary<IBehaviourContext, EntryCollection> ();
+				{
+					ContextCahce = new Dictionary<IBehaviourContext, EntryCollection>();
+				}
 
 				EntryCollection foundEntry;
 
-				bool result = ContextCahce.TryGetValue (context, out foundEntry);
+				bool result = ContextCahce.TryGetValue(context, out foundEntry);
 
 				if (!result)
 				{
-					foundEntry = new EntryCollection ();
+					foundEntry = new EntryCollection();
 
-					ContextCahce.Add (context, foundEntry);
+					ContextCahce.Add(context, foundEntry);
 				}
 
 				return foundEntry;
 			}
 
-			public override void RemoveContext (IBehaviourContext context)
+			public override void RemoveContext(IBehaviourContext context)
 			{
 				if (ContextCahce == null)
+				{
 					return;
+				}
 
-				ContextCahce.Remove (context);
+				ContextCahce.Remove(context);
 
-				var entry = GetEntry (context);
+				var entry = GetEntry(context);
 
 				for (int i = 0; i < entry.Count; i++)
 				{
-					entry[i].Value = default (T);
+					entry[i].Value = default(T);
 					//entry.Remove (entry [i]);
 				}
 			}
 
 #if UNITY_EDITOR
-			public override void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+			public override void DrawConnection(Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 			{
-				Instance.DrawConnection (start, end, startDir, endDir);
+				Instance.DrawConnection(start, end, startDir, endDir);
 			}
 #endif
 		}

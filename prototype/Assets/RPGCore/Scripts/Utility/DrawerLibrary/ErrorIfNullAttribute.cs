@@ -6,11 +6,11 @@ namespace RPGCore.Utility
 	{
 		public string ErrorMessage = "This field cannot be null.";
 
-		public ErrorIfNullAttribute ()
+		public ErrorIfNullAttribute()
 		{
 		}
 
-		public ErrorIfNullAttribute (string error)
+		public ErrorIfNullAttribute(string error)
 		{
 			ErrorMessage = error;
 		}

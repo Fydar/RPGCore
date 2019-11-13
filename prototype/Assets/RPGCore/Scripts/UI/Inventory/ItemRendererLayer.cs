@@ -7,7 +7,7 @@ namespace RPGCore.Inventories
 	{
 		public static ItemRendererLayer singleton;
 
-		public static List<ItemRendererLayer> IDs = new List<ItemRendererLayer> ();
+		public static List<ItemRendererLayer> IDs = new List<ItemRendererLayer>();
 
 		public Camera layerCamera;
 		public Canvas layerCanvas;
@@ -16,19 +16,19 @@ namespace RPGCore.Inventories
 
 		public int ID = 0;
 
-		private void Awake ()
+		private void Awake()
 		{
 			singleton = this;
 
 			while (IDs.Count <= ID)
 			{
-				IDs.Add (null);
+				IDs.Add(null);
 			}
 
 			IDs[ID] = this;
 		}
 
-		public static ItemRendererLayer Get (int id)
+		public static ItemRendererLayer Get(int id)
 		{
 			return IDs[id];
 		}

@@ -33,12 +33,12 @@ namespace RPGCore
 			}
 		}
 
-		public Enchantment (EnchantmentTemplate _template)
+		public Enchantment(EnchantmentTemplate _template)
 		{
 			template = _template;
 		}
 
-		public void Setup (ItemSurrogate _item, EnchantmantData _data)
+		public void Setup(ItemSurrogate _item, EnchantmantData _data)
 		{
 			item = _item;
 			data = _data;

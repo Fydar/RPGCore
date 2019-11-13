@@ -8,14 +8,14 @@ using UnityEditor;
 
 namespace RPGCore.Tables
 {
-	[CreateAssetMenu (menuName = "RPGCore/Loottable")]
+	[CreateAssetMenu(menuName = "RPGCore/Loottable")]
 	public class Loottable : ScriptableObject
 	{
 		[Serializable]
 		public class ItemEntry : GenericTableEntry<ItemGenerator>
 		{
-			public ItemEntry (ItemGenerator item, float balance)
-				: base (item, balance)
+			public ItemEntry(ItemGenerator item, float balance)
+				: base(item, balance)
 			{
 			}
 		}
@@ -28,47 +28,49 @@ namespace RPGCore.Tables
 		public ItemRoll[] TableRolls;
 		private List<ItemSurrogate> cachedGeneratedItems;
 
-		public List<ItemSurrogate> Select ()
+		public List<ItemSurrogate> Select()
 		{
 			if (cachedGeneratedItems == null)
 			{
-				cachedGeneratedItems = new List<ItemSurrogate> ();
+				cachedGeneratedItems = new List<ItemSurrogate>();
 			}
-			cachedGeneratedItems.Clear ();
+			cachedGeneratedItems.Clear();
 
 			for (int i = 0; i < TableRolls.Length; i++)
 			{
-				var itemGenerator = TableRolls[i].Select ();
+				var itemGenerator = TableRolls[i].Select();
 				if (itemGenerator == null)
+				{
 					continue;
+				}
 
 				if (itemGenerator.RewardTemplate != null)
 				{
-					var generatedItem = itemGenerator.Generate ();
-					cachedGeneratedItems.Add (generatedItem);
+					var generatedItem = itemGenerator.Generate();
+					cachedGeneratedItems.Add(generatedItem);
 				}
 			}
 
 			return cachedGeneratedItems;
 		}
 
-		public List<ItemSurrogate> SelectMultiple ()
+		public List<ItemSurrogate> SelectMultiple()
 		{
 			if (cachedGeneratedItems == null)
 			{
-				cachedGeneratedItems = new List<ItemSurrogate> ();
+				cachedGeneratedItems = new List<ItemSurrogate>();
 			}
-			cachedGeneratedItems.Clear ();
+			cachedGeneratedItems.Clear();
 
 			for (int i = 0; i < TableRolls.Length; i++)
 			{
-				var itemGenerator = TableRolls[i].SelectMultiple ();
+				var itemGenerator = TableRolls[i].SelectMultiple();
 				for (int x = 0; x < itemGenerator.Length; x++)
 				{
 					if (itemGenerator[x].RewardTemplate)
 					{
-						var generatedItem = itemGenerator[x].Generate ();
-						cachedGeneratedItems.Add (generatedItem);
+						var generatedItem = itemGenerator[x].Generate();
+						cachedGeneratedItems.Add(generatedItem);
 					}
 				}
 			}
@@ -77,15 +79,15 @@ namespace RPGCore.Tables
 		}
 
 #if UNITY_EDITOR
-		[CustomEditor (typeof (Loottable), true)]
+		[CustomEditor(typeof(Loottable), true)]
 		private class LootTableDrawer : Editor
 		{
 			private Loottable lootTable;
-			public override void OnInspectorGUI ()
+			public override void OnInspectorGUI()
 			{
 				//lootTable = (Loottable)target;
 
-				DrawDefaultInspector ();
+				DrawDefaultInspector();
 			}
 		}
 #endif

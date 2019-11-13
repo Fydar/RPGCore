@@ -6,9 +6,9 @@ namespace RPGCore.UI
 	{
 		public UIContextMenu Menu;
 
-		public void Render (UIContextMenu menu, RectTransform holder)
+		public void Render(UIContextMenu menu, RectTransform holder)
 		{
-			menu.DividerPool.Grab (holder);
+			menu.DividerPool.Grab(holder);
 			Menu = menu;
 		}
 	}

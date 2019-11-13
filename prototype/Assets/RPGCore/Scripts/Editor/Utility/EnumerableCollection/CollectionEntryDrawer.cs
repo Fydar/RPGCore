@@ -4,20 +4,20 @@ using UnityEngine;
 
 namespace RPGCore.Utility.Editors
 {
-	[CustomPropertyDrawer (typeof (CollectionEntry), true)]
+	[CustomPropertyDrawer(typeof(CollectionEntry), true)]
 	public class CollectionEntryDrawer : PropertyDrawer
 	{
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			return EditorGUIUtility.singleLineHeight;
 		}
 
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			var entry = (CollectionEntry)PropertyUtility.GetTargetObjectOfProperty (property);
+			var entry = (CollectionEntry)PropertyUtility.GetTargetObjectOfProperty(property);
 
-			var idProperty = property.FindPropertyRelative ("field");
-			var info = EnumerableCollection.GetReflectionInformation (entry.IndexType);
+			var idProperty = property.FindPropertyRelative("field");
+			var info = EnumerableCollection.GetReflectionInformation(entry.IndexType);
 
 			string[] names = info.fieldNames;
 
@@ -33,14 +33,14 @@ namespace RPGCore.Utility.Editors
 			if (currentIndex == -1)
 			{
 				currentIndex = 0;
-				idProperty.stringValue = names[EditorGUI.Popup (position, label.text, currentIndex, names)];
+				idProperty.stringValue = names[EditorGUI.Popup(position, label.text, currentIndex, names)];
 			}
 
-			EditorGUI.BeginChangeCheck ();
+			EditorGUI.BeginChangeCheck();
 
-			idProperty.stringValue = names[EditorGUI.Popup (position, label.text, currentIndex, names)];
+			idProperty.stringValue = names[EditorGUI.Popup(position, label.text, currentIndex, names)];
 
-			if (EditorGUI.EndChangeCheck ())
+			if (EditorGUI.EndChangeCheck())
 			{
 				entry.entryIndex = -1;
 			}

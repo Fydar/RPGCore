@@ -10,7 +10,7 @@ namespace RPGCore.UI
 		private PopupButton entry;
 		private PopupMenu menu;
 
-		public void Setup (PopupMenu menu, PopupButton entry)
+		public void Setup(PopupMenu menu, PopupButton entry)
 		{
 			this.menu = menu;
 			this.entry = entry;
@@ -18,12 +18,14 @@ namespace RPGCore.UI
 			label.text = entry.Label;
 		}
 
-		public void FireClick ()
+		public void FireClick()
 		{
-			menu.Close ();
+			menu.Close();
 
 			if (entry.OnClick != null)
-				entry.OnClick ();
+			{
+				entry.OnClick();
+			}
 		}
 	}
 }

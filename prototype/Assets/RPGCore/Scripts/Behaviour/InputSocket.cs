@@ -9,7 +9,7 @@ namespace RPGCore.Behaviour
 
 		[SerializeField]
 		public BehaviourNode SourceNode;
-		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs ("SourceField")]
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("SourceField")]
 		public string SourcePath;
 
 		[NonSerialized]
@@ -30,22 +30,22 @@ namespace RPGCore.Behaviour
 				var tempA = SourceNode.InputSockets;
 				var tempB = SourceNode.OutputSockets;
 
-				sourceSocket = SourceNode.GetOutput (SourcePath);
+				sourceSocket = SourceNode.GetOutput(SourcePath);
 
 				return sourceSocket;
 			}
 		}
 
-		public override void RemoveContext (IBehaviourContext context)
+		public override void RemoveContext(IBehaviourContext context)
 		{
 		}
 
-		public virtual object GetConnectionObject (IBehaviourContext context)
+		public virtual object GetConnectionObject(IBehaviourContext context)
 		{
 			return null;
 		}
 
-		public virtual void AfterContentChanged ()
+		public virtual void AfterContentChanged()
 		{
 		}
 
@@ -54,7 +54,7 @@ namespace RPGCore.Behaviour
 		{
 			get
 			{
-				return new Rect (drawRect.xMin - socketSize - 4, drawRect.y, socketSize, socketSize);
+				return new Rect(drawRect.xMin - socketSize - 4, drawRect.y, socketSize, socketSize);
 			}
 		}
 #endif

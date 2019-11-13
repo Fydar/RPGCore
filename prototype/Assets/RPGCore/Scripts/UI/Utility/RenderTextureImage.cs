@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace RPGCore.Utility
 {
-	[RequireComponent (typeof (RawImage))]
+	[RequireComponent(typeof(RawImage))]
 	public class RenderTextureImage : MonoBehaviour
 	{
 		private enum RTDepth
@@ -24,28 +24,28 @@ namespace RPGCore.Utility
 		private int lastWidth = -1;
 		private int lastHeight = -1;
 
-		private void Awake ()
+		private void Awake()
 		{
-			targetImage = GetComponent<RawImage> ();
+			targetImage = GetComponent<RawImage>();
 			targetImage.enabled = true;
 		}
 
-		private void Start ()
+		private void Start()
 		{
-			RefreshRenderTexture ();
+			RefreshRenderTexture();
 		}
 
-		private void Update ()
+		private void Update()
 		{
 			if (lastWidth != Screen.width || lastHeight != Screen.height)
 			{
-				RefreshRenderTexture ();
+				RefreshRenderTexture();
 			}
 		}
 
-		private void RefreshRenderTexture ()
+		private void RefreshRenderTexture()
 		{
-			var newRT = new RenderTexture (Screen.width, Screen.height, (int)depth, format);
+			var newRT = new RenderTexture(Screen.width, Screen.height, (int)depth, format);
 			newRT.antiAliasing = Antialiasing;
 
 			var oldRT = targetCamera.targetTexture;
@@ -54,7 +54,9 @@ namespace RPGCore.Utility
 			targetImage.texture = newRT;
 
 			if (oldRT != null)
-				oldRT.Release ();
+			{
+				oldRT.Release();
+			}
 
 			lastWidth = Screen.width;
 			lastHeight = Screen.height;

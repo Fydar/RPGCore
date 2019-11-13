@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPGCore.Behaviour.Events
 {
-	[NodeInformation ("Events/Upon", "EventLogic")]
+	[NodeInformation("Events/Upon", "EventLogic")]
 	public class UponNode : BehaviourNode
 	{
 		public BoolInput Condition;
@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour.Events
 		public EventOutput True;
 		public EventOutput False;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var conditionInput = Condition[context];
 			var trueOutput = True[context];
@@ -22,25 +22,25 @@ namespace RPGCore.Behaviour.Events
 			{
 				if (conditionInput.Value)
 				{
-					trueOutput.Invoke ();
+					trueOutput.Invoke();
 				}
 				else
 				{
-					falseOutput.Invoke ();
+					falseOutput.Invoke();
 				}
 			};
 
 			conditionInput.OnAfterChanged += eventHandler;
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 
 #if UNITY_EDITOR
-		public override Vector2 GetDiamentions ()
+		public override Vector2 GetDiamentions()
 		{
-			return new Vector2 (160, base.GetDiamentions ().y);
+			return new Vector2(160, base.GetDiamentions().y);
 		}
 #endif
 	}

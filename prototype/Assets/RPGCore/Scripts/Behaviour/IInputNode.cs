@@ -4,6 +4,6 @@
 
 	public interface IInputNode<T> : IInputNode
 	{
-		void SetTarget (IBehaviourContext context, T target);
+		void SetTarget(IBehaviourContext context, T target);
 	}
 }

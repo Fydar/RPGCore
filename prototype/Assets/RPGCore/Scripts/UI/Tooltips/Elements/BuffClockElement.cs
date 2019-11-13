@@ -9,18 +9,22 @@ namespace RPGCore.Tooltips
 
 		private Buff buff;
 
-		public void Render (Buff target)
+		public void Render(Buff target)
 		{
 			buff = target;
 
 			if (!buff.HasActiveClock)
-				gameObject.SetActive (false);
+			{
+				gameObject.SetActive(false);
+			}
 		}
 
-		private void Update ()
+		private void Update()
 		{
 			if (buff == null)
+			{
 				return;
+			}
 
 			filled.fillAmount = buff.DisplayPercent;
 		}

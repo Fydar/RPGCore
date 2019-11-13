@@ -5,21 +5,21 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Effect Tooltip", "Tooltip")]
+	[NodeInformation("Item/Effect Tooltip", "Tooltip")]
 	public class EffectTooltipNode : BehaviourNode, INodeDescription
 	{
-		[TextArea (3, 5)]
+		[TextArea(3, 5)]
 		public string Template = "{0} Effect";
 		public float[] Values = new float[1];
 
-		public Dictionary<IBehaviourContext, string> DescriptionMap = new Dictionary<IBehaviourContext, string> ();
+		public Dictionary<IBehaviourContext, string> DescriptionMap = new Dictionary<IBehaviourContext, string>();
 
-		public string Description (IBehaviourContext context)
+		public string Description(IBehaviourContext context)
 		{
 			return DescriptionMap[context];
 		}
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			Action updateHandler = () =>
 			{
@@ -31,20 +31,20 @@ namespace RPGCore
 				}
 
 				// Debug.Log ("Description: " + String.Format (Template, valuesObjects));
-				DescriptionMap[context] = string.Format (Template, valuesObjects);
+				DescriptionMap[context] = string.Format(Template, valuesObjects);
 			};
 
-			updateHandler ();
+			updateHandler();
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 
 #if UNITY_EDITOR
-		public override Vector2 GetDiamentions ()
+		public override Vector2 GetDiamentions()
 		{
-			return new Vector2 (260, base.GetDiamentions ().y);
+			return new Vector2(260, base.GetDiamentions().y);
 		}
 #endif
 	}

@@ -3,7 +3,7 @@ using System;
 
 namespace RPGCore.Behaviour.Logic
 {
-	[NodeInformation ("Logic/Compare Float")]
+	[NodeInformation("Logic/Compare Float")]
 	public class CompareFloatNode : BehaviourNode
 	{
 		public enum Comparison
@@ -19,7 +19,7 @@ namespace RPGCore.Behaviour.Logic
 
 		public BoolOutput Output;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var valueAInput = ValueA[context];
 			var valueBInput = ValueB[context];
@@ -28,20 +28,26 @@ namespace RPGCore.Behaviour.Logic
 			Action updateHandler = () =>
 			{
 				if (Operator == Comparison.Equal)
+				{
 					output.Value = valueAInput.Value == valueBInput.Value;
+				}
 				else if (Operator == Comparison.Greater)
+				{
 					output.Value = valueAInput.Value > valueBInput.Value;
+				}
 				else if (Operator == Comparison.Less)
+				{
 					output.Value = valueAInput.Value < valueBInput.Value;
+				}
 			};
 
 			valueAInput.OnAfterChanged += updateHandler;
 			valueBInput.OnAfterChanged += updateHandler;
 
-			updateHandler ();
+			updateHandler();
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

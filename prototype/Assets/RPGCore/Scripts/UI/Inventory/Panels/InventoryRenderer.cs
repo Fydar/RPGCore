@@ -4,15 +4,15 @@ namespace RPGCore.Inventories
 {
 	public class InventoryRenderer : ExpandableInventoryRenderer
 	{
-		[Header ("State")]
+		[Header("State")]
 		public RPGCharacter target;
 
-		private void Start ()
+		private void Start()
 		{
-			Setup (target.inventory);
+			Setup(target.inventory);
 		}
 
-		protected override void OnSlotAdd (ItemSlotManager manager)
+		protected override void OnSlotAdd(ItemSlotManager manager)
 		{
 			//TODO: Open options pancel
 
@@ -23,7 +23,7 @@ namespace RPGCore.Inventories
 			};*/
 		}
 
-		protected override void OnSlotRemove (ItemSlotManager slot)
+		protected override void OnSlotRemove(ItemSlotManager slot)
 		{
 		}
 	}

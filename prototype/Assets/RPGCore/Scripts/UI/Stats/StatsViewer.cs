@@ -13,16 +13,16 @@ namespace RPGCore.Stats
 		public StatDrawerPool PrefabDrawer;
 		public RectTransform Holder;
 
-		private void Start ()
+		private void Start()
 		{
 			foreach (var stat in Char.Stats)
 			{
-				var drawer = PrefabDrawer.Grab (Holder);
+				var drawer = PrefabDrawer.Grab(Holder);
 
-				drawer.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.zero;
+				drawer.GetComponent<RectTransform>().anchoredPosition3D = Vector3.zero;
 				drawer.transform.localScale = Vector3.one;
 
-				drawer.Setup (stat);
+				drawer.Setup(stat);
 			}
 		}
 	}

@@ -17,32 +17,38 @@ namespace RPGCore
 		[Space]
 		public BuffIndicatorPool Indicator;
 
-		private void Start ()
+		private void Start()
 		{
-			Indicator.Flush ();
-			Subscribe (TargetCharacter);
+			Indicator.Flush();
+			Subscribe(TargetCharacter);
 		}
 
-		private void Subscribe (RPGCharacter character)
+		private void Subscribe(RPGCharacter character)
 		{
 			character.Buffs.OnAddBuff += CreateIndicator;
 		}
 
-		private void CreateIndicator (Buff buff)
+		private void CreateIndicator(Buff buff)
 		{
 			if (buff.buffTemplate.Type == BuffType.None)
+			{
 				return;
+			}
 
 			Transform parent;
 			if (buff.buffTemplate.Type == BuffType.Debuff)
+			{
 				parent = DebuffsHolder;
+			}
 			else
+			{
 				parent = BuffsHolder;
+			}
 
-			var indicator = Indicator.Grab (parent);
+			var indicator = Indicator.Grab(parent);
 			indicator.transform.localScale = Vector3.one;
 
-			indicator.Setup (this, buff);
+			indicator.Setup(this, buff);
 		}
 	}
 }

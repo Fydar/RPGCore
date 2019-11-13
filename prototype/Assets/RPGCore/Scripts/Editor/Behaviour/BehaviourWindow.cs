@@ -47,111 +47,119 @@ namespace RPGCore.Behaviour.Editor
 
 		private int controlID;
 
-		[MenuItem ("Window/Behaviour")]
-		private static void ShowEditor ()
+		[MenuItem("Window/Behaviour")]
+		private static void ShowEditor()
 		{
-			var editor = GetWindow<BehaviourWindow> ();
+			var editor = GetWindow<BehaviourWindow>();
 
-			editor.Show ();
+			editor.Show();
 		}
 
-		[OnOpenAsset (0)]
-		public static bool OpenGraph (int instanceID, int line)
+		[OnOpenAsset(0)]
+		public static bool OpenGraph(int instanceID, int line)
 		{
-			var targetObject = EditorUtility.InstanceIDToObject (instanceID);
+			var targetObject = EditorUtility.InstanceIDToObject(instanceID);
 
-			if (!typeof (IBehaviourGraph).IsAssignableFrom (targetObject.GetType ()))
+			if (!typeof(IBehaviourGraph).IsAssignableFrom(targetObject.GetType()))
+			{
 				return false;
+			}
 
-			var editor = GetWindow<BehaviourWindow> ();
-			editor.Show ();
+			var editor = GetWindow<BehaviourWindow>();
+			editor.Show();
 
-			editor.OpenGraph ((IBehaviourGraph)targetObject);
+			editor.OpenGraph((IBehaviourGraph)targetObject);
 
 			return true;
 		}
 
-		public void OpenGraph (IBehaviourGraph openGraph)
+		public void OpenGraph(IBehaviourGraph openGraph)
 		{
 			targetGraph = openGraph;
 			dragging_Position = Vector2.zero;
-			ResetView ();
+			ResetView();
 
-			Repaint ();
+			Repaint();
 		}
 
-		public void CloseGraph ()
+		public void CloseGraph()
 		{
 			targetGraph = null;
 		}
 
-		private void OnEnable ()
+		private void OnEnable()
 		{
 			wantsMouseMove = true;
 
 			Undo.undoRedoPerformed += Repaint;
 
 			if (EditorGUIUtility.isProSkin)
-				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.DarkThemeIcon);
+			{
+				titleContent = new GUIContent("Behaviour", BehaviourGraphResources.Instance.DarkThemeIcon);
+			}
 			else
-				titleContent = new GUIContent ("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
+			{
+				titleContent = new GUIContent("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
+			}
 
-			BasicNodeMenu = new GenericMenu ();
+			BasicNodeMenu = new GenericMenu();
 
-			BasicNodeMenu.AddItem (new GUIContent ("Duplicate"), false, DuplicateNodeCallback);
-			BasicNodeMenu.AddItem (new GUIContent ("Delete"), false, DeleteNodeCallback);
-			BasicNodeMenu.AddSeparator ("");
-			BasicNodeMenu.AddItem (new GUIContent ("Ping Source"), false, PingSourceCallback);
-			BasicNodeMenu.AddItem (new GUIContent ("Open Script"), false, OpenScriptCallback);
+			BasicNodeMenu.AddItem(new GUIContent("Duplicate"), false, DuplicateNodeCallback);
+			BasicNodeMenu.AddItem(new GUIContent("Delete"), false, DeleteNodeCallback);
+			BasicNodeMenu.AddSeparator("");
+			BasicNodeMenu.AddItem(new GUIContent("Ping Source"), false, PingSourceCallback);
+			BasicNodeMenu.AddItem(new GUIContent("Open Script"), false, OpenScriptCallback);
 
-			help_Info = new List<ConnectionInformationAttribute> ();
+			help_Info = new List<ConnectionInformationAttribute>();
 
-			var assemblies = AppDomain.CurrentDomain.GetAssemblies ();
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			for (int a = 0; a < assemblies.Length; a++)
 			{
 				var assembly = assemblies[a];
-				var types = assembly.GetTypes ();
+				var types = assembly.GetTypes();
 
 				for (int t = 0; t < types.Length; t++)
 				{
 					var type = types[t];
 
 					if (type.IsAbstract)
+					{
 						continue;
+					}
 
-					if (typeof (BehaviourNode).IsAssignableFrom (type))
+					if (typeof(BehaviourNode).IsAssignableFrom(type))
 					{
 					}
 					else
 					{
-						object[] obj = type.GetCustomAttributes (typeof (ConnectionInformationAttribute), false);
+						object[] obj = type.GetCustomAttributes(typeof(ConnectionInformationAttribute), false);
 						if (obj.Length == 1)
 						{
 							var attri = (ConnectionInformationAttribute)obj[0];
 							attri.Type = type;
-							help_Info.Add (attri);
+							help_Info.Add(attri);
 						}
 					}
 				}
 			}
 		}
 
-		private void OnGUI ()
+		private void OnGUI()
 		{
 			if (screenshot_TakeScreenshot && currentEvent.type == EventType.Repaint)
 			{
 				screenshot_OldTexture = RenderTexture.active;
-				screenshot_RenderTexture = new RenderTexture ((int)position.width, (int)position.height + 24, 16, RenderTextureFormat.ARGB32);
+				screenshot_RenderTexture = new RenderTexture((int)position.width, (int)position.height + 24, 16, RenderTextureFormat.ARGB32);
 				RenderTexture.active = screenshot_RenderTexture;
 
 				Color backgroundColor = EditorGUIUtility.isProSkin
-					? new Color32 (56, 56, 56, 255)
-					: new Color32 (194, 194, 194, 255);
+					? new Color32(56, 56, 56, 255)
+					: new Color32(194, 194, 194, 255);
 
-				GL.Clear (true, true, backgroundColor);
+				GL.Clear(true, true, backgroundColor);
 			}
 
-			screenRect = new Rect (0, EditorGUIUtility.singleLineHeight + 1,
+			screenRect = new Rect(0, EditorGUIUtility.singleLineHeight + 1,
 				position.width, position.height - (EditorGUIUtility.singleLineHeight + 1));
 
 			currentEvent = Event.current;
@@ -159,110 +167,114 @@ namespace RPGCore.Behaviour.Editor
 			if (currentEvent.type == EventType.MouseUp && dragging_IsDragging)
 			{
 				dragging_IsDragging = false;
-				currentEvent.Use ();
+				currentEvent.Use();
 			}
 
-			HandleDragAndDrop (screenRect);
+			HandleDragAndDrop(screenRect);
 
-			DrawBackground (screenRect, dragging_Position);
+			DrawBackground(screenRect, dragging_Position);
 
 			if (targetGraph == null)
 			{
-				DrawTopBar ();
+				DrawTopBar();
 				return;
 			}
 
 			connection_CanEdit = !Application.isPlaying;
 
-			DrawConnections ();
-			DrawCurrentConnections ();
-			DrawNodes ();
-			DrawSockets ();
+			DrawConnections();
+			DrawCurrentConnections();
+			DrawNodes();
+			DrawSockets();
 
-			DrawHelp ();
+			DrawHelp();
 
-			HandleInput ();
+			HandleInput();
 
-			DrawOverlay ();
-			DrawTopBar ();
+			DrawOverlay();
+			DrawTopBar();
 
 			if (screenshot_TakeScreenshot && currentEvent.type == EventType.Repaint)
 			{
-				var tex = new Texture2D (screenshot_RenderTexture.width, screenshot_RenderTexture.height - 18, TextureFormat.RGB24, false);
+				var tex = new Texture2D(screenshot_RenderTexture.width, screenshot_RenderTexture.height - 18, TextureFormat.RGB24, false);
 
-				tex.ReadPixels (new Rect (0, 18, screenshot_RenderTexture.width, screenshot_RenderTexture.height), 0, 0);
-				tex.Apply ();
+				tex.ReadPixels(new Rect(0, 18, screenshot_RenderTexture.width, screenshot_RenderTexture.height), 0, 0);
+				tex.Apply();
 
-				byte[] bytes = tex.EncodeToPNG ();
-				File.WriteAllBytes ("Screenshots.png", bytes);
+				byte[] bytes = tex.EncodeToPNG();
+				File.WriteAllBytes("Screenshots.png", bytes);
 
 				screenshot_TakeScreenshot = false;
 
 				RenderTexture.active = screenshot_OldTexture;
 			}
 		}
-		private string OurTempSquareImageLocation ()
+		private string OurTempSquareImageLocation()
 		{
 			string r = Application.persistentDataPath + "/p.png";
 			return r;
 		}
 
-		private void AddNodeCallback (object type)
+		private void AddNodeCallback(object type)
 		{
-			AddNodeCallback (type, rightClickedPosition);
+			AddNodeCallback(type, rightClickedPosition);
 		}
 
-		private void AddNodeCallback (object type, Vector2 mousePosition)
+		private void AddNodeCallback(object type, Vector2 mousePosition)
 		{
-			var node = (BehaviourNode)AddNode ((Type)type);
+			var node = (BehaviourNode)AddNode((Type)type);
 
-			node.Position = (mousePosition - dragging_Position) - (node.GetDiamentions () * 0.5f);
+			node.Position = (mousePosition - dragging_Position) - (node.GetDiamentions() * 0.5f);
 
-			Repaint ();
+			Repaint();
 		}
 
-		private void DuplicateNodeCallback ()
+		private void DuplicateNodeCallback()
 		{
-			DuplicateNode (rightClickedNode);
+			DuplicateNode(rightClickedNode);
 		}
 
-		private void DeleteNodeCallback ()
+		private void DeleteNodeCallback()
 		{
-			DeleteNode (rightClickedNode);
+			DeleteNode(rightClickedNode);
 		}
 
-		private void PingSourceCallback ()
+		private void PingSourceCallback()
 		{
-			EditorUtility.FocusProjectWindow ();
-			EditorGUIUtility.PingObject (MonoScript.FromScriptableObject (rightClickedNode));
+			EditorUtility.FocusProjectWindow();
+			EditorGUIUtility.PingObject(MonoScript.FromScriptableObject(rightClickedNode));
 		}
 
-		private void OpenScriptCallback ()
+		private void OpenScriptCallback()
 		{
-			AssetDatabase.OpenAsset (MonoScript.FromScriptableObject (rightClickedNode));
+			AssetDatabase.OpenAsset(MonoScript.FromScriptableObject(rightClickedNode));
 		}
 
-		private void DuplicateNode (BehaviourNode original)
+		private void DuplicateNode(BehaviourNode original)
 		{
-			var node = (BehaviourNode)DuplicateNode ((ScriptableObject)original);
+			var node = (BehaviourNode)DuplicateNode((ScriptableObject)original);
 
-			var diamentions = rightClickedNode.GetDiamentions ();
-			node.Position += new Vector2 (diamentions.x * 0.25f, diamentions.y * 0.5f);
+			var diamentions = rightClickedNode.GetDiamentions();
+			node.Position += new Vector2(diamentions.x * 0.25f, diamentions.y * 0.5f);
 
-			Repaint ();
+			Repaint();
 		}
 
-		private void DrawNodes ()
+		private void DrawNodes()
 		{
 			if (Event.current.type == EventType.MouseMove)
+			{
 				return;
+			}
 
 			if (drawNodeGUI == null)
-				drawNodeGUI = new GUI.WindowFunction (DrawNodeWindow);
+			{
+				drawNodeGUI = new GUI.WindowFunction(DrawNodeWindow);
+			}
 
 			var originalColor = GUI.color;
 
-			BeginWindows ();
+			BeginWindows();
 
 			for (int i = 0; i < targetGraph.AllNodes.Count; i++)
 			{
@@ -270,20 +282,22 @@ namespace RPGCore.Behaviour.Editor
 
 				if (node == null)
 				{
-					targetGraph.AllNodes.RemoveAt (i);
-					EndWindows ();
+					targetGraph.AllNodes.RemoveAt(i);
+					EndWindows();
 					return;
 				}
 
 				if (dragging_IsDragging && Event.current.type == EventType.MouseDrag)
+				{
 					return;
+				}
 
-				var contentSize = node.GetDiamentions ();
+				var contentSize = node.GetDiamentions();
 
 				GUI.color = originalColor;
-				var newRect = GUI.Window (i, new Rect (node.Position.x + dragging_Position.x,
+				var newRect = GUI.Window(i, new Rect(node.Position.x + dragging_Position.x,
 					node.Position.y + dragging_Position.y, contentSize.x,
-					contentSize.y + 22), drawNodeGUI, new GUIContent (node.name));
+					contentSize.y + 22), drawNodeGUI, new GUIContent(node.name));
 
 				node.lastDrawRect = newRect;
 
@@ -292,14 +306,16 @@ namespace RPGCore.Behaviour.Editor
 			}
 
 			GUI.color = originalColor;
-			EndWindows ();
+			EndWindows();
 			GUI.color = originalColor;
 		}
 
-		private void DrawNodeWindow (int id)
+		private void DrawNodeWindow(int id)
 		{
 			if (Event.current.type == EventType.Layout)
+			{
 				return;
+			}
 
 			var node = targetGraph.AllNodes[id];
 
@@ -307,55 +323,57 @@ namespace RPGCore.Behaviour.Editor
 				EventType.MouseDrag == currentEvent.type || EventType.MouseMove == currentEvent.type)
 			{
 				selectedWindow = id;
-				EditorUtility.SetDirty (node);
+				EditorUtility.SetDirty(node);
 			}
 
-			if (!node.lastDrawRect.Overlaps (screenRect))
+			if (!node.lastDrawRect.Overlaps(screenRect))
+			{
 				return;
+			}
 
-			var settingsRect = new Rect (node.lastDrawRect.width - 20, 5, 20, 20);
-			var iconRect = new Rect (0, 0, 18, 18);
+			var settingsRect = new Rect(node.lastDrawRect.width - 20, 5, 20, 20);
+			var iconRect = new Rect(0, 0, 18, 18);
 
-			if (GUI.Button (settingsRect, "", BehaviourGUIStyles.Instance.settingsStyle))
+			if (GUI.Button(settingsRect, "", BehaviourGUIStyles.Instance.settingsStyle))
 			{
 				rightClickedNode = node;
-				BasicNodeMenu.ShowAsContext ();
+				BasicNodeMenu.ShowAsContext();
 			}
 
 			var originalColour = GUI.color;
-			GUI.color = new Color (1.0f, 1.0f, 1.0f, 0.65f);
-			EditorGUI.LabelField (iconRect, new GUIContent (AssetPreview.GetMiniThumbnail (node)));
+			GUI.color = new Color(1.0f, 1.0f, 1.0f, 0.65f);
+			EditorGUI.LabelField(iconRect, new GUIContent(AssetPreview.GetMiniThumbnail(node)));
 			GUI.color = originalColour;
 
 			if (currentEvent.type == EventType.MouseDown)
 			{
-				if (iconRect.Contains (currentEvent.mousePosition))
+				if (iconRect.Contains(currentEvent.mousePosition))
 				{
 					if (currentEvent.button == 0)
 					{
 						if (currentEvent.clickCount == 1)
 						{
 							rightClickedNode = node;
-							PingSourceCallback ();
+							PingSourceCallback();
 						}
 						else
 						{
 							rightClickedNode = node;
-							OpenScriptCallback ();
+							OpenScriptCallback();
 						}
-						currentEvent.Use ();
+						currentEvent.Use();
 					}
 				}
 			}
 
-			var serializedObject = SerializedObjectPool.Grab (node);
+			var serializedObject = SerializedObjectPool.Grab(node);
 
 			//Undo.RecordObject (node, "Edit Node");
 
 			float originalLabelWidth = EditorGUIUtility.labelWidth;
 			EditorGUIUtility.labelWidth = node.lastDrawRect.width / 2;
 
-			serializedObject.FindProperty ("Position").vector2Value = node.Position;
+			serializedObject.FindProperty("Position").vector2Value = node.Position;
 
 			//EditorGUI.BeginChangeCheck ();
 			//string newName = EditorGUILayout.DelayedTextField (node.name);
@@ -364,20 +382,20 @@ namespace RPGCore.Behaviour.Editor
 			//	RenameAction (node, newName);
 			//}
 
-			var contentRect = BehaviourGraphResources.Instance.NodeStyle.padding.Remove (node.lastDrawRect);
+			var contentRect = BehaviourGraphResources.Instance.NodeStyle.padding.Remove(node.lastDrawRect);
 
-			node.DrawGUI (serializedObject, new Rect (contentRect.x - node.Position.x - dragging_Position.x,
+			node.DrawGUI(serializedObject, new Rect(contentRect.x - node.Position.x - dragging_Position.x,
 				contentRect.y - node.Position.y - dragging_Position.y,
 				contentRect.width, contentRect.height));
 
-			serializedObject.ApplyModifiedProperties ();
+			serializedObject.ApplyModifiedProperties();
 
 			if (currentEvent.type == EventType.MouseDown)
 			{
 				if (currentEvent.button == 1)
 				{
 					rightClickedNode = node;
-					BasicNodeMenu.ShowAsContext ();
+					BasicNodeMenu.ShowAsContext();
 				}
 			}
 
@@ -386,7 +404,7 @@ namespace RPGCore.Behaviour.Editor
 #if HOVER_EFFECTS
 			if (connection_Start == null && connection_End == null)
 			{
-				EditorGUIUtility.AddCursorRect (new Rect (node.lastDrawRect.x - node.Position.x - dragging_Position.x,
+				EditorGUIUtility.AddCursorRect(new Rect(node.lastDrawRect.x - node.Position.x - dragging_Position.x,
 					node.lastDrawRect.y - node.Position.y - dragging_Position.y,
 					node.lastDrawRect.width, node.lastDrawRect.height), MouseCursor.MoveArrow);
 			}
@@ -394,36 +412,40 @@ namespace RPGCore.Behaviour.Editor
 
 			if (currentEvent.button != 2)
 			{
-				GUI.DragWindow ();
+				GUI.DragWindow();
 			}
 		}
 
-		private void HandleInput ()
+		private void HandleInput()
 		{
 			if (currentEvent.type == EventType.KeyDown)
 			{
 				if (currentEvent.keyCode == KeyCode.D)
 				{
 					if (selectedWindow != -1)
-						DuplicateNode (targetGraph.AllNodes[selectedWindow]);
+					{
+						DuplicateNode(targetGraph.AllNodes[selectedWindow]);
+					}
 				}
 				else if (currentEvent.keyCode == KeyCode.Delete)
 				{
 					if (selectedWindow != -1)
-						DeleteNode (targetGraph.AllNodes[selectedWindow]);
+					{
+						DeleteNode(targetGraph.AllNodes[selectedWindow]);
+					}
 				}
 			}
 			else if (currentEvent.type == EventType.MouseDrag && dragging_IsDragging)
 			{
 				dragging_Position += currentEvent.delta;
-				Repaint ();
+				Repaint();
 			}
-			else if (screenRect.Contains (currentEvent.mousePosition))
+			else if (screenRect.Contains(currentEvent.mousePosition))
 			{
 				if (currentEvent.type == EventType.MouseDown)
 				{
-					GUI.UnfocusWindow ();
-					GUI.FocusControl ("");
+					GUI.UnfocusWindow();
+					GUI.FocusControl("");
 
 					if (currentEvent.button != 2)
 					{
@@ -432,16 +454,16 @@ namespace RPGCore.Behaviour.Editor
 							connection_Start = null;
 							connection_End = null;
 
-							currentEvent.Use ();
-							Repaint ();
+							currentEvent.Use();
+							Repaint();
 						}
 
 						if (currentEvent.button == 1)
 						{
 							dragging_IsDragging = false;
 							rightClickedPosition = currentEvent.mousePosition;
-							BuildAddMenu ();
-							AddNodeMenu.ShowAsContext ();
+							BuildAddMenu();
+							AddNodeMenu.ShowAsContext();
 						}
 						else
 						{
@@ -453,80 +475,92 @@ namespace RPGCore.Behaviour.Editor
 						dragging_IsDragging = true;
 					}
 
-					currentEvent.Use ();
-					Repaint ();
+					currentEvent.Use();
+					Repaint();
 				}
 			}
 		}
 
-		private void DrawCurrentConnections ()
+		private void DrawCurrentConnections()
 		{
 			if (connection_Start == null && connection_End == null)
+			{
 				return;
+			}
 
 			if (connection_LastMousePosition != Event.current.mousePosition)
 			{
 				connection_LastMousePosition = Event.current.mousePosition;
 
-				Repaint ();
+				Repaint();
 			}
 
 			if (connection_Start != null)
 			{
-				connection_Start.DrawConnection (new Vector2 (connection_Start.socketRect.xMin + dragging_Position.x,
+				connection_Start.DrawConnection(new Vector2(connection_Start.socketRect.xMin + dragging_Position.x,
 					connection_Start.socketRect.center.y + dragging_Position.y)
 					+ connection_Start.ParentNode.Position, currentEvent.mousePosition, Vector3.right, Vector3.left);
 			}
 			else if (connection_End != null)
 			{
-				connection_End.DrawConnection (new Vector2 (connection_End.SocketRect.xMax + dragging_Position.x,
+				connection_End.DrawConnection(new Vector2(connection_End.SocketRect.xMax + dragging_Position.x,
 					connection_End.SocketRect.center.y + dragging_Position.y)
 					+ connection_End.ParentNode.Position, currentEvent.mousePosition, Vector3.left, Vector3.right);
 			}
 		}
 
-		private void DrawConnections ()
+		private void DrawConnections()
 		{
 			if (Event.current.type == EventType.MouseMove)
+			{
 				return;
+			}
 
 			if (Event.current.type != EventType.Repaint)
+			{
 				return;
+			}
 
 			for (int i = 0; i < targetGraph.AllNodes.Count; i++)
 			{
 				var node = targetGraph.AllNodes[i];
 
 				if (node == null)
+				{
 					continue;
+				}
 
 				foreach (var inputSocket in node.InputSockets)
 				{
 					if (inputSocket == null)
+					{
 						continue;
+					}
 
 					var outputSocket = inputSocket.SourceSocket;
 					if (outputSocket == null)
+					{
 						continue;
+					}
 
-					var inputSocketRect = new Rect (
+					var inputSocketRect = new Rect(
 						inputSocket.SocketRect.x + node.Position.x + dragging_Position.x,
 						inputSocket.SocketRect.y + node.Position.y + dragging_Position.y,
 						inputSocket.SocketRect.width, inputSocket.SocketRect.height);
 
-					var outputSocketRect = new Rect (
+					var outputSocketRect = new Rect(
 						outputSocket.socketRect.x + inputSocket.SourceNode.Position.x + dragging_Position.x,
 						outputSocket.socketRect.y + inputSocket.SourceNode.Position.y + dragging_Position.y,
 						outputSocket.socketRect.width, outputSocket.socketRect.height);
 
-					inputSocket.DrawConnection (new Vector3 (inputSocketRect.xMax, inputSocketRect.center.y),
-						new Vector3 (outputSocketRect.xMin, outputSocketRect.center.y),
+					inputSocket.DrawConnection(new Vector3(inputSocketRect.xMax, inputSocketRect.center.y),
+						new Vector3(outputSocketRect.xMin, outputSocketRect.center.y),
 						Vector3.left, Vector3.right);
 				}
 			}
 		}
 
-		private void DrawSockets ()
+		private void DrawSockets()
 		{
 			var originalColor = GUI.color;
 			for (int i = 0; i < targetGraph.AllNodes.Count; i++)
@@ -534,19 +568,23 @@ namespace RPGCore.Behaviour.Editor
 				var node = targetGraph.AllNodes[i];
 
 				if (node == null)
+				{
 					continue;
+				}
 
 				foreach (var thisInput in node.InputSockets)
 				{
 					if (thisInput == null)
+					{
 						continue;
+					}
 
 					var socketRect = thisInput.SocketRect;
-					socketRect = new Rect (socketRect.x + node.Position.x + dragging_Position.x,
+					socketRect = new Rect(socketRect.x + node.Position.x + dragging_Position.x,
 						socketRect.y + node.Position.y + dragging_Position.y,
 						socketRect.width, socketRect.height);
 
-					thisInput.DrawSocket (socketRect);
+					thisInput.DrawSocket(socketRect);
 
 #if HOVER_EFFECTS
 					if (connection_CanEdit)
@@ -554,100 +592,114 @@ namespace RPGCore.Behaviour.Editor
 						var linkedSocket = thisInput.SourceSocket;
 						if (connection_Start != null)
 						{
-							if (IsValidAttach (connection_Start, thisInput))
+							if (IsValidAttach(connection_Start, thisInput))
 							{
 								if (linkedSocket == null)
-									EditorGUIUtility.AddCursorRect (socketRect, MouseCursor.ArrowPlus);
+								{
+									EditorGUIUtility.AddCursorRect(socketRect, MouseCursor.ArrowPlus);
+								}
 								else
-									EditorGUIUtility.AddCursorRect (socketRect, MouseCursor.ArrowMinus);
+								{
+									EditorGUIUtility.AddCursorRect(socketRect, MouseCursor.ArrowMinus);
+								}
 							}
 						}
 						else
 						{
 							if (linkedSocket == null)
-								EditorGUIUtility.AddCursorRect (socketRect, MouseCursor.ArrowPlus);
+							{
+								EditorGUIUtility.AddCursorRect(socketRect, MouseCursor.ArrowPlus);
+							}
 							else
-								EditorGUIUtility.AddCursorRect (socketRect, MouseCursor.ArrowMinus);
+							{
+								EditorGUIUtility.AddCursorRect(socketRect, MouseCursor.ArrowMinus);
+							}
 						}
 					}
 #endif
 					if (connection_CanEdit && (currentEvent.type == EventType.MouseDown || currentEvent.type == EventType.MouseUp) &&
-						socketRect.Contains (currentEvent.mousePosition))
+						socketRect.Contains(currentEvent.mousePosition))
 					{
 						if (currentEvent.button == 0)
 						{
 							if (connection_Start != null || currentEvent.type != EventType.MouseUp)
+							{
 								connection_End = thisInput;
+							}
 
 							if (connection_Start != null)
 							{
-								Attach (connection_Start, connection_End);
+								Attach(connection_Start, connection_End);
 
 								connection_End = null;
 								connection_Start = null;
-								currentEvent.Use ();
+								currentEvent.Use();
 							}
 						}
 						else if (currentEvent.button == 1)
 						{
-							Detatch (thisInput);
+							Detatch(thisInput);
 						}
 
-						currentEvent.Use ();
+						currentEvent.Use();
 					}
 				}
 
 				foreach (var thisOutput in node.OutputSockets)
 				{
 					if (thisOutput == null)
+					{
 						continue;
+					}
 
 					var socketRect = thisOutput.socketRect;
-					socketRect = new Rect (socketRect.x + node.Position.x + dragging_Position.x,
+					socketRect = new Rect(socketRect.x + node.Position.x + dragging_Position.x,
 						socketRect.y + node.Position.y + dragging_Position.y,
 						socketRect.width, socketRect.height);
 
-					thisOutput.DrawSocket (socketRect);
+					thisOutput.DrawSocket(socketRect);
 
 					if (connection_CanEdit)
 					{
 #if HOVER_EFFECTS
 						if (connection_End != null)
 						{
-							if (IsValidAttach (thisOutput, connection_End))
+							if (IsValidAttach(thisOutput, connection_End))
 							{
-								EditorGUIUtility.AddCursorRect (socketRect, MouseCursor.ArrowPlus);
+								EditorGUIUtility.AddCursorRect(socketRect, MouseCursor.ArrowPlus);
 							}
 						}
 						else
 						{
-							EditorGUIUtility.AddCursorRect (socketRect, MouseCursor.ArrowPlus);
+							EditorGUIUtility.AddCursorRect(socketRect, MouseCursor.ArrowPlus);
 						}
 #endif
 						if ((currentEvent.type == EventType.MouseDown || currentEvent.type == EventType.MouseUp) &&
-							socketRect.Contains (currentEvent.mousePosition))
+							socketRect.Contains(currentEvent.mousePosition))
 						{
 							if (currentEvent.button == 0)
 							{
 								if (connection_End != null || currentEvent.type != EventType.MouseUp)
+								{
 									connection_Start = thisOutput;
+								}
 
 								if (connection_End != null)
 								{
-									Attach (connection_Start, connection_End);
+									Attach(connection_Start, connection_End);
 
 									connection_End = null;
 									connection_Start = null;
 								}
 
-								currentEvent.Use ();
+								currentEvent.Use();
 							}
 							else if (currentEvent.button == 1)
 							{
-								Detatch (thisOutput);
+								Detatch(thisOutput);
 
-								Repaint ();
-								currentEvent.Use ();
+								Repaint();
+								currentEvent.Use();
 							}
 						}
 					}
@@ -656,76 +708,80 @@ namespace RPGCore.Behaviour.Editor
 			GUI.color = originalColor;
 		}
 
-		private bool IsValidAttach (OutputSocket start, InputSocket end)
+		private bool IsValidAttach(OutputSocket start, InputSocket end)
 		{
-			if (start.GetType () == typeof (EventOutput))
+			if (start.GetType() == typeof(EventOutput))
 			{
-				return end.GetType () == typeof (EventInput);
+				return end.GetType() == typeof(EventInput);
 			}
-			else if (end.GetType () == typeof (EventInput))
+			else if (end.GetType() == typeof(EventInput))
+			{
 				return false;
+			}
 
-			if (start.GetType () == typeof (OutputSocket)
-				|| end.GetType () == typeof (InputSocket))
+			if (start.GetType() == typeof(OutputSocket)
+				|| end.GetType() == typeof(InputSocket))
 			{
 				return true;
 			}
 
-			var endInputType = typeof (ISocketConvertable<>).MakeGenericType (end.GetType ().BaseType.GetGenericArguments ()[0]);
-			var outputConnection = start.GetType ().BaseType.GetGenericArguments ()[2];
+			var endInputType = typeof(ISocketConvertable<>).MakeGenericType(end.GetType().BaseType.GetGenericArguments()[0]);
+			var outputConnection = start.GetType().BaseType.GetGenericArguments()[2];
 
-			return endInputType.IsAssignableFrom (outputConnection);
+			return endInputType.IsAssignableFrom(outputConnection);
 		}
 
-		private void Attach (OutputSocket start, InputSocket end)
+		private void Attach(OutputSocket start, InputSocket end)
 		{
-			if (!IsValidAttach (start, end))
+			if (!IsValidAttach(start, end))
+			{
 				return;
+			}
 
-			string[] paths = end.SocketPath.Split ('.');
-			var obj = SerializedObjectPool.Grab (end.ParentNode);
-			var socketProperty = obj.FindProperty (paths[0]);
-			UnityEngine.Debug.Log (socketProperty.displayName);
+			string[] paths = end.SocketPath.Split('.');
+			var obj = SerializedObjectPool.Grab(end.ParentNode);
+			var socketProperty = obj.FindProperty(paths[0]);
+			UnityEngine.Debug.Log(socketProperty.displayName);
 
 			for (int i = 1; i < paths.Length; i++)
 			{
-				socketProperty = socketProperty.FindPropertyRelative (paths[i]);
+				socketProperty = socketProperty.FindPropertyRelative(paths[i]);
 			}
 
-			var sourceNodeProperty = socketProperty.FindPropertyRelative ("SourceNode");
-			var sourcePathProperty = socketProperty.FindPropertyRelative ("SourcePath");
+			var sourceNodeProperty = socketProperty.FindPropertyRelative("SourceNode");
+			var sourcePathProperty = socketProperty.FindPropertyRelative("SourcePath");
 
 			sourceNodeProperty.objectReferenceValue = start.ParentNode;
 			sourcePathProperty.stringValue = start.SocketPath;
 
-			obj.ApplyModifiedProperties ();
+			obj.ApplyModifiedProperties();
 
-			Repaint ();
+			Repaint();
 		}
 
-		private void Detatch (InputSocket socket)
+		private void Detatch(InputSocket socket)
 		{
-			var obj = SerializedObjectPool.Grab (socket.ParentNode);
+			var obj = SerializedObjectPool.Grab(socket.ParentNode);
 
-			string[] paths = socket.SocketPath.Split ('.');
-			var socketProperty = obj.FindProperty (paths[0]);
+			string[] paths = socket.SocketPath.Split('.');
+			var socketProperty = obj.FindProperty(paths[0]);
 			for (int i = 1; i < paths.Length; i++)
 			{
-				socketProperty = socketProperty.FindPropertyRelative (paths[i]);
+				socketProperty = socketProperty.FindPropertyRelative(paths[i]);
 			}
 
-			var sourceNodeProperty = socketProperty.FindPropertyRelative ("SourceNode");
-			var sourcePathProperty = socketProperty.FindPropertyRelative ("SourcePath");
+			var sourceNodeProperty = socketProperty.FindPropertyRelative("SourceNode");
+			var sourcePathProperty = socketProperty.FindPropertyRelative("SourcePath");
 
 			sourceNodeProperty.objectReferenceValue = null;
 			sourcePathProperty.stringValue = "";
 
-			obj.ApplyModifiedProperties ();
+			obj.ApplyModifiedProperties();
 
-			Repaint ();
+			Repaint();
 		}
 
-		private void Detatch (OutputSocket socket)
+		private void Detatch(OutputSocket socket)
 		{
 			foreach (var detachNode in targetGraph.AllNodes)
 			{
@@ -734,33 +790,33 @@ namespace RPGCore.Behaviour.Editor
 					if (detachInput.SourceNode == socket.ParentNode &&
 						detachInput.SourcePath == socket.SocketPath)
 					{
-						var detatchObject = SerializedObjectPool.Grab (detachNode);
+						var detatchObject = SerializedObjectPool.Grab(detachNode);
 
-						string[] paths = socket.SocketPath.Split ('.');
-						var detatchSocketProperty = detatchObject.FindProperty (paths[0]);
+						string[] paths = socket.SocketPath.Split('.');
+						var detatchSocketProperty = detatchObject.FindProperty(paths[0]);
 						for (int i = 1; i < paths.Length; i++)
 						{
-							detatchSocketProperty = detatchSocketProperty.FindPropertyRelative (paths[i]);
+							detatchSocketProperty = detatchSocketProperty.FindPropertyRelative(paths[i]);
 						}
 
-						var detatchSourceNodeProperty = detatchSocketProperty.FindPropertyRelative ("SourceNode");
-						var detatchSourcePathProperty = detatchSocketProperty.FindPropertyRelative ("SourcePath");
+						var detatchSourceNodeProperty = detatchSocketProperty.FindPropertyRelative("SourceNode");
+						var detatchSourcePathProperty = detatchSocketProperty.FindPropertyRelative("SourcePath");
 
 						detatchSourceNodeProperty.objectReferenceValue = null;
 						detatchSourcePathProperty.stringValue = "";
 
-						detatchObject.ApplyModifiedProperties ();
+						detatchObject.ApplyModifiedProperties();
 					}
 				}
 			}
-			Repaint ();
+			Repaint();
 		}
 
-		private void HandleDragAndDrop (Rect dropArea)
+		private void HandleDragAndDrop(Rect dropArea)
 		{
-			if (dropArea.Contains (Event.current.mousePosition))
+			if (dropArea.Contains(Event.current.mousePosition))
 			{
-				if (!IsValidImport (DragAndDrop.objectReferences))
+				if (!IsValidImport(DragAndDrop.objectReferences))
 				{
 					// DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
 					return;
@@ -770,52 +826,56 @@ namespace RPGCore.Behaviour.Editor
 
 				if (Event.current.type == EventType.DragPerform)
 				{
-					DragAndDrop.AcceptDrag ();
+					DragAndDrop.AcceptDrag();
 
 					for (int i = 0; i < DragAndDrop.objectReferences.Length; i++)
 					{
 						object importObject = DragAndDrop.objectReferences[i];
-						if (importObject.GetType () == typeof (MonoScript))
+						if (importObject.GetType() == typeof(MonoScript))
 						{
 							var monoScriptImport = (MonoScript)importObject;
 
-							var monoScriptType = monoScriptImport.GetClass ();
+							var monoScriptType = monoScriptImport.GetClass();
 							if (monoScriptType != null &&
-								typeof (BehaviourNode).IsAssignableFrom (monoScriptType))
+								typeof(BehaviourNode).IsAssignableFrom(monoScriptType))
 							{
-								AddNodeCallback (monoScriptType, Event.current.mousePosition);
+								AddNodeCallback(monoScriptType, Event.current.mousePosition);
 							}
 						}
-						else if (typeof (IBehaviourGraph).IsAssignableFrom (importObject.GetType ()))
+						else if (typeof(IBehaviourGraph).IsAssignableFrom(importObject.GetType()))
 						{
 							var graphImport = (IBehaviourGraph)importObject;
 
-							OpenGraph (graphImport);
+							OpenGraph(graphImport);
 						}
 					}
 				}
 			}
 		}
 
-		private bool IsValidImport (object[] objects)
+		private bool IsValidImport(object[] objects)
 		{
 			if (objects.Length == 0)
+			{
 				return false;
+			}
 
 			for (int i = 0; i < objects.Length; i++)
 			{
 				object importObject = objects[i];
 
-				if (importObject.GetType () == typeof (MonoScript))
+				if (importObject.GetType() == typeof(MonoScript))
 				{
 					var monoScriptImport = (MonoScript)importObject;
 
-					var monoScriptType = monoScriptImport.GetClass ();
+					var monoScriptType = monoScriptImport.GetClass();
 					if (monoScriptType == null ||
-						!typeof (BehaviourNode).IsAssignableFrom (monoScriptType))
+						!typeof(BehaviourNode).IsAssignableFrom(monoScriptType))
+					{
 						return false;
+					}
 				}
-				else if (!typeof (IBehaviourGraph).IsAssignableFrom (importObject.GetType ()))
+				else if (!typeof(IBehaviourGraph).IsAssignableFrom(importObject.GetType()))
 				{
 					return false;
 				}
@@ -823,42 +883,42 @@ namespace RPGCore.Behaviour.Editor
 			return true;
 		}
 
-		private void DrawTopBar ()
+		private void DrawTopBar()
 		{
-			EditorGUILayout.BeginHorizontal (EditorStyles.toolbar, GUILayout.ExpandWidth (true));
+			EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
 
-			if (GUILayout.Button ("Load Graph", EditorStyles.toolbarButton, GUILayout.Width (100)))
+			if (GUILayout.Button("Load Graph", EditorStyles.toolbarButton, GUILayout.Width(100)))
 			{
-				controlID = GUIUtility.GetControlID (FocusType.Passive);
+				controlID = GUIUtility.GetControlID(FocusType.Passive);
 
 				string filter = "";
 
-				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ())
+				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 				{
-					foreach (var type in assembly.GetTypes ())
+					foreach (var type in assembly.GetTypes())
 					{
-						if (typeof (IBehaviourGraph).IsAssignableFrom (type)
-						 && typeof (ScriptableObject).IsAssignableFrom (type)
-						 && !typeof (IBehaviourGraph).IsAssignableFrom (type.BaseType))
+						if (typeof(IBehaviourGraph).IsAssignableFrom(type)
+						 && typeof(ScriptableObject).IsAssignableFrom(type)
+						 && !typeof(IBehaviourGraph).IsAssignableFrom(type.BaseType))
 						{
 							filter += "t:" + type.Name + " ";
 						}
 					}
 				}
 
-				EditorGUIUtility.ShowObjectPicker<ScriptableObject> ((ScriptableObject)targetGraph, false, filter, controlID);
+				EditorGUIUtility.ShowObjectPicker<ScriptableObject>((ScriptableObject)targetGraph, false, filter, controlID);
 			}
 
 			string commandName = currentEvent.commandName;
 			if (commandName == "ObjectSelectorUpdated")
 			{
-				Repaint ();
+				Repaint();
 			}
 			else if (commandName == "ObjectSelectorClosed")
 			{
-				if (EditorGUIUtility.GetObjectPickerControlID () == controlID)
+				if (EditorGUIUtility.GetObjectPickerControlID() == controlID)
 				{
-					var nextGraph = EditorGUIUtility.GetObjectPickerObject () as IBehaviourGraph;
+					var nextGraph = EditorGUIUtility.GetObjectPickerObject() as IBehaviourGraph;
 
 					if (nextGraph == null)
 					{
@@ -868,35 +928,35 @@ namespace RPGCore.Behaviour.Editor
 					{
 						if (targetGraph != nextGraph)
 						{
-							OpenGraph (((UnityEngine.Object)nextGraph).GetInstanceID (), 0);
+							OpenGraph(((UnityEngine.Object)nextGraph).GetInstanceID(), 0);
 						}
 					}
 					return;
 				}
 			}
 
-			GUILayout.Space (5.0f);
+			GUILayout.Space(5.0f);
 
-			EditorGUI.BeginDisabledGroup (targetGraph == null);
-			if (GUILayout.Button ("Goto Asset", EditorStyles.toolbarButton, GUILayout.Width (100)))
+			EditorGUI.BeginDisabledGroup(targetGraph == null);
+			if (GUILayout.Button("Goto Asset", EditorStyles.toolbarButton, GUILayout.Width(100)))
 			{
-				EditorUtility.FocusProjectWindow ();
-				EditorGUIUtility.PingObject ((UnityEngine.Object)targetGraph);
+				EditorUtility.FocusProjectWindow();
+				EditorGUIUtility.PingObject((UnityEngine.Object)targetGraph);
 			}
-			EditorGUI.EndDisabledGroup ();
+			EditorGUI.EndDisabledGroup();
 
-			GUILayout.FlexibleSpace ();
+			GUILayout.FlexibleSpace();
 
-			if (GUILayout.Button ("Screenshot", EditorStyles.toolbarButton, GUILayout.Width (100)))
+			if (GUILayout.Button("Screenshot", EditorStyles.toolbarButton, GUILayout.Width(100)))
 			{
 				screenshot_TakeScreenshot = true;
-				Repaint ();
+				Repaint();
 				EditorApplication.delayCall += Repaint;
 			}
-			EditorGUILayout.EndHorizontal ();
+			EditorGUILayout.EndHorizontal();
 		}
 
-		private void DrawHelp ()
+		private void DrawHelp()
 		{
 			float height;
 			float width;
@@ -912,64 +972,68 @@ namespace RPGCore.Behaviour.Editor
 				width = 80;
 			}
 
-			var helpArea = new Rect (screenRect.xMax - width, screenRect.yMax - height, width - 8, height - 8);
+			var helpArea = new Rect(screenRect.xMax - width, screenRect.yMax - height, width - 8, height - 8);
 
-			if (helpArea.Contains (Event.current.mousePosition) && !dragging_IsDragging)
+			if (helpArea.Contains(Event.current.mousePosition) && !dragging_IsDragging)
 			{
 				if (!help_Faded)
 				{
 					help_Faded = true;
-					Repaint ();
+					Repaint();
 				}
 				if (Event.current.type == EventType.MouseDown)
 				{
 					help_ShowToggle = !help_ShowToggle;
 				}
-				GUI.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+				GUI.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 			else
 			{
 				if (help_Faded)
 				{
 					help_Faded = false;
-					Repaint ();
+					Repaint();
 				}
 
 				if (help_ShowToggle)
-					GUI.color = new Color (1.0f, 1.0f, 1.0f, 0.65f);
+				{
+					GUI.color = new Color(1.0f, 1.0f, 1.0f, 0.65f);
+				}
 				else
-					GUI.color = new Color (1.0f, 1.0f, 1.0f, 0.35f);
+				{
+					GUI.color = new Color(1.0f, 1.0f, 1.0f, 0.35f);
+				}
 			}
 
 			if (Event.current.type == EventType.Repaint)
 			{
-				GUI.skin.window.Draw (helpArea, false, false, false, false);
+				GUI.skin.window.Draw(helpArea, false, false, false, false);
 
-				var headerRect = new Rect (helpArea.x, helpArea.y + 0, helpArea.width, EditorGUIUtility.singleLineHeight);
+				var headerRect = new Rect(helpArea.x, helpArea.y + 0, helpArea.width, EditorGUIUtility.singleLineHeight);
 
-				EditorGUI.LabelField (headerRect, "Help", BehaviourGUIStyles.Instance.HelpHeaderTextStyle);
+				EditorGUI.LabelField(headerRect, "Help", BehaviourGUIStyles.Instance.HelpHeaderTextStyle);
 			}
 
 			if (Event.current.type == EventType.Repaint && help_ShowToggle)
 			{
-				var marchingRect = new Rect (helpArea.x, helpArea.y + 18, helpArea.width, EditorGUIUtility.singleLineHeight);
+				var marchingRect = new Rect(helpArea.x, helpArea.y + 18, helpArea.width, EditorGUIUtility.singleLineHeight);
 
 				for (int i = 0; i < help_Info.Count; i++)
 				{
 					var information = help_Info[i];
 
-					var socketRect = new Rect (marchingRect.x + 4, marchingRect.y, marchingRect.height, marchingRect.height);
-					var infoRect = new Rect (socketRect.xMax + 4, marchingRect.y, marchingRect.xMax - socketRect.xMax, marchingRect.height);
+					var socketRect = new Rect(marchingRect.x + 4, marchingRect.y, marchingRect.height, marchingRect.height);
+					var infoRect = new Rect(socketRect.xMax + 4, marchingRect.y, marchingRect.xMax - socketRect.xMax, marchingRect.height);
 
 					var originalColour = GUI.color;
-					GUI.color = (Color)information.Type.GetField ("SocketColour", BindingFlags.Static | BindingFlags.Public).GetValue (null);
-					GUI.color = new Color (GUI.color.r, GUI.color.g, GUI.color.b, originalColour.a);
+					GUI.color = (Color)information.Type.GetField("SocketColour", BindingFlags.Static | BindingFlags.Public).GetValue(null);
+					GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, originalColour.a);
 
-					EditorStyles.helpBox.Draw (socketRect, false, false, false, false);
+					EditorStyles.helpBox.Draw(socketRect, false, false, false, false);
 
 					GUI.color = originalColour;
 
-					EditorGUI.LabelField (infoRect, information.Name);
+					EditorGUI.LabelField(infoRect, information.Name);
 
 					marchingRect.y += marchingRect.height + EditorGUIUtility.standardVerticalSpacing;
 				}
@@ -977,38 +1041,42 @@ namespace RPGCore.Behaviour.Editor
 			GUI.color = Color.white;
 		}
 
-		private void DrawOverlay ()
+		private void DrawOverlay()
 		{
 			if (targetGraph != null)
 			{
 				float padding = 1;
-				var topRight = new Rect (screenRect.xMax - TopRight_Icon - 8, screenRect.y + 8, TopRight_Icon, TopRight_Icon);
-				var iconRect = new Rect (topRight.x + padding, topRight.y + padding, topRight.width - (padding * 2), topRight.height - (padding * 2));
+				var topRight = new Rect(screenRect.xMax - TopRight_Icon - 8, screenRect.y + 8, TopRight_Icon, TopRight_Icon);
+				var iconRect = new Rect(topRight.x + padding, topRight.y + padding, topRight.width - (padding * 2), topRight.height - (padding * 2));
 
-				Texture graphIcon = AssetPreview.GetAssetPreview ((UnityEngine.Object)targetGraph);
+				Texture graphIcon = AssetPreview.GetAssetPreview((UnityEngine.Object)targetGraph);
 				if (graphIcon == null)
-					graphIcon = AssetPreview.GetMiniThumbnail ((UnityEngine.Object)targetGraph);
+				{
+					graphIcon = AssetPreview.GetMiniThumbnail((UnityEngine.Object)targetGraph);
+				}
 
-				GUI.Box (topRight, "", EditorStyles.textArea);
-				GUI.DrawTexture (iconRect, graphIcon);
+				GUI.Box(topRight, "", EditorStyles.textArea);
+				GUI.DrawTexture(iconRect, graphIcon);
 			}
 		}
 
-		private void DrawBackground (Rect backgroundRect, Vector2 viewPosition)
+		private void DrawBackground(Rect backgroundRect, Vector2 viewPosition)
 		{
 			if (Event.current.type == EventType.MouseMove)
+			{
 				return;
+			}
 
 			if (targetGraph == null)
 			{
-				EditorGUI.LabelField (backgroundRect, "No Graph Selected", BehaviourGUIStyles.Instance.informationTextStyle);
+				EditorGUI.LabelField(backgroundRect, "No Graph Selected", BehaviourGUIStyles.Instance.informationTextStyle);
 				return;
 			}
 
 #if HOVER_EFFECTS
 			if (dragging_IsDragging)
 			{
-				EditorGUIUtility.AddCursorRect (backgroundRect, MouseCursor.Pan);
+				EditorGUIUtility.AddCursorRect(backgroundRect, MouseCursor.Pan);
 			}
 #endif
 
@@ -1017,42 +1085,46 @@ namespace RPGCore.Behaviour.Editor
 
 			float gridScale = 0.5f;
 
-			DrawImageTiled (backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale * 3);
+			DrawImageTiled(backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale * 3);
 
 			var originalTintColour = GUI.color;
 
-			GUI.color = new Color (1, 1, 1, 0.6f);
-			DrawImageTiled (backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale);
+			GUI.color = new Color(1, 1, 1, 0.6f);
+			DrawImageTiled(backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale);
 
 			GUI.color = originalTintColour;
 
 			if (Application.isPlaying)
 			{
-				var runtimeInfo = new Rect (backgroundRect);
+				var runtimeInfo = new Rect(backgroundRect);
 				runtimeInfo.yMin = runtimeInfo.yMax - 48;
-				EditorGUI.LabelField (runtimeInfo, "Playmode Enabled: You may change values but you can't edit connections",
+				EditorGUI.LabelField(runtimeInfo, "Playmode Enabled: You may change values but you can't edit connections",
 					BehaviourGUIStyles.Instance.informationTextStyle);
 			}
 		}
 
-		private static void DrawImageTiled (Rect rect, Texture2D texture, Vector2 positon, float zoom = 0.8f)
+		private static void DrawImageTiled(Rect rect, Texture2D texture, Vector2 positon, float zoom = 0.8f)
 		{
 			if (texture == null)
+			{
 				return;
+			}
 
 			if (currentEvent.type != EventType.Repaint)
+			{
 				return;
+			}
 
-			var tileOffset = new Vector2 ((-positon.x / texture.width) * zoom, (positon.y / texture.height) * zoom);
+			var tileOffset = new Vector2((-positon.x / texture.width) * zoom, (positon.y / texture.height) * zoom);
 
-			var tileAmount = new Vector2 (Mathf.Round (rect.width * zoom) / texture.width,
-				Mathf.Round (rect.height * zoom) / texture.height);
+			var tileAmount = new Vector2(Mathf.Round(rect.width * zoom) / texture.width,
+				Mathf.Round(rect.height * zoom) / texture.height);
 
 			tileOffset.y -= tileAmount.y;
-			GUI.DrawTextureWithTexCoords (rect, texture, new Rect (tileOffset, tileAmount), true);
+			GUI.DrawTextureWithTexCoords(rect, texture, new Rect(tileOffset, tileAmount), true);
 		}
 
-		private void ResetView ()
+		private void ResetView()
 		{
 			if (targetGraph.AllNodes == null || targetGraph.AllNodes.Count == 0)
 			{
@@ -1060,134 +1132,140 @@ namespace RPGCore.Behaviour.Editor
 				return;
 			}
 
-			var bounds = new Rect (targetGraph.AllNodes[0].Position.x, targetGraph.AllNodes[0].Position.y, 0, 0);
+			var bounds = new Rect(targetGraph.AllNodes[0].Position.x, targetGraph.AllNodes[0].Position.y, 0, 0);
 
 			for (int i = 0; i < targetGraph.AllNodes.Count; i++)
 			{
 				var node = targetGraph.AllNodes[i];
 				var viewPosition = targetGraph.AllNodes[i].Position;
-				bounds.xMin = Mathf.Min (bounds.xMin, viewPosition.x);
-				bounds.xMax = Mathf.Max (bounds.xMax, viewPosition.x + node.GetDiamentions ().x);
+				bounds.xMin = Mathf.Min(bounds.xMin, viewPosition.x);
+				bounds.xMax = Mathf.Max(bounds.xMax, viewPosition.x + node.GetDiamentions().x);
 
-				bounds.yMin = Mathf.Min (bounds.yMin, viewPosition.y);
-				bounds.yMax = Mathf.Max (bounds.yMax, viewPosition.y + node.GetDiamentions ().y);
+				bounds.yMin = Mathf.Min(bounds.yMin, viewPosition.y);
+				bounds.yMax = Mathf.Max(bounds.yMax, viewPosition.y + node.GetDiamentions().y);
 			}
 
-			dragging_Position = new Vector2 (screenRect.width * 0.5f, screenRect.height * 0.5f) - Vector2Int.RoundToInt (bounds.center);
+			dragging_Position = new Vector2(screenRect.width * 0.5f, screenRect.height * 0.5f) - Vector2Int.RoundToInt(bounds.center);
 		}
 
-		private void RenameNode (UnityEngine.Object action, string newName)
+		private void RenameNode(UnityEngine.Object action, string newName)
 		{
 			action.name = newName;
 
-			ReloadSubassets ();
+			ReloadSubassets();
 
-			EditorUtility.SetDirty (action);
+			EditorUtility.SetDirty(action);
 		}
 
-		private void DeleteNode (UnityEngine.Object action)
+		private void DeleteNode(UnityEngine.Object action)
 		{
-			DestroyImmediate (action, true);
+			DestroyImmediate(action, true);
 
-			ReloadSubassets ();
+			ReloadSubassets();
 
-			EditorUtility.SetDirty ((UnityEngine.Object)targetGraph);
-			Repaint ();
+			EditorUtility.SetDirty((UnityEngine.Object)targetGraph);
+			Repaint();
 		}
 
-		private T Duplicate<T> (T original)
+		private T Duplicate<T>(T original)
 			where T : BehaviourNode
 		{
-			return (T)DuplicateNode ((ScriptableObject)original);
+			return (T)DuplicateNode((ScriptableObject)original);
 		}
 
-		private ScriptableObject DuplicateNode (ScriptableObject original)
+		private ScriptableObject DuplicateNode(ScriptableObject original)
 		{
-			var action = Instantiate (original) as ScriptableObject;
+			var action = Instantiate(original) as ScriptableObject;
 			action.name = original.name;
 			action.hideFlags = HideFlags.HideInHierarchy;
 
-			AssetDatabase.AddObjectToAsset (action, (UnityEngine.Object)targetGraph);
+			AssetDatabase.AddObjectToAsset(action, (UnityEngine.Object)targetGraph);
 
-			ReloadSubassets ();
+			ReloadSubassets();
 
 			return action;
 		}
 
-		private T AddNode<T> ()
+		private T AddNode<T>()
 			where T : BehaviourNode
 		{
-			return (T)AddNode (typeof (T));
+			return (T)AddNode(typeof(T));
 		}
 
-		private ScriptableObject AddNode (Type type)
+		private ScriptableObject AddNode(Type type)
 		{
-			var action = CreateInstance (type);
-			action.name = ObjectNames.NicifyVariableName (type.Name).Replace (" Node", "");
+			var action = CreateInstance(type);
+			action.name = ObjectNames.NicifyVariableName(type.Name).Replace(" Node", "");
 			action.hideFlags = HideFlags.HideInHierarchy;
 
-			AssetDatabase.AddObjectToAsset (action, (UnityEngine.Object)targetGraph);
+			AssetDatabase.AddObjectToAsset(action, (UnityEngine.Object)targetGraph);
 
-			ReloadSubassets ();
+			ReloadSubassets();
 
 			return action;
 		}
 
-		private void ReloadSubassets ()
+		private void ReloadSubassets()
 		{
-			var objects = AssetDatabase.LoadAllAssetsAtPath (
-				AssetDatabase.GetAssetPath ((UnityEngine.Object)targetGraph));
+			var objects = AssetDatabase.LoadAllAssetsAtPath(
+				AssetDatabase.GetAssetPath((UnityEngine.Object)targetGraph));
 
-			var actions = new List<BehaviourNode> (objects.Length);
+			var actions = new List<BehaviourNode>(objects.Length);
 
 			for (int i = 0; i < objects.Length; i++)
 			{
 				var obj = objects[i];
 
 				if (obj == null)
-					continue;
-
-				if (typeof (BehaviourNode).IsAssignableFrom (obj.GetType ()))
 				{
-					actions.Add ((BehaviourNode)obj);
+					continue;
+				}
+
+				if (typeof(BehaviourNode).IsAssignableFrom(obj.GetType()))
+				{
+					actions.Add((BehaviourNode)obj);
 				}
 			}
 
 			targetGraph.AllNodes = actions;
 
-			EditorUtility.SetDirty ((UnityEngine.Object)targetGraph);
+			EditorUtility.SetDirty((UnityEngine.Object)targetGraph);
 		}
-		private void BuildAddMenu ()
+		private void BuildAddMenu()
 		{
-			AddNodeMenu = new GenericMenu ();
+			AddNodeMenu = new GenericMenu();
 
-			var MenuStructure = new Dictionary<string, Dictionary<string, List<Type>>> ();
+			var MenuStructure = new Dictionary<string, Dictionary<string, List<Type>>>();
 
-			var assemblies = AppDomain.CurrentDomain.GetAssemblies ();
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
 			for (int a = 0; a < assemblies.Length; a++)
 			{
 				var assembly = assemblies[a];
-				var types = assembly.GetTypes ();
+				var types = assembly.GetTypes();
 
 				for (int t = 0; t < types.Length; t++)
 				{
 					var type = types[t];
 
 					if (type.IsAbstract)
+					{
 						continue;
+					}
 
-					if (typeof (BehaviourNode).IsAssignableFrom (type))
+					if (typeof(BehaviourNode).IsAssignableFrom(type))
 					{
 						string elementName;
 						string nodeGroup = "";
 
-						object[] obj = type.GetCustomAttributes (typeof (NodeInformationAttribute), false);
+						object[] obj = type.GetCustomAttributes(typeof(NodeInformationAttribute), false);
 						if (obj.Length == 0)
 						{
-							elementName = ObjectNames.NicifyVariableName (type.Name).Replace (" Node", "");
-							if (elementName.Contains ("Input"))
+							elementName = ObjectNames.NicifyVariableName(type.Name).Replace(" Node", "");
+							if (elementName.Contains("Input"))
+							{
 								nodeGroup = "Input";
+							}
 						}
 						else
 						{
@@ -1196,7 +1274,7 @@ namespace RPGCore.Behaviour.Editor
 							elementName = attribute.Name;
 						}
 
-						int lastSeperator = elementName.LastIndexOf ('/');
+						int lastSeperator = elementName.LastIndexOf('/');
 						string nodePath;
 						if (lastSeperator == -1)
 						{
@@ -1204,26 +1282,26 @@ namespace RPGCore.Behaviour.Editor
 						}
 						else
 						{
-							nodePath = elementName.Substring (0, lastSeperator);
+							nodePath = elementName.Substring(0, lastSeperator);
 						}
 
 						Dictionary<string, List<Type>> groupsDictionary;
-						bool result = MenuStructure.TryGetValue (nodePath, out groupsDictionary);
+						bool result = MenuStructure.TryGetValue(nodePath, out groupsDictionary);
 						if (!result)
 						{
-							groupsDictionary = new Dictionary<string, List<Type>> ();
-							MenuStructure.Add (nodePath, groupsDictionary);
+							groupsDictionary = new Dictionary<string, List<Type>>();
+							MenuStructure.Add(nodePath, groupsDictionary);
 						}
 
 						List<Type> group;
-						result = groupsDictionary.TryGetValue (nodeGroup, out group);
+						result = groupsDictionary.TryGetValue(nodeGroup, out group);
 						if (!result)
 						{
-							group = new List<Type> ();
-							groupsDictionary.Add (nodeGroup, group);
+							group = new List<Type>();
+							groupsDictionary.Add(nodeGroup, group);
 						}
 
-						group.Add (type);
+						group.Add(type);
 					}
 				}
 			}
@@ -1234,32 +1312,36 @@ namespace RPGCore.Behaviour.Editor
 				foreach (var group in path.Value)
 				{
 					if (seperated)
-						AddNodeMenu.AddSeparator (path.Key + "/");
+					{
+						AddNodeMenu.AddSeparator(path.Key + "/");
+					}
 					else
+					{
 						seperated = true;
+					}
 
 					foreach (var node in group.Value)
 					{
-						object[] obj = node.GetCustomAttributes (typeof (NodeInformationAttribute), false);
+						object[] obj = node.GetCustomAttributes(typeof(NodeInformationAttribute), false);
 
 						if (obj.Length == 0)
 						{
-							string elementName = ObjectNames.NicifyVariableName (node.Name).Replace (" Node", "");
+							string elementName = ObjectNames.NicifyVariableName(node.Name).Replace(" Node", "");
 
-							AddNodeMenu.AddItem (new GUIContent (elementName),
+							AddNodeMenu.AddItem(new GUIContent(elementName),
 									false, AddNodeCallback, node);
 						}
 						else
 						{
 							var nodeInformation = (NodeInformationAttribute)obj[0];
 
-							if (nodeInformation.OnlyOne && targetGraph.GetNode (node) != null)
+							if (nodeInformation.OnlyOne && targetGraph.GetNode(node) != null)
 							{
-								AddNodeMenu.AddDisabledItem (new GUIContent (nodeInformation.Name));
+								AddNodeMenu.AddDisabledItem(new GUIContent(nodeInformation.Name));
 							}
 							else
 							{
-								AddNodeMenu.AddItem (new GUIContent (nodeInformation.Name),
+								AddNodeMenu.AddItem(new GUIContent(nodeInformation.Name),
 										false, AddNodeCallback, node);
 							}
 						}

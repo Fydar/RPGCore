@@ -19,31 +19,33 @@ namespace RPGCore
 			}
 		}
 
-		public BuffClockFixed (float ticksPerSecond)
+		public BuffClockFixed(float ticksPerSecond)
 		{
 			TicksPerSecond = ticksPerSecond;
 		}
 
-		public BuffClockFixed (BuffWhilstNode buffNode, IBehaviourContext context)
+		public BuffClockFixed(BuffWhilstNode buffNode, IBehaviourContext context)
 		{
 			TicksPerSecond = buffNode.TicksPerSecond[context].Value;
 		}
 
-		public BuffClockFixed (BuffGrantNode buffNode, IBehaviourContext context)
+		public BuffClockFixed(BuffGrantNode buffNode, IBehaviourContext context)
 		{
 			TicksPerSecond = buffNode.TicksPerSecond[context].Value;
 		}
 
-		public override void Update (float deltaTime)
+		public override void Update(float deltaTime)
 		{
 			tickProgress += deltaTime;
 
-			int TargetTicks = Mathf.FloorToInt (tickProgress / (1.0f / TicksPerSecond));
+			int TargetTicks = Mathf.FloorToInt(tickProgress / (1.0f / TicksPerSecond));
 
 			for (int i = 0; i < TargetTicks; ++i)
 			{
 				if (OnTick != null)
-					OnTick ();
+				{
+					OnTick();
+				}
 			}
 
 			tickProgress -= TargetTicks * (1.0f / TicksPerSecond);

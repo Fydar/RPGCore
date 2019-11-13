@@ -23,23 +23,25 @@ namespace RPGCore.Editors.Utility
 		private readonly int elementCount;
 		private readonly float localOffset;
 
-		public UniformScrollController (Rect area, float height, ref Vector2 offset, int elements)
+		public UniformScrollController(Rect area, float height, ref Vector2 offset, int elements)
 		{
 			currentIndex = 0;
 
 			maxOverflow = area.height % height;
-			maxElementCount = Mathf.CeilToInt (area.height / height);
-			maxScroll = (Mathf.Max (0.0f, (elements - maxElementCount) + 1) * height) - (maxOverflow);
+			maxElementCount = Mathf.CeilToInt(area.height / height);
+			maxScroll = (Mathf.Max(0.0f, (elements - maxElementCount) + 1) * height) - (maxOverflow);
 
 			viewScroll = offset.y;
 			if (offset.y < 0)
+			{
 				viewScroll = maxScroll;
+			}
 
 			localOffset = viewScroll % height;
-			elementCount = Mathf.CeilToInt ((area.height + localOffset) / height);
-			indexOffset = Mathf.Max (0, (int)(Mathf.Floor (viewScroll / height)));
+			elementCount = Mathf.CeilToInt((area.height + localOffset) / height);
+			indexOffset = Mathf.Max(0, (int)(Mathf.Floor(viewScroll / height)));
 
-			var verticalScrollRect = new Rect (area)
+			var verticalScrollRect = new Rect(area)
 			{
 				xMin = area.xMax - EditorGUIUtility.singleLineHeight
 			};
@@ -47,59 +49,69 @@ namespace RPGCore.Editors.Utility
 
 			if (maxScroll <= 0.0f)
 			{
-				EditorGUI.BeginDisabledGroup (true);
-				GUI.VerticalScrollbar (verticalScrollRect, 0.0f, 1.0f, 0.0f, 1.0f);
-				EditorGUI.EndDisabledGroup ();
+				EditorGUI.BeginDisabledGroup(true);
+				GUI.VerticalScrollbar(verticalScrollRect, 0.0f, 1.0f, 0.0f, 1.0f);
+				EditorGUI.EndDisabledGroup();
 			}
 			else
 			{
-				if (Event.current.rawType == EventType.ScrollWheel && area.Contains (Event.current.mousePosition))
+				if (Event.current.rawType == EventType.ScrollWheel && area.Contains(Event.current.mousePosition))
 				{
 					if (Event.current.delta.y > 0)
 					{
 						offset.y += Event.current.delta.y * ScrollSpeed;
 						if (offset.y >= maxScroll - 0.075f || offset.y < 0.075f)
+						{
 							offset.y = LockOffset;
+						}
 					}
 					else
 					{
 						if (offset.y <= LockOffset + 0.015f)
+						{
 							offset.y = maxScroll;
+						}
 
 						offset.y += Event.current.delta.y * ScrollSpeed;
 						if (offset.y < 0 && offset.y > LockOffset + 1.0f)
+						{
 							offset.y = 0;
+						}
 					}
-					Event.current.Use ();
+					Event.current.Use();
 				}
 
 				float handleSize = area.height;
 
-				EditorGUI.BeginChangeCheck ();
-				float inputScroll = GUI.VerticalScrollbar (verticalScrollRect,
+				EditorGUI.BeginChangeCheck();
+				float inputScroll = GUI.VerticalScrollbar(verticalScrollRect,
 					viewScroll, handleSize, 0.0f, maxScroll + handleSize);
-				if (EditorGUI.EndChangeCheck ())
+				if (EditorGUI.EndChangeCheck())
 				{
 					if (inputScroll >= maxScroll - 0.015f)
+					{
 						offset.y = LockOffset;
+					}
 					else
+					{
 						offset.y = inputScroll;
+					}
 				}
 			}
 
-			marchingRect = new Rect (0, -localOffset, area.width, height);
+			marchingRect = new Rect(0, -localOffset, area.width, height);
 
 			marchingRect.y -= marchingRect.height;
 			currentIndex--;
 
-			GUI.BeginGroup (area, GUI.skin.box);
+			GUI.BeginGroup(area, GUI.skin.box);
 		}
 
 		public ElementDrawer Current
 		{
 			get
 			{
-				return new ElementDrawer (marchingRect, currentIndex + indexOffset);
+				return new ElementDrawer(marchingRect, currentIndex + indexOffset);
 			}
 		}
 
@@ -111,29 +123,29 @@ namespace RPGCore.Editors.Utility
 			}
 		}
 
-		public IEnumerator<ElementDrawer> GetEnumerator ()
+		public IEnumerator<ElementDrawer> GetEnumerator()
 		{
 			return this;
 		}
 
-		public bool MoveNext ()
+		public bool MoveNext()
 		{
 			marchingRect.y += marchingRect.height;
 			currentIndex++;
 			return currentIndex < indexOffset + elementCount;
 		}
 
-		public void Reset ()
+		public void Reset()
 		{
-			throw new NotImplementedException ();
+			throw new NotImplementedException();
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
-			GUI.EndGroup ();
+			GUI.EndGroup();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator ()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this;
 		}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RPGCore.Stats
 {
-	[CreateAssetMenu (menuName = "RPGCore/State/Database")]
+	[CreateAssetMenu(menuName = "RPGCore/State/Database")]
 	public class StateInformationDatabase : StaticDatabase<StateInformationDatabase>
 	{
 		public StateInformationCollection StateInfos;

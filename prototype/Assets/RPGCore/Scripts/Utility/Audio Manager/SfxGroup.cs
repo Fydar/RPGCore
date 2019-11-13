@@ -2,7 +2,7 @@
 
 namespace RPGCore.Audio
 {
-	[CreateAssetMenu (menuName = "RPGCore/Audio/Sfx Group")]
+	[CreateAssetMenu(menuName = "RPGCore/Audio/Sfx Group")]
 	public class SfxGroup : ScriptableObject
 	{
 		public AudioClip[] Clips;
@@ -10,12 +10,12 @@ namespace RPGCore.Audio
 		public Vector2 VolumeRange;
 		public Vector2 PitchRange;
 
-		public AudioClip GetClip ()
+		public AudioClip GetClip()
 		{
-			return Clips[Random.Range (0, Clips.Length)];
+			return Clips[Random.Range(0, Clips.Length)];
 		}
 
-		public void Play ()
+		public void Play()
 		{
 		}
 	}

@@ -10,17 +10,17 @@ using RPGCore.Utility.Editors;
 
 namespace RPGCore
 {
-	[CreateAssetMenu (menuName = "RPGCore/Item")]
+	[CreateAssetMenu(menuName = "RPGCore/Item")]
 	public class ProceduralItemTemplate : ItemTemplate
 	{
-		[Header ("Render")]
+		[Header("Render")]
 		[SerializeField] private GameObject renderPrefab;
 		[SerializeField] private float renderScale = 1.0f;
 
-		[Header ("General")]
+		[Header("General")]
 		[SerializeField] private string itemName = "New Item";
 
-		[TextArea (3, 7)]
+		[TextArea(3, 7)]
 		[SerializeField] private string description = "New Item Description";
 
 		[Space]
@@ -39,7 +39,7 @@ namespace RPGCore
 		[HideInInspector] [SerializeField] private Sprite icon;
 		[HideInInspector] [SerializeField] private int weight = 1;
 
-		[UnityEngine.Serialization.FormerlySerializedAs ("Nodes")]
+		[UnityEngine.Serialization.FormerlySerializedAs("Nodes")]
 		[SerializeField] private List<BehaviourNode> nodes;
 
 		public override List<BehaviourNode> AllNodes
@@ -150,7 +150,7 @@ namespace RPGCore
 			}
 		}
 
-		public override ItemSurrogate GenerateItem (ItemData data)
+		public override ItemSurrogate GenerateItem(ItemData data)
 		{
 			var newItem = new ItemSurrogate
 			{
@@ -158,31 +158,31 @@ namespace RPGCore
 				template = this
 			};
 
-			this.SetupGraph (newItem);
+			this.SetupGraph(newItem);
 
-			var itemNodes = this.GetNodes<IInputNode<ItemSurrogate>> ();
+			var itemNodes = this.GetNodes<IInputNode<ItemSurrogate>>();
 			foreach (var itemNode in itemNodes)
 			{
-				itemNode.SetTarget (newItem, newItem);
+				itemNode.SetTarget(newItem, newItem);
 			}
 
 			if (prefix != null)
 			{
-				var template = prefix.GetEnchantment ();
+				var template = prefix.GetEnchantment();
 
 				if (template != null)
 				{
-					newItem.Prefix = new Enchantment (template);
+					newItem.Prefix = new Enchantment(template);
 				}
 			}
 
 			if (suffix != null)
 			{
-				var template = suffix.GetEnchantment ();
+				var template = suffix.GetEnchantment();
 
 				if (template != null)
 				{
-					newItem.Suffix = new Enchantment (template);
+					newItem.Suffix = new Enchantment(template);
 				}
 			}
 
@@ -206,20 +206,22 @@ namespace RPGCore
 #endif
 
 #if UNITY_EDITOR && !ASSET_ICONS
-	[CustomEditor (typeof (ProceduralItemTemplate))]
+	[CustomEditor(typeof(ProceduralItemTemplate))]
 	[CanEditMultipleObjects]
 	internal class ItemTemplateEditor : Editor
 	{
-		public override Texture2D RenderStaticPreview (string assetPath, Object[] subAssets, int width, int height)
+		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{
 			if (((ItemTemplate)target).RenderPrefab == null)
+			{
 				return null;
+			}
 
 			RuntimePreviewGenerator.OrthographicMode = true;
-			RuntimePreviewGenerator.BackgroundColor = new Color32 (19, 23, 26, 255);
+			RuntimePreviewGenerator.BackgroundColor = new Color32(19, 23, 26, 255);
 			RuntimePreviewGenerator.Padding = 0.1f;
 
-			return RuntimePreviewGenerator.GenerateModel (((ItemTemplate)target).RenderPrefab.transform, width, height);
+			return RuntimePreviewGenerator.GenerateModel(((ItemTemplate)target).RenderPrefab.transform, width, height);
 		}
 	}
 #endif

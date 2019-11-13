@@ -2,11 +2,11 @@
 {
 	public class ClingyCondition : ItemCondition
 	{
-		public ClingyCondition ()
+		public ClingyCondition()
 		{
 		}
 
-		public override bool IsValid (ItemSurrogate item)
+		public override bool IsValid(ItemSurrogate item)
 		{
 			return item != null;
 		}

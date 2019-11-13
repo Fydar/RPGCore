@@ -21,7 +21,7 @@ namespace RPGCore
 			}
 		}
 
-		public BuffClockDecaying (BuffForNode buffNode, IBehaviourContext buffNodeContext)
+		public BuffClockDecaying(BuffForNode buffNode, IBehaviourContext buffNodeContext)
 		{
 			Ticks = buffNode.Ticks[buffNodeContext].Value;
 
@@ -29,7 +29,7 @@ namespace RPGCore
 			TimeRemaining = Duration;
 		}
 
-		public BuffClockDecaying (int ticks, float duration)
+		public BuffClockDecaying(int ticks, float duration)
 		{
 			Ticks = ticks;
 
@@ -37,7 +37,7 @@ namespace RPGCore
 			TimeRemaining = Duration;
 		}
 
-		public override void Update (float deltaTime)
+		public override void Update(float deltaTime)
 		{
 			TimeRemaining -= deltaTime;
 
@@ -46,12 +46,14 @@ namespace RPGCore
 			float tickTime;
 			tickTime = percentComplete;
 
-			int TargetTicks = Mathf.RoundToInt (tickTime * Ticks);
+			int TargetTicks = Mathf.RoundToInt(tickTime * Ticks);
 
 			while (TicksCompleted < TargetTicks)
 			{
 				if (OnTick != null)
-					OnTick ();
+				{
+					OnTick();
+				}
 
 				TicksCompleted++;
 			}
@@ -59,7 +61,9 @@ namespace RPGCore
 			if (TimeRemaining <= 0.0f)
 			{
 				if (OnRemove != null)
-					OnRemove ();
+				{
+					OnRemove();
+				}
 
 				return;
 			}

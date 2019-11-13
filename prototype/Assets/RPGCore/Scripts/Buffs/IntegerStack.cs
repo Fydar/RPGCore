@@ -25,14 +25,14 @@ namespace RPGCore
 			}
 		}
 
-		public void InvokeChanged ()
+		public void InvokeChanged()
 		{
 			delta = Value - lastValue;
 			lastValue = Value;
 
 			if (OnValueChanged != null)
 			{
-				OnValueChanged (Value);
+				OnValueChanged(Value);
 			}
 		}
 
@@ -51,26 +51,26 @@ namespace RPGCore
 				{
 					currentValue = value;
 					Parent.isDirty = true;
-					Parent.InvokeChanged ();
+					Parent.InvokeChanged();
 				}
 			}
 
-			public Modifier (IntegerStack parent)
+			public Modifier(IntegerStack parent)
 			{
 				Parent = parent;
 				Value = 0;
 			}
 
-			public Modifier (IntegerStack parent, int value)
+			public Modifier(IntegerStack parent, int value)
 			{
 				Parent = parent;
 				Value = value;
 			}
 		}
-		public List<Modifier> FlatModifiers = new List<Modifier> ();
+		public List<Modifier> FlatModifiers = new List<Modifier>();
 
 		[SerializeField]
-		[FormerlySerializedAs ("BaseValue")]
+		[FormerlySerializedAs("BaseValue")]
 		private int baseValue;
 
 		[NonSerialized]
@@ -86,7 +86,7 @@ namespace RPGCore
 				{
 					int modifiedValue = baseValue;
 
-					modifiedValue += Sum (FlatModifiers);
+					modifiedValue += Sum(FlatModifiers);
 
 					lastValue = modifiedValue;
 				}
@@ -112,25 +112,25 @@ namespace RPGCore
 			}
 		}
 
-		public Modifier AddFlatModifier (int startingValue)
+		public Modifier AddFlatModifier(int startingValue)
 		{
-			var mod = new Modifier (this, startingValue);
-			FlatModifiers.Add (mod);
+			var mod = new Modifier(this, startingValue);
+			FlatModifiers.Add(mod);
 
 			isDirty = true;
-			InvokeChanged ();
+			InvokeChanged();
 			return mod;
 		}
 
-		public void RemoveFlatModifier (Modifier modifier)
+		public void RemoveFlatModifier(Modifier modifier)
 		{
-			FlatModifiers.Remove (modifier);
+			FlatModifiers.Remove(modifier);
 
 			isDirty = true;
-			InvokeChanged ();
+			InvokeChanged();
 		}
 
-		protected int Sum (List<Modifier> modifiers)
+		protected int Sum(List<Modifier> modifiers)
 		{
 			int total = 0;
 
@@ -161,81 +161,91 @@ namespace RPGCore
 	}
 
 #if UNITY_EDITOR
-	[CustomPropertyDrawer (typeof (IntegerStack))]
+	[CustomPropertyDrawer(typeof(IntegerStack))]
 	public class IntegerStackDrawer : PropertyDrawer
 	{
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			return base.GetPropertyHeight (property, label);
+			return base.GetPropertyHeight(property, label);
 		}
 
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			var infoProperty = property.FindPropertyRelative ("Info");
-			var valueProperty = property.FindPropertyRelative ("baseValue");
+			var infoProperty = property.FindPropertyRelative("Info");
+			var valueProperty = property.FindPropertyRelative("baseValue");
 
 			if (infoProperty.objectReferenceValue == null)
+			{
 				return;
+			}
 
-			var statInst = (IntegerStack)GetTargetObjectOfProperty (property);
+			var statInst = (IntegerStack)GetTargetObjectOfProperty(property);
 
 			Rect fieldRect;
 
 			if (Application.isPlaying)
 			{
-				fieldRect = new Rect (position.x, position.y, position.width - 40, position.height);
+				fieldRect = new Rect(position.x, position.y, position.width - 40, position.height);
 			}
 			else
 			{
 				fieldRect = position;
 			}
 
-			valueProperty.intValue = EditorGUI.IntField (fieldRect, label, valueProperty.intValue);
+			valueProperty.intValue = EditorGUI.IntField(fieldRect, label, valueProperty.intValue);
 
 			if (GUI.changed)
-				statInst.InvokeChanged ();
+			{
+				statInst.InvokeChanged();
+			}
 
-			property.serializedObject.ApplyModifiedProperties ();
+			property.serializedObject.ApplyModifiedProperties();
 		}
 
-		public static object GetTargetObjectOfProperty (SerializedProperty prop)
+		public static object GetTargetObjectOfProperty(SerializedProperty prop)
 		{
-			string path = prop.propertyPath.Replace (".Array.data[", "[");
+			string path = prop.propertyPath.Replace(".Array.data[", "[");
 			object obj = prop.serializedObject.targetObject;
-			string[] elements = path.Split ('.');
+			string[] elements = path.Split('.');
 
 			foreach (string element in elements)
 			{
-				if (element.Contains ("["))
+				if (element.Contains("["))
 				{
-					string elementName = element.Substring (0, element.IndexOf ("["));
-					int index = System.Convert.ToInt32 (element.Substring (element.IndexOf ("[")).Replace ("[", "").Replace ("]", ""));
-					obj = GetObjectValue (obj, elementName, index);
+					string elementName = element.Substring(0, element.IndexOf("["));
+					int index = System.Convert.ToInt32(element.Substring(element.IndexOf("[")).Replace("[", "").Replace("]", ""));
+					obj = GetObjectValue(obj, elementName, index);
 				}
 				else
 				{
-					obj = GetObjectValue (obj, element);
+					obj = GetObjectValue(obj, element);
 				}
 			}
 			return obj;
 		}
 
-		private static object GetObjectValue (object source, string name)
+		private static object GetObjectValue(object source, string name)
 		{
 			if (source == null)
+			{
 				return null;
+			}
 
-			var type = source.GetType ();
+			var type = source.GetType();
 
 			while (type != null)
 			{
-				var f = type.GetField (name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+				var f = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 				if (f != null)
-					return f.GetValue (source);
+				{
+					return f.GetValue(source);
+				}
 
-				var p = type.GetProperty (name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+				var p = type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 				if (p != null)
-					return p.GetValue (source, null);
+				{
+					return p.GetValue(source, null);
+				}
 
 				type = type.BaseType;
 			}
@@ -243,18 +253,23 @@ namespace RPGCore
 			return null;
 		}
 
-		private static object GetObjectValue (object source, string name, int index)
+		private static object GetObjectValue(object source, string name, int index)
 		{
-			var enumerable = GetObjectValue (source, name) as System.Collections.IEnumerable;
+			var enumerable = GetObjectValue(source, name) as System.Collections.IEnumerable;
 
 			if (enumerable == null)
+			{
 				return null;
+			}
 
-			var enm = enumerable.GetEnumerator ();
+			var enm = enumerable.GetEnumerator();
 
 			for (int i = 0; i <= index; i++)
 			{
-				if (!enm.MoveNext ()) return null;
+				if (!enm.MoveNext())
+				{
+					return null;
+				}
 			}
 
 			return enm.Current;

@@ -24,7 +24,7 @@ namespace RPGCore.Inventories
 			}
 			set
 			{
-				CurrentSlotID = IndexOfSlot (value);
+				CurrentSlotID = IndexOfSlot(value);
 			}
 		}
 
@@ -42,18 +42,18 @@ namespace RPGCore.Inventories
 					{
 						var behaviour = Behaviours[i];
 
-						behaviour.OnExitSlot (this);
+						behaviour.OnExitSlot(this);
 
 						if (Enabled)
 						{
-							behaviour.OnSlotDisable (this);
+							behaviour.OnSlotDisable(this);
 						}
 					}
 				}
 
 				if (onBeforeChanged != null)
 				{
-					onBeforeChanged ();
+					onBeforeChanged();
 				}
 
 				currentSlotID = value;
@@ -65,23 +65,23 @@ namespace RPGCore.Inventories
 					{
 						var behaviour = Behaviours[i];
 
-						behaviour.OnEnterSlot (this);
+						behaviour.OnEnterSlot(this);
 
 						if (Enabled)
 						{
-							behaviour.OnSlotEnable (this);
+							behaviour.OnSlotEnable(this);
 						}
 					}
 				}
 
 				if (onAfterChanged != null)
 				{
-					onAfterChanged ();
+					onAfterChanged();
 				}
 			}
 		}
 
-		public override void Return ()
+		public override void Return()
 		{
 		}
 
@@ -90,22 +90,26 @@ namespace RPGCore.Inventories
 			get
 			{
 				if (currentSlot == null)
+				{
 					return null;
+				}
 
 				return currentSlot.Item;
 			}
 			set
 			{
 				if (currentSlot == null)
+				{
 					return;
+				}
 
 				currentSlot.Item = value;
 			}
 		}
 
-		public ItemSelectSlot (bool _avoidEmptySlots = false, ItemSlotBehaviour[] behaviours = null,
+		public ItemSelectSlot(bool _avoidEmptySlots = false, ItemSlotBehaviour[] behaviours = null,
 			ItemCondition[] conditions = null, params ItemSlot[] originalSlot)
-			: base (originalSlot[1].Owner, behaviours, conditions)
+			: base(originalSlot[1].Owner, behaviours, conditions)
 		{
 			avoidEmptySlots = _avoidEmptySlots;
 			OriginalSlot = originalSlot;
@@ -113,7 +117,9 @@ namespace RPGCore.Inventories
 			foreach (var slot in OriginalSlot)
 			{
 				if (slot == null)
+				{
 					continue;
+				}
 
 				slot.onAfterChanged += () =>
 				{
@@ -123,17 +129,19 @@ namespace RPGCore.Inventories
 						{
 							var behaviour = Behaviours[i];
 
-							behaviour.OnEnterSlot (this);
+							behaviour.OnEnterSlot(this);
 
 							if (Enabled)
 							{
-								behaviour.OnSlotEnable (this);
+								behaviour.OnSlotEnable(this);
 							}
 						}
 					}
 
 					if (onAfterChanged != null)
-						onAfterChanged ();
+					{
+						onAfterChanged();
+					}
 				};
 
 				slot.onBeforeChanged += () =>
@@ -144,17 +152,19 @@ namespace RPGCore.Inventories
 						{
 							var behaviour = Behaviours[i];
 
-							behaviour.OnExitSlot (this);
+							behaviour.OnExitSlot(this);
 
 							if (Enabled)
 							{
-								behaviour.OnSlotDisable (this);
+								behaviour.OnSlotDisable(this);
 							}
 						}
 					}
 
 					if (onBeforeChanged != null)
-						onBeforeChanged ();
+					{
+						onBeforeChanged();
+					}
 				};
 				//slot.onQuantityChanged += () => onQuantityChanged ();
 			}
@@ -164,11 +174,11 @@ namespace RPGCore.Inventories
 				{
 					var behaviour = Behaviours[i];
 
-					behaviour.OnEnterSlot (this);
+					behaviour.OnEnterSlot(this);
 
 					if (Enabled)
 					{
-						behaviour.OnSlotEnable (this);
+						behaviour.OnSlotEnable(this);
 					}
 				}
 			}
@@ -176,27 +186,27 @@ namespace RPGCore.Inventories
 			currentSlot = OriginalSlot[currentSlotID];
 		}
 
-		public override AddResult Add (ItemSurrogate newItem)
+		public override AddResult Add(ItemSurrogate newItem)
 		{
-			return currentSlot.Add (newItem);
+			return currentSlot.Add(newItem);
 		}
 
-		public override void Swap (ItemSlot other)
+		public override void Swap(ItemSlot other)
 		{
-			currentSlot.Swap (other);
+			currentSlot.Swap(other);
 		}
 
-		public override void Remove ()
+		public override void Remove()
 		{
-			currentSlot.Remove ();
+			currentSlot.Remove();
 		}
 
-		public void SetSerializedID (int id)
+		public void SetSerializedID(int id)
 		{
 			serializedID = id;
 		}
 
-		public void NextSlot ()
+		public void NextSlot()
 		{
 			int originalID = currentSlotID;
 			do
@@ -208,7 +218,9 @@ namespace RPGCore.Inventories
 				}
 
 				if (!avoidEmptySlots)
+				{
 					break;
+				}
 
 				if (OriginalSlot[currentSlotID].Item != null)
 				{
@@ -221,7 +233,7 @@ namespace RPGCore.Inventories
 			CurrentSlotID = currentSlotID;
 		}
 
-		public void PreviousSlot ()
+		public void PreviousSlot()
 		{
 			int originalID = currentSlotID;
 			do
@@ -233,7 +245,9 @@ namespace RPGCore.Inventories
 				}
 
 				if (!avoidEmptySlots)
+				{
 					break;
+				}
 
 				if (OriginalSlot[currentSlotID].Item != null)
 				{
@@ -246,18 +260,20 @@ namespace RPGCore.Inventories
 			CurrentSlotID = currentSlotID;
 		}
 
-		private int IndexOfSlot (ItemSlot slot)
+		private int IndexOfSlot(ItemSlot slot)
 		{
 			for (int i = 0; i < OriginalSlot.Length; i++)
 			{
 				if (OriginalSlot[i] == slot)
+				{
 					return i;
+				}
 			}
 
 			return -1;
 		}
 
-		public override T GetSlotBehaviour<T> ()
+		public override T GetSlotBehaviour<T>()
 		{
 			if (CurrentSlot != null && CurrentSlot.Behaviours != null)
 			{
@@ -265,7 +281,7 @@ namespace RPGCore.Inventories
 				{
 					var behaviour = CurrentSlot.Behaviours[i];
 
-					if (behaviour.GetType () == typeof (T))
+					if (behaviour.GetType() == typeof(T))
 					{
 						return (T)behaviour;
 					}
@@ -278,7 +294,7 @@ namespace RPGCore.Inventories
 				{
 					var behaviour = Behaviours[i];
 
-					if (behaviour.GetType () == typeof (T))
+					if (behaviour.GetType() == typeof(T))
 					{
 						return (T)behaviour;
 					}

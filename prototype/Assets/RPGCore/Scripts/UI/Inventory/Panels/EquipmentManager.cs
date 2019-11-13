@@ -7,16 +7,16 @@ namespace RPGCore.Inventories
 	{
 		public EquipmentSlotManagerCollection Slots;
 
-		[Header ("State")]
+		[Header("State")]
 		public RPGCharacter target;
 		public InventorySelector selector;
 
-		public void Start ()
+		public void Start()
 		{
-			Setup (target.equipment);
+			Setup(target.equipment);
 		}
 
-		protected override void OnSlotAdd (ItemSlotManager slot)
+		protected override void OnSlotAdd(ItemSlotManager slot)
 		{
 			/*selector.Setup (target.inventory);
 			slot.onMainAction += () => {
@@ -26,27 +26,31 @@ namespace RPGCore.Inventories
 			};*/
 		}
 
-		public override void Setup (Inventory inventory)
+		public override void Setup(Inventory inventory)
 		{
 			if (current != null)
+			{
 				return;
+			}
 
 			current = inventory;
 
-			managers = new List<ItemSlotManager> (current.Size);
+			managers = new List<ItemSlotManager>(current.Size);
 
-			IEnumerator<ItemSlot> slot = current.Items.GetEnumerator ();
-			var manager = Slots.GetEnumerator ();
+			IEnumerator<ItemSlot> slot = current.Items.GetEnumerator();
+			var manager = Slots.GetEnumerator();
 
-			while (slot.MoveNext ())
+			while (slot.MoveNext())
 			{
-				manager.MoveNext ();
+				manager.MoveNext();
 
 				if (manager.Current == null)
+				{
 					continue;
+				}
 
-				manager.Current.Setup (slot.Current);
-				OnSlotAdd (manager.Current);
+				manager.Current.Setup(slot.Current);
+				OnSlotAdd(manager.Current);
 			}
 		}
 	}

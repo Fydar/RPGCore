@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour
 		{
 			get
 			{
-				return new Rect (drawRect.xMax + 5, drawRect.y, socketSize, socketSize);
+				return new Rect(drawRect.xMax + 5, drawRect.y, socketSize, socketSize);
 			}
 		}
 #endif

@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace RPGCore.Tables
 {
-	[CreateAssetMenu (menuName = "RPGCore/Enchantment/Table")]
+	[CreateAssetMenu(menuName = "RPGCore/Enchantment/Table")]
 	public class EnchantmentTable : EnchantmentSelector
 	{
 		[Serializable]
 		public class EnchantmentEntry : GenericTableEntry<EnchantmentSelector>
 		{
-			public EnchantmentEntry (EnchantmentSelector item, float balance)
-				: base (item, balance) { }
+			public EnchantmentEntry(EnchantmentSelector item, float balance)
+				: base(item, balance) { }
 		}
 
 		[Serializable]
@@ -19,15 +19,18 @@ namespace RPGCore.Tables
 		public string CategoryName = "Weapon";
 		public EnchantmentRoll PossibleEnchantments;
 
-		public override EnchantmentTemplate GetEnchantment ()
+		public override EnchantmentTemplate GetEnchantment()
 		{
-			var enchantment = PossibleEnchantments.Select ();
+			var enchantment = PossibleEnchantments.Select();
 			if (enchantment == null)
+			{
 				return null;
-			return enchantment.GetEnchantment ();
+			}
+
+			return enchantment.GetEnchantment();
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return "a random " + CategoryName + " enchantment";
 		}

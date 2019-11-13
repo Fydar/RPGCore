@@ -5,35 +5,35 @@ using UnityEngine;
 
 namespace RPGCore.Tooltips.Editors
 {
-	[CustomEditor (typeof (TooltipElement), true)]
+	[CustomEditor(typeof(TooltipElement), true)]
 	public class TooltipElementEditor : Editor
 	{
 		private static GUIStyle textStyle;
 
-		public override void OnInspectorGUI ()
+		public override void OnInspectorGUI()
 		{
-			DrawTooltipTargets (target.GetType ());
+			DrawTooltipTargets(target.GetType());
 
-			var iterator = serializedObject.GetIterator ();
-			iterator.NextVisible (true);
+			var iterator = serializedObject.GetIterator();
+			iterator.NextVisible(true);
 
-			EditorGUI.BeginDisabledGroup (true);
-			EditorGUILayout.PropertyField (iterator);
-			EditorGUI.EndDisabledGroup ();
+			EditorGUI.BeginDisabledGroup(true);
+			EditorGUILayout.PropertyField(iterator);
+			EditorGUI.EndDisabledGroup();
 
-			while (iterator.NextVisible (false))
+			while (iterator.NextVisible(false))
 			{
-				EditorGUILayout.PropertyField (iterator, true);
+				EditorGUILayout.PropertyField(iterator, true);
 			}
 
-			serializedObject.ApplyModifiedProperties ();
+			serializedObject.ApplyModifiedProperties();
 		}
 
-		private static void DrawTooltipTargets (Type elementType)
+		private static void DrawTooltipTargets(Type elementType)
 		{
 			if (textStyle == null)
 			{
-				textStyle = new GUIStyle (EditorStyles.label)
+				textStyle = new GUIStyle(EditorStyles.label)
 				{
 					fontSize = 9,
 					alignment = TextAnchor.MiddleLeft,
@@ -41,28 +41,30 @@ namespace RPGCore.Tooltips.Editors
 				};
 			}
 
-			var interfaces = elementType.GetInterfaces ();
+			var interfaces = elementType.GetInterfaces();
 
-			GUILayout.Space (EditorGUIUtility.standardVerticalSpacing * 2);
+			GUILayout.Space(EditorGUIUtility.standardVerticalSpacing * 2);
 
-			EditorGUILayout.BeginVertical (EditorStyles.helpBox);
+			EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
 			foreach (var inheriting in interfaces)
 			{
-				if (inheriting.GetGenericTypeDefinition () != typeof (ITooltipTarget<>))
+				if (inheriting.GetGenericTypeDefinition() != typeof(ITooltipTarget<>))
+				{
 					continue;
+				}
 
-				string text = inheriting.GetGenericArguments ()[0].ToString ();
-				int endIndex = text.LastIndexOf ('.');
+				string text = inheriting.GetGenericArguments()[0].ToString();
+				int endIndex = text.LastIndexOf('.');
 
 				if (endIndex != -1)
 				{
-					text = "<color=#777>" + text.Insert (endIndex + 1, "</color>");
+					text = "<color=#777>" + text.Insert(endIndex + 1, "</color>");
 				}
 
-				EditorGUILayout.LabelField (text, textStyle);
+				EditorGUILayout.LabelField(text, textStyle);
 			}
-			EditorGUILayout.EndVertical ();
+			EditorGUILayout.EndVertical();
 		}
 	}
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[NodeInformation ("Buff/Buff Grant")]
+	[NodeInformation("Buff/Buff Grant")]
 	public class BuffGrantNode : BehaviourNode
 	{
 		public enum ApplyMode
@@ -26,7 +26,7 @@ namespace RPGCore
 		public IntInput StackSize;
 		public FloatInput TicksPerSecond;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var applyInput = Apply[context];
 			var targetInput = Target[context];
@@ -36,31 +36,31 @@ namespace RPGCore
 			{
 				if (Mode == ApplyMode.Add)
 				{
-					var buff = new Buff (this, context);
-					BuffClock buffClock = new BuffClockFixed (this, context);
+					var buff = new Buff(this, context);
+					BuffClock buffClock = new BuffClockFixed(this, context);
 
-					buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+					buffClock.StackSize.AddFlatModifier(stackSizeInput.Value);
 
-					buff.AddClock (buffClock);
+					buff.AddClock(buffClock);
 
-					targetInput.Value.Buffs.Add (buff);
+					targetInput.Value.Buffs.Add(buff);
 				}
 				else if (Mode == ApplyMode.Stack)
 				{
-					var buff = targetInput.Value.Buffs.Find (BuffToApply);
+					var buff = targetInput.Value.Buffs.Find(BuffToApply);
 
-					Debug.Log (BuffToApply.name);
+					Debug.Log(BuffToApply.name);
 
 					if (buff == null)
 					{
-						buff = new Buff (this, context);
+						buff = new Buff(this, context);
 
-						BuffClock buffClock = new BuffClockFixed (this, context);
-						buffClock.StackSize.AddFlatModifier (0);
+						BuffClock buffClock = new BuffClockFixed(this, context);
+						buffClock.StackSize.AddFlatModifier(0);
 
-						buff.AddClock (buffClock);
+						buff.AddClock(buffClock);
 
-						targetInput.Value.Buffs.Add (buff);
+						targetInput.Value.Buffs.Add(buff);
 					}
 
 					buff.BaseStackSize.Value += stackSizeInput.Value;
@@ -76,7 +76,7 @@ namespace RPGCore
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

@@ -10,40 +10,42 @@ namespace RPGCore.Audio
 		public MusicGroup Music;
 		public AudioSourcePool Pool;
 
-		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
-		private static void OnRuntimeMethodLoad ()
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		private static void OnRuntimeMethodLoad()
 		{
-			var singleton = new GameObject ("Audio Manager", typeof (AudioManager));
-			DontDestroyOnLoad (singleton);
+			var singleton = new GameObject("Audio Manager", typeof(AudioManager));
+			DontDestroyOnLoad(singleton);
 		}
 
-		private void Awake ()
+		private void Awake()
 		{
 			instance = this;
 			Pool = new AudioSourcePool { PrewarmAmount = 5 };
-			Pool.Initialise (gameObject);
+			Pool.Initialise(gameObject);
 		}
 
-		private void Start ()
+		private void Start()
 		{
 			if (Music != null)
-				PlayMusic (Music);
+			{
+				PlayMusic(Music);
+			}
 		}
 
-		public void PlayClip (SfxGroup group)
+		public void PlayClip(SfxGroup group)
 		{
-			var source = Pool.Grab ();
+			var source = Pool.Grab();
 
-			source.clip = group.GetClip ();
-			source.volume = Random.Range (group.VolumeRange.x, group.VolumeRange.y);
-			source.pitch = Random.Range (group.PitchRange.x, group.PitchRange.y);
-			source.Play ();
-			StartCoroutine (ReturnToPool (source));
+			source.clip = group.GetClip();
+			source.volume = Random.Range(group.VolumeRange.x, group.VolumeRange.y);
+			source.pitch = Random.Range(group.PitchRange.x, group.PitchRange.y);
+			source.Play();
+			StartCoroutine(ReturnToPool(source));
 		}
 
-		public void PlayClip (LoopGroup group, EffectFader fader)
+		public void PlayClip(LoopGroup group, EffectFader fader)
 		{
-			var source = Pool.Grab ();
+			var source = Pool.Grab();
 
 			source.clip = group.LoopedAudio;
 
@@ -51,46 +53,46 @@ namespace RPGCore.Audio
 			source.volume = group.VolumeRange.x;
 			source.loop = true;
 
-			source.Play ();
-			StartCoroutine (ManageLoop (source, group, fader));
+			source.Play();
+			StartCoroutine(ManageLoop(source, group, fader));
 		}
 
-		public void PlayMusic (MusicGroup group)
+		public void PlayMusic(MusicGroup group)
 		{
-			var source = Pool.Grab ();
+			var source = Pool.Grab();
 
 			source.clip = group.Music[0];
 			source.volume = group.Volume;
 			source.priority = 1024;
 			source.loop = true;
-			source.Play ();
+			source.Play();
 		}
 
-		private IEnumerator ReturnToPool (AudioSource source)
+		private IEnumerator ReturnToPool(AudioSource source)
 		{
-			yield return new WaitForSeconds (source.clip.length / source.pitch);
-			source.Stop ();
-			Pool.Return (source);
+			yield return new WaitForSeconds(source.clip.length / source.pitch);
+			source.Stop();
+			Pool.Return(source);
 		}
 
-		private IEnumerator ManageLoop (AudioSource source, LoopGroup group, EffectFader fader)
+		private IEnumerator ManageLoop(AudioSource source, LoopGroup group, EffectFader fader)
 		{
 			while (true)
 			{
-				fader.Update (Time.deltaTime);
+				fader.Update(Time.deltaTime);
 				source.volume = fader.Value * group.VolumeRange.x;
 				yield return null;
 			}
 		}
 
-		public static void Play (SfxGroup group)
+		public static void Play(SfxGroup group)
 		{
-			instance.PlayClip (group);
+			instance.PlayClip(group);
 		}
 
-		public static void Play (LoopGroup group, EffectFader fader)
+		public static void Play(LoopGroup group, EffectFader fader)
 		{
-			instance.PlayClip (group, fader);
+			instance.PlayClip(group, fader);
 		}
 	}
 }

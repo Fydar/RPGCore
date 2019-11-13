@@ -4,7 +4,7 @@ using System;
 
 namespace RPGCore
 {
-	[NodeInformation ("Events/On Take Damage")]
+	[NodeInformation("Events/On Take Damage")]
 	public class OnTakeDamageNode : BehaviourNode
 	{
 		public CharacterInput Target;
@@ -12,7 +12,7 @@ namespace RPGCore
 		public EventOutput OnHit;
 		public IntOutput DamageTaken;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			ConnectionEntry<int> damageTakenOutput = DamageTaken[context];
@@ -25,7 +25,7 @@ namespace RPGCore
 				if (targetInput.Value.States.CurrentHealth.Delta >= 1.0f)
 				{
 					damageTakenOutput.Value = (int)targetInput.Value.States.CurrentHealth.Delta;
-					onHitOutput.Invoke ();
+					onHitOutput.Invoke();
 				}
 			};
 
@@ -45,21 +45,25 @@ namespace RPGCore
 				isActive = true;
 			};
 
-			subscriber ();
+			subscriber();
 
 			targetInput.OnBeforeChanged += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				if (isActive)
+				{
 					targetInput.Value.States.CurrentHealth.OnValueChanged -= eventHandler;
+				}
 			};
 
 			targetInput.OnAfterChanged += subscriber;
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

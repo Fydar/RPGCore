@@ -4,14 +4,14 @@ namespace RPGCore.Inventories
 {
 	public class EquipmentCollection<T> : EnumerableCollection<T>
 	{
-		[Header ("Armour")]
+		[Header("Armour")]
 		public T Helmet;
 		public T Chestplate;
 		public T Gauntlets;
 		public T Belt;
 		public T Boots;
 
-		[Header ("Jewellery")]
+		[Header("Jewellery")]
 		public T Amulet;
 		public T LeftRing;
 		public T RightRing;
@@ -23,7 +23,7 @@ namespace RPGCore.Inventories
 		public T Flask4;
 		public T Flask5;
 
-		[Header ("Weaponry")]
+		[Header("Weaponry")]
 		public T MainHand;
 		public T OffHand;
 	}

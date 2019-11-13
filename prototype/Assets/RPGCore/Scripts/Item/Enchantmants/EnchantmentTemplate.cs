@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[CreateAssetMenu (menuName = "RPGCore/Enchantment/Template")]
+	[CreateAssetMenu(menuName = "RPGCore/Enchantment/Template")]
 	public class EnchantmentTemplate : EnchantmentSelector, IBehaviourGraph
 	{
 		public string Affix = "";
 
-		[UnityEngine.Serialization.FormerlySerializedAs ("Nodes")]
+		[UnityEngine.Serialization.FormerlySerializedAs("Nodes")]
 		[SerializeField, HideInInspector] private List<BehaviourNode> nodes;
 
 		public List<BehaviourNode> AllNodes
@@ -24,12 +24,12 @@ namespace RPGCore
 			}
 		}
 
-		public override EnchantmentTemplate GetEnchantment ()
+		public override EnchantmentTemplate GetEnchantment()
 		{
 			return this;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return Affix;
 		}

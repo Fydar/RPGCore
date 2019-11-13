@@ -9,48 +9,50 @@ namespace RPGCore
 		public FieldInfo[] directFields;
 		public string[] fieldNames;
 
-		public int IndexOf (string fieldName)
+		public int IndexOf(string fieldName)
 		{
 			for (int i = 0; i < fieldNames.Length; i++)
 			{
 				if (fieldNames[i] == fieldName)
+				{
 					return i;
+				}
 			}
-			UnityEngine.Debug.LogError ("\"" + fieldName + "\" is not a member of " + GetType ().Name + ".");
+			UnityEngine.Debug.LogError("\"" + fieldName + "\" is not a member of " + GetType().Name + ".");
 			return -1;
 		}
 
-		public CollectionInformation (Type type)
+		public CollectionInformation(Type type)
 		{
-			var collectionType = EnumerableCollection.BaseCollectionType (type);
+			var collectionType = EnumerableCollection.BaseCollectionType(type);
 
-			directFields = collectionType.GetFields (
+			directFields = collectionType.GetFields(
 				BindingFlags.Instance | BindingFlags.Public |
 				BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
 
-			var foundNames = new List<string> (directFields.Length);
+			var foundNames = new List<string>(directFields.Length);
 
 			foreach (var targetField in directFields)
 			{
 				string lastName = targetField.Name;
 				if (targetField.FieldType.Name == "T")
 				{
-					foundNames.Add (lastName);
+					foundNames.Add(lastName);
 				}
-				else if (typeof (EnumerableCollection).IsAssignableFrom (targetField.FieldType))
+				else if (typeof(EnumerableCollection).IsAssignableFrom(targetField.FieldType))
 				{
-					var information = EnumerableCollection.GetReflectionInformation (targetField.FieldType);
+					var information = EnumerableCollection.GetReflectionInformation(targetField.FieldType);
 
 					foreach (var childInfo in information.directFields)
 					{
 						if (childInfo.FieldType.Name == "T")
 						{
-							foundNames.Add (lastName + "/" + childInfo.Name);
+							foundNames.Add(lastName + "/" + childInfo.Name);
 						}
 					}
 				}
 			}
-			fieldNames = foundNames.ToArray ();
+			fieldNames = foundNames.ToArray();
 		}
 	}
 }

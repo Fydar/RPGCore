@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[NodeInformation ("Buff/Input", "Input", OnlyOne = true)]
+	[NodeInformation("Buff/Input", "Input", OnlyOne = true)]
 	public class BuffInputNode : BehaviourNode, IInputNode<Buff>
 	{
 		public CharacterOutput Target;
@@ -20,7 +20,7 @@ namespace RPGCore
 		//public FloatOutput RemainingDuration;
 		//public FloatOutput TotalDuration;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var applyOutput = Apply[context];
 			var removeOutput = Remove[context];
@@ -33,17 +33,21 @@ namespace RPGCore
 			targetOutput.OnBeforeChanged += () =>
 			{
 				if (targetOutput.Value != null)
-					removeOutput.Invoke ();
+				{
+					removeOutput.Invoke();
+				}
 			};
 
 			targetOutput.OnAfterChanged += () =>
 			{
 				if (targetOutput.Value != null)
-					applyOutput.Invoke ();
+				{
+					applyOutput.Invoke();
+				}
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 			var removeOutput = Remove[context];
 			var targetOutput = Target[context];
@@ -51,10 +55,10 @@ namespace RPGCore
 			targetOutput.Value = null;
 
 			var applyOutput = Apply[context];
-			applyOutput.Invoke ();
+			applyOutput.Invoke();
 		}
 
-		public void SetTarget (IBehaviourContext context, Buff target)
+		public void SetTarget(IBehaviourContext context, Buff target)
 		{
 			ConnectionEntry<int> stackSizeOutput = StackSize[context];
 			var onTickOutput = OnTick[context];

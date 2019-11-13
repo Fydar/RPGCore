@@ -13,7 +13,9 @@ namespace RPGCore.Behaviour.Editor
 			get
 			{
 				if (instance == null)
-					instance = new BehaviourGUIStyles ();
+				{
+					instance = new BehaviourGUIStyles();
+				}
 
 				return instance;
 			}
@@ -25,22 +27,22 @@ namespace RPGCore.Behaviour.Editor
 		public GUIStyle EmptyTextStyle;
 		public GUIStyle HelpHeaderTextStyle;
 
-		public BehaviourGUIStyles ()
+		public BehaviourGUIStyles()
 		{
-			settingsStyle = GUI.skin.GetStyle ("PaneOptions");
+			settingsStyle = GUI.skin.GetStyle("PaneOptions");
 
-			backgroundTextStyle = new GUIStyle (EditorStyles.centeredGreyMiniLabel);
+			backgroundTextStyle = new GUIStyle(EditorStyles.centeredGreyMiniLabel);
 			backgroundTextStyle.fontSize = 40;
 
-			informationTextStyle = new GUIStyle (EditorStyles.centeredGreyMiniLabel);
+			informationTextStyle = new GUIStyle(EditorStyles.centeredGreyMiniLabel);
 			informationTextStyle.fontSize = 16;
-			informationTextStyle.normal.textColor = new Color (0.25f, 0.25f, 0.25f);
+			informationTextStyle.normal.textColor = new Color(0.25f, 0.25f, 0.25f);
 
-			EmptyTextStyle = new GUIStyle (EditorStyles.centeredGreyMiniLabel);
+			EmptyTextStyle = new GUIStyle(EditorStyles.centeredGreyMiniLabel);
 			EmptyTextStyle.fontSize = 16;
-			EmptyTextStyle.normal.textColor = new Color (0.25f, 0.25f, 0.25f);
+			EmptyTextStyle.normal.textColor = new Color(0.25f, 0.25f, 0.25f);
 
-			HelpHeaderTextStyle = new GUIStyle (EditorStyles.label);
+			HelpHeaderTextStyle = new GUIStyle(EditorStyles.label);
 			HelpHeaderTextStyle.alignment = TextAnchor.UpperCenter;
 		}
 	}

@@ -11,18 +11,18 @@ public class ChatInput : MonoBehaviour
 		public class GiveCommand : ConsoleAction
 		{
 			[CommandUsage]
-			private void Nickname (string itemId)
+			private void Nickname(string itemId)
 			{
-				Chat.Instance.Log ("Giving " + itemId + ".");
+				Chat.Instance.Log("Giving " + itemId + ".");
 			}
 		}
 
-		public override void BuildCommands ()
+		public override void BuildCommands()
 		{
-			Commands = new Dictionary<string, ConsoleCommand> ();
+			Commands = new Dictionary<string, ConsoleCommand>();
 
-			var nicknameCmd = new GiveCommand ();
-			Commands.Add ("give", nicknameCmd);
+			var nicknameCmd = new GiveCommand();
+			Commands.Add("give", nicknameCmd);
 		}
 	}
 
@@ -33,26 +33,26 @@ public class ChatInput : MonoBehaviour
 	private bool allowEnter;
 	private int lookback = -1;
 
-	private List<string> lastInputs = new List<string> ();
+	private List<string> lastInputs = new List<string>();
 
-	private void Awake ()
+	private void Awake()
 	{
-		CurrentCommand = new DemoConsole ();
+		CurrentCommand = new DemoConsole();
 	}
 
-	private void Update ()
+	private void Update()
 	{
-		bool send = (Input.GetKey (KeyCode.Return) || Input.GetKey (KeyCode.KeypadEnter));
+		bool send = (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter));
 		if (allowEnter && Field.text.Length > 0 && send)
 		{
-			Send ();
+			Send();
 			lookback = -1;
 			allowEnter = false;
 		}
-		else if (send || (!Field.isFocused && Input.GetKey (KeyCode.T)))
+		else if (send || (!Field.isFocused && Input.GetKey(KeyCode.T)))
 		{
-			Field.Select ();
-			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift))
+			Field.Select();
+			if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
 			{
 				Field.text = "/";
 				Field.selectionAnchorPosition = 1;
@@ -66,7 +66,7 @@ public class ChatInput : MonoBehaviour
 
 		if (Field.isFocused)
 		{
-			if (Input.GetKeyDown (KeyCode.UpArrow))
+			if (Input.GetKeyDown(KeyCode.UpArrow))
 			{
 				if (lookback + 1 < lastInputs.Count)
 				{
@@ -76,7 +76,7 @@ public class ChatInput : MonoBehaviour
 					Field.selectionFocusPosition = Field.text.Length;
 				}
 			}
-			else if (Input.GetKeyDown (KeyCode.DownArrow))
+			else if (Input.GetKeyDown(KeyCode.DownArrow))
 			{
 				if (lookback - 1 >= 0)
 				{
@@ -98,33 +98,37 @@ public class ChatInput : MonoBehaviour
 		}
 	}
 
-	public void Send ()
+	public void Send()
 	{
 		string text = Field.text;
-		if (string.IsNullOrEmpty (text))
-			return;
-
-		if (text.StartsWith ("/", StringComparison.Ordinal))
+		if (string.IsNullOrEmpty(text))
 		{
-			string command = text.Substring (1);
-			ExecuteCommand (command);
+			return;
+		}
+
+		if (text.StartsWith("/", StringComparison.Ordinal))
+		{
+			string command = text.Substring(1);
+			ExecuteCommand(command);
 		}
 		else
 		{
-			Chat.Instance.Log ("<color=#777>Character:</color> " + text);
+			Chat.Instance.Log("<color=#777>Character:</color> " + text);
 		}
 
-		lastInputs.Add (text);
+		lastInputs.Add(text);
 		if (lastInputs.Count > 30)
-			lastInputs.RemoveAt (lastInputs.Count - 1);
+		{
+			lastInputs.RemoveAt(lastInputs.Count - 1);
+		}
 
 		Field.text = "";
 	}
 
-	public void ExecuteCommand (string command)
+	public void ExecuteCommand(string command)
 	{
-		string[] parameters = command.Split (new char[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		string[] parameters = command.Split(new char[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-		CurrentCommand.Run (parameters);
+		CurrentCommand.Run(parameters);
 	}
 }

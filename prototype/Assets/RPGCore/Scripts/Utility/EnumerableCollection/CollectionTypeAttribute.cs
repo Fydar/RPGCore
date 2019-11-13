@@ -6,7 +6,7 @@ namespace RPGCore
 	{
 		public Type collectionType;
 
-		public CollectionTypeAttribute (Type type)
+		public CollectionTypeAttribute(Type type)
 		{
 			collectionType = type;
 		}

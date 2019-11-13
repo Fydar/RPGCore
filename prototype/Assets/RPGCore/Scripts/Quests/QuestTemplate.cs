@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace RPGCore.Quests
 {
-	[CreateAssetMenu (menuName = "RPGCore/Quest")]
+	[CreateAssetMenu(menuName = "RPGCore/Quest")]
 	public class QuestTemplate : ScriptableObject, IBehaviourGraph
 	{
 		public string Name;
-		[TextArea (3, 5)]
+		[TextArea(3, 5)]
 		public string Description;
 
 		public ItemGenerator[] Rewards;
 
-		[UnityEngine.Serialization.FormerlySerializedAs ("Nodes")]
+		[UnityEngine.Serialization.FormerlySerializedAs("Nodes")]
 		[SerializeField, HideInInspector] private List<BehaviourNode> nodes;
 
 		public List<BehaviourNode> AllNodes
@@ -28,14 +28,16 @@ namespace RPGCore.Quests
 			}
 		}
 
-		public void GrantRewards (RPGCharacter character)
+		public void GrantRewards(RPGCharacter character)
 		{
 			foreach (var generator in Rewards)
 			{
 				if (generator == null || generator.RewardTemplate == null)
+				{
 					continue;
+				}
 
-				character.inventory.Add (generator.Generate ());
+				character.inventory.Add(generator.Generate());
 			}
 		}
 	}

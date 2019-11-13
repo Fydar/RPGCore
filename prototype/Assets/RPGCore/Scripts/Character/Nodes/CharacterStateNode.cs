@@ -4,7 +4,7 @@ using System;
 
 namespace RPGCore
 {
-	[NodeInformation ("Character/Read State", "Attribute")]
+	[NodeInformation("Character/Read State", "Attribute")]
 	public class CharacterStateNode : BehaviourNode
 	{
 		public StateEntry entry;
@@ -12,7 +12,7 @@ namespace RPGCore
 		public FloatOutput Value;
 		public CharacterInput Target;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var valueInput = Value[context];
@@ -26,13 +26,15 @@ namespace RPGCore
 			{
 				targetInput.Value.States[entry].OnValueChanged += updateListener;
 
-				updateListener ();
+				updateListener();
 			}
 
 			targetInput.OnBeforeChanged += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				targetInput.Value.States[entry].OnValueChanged -= updateListener;
 			};
@@ -40,14 +42,16 @@ namespace RPGCore
 			targetInput.OnAfterChanged += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				targetInput.Value.States[entry].OnValueChanged += updateListener;
-				updateListener ();
+				updateListener();
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

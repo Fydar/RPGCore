@@ -7,18 +7,18 @@ public abstract class ConsoleAction : ConsoleCommand
 {
 	public List<Delegate> Usages;
 
-	protected ConsoleAction ()
+	protected ConsoleAction()
 	{
-		var thisType = GetType ();
-		Usages = new List<Delegate> ();
+		var thisType = GetType();
+		Usages = new List<Delegate>();
 
-		var methods = thisType.GetMethods (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+		var methods = thisType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
 
 		for (int i = 0; i < methods.Length; i++)
 		{
 			var method = methods[i];
 
-			object[] commandUsageAttibutes = method.GetCustomAttributes (typeof (CommandUsageAttribute), true);
+			object[] commandUsageAttibutes = method.GetCustomAttributes(typeof(CommandUsageAttribute), true);
 
 			if (commandUsageAttibutes.Length > 0)
 			{
@@ -26,19 +26,19 @@ public abstract class ConsoleAction : ConsoleCommand
 
 				if (method.IsStatic)
 				{
-					Usages.Add (Delegate.CreateDelegate (thisType, method));
+					Usages.Add(Delegate.CreateDelegate(thisType, method));
 				}
 				else
 				{
-					Usages.Add (GetDelegateFromMethod (method, this));
+					Usages.Add(GetDelegateFromMethod(method, this));
 				}
 			}
 		}
 	}
 
-	public static Delegate GetDelegateFromMethod (MethodInfo method, object target)
+	public static Delegate GetDelegateFromMethod(MethodInfo method, object target)
 	{
-		var args = method.GetParameters ();
+		var args = method.GetParameters();
 		var types = new Type[args.Length];
 
 		for (int i = 0; i < args.Length; i++)
@@ -49,49 +49,51 @@ public abstract class ConsoleAction : ConsoleCommand
 		switch (types.Length)
 		{
 			case 0:
-				return Delegate.CreateDelegate (typeof (Action).MakeGenericType (types), target, method);
+				return Delegate.CreateDelegate(typeof(Action).MakeGenericType(types), target, method);
 			case 1:
-				return Delegate.CreateDelegate (typeof (Action<>).MakeGenericType (types), target, method);
+				return Delegate.CreateDelegate(typeof(Action<>).MakeGenericType(types), target, method);
 			case 2:
-				return Delegate.CreateDelegate (typeof (Action<,>).MakeGenericType (types), target, method);
+				return Delegate.CreateDelegate(typeof(Action<,>).MakeGenericType(types), target, method);
 			case 3:
-				return Delegate.CreateDelegate (typeof (Action<,,>).MakeGenericType (types), target, method);
+				return Delegate.CreateDelegate(typeof(Action<,,>).MakeGenericType(types), target, method);
 			case 4:
-				return Delegate.CreateDelegate (typeof (Action<,,,>).MakeGenericType (types), target, method);
+				return Delegate.CreateDelegate(typeof(Action<,,,>).MakeGenericType(types), target, method);
 		}
 
 		return null;
 	}
 
-	public override void Run (string[] parameters, int offset = 0)
+	public override void Run(string[] parameters, int offset = 0)
 	{
 		for (int i = 0; i < Usages.Count; i++)
 		{
 			var usage = Usages[i];
-			var useParemeters = usage.Method.GetParameters ();
+			var useParemeters = usage.Method.GetParameters();
 
 			if (parameters.Length - offset != useParemeters.Length)
+			{
 				continue;
+			}
 
-			object[] compiledParams = CompileParams (parameters, offset, useParemeters);
+			object[] compiledParams = CompileParams(parameters, offset, useParemeters);
 
 			if (compiledParams == null)
 			{
 				continue;
 			}
 
-			usage.DynamicInvoke (compiledParams);
+			usage.DynamicInvoke(compiledParams);
 			return;
 		}
 
 		if (parameters.Length == offset)
 		{
-			Debug.Log (Help ());
+			Debug.Log(Help());
 			return;
 		}
 	}
 
-	public override string Help ()
+	public override string Help()
 	{
 		string helpString = "Help for command";
 
@@ -103,7 +105,7 @@ public abstract class ConsoleAction : ConsoleCommand
 		return helpString;
 	}
 
-	private object[] CompileParams (string[] parameters, int offset, ParameterInfo[] useParameters)
+	private object[] CompileParams(string[] parameters, int offset, ParameterInfo[] useParameters)
 	{
 		object[] compiledParams = new object[useParameters.Length];
 
@@ -113,10 +115,12 @@ public abstract class ConsoleAction : ConsoleCommand
 			string stringParam = parameters[j + offset];
 
 			bool success;
-			object compiledParam = ConsoleCommand.PhraseParameter (stringParam, useParam.ParameterType, out success);
+			object compiledParam = ConsoleCommand.PhraseParameter(stringParam, useParam.ParameterType, out success);
 
 			if (!success || compiledParam == null)
+			{
 				return null;
+			}
 
 			compiledParams[j] = compiledParam;
 		}

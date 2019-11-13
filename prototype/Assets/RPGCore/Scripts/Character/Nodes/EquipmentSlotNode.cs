@@ -4,7 +4,7 @@ using System;
 
 namespace RPGCore
 {
-	[NodeInformation ("Character/Equipment Slot")]
+	[NodeInformation("Character/Equipment Slot")]
 	public class EquipmentSlotNode : BehaviourNode
 	{
 		public EquipmentEntry EquipmentSlot;
@@ -14,7 +14,7 @@ namespace RPGCore
 		public ItemOutput Item;
 		public BoolOutput IsEquipped;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var itemOutput = Item[context];
@@ -41,7 +41,7 @@ namespace RPGCore
 				}
 			};
 
-			eventHandler ();
+			eventHandler();
 
 			bool isActive = false;
 			Action subscriber = () =>
@@ -55,18 +55,20 @@ namespace RPGCore
 				if (!isActive)
 				{
 					targetInput.Value.equipment.Items[EquipmentSlot.Index].onAfterChanged += eventHandler;
-					eventHandler ();
+					eventHandler();
 				}
 
 				isActive = true;
 			};
 
-			subscriber ();
+			subscriber();
 
 			targetInput.OnBeforeChanged += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				if (isActive)
 				{
@@ -77,7 +79,7 @@ namespace RPGCore
 			targetInput.OnAfterChanged += subscriber;
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

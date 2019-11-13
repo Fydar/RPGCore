@@ -4,21 +4,21 @@ namespace RPGCore.Inventories
 {
 	public class SlottedInventory : Inventory
 	{
-		public SlottedInventory (RPGCharacter owner, params ItemSlot[] slots)
-			: base (owner, null, null)
+		public SlottedInventory(RPGCharacter owner, params ItemSlot[] slots)
+			: base(owner, null, null)
 		{
-			Items = new List<ItemSlot> (slots);
+			Items = new List<ItemSlot>(slots);
 		}
 
-		public SlottedInventory (RPGCharacter owner, int size, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
-			: base (owner, behaviours, conditions)
+		public SlottedInventory(RPGCharacter owner, int size, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
+			: base(owner, behaviours, conditions)
 		{
-			AddSlots (size);
+			AddSlots(size);
 		}
 
-		public override AddResult Add (ItemSurrogate newItem)
+		public override AddResult Add(ItemSurrogate newItem)
 		{
-			var emptySlots = new List<ItemSlot> (Items.Count);
+			var emptySlots = new List<ItemSlot>(Items.Count);
 
 			bool partiallyComplete = false;
 
@@ -28,52 +28,64 @@ namespace RPGCore.Inventories
 
 				if (slot.Item == null)
 				{
-					emptySlots.Add (slot);
+					emptySlots.Add(slot);
 					continue;
 				}
 
-				var result = slot.Add (newItem);
+				var result = slot.Add(newItem);
 
 				if (result == AddResult.Complete)
 				{
 					if (OnAddItem != null)
-						OnAddItem ();
+					{
+						OnAddItem();
+					}
 
 					return AddResult.Complete;
 				}
 				else if (result == AddResult.Partial)
+				{
 					partiallyComplete = true;
+				}
 			}
 
 			for (int i = 0; i < emptySlots.Count; i++)
 			{
 				var slot = emptySlots[i];
 
-				var result = slot.Add (newItem);
+				var result = slot.Add(newItem);
 
 				if (result == AddResult.Complete)
 				{
 					if (OnAddItem != null)
-						OnAddItem ();
+					{
+						OnAddItem();
+					}
 
 					return AddResult.Complete;
 				}
 				else if (result == AddResult.Partial)
+				{
 					partiallyComplete = true;
+				}
 			}
 
 			if (partiallyComplete)
 			{
 				if (OnAddItem != null)
-					OnAddItem ();
+				{
+					OnAddItem();
+				}
 
 				return AddResult.Partial;
 			}
 			else
+			{
 				return AddResult.None;
+			}
 		}
 
-		public override bool Remove (ItemSurrogate newItem)
+		public override bool Remove(ItemSurrogate newItem)
 		{
 			for (int i = 0; i < Items.Count; i++)
 			{
@@ -81,12 +93,14 @@ namespace RPGCore.Inventories
 
 				if (slot.Item == newItem)
 				{
-					slot.Item.RemoveAllReferenceSlots ();
+					slot.Item.RemoveAllReferenceSlots();
 
 					slot.Item = null;
 
 					if (OnAddItem != null)
-						OnAddItem ();
+					{
+						OnAddItem();
+					}
 
 					return true;
 				}

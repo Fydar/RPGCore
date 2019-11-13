@@ -9,17 +9,17 @@ namespace RPGCore.UI
 
 		public UIContextMenu Menu;
 
-		public ContextFolder (string label, params IContextEntry[] entries)
+		public ContextFolder(string label, params IContextEntry[] entries)
 		{
 			Label = label;
 			Entries = entries;
 			Menu = null;
 		}
 
-		public void Render (UIContextMenu menu, RectTransform holder)
+		public void Render(UIContextMenu menu, RectTransform holder)
 		{
-			var button = menu.FolderPool.Grab (holder);
-			button.Setup (menu, this);
+			var button = menu.FolderPool.Grab(holder);
+			button.Setup(menu, this);
 			Menu = menu;
 		}
 	}

@@ -22,7 +22,7 @@ namespace RPGCore.Unity
 			}
 		}
 
-		public void Reload ()
+		public void Reload()
 		{
 			explorer = null;
 		}

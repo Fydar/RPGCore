@@ -78,17 +78,17 @@ namespace RPGCore.Utility
 			}
 		}
 
-		private TimedLoop GetEnumerator ()
+		private TimedLoop GetEnumerator()
 		{
 			return this;
 		}
 
-		IEnumerator<float> IEnumerable<float>.GetEnumerator ()
+		IEnumerator<float> IEnumerable<float>.GetEnumerator()
 		{
 			return this;
 		}
 
-		IEnumerator IEnumerable.GetEnumerator ()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this;
 		}
@@ -101,30 +101,32 @@ namespace RPGCore.Utility
 			}
 		}
 
-		public TimedLoop (float _duration)
+		public TimedLoop(float _duration)
 		{
 			time = 0.0f;
 			duration = _duration;
 			endNext = false;
 		}
 
-		public void End ()
+		public void End()
 		{
 			time = duration;
 		}
 
-		public void Break ()
+		public void Break()
 		{
 			time = duration;
 			endNext = true;
 		}
 
-		public bool MoveNext ()
+		public bool MoveNext()
 		{
 			time += UnityEngine.Time.deltaTime;
 
 			if (time < duration)
+			{
 				return true;
+			}
 
 			if (endNext == false)
 			{
@@ -136,13 +138,13 @@ namespace RPGCore.Utility
 			return false;
 		}
 
-		public void Reset ()
+		public void Reset()
 		{
 			time = 0.0f;
 			endNext = false;
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 		}
 	}

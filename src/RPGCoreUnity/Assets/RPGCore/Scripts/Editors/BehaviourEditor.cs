@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RPGCore.Demo.Nodes;
 using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
+using RPGCore.Demo.Nodes;
 using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
@@ -30,14 +30,14 @@ namespace RPGCore.Unity.Editors
 		});
 
 		[MenuItem ("Window/Behaviour")]
-		public static void Open ()
+		public static void Open()
 		{
 			var window = GetWindow<BehaviourEditor> ();
 
 			window.Show ();
 		}
 
-		private void OnEnable ()
+		private void OnEnable()
 		{
 			if (EditorGUIUtility.isProSkin)
 			{
@@ -49,7 +49,7 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		private void OnGUI ()
+		private void OnGUI()
 		{
 			if (View == null)
 			{
@@ -70,7 +70,7 @@ namespace RPGCore.Unity.Editors
 			HandleInput ();
 		}
 
-		private void DrawAssetSelection ()
+		private void DrawAssetSelection()
 		{
 			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField (CurrentPackage, typeof (ProjectImport), true);
 			if (CurrentPackage != null)
@@ -112,7 +112,7 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		private void DrawNodes ()
+		private void DrawNodes()
 		{
 			if (View.Session != null)
 			{
@@ -168,7 +168,7 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		public void DrawConnections ()
+		public void DrawConnections()
 		{
 			if (View.Session != null)
 			{
@@ -399,7 +399,7 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		public static void DrawEditor (EditorSession editor)
+		public static void DrawEditor(EditorSession editor)
 		{
 			foreach (var field in editor.Root)
 			{
@@ -407,7 +407,7 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		public static void DrawField (EditorField field)
+		public static void DrawField(EditorField field)
 		{
 			// EditorGUILayout.LabelField(field.Json.Path);
 			if (field.Field.Format == FieldFormat.List)
@@ -512,7 +512,7 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		private static void DrawConnection (Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
+		private static void DrawConnection(Vector3 start, Vector3 end, Vector3 startDir, Vector3 endDir)
 		{
 			float distance = Vector3.Distance (start, end);
 			var startTan = start + (startDir * distance * 0.5f);
@@ -523,7 +523,7 @@ namespace RPGCore.Unity.Editors
 				BehaviourGraphResources.Instance.SmallConnection, 10);
 		}
 
-		private void HandleInput ()
+		private void HandleInput()
 		{
 			if (CurrentEvent.type == EventType.MouseUp)
 			{
@@ -597,7 +597,7 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		private void DrawBackground (Rect backgroundRect, Vector2 viewPosition)
+		private void DrawBackground(Rect backgroundRect, Vector2 viewPosition)
 		{
 			if (CurrentEvent.type == EventType.MouseMove)
 			{
@@ -640,7 +640,7 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		private void DrawImageTiled (Rect rect, Texture2D texture, Vector2 positon, float zoom = 0.8f)
+		private void DrawImageTiled(Rect rect, Texture2D texture, Vector2 positon, float zoom = 0.8f)
 		{
 			if (texture == null)
 			{
@@ -661,7 +661,7 @@ namespace RPGCore.Unity.Editors
 			GUI.DrawTextureWithTexCoords (rect, texture, new Rect (tileOffset, tileAmount), true);
 		}
 
-		private void DrawTopBar ()
+		private void DrawTopBar()
 		{
 			EditorGUILayout.BeginHorizontal (EditorStyles.toolbar, GUILayout.ExpandWidth (true));
 

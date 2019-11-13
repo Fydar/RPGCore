@@ -5,54 +5,54 @@ using UnityEngine;
 
 namespace RPGCore.Audio.Editors
 {
-	[CustomEditor (typeof (SfxGroup))]
+	[CustomEditor(typeof(SfxGroup))]
 	public class SfxGroupEditor : Editor
 	{
 		public string lastPlayed = "";
 
 		[OnOpenAsset]
-		public static bool OpenAsset (int instanceID, int line)
+		public static bool OpenAsset(int instanceID, int line)
 		{
-			var asset = EditorUtility.InstanceIDToObject (instanceID);
+			var asset = EditorUtility.InstanceIDToObject(instanceID);
 
-			if (typeof (SfxGroup).IsAssignableFrom (asset.GetType ()))
+			if (typeof(SfxGroup).IsAssignableFrom(asset.GetType()))
 			{
 				var group = (SfxGroup)asset;
-				PreviewGroup (group);
+				PreviewGroup(group);
 				return true;
 			}
 			return false;
 		}
 
-		public override void OnInspectorGUI ()
+		public override void OnInspectorGUI()
 		{
 			var group = (SfxGroup)target;
 
-			DrawDefaultInspector ();
+			DrawDefaultInspector();
 
-			if (GUILayout.Button ("Play Clips"))
+			if (GUILayout.Button("Play Clips"))
 			{
-				lastPlayed = PreviewGroup (group).name;
+				lastPlayed = PreviewGroup(group).name;
 			}
-			EditorGUILayout.LabelField (lastPlayed);
+			EditorGUILayout.LabelField(lastPlayed);
 		}
 
-		public static AudioClip PreviewGroup (SfxGroup group)
+		public static AudioClip PreviewGroup(SfxGroup group)
 		{
-			var clip = group.GetClip ();
-			PlayClip (clip, group);
+			var clip = group.GetClip();
+			PlayClip(clip, group);
 			return clip;
 		}
 
-		public static void PlayClip (AudioClip clip, SfxGroup group)
+		public static void PlayClip(AudioClip clip, SfxGroup group)
 		{
-			var go = EditorUtility.CreateGameObjectWithHideFlags ("PLAY_AUDIO_TEMP", HideFlags.HideAndDontSave);
+			var go = EditorUtility.CreateGameObjectWithHideFlags("PLAY_AUDIO_TEMP", HideFlags.HideAndDontSave);
 
-			var source = go.AddComponent<AudioSource> ();
+			var source = go.AddComponent<AudioSource>();
 			source.clip = clip;
-			source.volume = UnityEngine.Random.Range (group.VolumeRange.x, group.VolumeRange.y);
-			source.pitch = UnityEngine.Random.Range (group.PitchRange.x, group.PitchRange.y);
-			source.Play ();
+			source.volume = UnityEngine.Random.Range(group.VolumeRange.x, group.VolumeRange.y);
+			source.pitch = UnityEngine.Random.Range(group.PitchRange.x, group.PitchRange.y);
+			source.Play();
 		}
 	}
 }

@@ -25,21 +25,21 @@ namespace RPGCore
 		public abstract IEnumerable<float[]> NegativeOverrides { get; }
 		public abstract List<BehaviourNode> AllNodes { get; set; }
 
-		public abstract ItemSurrogate GenerateItem (ItemData data);
+		public abstract ItemSurrogate GenerateItem(ItemData data);
 
-		public ItemSurrogate GenerateItem ()
+		public ItemSurrogate GenerateItem()
 		{
-			var data = new ItemData ();
+			var data = new ItemData();
 
-			var rand = new System.Random (Time.renderedFrameCount);
-			data.seed.Value = (short)rand.Next (short.MinValue, short.MaxValue);
+			var rand = new System.Random(Time.renderedFrameCount);
+			data.seed.Value = (short)rand.Next(short.MinValue, short.MaxValue);
 
-			return GenerateItem (data);
+			return GenerateItem(data);
 		}
 
-		public static ItemTier ItemTierRandom (ItemSurrogate item, ItemTier min, ItemTier max)
+		public static ItemTier ItemTierRandom(ItemSurrogate item, ItemTier min, ItemTier max)
 		{
-			int random = StatGenerator.IntRange (item, 0, (int)min, (int)max);
+			int random = StatGenerator.IntRange(item, 0, (int)min, (int)max);
 			return ((ItemTier)random);
 		}
 	}

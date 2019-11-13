@@ -4,7 +4,7 @@ using System;
 
 namespace RPGCore
 {
-	[NodeInformation ("Events/On Hit")]
+	[NodeInformation("Events/On Hit")]
 	public class OnHitNode : BehaviourNode
 	{
 		public CharacterInput Target;
@@ -12,7 +12,7 @@ namespace RPGCore
 		public EventOutput OnHit;
 		public IntOutput DamageDelt;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var hitTargetOutput = HitTarget[context];
@@ -23,7 +23,7 @@ namespace RPGCore
 			Action<RPGCharacter> eventHandler = (RPGCharacter target) =>
 			{
 				hitTargetOutput.Value = target;
-				onHitOutput.Invoke ();
+				onHitOutput.Invoke();
 			};
 
 			Action subscriber = () =>
@@ -35,26 +35,32 @@ namespace RPGCore
 				}
 
 				if (!isActive)
+				{
 					targetInput.Value.OnHit += eventHandler;
+				}
 
 				isActive = true;
 			};
 
-			subscriber ();
+			subscriber();
 
 			targetInput.OnBeforeChanged += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				if (isActive)
+				{
 					targetInput.Value.OnHit -= eventHandler;
+				}
 			};
 
 			targetInput.OnAfterChanged += subscriber;
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

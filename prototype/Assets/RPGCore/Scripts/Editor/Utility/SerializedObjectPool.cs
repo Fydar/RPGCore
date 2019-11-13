@@ -8,12 +8,12 @@ namespace RPGCore.Utility.Editors
 	public static class SerializedObjectPool
 	{
 		public static Dictionary<Object, SerializedObject> Pool =
-			new Dictionary<Object, SerializedObject> ();
+			new Dictionary<Object, SerializedObject>();
 
-		public static SerializedObject Grab (Object target)
+		public static SerializedObject Grab(Object target)
 		{
 			SerializedObject serializedObject;
-			bool result = Pool.TryGetValue (target, out serializedObject);
+			bool result = Pool.TryGetValue(target, out serializedObject);
 
 			if (result)
 			{
@@ -22,13 +22,13 @@ namespace RPGCore.Utility.Editors
 					serializedObject.targetObject != target)
 				{
 					result = false;
-					Pool.Remove (target);
+					Pool.Remove(target);
 				}
 			}
 			if (!result)
 			{
-				serializedObject = new SerializedObject (target);
-				Pool.Add (target, serializedObject);
+				serializedObject = new SerializedObject(target);
+				Pool.Add(target, serializedObject);
 			}
 
 			return serializedObject;

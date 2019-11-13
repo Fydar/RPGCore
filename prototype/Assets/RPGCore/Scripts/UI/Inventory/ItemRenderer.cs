@@ -12,12 +12,12 @@ namespace RPGCore.Inventories
 	{
 		public bool DisplayTooltip = true;
 
-		[SerializeField] private AnimationCurve bounceCurve = new AnimationCurve (new Keyframe[] { new Keyframe (0.0f, 1.0f), new Keyframe (1.0f, 0.0f) });
+		[SerializeField] private AnimationCurve bounceCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0.0f, 1.0f), new Keyframe(1.0f, 0.0f) });
 
 		[SerializeField] private Color normalColour = Color.white;
 		[SerializeField] private Color fadedColour = Color.grey;
 
-		[Header ("Setup")]
+		[Header("Setup")]
 		[SerializeField] private Image slotImage;
 		[SerializeField] private Image slotDecoration;
 		[SerializeField] private Image iconImage;
@@ -71,14 +71,18 @@ namespace RPGCore.Inventories
 					iconImage.color = fadedColour;
 
 					if (slotImage != null)
+					{
 						slotImage.color = fadedColour;
+					}
 				}
 				else
 				{
 					iconImage.color = normalColour;
 
 					if (slotImage != null)
+					{
 						slotImage.color = normalColour;
+					}
 				}
 			}
 		}
@@ -99,33 +103,41 @@ namespace RPGCore.Inventories
 				_lastSlot = value;
 
 				if (_lastSlot != null)
+				{
 					lastItem = _lastSlot.Item;
+				}
 				else
+				{
 					lastItem = null;
+				}
 
 				if (lastItem != null)
+				{
 					lastTemplate = lastItem.Template;
+				}
 				else
+				{
 					lastTemplate = null;
+				}
 
 				if (_lastSlot != null && _lastSlot.Item != null)
 				{
 					_lastSlot.Item.OnReferenceChanged += OnReferenceChangedCallback;
 				}
 
-				OnReferenceChangedCallback ();
+				OnReferenceChangedCallback();
 			}
 		}
 
-		public void RenderGenerator (ItemGenerator generator)
+		public void RenderGenerator(ItemGenerator generator)
 		{
 			if (generator == null)
 			{
-				RenderEmpty ();
+				RenderEmpty();
 				return;
 			}
 
-			RenderTemplate (generator.RewardTemplate);
+			RenderTemplate(generator.RewardTemplate);
 
 			if (quantityText != null)
 			{
@@ -134,17 +146,21 @@ namespace RPGCore.Inventories
 				}
 				else
 				{
-					quantityText.gameObject.SetActive (true);
+					quantityText.gameObject.SetActive(true);
 					if (generator.MinCount == generator.MaxCount)
 					{
 						if (generator.MinCount != 1)
-							quantityText.text = generator.MinCount.ToString ();
+						{
+							quantityText.text = generator.MinCount.ToString();
+						}
 						else
-							quantityText.gameObject.SetActive (false);
+						{
+							quantityText.gameObject.SetActive(false);
+						}
 					}
 					else
 					{
-						quantityText.text = generator.MinCount.ToString () + "-" + generator.MaxCount.ToString ();
+						quantityText.text = generator.MinCount.ToString() + "-" + generator.MaxCount.ToString();
 					}
 				}
 			}
@@ -152,20 +168,20 @@ namespace RPGCore.Inventories
 			Faded = false;
 		}
 
-		public void RenderSlot (ItemSlot slot)
+		public void RenderSlot(ItemSlot slot)
 		{
 			if (slot == null)
 			{
-				RenderEmpty ();
+				RenderEmpty();
 				return;
 			}
 
-			var pairSlot = slot.GetSlotBehaviour<Slot_Pair> ();
+			var pairSlot = slot.GetSlotBehaviour<Slot_Pair>();
 			if (pairSlot != null && pairSlot.pair.Item != null)
 			{
 				if (pairSlot.pair.Item.EquiptableSlot == Slot.TwoHanded)
 				{
-					RenderSlot (pairSlot.pair);
+					RenderSlot(pairSlot.pair);
 
 					Faded = true;
 
@@ -175,13 +191,13 @@ namespace RPGCore.Inventories
 
 			LastSlot = slot;
 
-			RenderItem (slot.Item);
+			RenderItem(slot.Item);
 
 			if (slot.Item == null || slot.Item.template == null)
 			{
 				if (slotDecoration != null && slot.SlotDecoration != null)
 				{
-					slotDecoration.gameObject.SetActive (true);
+					slotDecoration.gameObject.SetActive(true);
 					slotDecoration.sprite = slot.SlotDecoration;
 				}
 			}
@@ -189,11 +205,11 @@ namespace RPGCore.Inventories
 			Faded = slot.IsDefault && slot.Item != null;
 		}
 
-		public void RenderItem (ItemSurrogate item)
+		public void RenderItem(ItemSurrogate item)
 		{
 			if (item == null)
 			{
-				RenderEmpty ();
+				RenderEmpty();
 				return;
 			}
 
@@ -201,154 +217,198 @@ namespace RPGCore.Inventories
 			lastTemplate = item.template;
 
 			if (rectTransform == null)
-				rectTransform = GetComponent<RectTransform> ();
+			{
+				rectTransform = GetComponent<RectTransform>();
+			}
 
 			if (Hovered && DisplayTooltip)
-				TooltipManager.instance.ItemTooltip (rectTransform, LastSlot);
+			{
+				TooltipManager.instance.ItemTooltip(rectTransform, LastSlot);
+			}
 
-			RenderTemplate (item.Template);
+			RenderTemplate(item.Template);
 
 			if (quantityText != null)
 			{
 				if (HideQuantityOnOne && item.Quantity == 1)
 				{
-					quantityText.gameObject.SetActive (false);
+					quantityText.gameObject.SetActive(false);
 				}
 				else
 				{
-					quantityText.gameObject.SetActive (true);
-					quantityText.text = item.Quantity.ToString ();
+					quantityText.gameObject.SetActive(true);
+					quantityText.text = item.Quantity.ToString();
 				}
 			}
 
 			if (nameText != null)
 			{
-				nameText.gameObject.SetActive (true);
+				nameText.gameObject.SetActive(true);
 				nameText.text = item.BaseName;
 			}
 
 			Faded = true;
 		}
 
-		public void RenderTemplate (ItemTemplate template)
+		public void RenderTemplate(ItemTemplate template)
 		{
 			if (template == null)
 			{
-				RenderEmpty ();
+				RenderEmpty();
 				return;
 			}
 			lastTemplate = template;
 
-			iconImage.gameObject.SetActive (true);
+			iconImage.gameObject.SetActive(true);
 			iconImage.sprite = template.Icon;
 
 			if (template.RenderPrefab != null)
-				RenderPrefab (template.RenderPrefab);
+			{
+				RenderPrefab(template.RenderPrefab);
+			}
 
 			if (nameText != null)
 			{
-				nameText.gameObject.SetActive (true);
+				nameText.gameObject.SetActive(true);
 				nameText.text = template.BaseName;
 			}
 
 			if (slotImage != null)
+			{
 				slotImage.sprite = template.Rarity.SlotImage;
+			}
 
 			if (slotDecoration != null)
-				slotDecoration.gameObject.SetActive (false);
+			{
+				slotDecoration.gameObject.SetActive(false);
+			}
 
-			PlayBounce ();
+			PlayBounce();
 		}
 
-		public void RenderEmpty ()
+		public void RenderEmpty()
 		{
 			if (slotImage != null)
+			{
 				slotImage.sprite = defaultSlotSprite;
+			}
 
-			iconImage.gameObject.SetActive (false);
+			iconImage.gameObject.SetActive(false);
 
 			if (currentObject != null)
-				Destroy (currentObject);
+			{
+				Destroy(currentObject);
+			}
 
 			if (quantityText != null)
-				quantityText.gameObject.SetActive (false);
+			{
+				quantityText.gameObject.SetActive(false);
+			}
 
 			if (nameText != null)
-				nameText.gameObject.SetActive (false);
+			{
+				nameText.gameObject.SetActive(false);
+			}
 
 			if (slotDecoration != null)
-				slotDecoration.gameObject.SetActive (false);
+			{
+				slotDecoration.gameObject.SetActive(false);
+			}
 
 			Faded = false;
 
 			if (Hovered)
-				TooltipManager.instance.Hide ();
+			{
+				TooltipManager.instance.Hide();
+			}
 
 			LastSlot = null;
 			lastItem = null;
 			lastTemplate = null;
 		}
 
-		public void Unhover ()
+		public void Unhover()
 		{
 			if (!Hovered)
+			{
 				return;
+			}
 
 			hovered = false;
 
 			if (selectedIcon != null)
-				selectedIcon.gameObject.SetActive (false);
+			{
+				selectedIcon.gameObject.SetActive(false);
+			}
 
 			if (LastSlot == null)
+			{
 				return;
+			}
 
 			//if (TooltipManager.instance.CurrentItem == lastSlot.Item)
-			TooltipManager.instance.Hide ();
+			TooltipManager.instance.Hide();
 		}
 
-		public void Hover ()
+		public void Hover()
 		{
 			if (Hovered)
+			{
 				return;
+			}
 
 			hovered = true;
 
 			if (selectedIcon != null)
-				selectedIcon.gameObject.SetActive (true);
+			{
+				selectedIcon.gameObject.SetActive(true);
+			}
 
 			if (LastSlot == null)
+			{
 				return;
+			}
 
 			if (DisplayTooltip)
-				TooltipManager.instance.ItemTooltip (rectTransform, LastSlot);
+			{
+				TooltipManager.instance.ItemTooltip(rectTransform, LastSlot);
+			}
 		}
 
-		public void ShowEquipped ()
+		public void ShowEquipped()
 		{
 			if (equippedIcon != null)
-				equippedIcon.gameObject.SetActive (true);
+			{
+				equippedIcon.gameObject.SetActive(true);
+			}
 		}
 
-		public void HideEquipped ()
+		public void HideEquipped()
 		{
 			if (equippedIcon != null)
-				equippedIcon.gameObject.SetActive (false);
+			{
+				equippedIcon.gameObject.SetActive(false);
+			}
 		}
 
-		private void Awake ()
+		private void Awake()
 		{
 			if (slotImage != null)
+			{
 				defaultSlotSprite = slotImage.sprite;
+			}
 
 			if (slotDecoration != null)
-				slotDecoration.gameObject.SetActive (false);
+			{
+				slotDecoration.gameObject.SetActive(false);
+			}
 		}
 
-		private void Update ()
+		private void Update()
 		{
 			if (transform.hasChanged || lastWidth != Screen.width || lastHeight != Screen.height)
 			{
-				UpdatePosition ();
+				UpdatePosition();
 
 				lastWidth = Screen.width;
 				lastHeight = Screen.height;
@@ -357,91 +417,105 @@ namespace RPGCore.Inventories
 			}
 		}
 
-		private void OnEnable ()
+		private void OnEnable()
 		{
-			Unhover ();
+			Unhover();
 
 			if (lastItem != null)
 			{
 				if (currentObject != null)
+				{
 					return;
+				}
 
-				RenderPrefab (lastItem.Template.RenderPrefab);
+				RenderPrefab(lastItem.Template.RenderPrefab);
 			}
 			else
 			{
-				UpdatePosition ();
+				UpdatePosition();
 			}
 		}
 
-		private void OnDisable ()
+		private void OnDisable()
 		{
-			Unhover ();
+			Unhover();
 
 			if (currentObject != null)
-				Destroy (currentObject);
+			{
+				Destroy(currentObject);
+			}
 
 			if (LastSlot == null)
+			{
 				return;
+			}
 
 			//if (TooltipManager.instance.CurrentItem == lastSlot.Item)
-			TooltipManager.instance.Hide ();
+			TooltipManager.instance.Hide();
 		}
 
-		public void OnPointerEnter (PointerEventData eventData)
+		public void OnPointerEnter(PointerEventData eventData)
 		{
-			Hover ();
+			Hover();
 		}
 
-		public void OnPointerExit (PointerEventData eventData)
+		public void OnPointerExit(PointerEventData eventData)
 		{
-			Unhover ();
+			Unhover();
 		}
 
-		private void RenderPrefab (GameObject prefab)
+		private void RenderPrefab(GameObject prefab)
 		{
 			if (currentObject != null)
-				Destroy (currentObject);
+			{
+				Destroy(currentObject);
+			}
 
-			var renderLayer = ItemRendererLayer.Get (id);
+			var renderLayer = ItemRendererLayer.Get(id);
 
-			currentObject = Instantiate (prefab, renderLayer.objectHolder.transform) as GameObject;
+			currentObject = Instantiate(prefab, renderLayer.objectHolder.transform) as GameObject;
 			currentObject.layer = renderLayer.gameObject.layer;
 
-			var itemMesh = currentObject.GetComponent<MeshRenderer> ();
+			var itemMesh = currentObject.GetComponent<MeshRenderer>();
 			itemMesh.receiveShadows = false;
 			itemMesh.shadowCastingMode = ShadowCastingMode.Off;
 			itemMesh.lightProbeUsage = LightProbeUsage.Off;
 			itemMesh.allowOcclusionWhenDynamic = false;
 
-			currentObject.transform.position += new Vector3 (3000, 4000, 4000);
+			currentObject.transform.position += new Vector3(3000, 4000, 4000);
 
-			UpdatePosition ();
+			UpdatePosition();
 		}
 
-		private void UpdatePosition (float scaleMultiplier = 1.0f)
+		private void UpdatePosition(float scaleMultiplier = 1.0f)
 		{
 			if (currentObject == null)
+			{
 				return;
+			}
 
 			if (rectTransform == null)
-				rectTransform = GetComponent<RectTransform> ();
+			{
+				rectTransform = GetComponent<RectTransform>();
+			}
 
 			if (lastTemplate == null)
+			{
 				return;
+			}
 
-			var renderLayer = ItemRendererLayer.Get (id);
-			var meshFilter = currentObject.GetComponent<MeshFilter> ();
+			var renderLayer = ItemRendererLayer.Get(id);
+			var meshFilter = currentObject.GetComponent<MeshFilter>();
 
 			var rectTransformCenter = rectTransform.position;
 
-			var point = new Vector2 (rectTransformCenter.x, rectTransformCenter.y);
+			var point = new Vector2(rectTransformCenter.x, rectTransformCenter.y);
 
-			var screenRect = RectTransformUtility.PixelAdjustRect (rectTransform, null);
+			var screenRect = RectTransformUtility.PixelAdjustRect(rectTransform, null);
 
-			var ray = renderLayer.layerCamera.ScreenPointToRay (point);
+			var ray = renderLayer.layerCamera.ScreenPointToRay(point);
 
-			float maxSize = Mathf.Max (meshFilter.mesh.bounds.size.x, meshFilter.mesh.bounds.size.y,
+			float maxSize = Mathf.Max(meshFilter.mesh.bounds.size.x, meshFilter.mesh.bounds.size.y,
 				meshFilter.mesh.bounds.size.z) / lastTemplate.RenderScale;
 
 			float heightPerc = ((screenRect.height / Screen.height) * (Screen.height / 2560.0f)) *
@@ -449,17 +523,20 @@ namespace RPGCore.Inventories
 
 			float newScale = (heightPerc / maxSize) * scaleMultiplier;
 
-			currentObject.transform.position = ray.GetPoint (20 - (Height * 2));
+			currentObject.transform.position = ray.GetPoint(20 - (Height * 2));
 			currentObject.transform.position -= meshFilter.mesh.bounds.center * newScale;
-			currentObject.transform.localScale = new Vector3 (newScale, newScale, newScale);
+			currentObject.transform.localScale = new Vector3(newScale, newScale, newScale);
 		}
 
-		private void OnReferenceChangedCallback ()
+		private void OnReferenceChangedCallback()
 		{
 			if (LastSlot == null || LastSlot.Item == null)
 			{
 				if (equippedIcon != null)
-					equippedIcon.gameObject.SetActive (false);
+				{
+					equippedIcon.gameObject.SetActive(false);
+				}
+
 				return;
 			}
 
@@ -467,28 +544,32 @@ namespace RPGCore.Inventories
 			//	equippedIcon.gameObject.SetActive (lastSlot.Item.IsEquipted);
 		}
 
-		private void PlayBounce ()
+		private void PlayBounce()
 		{
 			if (isActiveAndEnabled)
 			{
 				if (lastBounceRoutine != null)
-					StopCoroutine (lastBounceRoutine);
+				{
+					StopCoroutine(lastBounceRoutine);
+				}
 
-				lastBounceRoutine = StartCoroutine (BounceCoroutine ());
+				lastBounceRoutine = StartCoroutine(BounceCoroutine());
 			}
 		}
 
-		private IEnumerator BounceCoroutine ()
+		private IEnumerator BounceCoroutine()
 		{
-			var loop = new TimedLoop (0.25f);
+			var loop = new TimedLoop(0.25f);
 
 			foreach (float time in loop)
 			{
 				if (currentObject == null)
+				{
 					yield break;
+				}
 
-				float scale = 1.0f + bounceCurve.Evaluate (time);
-				UpdatePosition (scale);
+				float scale = 1.0f + bounceCurve.Evaluate(time);
+				UpdatePosition(scale);
 				yield return null;
 			}
 		}

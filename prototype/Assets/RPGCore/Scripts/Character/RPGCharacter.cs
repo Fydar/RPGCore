@@ -17,25 +17,25 @@ namespace RPGCore
 {
 	public class RPGCharacter : MonoBehaviour
 	{
-		public static List<RPGCharacter> All = new List<RPGCharacter> ();
+		public static List<RPGCharacter> All = new List<RPGCharacter>();
 
 		public event Action<RPGCharacter> OnHit;
 		public event Action OnDeath;
 
 		public Loottable Loot;
 
-		[Header ("Inventory")]
+		[Header("Inventory")]
 		public int startingSlots;
 		public ItemGenerator[] startingLoot;
 
-		[Header ("Stats")]
+		[Header("Stats")]
 		public StateInstanceCollection States;
 		public StatInstanceCollection Stats;
 
-		[Header ("Buffs")]
+		[Header("Buffs")]
 		public BuffCollection Buffs;
 
-		[Header ("Quests")]
+		[Header("Quests")]
 		public List<Quest> Quests;
 
 		[NonSerialized]
@@ -47,49 +47,49 @@ namespace RPGCore
 		[NonSerialized]
 		public int teamID = 1;
 
-		private void Awake ()
+		private void Awake()
 		{
-			All.Add (this);
-			Buffs = new BuffCollection (this);
+			All.Add(this);
+			Buffs = new BuffCollection(this);
 
-			Stats.SetupReferences ();
-			States.SetupReferences ();
+			Stats.SetupReferences();
+			States.SetupReferences();
 
-			var slots = new List<ItemSlot> ();
+			var slots = new List<ItemSlot>();
 
 			foreach (var info in EquipmentInformationDatabase.Instance.EquipmentInfos)
 			{
-				slots.Add (info.GenerateSlot (this));
+				slots.Add(info.GenerateSlot(this));
 			}
 
-			equipment = new SlottedInventory (this, slots.ToArray ());
+			equipment = new SlottedInventory(this, slots.ToArray());
 
-			inventory = new SlottedInventory (this, startingSlots,
+			inventory = new SlottedInventory(this, startingSlots,
 				new ItemSlotBehaviour[] { });
 
 			if (startingLoot != null)
 			{
 				for (int i = 0; i < startingLoot.Length; i++)
 				{
-					var generatedItem = startingLoot[i].Generate ();
-					inventory.Add (generatedItem);
+					var generatedItem = startingLoot[i].Generate();
+					inventory.Add(generatedItem);
 				}
 			}
 		}
 
-		private void Start ()
+		private void Start()
 		{
 			States.CurrentHealth.Value = Stats.MaxHealth.Value;
 			States.CurrentMana.Value = Stats.MaxMana.Value;
 
-			Chat.Instance.Log (name + " joined the game.");
+			Chat.Instance.Log(name + " joined the game.");
 		}
 
-		private void FixedUpdate ()
+		private void FixedUpdate()
 		{
 			float deltaTime = Time.fixedDeltaTime;
 
-			Buffs.Update (deltaTime);
+			Buffs.Update(deltaTime);
 
 			if (States.HealthDelayRemaining.Value >= 0.0f)
 			{
@@ -99,7 +99,7 @@ namespace RPGCore
 			{
 				if (States.CurrentHealth.Value < Stats.MaxHealth.Value)
 				{
-					Heal (Stats.HealthRegeneration.Value * deltaTime);
+					Heal(Stats.HealthRegeneration.Value * deltaTime);
 				}
 			}
 
@@ -109,94 +109,100 @@ namespace RPGCore
 			}
 			else
 			{
-				RestoreMana (Stats.ManaRegeneration.Value * deltaTime);
+				RestoreMana(Stats.ManaRegeneration.Value * deltaTime);
 			}
 		}
 
-		public bool HasEnoughMana (float amount)
+		public bool HasEnoughMana(float amount)
 		{
 			return States.CurrentMana.Value - amount > -Stats.ManaBurnoutDebt.Value;
 		}
 
-		public void TakeDamage (int damage)
+		public void TakeDamage(int damage)
 		{
-			Chat.Instance.Log (name + " taking " + damage + " damage.");
+			Chat.Instance.Log(name + " taking " + damage + " damage.");
 			States.CurrentHealth.Value -= damage;
 
-			States.HealthDelayRemaining.Value = Mathf.Max (States.HealthDelayRemaining.Value, Stats.HealthRegenerationDelay.Value);
+			States.HealthDelayRemaining.Value = Mathf.Max(States.HealthDelayRemaining.Value, Stats.HealthRegenerationDelay.Value);
 
 			if (States.CurrentHealth.Value <= 0)
 			{
-				Kill ();
+				Kill();
 			}
 		}
 
-		public void Heal (float health)
+		public void Heal(float health)
 		{
 			if (health >= 1)
 			{
-				Chat.Instance.Log (name + " healing " + health.ToString ("0") + " health.");
+				Chat.Instance.Log(name + " healing " + health.ToString("0") + " health.");
 			}
 
-			States.CurrentHealth.Value = Mathf.Min (
+			States.CurrentHealth.Value = Mathf.Min(
 				States.CurrentHealth.Value + health, Stats.MaxHealth.Value);
 		}
 
-		public void DrainMana (float amount)
+		public void DrainMana(float amount)
 		{
 			States.CurrentMana.Value -= amount;
 
-			States.ManaDelayRemaining.Value = Mathf.Max (States.ManaDelayRemaining.Value, Stats.ManaRegenerationDelay.Value);
+			States.ManaDelayRemaining.Value = Mathf.Max(States.ManaDelayRemaining.Value, Stats.ManaRegenerationDelay.Value);
 
 			if (States.CurrentMana.Value <= 0.0f)
-				Burnout ();
-		}
-
-		public void RestoreMana (float mana)
-		{
-			States.CurrentMana.Value = Mathf.Min (
-				States.CurrentMana.Value + mana, Stats.MaxMana.Value);
-		}
-
-		public void Kill ()
-		{
-			Chat.Instance.Log (name + " died.");
-
-			if (OnDeath != null)
-				OnDeath ();
-
-			States.CurrentMana.Value = 0;
-
-			gameObject.SetActive (false);
-
-			foreach (var loot in Loot.Select ())
 			{
-				if (loot != null)
-					ItemDropper.DropItem (transform.position, loot);
+				Burnout();
 			}
 		}
 
-		public void Burnout ()
+		public void RestoreMana(float mana)
+		{
+			States.CurrentMana.Value = Mathf.Min(
+				States.CurrentMana.Value + mana, Stats.MaxMana.Value);
+		}
+
+		public void Kill()
+		{
+			Chat.Instance.Log(name + " died.");
+
+			if (OnDeath != null)
+			{
+				OnDeath();
+			}
+
+			States.CurrentMana.Value = 0;
+
+			gameObject.SetActive(false);
+
+			foreach (var loot in Loot.Select())
+			{
+				if (loot != null)
+				{
+					ItemDropper.DropItem(transform.position, loot);
+				}
+			}
+		}
+
+		public void Burnout()
 		{
 			States.CurrentMana.Value = 0.0f;
-			States.ManaDelayRemaining.Value = Mathf.Max (States.ManaDelayRemaining.Value, Stats.ManaBurnoutDelay.Value);
+			States.ManaDelayRemaining.Value = Mathf.Max(States.ManaDelayRemaining.Value, Stats.ManaBurnoutDelay.Value);
 		}
 	}
 
 #if UNITY_EDITOR
-	[CustomEditor (typeof (RPGCharacter), true)]
+	[CustomEditor(typeof(RPGCharacter), true)]
 	public class RPGCharacterDrawer : Editor
 	{
-		private void OnEnable ()
+		private void OnEnable()
 		{
 			var character = (RPGCharacter)target;
-			character.Stats.SetupReferences ();
-			character.States.SetupReferences ();
+			character.Stats.SetupReferences();
+			character.States.SetupReferences();
 		}
 
-		public override void OnInspectorGUI ()
+		public override void OnInspectorGUI()
 		{
-			DrawDefaultInspector ();
+			DrawDefaultInspector();
 
 			var character = (RPGCharacter)target;
 
@@ -205,36 +211,38 @@ namespace RPGCore
 				foreach (var buff in character.Buffs)
 				{
 					if (buff == null)
+					{
 						continue;
+					}
 
 					EditorGUI.indentLevel++;
-					EditorGUILayout.LabelField (buff.StackSize.Value.ToString () + "   " + buff.buffTemplate.name, EditorStyles.boldLabel);
+					EditorGUILayout.LabelField(buff.StackSize.Value.ToString() + "   " + buff.buffTemplate.name, EditorStyles.boldLabel);
 
-					var iconRect = GUILayoutUtility.GetLastRect ();
-					iconRect = EditorGUI.IndentedRect (iconRect);
+					var iconRect = GUILayoutUtility.GetLastRect();
+					iconRect = EditorGUI.IndentedRect(iconRect);
 					iconRect.xMax = iconRect.xMin + iconRect.height;
 					iconRect.x -= iconRect.height;
 
-					DrawCustomIcon (iconRect, buff.buffTemplate.Icon);
+					DrawCustomIcon(iconRect, buff.buffTemplate.Icon);
 
 					EditorGUI.indentLevel++;
 					foreach (var clock in buff.Clocks)
 					{
-						var rect = GUILayoutUtility.GetRect (0, 16);
+						var rect = GUILayoutUtility.GetRect(0, 16);
 
-						rect = EditorGUI.IndentedRect (rect);
+						rect = EditorGUI.IndentedRect(rect);
 
-						if (typeof (BuffClockDecaying).IsAssignableFrom (clock.GetType ()))
+						if (typeof(BuffClockDecaying).IsAssignableFrom(clock.GetType()))
 						{
 							var decayingClock = (BuffClockDecaying)clock;
 
-							EditorGUI.ProgressBar (rect, decayingClock.TimeRemaining / decayingClock.Duration, decayingClock.StackSize.Value.ToString ());
+							EditorGUI.ProgressBar(rect, decayingClock.TimeRemaining / decayingClock.Duration, decayingClock.StackSize.Value.ToString());
 						}
-						else if (typeof (BuffClockFixed).IsAssignableFrom (clock.GetType ()))
+						else if (typeof(BuffClockFixed).IsAssignableFrom(clock.GetType()))
 						{
 							var fixedClock = (BuffClockFixed)clock;
 
-							EditorGUI.ProgressBar (rect, 1.0f, fixedClock.StackSize.Value.ToString ());
+							EditorGUI.ProgressBar(rect, 1.0f, fixedClock.StackSize.Value.ToString());
 						}
 					}
 
@@ -242,19 +250,21 @@ namespace RPGCore
 					EditorGUI.indentLevel--;
 				}
 
-				GUILayout.Space (20);
+				GUILayout.Space(20);
 			}
 		}
 
-		private void Update ()
+		private void Update()
 		{
 			var character = (RPGCharacter)target;
 
 			if (character.Buffs != null && character.Buffs.Count != 0)
-				Repaint ();
+			{
+				Repaint();
+			}
 		}
 
-		private static void DrawCustomIcon (Rect rect, Sprite sprite)
+		private static void DrawCustomIcon(Rect rect, Sprite sprite)
 		{
 			Texture2D textureIcon;
 			Rect textureRect;
@@ -262,28 +272,28 @@ namespace RPGCore
 			textureIcon = sprite.texture;
 			textureRect = sprite.rect;
 
-			DrawCustomIcon (rect, textureIcon, textureRect);
+			DrawCustomIcon(rect, textureIcon, textureRect);
 		}
 
-		private static void DrawCustomIcon (Rect rect, Texture texture)
+		private static void DrawCustomIcon(Rect rect, Texture texture)
 		{
 			Rect textureRect;
 
-			textureRect = new Rect (0.0f, 0.0f, texture.width, texture.height);
+			textureRect = new Rect(0.0f, 0.0f, texture.width, texture.height);
 
-			DrawCustomIcon (rect, texture, textureRect);
+			DrawCustomIcon(rect, texture, textureRect);
 		}
 
-		private static void DrawCustomIcon (Rect rect, Texture texture, Rect textureRect)
+		private static void DrawCustomIcon(Rect rect, Texture texture, Rect textureRect)
 		{
-			var normalisedTextureRect = RemapRect (textureRect, texture.width, texture.height);
+			var normalisedTextureRect = RemapRect(textureRect, texture.width, texture.height);
 
-			GUI.DrawTextureWithTexCoords (rect, texture, normalisedTextureRect, true);
+			GUI.DrawTextureWithTexCoords(rect, texture, normalisedTextureRect, true);
 		}
 
-		private static Rect RemapRect (Rect rect, float width, float height)
+		private static Rect RemapRect(Rect rect, float width, float height)
 		{
-			var remapedRect = new Rect (rect);
+			var remapedRect = new Rect(rect);
 
 			remapedRect.x /= width;
 			remapedRect.width /= width;

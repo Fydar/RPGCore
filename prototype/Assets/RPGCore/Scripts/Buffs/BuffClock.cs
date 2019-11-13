@@ -11,19 +11,21 @@ namespace RPGCore
 		public Action OnRemove;
 		public Action OnTick;
 
-		public IntegerStack StackSize = new IntegerStack ();
+		public IntegerStack StackSize = new IntegerStack();
 
 		public abstract float DisplayPercent
 		{
 			get;
 		}
 
-		public abstract void Update (float deltaTime);
+		public abstract void Update(float deltaTime);
 
-		public virtual void RemoveClock ()
+		public virtual void RemoveClock()
 		{
 			if (OnRemove != null)
-				OnRemove ();
+			{
+				OnRemove();
+			}
 		}
 	}
 }

@@ -11,52 +11,52 @@ namespace RPGCore.UI
 		public static PopupMenu Instance;
 
 		public CanvasGroup Background;
-		public FadeBool BackgroundFade = new FadeBool ();
+		public FadeBool BackgroundFade = new FadeBool();
 
-		[Header ("Buttons")]
+		[Header("Buttons")]
 		public GameObject Dialogue;
 		public RectTransform ButtonsHolder;
 		public UIPopupButtonPool ButtonPool;
 
-		private void Awake ()
+		private void Awake()
 		{
-			Close ();
+			Close();
 
 			Instance = this;
 		}
 
-		private void Update ()
+		private void Update()
 		{
-			BackgroundFade.Update ();
+			BackgroundFade.Update();
 			Background.alpha = BackgroundFade.Value;
 			Background.blocksRaycasts = BackgroundFade.Target;
 
-			if (Input.GetKeyDown (KeyCode.Escape))
+			if (Input.GetKeyDown(KeyCode.Escape))
 			{
-				Close ();
+				Close();
 			}
 		}
 
-		public void Display (string header, params PopupButton[] buttons)
+		public void Display(string header, params PopupButton[] buttons)
 		{
-			ButtonPool.Flush ();
+			ButtonPool.Flush();
 			BackgroundFade.Target = true;
 
 			for (int i = 0; i < buttons.Length; i++)
 			{
 				var button = buttons[i];
-				var uiButton = ButtonPool.Grab (ButtonsHolder);
-				uiButton.Setup (this, button);
+				var uiButton = ButtonPool.Grab(ButtonsHolder);
+				uiButton.Setup(this, button);
 			}
 
-			Dialogue.SetActive (true);
+			Dialogue.SetActive(true);
 		}
 
-		public void Close ()
+		public void Close()
 		{
 			BackgroundFade.Target = false;
 
-			Dialogue.SetActive (false);
+			Dialogue.SetActive(false);
 		}
 	}
 }

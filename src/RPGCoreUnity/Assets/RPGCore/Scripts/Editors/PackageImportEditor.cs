@@ -10,7 +10,7 @@ namespace RPGCore.Unity.Editors
 	{
 		private Texture2D Spritesheet;
 
-		public override void OnInspectorGUI ()
+		public override void OnInspectorGUI()
 		{
 			DrawDefaultInspector ();
 

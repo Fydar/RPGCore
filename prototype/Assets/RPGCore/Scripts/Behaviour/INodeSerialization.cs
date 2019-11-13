@@ -2,7 +2,7 @@
 {
 	public interface INodeSerialization
 	{
-		string Serialize (IBehaviourContext context);
-		void Deserialize (IBehaviourContext context, string data);
+		string Serialize(IBehaviourContext context);
+		void Deserialize(IBehaviourContext context, string data);
 	}
 }

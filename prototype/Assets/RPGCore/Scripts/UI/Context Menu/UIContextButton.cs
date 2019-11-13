@@ -10,7 +10,7 @@ namespace RPGCore.UI
 		private ContextButton entry;
 		private UIContextMenu menu;
 
-		public void Setup (UIContextMenu menu, ContextButton entry)
+		public void Setup(UIContextMenu menu, ContextButton entry)
 		{
 			this.menu = menu;
 			this.entry = entry;
@@ -18,12 +18,14 @@ namespace RPGCore.UI
 			label.text = entry.Label;
 		}
 
-		public void FireClick ()
+		public void FireClick()
 		{
-			menu.Close ();
+			menu.Close();
 
 			if (entry.OnClick != null)
-				entry.OnClick ();
+			{
+				entry.OnClick();
+			}
 		}
 	}
 }

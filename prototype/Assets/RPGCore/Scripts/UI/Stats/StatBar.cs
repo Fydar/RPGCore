@@ -5,7 +5,7 @@ namespace RPGCore.Stats
 {
 	public class StatBar : MonoBehaviour
 	{
-		[Header ("Character")]
+		[Header("Character")]
 		[SerializeField]
 		private RPGCharacter localCharacter;
 
@@ -16,48 +16,54 @@ namespace RPGCore.Stats
 		[SerializeField]
 		private StatEntry stat;
 
-		[Header ("Text")]
+		[Header("Text")]
 		[SerializeField]
 		private Text TextField;
 		[SerializeField] private string TextFormat = "{0:#}/{1:#}";
 
-		[Header ("Primary Bar")]
+		[Header("Primary Bar")]
 		[SerializeField]
 		private Image primaryBar;
 
-		[Header ("Secondary Bar")]
+		[Header("Secondary Bar")]
 		[SerializeField]
 		private Image secondaryBar;
 		[SerializeField] private float secondaryBarDelay = 1.0f;
 
-		private void Start ()
+		private void Start()
 		{
-			SetupReference ();
+			SetupReference();
 		}
 
-		private void Update ()
+		private void Update()
 		{
 			if (secondaryBar != null)
 			{
 				if (secondaryBar.fillAmount > primaryBar.fillAmount)
-					secondaryBar.fillAmount = Mathf.Lerp (secondaryBar.fillAmount, primaryBar.fillAmount, Time.unscaledDeltaTime * secondaryBarDelay);
+				{
+					secondaryBar.fillAmount = Mathf.Lerp(secondaryBar.fillAmount, primaryBar.fillAmount, Time.unscaledDeltaTime * secondaryBarDelay);
+				}
 				else
+				{
 					secondaryBar.fillAmount = primaryBar.fillAmount;
+				}
 			}
 		}
 
-		private void SetupReference ()
+		private void SetupReference()
 		{
 			if (localCharacter == null)
+			{
 				return;
+			}
 
 			localCharacter.Stats[stat].OnValueChanged += UpdateBars;
 			localCharacter.States[state].OnValueChanged += UpdateBars;
 
-			UpdateBars ();
+			UpdateBars();
 		}
 
-		private void UpdateBars ()
+		private void UpdateBars()
 		{
 			float value = localCharacter.States[state].Value;
 			float max = localCharacter.Stats[stat].Value;
@@ -66,7 +72,7 @@ namespace RPGCore.Stats
 
 			if (TextField != null)
 			{
-				TextField.text = string.Format (TextFormat, value, max);
+				TextField.text = string.Format(TextFormat, value, max);
 			}
 		}
 	}

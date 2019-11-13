@@ -4,11 +4,11 @@ public class CommandUsageAttribute : Attribute
 {
 	public string Help = "No help provided";
 
-	public CommandUsageAttribute ()
+	public CommandUsageAttribute()
 	{
 	}
 
-	public CommandUsageAttribute (string _help)
+	public CommandUsageAttribute(string _help)
 	{
 		Help = _help;
 	}

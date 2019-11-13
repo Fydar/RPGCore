@@ -9,16 +9,16 @@ namespace RPGCore.Behaviour.Editor
 	{
 		private static BehaviourGraphResources instance;
 
-		[Header ("Window")]
+		[Header("Window")]
 		public Texture2D LightThemeIcon;
 		public Texture2D DarkThemeIcon;
 		public Texture2D WindowBackground;
 
-		[Header ("Connections")]
+		[Header("Connections")]
 		public Texture2D DefaultTrail;
 		public Texture2D SmallConnection;
 
-		[Header ("Nodes")]
+		[Header("Nodes")]
 		public Texture2D AndNodeGraphic;
 		public Texture2D OrNodeGraphic;
 		public Texture2D NotNodeGraphic;
@@ -30,17 +30,17 @@ namespace RPGCore.Behaviour.Editor
 		{
 			get
 			{
-				if (instance == null || instance.Equals (null))
+				if (instance == null || instance.Equals(null))
 				{
-					var newInstance = CreateInstance<BehaviourGraphResources> ();
-					string path = AssetDatabase.GetAssetPath (MonoScript.FromScriptableObject (newInstance));
-					string dir = Path.GetDirectoryName (path);
-					instance = AssetDatabase.LoadAssetAtPath<BehaviourGraphResources> (Path.Combine (dir, typeof (BehaviourGraphResources).Name + ".asset"));
+					var newInstance = CreateInstance<BehaviourGraphResources>();
+					string path = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(newInstance));
+					string dir = Path.GetDirectoryName(path);
+					instance = AssetDatabase.LoadAssetAtPath<BehaviourGraphResources>(Path.Combine(dir, typeof(BehaviourGraphResources).Name + ".asset"));
 
 					if (instance == null)
 					{
 						instance = newInstance;
-						AssetDatabase.CreateAsset (instance, Path.Combine (dir, typeof (BehaviourGraphResources).Name + ".asset"));
+						AssetDatabase.CreateAsset(instance, Path.Combine(dir, typeof(BehaviourGraphResources).Name + ".asset"));
 					}
 				}
 

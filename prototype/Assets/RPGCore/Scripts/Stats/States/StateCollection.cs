@@ -4,14 +4,14 @@ namespace RPGCore
 {
 	public class StateCollection<T> : EnumerableCollection<T>
 	{
-		[Header ("General")]
+		[Header("General")]
 		public T CurrentHealth;
 		public T CurrentMana;
 		[Space]
 		public T Level;
 		public T Experiance;
 
-		[Header ("Regeneration")]
+		[Header("Regeneration")]
 		public T ManaDelayRemaining;
 		public T HealthDelayRemaining;
 	}

@@ -8,7 +8,7 @@ public class AssetBrowser : MonoBehaviour
 	public RectTransform Holder;
 	public AssetRendererPool Assets;
 
-	private void Start ()
+	private void Start()
 	{
 		var explorer = Package.Explorer;
 

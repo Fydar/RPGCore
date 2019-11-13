@@ -8,27 +8,29 @@ namespace RPGCore.Audio
 	public class AudioSourcePool
 	{
 		public int PrewarmAmount = 20;
-		public List<AudioSource> Pool = new List<AudioSource> ();
+		public List<AudioSource> Pool = new List<AudioSource>();
 
 		private int currentGrabIndex = 0;
 
 		[NonSerialized]
 		private GameObject holder;
 
-		public void Initialise (GameObject _holder)
+		public void Initialise(GameObject _holder)
 		{
 			holder = _holder;
 
 			for (int i = 0; i < PrewarmAmount; i++)
 			{
-				ExpandPool ();
+				ExpandPool();
 			}
 		}
 
-		public AudioSource Grab ()
+		public AudioSource Grab()
 		{
 			if (Pool.Count == currentGrabIndex)
-				ExpandPool ();
+			{
+				ExpandPool();
+			}
 
 			var item = Pool[currentGrabIndex];
 			item.enabled = true;
@@ -37,30 +39,34 @@ namespace RPGCore.Audio
 			return item;
 		}
 
-		public void Flush ()
+		public void Flush()
 		{
 			foreach (var item in Pool)
+			{
 				item.enabled = false;
+			}
 
 			currentGrabIndex = 0;
 		}
 
-		public void Return (AudioSource item)
+		public void Return(AudioSource item)
 		{
-			int itemIndex = Pool.IndexOf (item);
+			int itemIndex = Pool.IndexOf(item);
 
 			if (itemIndex == -1)
-				Debug.LogError ("Item being returned to the pool doesn't belong in it.");
+			{
+				Debug.LogError("Item being returned to the pool doesn't belong in it.");
+			}
 
-			Pool.RemoveAt (itemIndex);
-			Pool.Add (item);
+			Pool.RemoveAt(itemIndex);
+			Pool.Add(item);
 			item.enabled = false;
 			currentGrabIndex--;
 		}
 
-		private void ExpandPool ()
+		private void ExpandPool()
 		{
-			Pool.Add (holder.AddComponent<AudioSource> ());
+			Pool.Add(holder.AddComponent<AudioSource>());
 		}
 	}
 }

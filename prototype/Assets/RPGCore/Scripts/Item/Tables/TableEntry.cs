@@ -12,7 +12,7 @@ namespace RPGCore.Tables
 	{
 		public float Balance;
 
-		public TableEntry (float balance)
+		public TableEntry(float balance)
 		{
 			Balance = balance;
 		}
@@ -22,45 +22,45 @@ namespace RPGCore.Tables
 	{
 		public T Item;
 
-		public GenericTableEntry (T item, float balance) : base (balance)
+		public GenericTableEntry(T item, float balance) : base(balance)
 		{
 			Item = item;
 		}
 	}
 
 #if UNITY_EDITOR
-	[CustomPropertyDrawer (typeof (TableEntry), true)]
+	[CustomPropertyDrawer(typeof(TableEntry), true)]
 	internal class EntryDrawer : PropertyDrawer
 	{
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			return StandardHeight (property, label);
+			return StandardHeight(property, label);
 		}
 
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			StandardOnGUI (position, property, label);
+			StandardOnGUI(position, property, label);
 		}
 
-		public static void StandardOnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public static void StandardOnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			var itemProperty = property.FindPropertyRelative ("Item");
-			var balanceProperty = property.FindPropertyRelative ("Balance");
+			var itemProperty = property.FindPropertyRelative("Item");
+			var balanceProperty = property.FindPropertyRelative("Balance");
 
-			var itemRect = new Rect (position.x, position.y, position.width * 0.95f - 40, position.height);
-			var balanceRect = new Rect (itemRect.xMax, position.y, position.width - itemRect.width, EditorGUIUtility.singleLineHeight);
+			var itemRect = new Rect(position.x, position.y, position.width * 0.95f - 40, position.height);
+			var balanceRect = new Rect(itemRect.xMax, position.y, position.width - itemRect.width, EditorGUIUtility.singleLineHeight);
 
-			EditorGUI.PropertyField (itemRect, itemProperty, GUIContent.none, false);
+			EditorGUI.PropertyField(itemRect, itemProperty, GUIContent.none, false);
 
 			int indent = EditorGUI.indentLevel;
 			EditorGUI.indentLevel = 0;
-			EditorGUI.PropertyField (balanceRect, balanceProperty, GUIContent.none, false);
+			EditorGUI.PropertyField(balanceRect, balanceProperty, GUIContent.none, false);
 			EditorGUI.indentLevel = indent;
 		}
 
-		public static float StandardHeight (SerializedProperty property, GUIContent label)
+		public static float StandardHeight(SerializedProperty property, GUIContent label)
 		{
-			return EditorGUI.GetPropertyHeight (property.FindPropertyRelative ("Item"));
+			return EditorGUI.GetPropertyHeight(property.FindPropertyRelative("Item"));
 		}
 	}
 #endif

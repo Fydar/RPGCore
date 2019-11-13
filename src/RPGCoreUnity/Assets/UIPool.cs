@@ -17,7 +17,7 @@ namespace RPGCore.UI
 		public List<T> Pool = new List<T> ();
 		private int currentGrabIndex;
 
-		public T Grab (Transform parent)
+		public T Grab(Transform parent)
 		{
 			if (Pool.Count == 0)
 			{
@@ -52,7 +52,7 @@ namespace RPGCore.UI
 			return item;
 		}
 
-		public void Flush ()
+		public void Flush()
 		{
 			if (Pool.Count == 0)
 			{
@@ -74,7 +74,7 @@ namespace RPGCore.UI
 			currentGrabIndex = 0;
 		}
 
-		public void Return (T item)
+		public void Return(T item)
 		{
 			int itemIndex = Pool.IndexOf (item);
 
@@ -89,7 +89,7 @@ namespace RPGCore.UI
 			currentGrabIndex--;
 		}
 
-		private void ExpandPool (Transform parent)
+		private void ExpandPool(Transform parent)
 		{
 			var clone = UnityEngine.Object.Instantiate (SampleButton.gameObject, parent) as GameObject;
 			clone.transform.localScale = Vector3.one;

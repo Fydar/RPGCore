@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Roll")]
+	[NodeInformation("Item/Roll")]
 	public class RollNode : BehaviourNode
 	{
 		public IntInput Min;
@@ -13,7 +13,7 @@ namespace RPGCore
 
 		public IntOutput Output;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			ConnectionEntry<int> minInput = Min[context];
 			ConnectionEntry<int> maxInput = Max[context];
@@ -21,23 +21,23 @@ namespace RPGCore
 
 			Action updateHandler = () =>
 			{
-				output.Value = UnityEngine.Random.Range (minInput.Value, maxInput.Value + 1);
+				output.Value = UnityEngine.Random.Range(minInput.Value, maxInput.Value + 1);
 			};
 
 			minInput.OnAfterChanged += updateHandler;
 			maxInput.OnAfterChanged += updateHandler;
 
-			updateHandler ();
+			updateHandler();
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 
 #if UNITY_EDITOR
-		public override Vector2 GetDiamentions ()
+		public override Vector2 GetDiamentions()
 		{
-			return new Vector2 (140, 54);
+			return new Vector2(140, 54);
 		}
 #endif
 	}

@@ -12,14 +12,18 @@ namespace RPGCore.Utility
 		//[NonSerialized]
 		public float Value = 1.0f;
 
-		public float Update ()
+		public float Update()
 		{
 			float movementAmount = Speed * Time.deltaTime;
 
 			if (Target)
-				Value = Mathf.Min (Value + movementAmount, 1.0f);
+			{
+				Value = Mathf.Min(Value + movementAmount, 1.0f);
+			}
 			else
-				Value = Mathf.Max (Value - movementAmount, 0.0f);
+			{
+				Value = Mathf.Max(Value - movementAmount, 0.0f);
+			}
 
 			return Value;
 		}

@@ -17,7 +17,7 @@ namespace RPGCore
 		public ItemInput Target;
 		public FloatOutput Value;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var valueOutput = Value[context];
@@ -30,45 +30,49 @@ namespace RPGCore
 					return;
 				}
 
-				var weaponNode = targetInput.Value.Template.GetNode<D> ();
+				var weaponNode = targetInput.Value.Template.GetNode<D>();
 
 				if (weaponNode == null)
 				{
 					valueOutput.Value = 0;
 					return;
 				}
-				valueOutput.Value = weaponNode.GetStats (targetInput.Value)[Stat].Value;
+				valueOutput.Value = weaponNode.GetStats(targetInput.Value)[Stat].Value;
 			};
 
 			if (targetInput.Value != null)
 			{
-				targetInput.Value.Template.GetNode<D> ()
-					.GetStats (targetInput.Value)[Stat].OnValueChanged += updateListener;
+				targetInput.Value.Template.GetNode<D>()
+					.GetStats(targetInput.Value)[Stat].OnValueChanged += updateListener;
 
-				updateListener ();
+				updateListener();
 			}
 
 			targetInput.OnBeforeChanged += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
-				targetInput.Value.Template.GetNode<D> ()
-					.GetStats (targetInput.Value)[Stat].OnValueChanged -= updateListener;
+				targetInput.Value.Template.GetNode<D>()
+					.GetStats(targetInput.Value)[Stat].OnValueChanged -= updateListener;
 			};
 
 			targetInput.OnAfterChanged += () =>
 			{
-				updateListener ();
+				updateListener();
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
-				targetInput.Value.Template.GetNode<D> ()
-					.GetStats (targetInput.Value)[Stat].OnValueChanged += updateListener;
+				targetInput.Value.Template.GetNode<D>()
+					.GetStats(targetInput.Value)[Stat].OnValueChanged += updateListener;
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

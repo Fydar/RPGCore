@@ -9,62 +9,65 @@ namespace RPGCore.UI
 		public static UIContextMenu Instance;
 
 		public CanvasGroup Background;
-		public FadeBool BackgroundFade = new FadeBool ();
+		public FadeBool BackgroundFade = new FadeBool();
 
 		public CanvasMouse Mouse;
 		public RectTransform ListView;
 
 		[Space]
-		public ContextButtonPool ButtonPool = new ContextButtonPool ();
-		public RectTransformPool DividerPool = new RectTransformPool ();
-		public ContextFolderPool FolderPool = new ContextFolderPool ();
+		public ContextButtonPool ButtonPool = new ContextButtonPool();
+		public RectTransformPool DividerPool = new RectTransformPool();
+		public ContextFolderPool FolderPool = new ContextFolderPool();
 
-		private void Awake ()
+		private void Awake()
 		{
-			Close ();
+			Close();
 
 			Instance = this;
 		}
 
-		private void Update ()
+		private void Update()
 		{
-			BackgroundFade.Update ();
+			BackgroundFade.Update();
 			Background.alpha = BackgroundFade.Value;
 			Background.blocksRaycasts = BackgroundFade.Target;
 
-			if (Input.GetKeyDown (KeyCode.Escape))
+			if (Input.GetKeyDown(KeyCode.Escape))
 			{
-				Close ();
+				Close();
 			}
 		}
 
-		public void Display (params IContextEntry[] entries)
+		public void Display(params IContextEntry[] entries)
 		{
-			ButtonPool.Flush ();
-			DividerPool.Flush ();
-			FolderPool.Flush ();
+			ButtonPool.Flush();
+			DividerPool.Flush();
+			FolderPool.Flush();
 
-			ListView.position = Mouse.ScreenToCanvas (Input.mousePosition);
+			ListView.position = Mouse.ScreenToCanvas(Input.mousePosition);
 
 			for (int i = 0; i < entries.Length; i++)
 			{
 				if (entries[i] == null)
+				{
 					continue;
-				entries[i].Render (this, ListView);
+				}
+
+				entries[i].Render(this, ListView);
 			}
 
 			BackgroundFade.Target = true;
-			ListView.gameObject.SetActive (true);
+			ListView.gameObject.SetActive(true);
 		}
 
-		public void Close ()
+		public void Close()
 		{
 			BackgroundFade.Target = false;
-			ListView.gameObject.SetActive (false);
+			ListView.gameObject.SetActive(false);
 
-			ButtonPool.Flush ();
-			DividerPool.Flush ();
-			FolderPool.Flush ();
+			ButtonPool.Flush();
+			DividerPool.Flush();
+			FolderPool.Flush();
 		}
 	}
 }

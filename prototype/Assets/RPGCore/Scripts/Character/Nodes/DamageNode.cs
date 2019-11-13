@@ -3,14 +3,14 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Character/Damage")]
+	[NodeInformation("Character/Damage")]
 	public class DamageNode : BehaviourNode
 	{
 		public CharacterInput Target;
 		public EventInput Event;
 		public IntInput Effect;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var eventInput = Event[context];
 			var targetInput = Target[context];
@@ -19,13 +19,15 @@ namespace RPGCore
 			eventInput.OnEventFired += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
-				targetInput.Value.TakeDamage (effectInput.Value);
+				targetInput.Value.TakeDamage(effectInput.Value);
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

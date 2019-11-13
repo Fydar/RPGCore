@@ -27,7 +27,7 @@ namespace RPGCore.Behaviour.Editor
 		public GUIStyle EmptyTextStyle;
 		public GUIStyle HelpHeaderTextStyle;
 
-		public BehaviourGUIStyles ()
+		public BehaviourGUIStyles()
 		{
 			settingsStyle = GUI.skin.GetStyle ("PaneOptions");
 

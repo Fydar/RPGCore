@@ -15,30 +15,34 @@ namespace RPGCore.World
 		public Action<RPGCharacter> OnExit;
 		public Func<RPGCharacter, bool> Conditions;
 
-		private List<RPGCharacter> InProximity = new List<RPGCharacter> ();
+		private List<RPGCharacter> InProximity = new List<RPGCharacter>();
 
-		private void Start ()
+		private void Start()
 		{
-			InvokeRepeating ("Check", 0.0f, 0.25f);
+			InvokeRepeating("Check", 0.0f, 0.25f);
 		}
 
-		private void OnDisable ()
+		private void OnDisable()
 		{
 			foreach (var character in InProximity)
 			{
 				if (OnExit != null)
-					OnExit (character);
+				{
+					OnExit(character);
+				}
 			}
 
-			InProximity.Clear ();
+			InProximity.Clear();
 		}
 
-		private void Check ()
+		private void Check()
 		{
 			if (!enabled)
+			{
 				return;
+			}
 
-			var characters = RPGCharacter.All.ToArray ();
+			var characters = RPGCharacter.All.ToArray();
 
 			var position = transform.position;
 
@@ -46,39 +50,45 @@ namespace RPGCore.World
 			{
 				var character = characters[i];
 
-				if (character.gameObject.activeInHierarchy && Distance > Vector3.Distance (character.transform.position, position))
+				if (character.gameObject.activeInHierarchy && Distance > Vector3.Distance(character.transform.position, position))
 				{
-					if (!InProximity.Contains (character))
+					if (!InProximity.Contains(character))
 					{
 						if (Conditions != null)
 						{
 							bool result = true;
-							foreach (Func<RPGCharacter, bool> condition in Conditions.GetInvocationList ())
+							foreach (Func<RPGCharacter, bool> condition in Conditions.GetInvocationList())
 							{
-								if (!condition (character))
+								if (!condition(character))
 								{
 									result = false;
 									break;
 								}
 							}
 							if (!result)
+							{
 								continue;
+							}
 						}
 
-						InProximity.Add (character);
+						InProximity.Add(character);
 
 						if (OnEnter != null)
-							OnEnter (character);
+						{
+							OnEnter(character);
+						}
 					}
 				}
 				else
 				{
-					if (InProximity.Contains (character))
+					if (InProximity.Contains(character))
 					{
-						InProximity.Remove (character);
+						InProximity.Remove(character);
 
 						if (OnExit != null)
-							OnExit (character);
+						{
+							OnExit(character);
+						}
 					}
 				}
 			}

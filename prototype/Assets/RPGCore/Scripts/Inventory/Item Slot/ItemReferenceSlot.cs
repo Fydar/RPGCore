@@ -18,30 +18,34 @@ namespace RPGCore.Inventories
 			}
 		}
 
-		public ItemReferenceSlot (RPGCharacter owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null,
+		public ItemReferenceSlot(RPGCharacter owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null,
 			ItemSurrogate _defaultItem = null)
-			: base (owner, behaviours, conditions)
+			: base(owner, behaviours, conditions)
 		{
 			defaultItem = _defaultItem;
 		}
 
-		public override AddResult Add (ItemSurrogate newItem)
+		public override AddResult Add(ItemSurrogate newItem)
 		{
 			if (Item == newItem)
+			{
 				return AddResult.None;
+			}
 
-			if (!IsValid (newItem))
+			if (!IsValid(newItem))
+			{
 				return AddResult.None;
+			}
 
-			RemoveTargetSlot (Item);
-			SetTargetSlot (newItem);
+			RemoveTargetSlot(Item);
+			SetTargetSlot(newItem);
 
 			Item = newItem;
 
 			return AddResult.Referenced;
 		}
 
-		public override void Swap (ItemSlot other)
+		public override void Swap(ItemSlot other)
 		{
 			// other is the start slot
 			// this is the end slot
@@ -50,69 +54,69 @@ namespace RPGCore.Inventories
 			{
 				//Trying to swap top no slot, means remove item or send item to inventory
 
-				RemoveTargetSlot (Item);
+				RemoveTargetSlot(Item);
 
 				Item = Default;
 
 				return;
 			}
 
-			if (!IsValid (other.Item))
+			if (!IsValid(other.Item))
 			{
 				return;
 			}
 
-			RemoveTargetSlot (Item);
-			SetTargetSlot (other.Item);
+			RemoveTargetSlot(Item);
+			SetTargetSlot(other.Item);
 
 			Item = other.Item;
 		}
 
-		public override void Remove ()
+		public override void Remove()
 		{
 			if (Item != null)
 			{
-				RemoveTargetSlot (Item);
+				RemoveTargetSlot(Item);
 
 				Item = Default;
 			}
 		}
 
-		public override void Return ()
+		public override void Return()
 		{
-			Remove ();
+			Remove();
 		}
 
-		public void SetSerializedID (int id)
+		public void SetSerializedID(int id)
 		{
 			serializedID = id;
 		}
 
-		private void SetTargetSlot (ItemSurrogate item)
+		private void SetTargetSlot(ItemSurrogate item)
 		{
 			if (item != null)
 			{
-				item.AddReferenceSlot (this);
+				item.AddReferenceSlot(this);
 
 				item.OnReferenceChanged += DetachListener;
 			}
 		}
 
-		private void RemoveTargetSlot (ItemSurrogate item)
+		private void RemoveTargetSlot(ItemSurrogate item)
 		{
 			if (item != null)
 			{
 				item.OnReferenceChanged -= DetachListener;
 
-				item.RemoveReferenceSlot (this);
+				item.RemoveReferenceSlot(this);
 			}
 		}
 
-		private void DetachListener ()
+		private void DetachListener()
 		{
-			if (!Item.IsReferencedBySlot (this))
+			if (!Item.IsReferencedBySlot(this))
 			{
-				Remove ();
+				Remove();
 			}
 		}
 	}

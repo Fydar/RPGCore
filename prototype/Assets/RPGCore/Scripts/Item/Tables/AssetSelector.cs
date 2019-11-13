@@ -11,30 +11,32 @@ namespace RPGCore.Tables
 		[NonSerialized]
 		protected float[] values;
 
-		public T Select ()
+		public T Select()
 		{
-			float rand = UnityEngine.Random.Range (0.0f, 1.0f);
+			float rand = UnityEngine.Random.Range(0.0f, 1.0f);
 
 			for (int i = 0; i < Loot.Length; i++)
 			{
 				float balance = values[i];
 
 				if (balance == 0.0f)
+				{
 					continue;
+				}
 
 				if (rand <= balance)
 				{
 					return Loot[i].Item;
 				}
 			}
-			return default (T);
+			return default(T);
 		}
 
-		public void OnBeforeSerialize ()
+		public void OnBeforeSerialize()
 		{
 		}
 
-		public void OnAfterDeserialize ()
+		public void OnAfterDeserialize()
 		{
 			float total = 0.0f;
 			for (int i = 0; i < Loot.Length; i++)

@@ -8,51 +8,51 @@ namespace RPGCore
 	[Serializable]
 	public sealed class DataEntry : ISerializationCallbackReceiver
 	{
-		private static BinaryFormatter Formatter = new BinaryFormatter ();
+		private static BinaryFormatter Formatter = new BinaryFormatter();
 
 		[SerializeField] private byte[] data;
 		[NonSerialized] private object TargetObject;
 
-		public void SetValue<T> (T value)
+		public void SetValue<T>(T value)
 		{
 			TargetObject = value;
 		}
 
-		public object GetValue ()
+		public object GetValue()
 		{
 			return TargetObject;
 		}
 
-		public T GetValue<T> ()
+		public T GetValue<T>()
 		{
-			if (TargetObject != null && typeof (T).IsAssignableFrom (TargetObject.GetType ()))
+			if (TargetObject != null && typeof(T).IsAssignableFrom(TargetObject.GetType()))
 			{
 				return (T)TargetObject;
 			}
 			else
 			{
-				TargetObject = Activator.CreateInstance<T> ();
+				TargetObject = Activator.CreateInstance<T>();
 
 				return (T)TargetObject;
 			}
 		}
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize ()
+		void ISerializationCallbackReceiver.OnBeforeSerialize()
 		{
-			using (var ms = new MemoryStream ())
+			using (var ms = new MemoryStream())
 			{
-				Formatter.Serialize (ms, TargetObject);
-				data = ms.ToArray ();
+				Formatter.Serialize(ms, TargetObject);
+				data = ms.ToArray();
 			}
 		}
 
-		void ISerializationCallbackReceiver.OnAfterDeserialize ()
+		void ISerializationCallbackReceiver.OnAfterDeserialize()
 		{
-			using (var ms = new MemoryStream ())
+			using (var ms = new MemoryStream())
 			{
-				ms.Write (data, 0, data.Length);
-				ms.Seek (0, SeekOrigin.Begin);
-				TargetObject = Formatter.Deserialize (ms);
+				ms.Write(data, 0, data.Length);
+				ms.Seek(0, SeekOrigin.Begin);
+				TargetObject = Formatter.Deserialize(ms);
 			}
 		}
 	}

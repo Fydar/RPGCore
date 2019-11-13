@@ -25,14 +25,14 @@ namespace RPGCore.Audio
 			}
 		}
 
-		public EffectFader (IInterpolator interpolator)
+		public EffectFader(IInterpolator interpolator)
 		{
 			Interpolator = interpolator;
 		}
 
-		public void Update (float deltaTime)
+		public void Update(float deltaTime)
 		{
-			Interpolator.Update (deltaTime);
+			Interpolator.Update(deltaTime);
 		}
 	}
 }

@@ -16,38 +16,38 @@ namespace RPGCore
 		public EventOutput OnHit;
 
 		[NonSerialized]
-		public Dictionary<IBehaviourContext, B> StatsMapping = new Dictionary<IBehaviourContext, B> ();
+		public Dictionary<IBehaviourContext, B> StatsMapping = new Dictionary<IBehaviourContext, B>();
 
-		public B GetStats (IBehaviourContext context)
+		public B GetStats(IBehaviourContext context)
 		{
 			return StatsMapping[context];
 		}
 
-		public StatInstance GetStat (ItemSurrogate context, CollectionEntry entry)
+		public StatInstance GetStat(ItemSurrogate context, CollectionEntry entry)
 		{
 			var statsCollection = StatsMapping[context];
 			var stat = statsCollection[entry];
 			return stat;
 		}
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
-			var statsCollection = new B ();
+			var statsCollection = new B();
 			StatsMapping[context] = statsCollection;
-			statsCollection.GetEnumerator ();
+			statsCollection.GetEnumerator();
 
-			var inputsEnumerator = Inputs.GetEnumerator ();
-			foreach (var stat in GetStats (context))
+			var inputsEnumerator = Inputs.GetEnumerator();
+			foreach (var stat in GetStats(context))
 			{
-				inputsEnumerator.MoveNext ();
+				inputsEnumerator.MoveNext();
 				var currentInput = inputsEnumerator.Current[context];
 
-				var modifier = stat.AddFlatModifier (currentInput.Value);
+				var modifier = stat.AddFlatModifier(currentInput.Value);
 				currentInput.OnAfterChanged += () => modifier.Value = currentInput.Value;
 			}
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

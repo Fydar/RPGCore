@@ -11,7 +11,7 @@ namespace RPGCore
 		{
 			get
 			{
-				return typeof (StatCollection<>);
+				return typeof(StatCollection<>);
 			}
 		}
 	}
@@ -23,7 +23,7 @@ namespace RPGCore
 		{
 			get
 			{
-				return typeof (WeaponStatCollection<>);
+				return typeof(WeaponStatCollection<>);
 			}
 		}
 	}
@@ -35,7 +35,7 @@ namespace RPGCore
 		{
 			get
 			{
-				return typeof (ArmourStatCollection<>);
+				return typeof(ArmourStatCollection<>);
 			}
 		}
 	}
@@ -47,7 +47,7 @@ namespace RPGCore
 		{
 			get
 			{
-				return typeof (EquipmentCollection<>);
+				return typeof(EquipmentCollection<>);
 			}
 		}
 	}
@@ -59,7 +59,7 @@ namespace RPGCore
 		{
 			get
 			{
-				return typeof (StateCollection<>);
+				return typeof(StateCollection<>);
 			}
 		}
 	}
@@ -92,16 +92,16 @@ namespace RPGCore
 			{
 				if (entryIndex == -1)
 				{
-					var collection = EnumerableCollection.GetReflectionInformation (IndexType);
+					var collection = EnumerableCollection.GetReflectionInformation(IndexType);
 
-					entryIndex = collection.IndexOf (field);
+					entryIndex = collection.IndexOf(field);
 				}
 
 				return entryIndex;
 			}
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return Field + "(" + Index + ")";
 		}

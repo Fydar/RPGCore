@@ -39,7 +39,7 @@ namespace RPGCore.Utility.InspectorLog
 			private readonly int filePathID;
 			private readonly int fileLine;
 
-			public LogItem (string message, LogCategory logCategory, int pathHash, int line)
+			public LogItem(string message, LogCategory logCategory, int pathHash, int line)
 			{
 				content = message;
 				filePathID = pathHash;
@@ -55,28 +55,30 @@ namespace RPGCore.Utility.InspectorLog
 #endif
 
 #if OPEN_SCRIPT
-			public void Execute ()
+			public void Execute()
 			{
 				string filePath = paths[filePathID];
 
 				if (pathRemoveIndex == -1)
+				{
 					pathRemoveIndex = Application.dataPath.Length - 6;
+				}
 
-				filePath = filePath.Substring (pathRemoveIndex);
-				AssetDatabase.OpenAsset (AssetDatabase.LoadAssetAtPath (filePath, typeof (MonoScript)), fileLine);
+				filePath = filePath.Substring(pathRemoveIndex);
+				AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath(filePath, typeof(MonoScript)), fileLine);
 			}
 #endif
 		}
 
 #if OPEN_SCRIPT
-		private static Dictionary<int, string> paths = new Dictionary<int, string> ();
+		private static Dictionary<int, string> paths = new Dictionary<int, string>();
 		private static int pathRemoveIndex = -1;
 #endif
 
 		public event Action<LogItem> OnLogged;
 
 		[NonSerialized]
-		private List<LogItem> logHistory = new List<LogItem> ();
+		private List<LogItem> logHistory = new List<LogItem>();
 
 		public bool ShowIndex { get; }
 		public bool Expandable { get; }
@@ -86,7 +88,9 @@ namespace RPGCore.Utility.InspectorLog
 			get
 			{
 				if (logHistory == null)
+				{
 					return 0;
+				}
 
 				return logHistory.Count;
 			}
@@ -100,57 +104,64 @@ namespace RPGCore.Utility.InspectorLog
 			}
 		}
 
-		public InspectorLog (bool showIndex = true, bool expandable = false)
+		public InspectorLog(bool showIndex = true, bool expandable = false)
 		{
 			ShowIndex = showIndex;
 			Expandable = expandable;
 		}
 
 #if UNITY_EDITOR && OPEN_SCRIPT
-		public void Log (string message,
+		public void Log(string message,
 			[CallerFilePath] string sourceFilePath = "",
 			[CallerLineNumber] int sourceLineNumber = 0)
 		{
-			Log (message, LogCategory.Debug, sourceFilePath, sourceLineNumber);
+			Log(message, LogCategory.Debug, sourceFilePath, sourceLineNumber);
 		}
 
-		public void LogInfo (string message,
+		public void LogInfo(string message,
 			[CallerFilePath] string sourceFilePath = "",
 			[CallerLineNumber] int sourceLineNumber = 0)
 		{
-			Log (message, LogCategory.Info, sourceFilePath, sourceLineNumber);
+			Log(message, LogCategory.Info, sourceFilePath, sourceLineNumber);
 		}
 
-		public void LogWarning (string message,
+		public void LogWarning(string message,
 			[CallerFilePath] string sourceFilePath = "",
 			[CallerLineNumber] int sourceLineNumber = 0)
 		{
-			Log (message, LogCategory.Warning, sourceFilePath, sourceLineNumber);
+			Log(message, LogCategory.Warning, sourceFilePath, sourceLineNumber);
 		}
 
-		public void LogError (string message,
+		public void LogError(string message,
 			[CallerFilePath] string sourceFilePath = "",
 			[CallerLineNumber] int sourceLineNumber = 0)
 		{
-			Log (message, LogCategory.Error, sourceFilePath, sourceLineNumber);
+			Log(message, LogCategory.Error, sourceFilePath, sourceLineNumber);
 		}
 
-		public void Log (string message, LogCategory category,
+		public void Log(string message, LogCategory category,
 			[CallerFilePath] string sourceFilePath = "",
 			[CallerLineNumber] int sourceLineNumber = 0)
 		{
-			int pathHash = sourceFilePath.GetHashCode ();
+			int pathHash = sourceFilePath.GetHashCode();
 
-			if (!paths.ContainsKey (pathHash))
-				paths.Add (pathHash, sourceFilePath);
+			if (!paths.ContainsKey(pathHash))
+			{
+				paths.Add(pathHash, sourceFilePath);
+			}
 
-			var item = new LogItem (message, category, pathHash, sourceLineNumber);
+			var item = new LogItem(message, category, pathHash, sourceLineNumber);
 			if (logHistory == null)
-				logHistory = new List<LogItem> ();
-			logHistory.Add (item);
+			{
+				logHistory = new List<LogItem>();
+			}
+
+			logHistory.Add(item);
 
 			if (OnLogged != null)
-				OnLogged (item);
+			{
+				OnLogged(item);
+			}
 		}
 #else
         public void Log(string message)
@@ -185,14 +196,14 @@ namespace RPGCore.Utility.InspectorLog
         }
 #endif
 
-		public void Clear ()
+		public void Clear()
 		{
-			logHistory.Clear ();
+			logHistory.Clear();
 		}
 	}
 
 #if UNITY_EDITOR
-	[CustomPropertyDrawer (typeof (InspectorLog))]
+	[CustomPropertyDrawer(typeof(InspectorLog))]
 	internal class InspectorLogDrawer : PropertyDrawer
 	{
 		private static GUIStyle logEntryStyle;
@@ -209,27 +220,27 @@ namespace RPGCore.Utility.InspectorLog
 
 		private readonly int logSize = 12;
 
-		private Vector2 Offset = new Vector2 (float.MinValue, 0);
+		private Vector2 Offset = new Vector2(float.MinValue, 0);
 		private int SelectedIndex = -1;
 
 		private UnityEngine.Object logParent;
 		private InspectorLog log;
 
-		public override bool CanCacheInspectorGUI (SerializedProperty property)
+		public override bool CanCacheInspectorGUI(SerializedProperty property)
 		{
 			return false;
 		}
 
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			if (log == null)
 			{
-				log = (InspectorLog)AdvancedGUI.GetTargetObjectOfProperty (property);
+				log = (InspectorLog)AdvancedGUI.GetTargetObjectOfProperty(property);
 				logParent = property.serializedObject.targetObject;
 
 				log.OnLogged += (InspectorLog.LogItem item) =>
 				{
-					EditorUtility.SetDirty (logParent);
+					EditorUtility.SetDirty(logParent);
 				};
 			}
 
@@ -243,11 +254,11 @@ namespace RPGCore.Utility.InspectorLog
 			return height;
 		}
 
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			if (logEntryStyle == null)
 			{
-				logEntryStyle = new GUIStyle (EditorStyles.helpBox)
+				logEntryStyle = new GUIStyle(EditorStyles.helpBox)
 				{
 					clipping = TextClipping.Clip,
 					wordWrap = false
@@ -266,37 +277,37 @@ namespace RPGCore.Utility.InspectorLog
 				logTextStyle.padding = logEntryStyle.padding;
 				logTextStyle.richText = true;
 
-				elipsisStyle = new GUIStyle (logTextStyle);
+				elipsisStyle = new GUIStyle(logTextStyle);
 				elipsisStyle.padding.left = 0;
-				elipsisStyle.contentOffset = new Vector2 (0, elipsisStyle.contentOffset.y);
+				elipsisStyle.contentOffset = new Vector2(0, elipsisStyle.contentOffset.y);
 
-				DebugIcon = EditorGUIUtility.IconContent ("IN-AddComponentRight", "").image;
-				InfoIcon = EditorGUIUtility.IconContent ("console.infoicon.sml", "").image;
-				WarningIcon = EditorGUIUtility.IconContent ("console.warnicon.sml", "").image;
-				ErrorIcon = EditorGUIUtility.IconContent ("console.erroricon.sml", "").image;
-				ConsoleIcon = EditorGUIUtility.IconContent ("UnityEditor.ConsoleWindow", "").image;
-				SendIcon = EditorGUIUtility.IconContent ("CollabPush", "").image;
-				ReceiveIcon = EditorGUIUtility.IconContent ("CollabPull", "").image;
+				DebugIcon = EditorGUIUtility.IconContent("IN-AddComponentRight", "").image;
+				InfoIcon = EditorGUIUtility.IconContent("console.infoicon.sml", "").image;
+				WarningIcon = EditorGUIUtility.IconContent("console.warnicon.sml", "").image;
+				ErrorIcon = EditorGUIUtility.IconContent("console.erroricon.sml", "").image;
+				ConsoleIcon = EditorGUIUtility.IconContent("UnityEditor.ConsoleWindow", "").image;
+				SendIcon = EditorGUIUtility.IconContent("CollabPush", "").image;
+				ReceiveIcon = EditorGUIUtility.IconContent("CollabPull", "").image;
 			}
 
-			label = new GUIContent (label.text, ConsoleIcon, label.tooltip);
+			label = new GUIContent(label.text, ConsoleIcon, label.tooltip);
 
-			var headerRect = new Rect (position)
+			var headerRect = new Rect(position)
 			{
 				height = EditorGUIUtility.singleLineHeight
 			};
-			var viewRect = new Rect (position)
+			var viewRect = new Rect(position)
 			{
 				yMin = headerRect.yMax
 			};
 
 			if (log.Expandable)
 			{
-				EditorGUI.BeginChangeCheck ();
-				property.isExpanded = EditorGUI.Foldout (headerRect, property.isExpanded, label, true);
-				if (EditorGUI.EndChangeCheck ())
+				EditorGUI.BeginChangeCheck();
+				property.isExpanded = EditorGUI.Foldout(headerRect, property.isExpanded, label, true);
+				if (EditorGUI.EndChangeCheck())
 				{
-					EditorUtility.SetDirty (property.serializedObject.targetObject);
+					EditorUtility.SetDirty(property.serializedObject.targetObject);
 				}
 
 				if (!property.isExpanded)
@@ -306,7 +317,7 @@ namespace RPGCore.Utility.InspectorLog
 			}
 			else
 			{
-				EditorGUI.LabelField (headerRect, label);
+				EditorGUI.LabelField(headerRect, label);
 			}
 
 			int elements = 0;
@@ -314,34 +325,47 @@ namespace RPGCore.Utility.InspectorLog
 			{
 				elements = log.Count;
 			}
-			foreach (var element in new UniformScrollController (viewRect, EditorGUIUtility.singleLineHeight, ref Offset, elements))
+			foreach (var element in new UniformScrollController(viewRect, EditorGUIUtility.singleLineHeight, ref Offset, elements))
 			{
 				if (element.Index >= log.Count)
+				{
 					continue;
-				DrawElement (element.Index, log[element.Index], element.Position);
+				}
+
+				DrawElement(element.Index, log[element.Index], element.Position);
 			}
 		}
 
-		private void DrawElement (int index, InspectorLog.LogItem item, Rect logRect)
+		private void DrawElement(int index, InspectorLog.LogItem item, Rect logRect)
 		{
 			if (Event.current.type == EventType.Repaint)
 			{
 				var originalColor = GUI.color;
 				if (SelectedIndex == index)
-					GUI.color = new Color (0.25f, 0.45f, 1.0f, 1.0f);
+				{
+					GUI.color = new Color(0.25f, 0.45f, 1.0f, 1.0f);
+				}
 				else
 				if (index % 2 == 0)
-					GUI.color = new Color (0.8f, 0.8f, 0.8f, 1.0f);
+				{
+					GUI.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
+				}
 				else
-					GUI.color = new Color (0.7f, 0.7f, 0.7f, 1.0f);
+				{
+					GUI.color = new Color(0.7f, 0.7f, 0.7f, 1.0f);
+				}
 
 				string content;
 				if (log.ShowIndex)
-					content = index.ToString () + ": " + item.content;
+				{
+					content = index.ToString() + ": " + item.content;
+				}
 				else
+				{
 					content = item.content;
+				}
 
-				logEntryStyle.Draw (logRect, false, false, false, false);
+				logEntryStyle.Draw(logRect, false, false, false, false);
 
 				Texture icon = null;
 				switch (item.category)
@@ -366,61 +390,61 @@ namespace RPGCore.Utility.InspectorLog
 						break;
 				}
 
-				TextCroppingField (logRect, new GUIContent (content, icon));
+				TextCroppingField(logRect, new GUIContent(content, icon));
 				GUI.color = originalColor;
 			}
 			else if (Event.current.type == EventType.MouseDown)
 			{
-				if (logRect.Contains (Event.current.mousePosition))
+				if (logRect.Contains(Event.current.mousePosition))
 				{
 					SelectedIndex = index;
 					if (Event.current.clickCount == 2)
 					{
 #if OPEN_SCRIPT
-						ExecuteAction (item);
+						ExecuteAction(item);
 #endif
 					}
-					Event.current.Use ();
+					Event.current.Use();
 				}
 			}
 		}
 
-		private void TextCroppingField (Rect rect, GUIContent content)
+		private void TextCroppingField(Rect rect, GUIContent content)
 		{
-			var textContent = new GUIContent (content.text);
-			float width = logTextStyle.CalcSize (textContent).x;
+			var textContent = new GUIContent(content.text);
+			float width = logTextStyle.CalcSize(textContent).x;
 
-			var iconRect = new Rect (rect.x, rect.y, rect.height, rect.height);
-			rect = new Rect (iconRect.xMax, iconRect.y, rect.width - iconRect.width, rect.height);
+			var iconRect = new Rect(rect.x, rect.y, rect.height, rect.height);
+			rect = new Rect(iconRect.xMax, iconRect.y, rect.width - iconRect.width, rect.height);
 
 			iconRect.x += logEntryStyle.padding.left * 0.5f;
 
 			if (width > rect.width)
 			{
-				float elipsisWidth = elipsisStyle.CalcSize (new GUIContent ("...")).x;
+				float elipsisWidth = elipsisStyle.CalcSize(new GUIContent("...")).x;
 
-				rect = new Rect (rect.x, rect.y, rect.width - elipsisWidth, rect.height);
-				var elipsisRect = new Rect (rect.xMax, rect.y, elipsisWidth, rect.height);
+				rect = new Rect(rect.x, rect.y, rect.width - elipsisWidth, rect.height);
+				var elipsisRect = new Rect(rect.xMax, rect.y, elipsisWidth, rect.height);
 
 				GUI.color = Color.red;
-				logTextStyle.Draw (rect, textContent, false, false, false, false);
-				elipsisStyle.Draw (elipsisRect, "...", false, false, false, false);
+				logTextStyle.Draw(rect, textContent, false, false, false, false);
+				elipsisStyle.Draw(elipsisRect, "...", false, false, false, false);
 			}
 			else
 			{
-				logTextStyle.Draw (rect, textContent, false, false, false, false);
+				logTextStyle.Draw(rect, textContent, false, false, false, false);
 			}
 
 			var originalColor = GUI.color;
 			GUI.color = Color.white;
-			GUI.Box (iconRect, content.image, EditorStyles.label);
+			GUI.Box(iconRect, content.image, EditorStyles.label);
 			GUI.color = originalColor;
 		}
 
 #if OPEN_SCRIPT
-		private static void ExecuteAction (InspectorLog.LogItem item)
+		private static void ExecuteAction(InspectorLog.LogItem item)
 		{
-			item.Execute ();
+			item.Execute();
 		}
 #endif
 	}

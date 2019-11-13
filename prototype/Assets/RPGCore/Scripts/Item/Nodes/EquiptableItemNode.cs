@@ -3,7 +3,7 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Equiptable Input", "Input", OnlyOne = true)]
+	[NodeInformation("Item/Equiptable Input", "Input", OnlyOne = true)]
 	public class EquiptableItemNode : BehaviourNode, IInputNode<ItemSurrogate>
 	{
 		public Slot slot;
@@ -11,15 +11,15 @@ namespace RPGCore
 		public BoolOutput Equipped;
 		public int RequiredLevel = 1;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 
-		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
+		public void SetTarget(IBehaviourContext context, ItemSurrogate target)
 		{
 			/*ItemSurrogate item = (ItemSurrogate)context;
 			ConnectionEntry<bool> equippedOutput = Equipped[context];

@@ -5,35 +5,35 @@ public abstract class ConsoleMenu : ConsoleCommand
 {
 	public Dictionary<string, ConsoleCommand> Commands;
 
-	protected ConsoleMenu ()
+	protected ConsoleMenu()
 	{
-		BuildCommands ();
+		BuildCommands();
 	}
 
-	public abstract void BuildCommands ();
+	public abstract void BuildCommands();
 
-	public override void Run (string[] parameters, int offset = 0)
+	public override void Run(string[] parameters, int offset = 0)
 	{
 		if (parameters.Length == offset)
 		{
-			Debug.Log (Help ());
+			Debug.Log(Help());
 			return;
 		}
 
-		string commandID = parameters[offset].ToLower ();
+		string commandID = parameters[offset].ToLower();
 
 		offset++;
 
-		Commands[commandID].Run (parameters, offset);
+		Commands[commandID].Run(parameters, offset);
 	}
 
-	public override string Help ()
+	public override string Help()
 	{
 		string helpString = "Sub Menus:";
 
 		foreach (var command in Commands)
 		{
-			helpString += "\n\t" + command.Key + ": " + command.Value.GetType ().Name;
+			helpString += "\n\t" + command.Key + ": " + command.Value.GetType().Name;
 		}
 
 		return helpString;

@@ -8,22 +8,22 @@ namespace RPGCore.UI
 		public string Label;
 		public Action OnClick;
 
-		public ContextButton (string label, Action onClick)
+		public ContextButton(string label, Action onClick)
 		{
 			Label = label;
 			OnClick = onClick;
 		}
 
-		public void Render (UIContextMenu menu, RectTransform holder)
+		public void Render(UIContextMenu menu, RectTransform holder)
 		{
-			var button = menu.ButtonPool.Grab (holder);
-			button.Setup (menu, this);
+			var button = menu.ButtonPool.Grab(holder);
+			button.Setup(menu, this);
 		}
 	}
 
 	public struct ContextNone : IContextEntry
 	{
-		public void Render (UIContextMenu menu, RectTransform holder)
+		public void Render(UIContextMenu menu, RectTransform holder)
 		{
 		}
 	}

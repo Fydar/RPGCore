@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPGCore.Behaviour.Math
 {
-	[NodeInformation ("Int/Multiply")]
+	[NodeInformation("Int/Multiply")]
 	public class IntMultiplyNode : BehaviourNode
 	{
 		public IntInput ValueA;
@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour.Math
 
 		public IntOutput Output;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			ConnectionEntry<int> valueAInput = ValueA[context];
 			ConnectionEntry<int> valueBInput = ValueB[context];
@@ -26,17 +26,17 @@ namespace RPGCore.Behaviour.Math
 			valueAInput.OnAfterChanged += updateHandler;
 			valueBInput.OnAfterChanged += updateHandler;
 
-			updateHandler ();
+			updateHandler();
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 
 #if UNITY_EDITOR
-		public override Vector2 GetDiamentions ()
+		public override Vector2 GetDiamentions()
 		{
-			return new Vector2 (140, 54);
+			return new Vector2(140, 54);
 		}
 #endif
 	}

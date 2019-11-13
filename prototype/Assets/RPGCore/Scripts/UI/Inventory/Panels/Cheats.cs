@@ -20,87 +20,87 @@ namespace RPGCore.Inventories
 		[Space]
 		public ItemGenerator[] CheatItems;
 
-		private void Start ()
+		private void Start()
 		{
 			for (int i = 0; i < CheatItems.Length; i++)
 			{
 				var generator = CheatItems[i];
 
-				var clone = Instantiate (ButtonPrefab, Vector3.zero, Quaternion.identity, ParentHolder) as GameObject;
+				var clone = Instantiate(ButtonPrefab, Vector3.zero, Quaternion.identity, ParentHolder) as GameObject;
 				clone.transform.localScale = Vector3.one;
 				clone.transform.localRotation = Quaternion.identity;
-				clone.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.zero;
+				clone.GetComponent<RectTransform>().anchoredPosition3D = Vector3.zero;
 
 				int cheatIndex = i;
 
-				var button = clone.GetComponent<Button> ();
-				button.onClick.AddListener (new UnityAction (() =>
-				{
-					CheatItem (cheatIndex);
-				}));
+				var button = clone.GetComponent<Button>();
+				button.onClick.AddListener(new UnityAction(() =>
+			  {
+				  CheatItem(cheatIndex);
+			  }));
 
-				var slotRenderer = clone.GetComponent<ItemRenderer> ();
+				var slotRenderer = clone.GetComponent<ItemRenderer>();
 
-				slotRenderer.RenderGenerator (generator);
+				slotRenderer.RenderGenerator(generator);
 			}
 		}
 
-		public void CheatItem (int index)
+		public void CheatItem(int index)
 		{
 			if (index >= CheatItems.Length)
 			{
-				throw new System.ArgumentOutOfRangeException ("index", "The index provided is out of range.");
+				throw new System.ArgumentOutOfRangeException("index", "The index provided is out of range.");
 			}
 
 			var generator = CheatItems[index];
 
-			var item = generator.Generate ();
+			var item = generator.Generate();
 
-			Character.inventory.Add (item);
+			Character.inventory.Add(item);
 		}
 	}
 
 #if UNITY_EDITOR
-	[CustomEditor (typeof (Cheats))]
+	[CustomEditor(typeof(Cheats))]
 	public class CheatsEditor : Editor
 	{
 		private ReorderableList list;
 
-		private void OnEnable ()
+		private void OnEnable()
 		{
 			var cheats = (Cheats)target;
 
-			list = new ReorderableList (serializedObject, serializedObject.FindProperty ("CheatItems"));
+			list = new ReorderableList(serializedObject, serializedObject.FindProperty("CheatItems"));
 
 			list.drawHeaderCallback += (rect) =>
 			{
-				EditorGUI.LabelField (rect, "Cheat Items", EditorStyles.boldLabel);
+				EditorGUI.LabelField(rect, "Cheat Items", EditorStyles.boldLabel);
 			};
 
 			list.drawElementCallback += (Rect rect, int index, bool isActive, bool isFocused) =>
 			{
-				var element = list.serializedProperty.GetArrayElementAtIndex (index);
+				var element = list.serializedProperty.GetArrayElementAtIndex(index);
 				rect.y += 2;
-				EditorGUI.PropertyField (
-					new Rect (rect.x, rect.y, rect.width, rect.height),
+				EditorGUI.PropertyField(
+					new Rect(rect.x, rect.y, rect.width, rect.height),
 					element, GUIContent.none);
 			};
 
 			list.elementHeightCallback += (index) =>
 			{
-				var element = list.serializedProperty.GetArrayElementAtIndex (index);
+				var element = list.serializedProperty.GetArrayElementAtIndex(index);
 
-				return EditorGUI.GetPropertyHeight (element) + 4;
+				return EditorGUI.GetPropertyHeight(element) + 4;
 			};
 		}
 
-		public override void OnInspectorGUI ()
+		public override void OnInspectorGUI()
 		{
-			DrawDefaultInspector (); ;
+			DrawDefaultInspector(); ;
 
-			serializedObject.Update ();
-			list.DoLayoutList ();
-			serializedObject.ApplyModifiedProperties ();
+			serializedObject.Update();
+			list.DoLayoutList();
+			serializedObject.ApplyModifiedProperties();
 		}
 	}
 #endif

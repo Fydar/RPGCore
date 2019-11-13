@@ -6,9 +6,9 @@ namespace RPGCore
 	{
 		public float DestroyAfter = 2.0f;
 
-		private void Start ()
+		private void Start()
 		{
-			Destroy (gameObject, DestroyAfter);
+			Destroy(gameObject, DestroyAfter);
 		}
 	}
 }

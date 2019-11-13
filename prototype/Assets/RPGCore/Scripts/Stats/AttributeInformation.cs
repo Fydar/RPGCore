@@ -27,12 +27,12 @@ namespace RPGCore.Stats
 			Float,
 		}
 
-		[Header ("Information")]
+		[Header("Information")]
 		public string Name = "New State";
-		[TextArea (3, 5)]
+		[TextArea(3, 5)]
 		public string Description = "New Description";
 
-		[Header ("Display")]
+		[Header("Display")]
 		public string renderFormat = "{0.##}";
 
 		[Space]
@@ -43,11 +43,11 @@ namespace RPGCore.Stats
 		public string multiplierPositiveFormat = "{0.##}% increased {name}";
 		public string multiplierNegativeFormat = "{0.##}% reduced {name}";
 
-		[Header ("Usage")]
+		[Header("Usage")]
 		public Accuracy accuracy = Accuracy.Float;
 		public Rounding rounding = Rounding.Round;
 
-		public virtual float Filter (float original)
+		public virtual float Filter(float original)
 		{
 			int multiple = 0;
 
@@ -78,47 +78,47 @@ namespace RPGCore.Stats
 				switch (rounding)
 				{
 					case Rounding.Round:
-						return Mathf.Round (original * multiple) / multiple;
+						return Mathf.Round(original * multiple) / multiple;
 
 					case Rounding.Floor:
-						return Mathf.Floor (original * multiple) / multiple;
+						return Mathf.Floor(original * multiple) / multiple;
 
 					case Rounding.Ceil:
-						return Mathf.Ceil (original * multiple) / multiple;
+						return Mathf.Ceil(original * multiple) / multiple;
 				}
 			}
 
 			return original;
 		}
 
-		public virtual string RenderValue (float value)
+		public virtual string RenderValue(float value)
 		{
-			value = Filter (value);
+			value = Filter(value);
 
-			string render = renderFormat.Replace ("{name}", Name);
+			string render = renderFormat.Replace("{name}", Name);
 
-			int start = render.IndexOf ('{');
-			int end = render.IndexOf ('}');
+			int start = render.IndexOf('{');
+			int end = render.IndexOf('}');
 
-			string toStringController = render.Substring (start + 1, end - start - 1);
+			string toStringController = render.Substring(start + 1, end - start - 1);
 
-			string valueFormatted = value.ToString (toStringController);
+			string valueFormatted = value.ToString(toStringController);
 
-			string prefix = render.Substring (0, start);
-			string suffix = render.Substring (end + 1, render.Length - end - 1);
+			string prefix = render.Substring(0, start);
+			string suffix = render.Substring(end + 1, render.Length - end - 1);
 
 			render = prefix + valueFormatted + suffix;
 
 			return render;
 		}
 
-		public string RenderModifier (float value, ModifierType modifierType)
+		public string RenderModifier(float value, ModifierType modifierType)
 		{
 			string format;
 
 			if (modifierType == ModifierType.Additive)
 			{
-				value = Filter (value);
+				value = Filter(value);
 				format = (value > 0) ? positiveFormat : negativeFormat;
 			}
 			else
@@ -126,19 +126,19 @@ namespace RPGCore.Stats
 				format = (value > 0) ? multiplierPositiveFormat : multiplierNegativeFormat;
 				value = value * 100;
 			}
-			value = Mathf.Abs (value);
+			value = Mathf.Abs(value);
 
-			string render = format.Replace ("{name}", Name);
+			string render = format.Replace("{name}", Name);
 
-			int start = render.IndexOf ('{');
-			int end = render.IndexOf ('}');
+			int start = render.IndexOf('{');
+			int end = render.IndexOf('}');
 
-			string toStringController = render.Substring (start + 1, end - start - 1);
+			string toStringController = render.Substring(start + 1, end - start - 1);
 
-			string valueFormatted = value.ToString (toStringController);
+			string valueFormatted = value.ToString(toStringController);
 
-			string prefix = render.Substring (0, start);
-			string suffix = render.Substring (end + 1, render.Length - end - 1);
+			string prefix = render.Substring(0, start);
+			string suffix = render.Substring(end + 1, render.Length - end - 1);
 
 			render = prefix + valueFormatted + suffix;
 

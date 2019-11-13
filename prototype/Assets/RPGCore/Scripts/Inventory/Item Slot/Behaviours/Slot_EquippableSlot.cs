@@ -4,31 +4,35 @@ namespace RPGCore.Inventories
 {
 	public class Slot_EquippableSlot : ItemSlotBehaviour
 	{
-		public override void OnEnterSlot (ItemSlot target)
+		public override void OnEnterSlot(ItemSlot target)
 		{
-			var equiptable = target.Item.Template.GetNode<EquiptableItemNode> ();
+			var equiptable = target.Item.Template.GetNode<EquiptableItemNode>();
 
 			if (equiptable == null)
+			{
 				return;
+			}
 
 			equiptable.Equipped[target.Item].Value = true;
 		}
 
-		public override void OnExitSlot (ItemSlot target)
+		public override void OnExitSlot(ItemSlot target)
 		{
-			var equiptable = target.Item.Template.GetNode<EquiptableItemNode> ();
+			var equiptable = target.Item.Template.GetNode<EquiptableItemNode>();
 
 			if (equiptable == null)
+			{
 				return;
+			}
 
 			equiptable.Equipped[target.Item].Value = false;
 		}
 
-		public override void OnSlotEnable (ItemSlot target)
+		public override void OnSlotEnable(ItemSlot target)
 		{
 		}
 
-		public override void OnSlotDisable (ItemSlot target)
+		public override void OnSlotDisable(ItemSlot target)
 		{
 		}
 	}

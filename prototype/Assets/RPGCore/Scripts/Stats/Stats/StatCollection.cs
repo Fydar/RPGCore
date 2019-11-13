@@ -4,7 +4,7 @@ namespace RPGCore
 {
 	public class StatCollection<T> : EnumerableCollection<T>
 	{
-		[Header ("General")]
+		[Header("General")]
 		public T Attack;
 		public T AttackSpeed;
 		public T CriticalStrikeChance;
@@ -15,12 +15,12 @@ namespace RPGCore
 		public T Armour;
 		public T MagicResistance;
 
-		[Header ("Health")]
+		[Header("Health")]
 		public T MaxHealth;
 		public T HealthRegeneration;
 		public T HealthRegenerationDelay;
 
-		[Header ("Mana")]
+		[Header("Mana")]
 		public T MaxMana;
 		public T ManaRegeneration;
 		public T ManaRegenerationDelay;

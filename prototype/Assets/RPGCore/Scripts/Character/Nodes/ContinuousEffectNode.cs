@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[NodeInformation ("Character/Continuous Effect", "VFX")]
+	[NodeInformation("Character/Continuous Effect", "VFX")]
 	public class ContinuousEffectNode : BehaviourNode
 	{
 		[ErrorIfNull]
@@ -14,43 +14,43 @@ namespace RPGCore
 		public CharacterInput Target;
 		public BoolInput Whilst;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var whilstInput = Whilst[context];
 
-			var visualEffect = Instantiate (Effect) as ContinuousEffect;
-			visualEffect.gameObject.SetActive (false);
+			var visualEffect = Instantiate(Effect) as ContinuousEffect;
+			visualEffect.gameObject.SetActive(false);
 
 			Action changeHandler = () =>
 			{
 				if (targetInput.Value == null)
 				{
-					visualEffect.transform.SetParent (null);
-					visualEffect.gameObject.SetActive (false);
+					visualEffect.transform.SetParent(null);
+					visualEffect.gameObject.SetActive(false);
 					return;
 				}
 
 				if (whilstInput.Value)
 				{
-					visualEffect.transform.SetParent (targetInput.Value.transform);
-					visualEffect.gameObject.SetActive (true);
+					visualEffect.transform.SetParent(targetInput.Value.transform);
+					visualEffect.gameObject.SetActive(true);
 					visualEffect.transform.localPosition = Vector3.zero;
 				}
 				else
 				{
-					visualEffect.transform.SetParent (null);
-					visualEffect.gameObject.SetActive (false);
+					visualEffect.transform.SetParent(null);
+					visualEffect.gameObject.SetActive(false);
 				}
 			};
 
-			changeHandler ();
+			changeHandler();
 
 			targetInput.OnAfterChanged += changeHandler;
 			whilstInput.OnAfterChanged += changeHandler;
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

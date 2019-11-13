@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[NodeInformation ("Buff/Buff Whilst")]
+	[NodeInformation("Buff/Buff Whilst")]
 	public class BuffWhilstNode : BehaviourNode
 	{
 		public enum ApplyMode
@@ -27,7 +27,7 @@ namespace RPGCore
 		public IntInput StackSize;
 		public FloatInput TicksPerSecond;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var whilstInput = Whilst[context];
@@ -41,7 +41,9 @@ namespace RPGCore
 			Action changeHandler = () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				if (whilstInput.Value)
 				{
@@ -49,37 +51,37 @@ namespace RPGCore
 					{
 						if (Mode == ApplyMode.Add)
 						{
-							buff = new Buff (this, context);
-							BuffClock buffClock = new BuffClockFixed (this, context);
+							buff = new Buff(this, context);
+							BuffClock buffClock = new BuffClockFixed(this, context);
 
-							modifier = buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+							modifier = buffClock.StackSize.AddFlatModifier(stackSizeInput.Value);
 
-							buff.AddClock (buffClock);
+							buff.AddClock(buffClock);
 
-							targetInput.Value.Buffs.Add (buff);
+							targetInput.Value.Buffs.Add(buff);
 						}
 						else
 						{
-							buff = targetInput.Value.Buffs.Find (BuffToApply);
+							buff = targetInput.Value.Buffs.Find(BuffToApply);
 
 							if (buff == null)
 							{
-								buff = new Buff (this, context);
-								targetInput.Value.Buffs.Add (buff);
+								buff = new Buff(this, context);
+								targetInput.Value.Buffs.Add(buff);
 							}
 
-							BuffClock buffClock = new BuffClockFixed (this, context);
+							BuffClock buffClock = new BuffClockFixed(this, context);
 
-							modifier = buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+							modifier = buffClock.StackSize.AddFlatModifier(stackSizeInput.Value);
 
-							buff.AddClock (buffClock);
+							buff.AddClock(buffClock);
 						}
 						isActive = true;
 					}
 				}
 				else if (isActive)
 				{
-					targetInput.Value.Buffs.Remove (buff);
+					targetInput.Value.Buffs.Remove(buff);
 					isActive = false;
 				};
 			};
@@ -93,26 +95,30 @@ namespace RPGCore
 				}
 
 				if (!isActive)
+				{
 					return;
+				}
 
-				Debug.Log ("Ending");
-				targetInput.Value.Buffs.Remove (buff);
+				Debug.Log("Ending");
+				targetInput.Value.Buffs.Remove(buff);
 				isActive = false;
 			};
 
 			stackSizeInput.OnAfterChanged += () =>
 			{
 				if (modifier != null)
+				{
 					modifier.Value = stackSizeInput.Value;
+				}
 			};
 
 			targetInput.OnAfterChanged += changeHandler;
 			whilstInput.OnAfterChanged += changeHandler;
 
-			changeHandler ();
+			changeHandler();
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

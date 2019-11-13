@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[CreateAssetMenu (menuName = "RPGCore/Buff")]
+	[CreateAssetMenu(menuName = "RPGCore/Buff")]
 	public class BuffTemplate : ScriptableObject, IBehaviourGraph
 	{
 		public string Name;
-		[TextArea (3, 6)]
+		[TextArea(3, 6)]
 		public string Description;
 
 #if ASSET_ICONS
@@ -18,7 +18,7 @@ namespace RPGCore
 
 		public BuffType Type;
 
-		[UnityEngine.Serialization.FormerlySerializedAs ("Nodes")]
+		[UnityEngine.Serialization.FormerlySerializedAs("Nodes")]
 		[SerializeField, HideInInspector] private List<BehaviourNode> nodes;
 
 		public List<BehaviourNode> AllNodes

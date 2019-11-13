@@ -5,17 +5,19 @@ namespace RPGCore.Stats
 	[Serializable]
 	public class WeaponStatInstanceCollection : WeaponStatCollection<StatInstance>
 	{
-		public void SetupReferences ()
+		public void SetupReferences()
 		{
-			var WeaponStats = GetEnumerator ();
-			var info = WeaponStatInformationDatabase.Instance.WeaponStatInfos.GetEnumerator ();
+			var WeaponStats = GetEnumerator();
+			var info = WeaponStatInformationDatabase.Instance.WeaponStatInfos.GetEnumerator();
 
-			while (WeaponStats.MoveNext ())
+			while (WeaponStats.MoveNext())
 			{
-				info.MoveNext ();
+				info.MoveNext();
 
 				if (info.Current == null)
+				{
 					continue;
+				}
 
 				WeaponStats.Current.Info = info.Current;
 			}

@@ -5,7 +5,7 @@ using System;
 
 namespace RPGCore
 {
-	[NodeInformation ("Character/Grant Stat", "Attribute")]
+	[NodeInformation("Character/Grant Stat", "Attribute")]
 	public class StatsNode : BehaviourNode, INodeDescription
 	{
 		public StatEntry entry;
@@ -17,20 +17,22 @@ namespace RPGCore
 		public AttributeInformation.ModifierType Scaling;
 		public string Display = "{0}";
 
-		public string Description (IBehaviourContext context)
+		public string Description(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var effectInput = Effect[context];
 
 			if (targetInput.Value == null)
+			{
 				return "";
+			}
 
 			var inst = targetInput.Value.Stats[entry];
 
-			return Display.Replace ("{0}", inst.Info.RenderModifier (effectInput.Value, Scaling));
+			return Display.Replace("{0}", inst.Info.RenderModifier(effectInput.Value, Scaling));
 		}
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var activeInput = Active[context];
@@ -42,16 +44,22 @@ namespace RPGCore
 			Action changeHandler = () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				if (activeInput.Value)
 				{
 					if (!isActive)
 					{
 						if (Scaling == AttributeInformation.ModifierType.Additive)
-							modifier = targetInput.Value.Stats[entry].AddFlatModifier (effectInput.Value);
+						{
+							modifier = targetInput.Value.Stats[entry].AddFlatModifier(effectInput.Value);
+						}
 						else
-							modifier = targetInput.Value.Stats[entry].AddMultiplierModifier (effectInput.Value);
+						{
+							modifier = targetInput.Value.Stats[entry].AddMultiplierModifier(effectInput.Value);
+						}
 
 						isActive = true;
 					}
@@ -59,9 +67,13 @@ namespace RPGCore
 				else if (isActive)
 				{
 					if (Scaling == AttributeInformation.ModifierType.Additive)
-						targetInput.Value.Stats[entry].RemoveFlatModifier (modifier);
+					{
+						targetInput.Value.Stats[entry].RemoveFlatModifier(modifier);
+					}
 					else
-						targetInput.Value.Stats[entry].RemoveMultiplierModifier (modifier);
+					{
+						targetInput.Value.Stats[entry].RemoveMultiplierModifier(modifier);
+					}
 
 					isActive = false;
 				}
@@ -76,12 +88,18 @@ namespace RPGCore
 				}
 
 				if (!isActive)
+				{
 					return;
+				}
 
 				if (Scaling == AttributeInformation.ModifierType.Additive)
-					targetInput.Value.Stats[entry].RemoveFlatModifier (modifier);
+				{
+					targetInput.Value.Stats[entry].RemoveFlatModifier(modifier);
+				}
 				else
-					targetInput.Value.Stats[entry].RemoveMultiplierModifier (modifier);
+				{
+					targetInput.Value.Stats[entry].RemoveMultiplierModifier(modifier);
+				}
 
 				isActive = false;
 			};
@@ -89,18 +107,20 @@ namespace RPGCore
 			targetInput.OnAfterChanged += changeHandler;
 			activeInput.OnAfterChanged += changeHandler;
 
-			changeHandler ();
+			changeHandler();
 
 			effectInput.OnAfterChanged += () =>
 			{
 				if (modifier == null)
+				{
 					return;
+				}
 
 				modifier.Value = effectInput.Value;
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

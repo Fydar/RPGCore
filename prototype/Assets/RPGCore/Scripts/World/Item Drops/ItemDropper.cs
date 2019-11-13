@@ -8,24 +8,24 @@ namespace RPGCore.World
 
 		public ItemDrop DropPrefab;
 
-		private void Awake ()
+		private void Awake()
 		{
 			instance = this;
 		}
 
-		public static void DropItem (Vector3 position, ItemSurrogate item)
+		public static void DropItem(Vector3 position, ItemSurrogate item)
 		{
 			if (instance == null)
 			{
-				Debug.LogError ("There is no ItemDropper in the world.");
+				Debug.LogError("There is no ItemDropper in the world.");
 				return;
 			}
 
-			var drop = Instantiate (instance.DropPrefab) as ItemDrop;
+			var drop = Instantiate(instance.DropPrefab) as ItemDrop;
 
 			drop.transform.position = position;
 
-			drop.SetItem (item);
+			drop.SetItem(item);
 		}
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPGCore.Behaviour.Math
 {
-	[NodeInformation ("Float/Random")]
+	[NodeInformation("Float/Random")]
 	public class FloatRandomNode : BehaviourNode
 	{
 		public EventInput Reroll;
@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour.Math
 
 		public FloatOutput Output;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var rerollInput = Reroll[context];
 			var minInput = Min[context];
@@ -24,31 +24,31 @@ namespace RPGCore.Behaviour.Math
 
 			Action outputHandlder = () =>
 			{
-				output.Value = Mathf.Lerp (minInput.Value, maxInput.Value, roll);
+				output.Value = Mathf.Lerp(minInput.Value, maxInput.Value, roll);
 			};
 
 			Action rerollHandler = () =>
 			{
-				roll = UnityEngine.Random.Range (0.0f, 1.0f);
+				roll = UnityEngine.Random.Range(0.0f, 1.0f);
 
-				outputHandlder ();
+				outputHandlder();
 			};
 
 			rerollInput.OnEventFired += rerollHandler;
 			minInput.OnAfterChanged += outputHandlder;
 			maxInput.OnAfterChanged += outputHandlder;
 
-			rerollHandler ();
+			rerollHandler();
 		}
 
-		protected override void OnRemove (IBehaviourContext character)
+		protected override void OnRemove(IBehaviourContext character)
 		{
 		}
 
 #if UNITY_EDITOR
-		public override Vector2 GetDiamentions ()
+		public override Vector2 GetDiamentions()
 		{
-			return new Vector2 (140, base.GetDiamentions ().y);
+			return new Vector2(140, base.GetDiamentions().y);
 		}
 #endif
 	}

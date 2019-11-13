@@ -6,12 +6,12 @@ namespace RPGCore.Inventories
 	{
 		private Canvas canvas;
 
-		private void Awake ()
+		private void Awake()
 		{
-			canvas = GetComponent<Canvas> ();
+			canvas = GetComponent<Canvas>();
 		}
 
-		public Vector3 ScreenToCanvas (Vector3 screen)
+		public Vector3 ScreenToCanvas(Vector3 screen)
 		{
 			if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
 			{
@@ -19,10 +19,10 @@ namespace RPGCore.Inventories
 			}
 
 			Vector2 pos;
-			RectTransformUtility.ScreenPointToLocalPointInRectangle (transform as RectTransform,
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform,
 				Input.mousePosition, Camera.main, out pos);
 
-			return transform.TransformPoint (pos);
+			return transform.TransformPoint(pos);
 		}
 	}
 }

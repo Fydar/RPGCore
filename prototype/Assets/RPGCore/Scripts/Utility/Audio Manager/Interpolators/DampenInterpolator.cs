@@ -13,7 +13,7 @@ namespace RPGCore.Audio
 		private float targetValue;
 		private float currentValue;
 
-		public DampenInterpolator (float speed)
+		public DampenInterpolator(float speed)
 		{
 			Speed = speed;
 
@@ -45,16 +45,18 @@ namespace RPGCore.Audio
 		{
 			get
 			{
-				return Mathf.Abs (targetValue - currentValue) < SPEED_THRESHHOLD;
+				return Mathf.Abs(targetValue - currentValue) < SPEED_THRESHHOLD;
 			}
 		}
 
-		public void Update (float deltaTime)
+		public void Update(float deltaTime)
 		{
 			if (Sleeping)
+			{
 				return;
+			}
 
-			currentValue = Mathf.Lerp (currentValue, targetValue, deltaTime * Speed);
+			currentValue = Mathf.Lerp(currentValue, targetValue, deltaTime * Speed);
 		}
 	}
 }

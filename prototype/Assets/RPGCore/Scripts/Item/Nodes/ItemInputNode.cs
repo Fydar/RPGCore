@@ -3,7 +3,7 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Item Input", "Input", OnlyOne = true)]
+	[NodeInformation("Item/Item Input", "Input", OnlyOne = true)]
 	public class ItemInputNode : BehaviourNode, IInputNode<ItemSurrogate>
 	{
 		public ItemOutput Item;
@@ -12,7 +12,7 @@ namespace RPGCore
 		public EventOutput OnLoose;
 		public IntOutput StackSize;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var ownerOutput = Owner[context];
 			var onReceiveOutput = OnReceive[context];
@@ -24,7 +24,7 @@ namespace RPGCore
 			{
 				if (ownerOutput.Value != null)
 				{
-					onLooseOutput.Invoke ();
+					onLooseOutput.Invoke();
 				}
 			};
 
@@ -32,19 +32,19 @@ namespace RPGCore
 			{
 				if (ownerOutput.Value != null)
 				{
-					onReceiveOutput.Invoke ();
+					onReceiveOutput.Invoke();
 				}
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 			var equippedOutput = Owner[context];
 
 			equippedOutput.Value = null;
 		}
 
-		public void SetTarget (IBehaviourContext context, ItemSurrogate target)
+		public void SetTarget(IBehaviourContext context, ItemSurrogate target)
 		{
 			Item[context].Value = target;
 

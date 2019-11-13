@@ -8,13 +8,13 @@ namespace RPGCore.Tables
 	{
 		public uint Rolls = 1;
 
-		public T[] SelectMultiple ()
+		public T[] SelectMultiple()
 		{
 			var selected = new T[Rolls];
 
 			for (uint i = 0; i < Rolls; i++)
 			{
-				selected[i] = Select ();
+				selected[i] = Select();
 			}
 
 			return selected;

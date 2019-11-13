@@ -7,7 +7,7 @@ namespace RPGCore.Quests
 	{
 		public QuestTemplate template;
 
-		public Quest (QuestTemplate _template)
+		public Quest(QuestTemplate _template)
 		{
 			template = _template;
 		}

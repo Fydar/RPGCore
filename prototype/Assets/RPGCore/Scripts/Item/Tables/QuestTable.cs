@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace RPGCore.Quests
 {
-	[CreateAssetMenu (menuName = "RPGCore/Quest Table")]
+	[CreateAssetMenu(menuName = "RPGCore/Quest Table")]
 	public class QuestTable : ScriptableObject
 	{
 		[System.Serializable]
 		public class EnchantmentEntry : GenericTableEntry<QuestTemplate>
 		{
-			public EnchantmentEntry (QuestTemplate item, float balance)
-				: base (item, balance) { }
+			public EnchantmentEntry(QuestTemplate item, float balance)
+				: base(item, balance) { }
 		}
 
 		[System.Serializable]
@@ -18,9 +18,9 @@ namespace RPGCore.Quests
 
 		public EnchantmentRoll PossibleEnchantments;
 
-		public QuestTemplate GetQuest ()
+		public QuestTemplate GetQuest()
 		{
-			return PossibleEnchantments.Select ();
+			return PossibleEnchantments.Select();
 		}
 	}
 }

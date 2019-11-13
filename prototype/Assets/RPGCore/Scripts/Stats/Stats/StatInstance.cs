@@ -26,17 +26,17 @@ namespace RPGCore.Stats
 				{
 					currentValue = value;
 					Parent.isDirty = true;
-					Parent.InvokeChanged ();
+					Parent.InvokeChanged();
 				}
 			}
 
-			public Modifier (StatInstance parent)
+			public Modifier(StatInstance parent)
 			{
 				Parent = parent;
 				Value = 0.0f;
 			}
 
-			public Modifier (StatInstance parent, float value)
+			public Modifier(StatInstance parent, float value)
 			{
 				Parent = parent;
 				Value = value;
@@ -50,9 +50,9 @@ namespace RPGCore.Stats
 		private float lastValue;
 		private bool isDirty = true;
 
-		private List<Modifier> MultBaseModifiers = new List<Modifier> ();
-		private List<Modifier> FlatModifiers = new List<Modifier> ();
-		private List<Modifier> MultModifiers = new List<Modifier> ();
+		private List<Modifier> MultBaseModifiers = new List<Modifier>();
+		private List<Modifier> FlatModifiers = new List<Modifier>();
+		private List<Modifier> MultModifiers = new List<Modifier>();
 
 		public override float Value
 		{
@@ -62,12 +62,14 @@ namespace RPGCore.Stats
 				{
 					float modifiedValue = baseValue;
 
-					modifiedValue *= GetMultiplier (MultBaseModifiers);
-					modifiedValue += Sum (FlatModifiers);
-					modifiedValue *= GetMultiplier (MultModifiers);
+					modifiedValue *= GetMultiplier(MultBaseModifiers);
+					modifiedValue += Sum(FlatModifiers);
+					modifiedValue *= GetMultiplier(MultModifiers);
 
 					if (Info != null)
-						modifiedValue = Info.Filter (modifiedValue);
+					{
+						modifiedValue = Info.Filter(modifiedValue);
+					}
 
 					lastValue = modifiedValue;
 				}
@@ -101,61 +103,61 @@ namespace RPGCore.Stats
 			}
 		}
 
-		public Modifier AddFlatModifier (float startingValue)
+		public Modifier AddFlatModifier(float startingValue)
 		{
-			var mod = new Modifier (this, startingValue);
-			FlatModifiers.Add (mod);
+			var mod = new Modifier(this, startingValue);
+			FlatModifiers.Add(mod);
 
 			isDirty = true;
-			InvokeChanged ();
+			InvokeChanged();
 			return mod;
 		}
 
-		public Modifier AddBaseMultiplierModifier (float value)
+		public Modifier AddBaseMultiplierModifier(float value)
 		{
-			var mod = new Modifier (this, value);
-			MultBaseModifiers.Add (mod);
+			var mod = new Modifier(this, value);
+			MultBaseModifiers.Add(mod);
 
 			isDirty = true;
-			InvokeChanged ();
+			InvokeChanged();
 			return mod;
 		}
 
-		public Modifier AddMultiplierModifier (float value)
+		public Modifier AddMultiplierModifier(float value)
 		{
-			var mod = new Modifier (this, value);
-			MultModifiers.Add (mod);
+			var mod = new Modifier(this, value);
+			MultModifiers.Add(mod);
 
 			isDirty = true;
-			InvokeChanged ();
+			InvokeChanged();
 			return mod;
 		}
 
-		public void RemoveFlatModifier (Modifier modifier)
+		public void RemoveFlatModifier(Modifier modifier)
 		{
-			FlatModifiers.Remove (modifier);
+			FlatModifiers.Remove(modifier);
 
 			isDirty = true;
-			InvokeChanged ();
+			InvokeChanged();
 		}
 
-		public void RemoveBaseMultiplierModifier (Modifier modifier)
+		public void RemoveBaseMultiplierModifier(Modifier modifier)
 		{
-			MultBaseModifiers.Remove (modifier);
+			MultBaseModifiers.Remove(modifier);
 
 			isDirty = true;
-			InvokeChanged ();
+			InvokeChanged();
 		}
 
-		public void RemoveMultiplierModifier (Modifier modifier)
+		public void RemoveMultiplierModifier(Modifier modifier)
 		{
-			MultModifiers.Remove (modifier);
+			MultModifiers.Remove(modifier);
 
 			isDirty = true;
-			InvokeChanged ();
+			InvokeChanged();
 		}
 
-		protected float Sum (List<Modifier> modifiers)
+		protected float Sum(List<Modifier> modifiers)
 		{
 			float total = 0.0f;
 
@@ -167,12 +169,17 @@ namespace RPGCore.Stats
 			return total;
 		}
 
-		protected float GetMultiplier (List<Modifier> multiply)
+		protected float GetMultiplier(List<Modifier> multiply)
 		{
 			if (multiply.Count == 0)
+			{
 				return 1.0f;
+			}
+
 			if (multiply.Count == 1)
+			{
 				return 1.0f + multiply[0].Value;
+			}
 
 			float total = 1.0f + multiply[0].Value;
 
@@ -186,18 +193,18 @@ namespace RPGCore.Stats
 	}
 
 #if UNITY_EDITOR
-	[CustomPropertyDrawer (typeof (StatInstance))]
+	[CustomPropertyDrawer(typeof(StatInstance))]
 	public class StatInstanceDrawer : PropertyDrawer
 	{
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			return base.GetPropertyHeight (property, label);
+			return base.GetPropertyHeight(property, label);
 		}
 
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			var infoProperty = property.FindPropertyRelative ("Info");
-			var valueProperty = property.FindPropertyRelative ("baseValue");
+			var infoProperty = property.FindPropertyRelative("Info");
+			var valueProperty = property.FindPropertyRelative("baseValue");
 
 			var statInfo = (StatInformation)infoProperty.objectReferenceValue;
 
@@ -208,29 +215,37 @@ namespace RPGCore.Stats
 				if (statInfo.MaxValue.Enabled && statInfo.MinValue.Enabled)
 				{
 					if (statInfo.accuracy == AttributeInformation.Accuracy.Integer)
-						valueProperty.floatValue = EditorGUI.IntSlider (position, label.text, Mathf.RoundToInt (valueProperty.floatValue),
-							Mathf.RoundToInt (statInfo.MinValue.Value), Mathf.RoundToInt (statInfo.MaxValue.Value));
+					{
+						valueProperty.floatValue = EditorGUI.IntSlider(position, label.text, Mathf.RoundToInt(valueProperty.floatValue),
+							Mathf.RoundToInt(statInfo.MinValue.Value), Mathf.RoundToInt(statInfo.MaxValue.Value));
+					}
 					else
-						valueProperty.floatValue = EditorGUI.Slider (position, label, valueProperty.floatValue, statInfo.MinValue.Value, statInfo.MaxValue.Value);
+					{
+						valueProperty.floatValue = EditorGUI.Slider(position, label, valueProperty.floatValue, statInfo.MinValue.Value, statInfo.MaxValue.Value);
+					}
 				}
 				else
 				{
 					if (statInfo.accuracy == AttributeInformation.Accuracy.Integer)
-						valueProperty.floatValue = EditorGUI.IntField (position, label, Mathf.RoundToInt (valueProperty.floatValue));
+					{
+						valueProperty.floatValue = EditorGUI.IntField(position, label, Mathf.RoundToInt(valueProperty.floatValue));
+					}
 					else
-						valueProperty.floatValue = EditorGUI.FloatField (position, label, valueProperty.floatValue);
+					{
+						valueProperty.floatValue = EditorGUI.FloatField(position, label, valueProperty.floatValue);
+					}
 				}
 
-				valueProperty.floatValue = statInfo.Filter (valueProperty.floatValue);
+				valueProperty.floatValue = statInfo.Filter(valueProperty.floatValue);
 
 				GUI.tooltip = null;
 			}
 			else
 			{
-				EditorGUI.LabelField (position, label);
+				EditorGUI.LabelField(position, label);
 			}
 
-			property.serializedObject.ApplyModifiedProperties ();
+			property.serializedObject.ApplyModifiedProperties();
 		}
 	}
 #endif

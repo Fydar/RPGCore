@@ -2,6 +2,6 @@
 {
 	public interface ITooltipTarget<T>
 	{
-		void Render (T target);
+		void Render(T target);
 	}
 }

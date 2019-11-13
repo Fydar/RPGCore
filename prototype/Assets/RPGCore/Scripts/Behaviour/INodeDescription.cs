@@ -2,6 +2,6 @@
 {
 	public interface INodeDescription
 	{
-		string Description (IBehaviourContext context);
+		string Description(IBehaviourContext context);
 	}
 }

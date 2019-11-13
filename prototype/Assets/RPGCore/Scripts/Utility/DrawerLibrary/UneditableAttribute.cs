@@ -4,7 +4,7 @@ namespace RPGCore.Utility
 {
 	public class UneditableAttribute : PropertyAttribute
 	{
-		public UneditableAttribute ()
+		public UneditableAttribute()
 		{
 		}
 	}

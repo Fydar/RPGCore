@@ -5,14 +5,14 @@ namespace RPGCore.Inventories
 	[Serializable]
 	public class EquipmentInstanceCollection : EquipmentCollection<EquipmentInstance>
 	{
-		public void SetupReferences ()
+		public void SetupReferences()
 		{
-			var Equipments = GetEnumerator ();
-			var info = EquipmentInformationDatabase.Instance.EquipmentInfos.GetEnumerator ();
+			var Equipments = GetEnumerator();
+			var info = EquipmentInformationDatabase.Instance.EquipmentInfos.GetEnumerator();
 
-			while (Equipments.MoveNext ())
+			while (Equipments.MoveNext())
 			{
-				info.MoveNext ();
+				info.MoveNext();
 
 				Equipments.Current.Info = info.Current;
 			}

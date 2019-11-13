@@ -15,12 +15,12 @@ namespace RPGCore.Tooltips
 		[SerializeField] private Color defaultBackgroundColor;
 		[SerializeField] private Color defaultTextColor;
 
-		public void Render (ItemSlot target)
+		public void Render(ItemSlot target)
 		{
-			Render (target.Item);
+			Render(target.Item);
 		}
 
-		public void Render (ItemSurrogate target)
+		public void Render(ItemSurrogate target)
 		{
 			itemName.text = target.FullName;
 
@@ -31,25 +31,25 @@ namespace RPGCore.Tooltips
 			}
 			else
 			{
-				ResetColors ();
+				ResetColors();
 			}
 		}
 
-		public void Render (StatInstance target)
+		public void Render(StatInstance target)
 		{
 			itemName.text = target.Info.Name;
 
-			ResetColors ();
+			ResetColors();
 		}
 
-		public void Render (Buff target)
+		public void Render(Buff target)
 		{
 			itemName.text = target.buffTemplate.Name;
 
-			ResetColors ();
+			ResetColors();
 		}
 
-		private void ResetColors ()
+		private void ResetColors()
 		{
 			headerBackground.color = defaultBackgroundColor;
 			itemName.color = defaultTextColor;

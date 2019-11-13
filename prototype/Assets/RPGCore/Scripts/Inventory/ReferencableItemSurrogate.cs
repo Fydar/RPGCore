@@ -8,53 +8,61 @@ namespace RPGCore
 	{
 		public event Action OnReferenceChanged;
 
-		private List<ItemReferenceSlot> referenceSlots = new List<ItemReferenceSlot> ();
+		private List<ItemReferenceSlot> referenceSlots = new List<ItemReferenceSlot>();
 
 		// public BoolEventField Equipped = new BoolEventField (false);
 
-		public void OnBeforeSerialize ()
+		public void OnBeforeSerialize()
 		{
 			for (int i = 0; i < referenceSlots.Count; i++)
 			{
 				var slot = referenceSlots[i];
 
-				slot.SetSerializedID (i);
+				slot.SetSerializedID(i);
 			}
 		}
 
-		public void AddReferenceSlot (ItemReferenceSlot slot)
+		public void AddReferenceSlot(ItemReferenceSlot slot)
 		{
-			referenceSlots.Clear ();
-			referenceSlots.Add (slot);
+			referenceSlots.Clear();
+			referenceSlots.Add(slot);
 
 			if (OnReferenceChanged != null)
-				OnReferenceChanged ();
+			{
+				OnReferenceChanged();
+			}
 		}
 
-		public void RemoveReferenceSlot (ItemReferenceSlot slot)
+		public void RemoveReferenceSlot(ItemReferenceSlot slot)
 		{
-			referenceSlots.Remove (slot);
+			referenceSlots.Remove(slot);
 
 			if (OnReferenceChanged != null)
-				OnReferenceChanged ();
+			{
+				OnReferenceChanged();
+			}
 		}
 
-		public bool IsReferencedBySlot (ItemReferenceSlot slot)
+		public bool IsReferencedBySlot(ItemReferenceSlot slot)
 		{
 			for (int i = 0; i < referenceSlots.Count; i++)
 			{
 				if (referenceSlots[i] == slot)
+				{
 					return true;
+				}
 			}
 			return false;
 		}
 
-		public void RemoveAllReferenceSlots ()
+		public void RemoveAllReferenceSlots()
 		{
-			referenceSlots.Clear ();
+			referenceSlots.Clear();
 
 			if (OnReferenceChanged != null)
-				OnReferenceChanged ();
+			{
+				OnReferenceChanged();
+			}
 		}
 	}
 }

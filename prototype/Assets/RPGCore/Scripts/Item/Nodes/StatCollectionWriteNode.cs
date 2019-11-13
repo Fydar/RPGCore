@@ -5,7 +5,7 @@ using System;
 
 namespace RPGCore
 {
-	[NodeInformation ("Item/Grant Weapon Stat", "Attribute")]
+	[NodeInformation("Item/Grant Weapon Stat", "Attribute")]
 	public class StatCollectionWriteNode<A, B, C, D> : BehaviourNode, INodeDescription
 		where A : EnumerableCollection<FloatInput>
 		where B : EnumerableCollection<StatInstance>, new()
@@ -21,20 +21,22 @@ namespace RPGCore
 		public AttributeInformation.ModifierType Scaling;
 		public string Display = "{0}";
 
-		public string Description (IBehaviourContext context)
+		public string Description(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var effectInput = Effect[context];
 
 			if (targetInput.Value == null)
+			{
 				return "";
+			}
 
 			var info = WeaponStatInformationDatabase.Instance.WeaponStatInfos[Stat];
 
-			return Display.Replace ("{0}", info.RenderModifier (effectInput.Value, Scaling));
+			return Display.Replace("{0}", info.RenderModifier(effectInput.Value, Scaling));
 		}
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var targetInput = Target[context];
 			var activeInput = Active[context];
@@ -46,32 +48,42 @@ namespace RPGCore
 			Action changeHandler = () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				if (activeInput.Value)
 				{
 					if (!isActive)
 					{
-						var weaponNode = targetInput.Value.Template.GetNode<D> ();
-						var weaponStat = weaponNode.GetStat (targetInput.Value, Stat);
+						var weaponNode = targetInput.Value.Template.GetNode<D>();
+						var weaponStat = weaponNode.GetStat(targetInput.Value, Stat);
 
 						if (Scaling == AttributeInformation.ModifierType.Additive)
-							modifier = weaponStat.AddFlatModifier (effectInput.Value);
+						{
+							modifier = weaponStat.AddFlatModifier(effectInput.Value);
+						}
 						else
-							modifier = weaponStat.AddMultiplierModifier (effectInput.Value);
+						{
+							modifier = weaponStat.AddMultiplierModifier(effectInput.Value);
+						}
 
 						isActive = true;
 					}
 				}
 				else if (isActive)
 				{
-					var weaponNode = targetInput.Value.Template.GetNode<D> ();
-					var weaponStat = weaponNode.GetStat (targetInput.Value, Stat);
+					var weaponNode = targetInput.Value.Template.GetNode<D>();
+					var weaponStat = weaponNode.GetStat(targetInput.Value, Stat);
 
 					if (Scaling == AttributeInformation.ModifierType.Additive)
-						weaponStat.RemoveFlatModifier (modifier);
+					{
+						weaponStat.RemoveFlatModifier(modifier);
+					}
 					else
-						weaponStat.RemoveMultiplierModifier (modifier);
+					{
+						weaponStat.RemoveMultiplierModifier(modifier);
+					}
 
 					isActive = false;
 				}
@@ -86,15 +98,21 @@ namespace RPGCore
 				}
 
 				if (!isActive)
+				{
 					return;
+				}
 
-				var weaponNode = targetInput.Value.Template.GetNode<D> ();
-				var weaponStat = weaponNode.GetStat (targetInput.Value, Stat);
+				var weaponNode = targetInput.Value.Template.GetNode<D>();
+				var weaponStat = weaponNode.GetStat(targetInput.Value, Stat);
 
 				if (Scaling == AttributeInformation.ModifierType.Additive)
-					weaponStat.RemoveFlatModifier (modifier);
+				{
+					weaponStat.RemoveFlatModifier(modifier);
+				}
 				else
-					weaponStat.RemoveMultiplierModifier (modifier);
+				{
+					weaponStat.RemoveMultiplierModifier(modifier);
+				}
 
 				isActive = false;
 			};
@@ -102,18 +120,20 @@ namespace RPGCore
 			targetInput.OnAfterChanged += changeHandler;
 			activeInput.OnAfterChanged += changeHandler;
 
-			changeHandler ();
+			changeHandler();
 
 			effectInput.OnAfterChanged += () =>
 			{
 				if (modifier == null)
+				{
 					return;
+				}
 
 				modifier.Value = effectInput.Value;
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

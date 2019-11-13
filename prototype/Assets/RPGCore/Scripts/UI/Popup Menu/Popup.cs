@@ -7,11 +7,11 @@ namespace RPGCore.UI
 	public class Popup
 	{
 		public string Header;
-		[TextArea (3, 5)]
+		[TextArea(3, 5)]
 		public string Description;
 		public PopupButton[] Buttons;
 
-		public Popup (string header, string description, params PopupButton[] buttons)
+		public Popup(string header, string description, params PopupButton[] buttons)
 		{
 			Header = header;
 			Description = description;

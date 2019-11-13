@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPGCore.Utility
 {
-	[CreateAssetMenu (menuName = "RPGCore/Utility/StaticDatabase")]
+	[CreateAssetMenu(menuName = "RPGCore/Utility/StaticDatabase")]
 	public sealed class StaticDatabaseCollection : ScriptableObject, ISerializationCallbackReceiver
 	{
 		public static StaticDatabaseCollection Singleton
@@ -12,7 +12,9 @@ namespace RPGCore.Utility
 			get
 			{
 				if (singleton == null)
-					singleton = Resources.Load<StaticDatabaseCollection> ("StaticDatabase");
+				{
+					singleton = Resources.Load<StaticDatabaseCollection>("StaticDatabase");
+				}
 
 				return singleton;
 			}
@@ -21,42 +23,49 @@ namespace RPGCore.Utility
 		public List<StaticDatabase> DatabaseObjects;
 
 		private static StaticDatabaseCollection singleton;
-		private readonly Dictionary<Type, StaticDatabase> databases = new Dictionary<Type, StaticDatabase> ();
+		private readonly Dictionary<Type, StaticDatabase> databases = new Dictionary<Type, StaticDatabase>();
 
-		public static T Get<T> ()
+		public static T Get<T>()
 			where T : StaticDatabase
 		{
-			return (T)Get (typeof (T));
+			return (T)Get(typeof(T));
 		}
 
-		public static StaticDatabase Get (Type type)
+		public static StaticDatabase Get(Type type)
 		{
 			StaticDatabase cachedDatabase;
-			Singleton.databases.TryGetValue (type, out cachedDatabase);
+			Singleton.databases.TryGetValue(type, out cachedDatabase);
 
 			return cachedDatabase;
 		}
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize ()
+		void ISerializationCallbackReceiver.OnBeforeSerialize()
 		{
 		}
 
-		void ISerializationCallbackReceiver.OnAfterDeserialize ()
+		void ISerializationCallbackReceiver.OnAfterDeserialize()
 		{
 			foreach (var database in DatabaseObjects)
 			{
 				if (database == null)
+				{
 					continue;
+				}
 
-				if (!databases.ContainsKey (database.GetType ()))
-					databases.Add (database.GetType (), database);
+				if (!databases.ContainsKey(database.GetType()))
+				{
+					databases.Add(database.GetType(), database);
+				}
 			}
 
 			foreach (var database in databases.Values)
 			{
 				if (database == null)
+				{
 					continue;
-				database.Awake ();
+				}
+
+				database.Awake();
 			}
 		}
 	}

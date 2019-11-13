@@ -7,7 +7,7 @@ namespace RPGCore.UI
 		public string Label;
 		public Action OnClick;
 
-		public PopupButton (string label, Action onClick)
+		public PopupButton(string label, Action onClick)
 		{
 			Label = label;
 			OnClick = onClick;

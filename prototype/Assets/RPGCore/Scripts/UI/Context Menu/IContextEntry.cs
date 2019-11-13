@@ -4,7 +4,7 @@ namespace RPGCore.UI
 {
 	public interface IContextEntry
 	{
-		void Render (UIContextMenu menu, RectTransform holder);
+		void Render(UIContextMenu menu, RectTransform holder);
 	}
 }
 

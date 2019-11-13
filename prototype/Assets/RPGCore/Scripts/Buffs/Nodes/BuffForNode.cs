@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RPGCore
 {
-	[NodeInformation ("Buff/Buff For")]
+	[NodeInformation("Buff/Buff For")]
 	public class BuffForNode : BehaviourNode
 	{
 		public enum ApplyMode
@@ -30,7 +30,7 @@ namespace RPGCore
 		public IntInput StackSize;
 		public IntInput Ticks;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var applyInput = Apply[context];
 			var targetInput = Target[context];
@@ -44,52 +44,54 @@ namespace RPGCore
 			applyInput.OnEventFired += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
 				if (Mode == ApplyMode.AddNewBuff)
 				{
-					BuffClock buffClock = new BuffClockDecaying (this, context);
-					buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
-					modifier = buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+					BuffClock buffClock = new BuffClockDecaying(this, context);
+					buffClock.StackSize.AddFlatModifier(stackSizeInput.Value);
+					modifier = buffClock.StackSize.AddFlatModifier(stackSizeInput.Value);
 
-					var buff = new Buff (BuffToApply, targetInput.Value, buffClock);
+					var buff = new Buff(BuffToApply, targetInput.Value, buffClock);
 
-					targetInput.Value.Buffs.Add (buff);
+					targetInput.Value.Buffs.Add(buff);
 				}
 				else if (Mode == ApplyMode.SeperateClock)
 				{
-					BuffClock buffClock = new BuffClockDecaying (this, context);
-					buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
-					modifier = buffClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+					BuffClock buffClock = new BuffClockDecaying(this, context);
+					buffClock.StackSize.AddFlatModifier(stackSizeInput.Value);
+					modifier = buffClock.StackSize.AddFlatModifier(stackSizeInput.Value);
 
-					var buff = targetInput.Value.Buffs.Find (BuffToApply);
+					var buff = targetInput.Value.Buffs.Find(BuffToApply);
 
 					if (buff == null)
 					{
-						buff = new Buff (BuffToApply, targetInput.Value, buffClock);
-						targetInput.Value.Buffs.Add (buff);
+						buff = new Buff(BuffToApply, targetInput.Value, buffClock);
+						targetInput.Value.Buffs.Add(buff);
 					}
 					else
 					{
-						buff.AddClock (buffClock);
+						buff.AddClock(buffClock);
 					}
 				}
 				else if (Mode == ApplyMode.Refresh || Mode == ApplyMode.RefreshAndAdd)
 				{
-					var buff = targetInput.Value.Buffs.Find (BuffToApply);
+					var buff = targetInput.Value.Buffs.Find(BuffToApply);
 
 					if (buff == null)
 					{
-						buff = new Buff (this, context);
-						targetInput.Value.Buffs.Add (buff);
+						buff = new Buff(this, context);
+						targetInput.Value.Buffs.Add(buff);
 					}
 
 					if (refreshClock == null)
 					{
-						refreshClock = new BuffClockDecaying (this, context);
-						modifier = refreshClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+						refreshClock = new BuffClockDecaying(this, context);
+						modifier = refreshClock.StackSize.AddFlatModifier(stackSizeInput.Value);
 
-						buff.AddClock (refreshClock);
+						buff.AddClock(refreshClock);
 
 						refreshClock.OnRemove += () =>
 						{
@@ -100,24 +102,26 @@ namespace RPGCore
 					refreshClock.TimeRemaining = refreshClock.Duration;
 
 					if (Mode == ApplyMode.RefreshAndAdd)
-						refreshClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+					{
+						refreshClock.StackSize.AddFlatModifier(stackSizeInput.Value);
+					}
 				}
 				else if (Mode == ApplyMode.Add)
 				{
-					var buff = targetInput.Value.Buffs.Find (BuffToApply);
+					var buff = targetInput.Value.Buffs.Find(BuffToApply);
 
 					if (buff == null)
 					{
-						buff = new Buff (this, context);
-						targetInput.Value.Buffs.Add (buff);
+						buff = new Buff(this, context);
+						targetInput.Value.Buffs.Add(buff);
 					}
 
 					if (refreshClock == null)
 					{
-						refreshClock = new BuffClockDecaying (this, context);
-						modifier = refreshClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+						refreshClock = new BuffClockDecaying(this, context);
+						modifier = refreshClock.StackSize.AddFlatModifier(stackSizeInput.Value);
 
-						buff.AddClock (refreshClock);
+						buff.AddClock(refreshClock);
 
 						refreshClock.OnRemove += () =>
 						{
@@ -125,21 +129,25 @@ namespace RPGCore
 						};
 					}
 
-					refreshClock.StackSize.AddFlatModifier (stackSizeInput.Value);
+					refreshClock.StackSize.AddFlatModifier(stackSizeInput.Value);
 				}
 			};
 
 			stackSizeInput.OnAfterChanged += () =>
 			{
 				if (Mode != ApplyMode.Refresh)
+				{
 					return;
+				}
 
 				if (modifier != null)
+				{
 					modifier.Value = stackSizeInput.Value;
+				}
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

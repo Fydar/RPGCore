@@ -4,12 +4,12 @@
 	{
 		public ItemSlot pair;
 
-		public Slot_Pair (ItemSlot _pair)
+		public Slot_Pair(ItemSlot _pair)
 		{
 			pair = _pair;
 		}
 
-		public override void Setup (ItemSlot target)
+		public override void Setup(ItemSlot target)
 		{
 			pair.onAfterChanged += () =>
 			{
@@ -21,7 +21,7 @@
 
 				if (pair.Item.EquiptableSlot == Slot.TwoHanded)
 				{
-					target.Return ();
+					target.Return();
 					target.Enabled = false;
 				}
 				else
@@ -31,26 +31,28 @@
 			};
 		}
 
-		public override void OnEnterSlot (ItemSlot target)
+		public override void OnEnterSlot(ItemSlot target)
 		{
 			if (pair.Item == null)
+			{
 				return;
+			}
 
 			if (pair.Item.EquiptableSlot == Slot.TwoHanded)
 			{
-				pair.Return ();
+				pair.Return();
 			}
 		}
 
-		public override void OnExitSlot (ItemSlot target)
+		public override void OnExitSlot(ItemSlot target)
 		{
 		}
 
-		public override void OnSlotEnable (ItemSlot target)
+		public override void OnSlotEnable(ItemSlot target)
 		{
 		}
 
-		public override void OnSlotDisable (ItemSlot target)
+		public override void OnSlotDisable(ItemSlot target)
 		{
 		}
 	}

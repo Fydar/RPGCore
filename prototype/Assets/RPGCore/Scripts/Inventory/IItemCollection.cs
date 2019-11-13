@@ -2,7 +2,7 @@
 {
 	public interface IItemCollection
 	{
-		AddResult Add (ItemSurrogate item);
+		AddResult Add(ItemSurrogate item);
 	}
 }
 

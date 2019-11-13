@@ -13,23 +13,25 @@ namespace RPGCore.Inventories
 			DateAquired = 2,
 		}
 
-		[Header ("Setup")]
+		[Header("Setup")]
 		public RectTransform slotHolder;
 		public ItemSlotManager SlotPrefab;
 
 		private SortingMode lastSorting;
 		private ItemCondition[] LastFilters;
-		private List<ItemSlot> sorted = new List<ItemSlot> ();
+		private List<ItemSlot> sorted = new List<ItemSlot>();
 
 		public bool AutoFilter = false;
 		public bool HideEmpty = false;
 
 		private bool filterDirty = false;
 
-		public override void Setup (Inventory inventory)
+		public override void Setup(Inventory inventory)
 		{
 			if (current != null)
+			{
 				return;
+			}
 
 			current = inventory;
 			current.OnSlotAdded += SlotAddCallback;
@@ -40,36 +42,40 @@ namespace RPGCore.Inventories
 				filterDirty = true;
 			};
 
-			managers = new List<ItemSlotManager> (current.Size);
+			managers = new List<ItemSlotManager>(current.Size);
 
 			for (int i = 0; i < current.Items.Count; i++)
 			{
 				var slot = current.Items[i];
 
-				CreateManager (slot);
+				CreateManager(slot);
 			}
 
 			if (AutoFilter)
-				Filter (lastSorting);
+			{
+				Filter(lastSorting);
+			}
 		}
 
-		private void Update ()
+		private void Update()
 		{
 			if (filterDirty)
 			{
 				if (AutoFilter)
-					Filter (lastSorting, LastFilters);
+				{
+					Filter(lastSorting, LastFilters);
+				}
 			}
 		}
 
-		private void SlotAddCallback (ItemSlot slot)
+		private void SlotAddCallback(ItemSlot slot)
 		{
-			CreateManager (slot);
+			CreateManager(slot);
 
 			filterDirty = true;
 		}
 
-		private void SlotRemoveCallback (ItemSlot slot)
+		private void SlotRemoveCallback(ItemSlot slot)
 		{
 			for (int i = 0; i < managers.Count; i++)
 			{
@@ -77,11 +83,11 @@ namespace RPGCore.Inventories
 
 				if (manager.slot == slot)
 				{
-					manager.Detatch ();
-					Destroy (manager.gameObject);
-					managers.RemoveAt (i);
+					manager.Detatch();
+					Destroy(manager.gameObject);
+					managers.RemoveAt(i);
 
-					OnSlotRemove (manager);
+					OnSlotRemove(manager);
 
 					return;
 				}
@@ -90,74 +96,76 @@ namespace RPGCore.Inventories
 			filterDirty = true;
 		}
 
-		protected ItemSlotManager CreateManager (ItemSlot slot)
+		protected ItemSlotManager CreateManager(ItemSlot slot)
 		{
-			var clone = Instantiate (SlotPrefab, slotHolder);
+			var clone = Instantiate(SlotPrefab, slotHolder);
 			clone.transform.localRotation = Quaternion.identity;
 			clone.transform.localScale = Vector3.one;
-			clone.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.zero;
+			clone.GetComponent<RectTransform>().anchoredPosition3D = Vector3.zero;
 
-			clone.Setup (slot);
-			managers.Add (clone);
+			clone.Setup(slot);
+			managers.Add(clone);
 
-			OnSlotAdd (clone);
+			OnSlotAdd(clone);
 
 			return clone;
 		}
 
-		public void SortSet (int mode)
+		public void SortSet(int mode)
 		{
-			Filter ((SortingMode)mode);
+			Filter((SortingMode)mode);
 		}
 
-		public void Filter ()
+		public void Filter()
 		{
-			Filter (lastSorting, LastFilters);
+			Filter(lastSorting, LastFilters);
 		}
 
-		public void Filter (ItemCondition[] filters)
+		public void Filter(ItemCondition[] filters)
 		{
-			Filter (lastSorting, filters);
+			Filter(lastSorting, filters);
 		}
 
-		public void Filter (SortingMode mode)
+		public void Filter(SortingMode mode)
 		{
-			Filter (mode, LastFilters);
+			Filter(mode, LastFilters);
 		}
 
-		public void Filter (SortingMode mode, ItemCondition[] Filters)
+		public void Filter(SortingMode mode, ItemCondition[] Filters)
 		{
 			lastSorting = mode;
 			LastFilters = Filters;
 
-			sorted = new List<ItemSlot> ();
+			sorted = new List<ItemSlot>();
 
 			for (int i = 0; i < current.Items.Count; i++)
 			{
 				var slot = current.Items[i];
 
 				if (HideEmpty && slot.Item == null)
-					continue;
-
-				if (Filters == null)
 				{
-					sorted.Add (slot);
 					continue;
 				}
 
-				if (Filters.IsValid (slot.Item))
+				if (Filters == null)
 				{
-					sorted.Add (slot);
+					sorted.Add(slot);
+					continue;
+				}
+
+				if (Filters.IsValid(slot.Item))
+				{
+					sorted.Add(slot);
 				}
 			}
 
 			if (mode == SortingMode.Name)
 			{
-				sorted.Sort (NameComparison);
+				sorted.Sort(NameComparison);
 			}
 			else if (mode == SortingMode.Type)
 			{
-				sorted.Sort (TypeComparison);
+				sorted.Sort(TypeComparison);
 			}
 
 			for (int i = 0; i < managers.Count; i++)
@@ -166,19 +174,19 @@ namespace RPGCore.Inventories
 
 				if (EventSystem.current.currentSelectedGameObject == manager.gameObject)
 				{
-					EventSystem.current.SetSelectedGameObject (null);
+					EventSystem.current.SetSelectedGameObject(null);
 				}
-				manager.Detatch ();
-				manager.gameObject.SetActive (false);
+				manager.Detatch();
+				manager.gameObject.SetActive(false);
 			}
 
 			for (int i = 0; i < sorted.Count; i++)
 			{
 				var manager = managers[i];
 
-				manager.gameObject.SetActive (true);
+				manager.gameObject.SetActive(true);
 
-				manager.Setup (sorted[i]);
+				manager.Setup(sorted[i]);
 
 				/*if (i == 0)
                 {
@@ -192,49 +200,69 @@ namespace RPGCore.Inventories
 			filterDirty = false;
 		}
 
-		private int NameComparison (ItemSlot a, ItemSlot b)
+		private int NameComparison(ItemSlot a, ItemSlot b)
 		{
 			if (a == null)
+			{
 				return 1;
+			}
 
 			if (b == null)
+			{
 				return -1;
+			}
 
 			if (a.Item == null)
+			{
 				return 1;
+			}
 
 			if (b.Item == null)
+			{
 				return -1;
+			}
 
-			return string.Compare (a.Item.BaseName, b.Item.BaseName);
+			return string.Compare(a.Item.BaseName, b.Item.BaseName);
 		}
 
-		private int TypeComparison (ItemSlot a, ItemSlot b)
+		private int TypeComparison(ItemSlot a, ItemSlot b)
 		{
 			if (a == null)
+			{
 				return 1;
+			}
 
 			if (b == null)
+			{
 				return -1;
+			}
 
 			if (a.Item == null)
+			{
 				return 1;
+			}
 
 			if (b.Item == null)
+			{
 				return -1;
+			}
 
 			var aSlot = a.Item.EquiptableSlot;
 			var bSlot = b.Item.EquiptableSlot;
 
 			if (aSlot == bSlot)
 			{
-				return NameComparison (a, b);
+				return NameComparison(a, b);
 			}
 
 			if (((int)aSlot) > ((int)bSlot))
+			{
 				return 1;
+			}
 			else
+			{
 				return -1;
+			}
 		}
 	}
 }

@@ -21,11 +21,11 @@ namespace RPGCore.UI
 		[SerializeField] private InspectorLog editorLog;
 		[SerializeField] private InputField inputField;
 
-		[Header ("Text")]
+		[Header("Text")]
 		[SerializeField] private RectTransform holder;
 		[SerializeField] private TextPool textElements;
 
-		[Header ("Fading")]
+		[Header("Fading")]
 		[SerializeField] private CanvasGroup chatFader;
 		[SerializeField] private DuelFadeBool hoverFade;
 		[SerializeField] private DuelFadeBool inputtingFade;
@@ -40,14 +40,14 @@ namespace RPGCore.UI
 		private State state = State.Hidden;
 		private float currentTime;
 
-		private void Awake ()
+		private void Awake()
 		{
 			Instance = this;
 
-			textElements.Flush ();
+			textElements.Flush();
 		}
 
-		private void Update ()
+		private void Update()
 		{
 			inputtingFade.Target = inputField.isFocused;
 
@@ -57,8 +57,8 @@ namespace RPGCore.UI
 				{
 					case State.FadingIn:
 						currentTime += Time.deltaTime / messageFadeIn;
-						chatFader.alpha = Mathf.Lerp (fadeOutAlpha, fadeInAlpha,
-							Mathf.Max (hoverFade.Update (), currentTime, inputtingFade.Update ()));
+						chatFader.alpha = Mathf.Lerp(fadeOutAlpha, fadeInAlpha,
+							Mathf.Max(hoverFade.Update(), currentTime, inputtingFade.Update()));
 
 						if (currentTime >= 1.0f)
 						{
@@ -77,8 +77,8 @@ namespace RPGCore.UI
 						break;
 					case State.FadingOut:
 						currentTime += Time.deltaTime / messageFadeOut;
-						chatFader.alpha = Mathf.Lerp (fadeOutAlpha, fadeInAlpha,
-							Mathf.Max (hoverFade.Update (), 1.0f - currentTime, inputtingFade.Update ()));
+						chatFader.alpha = Mathf.Lerp(fadeOutAlpha, fadeInAlpha,
+							Mathf.Max(hoverFade.Update(), 1.0f - currentTime, inputtingFade.Update()));
 
 						if (currentTime >= 1.0f)
 						{
@@ -87,18 +87,18 @@ namespace RPGCore.UI
 						}
 						break;
 					default:
-						chatFader.alpha = Mathf.Max (Mathf.Lerp (fadeOutAlpha, fadeInAlpha, hoverFade.Update ()), inputtingFade.Update ());
+						chatFader.alpha = Mathf.Max(Mathf.Lerp(fadeOutAlpha, fadeInAlpha, hoverFade.Update()), inputtingFade.Update());
 						break;
 				}
 			}
 		}
 
-		public void Log (string text)
+		public void Log(string text)
 		{
-			var textElement = textElements.Grab (holder);
+			var textElement = textElements.Grab(holder);
 
 			textElement.text = text;
-			editorLog.Log (text);
+			editorLog.Log(text);
 
 			if (state == State.FadingOut)
 			{
@@ -116,12 +116,12 @@ namespace RPGCore.UI
 			}
 		}
 
-		void IPointerEnterHandler.OnPointerEnter (PointerEventData eventData)
+		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
 		{
 			hoverFade.Target = true;
 		}
 
-		void IPointerExitHandler.OnPointerExit (PointerEventData eventData)
+		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
 		{
 			hoverFade.Target = false;
 		}

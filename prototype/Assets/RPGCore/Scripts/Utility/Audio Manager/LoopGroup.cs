@@ -2,7 +2,7 @@
 
 namespace RPGCore.Audio
 {
-	[CreateAssetMenu (menuName = "RPGCore/Audio/Loop Group")]
+	[CreateAssetMenu(menuName = "RPGCore/Audio/Loop Group")]
 	public class LoopGroup : ScriptableObject
 	{
 		public AudioClip LoopedAudio;
@@ -11,7 +11,7 @@ namespace RPGCore.Audio
 		public Vector2 PitchRange;
 		public float PerlinSpeed = 5.0f;
 
-		public void Play ()
+		public void Play()
 		{
 		}
 	}

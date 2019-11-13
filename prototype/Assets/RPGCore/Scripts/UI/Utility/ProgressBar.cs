@@ -7,48 +7,54 @@ namespace RPGCore.UI
 	{
 		public Image Bar;
 
-		[Header ("Labels")]
+		[Header("Labels")]
 		public Text StartLabel;
 		public Text EndLabel;
 		public Text CurrentLabel;
 
-		public void SetFill (float amount)
+		public void SetFill(float amount)
 		{
 			Bar.fillAmount = amount;
 		}
 
-		public void SetLabels (string start, string end, string current = null)
+		public void SetLabels(string start, string end, string current = null)
 		{
 			if (StartLabel != null)
 			{
 				StartLabel.text = start;
-				StartLabel.gameObject.SetActive (true);
+				StartLabel.gameObject.SetActive(true);
 			}
 			if (EndLabel != null)
 			{
 				EndLabel.text = end;
-				EndLabel.gameObject.SetActive (true);
+				EndLabel.gameObject.SetActive(true);
 			}
-			if (CurrentLabel != null && !string.IsNullOrEmpty (current))
+			if (CurrentLabel != null && !string.IsNullOrEmpty(current))
 			{
 				CurrentLabel.text = current;
-				CurrentLabel.gameObject.SetActive (true);
+				CurrentLabel.gameObject.SetActive(true);
 			}
 		}
 
-		public void ClearLabels ()
+		public void ClearLabels()
 		{
 			StartLabel.text = "";
 			EndLabel.text = "";
 
 			if (StartLabel != null)
-				StartLabel.gameObject.SetActive (false);
+			{
+				StartLabel.gameObject.SetActive(false);
+			}
 
 			if (EndLabel != null)
-				EndLabel.gameObject.SetActive (false);
+			{
+				EndLabel.gameObject.SetActive(false);
+			}
 
 			if (CurrentLabel != null)
-				CurrentLabel.gameObject.SetActive (false);
+			{
+				CurrentLabel.gameObject.SetActive(false);
+			}
 		}
 	}
 }

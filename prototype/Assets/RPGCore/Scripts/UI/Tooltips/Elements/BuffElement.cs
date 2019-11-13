@@ -9,7 +9,7 @@ namespace RPGCore.Tooltips
 		[SerializeField] private Image icon;
 		[SerializeField] private Text description;
 
-		public void Render (Buff target)
+		public void Render(Buff target)
 		{
 			icon.sprite = target.buffTemplate.Icon;
 			description.text = target.buffTemplate.Description;

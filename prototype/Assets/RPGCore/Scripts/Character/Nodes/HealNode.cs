@@ -3,14 +3,14 @@ using RPGCore.Behaviour.Connections;
 
 namespace RPGCore
 {
-	[NodeInformation ("Character/Heal")]
+	[NodeInformation("Character/Heal")]
 	public class HealNode : BehaviourNode
 	{
 		public CharacterInput Target;
 		public EventInput Event;
 		public IntInput Effect;
 
-		protected override void OnSetup (IBehaviourContext context)
+		protected override void OnSetup(IBehaviourContext context)
 		{
 			var eventInput = Event[context];
 			var targetInput = Target[context];
@@ -19,13 +19,15 @@ namespace RPGCore
 			eventInput.OnEventFired += () =>
 			{
 				if (targetInput.Value == null)
+				{
 					return;
+				}
 
-				targetInput.Value.Heal (effectInput.Value);
+				targetInput.Value.Heal(effectInput.Value);
 			};
 		}
 
-		protected override void OnRemove (IBehaviourContext context)
+		protected override void OnRemove(IBehaviourContext context)
 		{
 		}
 	}

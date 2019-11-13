@@ -7,16 +7,20 @@ namespace RPGCore.Behaviour
 		public event Action OnBeforeChanged;
 		public event Action OnAfterChanged;
 
-		protected void InvokeBeforeChanged ()
+		protected void InvokeBeforeChanged()
 		{
 			if (OnBeforeChanged != null)
-				OnBeforeChanged ();
+			{
+				OnBeforeChanged();
+			}
 		}
 
-		protected void InvokeAfterChanged ()
+		protected void InvokeAfterChanged()
 		{
 			if (OnAfterChanged != null)
-				OnAfterChanged ();
+			{
+				OnAfterChanged();
+			}
 		}
 	}
 
@@ -32,11 +36,11 @@ namespace RPGCore.Behaviour
 			}
 			set
 			{
-				InvokeBeforeChanged ();
+				InvokeBeforeChanged();
 
 				lastValue = value;
 
-				InvokeAfterChanged ();
+				InvokeAfterChanged();
 			}
 		}
 

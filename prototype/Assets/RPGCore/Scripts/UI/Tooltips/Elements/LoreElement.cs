@@ -8,7 +8,7 @@ namespace RPGCore.Tooltips
 		[SerializeField]
 		private Text itemDescription;
 
-		public void Render (ItemSurrogate target)
+		public void Render(ItemSurrogate target)
 		{
 			string description = "";
 

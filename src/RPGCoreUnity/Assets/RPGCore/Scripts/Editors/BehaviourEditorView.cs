@@ -104,19 +104,19 @@ namespace RPGCore.Unity.Editors
 
 		public EditorSession Session { get; private set; }
 
-		public void BeginSession (EditorSession session)
+		public void BeginSession(EditorSession session)
 		{
 			Session = session;
 		}
 
-		public void BeginConnectionFromOutput (LocalPropertyId connectionStart)
+		public void BeginConnectionFromOutput(LocalPropertyId connectionStart)
 		{
 			currentMode = Mode.CreatingConnection;
 			connectionOutput = connectionStart;
 			isOutputSocket = true;
 		}
 
-		public void BeginConnectionFromInput (EditorField connectionEnd, string connectionInputNodeId)
+		public void BeginConnectionFromInput(EditorField connectionEnd, string connectionInputNodeId)
 		{
 			ConnectionInput = connectionEnd;
 			ConnectionInputNodeId = connectionInputNodeId;

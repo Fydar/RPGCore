@@ -2,23 +2,23 @@
 
 namespace RPGCore.World
 {
-	[RequireComponent (typeof (ItemDrop))]
+	[RequireComponent(typeof(ItemDrop))]
 	public class ItemDropGenerator : MonoBehaviour
 	{
 		public ItemGenerator generator;
 
 		private ItemDrop drop;
 
-		private void Awake ()
+		private void Awake()
 		{
-			drop = GetComponent<ItemDrop> ();
+			drop = GetComponent<ItemDrop>();
 		}
 
-		private void Start ()
+		private void Start()
 		{
-			var item = generator.Generate ();
+			var item = generator.Generate();
 
-			drop.SetItem (item);
+			drop.SetItem(item);
 		}
 	}
 }

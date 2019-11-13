@@ -8,12 +8,12 @@ namespace RPGCore.Behaviour
 		public string Group = "";
 		public bool OnlyOne;
 
-		public NodeInformationAttribute (string nodeName)
+		public NodeInformationAttribute(string nodeName)
 		{
 			Name = nodeName;
 		}
 
-		public NodeInformationAttribute (string nodeName, string nodeGroup)
+		public NodeInformationAttribute(string nodeName, string nodeGroup)
 		{
 			Name = nodeName;
 			Group = nodeGroup;

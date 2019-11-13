@@ -17,30 +17,30 @@ namespace RPGCore.Inventories
 
 		private bool setup = false;
 
-		private void Start ()
+		private void Start()
 		{
 			if (autoSetup)
 			{
-				FireSetup ();
+				FireSetup();
 			}
 		}
 
-		private void Update ()
+		private void Update()
 		{
-			if (Input.GetKeyDown (ActivateKey))
+			if (Input.GetKeyDown(ActivateKey))
 			{
 				if (manager.slot.Item != null)
 				{
-					manager.slot.Item.TryUse ();
+					manager.slot.Item.TryUse();
 				}
 			}
 		}
 
-		public void FireSetup ()
+		public void FireSetup()
 		{
 			if (!setup)
 			{
-				manager.Setup (character.equipment.Items[EquipmentSlot.Index]);
+				manager.Setup(character.equipment.Items[EquipmentSlot.Index]);
 
 				if (selector != null)
 				{
@@ -56,12 +56,14 @@ namespace RPGCore.Inventories
 			}
 		}
 
-		private void ActivateSlot ()
+		private void ActivateSlot()
 		{
 			var item = manager.slot.Item;
 
 			if (item != null)
-				item.TryUse ();
+			{
+				item.TryUse();
+			}
 		}
 	}
 }

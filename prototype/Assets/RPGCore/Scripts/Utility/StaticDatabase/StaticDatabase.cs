@@ -4,7 +4,7 @@ namespace RPGCore.Utility
 {
 	public abstract class StaticDatabase : ScriptableObject
 	{
-		public virtual void Awake ()
+		public virtual void Awake()
 		{
 		}
 	}
@@ -16,7 +16,7 @@ namespace RPGCore.Utility
 		{
 			get
 			{
-				return StaticDatabaseCollection.Get<T> ();
+				return StaticDatabaseCollection.Get<T>();
 			}
 		}
 	}

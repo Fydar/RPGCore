@@ -11,13 +11,13 @@ namespace RPGCore.Utility
 
 		public Quaternion lastRotation;
 
-		private void LateUpdate ()
+		private void LateUpdate()
 		{
-			currentRotation = new Vector3 (currentRotation.x,
+			currentRotation = new Vector3(currentRotation.x,
 				currentRotation.y + (RotationSpeed * Time.deltaTime),
 				currentRotation.z);
 
-			var rotator = Quaternion.Euler (currentRotation);
+			var rotator = Quaternion.Euler(currentRotation);
 
 			lastRotation = rotator;
 

@@ -12,7 +12,7 @@ namespace RPGCore.Audio
 		private float targetValue;
 		private float currentValue;
 
-		public CurveInterpolator (float speed, AnimationCurve curve)
+		public CurveInterpolator(float speed, AnimationCurve curve)
 		{
 			Speed = speed;
 			Curve = curve;
@@ -25,7 +25,7 @@ namespace RPGCore.Audio
 		{
 			get
 			{
-				return Curve.Evaluate (currentValue);
+				return Curve.Evaluate(currentValue);
 			}
 			set
 			{
@@ -49,17 +49,23 @@ namespace RPGCore.Audio
 			}
 		}
 
-		public void Update (float deltaTime)
+		public void Update(float deltaTime)
 		{
 			if (Sleeping)
+			{
 				return;
+			}
 
 			float movementAmount = Speed * deltaTime;
 
 			if (currentValue < targetValue)
-				currentValue = Mathf.Min (currentValue + movementAmount, targetValue);
+			{
+				currentValue = Mathf.Min(currentValue + movementAmount, targetValue);
+			}
 			else
-				currentValue = Mathf.Max (currentValue - movementAmount, targetValue);
+			{
+				currentValue = Mathf.Max(currentValue - movementAmount, targetValue);
+			}
 		}
 	}
 }

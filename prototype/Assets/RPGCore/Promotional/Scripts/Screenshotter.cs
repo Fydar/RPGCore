@@ -15,8 +15,8 @@ namespace Husky
 		{
 			get
 			{
-				string parentFolder = new DirectoryInfo (Application.dataPath).Parent.ToString ();
-				return Path.Combine (parentFolder, "Screenshots");
+				string parentFolder = new DirectoryInfo(Application.dataPath).Parent.ToString();
+				return Path.Combine(parentFolder, "Screenshots");
 			}
 		}
 
@@ -36,54 +36,58 @@ namespace Husky
 			}
 		}
 
-		public static void CaptureScreenshot ()
+		public static void CaptureScreenshot()
 		{
 			string folder = OutputPath;
-			if (!Directory.Exists (folder))
-				Directory.CreateDirectory (folder);
+			if (!Directory.Exists(folder))
+			{
+				Directory.CreateDirectory(folder);
+			}
 
-			string now = DateTime.Now.ToString ("MM-dd-yyy HH-mm-ss");
-			string basicFile = Path.Combine (folder, "Screenshot " + now);
+			string now = DateTime.Now.ToString("MM-dd-yyy HH-mm-ss");
+			string basicFile = Path.Combine(folder, "Screenshot " + now);
 
 			string path = basicFile;
 			int append = 0;
-			while (File.Exists (path + ".png"))
+			while (File.Exists(path + ".png"))
 			{
-				path = basicFile + " " + append.ToString ();
+				path = basicFile + " " + append.ToString();
 				append++;
 			}
 
-			ScreenCapture.CaptureScreenshot (path + ".png");
+			ScreenCapture.CaptureScreenshot(path + ".png");
 		}
 
-		public static void OpenScreenshotsFolder ()
+		public static void OpenScreenshotsFolder()
 		{
-			Application.OpenURL (OutputPath);
+			Application.OpenURL(OutputPath);
 		}
 
 		[RuntimeInitializeOnLoadMethod]
-		private static void Init ()
+		private static void Init()
 		{
 			if (CaptureKey == KeyCode.None)
+			{
 				return;
+			}
 
-			var obj = new GameObject ("Screenshotter")
+			var obj = new GameObject("Screenshotter")
 			{
 				hideFlags = HideFlags.HideInHierarchy
 			};
-			DontDestroyOnLoad (obj);
-			obj.AddComponent<Screenshotter> ();
+			DontDestroyOnLoad(obj);
+			obj.AddComponent<Screenshotter>();
 		}
 
-		private void Update ()
+		private void Update()
 		{
-			if (Input.GetKeyDown (CaptureKey))
+			if (Input.GetKeyDown(CaptureKey))
 			{
-				CaptureScreenshot ();
+				CaptureScreenshot();
 			}
-			if (Input.GetKeyDown (OpenFolderKey))
+			if (Input.GetKeyDown(OpenFolderKey))
 			{
-				OpenScreenshotsFolder ();
+				OpenScreenshotsFolder();
 			}
 		}
 
@@ -91,12 +95,12 @@ namespace Husky
 		[InitializeOnLoad]
 		private static class EditorScreenshotter
 		{
-			static EditorScreenshotter ()
+			static EditorScreenshotter()
 			{
 				SceneView.onSceneGUIDelegate += SceneViewCallback;
 			}
 
-			private static void SceneViewCallback (SceneView view)
+			private static void SceneViewCallback(SceneView view)
 			{
 				var currentEvent = Event.current;
 				if (currentEvent.type == EventType.KeyDown)
@@ -108,12 +112,12 @@ namespace Husky
 
 					if (currentEvent.keyCode == OpenFolderKey)
 					{
-						OpenScreenshotsFolder ();
+						OpenScreenshotsFolder();
 					}
 					else if (currentEvent.keyCode == CaptureKey)
 					{
-						var camera = EditorUtility.CreateGameObjectWithHideFlags ("Temp_Cam", HideFlags.HideAndDontSave)
-							.AddComponent<Camera> ();
+						var camera = EditorUtility.CreateGameObjectWithHideFlags("Temp_Cam", HideFlags.HideAndDontSave)
+							.AddComponent<Camera>();
 
 						var mainCamera = Camera.main;
 						camera.clearFlags = mainCamera.clearFlags;
@@ -126,20 +130,20 @@ namespace Husky
 						camera.allowMSAA = true;
 
 						camera.depth = 1001;
-						EditorApplication.ExecuteMenuItem ("Window/General/Game");
-						UnityEditorInternal.InternalEditorUtility.RepaintAllViews ();
+						EditorApplication.ExecuteMenuItem("Window/General/Game");
+						UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
 
 						EditorApplication.delayCall += () =>
 						{
-							CaptureScreenshot ();
+							CaptureScreenshot();
 
 							EditorApplication.delayCall += () =>
 							{
-								UnityEditorInternal.InternalEditorUtility.RepaintAllViews ();
+								UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
 
 								EditorApplication.delayCall += () =>
 								{
-									DestroyImmediate (camera.gameObject);
+									DestroyImmediate(camera.gameObject);
 
 									EditorApplication.delayCall += UnityEditorInternal.InternalEditorUtility.RepaintAllViews;
 								};

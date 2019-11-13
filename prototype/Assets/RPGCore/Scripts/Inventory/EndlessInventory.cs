@@ -6,14 +6,14 @@ namespace RPGCore.Inventories
 	[Serializable]
 	public class EndlessInventory : Inventory
 	{
-		public EndlessInventory (RPGCharacter owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
-			: base (owner, behaviours, conditions)
+		public EndlessInventory(RPGCharacter owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
+			: base(owner, behaviours, conditions)
 		{
 		}
 
-		public override AddResult Add (ItemSurrogate newItem)
+		public override AddResult Add(ItemSurrogate newItem)
 		{
-			var emptySlots = new List<ItemSlot> (Items.Count);
+			var emptySlots = new List<ItemSlot>(Items.Count);
 
 			//bool partiallyComplete = false;
 
@@ -23,16 +23,18 @@ namespace RPGCore.Inventories
 
 				if (slot.Item == null)
 				{
-					emptySlots.Add (slot);
+					emptySlots.Add(slot);
 					continue;
 				}
 
-				var result = slot.Add (newItem);
+				var result = slot.Add(newItem);
 
 				if (result == AddResult.Complete)
 				{
 					if (OnAddItem != null)
-						OnAddItem ();
+					{
+						OnAddItem();
+					}
 
 					return AddResult.Complete;
 				}
@@ -61,12 +63,14 @@ namespace RPGCore.Inventories
 
 			while (lastAddResult != AddResult.Complete)
 			{
-				var newSlot = AddSlot ();
+				var newSlot = AddSlot();
 
-				lastAddResult = newSlot.Add (newItem);
+				lastAddResult = newSlot.Add(newItem);
 
 				if (OnAddItem != null)
-					OnAddItem ();
+				{
+					OnAddItem();
+				}
 			}
 
 			return AddResult.Complete;
@@ -82,7 +86,7 @@ namespace RPGCore.Inventories
 				return AddResult.None;*/
 		}
 
-		public override bool Remove (ItemSurrogate newItem)
+		public override bool Remove(ItemSurrogate newItem)
 		{
 			for (int i = 0; i < Items.Count; i++)
 			{
@@ -90,14 +94,16 @@ namespace RPGCore.Inventories
 
 				if (slot.Item == newItem)
 				{
-					slot.Item.RemoveAllReferenceSlots ();
+					slot.Item.RemoveAllReferenceSlots();
 
 					slot.Item = null;
 
 					if (OnSlotRemoved != null)
-						OnSlotRemoved (slot);
+					{
+						OnSlotRemoved(slot);
+					}
 
-					Items.Remove (slot);
+					Items.Remove(slot);
 
 					return true;
 				}

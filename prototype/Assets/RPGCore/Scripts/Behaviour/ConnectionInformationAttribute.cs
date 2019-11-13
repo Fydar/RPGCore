@@ -8,12 +8,12 @@ namespace RPGCore.Behaviour
 		public string Description = "";
 		public Type Type;
 
-		public ConnectionInformationAttribute (string name)
+		public ConnectionInformationAttribute(string name)
 		{
 			Name = name;
 		}
 
-		public ConnectionInformationAttribute (string name, string description)
+		public ConnectionInformationAttribute(string name, string description)
 		{
 			Name = name;
 			Description = description;

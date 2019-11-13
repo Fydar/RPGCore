@@ -12,34 +12,34 @@ namespace RPGCore.Stats
 
 		private StatInstance info;
 
-		public void Setup (StatInstance _info)
+		public void Setup(StatInstance _info)
 		{
 			info = _info;
 
 			if (info.Info == null)
 			{
-				Destroy (gameObject);
+				Destroy(gameObject);
 				return;
 			}
 
-			OnStatChanged ();
+			OnStatChanged();
 			info.OnValueChanged += OnStatChanged;
 		}
 
-		private void OnStatChanged ()
+		private void OnStatChanged()
 		{
 			NameText.text = info.Info.Name;
-			ValueText.text = info.Info.RenderValue (info.Value);
+			ValueText.text = info.Info.RenderValue(info.Value);
 		}
 
-		public void OnPointerEnter (PointerEventData eventData)
+		public void OnPointerEnter(PointerEventData eventData)
 		{
-			TooltipManager.instance.StatTooltip (GetComponent<RectTransform> (), info);
+			TooltipManager.instance.StatTooltip(GetComponent<RectTransform>(), info);
 		}
 
-		public void OnPointerExit (PointerEventData eventData)
+		public void OnPointerExit(PointerEventData eventData)
 		{
-			TooltipManager.instance.Hide ();
+			TooltipManager.instance.Hide();
 		}
 	}
 }

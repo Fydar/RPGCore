@@ -19,23 +19,23 @@ namespace RPGCore.UI
 			}
 		}
 
-		private void Awake ()
+		private void Awake()
 		{
 			instance = this;
 		}
 
-		public static void CreateDamagePopup (int healthChange, Transform target)
+		public static void CreateDamagePopup(int healthChange, Transform target)
 		{
-			var clone = Instantiate (instance.popupText, instance.canvas.transform);
+			var clone = Instantiate(instance.popupText, instance.canvas.transform);
 
-			clone.SetText (target, healthChange);
+			clone.SetText(target, healthChange);
 		}
 
-		public static void CreateBuffPopup (string buffText, Transform target)
+		public static void CreateBuffPopup(string buffText, Transform target)
 		{
-			var clone = Instantiate (instance.popupText, instance.canvas.transform);
+			var clone = Instantiate(instance.popupText, instance.canvas.transform);
 
-			clone.SetText (target, buffText);
+			clone.SetText(target, buffText);
 		}
 	}
 }

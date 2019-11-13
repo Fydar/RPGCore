@@ -14,7 +14,7 @@ namespace RPGCore
 			public FieldInfo Member;
 			public object Target;
 
-			public Route (FieldInfo member, object target)
+			public Route(FieldInfo member, object target)
 			{
 				Member = member;
 				Target = target;
@@ -22,43 +22,45 @@ namespace RPGCore
 		}
 
 		protected static Dictionary<Type, CollectionInformation> ReflectionCache =
-			new Dictionary<Type, CollectionInformation> ();
+			new Dictionary<Type, CollectionInformation>();
 
-		protected int IndexOf (string fieldName)
+		protected int IndexOf(string fieldName)
 		{
-			return ReflectionInformation ().IndexOf (fieldName);
+			return ReflectionInformation().IndexOf(fieldName);
 		}
 
-		protected CollectionInformation ReflectionInformation ()
+		protected CollectionInformation ReflectionInformation()
 		{
-			return GetReflectionInformation (GetType ());
+			return GetReflectionInformation(GetType());
 		}
 
-		public static CollectionInformation GetReflectionInformation (Type type)
+		public static CollectionInformation GetReflectionInformation(Type type)
 		{
-			var collectionType = BaseCollectionType (type);
+			var collectionType = BaseCollectionType(type);
 			CollectionInformation information;
 
-			bool result = ReflectionCache.TryGetValue (collectionType, out information);
+			bool result = ReflectionCache.TryGetValue(collectionType, out information);
 
 			if (!result)
 			{
-				information = new CollectionInformation (collectionType);
+				information = new CollectionInformation(collectionType);
 
-				ReflectionCache.Add (collectionType, information);
+				ReflectionCache.Add(collectionType, information);
 			}
 			return information;
 		}
 
-		public static Type BaseCollectionType (Type type)
+		public static Type BaseCollectionType(Type type)
 		{
 			var currentType = type;
 			while (true)
 			{
 				if (currentType == null)
+				{
 					return null;
+				}
 
-				var types = currentType.GetGenericArguments ();
+				var types = currentType.GetGenericArguments();
 
 				if (types.Length != 1)
 				{
@@ -66,11 +68,11 @@ namespace RPGCore
 					continue;
 				}
 
-				return currentType.GetGenericTypeDefinition ();
+				return currentType.GetGenericTypeDefinition();
 			}
 		}
 
-		public abstract IEnumerable<Route> FindAllRoutes ();
+		public abstract IEnumerable<Route> FindAllRoutes();
 	}
 
 	public class EnumerableCollection<T> : EnumerableCollection, IEnumerable<T>, ISerializationCallbackReceiver
@@ -89,41 +91,43 @@ namespace RPGCore
 			get
 			{
 				if (arrayCache == null)
-					Collect ();
+				{
+					Collect();
+				}
 
 				return arrayCache[entry.Index];
 			}
 		}
 
-		private void Collect ()
+		private void Collect()
 		{
-			var foundObjects = new List<T> ();
+			var foundObjects = new List<T>();
 
-			foreach (var route in FindAllRoutes ())
+			foreach (var route in FindAllRoutes())
 			{
-				foundObjects.Add ((T)FieldGetOrCreate (route.Member, route.Target));
+				foundObjects.Add((T)FieldGetOrCreate(route.Member, route.Target));
 			}
 
-			arrayCache = foundObjects.ToArray ();
+			arrayCache = foundObjects.ToArray();
 		}
 
-		public override IEnumerable<Route> FindAllRoutes ()
+		public override IEnumerable<Route> FindAllRoutes()
 		{
-			var information = ReflectionInformation ();
+			var information = ReflectionInformation();
 
 			foreach (var info in information.directFields)
 			{
-				var collectionInfo = GetType ().GetField (info.Name);
+				var collectionInfo = GetType().GetField(info.Name);
 
-				if (collectionInfo.FieldType == typeof (T))
+				if (collectionInfo.FieldType == typeof(T))
 				{
-					yield return new Route (collectionInfo, this);
+					yield return new Route(collectionInfo, this);
 				}
-				else if (typeof (EnumerableCollection).IsAssignableFrom (info.FieldType))
+				else if (typeof(EnumerableCollection).IsAssignableFrom(info.FieldType))
 				{
-					var collection = FieldGetOrCreate<EnumerableCollection> (collectionInfo, this);
+					var collection = FieldGetOrCreate<EnumerableCollection>(collectionInfo, this);
 
-					foreach (var route in collection.FindAllRoutes ())
+					foreach (var route in collection.FindAllRoutes())
 					{
 						yield return route;
 					}
@@ -131,122 +135,136 @@ namespace RPGCore
 			}
 		}
 
-		public void OnBeforeSerialize ()
+		public void OnBeforeSerialize()
 		{
-			var thisType = GetType ();
+			var thisType = GetType();
 
-			var directories = new List<string> ();
-			var values = new List<T> ();
-			var information = ReflectionInformation ();
+			var directories = new List<string>();
+			var values = new List<T>();
+			var information = ReflectionInformation();
 
 			foreach (var info in information.directFields)
 			{
-				if (!typeof (EnumerableCollection).IsAssignableFrom (info.FieldType))
+				if (!typeof(EnumerableCollection).IsAssignableFrom(info.FieldType))
+				{
 					continue;
+				}
 
 				// Find all nested EnumerableCollections
 
-				var childCollectionValue = thisType.GetField (info.Name);
+				var childCollectionValue = thisType.GetField(info.Name);
 
-				var collection = FieldGetOrCreate<EnumerableCollection<T>> (childCollectionValue, this);
+				var collection = FieldGetOrCreate<EnumerableCollection<T>>(childCollectionValue, this);
 
 				string parent = info.Name + "/";
 
-				var childInformation = collection.ReflectionInformation ();
+				var childInformation = collection.ReflectionInformation();
 
 				foreach (var childInfo in childInformation.directFields)
 				{
-					var collectionChildInfo = collection.GetType ().GetField (childInfo.Name);
+					var collectionChildInfo = collection.GetType().GetField(childInfo.Name);
 
-					if (collectionChildInfo.FieldType == typeof (T))
+					if (collectionChildInfo.FieldType == typeof(T))
 					{
-						directories.Add (parent + childInfo.Name);
-						values.Add ((T)collectionChildInfo.GetValue (collection));
+						directories.Add(parent + childInfo.Name);
+						values.Add((T)collectionChildInfo.GetValue(collection));
 					}
 				}
 			}
 
-			fieldDirectories = directories.ToArray ();
-			fieldValues = values.ToArray ();
+			fieldDirectories = directories.ToArray();
+			fieldValues = values.ToArray();
 		}
 
-		public void OnAfterDeserialize ()
+		public void OnAfterDeserialize()
 		{
-			var thisType = GetType ();
+			var thisType = GetType();
 
 			if (fieldDirectories == null || fieldValues == null)
+			{
 				return;
+			}
 
 			for (int i = 0; i < fieldDirectories.Length; i++)
 			{
 				string directory = fieldDirectories[i];
 
-				int sperator = directory.IndexOf ('/');
-				string fieldName = directory.Substring (0, sperator);
+				int sperator = directory.IndexOf('/');
+				string fieldName = directory.Substring(0, sperator);
 
-				var thisField = GetSerializationField (thisType, fieldName);
+				var thisField = GetSerializationField(thisType, fieldName);
 
 				if (thisField == null)
+				{
 					continue;
+				}
 
-				object obj = FieldGetOrCreate (thisField, this);
+				object obj = FieldGetOrCreate(thisField, this);
 
-				string childName = directory.Substring (sperator + 1);
-				var childField = GetSerializationField (obj.GetType (), childName);
+				string childName = directory.Substring(sperator + 1);
+				var childField = GetSerializationField(obj.GetType(), childName);
 				if (childField == null)
+				{
 					continue;
+				}
 
 				var value = fieldValues[i];
-				childField.SetValue (obj, value);
+				childField.SetValue(obj, value);
 			}
 		}
 
-		public IEnumerator<T> GetEnumerator ()
+		public IEnumerator<T> GetEnumerator()
 		{
 			if (arrayCache == null)
-				Collect ();
+			{
+				Collect();
+			}
 
-			return ((IEnumerable<T>)arrayCache).GetEnumerator ();
+			return ((IEnumerable<T>)arrayCache).GetEnumerator();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator ()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			if (arrayCache == null)
-				Collect ();
+			{
+				Collect();
+			}
 
-			return arrayCache.GetEnumerator ();
+			return arrayCache.GetEnumerator();
 		}
 
-		private static V FieldGetOrCreate<V> (FieldInfo field, object instance)
+		private static V FieldGetOrCreate<V>(FieldInfo field, object instance)
 		{
-			return (V)FieldGetOrCreate (field, instance);
+			return (V)FieldGetOrCreate(field, instance);
 		}
 
-		private static object FieldGetOrCreate (FieldInfo field, object instance)
+		private static object FieldGetOrCreate(FieldInfo field, object instance)
 		{
-			object obj = field.GetValue (instance);
+			object obj = field.GetValue(instance);
 
 			if (obj == null)
 			{
-				obj = Activator.CreateInstance (field.FieldType);
-				field.SetValue (instance, obj);
+				obj = Activator.CreateInstance(field.FieldType);
+				field.SetValue(instance, obj);
 			}
 
 			return obj;
 		}
 
-		private static FieldInfo GetSerializationField (Type type, string name)
+		private static FieldInfo GetSerializationField(Type type, string name)
 		{
-			var thisField = type.GetField (name);
+			var thisField = type.GetField(name);
 
 			if (thisField != null)
+			{
 				return thisField;
+			}
 
 			// What we serialized got renamed and no longer exists.
-			var fields = type.GetFields (BindingFlags.Public | BindingFlags.Instance);
+			var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
 			foreach (var field in fields)
 			{
-				object[] attributes = field.GetCustomAttributes (typeof (FormerlySerializedAsAttribute), true);
+				object[] attributes = field.GetCustomAttributes(typeof(FormerlySerializedAsAttribute), true);
 
 				foreach (object attribute in attributes)
 				{

@@ -8,14 +8,16 @@ namespace RPGCore.Tooltips
 		[SerializeField]
 		private Text itemEnchantmentsText;
 
-		public void Render (ItemSurrogate target)
+		public void Render(ItemSurrogate target)
 		{
 			string text = "";
 
 			foreach (var enchantment in target.Enchantments)
 			{
 				if (enchantment == null)
+				{
 					continue;
+				}
 
 				text += ", ";
 			}

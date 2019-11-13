@@ -8,25 +8,27 @@ namespace RPGCore.Inventories
 	{
 		public uint StackSize = 0;
 
-		public ItemStorageSlot (RPGCharacter owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
-			: base (owner, behaviours, conditions)
+		public ItemStorageSlot(RPGCharacter owner, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
+			: base(owner, behaviours, conditions)
 		{
 		}
 
-		public ItemStorageSlot (RPGCharacter owner, uint stackSize, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
-			: base (owner, behaviours, conditions)
+		public ItemStorageSlot(RPGCharacter owner, uint stackSize, ItemSlotBehaviour[] behaviours = null, ItemCondition[] conditions = null)
+			: base(owner, behaviours, conditions)
 		{
 			StackSize = stackSize;
 		}
 
-		public override AddResult Add (ItemSurrogate newItem)
+		public override AddResult Add(ItemSurrogate newItem)
 		{
-			if (!IsValid (newItem))
+			if (!IsValid(newItem))
+			{
 				return AddResult.None;
+			}
 
 			if (Item == null)
 			{
-				int amountCanAdd = Mathf.Min (newItem.template.StackSize, newItem.Quantity);
+				int amountCanAdd = Mathf.Min(newItem.template.StackSize, newItem.Quantity);
 
 				if (amountCanAdd == newItem.Quantity)
 				{
@@ -36,7 +38,7 @@ namespace RPGCore.Inventories
 				else if (amountCanAdd != 0)
 				{
 					newItem.Quantity -= amountCanAdd;
-					Item = newItem.Template.GenerateItem ();
+					Item = newItem.Template.GenerateItem();
 					Item.Quantity += amountCanAdd - 1;
 
 					return AddResult.Partial;
@@ -58,7 +60,7 @@ namespace RPGCore.Inventories
 					return AddResult.Complete;
 				}
 
-				int amountCanAdd = Mathf.Min (Item.template.StackSize - Item.Quantity, newItem.Quantity);
+				int amountCanAdd = Mathf.Min(Item.template.StackSize - Item.Quantity, newItem.Quantity);
 
 				if (amountCanAdd != 0)
 				{
@@ -66,9 +68,13 @@ namespace RPGCore.Inventories
 					Item.Quantity += amountCanAdd;
 
 					if (newItem.Quantity == 0)
+					{
 						return AddResult.Complete;
+					}
 					else
+					{
 						return AddResult.Partial;
+					}
 				}
 				else
 				{
@@ -83,22 +89,26 @@ namespace RPGCore.Inventories
 			return AddResult.None;
 		}
 
-		public override void Swap (ItemSlot other)
+		public override void Swap(ItemSlot other)
 		{
 			// other is the start slot
 			// this is the end slot
 
 			if (other == null)
 			{
-				Return ();
+				Return();
 				return;
 			}
 
-			if (!IsValid (other.Item))
+			if (!IsValid(other.Item))
+			{
 				return;
+			}
 
-			if (!other.IsValid (Item))
+			if (!other.IsValid(Item))
+			{
 				return;
+			}
 
 			if (other.Item == null)
 			{
@@ -112,7 +122,7 @@ namespace RPGCore.Inventories
 			var tempItem = other.Item;
 			other.Item = null;
 
-			var result = Add (tempItem);
+			var result = Add(tempItem);
 
 			if (result == AddResult.None)
 			{
@@ -128,20 +138,24 @@ namespace RPGCore.Inventories
 			}
 		}
 
-		public override void Remove ()
+		public override void Remove()
 		{
 			Item = null;
 		}
 
-		public override void Return ()
+		public override void Return()
 		{
 			if (IsDefault)
+			{
 				return;
+			}
 
 			if (Item != null)
-				Owner.inventory.Add (Item);
+			{
+				Owner.inventory.Add(Item);
+			}
 
-			Remove ();
+			Remove();
 		}
 	}
 }
