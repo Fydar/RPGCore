@@ -14,12 +14,12 @@ namespace RPGCore.Inventory.Slots
 	{
 		public int Weight;
 
-		public WeightedInventoryConstraint (int weight)
+		public WeightedInventoryConstraint(int weight)
 		{
 			Weight = weight;
 		}
 
-		public int QuantityCanAdd (IInventory inventory, IItem item)
+		public int QuantityCanAdd(IInventory inventory, IItem item)
 		{
 			if (item.Template.Weight == 0)
 			{
@@ -45,7 +45,7 @@ namespace RPGCore.Inventory.Slots
 			return quantityCanAdd;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return $"Weight Constraint of {Weight}";
 		}

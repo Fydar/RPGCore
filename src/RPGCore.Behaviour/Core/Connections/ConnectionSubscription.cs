@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 		public INodeInstance Node;
 		public List<Action> Callbacks;
 
-		public ConnectionSubscription (INodeInstance node)
+		public ConnectionSubscription(INodeInstance node)
 		{
 			Node = node;
 			Callbacks = new List<Action> ();

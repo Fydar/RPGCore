@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node UnpackNodeAndInputs (Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
+		public Node UnpackNodeAndInputs(Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
 		{
 			if (nodeType is null)
 			{
@@ -32,7 +32,7 @@ namespace RPGCore.Behaviour
 			return node;
 		}
 
-		public static void UnpackOutputs (List<LocalPropertyId> connectionIds, Node node)
+		public static void UnpackOutputs(List<LocalPropertyId> connectionIds, Node node)
 		{
 			var nodeType = node.GetType ();
 
@@ -54,23 +54,23 @@ namespace RPGCore.Behaviour
 
 		public override bool CanWrite => false;
 
-		public override bool CanConvert (Type objectType)
+		public override bool CanConvert(Type objectType)
 		{
 			return (objectType == typeof (InputSocket));
 		}
 
-		public InputSocketConverter (HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
+		public InputSocketConverter(HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
 		{
 			ValidOutputs = validOutputs;
 			MappedInputs = mappedInputs;
 		}
 
-		public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			throw new InvalidOperationException ();
 		}
 
-		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 			if (reader.Value == null)
 			{
@@ -79,7 +79,7 @@ namespace RPGCore.Behaviour
 
 			var inputSource = new LocalPropertyId (reader.Value.ToString ());
 
-			if (!ValidOutputs.Contains(inputSource))
+			if (!ValidOutputs.Contains (inputSource))
 			{
 				Console.WriteLine ($"Ignoring desired input of \"{inputSource}\" as it is not valid.");
 				return new InputSocket ();

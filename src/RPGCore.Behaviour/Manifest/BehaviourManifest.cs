@@ -7,12 +7,12 @@ namespace RPGCore.Behaviour.Manifest
 		public TypeManifest Types;
 		public NodeManifest Nodes;
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return JsonConvert.SerializeObject (this, Formatting.Indented);
 		}
 
-		public TypeInformation GetTypeInformation (string type)
+		public TypeInformation GetTypeInformation(string type)
 		{
 			string lookupType;
 			int arrayIndex = type.LastIndexOf ('[');

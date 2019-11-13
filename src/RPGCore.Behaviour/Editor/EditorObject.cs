@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour.Editor
 	{
 		private interface IQueuedItem
 		{
-			void ApplyValue (EditorField field);
+			void ApplyValue(EditorField field);
 		}
 
 		private class QueuedItem<T> : IQueuedItem
@@ -29,12 +29,12 @@ namespace RPGCore.Behaviour.Editor
 			private T ValueInternal;
 			private bool IsDirty;
 
-			public QueuedItem (T value)
+			public QueuedItem(T value)
 			{
 				Value = value;
 			}
 
-			public void ApplyValue (EditorField field)
+			public void ApplyValue(EditorField field)
 			{
 				if (!IsDirty)
 				{
@@ -69,7 +69,7 @@ namespace RPGCore.Behaviour.Editor
 
 		public EditorField this[string key] => Children[key];
 
-		public EditorField (EditorSession session, JToken json, string name, FieldInformation field)
+		public EditorField(EditorSession session, JToken json, string name, FieldInformation field)
 		{
 			Children = new Dictionary<string, EditorField> ();
 			Features = new List<object> ();
@@ -140,7 +140,7 @@ namespace RPGCore.Behaviour.Editor
 			}
 		}
 
-		public T GetFeature<T> ()
+		public T GetFeature<T>()
 			where T : class
 		{
 			var getFeatureType = typeof (T);
@@ -155,7 +155,7 @@ namespace RPGCore.Behaviour.Editor
 			return null;
 		}
 
-		public T GetOrCreateFeature<T> ()
+		public T GetOrCreateFeature<T>()
 			where T : class, new()
 		{
 			var feature = GetFeature<T> ();
@@ -168,7 +168,7 @@ namespace RPGCore.Behaviour.Editor
 			return feature;
 		}
 
-		public void SetValue<T> (T value)
+		public void SetValue<T>(T value)
 		{
 			if (Queued == null)
 			{
@@ -180,7 +180,7 @@ namespace RPGCore.Behaviour.Editor
 			}
 		}
 
-		public T GetValue<T> ()
+		public T GetValue<T>()
 		{
 			if (Queued != null)
 			{
@@ -192,7 +192,7 @@ namespace RPGCore.Behaviour.Editor
 			}
 		}
 
-		public void ApplyModifiedProperties ()
+		public void ApplyModifiedProperties()
 		{
 			if (Queued == null)
 			{
@@ -202,22 +202,22 @@ namespace RPGCore.Behaviour.Editor
 			Queued.ApplyValue (this);
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return $"{Field.Type} {Name} = {Json}";
 		}
 
-		public IEnumerator<EditorField> GetEnumerator ()
+		public IEnumerator<EditorField> GetEnumerator()
 		{
 			return ((IEnumerable<EditorField>)Children.Values).GetEnumerator ();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator ()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return ((IEnumerable<EditorField>)this).GetEnumerator ();
 		}
 
-		private static void PopulateMissing (JObject serialized, TypeInformation information)
+		private static void PopulateMissing(JObject serialized, TypeInformation information)
 		{
 			// Remove any additional fields.
 			foreach (var item in serialized.Children<JProperty> ().ToList ())

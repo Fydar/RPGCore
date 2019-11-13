@@ -4,11 +4,11 @@
 	{
 		public int Id;
 
-		public OutputSocket (int id)
+		public OutputSocket(int id)
 		{
 			Id = id;
 		}
 
-		public override string ToString () => $"Output {Id.ToString ()}";
+		public override string ToString() => $"Output {Id.ToString ()}";
 	}
 }

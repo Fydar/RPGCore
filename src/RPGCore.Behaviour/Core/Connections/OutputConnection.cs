@@ -67,13 +67,13 @@ namespace RPGCore.Behaviour
 
 		private EventFieldMirrorHandler<T> MirrorHandler;
 
-		public OutputConnection (int connectionId)
+		public OutputConnection(int connectionId)
 			: base (connectionId)
 		{
 			Handlers = new EventFieldHandlerCollection (this);
 		}
 
-		public void StartMirroring (IReadOnlyEventField<T> target)
+		public void StartMirroring(IReadOnlyEventField<T> target)
 		{
 			if (Mirroring != null)
 			{
@@ -87,7 +87,7 @@ namespace RPGCore.Behaviour
 			Mirroring.Handlers[this].Add (MirrorHandler);
 		}
 
-		public void StopMirroring ()
+		public void StopMirroring()
 		{
 			if (Mirroring == null)
 			{
@@ -98,8 +98,8 @@ namespace RPGCore.Behaviour
 			Mirroring = null;
 		}
 
-		public override string ToString () => $"Connection {ConnectionId}, Value = {GenericValue}";
-		public void Dispose ()
+		public override string ToString() => $"Connection {ConnectionId}, Value = {GenericValue}";
+		public void Dispose()
 		{
 			Mirroring?.Dispose ();
 			MirrorHandler?.Dispose ();
@@ -107,12 +107,12 @@ namespace RPGCore.Behaviour
 			Handlers.Dispose ();
 		}
 
-		public object GetValue ()
+		public object GetValue()
 		{
 			return Value;
 		}
 
-		public void SetValue (object value)
+		public void SetValue(object value)
 		{
 			Value = (T)value;
 		}

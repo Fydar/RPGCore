@@ -34,13 +34,13 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public ResourceReference (ProjectDefinitionFile file, XmlElement element)
+		public ResourceReference(ProjectDefinitionFile file, XmlElement element)
 		{
 			DefinitionFile = file;
 			Element = element;
 		}
 
-		public override void IncludeInBuild (ProjectBuildProcess build, string output)
+		public override void IncludeInBuild(ProjectBuildProcess build, string output)
 		{
 			string accessPath = Path.Combine (DefinitionFile.Path, IncludePath);
 			var accessFile = new FileInfo (accessPath);
@@ -59,7 +59,7 @@ namespace RPGCore.Packages
 			);
 		}
 
-		private static string GetChecksum (string file)
+		private static string GetChecksum(string file)
 		{
 			using (var stream = new FileStream (file, FileMode.OpenOrCreate,
 				FileAccess.Read, FileShare.Read, 1024 * 32))

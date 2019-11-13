@@ -16,7 +16,7 @@ namespace RPGCore.Behaviour
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private readonly ulong Id;
 
-		public LocalId (string id)
+		public LocalId(string id)
 		{
 			if (string.IsNullOrWhiteSpace (id))
 			{
@@ -31,49 +31,49 @@ namespace RPGCore.Behaviour
 			Id = ulong.Parse (id, NumberStyles.HexNumber);
 		}
 
-		public LocalId (ulong id)
+		public LocalId(ulong id)
 		{
 			Id = id;
 		}
 
-		public override bool Equals (object obj)
+		public override bool Equals(object obj)
 		{
 			return obj is LocalId id && Equals (id);
 		}
 
-		public bool Equals (LocalId other)
+		public bool Equals(LocalId other)
 		{
 			return Id == other.Id;
 		}
 
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
 			return 2108858624 + Id.GetHashCode ();
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return "0x" + Id.ToString ("x8");
 		}
 
-		public static LocalId NewId ()
+		public static LocalId NewId()
 		{
 			byte[] buffer = new byte[8];
 			new Random ().NextBytes (buffer);
 			return new LocalId (BitConverter.ToUInt64 (buffer, 0));
 		}
 
-		public static bool operator == (LocalId left, LocalId right)
+		public static bool operator ==(LocalId left, LocalId right)
 		{
 			return left.Equals (right);
 		}
 
-		public static bool operator != (LocalId left, LocalId right)
+		public static bool operator !=(LocalId left, LocalId right)
 		{
 			return !(left == right);
 		}
 
-		public static implicit operator LocalId (ulong source)
+		public static implicit operator LocalId(ulong source)
 		{
 			return new LocalId (source);
 		}
@@ -84,17 +84,17 @@ namespace RPGCore.Behaviour
 		public override bool CanWrite => true;
 		public override bool CanRead => true;
 
-		public override bool CanConvert (Type objectType)
+		public override bool CanConvert(Type objectType)
 		{
 			return objectType == typeof (LocalId);
 		}
 
-		public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			writer.WriteValue (value.ToString ());
 		}
 
-		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 			return new LocalId (reader.Value.ToString ());
 		}
@@ -102,12 +102,12 @@ namespace RPGCore.Behaviour
 
 	internal sealed class LocalIdConverter : TypeConverter
 	{
-		public override bool CanConvertFrom (ITypeDescriptorContext context, Type sourceType)
+		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
 			return sourceType == typeof (string) || base.CanConvertFrom (context, sourceType);
 		}
 
-		public override object ConvertFrom (ITypeDescriptorContext context, CultureInfo culture, object value)
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			string stringValue = value as string;
 
@@ -116,7 +116,7 @@ namespace RPGCore.Behaviour
 				: base.ConvertFrom (context, culture, value);
 		}
 
-		public override object ConvertTo (ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
 			var localId = (LocalId)value;
 

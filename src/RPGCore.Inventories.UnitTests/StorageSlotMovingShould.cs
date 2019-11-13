@@ -7,7 +7,7 @@ namespace RPGCore.Inventories.UnitTests
 	public class StorageSlotMovingShould
 	{
 		[Test, Parallelizable]
-		public void MoveEmptyToEmptySlot ()
+		public void MoveEmptyToEmptySlot()
 		{
 			var fromSlot = new ItemStorageSlot ();
 			var toSlot = new ItemStorageSlot ();
@@ -19,7 +19,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void MoveEmptyToStackableSlot ()
+		public void MoveEmptyToStackableSlot()
 		{
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
@@ -35,7 +35,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void MoveEmptyToUniqueSlot ()
+		public void MoveEmptyToUniqueSlot()
 		{
 			var toItem = new UniqueItem (new ProceduralItemTemplate ());
 
@@ -51,7 +51,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void MoveStackableToStackableSlot ()
+		public void MoveStackableToStackableSlot()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -71,7 +71,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void MoveStackableToStackableSlotOverflow ()
+		public void MoveStackableToStackableSlotOverflow()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -95,7 +95,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void MoveStackableToEmptySlot ()
+		public void MoveStackableToEmptySlot()
 		{
 			var fromItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
@@ -111,7 +111,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void MoveStackableToStackableSlotOfDifferentType ()
+		public void MoveStackableToStackableSlotOfDifferentType()
 		{
 			var fromItem = new StackableItem (new ProceduralItemTemplate (), 5);
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);

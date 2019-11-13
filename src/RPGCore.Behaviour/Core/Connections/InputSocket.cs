@@ -19,11 +19,11 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public InputSocket (int connectionId)
+		public InputSocket(int connectionId)
 		{
 			internalConnectionId = connectionId + 1;
 		}
 
-		public override string ToString () => $"Input {ConnectionId.ToString ()}";
+		public override string ToString() => $"Input {ConnectionId.ToString ()}";
 	}
 }

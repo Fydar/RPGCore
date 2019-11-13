@@ -14,7 +14,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public InventoryTransaction AddItem (IItem item)
+		public InventoryTransaction AddItem(IItem item)
 		{
 
 

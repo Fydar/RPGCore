@@ -7,7 +7,7 @@ namespace RPGCore.View
 		private GameView serverView;
 		private GameView clientView;
 
-		public void Run ()
+		public void Run()
 		{
 			serverView = new GameView ();
 			clientView = new GameView ();

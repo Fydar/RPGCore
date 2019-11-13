@@ -9,7 +9,7 @@ namespace RPGCore.Demo.Nodes
 		public int MinValue = 2;
 		public int MaxValue = 12;
 
-		public override Instance Create () => new RollInstance ();
+		public override Instance Create() => new RollInstance ();
 
 		public sealed class RollInstance : Instance
 		{
@@ -17,14 +17,14 @@ namespace RPGCore.Demo.Nodes
 
 			public Output<int> Output;
 
-			public override InputMap[] Inputs (IGraphConnections connections) => null;
+			public override InputMap[] Inputs(IGraphConnections connections) => null;
 
-			public override OutputMap[] Outputs (IGraphConnections connections) => new[]
+			public override OutputMap[] Outputs(IGraphConnections connections) => new[]
 			{
 				connections.Connect (ref Node.Output, ref Output),
 			};
 
-			public override void Setup ()
+			public override void Setup()
 			{
 				while (Seed == 0)
 				{
@@ -39,11 +39,11 @@ namespace RPGCore.Demo.Nodes
 				Output.Value = newValue;
 			}
 
-			public override void Remove ()
+			public override void Remove()
 			{
 			}
 
-			public override void OnInputChanged ()
+			public override void OnInputChanged()
 			{
 			}
 		}

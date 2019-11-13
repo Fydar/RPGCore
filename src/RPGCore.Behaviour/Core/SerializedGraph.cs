@@ -14,7 +14,7 @@ namespace RPGCore.Behaviour
 		public Dictionary<LocalId, SerializedNode> Nodes;
 		public Dictionary<string, SerializedGraph> SubGraphs;
 
-		public Graph Unpack ()
+		public Graph Unpack()
 		{
 			var nodes = new List<Node> (Nodes.Count);
 
@@ -62,7 +62,7 @@ namespace RPGCore.Behaviour
 			return graph;
 		}
 
-		private static Type GetType (string name)
+		private static Type GetType(string name)
 		{
 			Type nodeType = null;
 			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ())

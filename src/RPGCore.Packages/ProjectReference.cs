@@ -14,13 +14,13 @@ namespace RPGCore.Packages
 			set => Element.Attributes["Include"].Value = value;
 		}
 
-		public ProjectReference (ProjectDefinitionFile file, XmlElement element)
+		public ProjectReference(ProjectDefinitionFile file, XmlElement element)
 		{
 			File = file;
 			Element = element;
 		}
 
-		public override void IncludeInBuild (ProjectBuildProcess build, string output)
+		public override void IncludeInBuild(ProjectBuildProcess build, string output)
 		{
 			string accessPath = Path.Combine (File.Path, IncludePath);
 			var projectExplorer = ProjectExplorer.Load (accessPath);

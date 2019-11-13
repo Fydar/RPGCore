@@ -1,5 +1,4 @@
-﻿using RPGCore.Behaviour;
-using RPGCore.Demo;
+﻿using RPGCore.Demo;
 
 namespace RPGCore.Runner
 {
@@ -7,17 +6,17 @@ namespace RPGCore.Runner
 	{
 		public Simulation simulation;
 
-		public Simulator ()
+		public Simulator()
 		{
 			simulation = new Simulation ();
 		}
 
-		public void Start ()
+		public void Start()
 		{
 			simulation.Start ();
 		}
 
-		public void Update ()
+		public void Update()
 		{
 
 		}

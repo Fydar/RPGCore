@@ -6,7 +6,7 @@ namespace RPGCore.Traits.UnitTests
 	public class TraitCollectionShould
 	{
 		[Test]
-		public void ContextualInformation ()
+		public void ContextualInformation()
 		{
 			var context = new TraitContext ()
 			{
@@ -37,7 +37,7 @@ namespace RPGCore.Traits.UnitTests
 		}
 
 		[Test]
-		public void FindAllFields ()
+		public void FindAllFields()
 		{
 			var characterTraits = new TraitCollection ();
 
@@ -45,7 +45,7 @@ namespace RPGCore.Traits.UnitTests
 			{
 				var statInstance = characterTraits[stat];
 
-				TestContext.Error.WriteLine(stat);
+				TestContext.Error.WriteLine (stat);
 			}
 		}
 	}

@@ -5,22 +5,22 @@ namespace RPGCore.Behaviour
 		public IReadOnlyEventField<T> SourceField;
 		public IEventField<T> Target;
 
-		public EventFieldMirrorHandler (IReadOnlyEventField<T> source, IEventField<T> target)
+		public EventFieldMirrorHandler(IReadOnlyEventField<T> source, IEventField<T> target)
 		{
 			SourceField = source;
 			Target = target;
 		}
 
-		public void OnBeforeChanged ()
+		public void OnBeforeChanged()
 		{
 		}
 
-		public void OnAfterChanged ()
+		public void OnAfterChanged()
 		{
 			Target.Value = SourceField.Value;
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 
 		}

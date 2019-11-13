@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour.Manifest
 		public string Version;
 		public Dictionary<string, NodeInformation> Nodes;
 
-		public static NodeManifest Construct ()
+		public static NodeManifest Construct()
 		{
 			var manifest = new NodeManifest ();
 
@@ -34,7 +34,7 @@ namespace RPGCore.Behaviour.Manifest
 			return manifest;
 		}
 
-		public static NodeManifest Construct (Type[] types)
+		public static NodeManifest Construct(Type[] types)
 		{
 			var manifest = new NodeManifest ();
 
@@ -47,7 +47,7 @@ namespace RPGCore.Behaviour.Manifest
 			return manifest;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return JsonConvert.SerializeObject (this, Formatting.Indented);
 		}

@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour.Manifest
 		public FieldFormat Format;
 		public FieldInformation ValueFormat;
 
-		public static FieldInformation ConstructFieldInformation (FieldInfo field, object defaultInstance)
+		public static FieldInformation ConstructFieldInformation(FieldInfo field, object defaultInstance)
 		{
 			object[] attributes = field.GetCustomAttributes (false);
 			string[] attributeIds = new string[attributes.Length];

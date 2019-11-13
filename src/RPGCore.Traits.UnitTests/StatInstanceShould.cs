@@ -6,7 +6,7 @@ namespace RPGCore.Traits.UnitTests
 	public class StatInstanceShould
 	{
 		[Test]
-		public void UpdateFromModifierChanges ()
+		public void UpdateFromModifierChanges()
 		{
 			var template = new StatTemplate ()
 			{
@@ -36,7 +36,7 @@ namespace RPGCore.Traits.UnitTests
 		}
 
 		[Test]
-		public void UnsubscribeModifierWhenRemoved ()
+		public void UnsubscribeModifierWhenRemoved()
 		{
 			var template = new StatTemplate ()
 			{

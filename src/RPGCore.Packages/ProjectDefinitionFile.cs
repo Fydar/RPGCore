@@ -9,7 +9,7 @@ namespace RPGCore.Packages
 		public ProjectDefinitionProperties Properties;
 		public List<Reference> References;
 
-		public ProjectDefinitionFile (XmlDocument document)
+		public ProjectDefinitionFile(XmlDocument document)
 			: base (document)
 		{
 			Properties = new ProjectDefinitionProperties (Document.GetElementsByTagName ("Properties").Item (0));
@@ -38,7 +38,7 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public static new ProjectDefinitionFile Load (string path)
+		public static new ProjectDefinitionFile Load(string path)
 		{
 			if (!File.Exists (path))
 			{

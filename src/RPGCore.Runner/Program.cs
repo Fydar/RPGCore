@@ -7,7 +7,7 @@ namespace RPGCore.Runner
 	{
 		public static Simulator simulator;
 
-		private static void Main (string[] args)
+		private static void Main(string[] args)
 		{
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.WriteLine ("-----------------------");

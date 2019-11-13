@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 	{
 		public override string ExportExtensions => "bhvr";
 
-		public override void BuildResource (IResource resource, Stream writer)
+		public override void BuildResource(IResource resource, Stream writer)
 		{
 			var serializer = new JsonSerializer ();
 			SerializedGraph serializedGraph;

@@ -6,6 +6,6 @@ namespace RPGCore.Packages
 	{
 		public abstract string ExportExtensions { get; }
 
-		public abstract void BuildResource (IResource resource, Stream writer);
+		public abstract void BuildResource(IResource resource, Stream writer);
 	}
 }

@@ -5,7 +5,7 @@ namespace RPGCore.Behaviour.UnitTests
 	public class LocalIdShould
 	{
 		[Test]
-		public void CaseInvarientParsing ()
+		public void CaseInvarientParsing()
 		{
 			int original = 1048471;
 
@@ -19,7 +19,7 @@ namespace RPGCore.Behaviour.UnitTests
 		}
 
 		[Test]
-		public void MatchesIntegerLiteral ()
+		public void MatchesIntegerLiteral()
 		{
 			var stringLiteral = new LocalId ("0xff001000");
 			var integerLiteral = new LocalId (0xff001000);
@@ -28,7 +28,7 @@ namespace RPGCore.Behaviour.UnitTests
 		}
 
 		[Test]
-		public void PrefixInvarientParsing ()
+		public void PrefixInvarientParsing()
 		{
 			int original = 1048471;
 

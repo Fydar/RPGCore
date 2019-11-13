@@ -10,14 +10,14 @@ namespace RPGCore.Behaviour
 		public string GraphType;
 		public Dictionary<LocalId, JObject> NodeInstances;
 
-		public GraphInstance Unpack (Graph graphType)
+		public GraphInstance Unpack(Graph graphType)
 		{
 			var graph = graphType.Create (NodeInstances);
 
 			return graph;
 		}
 
-		public string AsJson ()
+		public string AsJson()
 		{
 			var settings = new JsonSerializerSettings ();
 			settings.Converters.Add (new LocalIdJsonConverter ());
@@ -28,7 +28,7 @@ namespace RPGCore.Behaviour
 
 	public sealed class OutputConverter : JsonConverter
 	{
-		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 			if (reader.TokenType == JsonToken.Null)
 			{
@@ -44,7 +44,7 @@ namespace RPGCore.Behaviour
 			return outputObject;
 		}
 
-		public override bool CanConvert (Type objectType)
+		public override bool CanConvert(Type objectType)
 		{
 			return IsSubclassOfRawGeneric (typeof (Output<>), objectType)
 				&& !typeof (IConnection).IsAssignableFrom (objectType);
@@ -52,12 +52,12 @@ namespace RPGCore.Behaviour
 
 		public override bool CanWrite => false;
 
-		public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			throw new NotSupportedException ("JsonCreationConverter should only be used while deserializing.");
 		}
 
-		private static bool IsSubclassOfRawGeneric (Type generic, Type toCheck)
+		private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
 		{
 			while (toCheck != null && toCheck != typeof (object))
 			{

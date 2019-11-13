@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour
 		public Action OnBeforeChanged;
 		public Action OnAfterChanged;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private T InternalValue;
 
 		public T Value
@@ -29,28 +29,28 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public EventField ()
+		public EventField()
 		{
 			Handlers = new EventFieldHandlerCollection (this);
 		}
 
-		public EventField (T value)
+		public EventField(T value)
 			: this ()
 		{
 			InternalValue = value;
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 			Handlers.Dispose ();
 		}
 
-		object IEventField.GetValue ()
+		object IEventField.GetValue()
 		{
 			return Value;
 		}
 
-		void IEventField.SetValue (object value)
+		void IEventField.SetValue(object value)
 		{
 			Value = (T)value;
 		}

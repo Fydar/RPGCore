@@ -7,7 +7,7 @@ namespace RPGCore.Behaviour.Manifest
 		public string Description;
 		public string Type;
 
-		public static TypeConversion Construct (MethodInfo method)
+		public static TypeConversion Construct(MethodInfo method)
 		{
 			var typeConversion = new TypeConversion
 			{

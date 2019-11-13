@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour.Manifest
 		public Dictionary<string, TypeInformation> JsonTypes;
 		public Dictionary<string, TypeInformation> ObjectTypes;
 
-		public static TypeManifest Construct (Type[] valueTypes, Type[] objectTypes)
+		public static TypeManifest Construct(Type[] valueTypes, Type[] objectTypes)
 		{
 			var manifest = new TypeManifest ();
 
@@ -32,7 +32,7 @@ namespace RPGCore.Behaviour.Manifest
 			return manifest;
 		}
 
-		public static TypeManifest ConstructBaseTypes ()
+		public static TypeManifest ConstructBaseTypes()
 		{
 			return Construct (
 				new Type[]
@@ -64,7 +64,7 @@ namespace RPGCore.Behaviour.Manifest
 			);
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return JsonConvert.SerializeObject (this, Formatting.Indented);
 		}

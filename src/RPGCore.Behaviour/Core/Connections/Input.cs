@@ -37,13 +37,13 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Input (INodeInstance parent, IConnection connection)
+		public Input(INodeInstance parent, IConnection connection)
 		{
 			Parent = parent;
 			Connection = (IConnection<T>)connection;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			if (IsConnected)
 			{
@@ -55,17 +55,17 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 			Connection.Dispose ();
 		}
 
-		public object GetValue ()
+		public object GetValue()
 		{
 			return Connection.GetValue ();
 		}
 
-		public void SetValue (object value)
+		public void SetValue(object value)
 		{
 			Connection.SetValue (value);
 		}

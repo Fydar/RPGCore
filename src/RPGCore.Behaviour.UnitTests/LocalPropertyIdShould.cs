@@ -5,7 +5,7 @@ namespace RPGCore.Behaviour.UnitTests
 	public class LocalPropertyIdShould
 	{
 		[Test]
-		public void ParseString ()
+		public void ParseString()
 		{
 			var parsedLocalPropertyId = new LocalPropertyId ("0xff001000.Output");
 

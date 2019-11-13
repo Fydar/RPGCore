@@ -16,7 +16,7 @@ namespace RPGCore.Inventory.Slots
 		/// <para>Represents a transaction where items where added to an inventory.</para>
 		/// </summary>
 		Add,
-		
+
 		/// <summary>
 		/// <para>Represents a transaction where items where destroyed from an inventory.</para>
 		/// </summary>

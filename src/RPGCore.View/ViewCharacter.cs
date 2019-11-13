@@ -11,7 +11,7 @@ namespace RPGCore.View
 		public EventField<string> Name = new EventField<string> ();
 		public EventField<EntityRef> SelectedTarget = new EventField<EntityRef> ();
 
-		public ViewCharacter ()
+		public ViewCharacter()
 		{
 			Id = new EntityRef ()
 			{
@@ -28,7 +28,7 @@ namespace RPGCore.View
 			}
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return $"{Name.Value}({Id})";
 		}

@@ -8,52 +8,52 @@ namespace RPGCore.Behaviour
 		private readonly long longMin;
 		private readonly double doubleMin;
 
-		public MinValueAttribute (int minValue)
+		public MinValueAttribute(int minValue)
 		{
 			longMin = minValue;
 		}
 
-		public MinValueAttribute (uint minValue)
+		public MinValueAttribute(uint minValue)
 		{
 			longMin = minValue;
 		}
 
-		public MinValueAttribute (byte minValue)
+		public MinValueAttribute(byte minValue)
 		{
 			longMin = minValue;
 		}
 
-		public MinValueAttribute (sbyte minValue)
+		public MinValueAttribute(sbyte minValue)
 		{
 			longMin = minValue;
 		}
 
-		public MinValueAttribute (short minValue)
+		public MinValueAttribute(short minValue)
 		{
 			longMin = minValue;
 		}
 
-		public MinValueAttribute (ushort minValue)
+		public MinValueAttribute(ushort minValue)
 		{
 			longMin = minValue;
 		}
 
-		public MinValueAttribute (long minValue)
+		public MinValueAttribute(long minValue)
 		{
 			longMin = minValue;
 		}
 
-		public MinValueAttribute (float minValue)
+		public MinValueAttribute(float minValue)
 		{
 			doubleMin = minValue;
 		}
 
-		public MinValueAttribute (double minValue)
+		public MinValueAttribute(double minValue)
 		{
 			doubleMin = minValue;
 		}
 
-		public void Filter (ref int value)
+		public void Filter(ref int value)
 		{
 			if (value < longMin)
 			{
@@ -61,7 +61,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Filter (ref uint value)
+		public void Filter(ref uint value)
 		{
 			if (value < longMin)
 			{
@@ -69,7 +69,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Filter (ref byte value)
+		public void Filter(ref byte value)
 		{
 			if (value < longMin)
 			{
@@ -77,7 +77,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Filter (ref sbyte value)
+		public void Filter(ref sbyte value)
 		{
 			if (value < longMin)
 			{
@@ -85,7 +85,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Filter (ref short value)
+		public void Filter(ref short value)
 		{
 			if (value < longMin)
 			{
@@ -93,7 +93,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Filter (ref ushort value)
+		public void Filter(ref ushort value)
 		{
 			if (value < longMin)
 			{
@@ -101,7 +101,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Filter (ref float value)
+		public void Filter(ref float value)
 		{
 			if (value < doubleMin)
 			{
@@ -109,7 +109,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Filter (ref double value)
+		public void Filter(ref double value)
 		{
 			if (value < doubleMin)
 			{

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RPGCore.Items
+﻿namespace RPGCore.Items
 {
 	public abstract class ItemTemplate
 	{

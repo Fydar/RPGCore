@@ -2,6 +2,6 @@
 {
 	public interface IInputNode<T> : INodeInstance
 	{
-		void OnReceiveInput (T input);
+		void OnReceiveInput(T input);
 	}
 }

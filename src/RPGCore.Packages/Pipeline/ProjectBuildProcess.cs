@@ -14,7 +14,7 @@ namespace RPGCore.Packages
 		public string OutputFolder { get; }
 		public double Progress { get; private set; }
 
-		public ProjectBuildProcess (BuildPipeline pipeline, ProjectExplorer project, string outputFolder)
+		public ProjectBuildProcess(BuildPipeline pipeline, ProjectExplorer project, string outputFolder)
 		{
 			Pipeline = pipeline;
 			Project = project;
@@ -23,7 +23,7 @@ namespace RPGCore.Packages
 			PackageDefinition = new PackageDefinitionFile ();
 		}
 
-		public void PerformBuild ()
+		public void PerformBuild()
 		{
 			string bpkgPath = Path.Combine (OutputFolder, Project.Name + ".bpkg");
 			foreach (var reference in Project.Definition.References)

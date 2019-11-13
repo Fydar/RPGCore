@@ -14,30 +14,30 @@ namespace RPGCore.Behaviour
 
 		public TValue this[TKey key] => Collection[key];
 
-		public EventCollection ()
+		public EventCollection()
 		{
 			Handlers = new EventCollectionHandlerCollection<TKey, TValue> (this);
 			Collection = new Dictionary<TKey, TValue> ();
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 			Handlers.Dispose ();
 		}
 
-		public bool ContainsKey (TKey key)
+		public bool ContainsKey(TKey key)
 		{
 			return Collection.ContainsKey (key);
 		}
 
-		public void Add (TKey key, TValue value)
+		public void Add(TKey key, TValue value)
 		{
 			Collection.Add (key, value);
 
 			Handlers.InvokeAdd (key, value);
 		}
 
-		public bool Remove (TKey key)
+		public bool Remove(TKey key)
 		{
 			if (!Collection.TryGetValue (key, out var eventObject))
 			{
@@ -53,17 +53,17 @@ namespace RPGCore.Behaviour
 			return result;
 		}
 
-		public bool TryGetValue (TKey key, out TValue value)
+		public bool TryGetValue(TKey key, out TValue value)
 		{
 			return Collection.TryGetValue (key, out value);
 		}
 
-		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator ()
+		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
 		{
 			return Collection.GetEnumerator ();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator ()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return Collection.GetEnumerator ();
 		}

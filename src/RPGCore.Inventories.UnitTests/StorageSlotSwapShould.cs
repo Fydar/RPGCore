@@ -7,7 +7,7 @@ namespace RPGCore.Inventories.UnitTests
 	public class StorageSlotSwapShould
 	{
 		[Test, Parallelizable]
-		public void SwapEmptyToEmpty ()
+		public void SwapEmptyToEmpty()
 		{
 			var fromSlot = new ItemStorageSlot ();
 			var toSlot = new ItemStorageSlot ();
@@ -19,7 +19,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapEmptyToStackable ()
+		public void SwapEmptyToStackable()
 		{
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
@@ -35,7 +35,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapEmptyToUnique ()
+		public void SwapEmptyToUnique()
 		{
 			var toItem = new UniqueItem (new ProceduralItemTemplate ());
 
@@ -51,7 +51,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapStackableToPartial ()
+		public void SwapStackableToPartial()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -74,7 +74,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapStackableToStackable ()
+		public void SwapStackableToStackable()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -94,7 +94,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapStackableToEmpty ()
+		public void SwapStackableToEmpty()
 		{
 			var fromItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
@@ -110,7 +110,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapStackableToStackableOfDifferentType ()
+		public void SwapStackableToStackableOfDifferentType()
 		{
 			var fromItem = new StackableItem (new ProceduralItemTemplate (), 5);
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
@@ -128,7 +128,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapStackableToUnique ()
+		public void SwapStackableToUnique()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -148,7 +148,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapUniqueToStackable ()
+		public void SwapUniqueToStackable()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -168,7 +168,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void SwapUniqueToUnique ()
+		public void SwapUniqueToUnique()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -188,7 +188,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragUniqueToUniqueOfDifferentType ()
+		public void DragUniqueToUniqueOfDifferentType()
 		{
 			var fromItem = new UniqueItem (new ProceduralItemTemplate ());
 			var toItem = new UniqueItem (new ProceduralItemTemplate ());

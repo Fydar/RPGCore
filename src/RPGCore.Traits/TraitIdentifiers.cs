@@ -9,7 +9,7 @@ namespace RPGCore.Traits
 		private static readonly Dictionary<Type, StatIdentifier[]> StatsCache = new Dictionary<Type, StatIdentifier[]> ();
 		private static readonly Dictionary<Type, StateIdentifier[]> StatesCache = new Dictionary<Type, StateIdentifier[]> ();
 
-		public static StatIdentifier[] AllStats (Type source)
+		public static StatIdentifier[] AllStats(Type source)
 		{
 			if (StatsCache.TryGetValue (source, out var cache))
 			{
@@ -21,7 +21,7 @@ namespace RPGCore.Traits
 			return cache;
 		}
 
-		public static StateIdentifier[] AllStates (Type source)
+		public static StateIdentifier[] AllStates(Type source)
 		{
 			if (StatesCache.TryGetValue (source, out var cache))
 			{
@@ -33,7 +33,7 @@ namespace RPGCore.Traits
 			return cache;
 		}
 
-		private static T[] GetAllMembers<T> (Type source)
+		private static T[] GetAllMembers<T>(Type source)
 			where T : struct
 		{
 			var foundMembers = new List<T> ();

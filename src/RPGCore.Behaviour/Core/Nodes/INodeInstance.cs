@@ -4,8 +4,8 @@
 	{
 		Node NodeBase { get; }
 
-		void OnInputChanged ();
-		void Setup ();
-		void Remove ();
+		void OnInputChanged();
+		void Setup();
+		void Remove();
 	}
 }

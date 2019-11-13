@@ -19,35 +19,35 @@ namespace RPGCore.Behaviour.UnitTests
 			private readonly IReadOnlyEventField<T> source;
 			private readonly List<T> target;
 
-			public AddToListEventHandler (IReadOnlyEventField<T> source, List<T> target)
+			public AddToListEventHandler(IReadOnlyEventField<T> source, List<T> target)
 			{
 				this.source = source;
 				this.target = target;
 			}
 
-			public void Dispose ()
+			public void Dispose()
 			{
 
 			}
 
-			public void OnAfterChanged ()
+			public void OnAfterChanged()
 			{
 				target.Add (source.Value);
 			}
 
-			public void OnBeforeChanged ()
+			public void OnBeforeChanged()
 			{
 
 			}
 		}
 
 		[SetUp]
-		public void Setup ()
+		public void Setup()
 		{
 		}
 
 		[Test]
-		public void FireEvents ()
+		public void FireEvents()
 		{
 			var target = new EventField<TestPlayer> ();
 
@@ -56,7 +56,7 @@ namespace RPGCore.Behaviour.UnitTests
 
 			var damages = new List<int> ();
 
-			mainhandDamage.Handlers[this].Add(new AddToListEventHandler<int> (mainhandDamage, damages));
+			mainhandDamage.Handlers[this].Add (new AddToListEventHandler<int> (mainhandDamage, damages));
 
 			target.Value = new TestPlayer ()
 			{

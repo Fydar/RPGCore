@@ -14,7 +14,7 @@ namespace RPGCore.Packages
 
 		public string FullName { get; }
 
-		public ProjectResource (string projectKey, FileInfo entry)
+		public ProjectResource(string projectKey, FileInfo entry)
 		{
 			Entry = entry;
 
@@ -25,12 +25,12 @@ namespace RPGCore.Packages
 			FullName = projectKey;
 		}
 
-		public byte[] LoadData ()
+		public byte[] LoadData()
 		{
 			return File.ReadAllBytes (Entry.FullName);
 		}
 
-		public async Task<byte[]> LoadDataAsync ()
+		public async Task<byte[]> LoadDataAsync()
 		{
 			byte[] result;
 			using (var stream = File.Open (Entry.FullName, FileMode.Open))
@@ -41,17 +41,17 @@ namespace RPGCore.Packages
 			return result;
 		}
 
-		public Stream LoadStream ()
+		public Stream LoadStream()
 		{
 			return File.Open (Entry.FullName, FileMode.Open);
 		}
 
-		public StreamWriter WriteStream ()
+		public StreamWriter WriteStream()
 		{
 			return new StreamWriter (Entry.FullName, false);
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return FullName;
 		}

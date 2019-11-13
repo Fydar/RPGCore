@@ -6,28 +6,28 @@ namespace RPGCore.Demo.Nodes
 	{
 		public OutputSocket Character;
 
-		public override Instance Create () => new ItemInputInstance ();
+		public override Instance Create() => new ItemInputInstance ();
 
 		public class ItemInputInstance : Instance, IInputNode<DemoPlayer>
 		{
 			public Output<DemoPlayer> Character;
 
-			public override InputMap[] Inputs (IGraphConnections connections) => null;
+			public override InputMap[] Inputs(IGraphConnections connections) => null;
 
-			public override OutputMap[] Outputs (IGraphConnections connections) => new[]
+			public override OutputMap[] Outputs(IGraphConnections connections) => new[]
 			{
 				connections.Connect (ref Node.Character, ref Character)
 			};
 
-			public override void Setup ()
+			public override void Setup()
 			{
 			}
 
-			public override void Remove ()
+			public override void Remove()
 			{
 			}
 
-			public void OnReceiveInput (DemoPlayer input)
+			public void OnReceiveInput(DemoPlayer input)
 			{
 				Character.Value = input;
 			}

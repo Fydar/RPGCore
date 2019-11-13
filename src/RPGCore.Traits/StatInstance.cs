@@ -22,17 +22,17 @@ namespace RPGCore.Traits
 
 		public float Value { get; private set; }
 
-		public StatInstance ()
+		public StatInstance()
 		{
 			Handlers = new EventFieldHandlerCollection (this);
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return $"{nameof (StatInstance)}({Identifier.ToString ()})";
 		}
 
-		private float CalculateValue ()
+		private float CalculateValue()
 		{
 			float currentValue = 0.0f;
 			if (BaseAdditiveModifiers != null)
@@ -81,7 +81,7 @@ namespace RPGCore.Traits
 			return currentValue;
 		}
 
-		public void AddModifier (StatModifier modifier)
+		public void AddModifier(StatModifier modifier)
 		{
 			Handlers.InvokeBeforeChanged ();
 
@@ -159,7 +159,7 @@ namespace RPGCore.Traits
 			Value = CalculateValue ();
 		}
 
-		public bool RemoveModifier (StatModifier modifier)
+		public bool RemoveModifier(StatModifier modifier)
 		{
 			Handlers.InvokeBeforeChanged ();
 
@@ -242,25 +242,25 @@ namespace RPGCore.Traits
 			return result;
 		}
 
-		public void OnBeforeChanged ()
+		public void OnBeforeChanged()
 		{
 		}
 
-		public void OnAfterChanged ()
+		public void OnAfterChanged()
 		{
 			Value = CalculateValue ();
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 		}
 
-		object IEventField.GetValue ()
+		object IEventField.GetValue()
 		{
 			return Value;
 		}
 
-		void IEventField.SetValue (object value)
+		void IEventField.SetValue(object value)
 		{
 			Value = (float)value;
 		}

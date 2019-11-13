@@ -12,23 +12,23 @@ namespace RPGCore.Behaviour
 			private readonly IEventCollection<TKey, TValue> Collection;
 			private readonly object Context;
 
-			public ContextWrapped (IEventCollection<TKey, TValue> collection, object context)
+			public ContextWrapped(IEventCollection<TKey, TValue> collection, object context)
 			{
 				Collection = collection;
 				Context = context;
 			}
 
-			public void Clear ()
+			public void Clear()
 			{
 				Collection.Handlers.Clear (Context);
 			}
 
-			public void Add (IEventCollectionHandler<TKey, TValue> handler)
+			public void Add(IEventCollectionHandler<TKey, TValue> handler)
 			{
 				Collection.Handlers.InternalHandlers.Add (new KeyValuePair<object, IEventCollectionHandler<TKey, TValue>> (Context, handler));
 			}
 
-			public void Remove (IEventCollectionHandler<TKey, TValue> handler)
+			public void Remove(IEventCollectionHandler<TKey, TValue> handler)
 			{
 				Collection.Handlers.InternalHandlers.Remove (new KeyValuePair<object, IEventCollectionHandler<TKey, TValue>> (Context, handler));
 			}
@@ -40,7 +40,7 @@ namespace RPGCore.Behaviour
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private readonly List<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> InternalHandlers;
 
-		public EventCollectionHandlerCollection (IEventCollection<TKey, TValue> collection)
+		public EventCollectionHandlerCollection(IEventCollection<TKey, TValue> collection)
 		{
 			Collection = collection;
 			InternalHandlers = new List<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> ();
@@ -51,7 +51,7 @@ namespace RPGCore.Behaviour
 			get => new ContextWrapped (Collection, context);
 		}
 
-		public void Clear (object context)
+		public void Clear(object context)
 		{
 			for (int i = InternalHandlers.Count - 1; i >= 0; i--)
 			{
@@ -62,12 +62,12 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Clear ()
+		public void Clear()
 		{
 			InternalHandlers.Clear ();
 		}
 
-		public void InvokeAdd (TKey key, TValue value)
+		public void InvokeAdd(TKey key, TValue value)
 		{
 			if (InternalHandlers == null)
 			{
@@ -80,7 +80,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void InvokeRemoved (TKey key, TValue value)
+		public void InvokeRemoved(TKey key, TValue value)
 		{
 			if (InternalHandlers == null)
 			{
@@ -93,7 +93,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 			if (InternalHandlers == null)
 			{
@@ -106,12 +106,12 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public IEnumerator<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> GetEnumerator ()
+		public IEnumerator<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> GetEnumerator()
 		{
 			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>)InternalHandlers).GetEnumerator ();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator ()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>)InternalHandlers).GetEnumerator ();
 		}

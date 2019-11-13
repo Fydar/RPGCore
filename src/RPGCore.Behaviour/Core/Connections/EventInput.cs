@@ -31,13 +31,13 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public EventInput (INodeInstance parent, IConnection connection)
+		public EventInput(INodeInstance parent, IConnection connection)
 		{
 			Parent = parent;
 			Connection = connection;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			if (IsConnected)
 			{

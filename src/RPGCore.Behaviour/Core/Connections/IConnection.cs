@@ -13,10 +13,10 @@ namespace RPGCore.Behaviour
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		bool BufferEvents { get; set; }
 
-		void RegisterConverter (IConnectionTypeConverter converter);
-		void RegisterInput (INodeInstance node);
-		void Subscribe (INodeInstance node, Action callback);
-		void Unsubscribe (INodeInstance node, Action callback);
+		void RegisterConverter(IConnectionTypeConverter converter);
+		void RegisterInput(INodeInstance node);
+		void Subscribe(INodeInstance node, Action callback);
+		void Unsubscribe(INodeInstance node, Action callback);
 	}
 
 	public interface IConnection<T> : IConnection, IReadOnlyEventField<T>

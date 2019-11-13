@@ -9,7 +9,7 @@ namespace RPGCore.Demo.Nodes
 		public InputSocket Repetitions;
 		public string SubgraphId;
 
-		public override Instance Create () => new IterateInstance ();
+		public override Instance Create() => new IterateInstance ();
 
 		public class IterateInstance : Instance
 		{
@@ -17,19 +17,19 @@ namespace RPGCore.Demo.Nodes
 
 			public List<GraphInstance> SubGraphs;
 
-			public override InputMap[] Inputs (IGraphConnections graph) => new[]
+			public override InputMap[] Inputs(IGraphConnections graph) => new[]
 			{
 				graph.Connect (ref Node.Repetitions, ref Repetitions),
 			};
 
-			public override OutputMap[] Outputs (IGraphConnections graph) => null;
+			public override OutputMap[] Outputs(IGraphConnections graph) => null;
 
-			public override void Setup ()
+			public override void Setup()
 			{
 				SubGraphs = new List<GraphInstance> ();
 			}
 
-			public override void OnInputChanged ()
+			public override void OnInputChanged()
 			{
 				int repetitions = (int)Repetitions.Value;
 				var graphToUse = Graph.Template.SubGraphs[Node.SubgraphId];
@@ -47,7 +47,7 @@ namespace RPGCore.Demo.Nodes
 				}
 			}
 
-			public override void Remove ()
+			public override void Remove()
 			{
 			}
 		}

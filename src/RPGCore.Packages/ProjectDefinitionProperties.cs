@@ -18,7 +18,7 @@ namespace RPGCore.Packages
 			set => Element.SelectSingleNode ("Version").InnerXml = value;
 		}
 
-		public ProjectDefinitionProperties (XmlNode element)
+		public ProjectDefinitionProperties(XmlNode element)
 		{
 			Element = element;
 		}

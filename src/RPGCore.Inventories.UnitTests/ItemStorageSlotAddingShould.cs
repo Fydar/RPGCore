@@ -7,7 +7,7 @@ namespace RPGCore.Inventories.UnitTests
 	public class ItemStorageSlotAddingShould
 	{
 		[Test, Parallelizable]
-		public void CompleteOnFilledFromEmpty ()
+		public void CompleteOnFilledFromEmpty()
 		{
 			var storageSlot = new ItemStorageSlot ()
 			{
@@ -30,7 +30,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void CompleteOnFilledFromPartial ()
+		public void CompleteOnFilledFromPartial()
 		{
 			var storageSlot = new ItemStorageSlot ()
 			{
@@ -55,7 +55,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void LimitedSlotCapacityForMultipleStackableItems ()
+		public void LimitedSlotCapacityForMultipleStackableItems()
 		{
 			var storageSlot = new ItemStorageSlot ()
 			{
@@ -79,7 +79,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void LimitedSlotCapacityForSingleStackableItem ()
+		public void LimitedSlotCapacityForSingleStackableItem()
 		{
 			var storageSlot = new ItemStorageSlot ()
 			{
@@ -103,7 +103,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void NoneOnTryAddStackableOfDifferentTypeAddedToOccupiedSlot ()
+		public void NoneOnTryAddStackableOfDifferentTypeAddedToOccupiedSlot()
 		{
 			var storageSlot = new ItemStorageSlot ();
 
@@ -118,7 +118,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void NoneOnTryAddToFullStackableSlot ()
+		public void NoneOnTryAddToFullStackableSlot()
 		{
 			var storageSlot = new ItemStorageSlot ()
 			{
@@ -137,7 +137,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void NoneOnTryAddUniqueItemAddedToOccupiedSlot ()
+		public void NoneOnTryAddUniqueItemAddedToOccupiedSlot()
 		{
 			var storageSlot = new ItemStorageSlot ();
 
@@ -152,7 +152,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void StoreStackableItem ()
+		public void StoreStackableItem()
 		{
 			var storageSlot = new ItemStorageSlot ();
 
@@ -170,7 +170,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void StoreUniqueItem ()
+		public void StoreUniqueItem()
 		{
 			var storageSlot = new ItemStorageSlot ();
 

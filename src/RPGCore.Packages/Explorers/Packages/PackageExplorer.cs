@@ -14,7 +14,7 @@ namespace RPGCore.Packages
 
 			public IResource this[string key] => items[key];
 
-			public void Add (IResource asset)
+			public void Add(IResource asset)
 			{
 				if (items == null)
 				{
@@ -24,12 +24,12 @@ namespace RPGCore.Packages
 				items.Add (asset.FullName, asset);
 			}
 
-			public IEnumerator<IResource> GetEnumerator ()
+			public IEnumerator<IResource> GetEnumerator()
 			{
 				return items.Values.GetEnumerator ();
 			}
 
-			IEnumerator IEnumerable.GetEnumerator ()
+			IEnumerator IEnumerable.GetEnumerator()
 			{
 				return items.Values.GetEnumerator ();
 			}
@@ -42,17 +42,17 @@ namespace RPGCore.Packages
 		public string Version => bProj.Properties.Version;
 		public IResourceCollection Resources { get; private set; }
 
-		public PackageExplorer ()
+		public PackageExplorer()
 		{
 			Resources = new PackageResourceCollection ();
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 
 		}
 
-		public Stream LoadStream (string packageKey)
+		public Stream LoadStream(string packageKey)
 		{
 			var fileStream = new FileStream (Path, FileMode.Open, FileAccess.Read, FileShare.Read);
 			var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true);
@@ -64,7 +64,7 @@ namespace RPGCore.Packages
 			return new PackageStream (zipStream, fileStream, archive);
 		}
 
-		public byte[] OpenAsset (string packageKey)
+		public byte[] OpenAsset(string packageKey)
 		{
 			using (var fileStream = new FileStream (Path, FileMode.Open, FileAccess.Read, FileShare.Read))
 			using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true))
@@ -80,7 +80,7 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public static PackageExplorer Load (string path)
+		public static PackageExplorer Load(string path)
 		{
 			var package = new PackageExplorer
 			{

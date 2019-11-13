@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 
 		public TOutput Value => Convert (Source.Value);
 
-		protected abstract TOutput Convert (TInput original);
+		protected abstract TOutput Convert(TInput original);
 
 		public Type ConnectionType => Source.ConnectionType;
 
@@ -24,40 +24,40 @@ namespace RPGCore.Behaviour
 
 		public bool BufferEvents { get; set; }
 
-		public ConnectionTypeConverter ()
+		public ConnectionTypeConverter()
 		{
 		}
 
-		public ConnectionTypeConverter (IConnection source)
+		public ConnectionTypeConverter(IConnection source)
 		{
 			Source = (IConnection<TInput>)source;
 		}
 
-		public void Subscribe (INodeInstance node, Action callback) =>
+		public void Subscribe(INodeInstance node, Action callback) =>
 			Source.Subscribe (node, callback);
 
-		public void Unsubscribe (INodeInstance node, Action callback) =>
+		public void Unsubscribe(INodeInstance node, Action callback) =>
 			Source.Unsubscribe (node, callback);
 
-		public void SetSource (IConnection source)
+		public void SetSource(IConnection source)
 		{
 			Source = (IConnection<TInput>)source;
 		}
 
-		public void RegisterInput (INodeInstance node) => Source.RegisterInput (node);
+		public void RegisterInput(INodeInstance node) => Source.RegisterInput (node);
 
-		public void RegisterConverter (IConnectionTypeConverter converter) => Source.RegisterConverter (converter);
-		
-		public void Dispose ()
+		public void RegisterConverter(IConnectionTypeConverter converter) => Source.RegisterConverter (converter);
+
+		public void Dispose()
 		{
 		}
 
-		public object GetValue ()
+		public object GetValue()
 		{
 			throw new NotImplementedException ();
 		}
 
-		public void SetValue (object value)
+		public void SetValue(object value)
 		{
 			throw new NotImplementedException ();
 		}

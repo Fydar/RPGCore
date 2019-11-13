@@ -8,13 +8,13 @@ namespace RPGCore.Behaviour
 		public InputMap InputInformation;
 		public Node Node => Instance.NodeBase;
 
-		public OutputSource (INodeInstance instance, InputMap outputMapping)
+		public OutputSource(INodeInstance instance, InputMap outputMapping)
 		{
 			Instance = instance ?? throw new ArgumentNullException (nameof (instance));
 			InputInformation = outputMapping;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			if (Instance == null)
 			{

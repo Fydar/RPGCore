@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 
 		private readonly T internalValue;
 
-		public StaticValue (T value)
+		public StaticValue(T value)
 		{
 			internalValue = value;
 		}

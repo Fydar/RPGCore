@@ -7,7 +7,7 @@ namespace RPGCore.View
 	{
 		public EventCollection<EntityRef, Entity> Entities = new EventCollection<EntityRef, Entity> ();
 
-		public void Apply (ViewPacket packet)
+		public void Apply(ViewPacket packet)
 		{
 			switch (packet.PacketType)
 			{

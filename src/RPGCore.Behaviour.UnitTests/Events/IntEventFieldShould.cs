@@ -5,12 +5,12 @@ namespace RPGCore.Behaviour.UnitTests
 	public class IntEventFieldShould
 	{
 		[SetUp]
-		public void Setup ()
+		public void Setup()
 		{
 		}
 
 		[Test]
-		public void Start ()
+		public void Start()
 		{
 
 		}

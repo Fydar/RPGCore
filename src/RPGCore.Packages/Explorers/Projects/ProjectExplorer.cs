@@ -18,7 +18,7 @@ namespace RPGCore.Packages
 
 			IResource IResourceCollection.this[string key] => Resources[key];
 
-			public void Add (ProjectResource folder)
+			public void Add(ProjectResource folder)
 			{
 				if (Resources == null)
 				{
@@ -28,19 +28,19 @@ namespace RPGCore.Packages
 				Resources.Add (folder.FullName, folder);
 			}
 
-			public void Add (IResource folder) => throw new NotImplementedException ();
+			public void Add(IResource folder) => throw new NotImplementedException ();
 
-			public IEnumerator<ProjectResource> GetEnumerator ()
+			public IEnumerator<ProjectResource> GetEnumerator()
 			{
 				return Resources.Values.GetEnumerator ();
 			}
 
-			IEnumerator IEnumerable.GetEnumerator ()
+			IEnumerator IEnumerable.GetEnumerator()
 			{
 				return Resources.Values.GetEnumerator ();
 			}
 
-			IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator ()
+			IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()
 			{
 				return Resources.Values.GetEnumerator ();
 			}
@@ -54,12 +54,12 @@ namespace RPGCore.Packages
 
 		IResourceCollection IPackageExplorer.Resources => (IResourceCollection)Resources;
 
-		public ProjectExplorer ()
+		public ProjectExplorer()
 		{
 			Resources = new ProjectResourceCollection ();
 		}
 
-		public static ProjectExplorer Load (string path)
+		public static ProjectExplorer Load(string path)
 		{
 			string bprojPath = null;
 			if (path.EndsWith (".bproj"))
@@ -123,12 +123,12 @@ namespace RPGCore.Packages
 			return project;
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 
 		}
 
-		public void Export (BuildPipeline pipeline, string path)
+		public void Export(BuildPipeline pipeline, string path)
 		{
 			Directory.CreateDirectory (path);
 

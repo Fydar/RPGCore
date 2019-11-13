@@ -4,7 +4,7 @@ namespace RPGCore.Behaviour
 {
 	public interface IIntCalculation
 	{
-		int Calculate ();
+		int Calculate();
 	}
 
 	public class IntEventField
@@ -27,12 +27,12 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public IntEventField (int defaultValue)
+		public IntEventField(int defaultValue)
 		{
 			Value = defaultValue;
 		}
 
-		public IntEventField (IIntCalculation calculation)
+		public IntEventField(IIntCalculation calculation)
 		{
 			new IntEventField (calculation.Calculate ());
 
@@ -40,7 +40,7 @@ namespace RPGCore.Behaviour
 			//calculation.right.OnChanged += () => { eventField.Value = calculation.Calculate(); };
 		}
 
-		public IntEventField (IntAddCalculation calculation)
+		public IntEventField(IntAddCalculation calculation)
 		{
 			internalValue = calculation.Calculate ();
 
@@ -48,47 +48,47 @@ namespace RPGCore.Behaviour
 			calculation.right.OnChanged += () => { internalValue = calculation.Calculate (); };
 		}
 
-		public static IntEventField operator + (IntEventField left, Action right)
+		public static IntEventField operator +(IntEventField left, Action right)
 		{
 			left.OnChanged += right;
 			return left;
 		}
 
-		public static IntEventField operator + (IntEventField left, Action<int> right)
+		public static IntEventField operator +(IntEventField left, Action<int> right)
 		{
 			left.OnChangedValue += right;
 			return left;
 		}
 
-		public static IntEventField operator - (IntEventField left, Action right)
+		public static IntEventField operator -(IntEventField left, Action right)
 		{
 			left.OnChanged -= right;
 			return left;
 		}
 
-		public static IntEventField operator - (IntEventField left, Action<int> right)
+		public static IntEventField operator -(IntEventField left, Action<int> right)
 		{
 			left.OnChangedValue -= right;
 			return left;
 		}
 
 
-		public static IntAddCalculation operator + (IntEventField left, IntEventField right)
+		public static IntAddCalculation operator +(IntEventField left, IntEventField right)
 		{
 			return new IntAddCalculation (left, right);
 		}
 
-		public static IntAddCalculation operator + (IntAddCalculation left, IntEventField right)
+		public static IntAddCalculation operator +(IntAddCalculation left, IntEventField right)
 		{
 			return new IntAddCalculation (right, right);
 		}
 
-		public static IntAddCalculation operator + (IntEventField left, int right)
+		public static IntAddCalculation operator +(IntEventField left, int right)
 		{
 			return new IntAddCalculation (left, new IntEventField (right));
 		}
 
-		public static IntMinusCalculation operator - (IntEventField left, IntEventField right)
+		public static IntMinusCalculation operator -(IntEventField left, IntEventField right)
 		{
 			return new IntMinusCalculation (left, right);
 		}
@@ -99,13 +99,13 @@ namespace RPGCore.Behaviour
 		public IntEventField left;
 		public IntEventField right;
 
-		public IntAddCalculation (IntEventField left, IntEventField right)
+		public IntAddCalculation(IntEventField left, IntEventField right)
 		{
 			this.left = left;
 			this.right = right;
 		}
 
-		public int Calculate ()
+		public int Calculate()
 		{
 			return left.Value + right.Value;
 		}
@@ -121,13 +121,13 @@ namespace RPGCore.Behaviour
 		public IntEventField left;
 		public IntEventField right;
 
-		public IntMinusCalculation (IntEventField left, IntEventField right)
+		public IntMinusCalculation(IntEventField left, IntEventField right)
 		{
 			this.left = left;
 			this.right = right;
 		}
 
-		public int Calculate ()
+		public int Calculate()
 		{
 			return left.Value - right.Value;
 		}

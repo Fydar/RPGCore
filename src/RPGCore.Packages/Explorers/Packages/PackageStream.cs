@@ -20,43 +20,43 @@ namespace RPGCore.Packages
 
 		public override long Position { get => InternalStream.Position; set => InternalStream.Position = value; }
 
-		public PackageStream (Stream internalStream, params IDisposable[] components)
+		public PackageStream(Stream internalStream, params IDisposable[] components)
 		{
 			InternalStream = internalStream;
 			Components = components;
 		}
 
-		public override void Flush ()
+		public override void Flush()
 		{
 			InternalStream.Flush ();
 		}
 
-		public override int Read (byte[] buffer, int offset, int count)
+		public override int Read(byte[] buffer, int offset, int count)
 		{
 			return InternalStream.Read (buffer, offset, count);
 		}
 
-		public override long Seek (long offset, SeekOrigin origin)
+		public override long Seek(long offset, SeekOrigin origin)
 		{
 			return InternalStream.Seek (offset, origin);
 		}
 
-		public override void SetLength (long value)
+		public override void SetLength(long value)
 		{
 			InternalStream.SetLength (value);
 		}
 
-		public override void Write (byte[] buffer, int offset, int count)
+		public override void Write(byte[] buffer, int offset, int count)
 		{
 			InternalStream.Write (buffer, offset, count);
 		}
 
-		~PackageStream ()
+		~PackageStream()
 		{
 			Dispose (false);
 		}
 
-		protected override void Dispose (bool disposing)
+		protected override void Dispose(bool disposing)
 		{
 			base.Dispose (disposing);
 			if (!Disposed)

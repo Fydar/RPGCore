@@ -6,10 +6,10 @@ namespace RPGCore.Inventory.Slots
 	{
 		IItem CurrentItem { get; }
 
-		InventoryTransaction DestroyItem ();
-		InventoryTransaction DragInto (IInventory other);
-		InventoryTransaction MoveInto (IInventory other);
-		InventoryTransaction SetItem (IItem item);
-		InventoryTransaction Swap (IItemSlot other);
+		InventoryTransaction DestroyItem();
+		InventoryTransaction DragInto(IInventory other);
+		InventoryTransaction MoveInto(IInventory other);
+		InventoryTransaction SetItem(IItem item);
+		InventoryTransaction Swap(IItemSlot other);
 	}
 }

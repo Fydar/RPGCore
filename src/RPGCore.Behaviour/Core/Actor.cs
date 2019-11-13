@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 
 		public EventField<int> Health;
 
-		public DemoPlayer ()
+		public DemoPlayer()
 		{
 			behaviours = new List<INodeInstance> ();
 			Health = new EventField<int>
@@ -17,7 +17,7 @@ namespace RPGCore.Behaviour
 			};
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return "Actor";
 		}

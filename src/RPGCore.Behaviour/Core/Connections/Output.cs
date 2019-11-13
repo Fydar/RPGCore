@@ -22,22 +22,22 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Output (OutputConnection<T> connection)
+		public Output(OutputConnection<T> connection)
 		{
 			Connection = connection;
 		}
 
-		public void StartMirroring (IReadOnlyEventField<T> target)
+		public void StartMirroring(IReadOnlyEventField<T> target)
 		{
 			Connection.StartMirroring (target);
 		}
 
-		public void StopMirroring ()
+		public void StopMirroring()
 		{
 			Connection.StopMirroring ();
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			if (IsConnected)
 			{

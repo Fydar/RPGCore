@@ -16,7 +16,7 @@ namespace RPGCore.CLI
 			UnknownError = 10
 		}
 
-		private static int Main (string[] args)
+		private static int Main(string[] args)
 		{
 			if (args.Length == 0)
 			{
@@ -106,7 +106,7 @@ namespace RPGCore.CLI
 			return (int)ExitCode.Success;
 		}
 
-		private static FileInfo FindFileOfType (string extension)
+		private static FileInfo FindFileOfType(string extension)
 		{
 			var folder = new DirectoryInfo ("./");
 			var bprojs = folder.GetFiles ($"*{extension}", SearchOption.TopDirectoryOnly);
@@ -127,7 +127,7 @@ namespace RPGCore.CLI
 			return bprojs[0];
 		}
 
-		private static FileInfo[] FindFilesOfType (string extension, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+		private static FileInfo[] FindFilesOfType(string extension, SearchOption searchOption = SearchOption.TopDirectoryOnly)
 		{
 			var folder = new DirectoryInfo ("./");
 			return folder.GetFiles ($"*{extension}", searchOption);

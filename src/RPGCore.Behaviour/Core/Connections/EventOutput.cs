@@ -9,12 +9,12 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public bool IsConnected => Connection != null;
 
-		public EventOutput (IConnection connection)
+		public EventOutput(IConnection connection)
 		{
 			Connection = connection;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			if (IsConnected)
 			{

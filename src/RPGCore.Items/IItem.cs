@@ -8,6 +8,6 @@
 		/// Creates a duplicate of this item.
 		/// </summary>
 		/// <returns>A duplicate of this item.</returns>
-		IItem Duplicate ();
+		IItem Duplicate();
 	}
 }

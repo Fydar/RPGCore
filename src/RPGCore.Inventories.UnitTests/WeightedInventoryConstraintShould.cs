@@ -7,7 +7,7 @@ namespace RPGCore.Inventories.UnitTests
 	public class WeightedInventoryConstraintShould
 	{
 		[Test, Parallelizable]
-		public void AllowWeightlessItems ()
+		public void AllowWeightlessItems()
 		{
 			var storageSlot = new ItemStorageSlot
 			(
@@ -31,7 +31,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DeclineOverweightedItems ()
+		public void DeclineOverweightedItems()
 		{
 			var storageSlot = new ItemStorageSlot
 			(
@@ -53,7 +53,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void LimitCapacityInEmptyFilledItemStorageSlot ()
+		public void LimitCapacityInEmptyFilledItemStorageSlot()
 		{
 			var storageSlot = new ItemStorageSlot
 			(
@@ -78,7 +78,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void LimitCapacityInFullItemStorageSlot ()
+		public void LimitCapacityInFullItemStorageSlot()
 		{
 			var storageSlot = new ItemStorageSlot
 			(
@@ -103,7 +103,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void LimitCapacityInPartiallyFilledItemStorageSlot ()
+		public void LimitCapacityInPartiallyFilledItemStorageSlot()
 		{
 			var storageSlot = new ItemStorageSlot
 			(

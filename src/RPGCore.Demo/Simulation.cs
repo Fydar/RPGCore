@@ -15,7 +15,7 @@ namespace RPGCore.Demo
 {
 	public sealed class Simulation
 	{
-		public void Start ()
+		public void Start()
 		{
 			new Server ().Run ();
 

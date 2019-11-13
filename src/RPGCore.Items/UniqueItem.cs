@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RPGCore.Items
+﻿namespace RPGCore.Items
 {
 	/// <summary>
 	/// Unique items can have data stored on the single instance of the item.
@@ -15,7 +13,7 @@ namespace RPGCore.Items
 			Template = template;
 		}
 
-		public IItem Duplicate ()
+		public IItem Duplicate()
 		{
 			return new UniqueItem (Template);
 		}

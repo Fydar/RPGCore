@@ -9,7 +9,7 @@ namespace RPGCore.Demo.Nodes
 
 		public OutputSocket Output;
 
-		public override Instance Create () => new AddInstance ();
+		public override Instance Create() => new AddInstance ();
 
 		public class AddInstance : Instance
 		{
@@ -18,22 +18,22 @@ namespace RPGCore.Demo.Nodes
 
 			public Output<float> Output;
 
-			public override InputMap[] Inputs (IGraphConnections connections) => new[]
+			public override InputMap[] Inputs(IGraphConnections connections) => new[]
 			{
 				connections.Connect (ref Node.ValueA, ref ValueA),
 				connections.Connect (ref Node.ValueB, ref ValueB)
 			};
 
-			public override OutputMap[] Outputs (IGraphConnections connections) => new[]
+			public override OutputMap[] Outputs(IGraphConnections connections) => new[]
 			{
 				connections.Connect (ref Node.Output, ref Output)
 			};
 
-			public override void Setup ()
+			public override void Setup()
 			{
 			}
 
-			public override void OnInputChanged ()
+			public override void OnInputChanged()
 			{
 				float value = ValueA.Value + ValueB.Value;
 
@@ -44,7 +44,7 @@ namespace RPGCore.Demo.Nodes
 				Output.Value = value;
 			}
 
-			public override void Remove ()
+			public override void Remove()
 			{
 			}
 		}

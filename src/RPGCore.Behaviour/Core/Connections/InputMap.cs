@@ -7,13 +7,13 @@ namespace RPGCore.Behaviour
 		public int ConnectionId;
 		public Type ConnectionType;
 
-		public InputMap (InputSocket source, Type connectionType)
+		public InputMap(InputSocket source, Type connectionType)
 		{
 			ConnectionType = connectionType;
 			ConnectionId = source.ConnectionId;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			if (ConnectionId == -1)
 			{

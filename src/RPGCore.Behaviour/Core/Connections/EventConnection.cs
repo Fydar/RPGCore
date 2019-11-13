@@ -20,12 +20,12 @@ namespace RPGCore.Behaviour
 
 		public virtual bool BufferEvents { get; set; }
 
-		public EventConnection (int connectionId)
+		public EventConnection(int connectionId)
 		{
 			ConnectionId = connectionId;
 		}
 
-		public void RegisterInput (INodeInstance node)
+		public void RegisterInput(INodeInstance node)
 		{
 			if (Consumers == null)
 			{
@@ -35,7 +35,7 @@ namespace RPGCore.Behaviour
 			Consumers.Add (new ConnectionSubscription (node));
 		}
 
-		public void RegisterConverter (IConnectionTypeConverter converter)
+		public void RegisterConverter(IConnectionTypeConverter converter)
 		{
 			if (Converters == null)
 			{
@@ -45,7 +45,7 @@ namespace RPGCore.Behaviour
 			Converters.Add (converter);
 		}
 
-		public virtual void Subscribe (INodeInstance node, Action callback)
+		public virtual void Subscribe(INodeInstance node, Action callback)
 		{
 			if (Consumers == null)
 			{
@@ -72,7 +72,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public virtual void Unsubscribe (INodeInstance node, Action callback)
+		public virtual void Unsubscribe(INodeInstance node, Action callback)
 		{
 			if (Consumers == null)
 			{
@@ -98,7 +98,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		protected void InvokeAfterChanged ()
+		protected void InvokeAfterChanged()
 		{
 			if (Consumers == null)
 			{
@@ -116,6 +116,6 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public override string ToString () => $"Connection {ConnectionId}";
+		public override string ToString() => $"Connection {ConnectionId}";
 	}
 }

@@ -31,7 +31,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public GraphInstance (Graph template, IDictionary<LocalId, JObject> data = null)
+		public GraphInstance(Graph template, IDictionary<LocalId, JObject> data = null)
 		{
 			Template = template;
 
@@ -84,7 +84,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Setup ()
+		public void Setup()
 		{
 			int nodeCount = Template.Nodes.Length;
 
@@ -119,7 +119,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Remove ()
+		public void Remove()
 		{
 			foreach (var node in nodeInstances)
 			{
@@ -127,7 +127,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public SerializedGraphInstance Pack ()
+		public SerializedGraphInstance Pack()
 		{
 			var nodeMap = new Dictionary<LocalId, JObject> ();
 
@@ -151,7 +151,7 @@ namespace RPGCore.Behaviour
 			};
 		}
 
-		public INodeInstance GetNode<T> ()
+		public INodeInstance GetNode<T>()
 		{
 			for (int i = nodeInstances.Length - 1; i >= 0; i--)
 			{
@@ -165,7 +165,7 @@ namespace RPGCore.Behaviour
 			return null;
 		}
 
-		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref Input<T> input)
+		InputMap IGraphConnections.Connect<T>(ref InputSocket socket, ref Input<T> input)
 		{
 			if (socket.ConnectionId >= 0)
 			{
@@ -189,7 +189,7 @@ namespace RPGCore.Behaviour
 			return new InputMap (socket, typeof (T));
 		}
 
-		OutputMap IGraphConnections.Connect<T> (ref OutputSocket socket, ref Output<T> output)
+		OutputMap IGraphConnections.Connect<T>(ref OutputSocket socket, ref Output<T> output)
 		{
 			var newConnection = GetOrCreateOutputConnection<T> (socket.Id);
 			if (newConnection != null && output.Connection != null)
@@ -201,7 +201,7 @@ namespace RPGCore.Behaviour
 			return new OutputMap (socket, typeof (T));
 		}
 
-		InputMap IGraphConnections.Connect<T> (ref InputSocket socket, ref T node)
+		InputMap IGraphConnections.Connect<T>(ref InputSocket socket, ref T node)
 		{
 			if (socket.ConnectionId >= 0)
 			{
@@ -211,7 +211,7 @@ namespace RPGCore.Behaviour
 			return new InputMap (socket, typeof (T));
 		}
 
-		private OutputConnection<T> GetOrCreateOutputConnection<T> (int id)
+		private OutputConnection<T> GetOrCreateOutputConnection<T>(int id)
 		{
 			if (id < 0)
 			{
@@ -227,14 +227,14 @@ namespace RPGCore.Behaviour
 			return shared;
 		}
 
-		private IConnection GetConnection (int id)
+		private IConnection GetConnection(int id)
 		{
 			return id < 0
 				? null
 				: connections[id];
 		}
 
-		public InputSource GetSource<T> (Input<T> input)
+		public InputSource GetSource<T>(Input<T> input)
 		{
 			if (input.Connection == null)
 			{
@@ -272,7 +272,7 @@ namespace RPGCore.Behaviour
 			return new InputSource ();
 		}
 
-		public IEnumerable<OutputSource> GetSource<T> (Output<T> output)
+		public IEnumerable<OutputSource> GetSource<T>(Output<T> output)
 		{
 			if (output.Connection == null)
 			{
@@ -308,7 +308,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public T GetNodeInstance<T> ()
+		public T GetNodeInstance<T>()
 			where T : INodeInstance
 		{
 			for (int i = 0; i < nodeInstances.Length; i++)
@@ -323,7 +323,7 @@ namespace RPGCore.Behaviour
 			return default;
 		}
 
-		public IEnumerable<T> GetNodeInstances<T> ()
+		public IEnumerable<T> GetNodeInstances<T>()
 			where T : INodeInstance
 		{
 			for (int i = 0; i < nodeInstances.Length; i++)
@@ -337,7 +337,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void SetInput<T> (T input)
+		public void SetInput<T>(T input)
 		{
 			foreach (var node in GetNodeInstances<IInputNode<T>> ())
 			{

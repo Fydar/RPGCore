@@ -16,9 +16,9 @@ namespace RPGCore.Behaviour
 		public readonly LocalId TargetIdentifier;
 		public readonly string[] PropertyPath;
 
-		public LocalPropertyId (string expression)
+		public LocalPropertyId(string expression)
 		{
-			if (string.IsNullOrEmpty(expression))
+			if (string.IsNullOrEmpty (expression))
 			{
 				TargetIdentifier = LocalId.None;
 				PropertyPath = null;
@@ -35,30 +35,30 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public LocalPropertyId (LocalId targetIdentifier, string property)
+		public LocalPropertyId(LocalId targetIdentifier, string property)
 		{
 			TargetIdentifier = targetIdentifier;
 			PropertyPath = property.Split ('.');
 		}
 
-		public LocalPropertyId (LocalId targetIdentifier, string[] propertyPath)
+		public LocalPropertyId(LocalId targetIdentifier, string[] propertyPath)
 		{
 			TargetIdentifier = targetIdentifier;
 			PropertyPath = propertyPath;
 		}
 
-		public override bool Equals (object obj)
+		public override bool Equals(object obj)
 		{
 			return obj is LocalPropertyId id && Equals (id);
 		}
 
-		public bool Equals (LocalPropertyId other)
+		public bool Equals(LocalPropertyId other)
 		{
 			return TargetIdentifier == other.TargetIdentifier
 				&& ArrayEquals (PropertyPath, other.PropertyPath);
 		}
 
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
 			if (PropertyPath != null)
 			{
@@ -80,7 +80,7 @@ namespace RPGCore.Behaviour
 			return 0;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			if (this == None)
 			{
@@ -89,17 +89,17 @@ namespace RPGCore.Behaviour
 			return TargetIdentifier.ToString () + "." + string.Join (".", PropertyPath);
 		}
 
-		public static bool operator == (LocalPropertyId left, LocalPropertyId right)
+		public static bool operator ==(LocalPropertyId left, LocalPropertyId right)
 		{
 			return left.Equals (right);
 		}
 
-		public static bool operator != (LocalPropertyId left, LocalPropertyId right)
+		public static bool operator !=(LocalPropertyId left, LocalPropertyId right)
 		{
 			return !(left == right);
 		}
 
-		private bool ArrayEquals (string[] left, string[] right)
+		private bool ArrayEquals(string[] left, string[] right)
 		{
 			int leftLength = left?.Length ?? 0;
 
@@ -127,17 +127,17 @@ namespace RPGCore.Behaviour
 		public override bool CanWrite => true;
 		public override bool CanRead => true;
 
-		public override bool CanConvert (Type objectType)
+		public override bool CanConvert(Type objectType)
 		{
 			return objectType == typeof (LocalPropertyId);
 		}
 
-		public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			writer.WriteValue (value.ToString ());
 		}
 
-		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 			return new LocalPropertyId (reader.Value?.ToString ());
 		}
@@ -145,12 +145,12 @@ namespace RPGCore.Behaviour
 
 	internal sealed class LocalPropertyIdConverter : TypeConverter
 	{
-		public override bool CanConvertFrom (ITypeDescriptorContext context, Type sourceType)
+		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
 			return sourceType == typeof (string) || base.CanConvertFrom (context, sourceType);
 		}
 
-		public override object ConvertFrom (ITypeDescriptorContext context, CultureInfo culture, object value)
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			string stringValue = value as string;
 
@@ -159,7 +159,7 @@ namespace RPGCore.Behaviour
 				: base.ConvertFrom (context, culture, value);
 		}
 
-		public override object ConvertTo (ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
 			var localPropertyId = (LocalPropertyId)value;
 

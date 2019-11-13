@@ -30,13 +30,13 @@ namespace RPGCore.Inventory.Slots
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		internal IItem StoredItem;
 
-		public ItemStorageSlot (IInventoryConstraint[] constraints = null, IInventoryBehaviour[] behaviours = null)
+		public ItemStorageSlot(IInventoryConstraint[] constraints = null, IInventoryBehaviour[] behaviours = null)
 		{
 			Constraints = constraints;
 			Behaviours = behaviours;
 		}
 
-		public InventoryTransaction AddItem (IItem item)
+		public InventoryTransaction AddItem(IItem item)
 		{
 			if (item is null)
 			{
@@ -202,7 +202,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public InventoryTransaction DestroyItem ()
+		public InventoryTransaction DestroyItem()
 		{
 			if (StoredItem is StackableItem stackableItem)
 			{
@@ -248,7 +248,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public InventoryTransaction DragInto (IInventory other)
+		public InventoryTransaction DragInto(IInventory other)
 		{
 			if (other is null)
 			{
@@ -319,7 +319,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public InventoryTransaction MoveInto (IInventory other)
+		public InventoryTransaction MoveInto(IInventory other)
 		{
 			if (other is null)
 			{
@@ -341,7 +341,7 @@ namespace RPGCore.Inventory.Slots
 			return result;
 		}
 
-		public InventoryTransaction SetItem (IItem item)
+		public InventoryTransaction SetItem(IItem item)
 		{
 			if (item is null)
 			{
@@ -391,7 +391,7 @@ namespace RPGCore.Inventory.Slots
 			return inventoryTransaction;
 		}
 
-		public InventoryTransaction Swap (IItemSlot other)
+		public InventoryTransaction Swap(IItemSlot other)
 		{
 			if (other is null)
 			{

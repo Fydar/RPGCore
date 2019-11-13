@@ -6,6 +6,6 @@ namespace RPGCore.Packages
 	{
 		ProjectResource this[string key] { get; }
 
-		void Add (ProjectResource folder);
+		void Add(ProjectResource folder);
 	}
 }

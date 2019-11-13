@@ -11,7 +11,7 @@ namespace RPGCore.Packages
 
 		private bool Animate = true;
 
-		public void DrawProgressBar (int length)
+		public void DrawProgressBar(int length)
 		{
 			ProgressBarLength = length;
 			try
@@ -26,12 +26,12 @@ namespace RPGCore.Packages
 			DrawBar (ProgressBarLeft, ProgressBarTop, 0, ProgressBarLength);
 		}
 
-		public void OnAfterBuildResource (ProjectBuildProcess process, ProjectResource resource)
+		public void OnAfterBuildResource(ProjectBuildProcess process, ProjectResource resource)
 		{
 			DrawBar (ProgressBarLeft, ProgressBarTop, process.Progress, ProgressBarLength, process.Project.Name);
 		}
 
-		private void DrawBar (int left, int top, double complete, int total, string suffix = null)
+		private void DrawBar(int left, int top, double complete, int total, string suffix = null)
 		{
 			int filled = (int)(complete * total);
 

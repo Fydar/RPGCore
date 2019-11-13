@@ -7,30 +7,30 @@ namespace RPGCore.Demo.Nodes
 		public OutputSocket Output = new OutputSocket ();
 
 
-		public override Instance Create () => new ActivatableItemInstance ();
+		public override Instance Create() => new ActivatableItemInstance ();
 
 		public sealed class ActivatableItemInstance : Instance
 		{
 			public Output<int> Output;
 
-			public override InputMap[] Inputs (IGraphConnections connections) => null;
+			public override InputMap[] Inputs(IGraphConnections connections) => null;
 
-			public override OutputMap[] Outputs (IGraphConnections connections) => new[]
+			public override OutputMap[] Outputs(IGraphConnections connections) => new[]
 			{
 				connections.Connect(ref Node.Output, ref Output),
 			};
 
-			public override void Setup ()
+			public override void Setup()
 			{
 
 			}
 
-			public override void Remove ()
+			public override void Remove()
 			{
 
 			}
 
-			public override void OnInputChanged ()
+			public override void OnInputChanged()
 			{
 
 			}

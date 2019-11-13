@@ -10,7 +10,7 @@ namespace RPGCore.View
 
 		public GameView View { get; }
 
-		public ViewDispatcher (GameView view)
+		public ViewDispatcher(GameView view)
 		{
 			View = view;
 
@@ -24,7 +24,7 @@ namespace RPGCore.View
 			private readonly string path;
 			private readonly IEventField field;
 
-			public EntityFieldSyncHandler (ViewDispatcher dispatcher, EntityRef entity, string path, IEventField field)
+			public EntityFieldSyncHandler(ViewDispatcher dispatcher, EntityRef entity, string path, IEventField field)
 			{
 				this.dispatcher = dispatcher;
 				this.entity = entity;
@@ -32,7 +32,7 @@ namespace RPGCore.View
 				this.field = field;
 			}
 
-			public void OnAfterChanged ()
+			public void OnAfterChanged()
 			{
 				object value = field.GetValue ();
 
@@ -48,11 +48,11 @@ namespace RPGCore.View
 				dispatcher.OnPacketGenerated?.Invoke (packet);
 			}
 
-			public void OnBeforeChanged ()
+			public void OnBeforeChanged()
 			{
 			}
 
-			public void Dispose ()
+			public void Dispose()
 			{
 			}
 		}
@@ -61,16 +61,16 @@ namespace RPGCore.View
 		{
 			private readonly ViewDispatcher dispatcher;
 
-			public EntitySyncCollectionHandler (ViewDispatcher dispatcher)
+			public EntitySyncCollectionHandler(ViewDispatcher dispatcher)
 			{
 				this.dispatcher = dispatcher;
 			}
 
-			public void Dispose ()
+			public void Dispose()
 			{
 			}
 
-			public void OnAdd (EntityRef key, Entity value)
+			public void OnAdd(EntityRef key, Entity value)
 			{
 				var packet = new ViewPacket
 				{
@@ -88,7 +88,7 @@ namespace RPGCore.View
 				}
 			}
 
-			public void OnRemove (EntityRef key, Entity value)
+			public void OnRemove(EntityRef key, Entity value)
 			{
 				var packet = new ViewPacket
 				{

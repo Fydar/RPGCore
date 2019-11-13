@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace RPGCore.Items
+﻿namespace RPGCore.Items
 {
 	public class BespokeItemTemplate : ItemTemplate
 	{
-		public override string ToString ()
+		public override string ToString()
 		{
 			return "Item";
 		}

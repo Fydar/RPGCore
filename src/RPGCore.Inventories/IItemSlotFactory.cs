@@ -2,6 +2,6 @@
 {
 	public interface IItemSlotFactory
 	{
-		IItemSlot Build ();
+		IItemSlot Build();
 	}
 }

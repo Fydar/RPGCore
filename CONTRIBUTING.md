@@ -14,15 +14,15 @@ An `.editorconfig` is included in the project that will ensure that your IDE fol
 
 ### Spacing
 
-Insert space between method name and its opening parenthesis for method declaration and method calls.
+Don't insert a space between method name and its opening parenthesis for method declaration or method calls.
 
 ```csharp
-private void Foo ()
+private void Foo()
 {
     Bar (4);
 }
 
-private void Bar (int x)
+private void Bar(int x)
 {
     Foo ();
 }

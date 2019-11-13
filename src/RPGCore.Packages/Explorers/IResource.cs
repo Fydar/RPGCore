@@ -10,8 +10,8 @@ namespace RPGCore.Packages
 		long CompressedSize { get; }
 		long UncompressedSize { get; }
 
-		Stream LoadStream ();
-		byte[] LoadData ();
-		Task<byte[]> LoadDataAsync ();
+		Stream LoadStream();
+		byte[] LoadData();
+		Task<byte[]> LoadDataAsync();
 	}
 }

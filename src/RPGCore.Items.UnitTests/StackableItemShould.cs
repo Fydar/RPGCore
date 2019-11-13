@@ -6,7 +6,7 @@ namespace RPGCore.Items.UnitTests
 	public class StackableItemShould
 	{
 		[Test]
-		public void TakeItemFromStack ()
+		public void TakeItemFromStack()
 		{
 			var sourceItem = new StackableItem (new ProceduralItemTemplate (), 12);
 
@@ -17,7 +17,7 @@ namespace RPGCore.Items.UnitTests
 		}
 
 		[Test]
-		public void ThrowWhenTakeNegative ()
+		public void ThrowWhenTakeNegative()
 		{
 			Assert.Throws<InvalidOperationException> (new TestDelegate (() =>
 			{
@@ -28,7 +28,7 @@ namespace RPGCore.Items.UnitTests
 		}
 
 		[Test]
-		public void ThrowWhenTakeNone ()
+		public void ThrowWhenTakeNone()
 		{
 			Assert.Throws<InvalidOperationException> (new TestDelegate (() =>
 			{
@@ -39,7 +39,7 @@ namespace RPGCore.Items.UnitTests
 		}
 
 		[Test]
-		public void ThrowWhenUnableToTake ()
+		public void ThrowWhenUnableToTake()
 		{
 			Assert.Throws<InvalidOperationException> (new TestDelegate (() =>
 			{
@@ -50,7 +50,7 @@ namespace RPGCore.Items.UnitTests
 		}
 
 		[Test]
-		public void ThrowWhenTakeWholeStack ()
+		public void ThrowWhenTakeWholeStack()
 		{
 			Assert.Throws<InvalidOperationException> (new TestDelegate (() =>
 			{

@@ -12,23 +12,23 @@ namespace RPGCore.Behaviour
 			private readonly IEventField Field;
 			private readonly object Context;
 
-			public ContextWrapped (IEventField field, object context)
+			public ContextWrapped(IEventField field, object context)
 			{
 				Field = field;
 				Context = context;
 			}
 
-			public void Clear ()
+			public void Clear()
 			{
 				Field.Handlers.Clear (Context);
 			}
 
-			public void Add (IEventFieldHandler handler)
+			public void Add(IEventFieldHandler handler)
 			{
 				Field.Handlers.InternalHandlers.Add (new KeyValuePair<object, IEventFieldHandler> (Context, handler));
 			}
 
-			public void Remove (IEventFieldHandler handler)
+			public void Remove(IEventFieldHandler handler)
 			{
 				Field.Handlers.InternalHandlers.Remove (new KeyValuePair<object, IEventFieldHandler> (Context, handler));
 			}
@@ -40,7 +40,7 @@ namespace RPGCore.Behaviour
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private readonly List<KeyValuePair<object, IEventFieldHandler>> InternalHandlers;
 
-		public EventFieldHandlerCollection (IEventField field)
+		public EventFieldHandlerCollection(IEventField field)
 		{
 			Field = field;
 			InternalHandlers = new List<KeyValuePair<object, IEventFieldHandler>> ();
@@ -51,7 +51,7 @@ namespace RPGCore.Behaviour
 			get => new ContextWrapped (Field, context);
 		}
 
-		public void Clear (object context)
+		public void Clear(object context)
 		{
 			for (int i = InternalHandlers.Count - 1; i >= 0; i--)
 			{
@@ -62,12 +62,12 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Clear ()
+		public void Clear()
 		{
 			InternalHandlers.Clear ();
 		}
 
-		public void InvokeBeforeChanged ()
+		public void InvokeBeforeChanged()
 		{
 			if (InternalHandlers == null)
 			{
@@ -80,7 +80,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void InvokeAfterChanged ()
+		public void InvokeAfterChanged()
 		{
 			if (InternalHandlers == null)
 			{
@@ -93,7 +93,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 			if (InternalHandlers == null)
 			{
@@ -106,12 +106,12 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public IEnumerator<KeyValuePair<object, IEventFieldHandler>> GetEnumerator ()
+		public IEnumerator<KeyValuePair<object, IEventFieldHandler>> GetEnumerator()
 		{
 			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)InternalHandlers).GetEnumerator ();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator ()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)InternalHandlers).GetEnumerator ();
 		}

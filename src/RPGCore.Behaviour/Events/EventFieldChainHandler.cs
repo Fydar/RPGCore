@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 
 		private IReadOnlyEventField<B> ChainedField;
 
-		public EventFieldChainHandler (IReadOnlyEventField<T> source, IEventField<B> target, Func<T, IReadOnlyEventField<B>> chain)
+		public EventFieldChainHandler(IReadOnlyEventField<T> source, IEventField<B> target, Func<T, IReadOnlyEventField<B>> chain)
 		{
 			SourceField = source;
 			TargetField = target;
@@ -19,7 +19,7 @@ namespace RPGCore.Behaviour
 			ChainedField = Chain (SourceField.Value);
 		}
 
-		public void OnBeforeChanged ()
+		public void OnBeforeChanged()
 		{
 			if (ChainedField == null)
 			{
@@ -29,7 +29,7 @@ namespace RPGCore.Behaviour
 			ChainedField.Handlers[this].Clear ();
 		}
 
-		public void OnAfterChanged ()
+		public void OnAfterChanged()
 		{
 			ChainedField = Chain (SourceField.Value);
 			if (ChainedField == null)
@@ -38,11 +38,11 @@ namespace RPGCore.Behaviour
 				return;
 			}
 
-			ChainedField.Handlers[this].Add(new EventFieldMirrorHandler<B> (ChainedField, TargetField));
+			ChainedField.Handlers[this].Add (new EventFieldMirrorHandler<B> (ChainedField, TargetField));
 			TargetField.Value = ChainedField.Value;
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
 			SourceField.Handlers[TargetField].Clear ();
 

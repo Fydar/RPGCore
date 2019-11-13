@@ -9,7 +9,7 @@ namespace RPGCore.Traits
 		public StatModificationType Type { get; }
 		public IReadOnlyEventField<float> CurrentValue { get; }
 
-		public StatModifier (StatModificationPhase phase, StatModificationType type, IReadOnlyEventField<float> currentValue)
+		public StatModifier(StatModificationPhase phase, StatModificationType type, IReadOnlyEventField<float> currentValue)
 		{
 			Phase = phase;
 			Type = type;

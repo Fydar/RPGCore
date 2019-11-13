@@ -11,12 +11,12 @@ namespace RPGCore.Packages
 		protected XmlDocument Document;
 		public string Path;
 
-		public XmlProjectFile (XmlDocument document)
+		public XmlProjectFile(XmlDocument document)
 		{
 			Document = document;
 		}
 
-		public static XmlProjectFile Load (string path)
+		public static XmlProjectFile Load(string path)
 		{
 			if (!File.Exists (path))
 			{
@@ -36,7 +36,7 @@ namespace RPGCore.Packages
 			return model;
 		}
 
-		public void Format ()
+		public void Format()
 		{
 			Minify ();
 
@@ -80,7 +80,7 @@ namespace RPGCore.Packages
 			}
 		}
 
-		private static bool HasChildElement (XmlNode node)
+		private static bool HasChildElement(XmlNode node)
 		{
 			for (int i = 0; i < node.ChildNodes.Count; i++)
 			{
@@ -94,7 +94,7 @@ namespace RPGCore.Packages
 			return false;
 		}
 
-		private static bool HasChildObjects (XmlNode node)
+		private static bool HasChildObjects(XmlNode node)
 		{
 			for (int i = 0; i < node.ChildNodes.Count; i++)
 			{
@@ -108,7 +108,7 @@ namespace RPGCore.Packages
 			return false;
 		}
 
-		public void Minify ()
+		public void Minify()
 		{
 			var allNodes = AllNodes (Document.DocumentElement).ToArray ();
 			foreach (var node in allNodes)
@@ -121,7 +121,7 @@ namespace RPGCore.Packages
 			}
 		}
 
-		private static IEnumerable<XmlNode> AllNodes (XmlNode rootNode)
+		private static IEnumerable<XmlNode> AllNodes(XmlNode rootNode)
 		{
 			for (int i = 0; i < rootNode.ChildNodes.Count; i++)
 			{
@@ -135,7 +135,7 @@ namespace RPGCore.Packages
 			}
 		}
 
-		private static IEnumerable<Tuple<int, XmlNode>> AllNodesWithIndent (XmlNode rootNode, int indent = 0)
+		private static IEnumerable<Tuple<int, XmlNode>> AllNodesWithIndent(XmlNode rootNode, int indent = 0)
 		{
 			for (int i = 0; i < rootNode.ChildNodes.Count; i++)
 			{
@@ -149,7 +149,7 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public void Save (string path)
+		public void Save(string path)
 		{
 			Document.Save (path);
 		}

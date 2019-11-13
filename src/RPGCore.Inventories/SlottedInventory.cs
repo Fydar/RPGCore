@@ -11,7 +11,7 @@ namespace RPGCore.Inventory.Slots
 		public int Capacity { get; set; }
 		public IItemSlotFactory ItemSlotFactory { get; }
 
-		public SlottedInventory (int capacity, IItemSlotFactory itemSlotFactory)
+		public SlottedInventory(int capacity, IItemSlotFactory itemSlotFactory)
 		{
 			Capacity = capacity;
 			ItemSlotFactory = itemSlotFactory;
@@ -26,7 +26,7 @@ namespace RPGCore.Inventory.Slots
 
 		public IEnumerable<IItem> Items => Slots.Select (slot => slot.CurrentItem);
 
-		public InventoryTransaction AddItem (IItem item)
+		public InventoryTransaction AddItem(IItem item)
 		{
 			foreach (var slot in Slots)
 			{

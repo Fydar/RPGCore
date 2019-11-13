@@ -8,7 +8,7 @@
 		public float? MinValue { get; set; }
 		public float? MaxValue { get; set; }
 
-		public StateInstance CreateInstance (StateIdentifier identifier)
+		public StateInstance CreateInstance(StateIdentifier identifier)
 		{
 			return new StateInstance ()
 			{
@@ -17,7 +17,7 @@
 			};
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return $"StateTemplate({Name})";
 		}

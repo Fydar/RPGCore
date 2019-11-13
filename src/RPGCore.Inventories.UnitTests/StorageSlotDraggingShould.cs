@@ -7,7 +7,7 @@ namespace RPGCore.Inventories.UnitTests
 	public class StorageSlotDraggingShould
 	{
 		[Test, Parallelizable]
-		public void DragEmptyToEmpty ()
+		public void DragEmptyToEmpty()
 		{
 			var fromSlot = new ItemStorageSlot ();
 			var toSlot = new ItemStorageSlot ();
@@ -19,7 +19,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragEmptyToStackable ()
+		public void DragEmptyToStackable()
 		{
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
@@ -35,7 +35,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragEmptyToUnique ()
+		public void DragEmptyToUnique()
 		{
 			var toItem = new UniqueItem (new ProceduralItemTemplate ());
 
@@ -51,7 +51,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragStackableToEmpty ()
+		public void DragStackableToEmpty()
 		{
 			var fromItem = new StackableItem (new ProceduralItemTemplate (), 5);
 
@@ -67,7 +67,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragStackableToStackable ()
+		public void DragStackableToStackable()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -87,7 +87,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragStackableToStackableOfDifferentType ()
+		public void DragStackableToStackableOfDifferentType()
 		{
 			var fromItem = new StackableItem (new ProceduralItemTemplate (), 5);
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
@@ -105,7 +105,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragStackableToStackableOverflow ()
+		public void DragStackableToStackableOverflow()
 		{
 			var template = new ProceduralItemTemplate ();
 
@@ -128,7 +128,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragUniqueToEmpty ()
+		public void DragUniqueToEmpty()
 		{
 			var fromItem = new UniqueItem (new ProceduralItemTemplate ());
 
@@ -144,7 +144,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragUniqueToStackable ()
+		public void DragUniqueToStackable()
 		{
 			var fromItem = new UniqueItem (new ProceduralItemTemplate ());
 			var toItem = new StackableItem (new ProceduralItemTemplate (), 5);
@@ -162,7 +162,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragUniqueToUnique ()
+		public void DragUniqueToUnique()
 		{
 			var fromItem = new UniqueItem (new ProceduralItemTemplate ());
 			var toItem = new UniqueItem (new ProceduralItemTemplate ());
@@ -180,7 +180,7 @@ namespace RPGCore.Inventories.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void DragUniqueToUniqueOfDifferentType ()
+		public void DragUniqueToUniqueOfDifferentType()
 		{
 			var fromItem = new UniqueItem (new ProceduralItemTemplate ());
 			var toItem = new UniqueItem (new ProceduralItemTemplate ());

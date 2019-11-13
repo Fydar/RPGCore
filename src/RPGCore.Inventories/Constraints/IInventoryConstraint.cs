@@ -11,6 +11,6 @@ namespace RPGCore.Inventory.Slots
 	/// </example>
 	public interface IInventoryConstraint
 	{
-		int QuantityCanAdd (IInventory inventory, IItem item);
+		int QuantityCanAdd(IInventory inventory, IItem item);
 	}
 }

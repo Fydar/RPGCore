@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour.Editor
 		public JObject Instance;
 		public JsonSerializer JsonSerializer;
 
-		public EditorSession (BehaviourManifest manifest, object instance, JsonSerializer jsonSerializer)
+		public EditorSession(BehaviourManifest manifest, object instance, JsonSerializer jsonSerializer)
 		{
 			Manifest = manifest;
 			JsonSerializer = jsonSerializer;
@@ -27,7 +27,7 @@ namespace RPGCore.Behaviour.Editor
 			Root = new EditorField (this, rootJson, "root", rootField);
 		}
 
-		public EditorSession (BehaviourManifest manifest, JObject instance, string type, JsonSerializer jsonSerializer)
+		public EditorSession(BehaviourManifest manifest, JObject instance, string type, JsonSerializer jsonSerializer)
 		{
 			Manifest = manifest;
 			JsonSerializer = jsonSerializer;

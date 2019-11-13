@@ -15,7 +15,9 @@ namespace RPGCore.Traits
 			get
 			{
 				if (Stats == null)
+				{
 					return null;
+				}
 
 				return Stats[identifier];
 			}
@@ -26,7 +28,9 @@ namespace RPGCore.Traits
 			get
 			{
 				if (Stats == null)
+				{
 					return null;
+				}
 
 				return States[identifier];
 			}

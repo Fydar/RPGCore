@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
@@ -8,9 +7,9 @@ namespace RPGCore.Behaviour
 		EventCollectionHandlerCollection<TKey, TValue> Handlers { get; }
 		TValue this[TKey key] { get; }
 
-		bool ContainsKey (TKey key);
-		void Add (TKey key, TValue value);
-		bool Remove (TKey key);
-		bool TryGetValue (TKey key, out TValue value);
+		bool ContainsKey(TKey key);
+		void Add(TKey key, TValue value);
+		bool Remove(TKey key);
+		bool TryGetValue(TKey key, out TValue value);
 	}
 }

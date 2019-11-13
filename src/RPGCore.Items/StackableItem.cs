@@ -25,7 +25,7 @@ namespace RPGCore.Items
 		/// <param name="quantity">The quantity of items to take from this <see cref="StackableItem"/>.</param>
 		/// <returns>A <see cref="StackableItem"/> with the quantity of items taken from this item.</returns>
 		/// <exception cref="InvalidOperationException">Thrown when <paramref name="quantity"/> is greater than or equal to the <see cref="Quantity"/> of this <see cref="StackableItem"/>.</exception>
-		public StackableItem Take (int quantity)
+		public StackableItem Take(int quantity)
 		{
 			if (quantity <= 0)
 			{
@@ -51,12 +51,12 @@ namespace RPGCore.Items
 		/// Creates a duplicate of this item.
 		/// </summary>
 		/// <returns>A duplicate of this item.</returns>
-		public IItem Duplicate ()
+		public IItem Duplicate()
 		{
 			return new StackableItem (Template, Quantity);
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return $"{Quantity} x {Template}";
 		}
