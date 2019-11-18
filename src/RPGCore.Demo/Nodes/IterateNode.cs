@@ -26,7 +26,10 @@ namespace RPGCore.Demo.Nodes
 
 			public override void Setup()
 			{
-				SubGraphs = new List<GraphInstance> ();
+				if (SubGraphs == null)
+				{
+					SubGraphs = new List<GraphInstance> ();
+				}
 			}
 
 			public override void OnInputChanged()
@@ -40,10 +43,17 @@ namespace RPGCore.Demo.Nodes
 
 				for (int i = 0; i < repetitions; i++)
 				{
-					var subgraphInstance = graphToUse.Create ();
+					GraphInstance subgraphInstance;
+					if (SubGraphs.Count > i)
+					{
+						subgraphInstance = SubGraphs[i];
+					}
+					else
+					{
+						subgraphInstance = graphToUse.Create ();
+						SubGraphs.Add (subgraphInstance);
+					}
 					subgraphInstance.Setup ();
-
-					SubGraphs.Add (subgraphInstance);
 				}
 			}
 

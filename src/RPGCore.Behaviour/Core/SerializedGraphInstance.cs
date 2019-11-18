@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RPGCore.Behaviour
 {
@@ -10,19 +11,57 @@ namespace RPGCore.Behaviour
 		public string GraphType;
 		public Dictionary<LocalId, JObject> NodeInstances;
 
-		public GraphInstance Unpack(Graph graphType)
+		public GraphInstance Unpack(Graph graph)
 		{
-			var graph = graphType.Create (NodeInstances);
+			var graphInstance = graph.Create (NodeInstances);
 
-			return graph;
+			return graphInstance;
 		}
 
 		public string AsJson()
 		{
 			var settings = new JsonSerializerSettings ();
 			settings.Converters.Add (new LocalIdJsonConverter ());
+			settings.Converters.Add (new SerializedGraphInstanceProxyConverter (null));
 
 			return JsonConvert.SerializeObject (this, settings);
+		}
+	}
+
+	public sealed class SerializedGraphInstanceProxyConverter : JsonConverter
+	{
+		private readonly Graph Graph;
+
+		public override bool CanRead => true;
+		public override bool CanWrite => true;
+
+		public SerializedGraphInstanceProxyConverter(Graph graph)
+		{
+			Graph = graph;
+		}
+
+		public override bool CanConvert(Type objectType)
+		{
+			return typeof (IGraphInstance).IsAssignableFrom(objectType);
+		}
+
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			var jObject = JObject.Load (reader);
+			var serializedGraphInstance = jObject.ToObject<SerializedGraphInstance> (serializer);
+
+			var result = serializedGraphInstance.Unpack (Graph.SubGraphs.Values.First());
+
+			return result;
+		}
+
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			var graphInstance = (GraphInstance)value;
+			var serializedGraphInstance = graphInstance.Pack ();
+
+			var token = JToken.FromObject (serializedGraphInstance, serializer);
+			token.WriteTo (writer);
 		}
 	}
 

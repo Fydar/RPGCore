@@ -13,6 +13,7 @@ namespace RPGCore.Behaviour
 
 		private INodeInstance currentNode;
 
+		[JsonIgnore]
 		public Graph Template { get; }
 
 		public INodeInstance this[LocalId id]
@@ -40,6 +41,7 @@ namespace RPGCore.Behaviour
 
 			var serializer = new JsonSerializer ();
 			serializer.Converters.Add (new OutputConverter ());
+			serializer.Converters.Add (new SerializedGraphInstanceProxyConverter (template));
 
 			// Map and create tokens
 			for (int i = 0; i < nodeCount; i++)

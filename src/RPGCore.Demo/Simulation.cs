@@ -145,8 +145,15 @@ namespace RPGCore.Demo
 			}
 			instancedItem.Remove ();
 
-			var packedInstance = ((GraphInstance)instancedItem).Pack ();
-			string serializedGraph = packedInstance.AsJson ();
+
+			var settings = new JsonSerializerSettings ();
+			settings.Converters.Add (new LocalIdJsonConverter ());
+			settings.Converters.Add (new SerializedGraphInstanceProxyConverter (null));
+
+			string serializedGraph = JsonConvert.SerializeObject (instancedItem, settings);
+
+			// var packedInstance = ((GraphInstance)instancedItem).Pack ();
+			// string serializedGraph = packedInstance.AsJson ();
 			Console.WriteLine (serializedGraph);
 
 			var deserialized = JsonConvert.DeserializeObject<SerializedGraphInstance> (serializedGraph);
