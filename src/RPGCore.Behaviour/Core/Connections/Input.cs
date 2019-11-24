@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGCore.View;
+using System;
 
 namespace RPGCore.Behaviour
 {

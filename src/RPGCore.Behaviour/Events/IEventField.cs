@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public interface IEventField : IDisposable
+	public interface IEventField : IEventWrapper, IDisposable
 	{
 		EventFieldHandlerCollection Handlers { get; }
 

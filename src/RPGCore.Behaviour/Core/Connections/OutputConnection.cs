@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RPGCore.View;
 using System;
 using System.Diagnostics;
 

@@ -10,7 +10,10 @@ namespace RPGCore.View
 
 			CreateEntity,
 			DestroyEntity,
-			UpdateEntity
+
+			SetFieldValue,
+			AddCollectionItem,
+			RemoveCollectionItem
 		}
 
 		public ViewPacketType PacketType;
@@ -18,5 +21,10 @@ namespace RPGCore.View
 		public string FieldPath;
 		public string EntityType;
 		public JToken Data;
+
+		public override string ToString()
+		{
+			return $"{PacketType} {Entity} - {FieldPath}({EntityType}) {Data}";
+		}
 	}
 }

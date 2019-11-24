@@ -1,4 +1,5 @@
-﻿using RPGCore.Behaviour;
+﻿using Newtonsoft.Json;
+using RPGCore.Behaviour;
 using RPGCore.Traits;
 using System.Collections.Generic;
 
@@ -18,19 +19,21 @@ namespace RPGCore.View
 				EntityId = LocalId.NewId ()
 			};
 		}
-
-		public override IEnumerable<KeyValuePair<string, IEventField>> SyncedObjects
+		
+		[JsonIgnore]
+		public override IEnumerable<KeyValuePair<string, ISyncField>> SyncedObjects
 		{
 			get
 			{
-				yield return new KeyValuePair<string, IEventField> ("name", Name);
-				yield return new KeyValuePair<string, IEventField> ("selectedTarget", SelectedTarget);
+				yield return new KeyValuePair<string, ISyncField> ("name", Name);
+				yield return new KeyValuePair<string, ISyncField> ("selectedTarget", SelectedTarget);
+				yield return new KeyValuePair<string, ISyncField> ("traits", Traits);
 			}
 		}
 
 		public override string ToString()
 		{
-			return $"{Name.Value}({Id})";
+			return $"{Name.Value}({Id}, {string.Join(", ", Traits.States)}";
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public interface IEventCollection<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
+	public interface IEventCollection<TKey, TValue> : IEventWrapper, IEnumerable<KeyValuePair<TKey, TValue>>
 	{
 		EventCollectionHandlerCollection<TKey, TValue> Handlers { get; }
 		TValue this[TKey key] { get; }
