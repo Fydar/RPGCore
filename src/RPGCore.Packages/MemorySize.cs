@@ -11,15 +11,15 @@ namespace RPGCore.Packages
 	{
 		public const ulong Denomination = 1000;
 
-		private const ulong KilobyteSize = Denomination;
-		private const ulong MegabyteSize = KilobyteSize * Denomination;
-		private const ulong GigabyteSize = MegabyteSize * Denomination;
-		private const ulong TerrabyteSize = GigabyteSize * Denomination;
+		private const ulong kilobyteSize = Denomination;
+		private const ulong megabyteSize = kilobyteSize * Denomination;
+		private const ulong gigabyteSize = megabyteSize * Denomination;
+		private const ulong terrabyteSize = gigabyteSize * Denomination;
 
-		private const string ByteSuffix = "b";
-		private const string KilobyteSuffix = "kB";
-		private const string MegabyteSuffix = "MB";
-		private const string GigabyteSuffix = "GB";
+		private const string byteSuffix = "b";
+		private const string kilobyteSuffix = "kB";
+		private const string megabyteSuffix = "MB";
+		private const string gigabyteSuffix = "GB";
 
 		public ulong Bytes { get; set; }
 
@@ -27,11 +27,11 @@ namespace RPGCore.Packages
 		{
 			get
 			{
-				return ((double)Bytes) / KilobyteSize;
+				return ((double)Bytes) / kilobyteSize;
 			}
 			set
 			{
-				Bytes = (ulong)(value * KilobyteSize);
+				Bytes = (ulong)(value * kilobyteSize);
 			}
 		}
 
@@ -39,11 +39,11 @@ namespace RPGCore.Packages
 		{
 			get
 			{
-				return ((double)Bytes) / MegabyteSize;
+				return ((double)Bytes) / megabyteSize;
 			}
 			set
 			{
-				Bytes = (ulong)(value * MegabyteSize);
+				Bytes = (ulong)(value * megabyteSize);
 			}
 		}
 
@@ -51,11 +51,11 @@ namespace RPGCore.Packages
 		{
 			get
 			{
-				return ((double)Bytes) / GigabyteSize;
+				return ((double)Bytes) / gigabyteSize;
 			}
 			set
 			{
-				Bytes = (ulong)(value * GigabyteSize);
+				Bytes = (ulong)(value * gigabyteSize);
 			}
 		}
 
@@ -63,11 +63,11 @@ namespace RPGCore.Packages
 		{
 			get
 			{
-				return ((double)Bytes) / TerrabyteSize;
+				return ((double)Bytes) / terrabyteSize;
 			}
 			set
 			{
-				Bytes = (ulong)(value * TerrabyteSize);
+				Bytes = (ulong)(value * terrabyteSize);
 			}
 		}
 
@@ -109,13 +109,13 @@ namespace RPGCore.Packages
 				{
 					if (Kilobytes < 1.0f)
 					{
-						return $"{Bytes.ToString ()} {ByteSuffix}";
+						return $"{Bytes.ToString ()} {byteSuffix}";
 					}
-					return $"{Kilobytes.ToString ()} {KilobyteSuffix}";
+					return $"{Kilobytes.ToString ()} {kilobyteSuffix}";
 				}
-				return $"{Megabytes.ToString ()} {MegabyteSuffix}";
+				return $"{Megabytes.ToString ()} {megabyteSuffix}";
 			}
-			return $"{Gigabytes.ToString ()} {GigabyteSuffix}";
+			return $"{Gigabytes.ToString ()} {gigabyteSuffix}";
 		}
 
 		public override bool Equals(object obj) => obj is MemorySize size && Equals (size);
@@ -134,13 +134,13 @@ namespace RPGCore.Packages
 				{
 					if (Kilobytes < 1.0f)
 					{
-						return $"{Bytes.ToString (format, formatProvider)} {ByteSuffix}";
+						return $"{Bytes.ToString (format, formatProvider)} {byteSuffix}";
 					}
-					return $"{Kilobytes.ToString (format, formatProvider)} {KilobyteSuffix}";
+					return $"{Kilobytes.ToString (format, formatProvider)} {kilobyteSuffix}";
 				}
-				return $"{Megabytes.ToString (format, formatProvider)} {MegabyteSuffix}";
+				return $"{Megabytes.ToString (format, formatProvider)} {megabyteSuffix}";
 			}
-			return $"{Gigabytes.ToString (format, formatProvider)} {GigabyteSuffix}";
+			return $"{Gigabytes.ToString (format, formatProvider)} {gigabyteSuffix}";
 		}
 
 		public static bool operator ==(MemorySize left, MemorySize right)

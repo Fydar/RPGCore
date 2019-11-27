@@ -61,13 +61,12 @@ namespace RPGCore.Packages
 
 		private static string GetChecksum(string file)
 		{
-			using (var stream = new FileStream (file, FileMode.OpenOrCreate,
-				FileAccess.Read, FileShare.Read, 1024 * 32))
-			{
-				var sha = new SHA256Managed ();
-				byte[] checksum = sha.ComputeHash (stream);
-				return BitConverter.ToString (checksum).Replace ("-", string.Empty);
-			}
+			using var stream = new FileStream (file, FileMode.OpenOrCreate,
+				FileAccess.Read, FileShare.Read, 1024 * 32);
+
+			var sha = new SHA256Managed ();
+			byte[] checksum = sha.ComputeHash (stream);
+			return BitConverter.ToString (checksum).Replace ("-", string.Empty);
 		}
 	}
 }

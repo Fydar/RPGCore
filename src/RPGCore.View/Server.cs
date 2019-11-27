@@ -24,10 +24,12 @@ namespace RPGCore.View
 			dispatcher.OnPacketGenerated += clientView.Apply;
 
 
-			var character = new ViewCharacter ();
-			character.Traits = new TraitCollection ()
+			var character = new ViewCharacter
 			{
-				States = new EventCollection<StateIdentifier, StateInstance> ()
+				Traits = new TraitCollection ()
+				{
+					States = new EventCollection<StateIdentifier, StateInstance> ()
+				}
 			};
 			character.Name.Value = "Unknown";
 			serverView.Entities.Add (character.Id, character);

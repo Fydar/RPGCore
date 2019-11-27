@@ -8,7 +8,7 @@ namespace RPGCore.Packages
 		public Stream InternalStream;
 		public IDisposable[] Components;
 
-		private bool Disposed;
+		private bool disposed;
 
 		public override bool CanRead => InternalStream.CanRead;
 
@@ -58,14 +58,15 @@ namespace RPGCore.Packages
 
 		protected override void Dispose(bool disposing)
 		{
+			InternalStream.Dispose ();
 			base.Dispose (disposing);
-			if (!Disposed)
+			if (!disposed)
 			{
 				foreach (var component in Components)
 				{
 					component.Dispose ();
 				}
-				Disposed = true;
+				disposed = true;
 			}
 		}
 	}

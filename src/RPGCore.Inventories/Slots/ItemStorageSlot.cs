@@ -9,26 +9,26 @@ namespace RPGCore.Inventory.Slots
 	{
 		public IInventoryBehaviour[] Behaviours { get; }
 		public IInventoryConstraint[] Constraints { get; }
-		public IItem CurrentItem => StoredItem;
+		public IItem CurrentItem => storedItem;
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		public IEnumerable<IItem> Items
 		{
 			get
 			{
-				if (StoredItem == null)
+				if (storedItem == null)
 				{
 					yield break;
 				}
 
-				yield return StoredItem;
+				yield return storedItem;
 			}
 		}
 
 		public int MaxStackSize { get; set; }
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		internal IItem StoredItem;
+		internal IItem storedItem;
 
 		public ItemStorageSlot(IInventoryConstraint[] constraints = null, IInventoryBehaviour[] behaviours = null)
 		{
@@ -65,14 +65,14 @@ namespace RPGCore.Inventory.Slots
 					return InventoryTransaction.None;
 				}
 
-				if (StoredItem == null)
+				if (storedItem == null)
 				{
 					if (constrainedMaxSize != 0 && stackableItem.Quantity > constrainedMaxSize)
 					{
 						// Split stack of items into a new stack.
 						var split = stackableItem.Take (constrainedMaxSize);
 
-						StoredItem = split;
+						storedItem = split;
 						return new InventoryTransaction ()
 						{
 							Status = TransactionStatus.Partial,
@@ -91,7 +91,7 @@ namespace RPGCore.Inventory.Slots
 					else
 					{
 						// Move entire stack of items into this slot.
-						StoredItem = stackableItem;
+						storedItem = stackableItem;
 
 						return new InventoryTransaction ()
 						{
@@ -102,17 +102,17 @@ namespace RPGCore.Inventory.Slots
 								{
 									FromInventory = null,
 									ToInventory = this,
-									Item = StoredItem,
+									Item = storedItem,
 									Quantity = stackableItem.Quantity
 								}
 							}
 						};
 					}
 				}
-				else if (StoredItem.Template == stackableItem.Template)
+				else if (storedItem.Template == stackableItem.Template)
 				{
 					// Transfer quantities of items from one item to another.
-					var currentStackableItem = (StackableItem)StoredItem;
+					var currentStackableItem = (StackableItem)storedItem;
 
 					// Adjust for pre-exisiting capacity.
 					int quantityToAdd = constrainedMaxSize;
@@ -175,11 +175,11 @@ namespace RPGCore.Inventory.Slots
 			}
 			else if (item is UniqueItem uniqueItem)
 			{
-				if (StoredItem != null)
+				if (storedItem != null)
 				{
 					return InventoryTransaction.None;
 				}
-				StoredItem = uniqueItem;
+				storedItem = uniqueItem;
 
 				return new InventoryTransaction ()
 				{
@@ -204,9 +204,9 @@ namespace RPGCore.Inventory.Slots
 
 		public InventoryTransaction DestroyItem()
 		{
-			if (StoredItem is StackableItem stackableItem)
+			if (storedItem is StackableItem stackableItem)
 			{
-				StoredItem = null;
+				storedItem = null;
 
 				return new InventoryTransaction ()
 				{
@@ -223,9 +223,9 @@ namespace RPGCore.Inventory.Slots
 					}
 				};
 			}
-			else if (StoredItem is UniqueItem uniqueItem)
+			else if (storedItem is UniqueItem uniqueItem)
 			{
-				StoredItem = null;
+				storedItem = null;
 
 				return new InventoryTransaction ()
 				{
@@ -257,29 +257,29 @@ namespace RPGCore.Inventory.Slots
 
 			if (other is ItemStorageSlot itemStorageSlot)
 			{
-				if (StoredItem == null)
+				if (storedItem == null)
 				{
 					return InventoryTransaction.None;
 				}
 
 				// Is item of same type?
-				if (itemStorageSlot.StoredItem == null ||
-					StoredItem.Template == itemStorageSlot.StoredItem.Template)
+				if (itemStorageSlot.storedItem == null ||
+					storedItem.Template == itemStorageSlot.storedItem.Template)
 				{
-					var addResult = itemStorageSlot.AddItem (StoredItem);
+					var addResult = itemStorageSlot.AddItem (storedItem);
 
 					if (addResult.Status == TransactionStatus.Complete)
 					{
-						StoredItem = null;
+						storedItem = null;
 					}
 
 					return addResult;
 				}
 				else
 				{
-					var temp = StoredItem;
-					StoredItem = itemStorageSlot.StoredItem;
-					itemStorageSlot.StoredItem = temp;
+					var temp = storedItem;
+					storedItem = itemStorageSlot.storedItem;
+					itemStorageSlot.storedItem = temp;
 
 					int toQuantity = 1;
 					if (temp is StackableItem tempStackable)
@@ -296,7 +296,7 @@ namespace RPGCore.Inventory.Slots
 							{
 								FromInventory = this,
 								ToInventory = other,
-								Item = itemStorageSlot.StoredItem,
+								Item = itemStorageSlot.storedItem,
 								Quantity = toQuantity
 							}
 						}
@@ -326,16 +326,16 @@ namespace RPGCore.Inventory.Slots
 				throw new ArgumentNullException (nameof (other), "Cannot move into a \"null\" inventory.");
 			}
 
-			if (StoredItem == null)
+			if (storedItem == null)
 			{
 				return InventoryTransaction.None;
 			}
 
-			var result = other.AddItem (StoredItem);
+			var result = other.AddItem (storedItem);
 
 			if (result.Status == TransactionStatus.Complete)
 			{
-				StoredItem = null;
+				storedItem = null;
 			}
 
 			return result;
@@ -369,10 +369,10 @@ namespace RPGCore.Inventory.Slots
 				}
 			};
 
-			if (StoredItem != null)
+			if (storedItem != null)
 			{
 				int previousQuantity = 1;
-				if (StoredItem is StackableItem stackableStoredItem)
+				if (storedItem is StackableItem stackableStoredItem)
 				{
 					previousQuantity = stackableStoredItem.Quantity;
 				}
@@ -381,12 +381,12 @@ namespace RPGCore.Inventory.Slots
 				{
 					FromInventory = this,
 					ToInventory = null,
-					Item = StoredItem,
+					Item = storedItem,
 					Quantity = previousQuantity
 				});
 			}
 
-			StoredItem = item;
+			storedItem = item;
 
 			return inventoryTransaction;
 		}
@@ -400,9 +400,9 @@ namespace RPGCore.Inventory.Slots
 
 			if (other is ItemStorageSlot itemStorageSlot)
 			{
-				var temp = StoredItem;
-				StoredItem = itemStorageSlot.StoredItem;
-				itemStorageSlot.StoredItem = temp;
+				var temp = storedItem;
+				storedItem = itemStorageSlot.storedItem;
+				itemStorageSlot.storedItem = temp;
 
 				int toQuantity = 1;
 				if (temp is StackableItem tempStackable)
@@ -419,7 +419,7 @@ namespace RPGCore.Inventory.Slots
 						{
 							FromInventory = this,
 							ToInventory = other,
-							Item = itemStorageSlot.StoredItem,
+							Item = itemStorageSlot.storedItem,
 							Quantity = toQuantity
 						}
 					}

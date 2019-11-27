@@ -52,10 +52,8 @@ namespace RPGCore.Behaviour
 
 				if (data != null && data.TryGetValue (node.Id, out var instanceData))
 				{
-					using (var sr = instanceData.CreateReader ())
-					{
-						serializer.Populate (sr, instance);
-					}
+					using var sr = instanceData.CreateReader ();
+					serializer.Populate (sr, instance);
 				}
 
 				nodeInstances[i] = instance;

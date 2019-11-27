@@ -36,7 +36,7 @@ namespace RPGCore.Packages
 		}
 
 		private readonly ProjectDefinitionFile bProj;
-		private string Path;
+		private string path;
 
 		public string Name => bProj.Properties.Name;
 		public string Version => bProj.Properties.Version;
@@ -54,7 +54,7 @@ namespace RPGCore.Packages
 
 		public Stream LoadStream(string packageKey)
 		{
-			var fileStream = new FileStream (Path, FileMode.Open, FileAccess.Read, FileShare.Read);
+			var fileStream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.Read);
 			var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true);
 
 			var entry = archive.GetEntry (packageKey);
@@ -66,25 +66,22 @@ namespace RPGCore.Packages
 
 		public byte[] OpenAsset(string packageKey)
 		{
-			using (var fileStream = new FileStream (Path, FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true))
-			{
-				var entry = archive.GetEntry (packageKey);
+			using var fileStream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.Read);
+			using var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true);
 
-				byte[] buffer = new byte[entry.Length];
-				using (var zipStream = entry.Open ())
-				{
-					zipStream.Read (buffer, 0, (int)entry.Length);
-					return buffer;
-				}
-			}
+			var entry = archive.GetEntry (packageKey);
+
+			byte[] buffer = new byte[entry.Length];
+			using var zipStream = entry.Open ();
+			zipStream.Read (buffer, 0, (int)entry.Length);
+			return buffer;
 		}
 
 		public static PackageExplorer Load(string path)
 		{
 			var package = new PackageExplorer
 			{
-				Path = path
+				path = path
 			};
 			using (var fileStream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.Read))
 			{

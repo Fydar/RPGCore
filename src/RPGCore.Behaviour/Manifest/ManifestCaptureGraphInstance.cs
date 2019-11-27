@@ -29,7 +29,7 @@
 		public InputMap Connect<T>(ref InputSocket socket, ref T connection)
 			where T : INodeInstance
 		{
-			connection = default (T);
+			connection = default;
 			return new InputMap (socket, typeof (T));
 		}
 	}

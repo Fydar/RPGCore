@@ -31,51 +31,48 @@ namespace RPGCore.Packages
 				reference.IncludeInBuild (this, OutputFolder);
 			}
 
-			using (var fileStream = new FileStream (bpkgPath, FileMode.Create, FileAccess.Write))
-			using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Create, false))
+			using var fileStream = new FileStream (bpkgPath, FileMode.Create, FileAccess.Write);
+			using var archive = new ZipArchive (fileStream, ZipArchiveMode.Create, false);
+
+			var manifest = archive.CreateEntry ("Main.bmft");
+			using (var zipStream = manifest.Open ())
 			{
-				var manifest = archive.CreateEntry ("Main.bmft");
-				using (var zipStream = manifest.Open ())
+				string json = JsonConvert.SerializeObject (PackageDefinition);
+				byte[] bytes = Encoding.UTF8.GetBytes (json);
+				zipStream.Write (bytes, 0, bytes.Length);
+			}
+
+			long currentProgress = 0;
+
+			foreach (var resource in Project.Resources)
+			{
+				var exporter = Pipeline.GetExporter (resource);
+
+				string entryName = resource.FullName;
+				long size = resource.UncompressedSize;
+
+				ZipArchiveEntry entry;
+				if (exporter == null)
 				{
-					string json = JsonConvert.SerializeObject (PackageDefinition);
-					byte[] bytes = Encoding.UTF8.GetBytes (json);
-					zipStream.Write (bytes, 0, bytes.Length);
+					entry = archive.CreateEntryFromFile (resource.Entry.FullName, entryName, CompressionLevel.Optimal);
+				}
+				else
+				{
+					entry = archive.CreateEntry (entryName);
+
+					using var zipStream = entry.Open ();
+					exporter.BuildResource (resource, zipStream);
 				}
 
-				long currentProgress = 0;
+				currentProgress += size;
 
-				foreach (var resource in Project.Resources)
+				Progress = (currentProgress / (double)Project.UncompressedSize);
+
+				foreach (var action in Pipeline.BuildActions)
 				{
-					var exporter = Pipeline.GetExporter (resource);
-
-					string entryName = resource.FullName;
-					long size = resource.UncompressedSize;
-
-					ZipArchiveEntry entry;
-					if (exporter == null)
+					if (action is IResourceBuildStep resourceBuildStep)
 					{
-						entry = archive.CreateEntryFromFile (resource.Entry.FullName, entryName, CompressionLevel.Optimal);
-					}
-					else
-					{
-						entry = archive.CreateEntry (entryName);
-
-						using (var zipStream = entry.Open ())
-						{
-							exporter.BuildResource (resource, zipStream);
-						}
-					}
-
-					currentProgress += size;
-
-					Progress = (currentProgress / (double)Project.UncompressedSize);
-
-					foreach (var action in Pipeline.BuildActions)
-					{
-						if (action is IResourceBuildStep resourceBuildStep)
-						{
-							resourceBuildStep.OnAfterBuildResource (this, resource);
-						}
+						resourceBuildStep.OnAfterBuildResource (this, resource);
 					}
 				}
 			}

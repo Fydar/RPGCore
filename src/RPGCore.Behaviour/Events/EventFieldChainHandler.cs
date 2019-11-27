@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 		public IEventField<B> TargetField;
 		public Func<T, IReadOnlyEventField<B>> Chain;
 
-		private IReadOnlyEventField<B> ChainedField;
+		private IReadOnlyEventField<B> chainedField;
 
 		public EventFieldChainHandler(IReadOnlyEventField<T> source, IEventField<B> target, Func<T, IReadOnlyEventField<B>> chain)
 		{
@@ -16,42 +16,42 @@ namespace RPGCore.Behaviour
 			TargetField = target;
 			Chain = chain;
 
-			ChainedField = Chain (SourceField.Value);
+			chainedField = Chain (SourceField.Value);
 		}
 
 		public void OnBeforeChanged()
 		{
-			if (ChainedField == null)
+			if (chainedField == null)
 			{
 				return;
 			}
 
-			ChainedField.Handlers[this].Clear ();
+			chainedField.Handlers[this].Clear ();
 		}
 
 		public void OnAfterChanged()
 		{
-			ChainedField = Chain (SourceField.Value);
-			if (ChainedField == null)
+			chainedField = Chain (SourceField.Value);
+			if (chainedField == null)
 			{
-				TargetField.Value = default (B);
+				TargetField.Value = default;
 				return;
 			}
 
-			ChainedField.Handlers[this].Add (new EventFieldMirrorHandler<B> (ChainedField, TargetField));
-			TargetField.Value = ChainedField.Value;
+			chainedField.Handlers[this].Add (new EventFieldMirrorHandler<B> (chainedField, TargetField));
+			TargetField.Value = chainedField.Value;
 		}
 
 		public void Dispose()
 		{
 			SourceField.Handlers[TargetField].Clear ();
 
-			if (ChainedField == null)
+			if (chainedField == null)
 			{
 				return;
 			}
 
-			ChainedField.Handlers[this].Clear ();
+			chainedField.Handlers[this].Clear ();
 		}
 	}
 }
