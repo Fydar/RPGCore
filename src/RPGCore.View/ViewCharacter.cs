@@ -19,7 +19,7 @@ namespace RPGCore.View
 				EntityId = LocalId.NewId ()
 			};
 		}
-		
+
 		[JsonIgnore]
 		public override IEnumerable<KeyValuePair<string, ISyncField>> SyncedObjects
 		{
@@ -33,7 +33,7 @@ namespace RPGCore.View
 
 		public override string ToString()
 		{
-			return $"{Name.Value}({Id}, {string.Join(", ", Traits.States)}";
+			return $"{Name.Value}({Id}, {string.Join (", ", Traits.States)}";
 		}
 	}
 }

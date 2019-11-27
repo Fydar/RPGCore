@@ -3,7 +3,7 @@ using RPGCore.Behaviour;
 
 namespace RPGCore.View
 {
-	class EntitySyncCollectionHandler : IEventCollectionHandler<EntityRef, Entity>
+	internal class EntitySyncCollectionHandler : IEventCollectionHandler<EntityRef, Entity>
 	{
 		private readonly ViewDispatcher dispatcher;
 

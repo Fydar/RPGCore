@@ -30,7 +30,7 @@ namespace RPGCore.Traits
 
 		public void Dispose()
 		{
-			
+
 		}
 
 		public object AddSyncHandler(ViewDispatcher viewDispatcher, EntityRef root, string path)

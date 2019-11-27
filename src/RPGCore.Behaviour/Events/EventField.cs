@@ -62,7 +62,7 @@ namespace RPGCore.Behaviour
 		{
 			var handler = new SyncEventFieldHandler (viewDispatcher, root, path, this);
 			Handlers[this].Add (handler);
-			return handler; 
+			return handler;
 		}
 
 		public void Apply(ViewPacket packet)

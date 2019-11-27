@@ -11,7 +11,7 @@ namespace RPGCore.View
 		public void Apply(ViewPacket packet)
 		{
 			Type entityType = null;
-			if (!string.IsNullOrEmpty(packet.EntityType))
+			if (!string.IsNullOrEmpty (packet.EntityType))
 			{
 				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ())
 				{

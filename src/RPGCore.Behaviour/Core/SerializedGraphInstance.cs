@@ -42,7 +42,7 @@ namespace RPGCore.Behaviour
 
 		public override bool CanConvert(Type objectType)
 		{
-			return typeof (IGraphInstance).IsAssignableFrom(objectType);
+			return typeof (IGraphInstance).IsAssignableFrom (objectType);
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -50,7 +50,7 @@ namespace RPGCore.Behaviour
 			var jObject = JObject.Load (reader);
 			var serializedGraphInstance = jObject.ToObject<SerializedGraphInstance> (serializer);
 
-			var result = serializedGraphInstance.Unpack (Graph.SubGraphs.Values.First());
+			var result = serializedGraphInstance.Unpack (Graph.SubGraphs.Values.First ());
 
 			return result;
 		}

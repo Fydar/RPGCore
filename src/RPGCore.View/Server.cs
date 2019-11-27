@@ -40,7 +40,7 @@ namespace RPGCore.View
 
 			LogCurrentState ();
 
-			character.Traits.States.Add("Health", new StateInstance());
+			character.Traits.States.Add ("Health", new StateInstance ());
 
 			LogCurrentState ();
 
