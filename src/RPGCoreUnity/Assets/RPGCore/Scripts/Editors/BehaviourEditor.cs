@@ -95,7 +95,15 @@ namespace RPGCore.Unity.Editors
 							editorTarget = JObject.Load (reader);
 						}
 
-						var nodes = NodeManifest.Construct (new Type[] { typeof (AddNode), typeof (RollNode), typeof (OutputValueNode) });
+						var nodes = NodeManifest.Construct (new Type[] {
+							typeof (AddNode),
+							typeof (RollNode),
+							typeof (OutputValueNode),
+							typeof (ItemInputNode),
+							typeof (ActivatableItemNode),
+							typeof (IterateNode),
+							typeof (GetStatNode),
+						});
 						var types = TypeManifest.ConstructBaseTypes ();
 
 						var manifest = new BehaviourManifest ()

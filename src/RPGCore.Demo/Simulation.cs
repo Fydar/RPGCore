@@ -25,8 +25,9 @@ namespace RPGCore.Demo
 					typeof (RollNode),
 					typeof (OutputValueNode),
 					typeof (ItemInputNode),
-					typeof (GetStatNode),
+					typeof (ActivatableItemNode),
 					typeof (IterateNode),
+					typeof (GetStatNode),
 				}
 			);
 			var types = TypeManifest.ConstructBaseTypes ();
@@ -41,7 +42,7 @@ namespace RPGCore.Demo
 
 			Console.WriteLine ("Importing Graph...");
 
-			var proj = ProjectExplorer.Load ("Content/Tutorial");
+			var proj = ProjectExplorer.Load ("Content/Core");
 			Console.WriteLine (proj.Name);
 			Console.WriteLine ("\t\"" + proj.Name + "\"");
 			foreach (var resource in ((IPackageExplorer)proj).Resources)
@@ -49,7 +50,7 @@ namespace RPGCore.Demo
 				Console.WriteLine ("\t" + resource.FullName);
 			}
 
-			var editorTargetResource = proj.Resources["Tutorial Gamerules/Main.bhvr"];
+			var editorTargetResource = proj.Resources["Fireball/Main.bhvr"];
 			var editorTargetData = editorTargetResource.LoadStream ();
 
 			JObject editorTarget;

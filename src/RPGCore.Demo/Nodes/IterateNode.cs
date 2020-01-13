@@ -55,10 +55,21 @@ namespace RPGCore.Demo.Nodes
 					}
 					subgraphInstance.Setup ();
 				}
+
+				while (SubGraphs.Count > repetitions)
+				{
+					var removeGraph = SubGraphs[SubGraphs.Count - 1];
+					SubGraphs.RemoveAt (SubGraphs.Count - 1);
+					removeGraph.Remove ();
+				}
 			}
 
 			public override void Remove()
 			{
+				foreach (var removeGraph in SubGraphs)
+				{
+					removeGraph.Remove ();
+				}
 			}
 		}
 	}

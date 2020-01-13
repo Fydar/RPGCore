@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour.Manifest;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -80,6 +81,11 @@ namespace RPGCore.Behaviour.Editor
 			Json = json;
 			Type = session.Manifest.GetTypeInformation (field.Type);
 
+			if (Type == null)
+			{
+				throw new InvalidOperationException ($"Cannot find type information for type \"{field.Type}\".");
+			}
+
 			if (Json.Type == JTokenType.Object
 				&& Field?.Format != FieldFormat.Dictionary)
 			{
@@ -111,6 +117,17 @@ namespace RPGCore.Behaviour.Editor
 			}
 			else if (Type.Fields != null)
 			{
+				if (Json.Type == JTokenType.Null)
+				{ 
+
+				}
+				if (Type.Fields != null && Type.Fields.Count != 0)
+				{
+					if (Json is JValue)
+					{
+						throw new InvalidOperationException ($"{Name} has {Type.Fields.Count} fields, but it is a JValue.");
+					}
+				}
 				foreach (var childField in Type.Fields)
 				{
 					var property = Json[childField.Key];
@@ -229,11 +246,14 @@ namespace RPGCore.Behaviour.Editor
 			}
 
 			// Populate missing fields with default values.
-			foreach (var field in information.Fields)
+			if (information.Fields != null)
 			{
-				if (!serialized.ContainsKey (field.Key))
+				foreach (var field in information.Fields)
 				{
-					serialized.Add (field.Key, field.Value.DefaultValue);
+					if (!serialized.ContainsKey (field.Key))
+					{
+						serialized.Add (field.Key, field.Value.DefaultValue);
+					}
 				}
 			}
 		}
