@@ -1,11 +1,10 @@
 ﻿using RPGCore.Behaviour;
-using RPGCore.View;
 using System;
 using System.Collections.Generic;
 
 namespace RPGCore.Traits
 {
-	public class StatInstance : IReadOnlyEventField<float>, IEventFieldHandler, ISyncField
+	public class StatInstance : IReadOnlyEventField<float>, IEventFieldHandler
 	{
 		public StatIdentifier Identifier { get; set; }
 
@@ -254,28 +253,6 @@ namespace RPGCore.Traits
 
 		public void Dispose()
 		{
-		}
-
-		object IEventField.GetValue()
-		{
-			return Value;
-		}
-
-		void IEventField.SetValue(object value)
-		{
-			Value = (float)value;
-		}
-
-		public object AddSyncHandler(ViewDispatcher viewDispatcher, EntityRef root, string path)
-		{
-			var handler = new SyncEventFieldHandler (viewDispatcher, root, path, this);
-			Handlers[this].Add (handler);
-			return handler;
-		}
-
-		public void Apply(ViewPacket packet)
-		{
-			Value = packet.Data.ToObject<float> ();
 		}
 	}
 }

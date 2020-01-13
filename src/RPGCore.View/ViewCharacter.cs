@@ -20,17 +20,6 @@ namespace RPGCore.View
 			};
 		}
 
-		[JsonIgnore]
-		public override IEnumerable<KeyValuePair<string, ISyncField>> SyncedObjects
-		{
-			get
-			{
-				yield return new KeyValuePair<string, ISyncField> ("name", Name);
-				yield return new KeyValuePair<string, ISyncField> ("selectedTarget", SelectedTarget);
-				yield return new KeyValuePair<string, ISyncField> ("traits", Traits);
-			}
-		}
-
 		public override string ToString()
 		{
 			return $"{Name.Value}({Id}, {string.Join (", ", Traits.States)}";

@@ -59,15 +59,5 @@ namespace RPGCore.Behaviour
 		{
 			Connection.Dispose ();
 		}
-
-		public object GetValue()
-		{
-			return Connection.GetValue ();
-		}
-
-		public void SetValue(object value)
-		{
-			Connection.SetValue (value);
-		}
 	}
 }

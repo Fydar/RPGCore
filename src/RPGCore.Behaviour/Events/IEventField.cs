@@ -5,9 +5,6 @@ namespace RPGCore.Behaviour
 	public interface IEventField : IEventWrapper, IDisposable
 	{
 		EventFieldHandlerCollection Handlers { get; }
-
-		object GetValue();
-		void SetValue(object value);
 	}
 
 	public interface IReadOnlyEventField<T> : IEventField

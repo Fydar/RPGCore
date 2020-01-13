@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using RPGCore.View;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 namespace RPGCore.Behaviour
 {
 	[JsonObject]
-	public class EventCollection<TKey, TValue> : IEventCollection<TKey, TValue>, IDisposable, ISyncField
+	public class EventCollection<TKey, TValue> : IEventCollection<TKey, TValue>, IDisposable
 	{
 		[JsonIgnore]
 		public EventCollectionHandlerCollection<TKey, TValue> Handlers { get; set; }
@@ -69,32 +68,6 @@ namespace RPGCore.Behaviour
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return Collection.GetEnumerator ();
-		}
-
-		public object AddSyncHandler(ViewDispatcher viewDispatcher, EntityRef root, string path)
-		{
-			var handler = new SyncEventCollectionHandler<TKey, TValue> (viewDispatcher, root, path);
-			Handlers[this].Add (handler);
-			return handler;
-		}
-
-		public void Apply(ViewPacket packet)
-		{
-			switch (packet.PacketType)
-			{
-				case ViewPacket.ViewPacketType.AddCollectionItem:
-
-					Add ((TKey)(object)packet.FieldPath.Split ('.').Last (), packet.Data.ToObject<TValue> ());
-
-					break;
-
-				case ViewPacket.ViewPacketType.RemoveCollectionItem:
-
-					Remove ((TKey)(object)packet.FieldPath.Split ('.').Last ());
-
-					break;
-
-			}
 		}
 	}
 }
