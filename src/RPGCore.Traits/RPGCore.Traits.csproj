@@ -3,10 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+
+    <Company>Anthony Marmont</Company>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
   </ItemGroup>
+
+  <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Traits.dll Assets/Plugins/RPGCore' | true" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Traits.pdb Assets/Plugins/RPGCore' | true" />
+  </Target>
 
 </Project>

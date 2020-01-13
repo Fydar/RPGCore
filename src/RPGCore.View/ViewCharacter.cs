@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using RPGCore.Behaviour;
+﻿using RPGCore.Behaviour;
 using RPGCore.Traits;
-using System.Collections.Generic;
 
 namespace RPGCore.View
 {

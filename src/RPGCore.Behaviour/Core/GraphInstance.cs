@@ -140,6 +140,7 @@ namespace RPGCore.Behaviour
 				{
 					ContractResolver = new IgnoreInputsResolver ()
 				};
+				serializer.Converters.Add (new SerializedGraphInstanceProxyConverter (null));
 
 				nodeMap.Add (node.Id, JObject.FromObject (instance, serializer));
 			}

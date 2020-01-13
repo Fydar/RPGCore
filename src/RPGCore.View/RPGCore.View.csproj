@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+
+    <Company>Anthony Marmont</Company>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
