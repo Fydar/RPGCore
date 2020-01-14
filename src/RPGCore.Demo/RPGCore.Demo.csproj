@@ -3,9 +3,28 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-
     <Deterministic>true</Deterministic>
+
+    <Product>RPGCore</Product>
+    <Company>Anthony Marmont</Company>
+    <Authors>Anthony Marmont</Authors>
+    <Description>RPGCore is a toolkit for producing RPG games and mechanics in C#.</Description>
+    <PackageIcon>project-icon_rounded_64x64.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Fydar/RPGCore</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Fydar/RPGCore</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Fydar/RPGCore/master/src/project-icon_rounded_64x64.png</PackageIconUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Copyright>© 2020 Anthony Marmont</Copyright>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\project-icon_rounded_64x64.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
