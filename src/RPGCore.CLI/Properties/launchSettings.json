@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "bpack build": {
+      "commandName": "Project",
+      "commandLineArgs": "build"
+    },
+    "bpack format": {
+      "commandName": "Project",
+      "commandLineArgs": "format"
+    }
+  }
+}

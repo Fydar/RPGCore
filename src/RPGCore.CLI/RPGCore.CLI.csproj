@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="0.3.0-alpha.20054.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
   </ItemGroup>
 
