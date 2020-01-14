@@ -38,7 +38,7 @@ namespace RPGCore.Behaviour.Manifest
 
 				if (defaultInstance != null)
 				{
-					field.GetValue (defaultInstance);
+					defaultValue = field.GetValue (defaultInstance);
 				}
 
 				string typeName = field.FieldType.Name;

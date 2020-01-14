@@ -115,43 +115,35 @@ namespace RPGCore.Behaviour.Editor
 					}
 				}
 			}
-			else if (Type.Fields != null)
+			else if (Type.Fields != null && Type.Fields.Count != 0)
 			{
-				if (Json.Type == JTokenType.Null)
-				{ 
-
-				}
-				if (Type.Fields != null && Type.Fields.Count != 0)
+				if (Json.Type != JTokenType.Null)
 				{
-					if (Json is JValue)
+					foreach (var childField in Type.Fields)
 					{
-						throw new InvalidOperationException ($"{Name} has {Type.Fields.Count} fields, but it is a JValue.");
-					}
-				}
-				foreach (var childField in Type.Fields)
-				{
-					var property = Json[childField.Key];
+						var property = Json[childField.Key];
 
-					if (childField.Value.Type == "JObject")
-					{
-						var type = Json["Type"];
-
-						var genericField = new FieldInformation ()
+						if (childField.Value.Type == "JObject")
 						{
-							Type = type.ToObject<string> (),
-							Format = FieldFormat.Object,
+							var type = Json["Type"];
 
-							Attributes = childField.Value.Attributes,
-							DefaultValue = childField.Value.DefaultValue,
-							Description = childField.Value.Description,
-							ValueFormat = childField.Value.ValueFormat
-						};
+							var genericField = new FieldInformation ()
+							{
+								Type = type.ToObject<string> (),
+								Format = FieldFormat.Object,
 
-						Children.Add (childField.Key, new EditorField (Session, property, childField.Key, genericField));
-					}
-					else
-					{
-						Children.Add (childField.Key, new EditorField (Session, property, childField.Key, childField.Value));
+								Attributes = childField.Value.Attributes,
+								DefaultValue = childField.Value.DefaultValue,
+								Description = childField.Value.Description,
+								ValueFormat = childField.Value.ValueFormat
+							};
+
+							Children.Add (childField.Key, new EditorField (Session, property, childField.Key, genericField));
+						}
+						else
+						{
+							Children.Add (childField.Key, new EditorField (Session, property, childField.Key, childField.Value));
+						}
 					}
 				}
 			}
