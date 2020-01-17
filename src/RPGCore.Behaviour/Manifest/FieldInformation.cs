@@ -29,7 +29,8 @@ namespace RPGCore.Behaviour.Manifest
 				{
 					Type = "InputSocket",
 					Attributes = attributeIds,
-					DefaultValue = new JValue ((object)null)
+					DefaultValue = new JValue ((object)null),
+					Format = FieldFormat.Object,
 				};
 			}
 			else
@@ -49,7 +50,8 @@ namespace RPGCore.Behaviour.Manifest
 					{
 						Type = typeName,
 						Attributes = attributeIds,
-						DefaultValue = new JValue (defaultValue)
+						DefaultValue = new JValue (defaultValue),
+						Format = FieldFormat.Object,
 					};
 				}
 				catch
@@ -58,7 +60,8 @@ namespace RPGCore.Behaviour.Manifest
 					{
 						Type = typeName,
 						Attributes = attributeIds,
-						DefaultValue = JObject.FromObject (defaultValue)
+						DefaultValue = JObject.FromObject (defaultValue),
+						Format = FieldFormat.Object,
 					};
 				}
 

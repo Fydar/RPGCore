@@ -25,17 +25,26 @@ namespace RPGCore.Behaviour.Manifest
 				lookupType = type.Substring (0, arrayIndex);
 			}
 
-			if (Types.JsonTypes.TryGetValue (lookupType, out var jsonType))
+			if (Types.JsonTypes != null)
 			{
-				return jsonType;
+				if (Types.JsonTypes.TryGetValue (lookupType, out var jsonType))
+				{
+					return jsonType;
+				}
 			}
-			if (Types.ObjectTypes.TryGetValue (lookupType, out var objectType))
+			if (Types?.ObjectTypes != null)
 			{
-				return objectType;
+				if (Types.ObjectTypes.TryGetValue (lookupType, out var objectType))
+				{
+					return objectType;
+				}
 			}
-			if (Nodes.Nodes.TryGetValue (lookupType, out var nodeType))
+			if (Nodes?.Nodes != null)
 			{
-				return nodeType;
+				if (Nodes.Nodes.TryGetValue (lookupType, out var nodeType))
+				{
+					return nodeType;
+				}
 			}
 			return null;
 		}

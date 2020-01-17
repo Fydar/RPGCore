@@ -17,12 +17,13 @@ namespace RPGCore.Behaviour.Editor
 			JsonSerializer = jsonSerializer;
 
 			var rootJson = JObject.FromObject (instance, JsonSerializer);
-			string type = instance.GetType ().FullName;
+			string type = instance.GetType ().Name;
 			Instance = rootJson;
 
 			var rootField = new FieldInformation ()
 			{
-				Type = type
+				Type = type,
+				Format = FieldFormat.Object
 			};
 			Root = new EditorField (this, rootJson, "root", rootField);
 		}
@@ -35,7 +36,8 @@ namespace RPGCore.Behaviour.Editor
 
 			var rootField = new FieldInformation ()
 			{
-				Type = type
+				Type = type,
+				Format = FieldFormat.Object
 			};
 			Root = new EditorField (this, instance, "root", rootField);
 		}

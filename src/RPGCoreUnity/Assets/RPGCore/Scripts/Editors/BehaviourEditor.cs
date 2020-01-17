@@ -196,43 +196,46 @@ namespace RPGCore.Unity.Editors
 					// Foreach Output
 					var outputRect = new Rect (nodePositionX + 202, nodePositionY + 6, 20, 20);
 					var nodeInfo = (NodeInformation)nodeData.Type;
-					foreach (var output in nodeInfo.Outputs)
+					if (nodeInfo?.Outputs != null)
 					{
-						if (CurrentEvent.type == EventType.Repaint)
+						foreach (var output in nodeInfo.Outputs)
 						{
-							EditorStyles.helpBox.Draw (outputRect, false, false, false, false);
-						}
-						else if (CurrentEvent.type == EventType.MouseDown && outputRect.Contains (CurrentEvent.mousePosition))
-						{
-							var outputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
-							View.BeginConnectionFromOutput (outputId);
-
-							GUI.UnfocusWindow ();
-							GUI.FocusControl ("");
-
-							CurrentEvent.Use ();
-						}
-						else if (CurrentEvent.type == EventType.MouseUp && outputRect.Contains (CurrentEvent.mousePosition))
-						{
-							if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+							if (CurrentEvent.type == EventType.Repaint)
 							{
-								if (!View.IsOutputSocket)
+								EditorStyles.helpBox.Draw (outputRect, false, false, false, false);
+							}
+							else if (CurrentEvent.type == EventType.MouseDown && outputRect.Contains (CurrentEvent.mousePosition))
+							{
+								var outputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
+								View.BeginConnectionFromOutput (outputId);
+
+								GUI.UnfocusWindow ();
+								GUI.FocusControl ("");
+
+								CurrentEvent.Use ();
+							}
+							else if (CurrentEvent.type == EventType.MouseUp && outputRect.Contains (CurrentEvent.mousePosition))
+							{
+								if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
 								{
-									var thisOutputSocket = new LocalPropertyId (new LocalId (node.Name), output.Key);
+									if (!View.IsOutputSocket)
+									{
+										var thisOutputSocket = new LocalPropertyId (new LocalId (node.Name), output.Key);
 
-									View.ConnectionInput.SetValue (thisOutputSocket);
-									View.ConnectionInput.ApplyModifiedProperties ();
-									View.CurrentMode = BehaviourEditorView.Mode.None;
+										View.ConnectionInput.SetValue (thisOutputSocket);
+										View.ConnectionInput.ApplyModifiedProperties ();
+										View.CurrentMode = BehaviourEditorView.Mode.None;
 
-									GUI.UnfocusWindow ();
-									GUI.FocusControl ("");
+										GUI.UnfocusWindow ();
+										GUI.FocusControl ("");
 
-									CurrentEvent.Use ();
+										CurrentEvent.Use ();
+									}
 								}
 							}
-						}
 
-						outputRect.y += outputRect.height + 4;
+							outputRect.y += outputRect.height + 4;
+						}
 					}
 
 					// Foreach Input
