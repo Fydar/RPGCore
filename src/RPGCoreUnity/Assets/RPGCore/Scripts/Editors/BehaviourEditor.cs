@@ -73,29 +73,32 @@ namespace RPGCore.Unity.Editors
 		private void DrawAssetSelection()
 		{
 			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField (CurrentPackage, typeof (ProjectImport), true);
-			if (CurrentPackage != null)
+			if (CurrentPackage == null)
 			{
-				var explorer = CurrentPackage.Explorer;
+				return;
+			}
 
-				foreach (var resource in explorer.Resources)
+			var explorer = CurrentPackage.Explorer;
+
+			foreach (var resource in explorer.Resources)
+			{
+				if (!resource.Name.EndsWith (".bhvr"))
 				{
-					if (!resource.Name.EndsWith (".bhvr"))
+					continue;
+				}
+
+				if (GUILayout.Button (resource.ToString ()))
+				{
+					CurrentResource = resource;
+					JObject editorTarget;
+					using (var editorTargetData = CurrentResource.LoadStream ())
+					using (var sr = new StreamReader (editorTargetData))
+					using (var reader = new JsonTextReader (sr))
 					{
-						continue;
+						editorTarget = JObject.Load (reader);
 					}
 
-					if (GUILayout.Button (resource.ToString ()))
-					{
-						CurrentResource = resource;
-						JObject editorTarget;
-						using (var editorTargetData = CurrentResource.LoadStream ())
-						using (var sr = new StreamReader (editorTargetData))
-						using (var reader = new JsonTextReader (sr))
-						{
-							editorTarget = JObject.Load (reader);
-						}
-
-						var nodes = NodeManifest.Construct (new Type[] {
+					var nodes = NodeManifest.Construct (new Type[] {
 							typeof (AddNode),
 							typeof (RollNode),
 							typeof (OutputValueNode),
@@ -104,73 +107,83 @@ namespace RPGCore.Unity.Editors
 							typeof (IterateNode),
 							typeof (GetStatNode),
 						});
-						var types = TypeManifest.ConstructBaseTypes ();
+					var types = TypeManifest.ConstructBaseTypes ();
 
-						var manifest = new BehaviourManifest ()
-						{
-							Nodes = nodes,
-							Types = types,
-						};
-						Debug.Log (editorTarget);
-						var graphEditor = new EditorSession (manifest, editorTarget, "SerializedGraph", Serializer);
+					var manifest = new BehaviourManifest ()
+					{
+						Nodes = nodes,
+						Types = types,
+					};
+					Debug.Log (editorTarget);
+					var graphEditor = new EditorSession (manifest, editorTarget, "SerializedGraph", Serializer);
 
-						View.BeginSession (graphEditor);
-					}
+					View.BeginSession (graphEditor);
 				}
 			}
 		}
 
 		private void DrawNodes()
 		{
-			if (View.Session != null)
+			if (View.Session == null)
 			{
-				var graphEditorNodes = View.Session.Root["Nodes"];
+				return;
+			}
+			var graphEditorNodes = View.Session.Root["Nodes"];
 
-				// Draw Nodes
-				foreach (var node in graphEditorNodes)
+			// Draw Nodes
+			foreach (var node in graphEditorNodes)
+			{
+				var nodeEditor = node["Editor"];
+				var nodeEditorPosition = nodeEditor["Position"];
+
+				var nodeRect = new Rect (
+					View.PanPosition.x + nodeEditorPosition["x"].GetValue<int> (),
+					View.PanPosition.y + nodeEditorPosition["y"].GetValue<int> (),
+					200,
+					1000
+				);
+
+				GUILayout.BeginArea (nodeRect);
+
+				var finalRect = EditorGUILayout.BeginVertical ();
+				finalRect.xMax -= 2;
+				finalRect.yMax += 4;
+				if (CurrentEvent.type == EventType.Repaint)
 				{
-					var nodeEditor = node["Editor"];
-					var nodeEditorPosition = nodeEditor["Position"];
+					GUI.skin.window.Draw (finalRect,
+						false, View.Selection.Contains (node.Name), false, false);
+				}
 
-					var nodeRect = new Rect (
-						View.PanPosition.x + nodeEditorPosition["x"].GetValue<int> (),
-						View.PanPosition.y + nodeEditorPosition["y"].GetValue<int> (),
-						200,
-						180
+				var nodeType = node["Type"];
+				EditorGUILayout.LabelField (nodeType.GetValue<string> ());
+
+				var nodeData = node["Data"];
+				foreach (var childField in nodeData)
+				{
+					DrawField (childField);
+				}
+				EditorGUILayout.EndVertical ();
+				GUILayout.EndArea ();
+
+				if (CurrentEvent.type == EventType.MouseDown)
+				{
+					var globalFinalRect = new Rect (
+						nodeRect.x,
+						nodeRect.y,
+						finalRect.width,
+						finalRect.height
 					);
 
-					if (CurrentEvent.type == EventType.Repaint)
+					if (globalFinalRect.Contains (CurrentEvent.mousePosition))
 					{
-						GUI.skin.window.Draw (nodeRect,
-							false, View.Selection.Contains (node.Name), false, false);
-					}
+						View.Selection.Clear ();
+						View.Selection.Add (node.Name);
 
-					GUILayout.BeginArea (nodeRect);
+						View.CurrentMode = BehaviourEditorView.Mode.NodeDragging;
+						GUI.UnfocusWindow ();
+						GUI.FocusControl ("");
 
-					var nodeType = node["Type"];
-					EditorGUILayout.LabelField (nodeType.GetValue<string> ());
-
-					var nodeData = node["Data"];
-					foreach (var childField in nodeData)
-					{
-						DrawField (childField);
-					}
-
-					GUILayout.EndArea ();
-
-					if (CurrentEvent.type == EventType.MouseDown)
-					{
-						if (nodeRect.Contains (CurrentEvent.mousePosition))
-						{
-							View.Selection.Clear ();
-							View.Selection.Add (node.Name);
-
-							View.CurrentMode = BehaviourEditorView.Mode.NodeDragging;
-							GUI.UnfocusWindow ();
-							GUI.FocusControl ("");
-
-							CurrentEvent.Use ();
-						}
+						CurrentEvent.Use ();
 					}
 				}
 			}
@@ -178,234 +191,244 @@ namespace RPGCore.Unity.Editors
 
 		public void DrawConnections()
 		{
-			if (View.Session != null)
+			if (View.Session == null)
 			{
-				var graphEditorNodes = View.Session.Root["Nodes"];
+				return;
+			}
 
-				// Foreach output
-				foreach (var node in graphEditorNodes)
+			if (CurrentEvent.type != EventType.Repaint
+				&& CurrentEvent.type != EventType.MouseDown
+				&& CurrentEvent.type != EventType.MouseUp)
+			{
+				return;
+			}
+
+			var graphEditorNodes = View.Session.Root["Nodes"];
+
+			// Foreach output
+			foreach (var node in graphEditorNodes)
+			{
+				var nodeEditor = node["Editor"];
+				var nodeEditorPosition = nodeEditor["Position"];
+
+				float nodePositionX = nodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
+				float nodePositionY = nodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
+
+				var nodeData = node["Data"];
+
+				// Foreach Output
+				var nodeInfo = (NodeInformation)nodeData.Type;
+				if (nodeInfo?.Outputs != null)
 				{
-					var nodeEditor = node["Editor"];
-					var nodeEditorPosition = nodeEditor["Position"];
-
-					float nodePositionX = nodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
-					float nodePositionY = nodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
-
-					var nodeData = node["Data"];
-
-					// Foreach Output
 					var outputRect = new Rect (nodePositionX + 202, nodePositionY + 6, 20, 20);
-					var nodeInfo = (NodeInformation)nodeData.Type;
-					if (nodeInfo?.Outputs != null)
+					foreach (var output in nodeInfo.Outputs)
 					{
-						foreach (var output in nodeInfo.Outputs)
+						if (CurrentEvent.type == EventType.Repaint)
 						{
-							if (CurrentEvent.type == EventType.Repaint)
+							EditorStyles.helpBox.Draw (outputRect, false, false, false, false);
+						}
+						else if (CurrentEvent.type == EventType.MouseDown && outputRect.Contains (CurrentEvent.mousePosition))
+						{
+							var outputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
+							View.BeginConnectionFromOutput (outputId);
+
+							GUI.UnfocusWindow ();
+							GUI.FocusControl ("");
+
+							CurrentEvent.Use ();
+						}
+						else if (CurrentEvent.type == EventType.MouseUp && outputRect.Contains (CurrentEvent.mousePosition))
+						{
+							if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
 							{
-								EditorStyles.helpBox.Draw (outputRect, false, false, false, false);
+								if (!View.IsOutputSocket)
+								{
+									var thisOutputSocket = new LocalPropertyId (new LocalId (node.Name), output.Key);
+
+									View.ConnectionInput.SetValue (thisOutputSocket);
+									View.ConnectionInput.ApplyModifiedProperties ();
+									View.CurrentMode = BehaviourEditorView.Mode.None;
+
+									GUI.UnfocusWindow ();
+									GUI.FocusControl ("");
+
+									CurrentEvent.Use ();
+								}
 							}
-							else if (CurrentEvent.type == EventType.MouseDown && outputRect.Contains (CurrentEvent.mousePosition))
+						}
+
+						outputRect.y += outputRect.height + 4;
+					}
+				}
+
+				// Foreach Input
+				foreach (var childField in nodeData)
+				{
+					if (childField.Field.Type != "InputSocket")
+					{
+						continue;
+					}
+					var fieldFeature = childField.GetOrCreateFeature<FieldFeature> ();
+
+					fieldFeature.GlobalRenderedPosition = new Rect (
+						fieldFeature.LocalRenderedPosition.x + nodePositionX,
+						fieldFeature.LocalRenderedPosition.y + nodePositionY,
+						fieldFeature.LocalRenderedPosition.width,
+						fieldFeature.LocalRenderedPosition.height);
+
+					var socketRect = fieldFeature.InputSocketPosition;
+
+					if (CurrentEvent.type == EventType.MouseDown && socketRect.Contains (CurrentEvent.mousePosition))
+					{
+						var thisInputId = new LocalPropertyId (new LocalId (node.Name), childField.Name);
+
+						View.BeginConnectionFromInput (childField, node.Name);
+
+						GUI.UnfocusWindow ();
+						GUI.FocusControl ("");
+
+						CurrentEvent.Use ();
+					}
+					else if (CurrentEvent.type == EventType.MouseUp && socketRect.Contains (CurrentEvent.mousePosition))
+					{
+						if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+						{
+							if (View.IsOutputSocket)
 							{
-								var outputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
-								View.BeginConnectionFromOutput (outputId);
+								childField.SetValue (View.ConnectionOutput);
+								childField.ApplyModifiedProperties ();
+								View.CurrentMode = BehaviourEditorView.Mode.None;
 
 								GUI.UnfocusWindow ();
 								GUI.FocusControl ("");
 
 								CurrentEvent.Use ();
 							}
-							else if (CurrentEvent.type == EventType.MouseUp && outputRect.Contains (CurrentEvent.mousePosition))
-							{
-								if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
-								{
-									if (!View.IsOutputSocket)
-									{
-										var thisOutputSocket = new LocalPropertyId (new LocalId (node.Name), output.Key);
-
-										View.ConnectionInput.SetValue (thisOutputSocket);
-										View.ConnectionInput.ApplyModifiedProperties ();
-										View.CurrentMode = BehaviourEditorView.Mode.None;
-
-										GUI.UnfocusWindow ();
-										GUI.FocusControl ("");
-
-										CurrentEvent.Use ();
-									}
-								}
-							}
-
-							outputRect.y += outputRect.height + 4;
 						}
 					}
-
-					// Foreach Input
-					foreach (var childField in nodeData)
+					else if (CurrentEvent.type == EventType.Repaint)
 					{
-						if (childField.Field.Type == "InputSocket")
+						EditorStyles.helpBox.Draw (socketRect, false, false, false, false);
+
+						var thisInputConnectedTo = childField.GetValue<LocalPropertyId> ();
+						if (thisInputConnectedTo != LocalPropertyId.None)
 						{
-							var fieldFeature = childField.GetOrCreateFeature<FieldFeature> ();
-
-							fieldFeature.GlobalRenderedPosition = new Rect (
-								fieldFeature.LocalRenderedPosition.x + nodePositionX,
-								fieldFeature.LocalRenderedPosition.y + nodePositionY,
-								fieldFeature.LocalRenderedPosition.width,
-								fieldFeature.LocalRenderedPosition.height);
-
-							var socketRect = fieldFeature.InputSocketPosition;
-
-							if (CurrentEvent.type == EventType.Repaint)
+							bool foundNode = false;
+							var otherOutputRect = new Rect ();
+							foreach (var otherNode in graphEditorNodes)
 							{
-								EditorStyles.helpBox.Draw (socketRect, false, false, false, false);
-							}
-							else if (CurrentEvent.type == EventType.MouseDown && socketRect.Contains (CurrentEvent.mousePosition))
-							{
-								var thisInputId = new LocalPropertyId (new LocalId (node.Name), childField.Name);
+								var otherNodeEditor = otherNode["Editor"];
+								var otherNodeEditorPosition = otherNodeEditor["Position"];
 
-								View.BeginConnectionFromInput (childField, node.Name);
+								float otherNodePositionX = otherNodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
+								float otherNodePositionY = otherNodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
 
-								GUI.UnfocusWindow ();
-								GUI.FocusControl ("");
+								var otherNodeData = otherNode["Data"];
 
-								CurrentEvent.Use ();
-							}
-							else if (CurrentEvent.type == EventType.MouseUp && socketRect.Contains (CurrentEvent.mousePosition))
-							{
-								if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+								// Foreach Output
+								otherOutputRect = new Rect (otherNodePositionX + 202, otherNodePositionY + 6, 20, 20);
+								var otherNodeInfo = (NodeInformation)otherNodeData.Type;
+								foreach (var output in otherNodeInfo.Outputs)
 								{
-									if (View.IsOutputSocket)
+									var otherOutputId = new LocalPropertyId (new LocalId (otherNode.Name), output.Key);
+
+									if (otherOutputId == thisInputConnectedTo)
 									{
-										childField.SetValue (View.ConnectionOutput);
-										childField.ApplyModifiedProperties ();
-										View.CurrentMode = BehaviourEditorView.Mode.None;
-
-										GUI.UnfocusWindow ();
-										GUI.FocusControl ("");
-
-										CurrentEvent.Use ();
-									}
-								}
-							}
-
-							var thisInputConnectedTo = childField.GetValue<LocalPropertyId> ();
-							if (thisInputConnectedTo != LocalPropertyId.None)
-							{
-								bool foundNode = false;
-								var otherOutputRect = new Rect ();
-								foreach (var otherNode in graphEditorNodes)
-								{
-									var otherNodeEditor = otherNode["Editor"];
-									var otherNodeEditorPosition = otherNodeEditor["Position"];
-
-									float otherNodePositionX = otherNodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
-									float otherNodePositionY = otherNodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
-
-									var otherNodeData = otherNode["Data"];
-
-									// Foreach Output
-									otherOutputRect = new Rect (otherNodePositionX + 202, otherNodePositionY + 6, 20, 20);
-									var otherNodeInfo = (NodeInformation)otherNodeData.Type;
-									foreach (var output in otherNodeInfo.Outputs)
-									{
-										var otherOutputId = new LocalPropertyId (new LocalId (otherNode.Name), output.Key);
-
-										if (otherOutputId == thisInputConnectedTo)
-										{
-											foundNode = true;
-											break;
-										}
-
-										otherOutputRect.y += otherOutputRect.height + 4;
-									}
-									if (foundNode)
-									{
+										foundNode = true;
 										break;
 									}
+
+									otherOutputRect.y += otherOutputRect.height + 4;
 								}
 								if (foundNode)
 								{
-									var start = new Vector3 (otherOutputRect.x, otherOutputRect.center.y);
-									var end = new Vector3 (fieldFeature.GlobalRenderedPosition.x, fieldFeature.GlobalRenderedPosition.center.y);
-									var startDir = new Vector3 (1, 0);
-									var endDir = new Vector3 (-1, 0);
-
-									DrawConnection (start, end, startDir, endDir);
+									break;
 								}
+							}
+							if (foundNode)
+							{
+								var start = new Vector3 (otherOutputRect.x, otherOutputRect.center.y);
+								var end = new Vector3 (fieldFeature.GlobalRenderedPosition.x, fieldFeature.GlobalRenderedPosition.center.y);
+								var startDir = new Vector3 (1, 0);
+								var endDir = new Vector3 (-1, 0);
+
+								DrawConnection (start, end, startDir, endDir);
 							}
 						}
 					}
 				}
+			}
 
-				// Draw active connection
-				if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+			// Draw active connection
+			if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+			{
+				if (View.IsOutputSocket)
 				{
-					if (View.IsOutputSocket)
+					// Draw Nodes
+					bool isFound = false;
+					var outputRect = new Rect ();
+					foreach (var node in graphEditorNodes)
 					{
-						// Draw Nodes
-						bool isFound = false;
-						var outputRect = new Rect ();
-						foreach (var node in graphEditorNodes)
-						{
-							var nodeEditor = node["Editor"];
-							var nodeEditorPosition = nodeEditor["Position"];
-
-							float nodePositionX = nodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
-							float nodePositionY = nodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
-
-							var nodeData = node["Data"];
-
-							// Foreach Output
-							var nodeInfo = (NodeInformation)nodeData.Type;
-							outputRect = new Rect (nodePositionX + 202, nodePositionY + 6, 20, 20);
-							foreach (var output in nodeInfo.Outputs)
-							{
-								var otherOutputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
-
-								if (otherOutputId == View.ConnectionOutput)
-								{
-									isFound = true;
-									break;
-								}
-
-								outputRect.y += outputRect.height + 4;
-							}
-							if (isFound)
-							{
-								break;
-							}
-						}
-
-						if (isFound)
-						{
-							var start = new Vector3 (outputRect.x, outputRect.center.y);
-							var end = new Vector3 (CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
-							var startDir = new Vector3 (1, 0);
-							var endDir = new Vector3 (-1, 0);
-
-							DrawConnection (start, end, startDir, endDir);
-						}
-					}
-					else
-					{
-						var startFieldFeature = View.ConnectionInput.GetOrCreateFeature<FieldFeature> ();
-
-						var inputNode = graphEditorNodes[View.ConnectionInputNodeId.ToString ()];
-						var nodeEditor = inputNode["Editor"];
+						var nodeEditor = node["Editor"];
 						var nodeEditorPosition = nodeEditor["Position"];
 
 						float nodePositionX = nodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
 						float nodePositionY = nodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
 
-						var nodeData = inputNode["Data"];
+						var nodeData = node["Data"];
 
-						var socketRect = startFieldFeature.InputSocketPosition;
+						// Foreach Output
+						var nodeInfo = (NodeInformation)nodeData.Type;
+						outputRect = new Rect (nodePositionX + 202, nodePositionY + 6, 20, 20);
+						foreach (var output in nodeInfo.Outputs)
+						{
+							var otherOutputId = new LocalPropertyId (new LocalId (node.Name), output.Key);
 
-						var start = new Vector3 (CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
-						var end = new Vector3 (socketRect.xMax, socketRect.center.y);
+							if (otherOutputId == View.ConnectionOutput)
+							{
+								isFound = true;
+								break;
+							}
+
+							outputRect.y += outputRect.height + 4;
+						}
+						if (isFound)
+						{
+							break;
+						}
+					}
+
+					if (isFound)
+					{
+						var start = new Vector3 (outputRect.x, outputRect.center.y);
+						var end = new Vector3 (CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
 						var startDir = new Vector3 (1, 0);
 						var endDir = new Vector3 (-1, 0);
 
 						DrawConnection (start, end, startDir, endDir);
 					}
+				}
+				else
+				{
+					var startFieldFeature = View.ConnectionInput.GetOrCreateFeature<FieldFeature> ();
+
+					var inputNode = graphEditorNodes[View.ConnectionInputNodeId.ToString ()];
+					var nodeEditor = inputNode["Editor"];
+					var nodeEditorPosition = nodeEditor["Position"];
+
+					float nodePositionX = nodeEditorPosition["x"].GetValue<int> () + View.PanPosition.x;
+					float nodePositionY = nodeEditorPosition["y"].GetValue<int> () + View.PanPosition.y;
+
+					var nodeData = inputNode["Data"];
+
+					var socketRect = startFieldFeature.InputSocketPosition;
+
+					var start = new Vector3 (CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
+					var end = new Vector3 (socketRect.xMax, socketRect.center.y);
+					var startDir = new Vector3 (1, 0);
+					var endDir = new Vector3 (-1, 0);
+
+					DrawConnection (start, end, startDir, endDir);
 				}
 			}
 		}
@@ -610,7 +633,7 @@ namespace RPGCore.Unity.Editors
 
 		private void DrawBackground(Rect backgroundRect, Vector2 viewPosition)
 		{
-			if (CurrentEvent.type == EventType.MouseMove)
+			if (CurrentEvent.type != EventType.Repaint)
 			{
 				return;
 			}

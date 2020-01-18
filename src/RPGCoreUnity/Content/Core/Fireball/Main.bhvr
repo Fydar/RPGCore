@@ -45,8 +45,8 @@
       "Data": {},
       "Editor": {
         "Position": {
-          "x": 200,
-          "y": 372
+          "x": 3,
+          "y": 201
         }
       }
     },
@@ -54,16 +54,7 @@
       "Type": "RPGCore.Demo.Nodes.RollNode",
       "Data": {
         "MinValue": 3,
-        "MaxValue": 4,
-        "TooltipFormat": "{0}",
-        "Data": {
-          "Hi": 0,
-          "Goodbyte": false
-        },
-        "Elements": [
-          10,
-          15
-        ]
+        "MaxValue": 4
       },
       "Editor": {
         "Position": {
@@ -79,8 +70,8 @@
       },
       "Editor": {
         "Position": {
-          "x": 160,
-          "y": 161
+          "x": 250,
+          "y": 224
         }
       }
     },
@@ -92,8 +83,8 @@
       },
       "Editor": {
         "Position": {
-          "x": 486,
-          "y": 220
+          "x": 506,
+          "y": 225
         }
       }
     },
@@ -104,8 +95,8 @@
       },
       "Editor": {
         "Position": {
-          "x": 160,
-          "y": 161
+          "x": 790,
+          "y": 243
         }
       }
     },
@@ -114,6 +105,12 @@
       "Data": {
         "SubgraphId": "RepeatThis",
         "Repetitions": "0a084c2c.Output"
+      },
+      "Editor": {
+        "Position": {
+          "x": 522,
+          "y": 345
+        }
       }
     }
   }

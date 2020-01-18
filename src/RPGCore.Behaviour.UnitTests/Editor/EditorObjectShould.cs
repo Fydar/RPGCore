@@ -11,7 +11,6 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 	{
 		public class RootModel
 		{
-
 			public string FirstValue;
 			public ChildModel AChild;
 			public ChildModel BChild;

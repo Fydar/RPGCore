@@ -223,14 +223,12 @@ namespace RPGCore.Behaviour.Editor
 				throw new InvalidOperationException ($"Cannot get the value of \"{Field.Format}\" typed fields.");
 			}
 
-			if (Queued != null)
+			if (Queued == null)
 			{
-				return ((QueuedItem<T>)Queued).Value;
+				Queued = new QueuedItem<T> (Json.ToObject<T> (Session.JsonSerializer));
 			}
-			else
-			{
-				return Json.ToObject<T> (Session.JsonSerializer);
-			}
+
+			return ((QueuedItem<T>)Queued).Value;
 		}
 
 		public void ApplyModifiedProperties()
