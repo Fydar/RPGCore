@@ -1,16 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>404 Redirect for GitHub Pages</title>
 
     <script type="text/javascript">
-      var pathSegments = 0;
+      var pathSegments = 1;
 
       var location = window.location;
       location.replace(
         location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') +
-        location.pathname.split('/').slice(0, 1 + pathSegments).join('/') + '/?p=/' +
+        location.pathname.split('/').slice(0, 1 + pathSegments).join('/') + '/RPGCore/?p=/' +
         location.pathname.slice(1).split('/').slice(pathSegments).join('/').replace(/&/g, '~and~') +
         (location.search ? '&q=' + location.search.slice(1).replace(/&/g, '~and~') : '') +
         location.hash
