@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits.UnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo", "RPGCore.Demo\RPGCore.Demo.csproj", "{3886077F-F28A-485A-9F16-CD105DC075A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.View", "RPGCore.View\RPGCore.View.csproj", "{F4BA2F8E-FCAF-4C35-B226-592751170BFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.View", "RPGCore.View\RPGCore.View.csproj", "{F4BA2F8E-FCAF-4C35-B226-592751170BFB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Interactive", "RPGCore.Interactive\RPGCore.Interactive.csproj", "{A292FA89-B1A5-4619-BF1F-51573E36EFD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +157,14 @@ Global
 		{F4BA2F8E-FCAF-4C35-B226-592751170BFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4BA2F8E-FCAF-4C35-B226-592751170BFB}.Release|x64.ActiveCfg = Release|Any CPU
 		{F4BA2F8E-FCAF-4C35-B226-592751170BFB}.Release|x64.Build.0 = Release|Any CPU
+		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Debug|x64.Build.0 = Debug|Any CPU
+		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Release|x64.ActiveCfg = Release|Any CPU
+		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
