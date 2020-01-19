@@ -37,6 +37,7 @@ src/RPGCoreUnity/*.csproj
 src/RPGCoreUnity/[Ll]ibrary/
 src/RPGCoreUnity/Assets/AssetStoreTools*
 !src/RPGCoreUnity/Assets/**/*.dll
+!docs/_framework/_bin/**/*.dll
 
 # Builds
 *.apk
