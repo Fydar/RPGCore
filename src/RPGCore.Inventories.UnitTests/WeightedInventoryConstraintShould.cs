@@ -22,7 +22,11 @@ namespace RPGCore.Inventories.UnitTests
 				Weight = 0
 			};
 
-			var itemToAddA = new StackableItem (template, 250);
+			var itemToAddA = new StackableItem (template, 250)
+			{
+				MaxStackSize = 1000
+			};
+
 			var result = storageSlot.AddItem (itemToAddA);
 
 			var firstTransaction = result.Items[0];

@@ -25,10 +25,32 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
-		public int MaxStackSize { get; set; }
+		/// <summary>
+		/// <para>Used to determine the limit for <see cref="StackableItem"/> quantities within this slot.</para>
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown when setting <c>value</c> to be less than or equal to 0.</exception>
+		public int? MaxStackSize
+		{
+			get
+			{
+				return maxStackSize;
+			}
+			set
+			{
+				if (value.HasValue)
+				{
+					if (value <= 0)
+					{
+						throw new InvalidOperationException ($"\"{nameof (MaxStackSize)}\" property cannot be less than or equal to 0.");
+					}
+				}
+				maxStackSize = value;
+			}
+		}
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		internal IItem storedItem;
+		private int? maxStackSize;
 
 		public ItemStorageSlot(IInventoryConstraint[] constraints = null, IInventoryBehaviour[] behaviours = null)
 		{
@@ -45,10 +67,15 @@ namespace RPGCore.Inventory.Slots
 
 			if (item is StackableItem stackableItem)
 			{
-				int itemMaxStackSize = Math.Min (MaxStackSize, stackableItem.MaxStackSize);
-				if (itemMaxStackSize == 0)
+				int itemMaxStackSize = stackableItem.MaxStackSize;
+				if (itemMaxStackSize <= 0)
 				{
 					itemMaxStackSize = int.MaxValue;
+				}
+
+				if (MaxStackSize.HasValue)
+				{
+					itemMaxStackSize = Math.Min (itemMaxStackSize, MaxStackSize.Value);
 				}
 
 				// Apply inventory constraints
