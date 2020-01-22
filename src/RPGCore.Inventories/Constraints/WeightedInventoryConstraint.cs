@@ -4,7 +4,7 @@ using System;
 namespace RPGCore.Inventory.Slots
 {
 	/// <summary>
-	/// Constraints limit the capacity of an inventory.
+	/// <para>Constraints limit the capacity of an inventory.</para>
 	/// </summary>
 	/// <example>
 	/// <para>Weight inventory constraints can be used to limit the players carrying capacity by the item weight.</para>

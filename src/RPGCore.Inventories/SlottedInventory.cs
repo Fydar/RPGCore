@@ -1,4 +1,5 @@
 ﻿using RPGCore.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,21 +11,24 @@ namespace RPGCore.Inventory.Slots
 
 		public int Capacity { get; set; }
 		public IItemSlotFactory ItemSlotFactory { get; }
+		public IInventory Parent { get; }
 
-		public SlottedInventory(int capacity, IItemSlotFactory itemSlotFactory)
+		public IEnumerable<IItem> Items => Slots.Select (slot => slot.CurrentItem);
+
+		public SlottedInventory(int capacity, IItemSlotFactory itemSlotFactory, IInventory parent = null)
 		{
 			Capacity = capacity;
-			ItemSlotFactory = itemSlotFactory;
+			ItemSlotFactory = itemSlotFactory ?? throw new ArgumentNullException (nameof (itemSlotFactory));
+			Parent = parent;
+
 			Slots = new List<IItemSlot> (capacity);
 
 			for (int i = 0; i < capacity; i++)
 			{
-				Slots[i] = ItemSlotFactory.Build ();
+				var slot = ItemSlotFactory.Build (parent);
+				Slots.Add(slot);
 			}
 		}
-
-
-		public IEnumerable<IItem> Items => Slots.Select (slot => slot.CurrentItem);
 
 		public InventoryTransaction AddItem(IItem item)
 		{

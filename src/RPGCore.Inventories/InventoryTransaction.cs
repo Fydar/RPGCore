@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RPGCore.Inventory.Slots
 {
@@ -19,6 +20,12 @@ namespace RPGCore.Inventory.Slots
 		public InventoryTransaction()
 		{
 
+		}
+
+		public InventoryTransaction(TransactionStatus status, List<ItemTransaction> items)
+		{
+			Status = status;
+			Items = items;
 		}
 	}
 }

@@ -2,6 +2,6 @@
 {
 	public abstract class ItemTemplate
 	{
-		public int Weight;
+		public int Weight { get; set; }
 	}
 }

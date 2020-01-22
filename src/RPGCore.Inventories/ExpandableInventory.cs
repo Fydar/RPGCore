@@ -6,6 +6,13 @@ namespace RPGCore.Inventory.Slots
 {
 	public class ExpandableInventory : IInventory
 	{
+		public IInventory Parent { get; }
+
+		public ExpandableInventory(IInventory parent)
+		{
+			Parent = parent ?? throw new ArgumentNullException (nameof (parent));
+		}
+
 		public IEnumerable<IItem> Items
 		{
 			get

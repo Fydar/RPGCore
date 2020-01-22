@@ -11,7 +11,7 @@ namespace RPGCore.Inventories.UnitTests
 		{
 			var storageSlot = new ItemStorageSlot
 			(
-				new IInventoryConstraint[]
+				constraints: new IInventoryConstraint[]
 				{
 					new WeightedInventoryConstraint(10)
 				}
@@ -39,7 +39,7 @@ namespace RPGCore.Inventories.UnitTests
 		{
 			var storageSlot = new ItemStorageSlot
 			(
-				new IInventoryConstraint[]
+				constraints: new IInventoryConstraint[]
 				{
 					new WeightedInventoryConstraint(10)
 				}
@@ -61,7 +61,7 @@ namespace RPGCore.Inventories.UnitTests
 		{
 			var storageSlot = new ItemStorageSlot
 			(
-				new IInventoryConstraint[]
+				constraints: new IInventoryConstraint[]
 				{
 					new WeightedInventoryConstraint(5)
 				}
@@ -86,7 +86,7 @@ namespace RPGCore.Inventories.UnitTests
 		{
 			var storageSlot = new ItemStorageSlot
 			(
-				new IInventoryConstraint[]
+				constraints: new IInventoryConstraint[]
 				{
 					new WeightedInventoryConstraint(3)
 				}
@@ -111,7 +111,7 @@ namespace RPGCore.Inventories.UnitTests
 		{
 			var storageSlot = new ItemStorageSlot
 			(
-				new IInventoryConstraint[]
+				constraints: new IInventoryConstraint[]
 				{
 					new WeightedInventoryConstraint(3)
 				}

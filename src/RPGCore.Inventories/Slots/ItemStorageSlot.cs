@@ -7,6 +7,7 @@ namespace RPGCore.Inventory.Slots
 {
 	public class ItemStorageSlot : IItemSlot
 	{
+		public IInventory Parent { get; }
 		public IInventoryBehaviour[] Behaviours { get; }
 		public IInventoryConstraint[] Constraints { get; }
 		public IItem CurrentItem => storedItem;
@@ -49,11 +50,12 @@ namespace RPGCore.Inventory.Slots
 		}
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		internal IItem storedItem;
+		private IItem storedItem;
 		private int? maxStackSize;
 
-		public ItemStorageSlot(IInventoryConstraint[] constraints = null, IInventoryBehaviour[] behaviours = null)
+		public ItemStorageSlot(IInventory parent = null, IInventoryConstraint[] constraints = null, IInventoryBehaviour[] behaviours = null)
 		{
+			Parent = parent;
 			Constraints = constraints;
 			Behaviours = behaviours;
 		}
