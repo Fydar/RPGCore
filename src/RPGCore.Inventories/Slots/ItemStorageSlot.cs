@@ -377,26 +377,23 @@ namespace RPGCore.Inventory.Slots
 				throw new ArgumentNullException (nameof (item), "Cannot add \"null\" item to storage slot.");
 			}
 
+			var result = new InventoryTransactionBuilder ();
+
 			int setQuantity = 1;
 			if (item is StackableItem stackableItem)
 			{
 				setQuantity = stackableItem.Quantity;
 			}
 
-			var inventoryTransaction = new InventoryTransaction ()
-			{
-				Status = TransactionStatus.Partial,
-				Items = new List<ItemTransaction> ()
+			result.Add (
+				new ItemTransaction ()
 				{
-					new ItemTransaction()
-					{
-						FromInventory = null,
-						ToInventory = this,
-						Item = item,
-						Quantity = setQuantity
-					}
+					FromInventory = null,
+					ToInventory = this,
+					Item = item,
+					Quantity = setQuantity
 				}
-			};
+			);
 
 			if (storedItem != null)
 			{
@@ -406,18 +403,20 @@ namespace RPGCore.Inventory.Slots
 					previousQuantity = stackableStoredItem.Quantity;
 				}
 
-				inventoryTransaction.Items.Add (new ItemTransaction ()
-				{
-					FromInventory = this,
-					ToInventory = null,
-					Item = storedItem,
-					Quantity = previousQuantity
-				});
+				result.Add (
+					new ItemTransaction ()
+					{
+						FromInventory = this,
+						ToInventory = null,
+						Item = storedItem,
+						Quantity = previousQuantity
+					}
+				);
 			}
 
 			storedItem = item;
 
-			return inventoryTransaction;
+			return result.Build (TransactionStatus.Complete);
 		}
 
 		public InventoryTransaction Swap(IItemSlot other)
