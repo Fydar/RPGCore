@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RPGCore.Inventory.Slots
 {
@@ -12,17 +11,17 @@ namespace RPGCore.Inventory.Slots
 	/// </remarks>
 	public class InventoryTransaction
 	{
-		public static readonly InventoryTransaction None = new InventoryTransaction ();
+		public static readonly InventoryTransaction None = new InventoryTransaction (TransactionStatus.None, new ItemTransaction[0]);
 
 		public TransactionStatus Status;
-		public List<ItemTransaction> Items;
+		public IReadOnlyList<ItemTransaction> Items;
 
 		public InventoryTransaction()
 		{
 
 		}
 
-		public InventoryTransaction(TransactionStatus status, List<ItemTransaction> items)
+		public InventoryTransaction(TransactionStatus status, IReadOnlyList<ItemTransaction> items)
 		{
 			Status = status;
 			Items = items;
