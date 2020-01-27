@@ -17,12 +17,14 @@ An `.editorconfig` is included in the project that will ensure that your IDE fol
 Don't insert a space between method name and its opening parenthesis for method declaration or method calls.
 
 ```csharp
-private void Foo()
+// Prefer:
+private void Bar(int x)
 {
-    Bar (4);
+    Foo();
 }
 
-private void Bar(int x)
+// Over:
+private void Bar (int x)
 {
     Foo ();
 }
@@ -31,15 +33,48 @@ private void Bar(int x)
 Insert space after keywords in control flow statements (`for`, `foreach`, `using`, `while`, `if`, e.t.c).
 
 ```csharp
+// Prefer:
 for (int i; i < 10; i++)
+{
+}
+
+// Over:
+for(int i; i < 10; i++)
 {
 }
 ```
 
 ### Indentation
 
-Indentation should be denoted using tabs rather than spaces. 
+Indentation should be denoted using tabs rather than spaces.
 
-### New Line
+### Code Blocks
 
 New lines should be inserted before the opening parenthesis of method blocks and control flow statements.
+
+```csharp
+// Prefer:
+if (condition)
+{
+    Console.WriteLine("Output");
+}
+
+// Over:
+if (condition) {
+    Console.WriteLine("Output");
+}
+```
+
+Single-line code-blocks should have explicit parenthesis.
+
+```csharp
+// Prefer:
+if (condition)
+{
+    Console.WriteLine("Output");
+}
+
+// Over:
+if (condition)
+    Console.WriteLine("Output");
+```
