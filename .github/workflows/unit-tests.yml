@@ -1,4 +1,4 @@
-name: Run Unit Tests
+name: Unit Tests
 
 on: [push]
 
@@ -8,10 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.0.100
+        dotnet-version: 3.1.101
+
     - name: Execute tests with dotnet
       run: dotnet test src/ --configuration Release
