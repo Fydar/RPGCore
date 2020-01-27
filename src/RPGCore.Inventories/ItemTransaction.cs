@@ -1,6 +1,7 @@
 using RPGCore.Items;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace RPGCore.Inventory.Slots
 {
@@ -41,6 +42,32 @@ namespace RPGCore.Inventory.Slots
 				else
 				{
 					return ItemTransactionType.Move;
+				}
+			}
+		}
+
+		public override string ToString()
+		{
+			if (FromInventory == null)
+			{
+				if (ToInventory == null)
+				{
+					return "None";
+				}
+				else
+				{
+					return $"Add {Item} to {ToInventory}";
+				}
+			}
+			else
+			{
+				if (ToInventory == null)
+				{
+					return $"Destroy {Item} from {FromInventory}";
+				}
+				else
+				{
+					return $"Move {Item} from {FromInventory} to {ToInventory}";
 				}
 			}
 		}

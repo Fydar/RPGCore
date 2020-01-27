@@ -1,6 +1,7 @@
 # RPGCore
 
-[![Build Status](https://github.com/Fydar/RPGCore/workflows/Build/badge.svg)](https://github.com/Fydar/RPGCore/actions?query=workflow%3ABuild) [![Unit Test Status](https://github.com/Fydar/RPGCore/workflows/Unit%20Tests/badge.svg)][(https://github.com/Fydar/RPGCore/actions](https://github.com/Fydar/RPGCore/actions?query=workflow%3A%22Unit+Tests%22))
+[![Build Status](https://github.com/Fydar/RPGCore/workflows/Build/badge.svg)](https://github.com/Fydar/RPGCore/actions?query=workflow%3ABuild)
+[![Unit Test Status](https://github.com/Fydar/RPGCore/workflows/Unit%20Tests/badge.svg)](https://github.com/Fydar/RPGCore/actions?query=workflow%3A%22Unit+Tests%22)
 
 RPGCore is a toolkit for producing RPG games and mechanics in C#.
 

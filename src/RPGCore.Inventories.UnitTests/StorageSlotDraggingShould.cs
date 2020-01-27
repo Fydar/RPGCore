@@ -12,10 +12,11 @@ namespace RPGCore.Inventories.UnitTests
 			var fromSlot = new ItemStorageSlot ();
 			var toSlot = new ItemStorageSlot ();
 
-			fromSlot.DragInto (toSlot);
+			var result = fromSlot.DragInto (toSlot);
 
-			Assert.AreEqual (null, fromSlot.CurrentItem);
-			Assert.AreEqual (null, toSlot.CurrentItem);
+			Assert.That (result, Is.EqualTo (InventoryTransaction.None));
+			Assert.That (fromSlot.CurrentItem, Is.Null);
+			Assert.That (toSlot.CurrentItem, Is.Null);
 		}
 
 		[Test, Parallelizable]
@@ -28,10 +29,11 @@ namespace RPGCore.Inventories.UnitTests
 
 			toSlot.AddItem (toItem);
 
-			fromSlot.DragInto (toSlot);
+			var result = fromSlot.DragInto (toSlot);
 
-			Assert.AreEqual (null, fromSlot.CurrentItem);
-			Assert.AreEqual (toItem, toSlot.CurrentItem);
+			Assert.That (result, Is.EqualTo (InventoryTransaction.None));
+			Assert.That (fromSlot.CurrentItem, Is.Null);
+			Assert.That (toSlot.CurrentItem, Is.EqualTo (toItem));
 		}
 
 		[Test, Parallelizable]
@@ -44,10 +46,11 @@ namespace RPGCore.Inventories.UnitTests
 
 			toSlot.AddItem (toItem);
 
-			fromSlot.DragInto (toSlot);
+			var result = fromSlot.DragInto (toSlot);
 
-			Assert.AreEqual (null, fromSlot.CurrentItem);
-			Assert.AreEqual (toItem, toSlot.CurrentItem);
+			Assert.That (result, Is.EqualTo (InventoryTransaction.None));
+			Assert.That (fromSlot.CurrentItem, Is.Null);
+			Assert.That (toSlot.CurrentItem, Is.EqualTo (toItem));
 		}
 
 		[Test, Parallelizable]
@@ -60,10 +63,22 @@ namespace RPGCore.Inventories.UnitTests
 
 			fromSlot.AddItem (fromItem);
 
-			fromSlot.DragInto (toSlot);
+			var result = fromSlot.DragInto (toSlot);
 
-			Assert.AreEqual (null, fromSlot.CurrentItem);
-			Assert.AreEqual (fromItem, toSlot.CurrentItem);
+			var expected = new InventoryTransactionBuilder ()
+			{
+				new ItemTransaction()
+				{
+					FromInventory = null,
+					ToInventory = toSlot,
+					Item = fromItem,
+					Quantity = 5
+				}
+			}.Build (TransactionStatus.Complete);
+
+			Assert.That (result, Is.EqualTo (expected));
+			Assert.That (fromSlot.CurrentItem, Is.Null);
+			Assert.That (toSlot.CurrentItem, Is.EqualTo (fromItem));
 		}
 
 		[Test, Parallelizable]
@@ -80,10 +95,22 @@ namespace RPGCore.Inventories.UnitTests
 			fromSlot.AddItem (fromItem);
 			toSlot.AddItem (toItem);
 
-			fromSlot.DragInto (toSlot);
+			var result = fromSlot.DragInto (toSlot);
 
-			Assert.AreEqual (0, fromItem.Quantity);
-			Assert.AreEqual (15, toItem.Quantity);
+			var expected = new InventoryTransactionBuilder ()
+			{
+				new ItemTransaction()
+				{
+					FromInventory = fromSlot,
+					ToInventory = toSlot,
+					Item = fromItem,
+					Quantity = 15
+				}
+			}.Build (TransactionStatus.Complete);
+
+			// Assert.That (result, Is.EqualTo (expected));
+			Assert.That (fromItem.Quantity, Is.EqualTo (0));
+			Assert.That (toItem.Quantity, Is.EqualTo (15));
 		}
 
 		[Test, Parallelizable]

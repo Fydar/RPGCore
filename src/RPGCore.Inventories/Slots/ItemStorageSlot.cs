@@ -468,5 +468,10 @@ namespace RPGCore.Inventory.Slots
 				throw new InvalidOperationException ($"Slot in neither a {nameof (ItemStorageSlot)} nor a {nameof (ItemSelectSlot)}.");
 			}
 		}
+
+		public override string ToString()
+		{
+			return "ItemStorageSlot";
+		}
 	}
 }
