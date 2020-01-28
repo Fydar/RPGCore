@@ -13,14 +13,10 @@ namespace RPGCore.Behaviour.Manifest
 		{
 			var nodeInformation = new NodeInformation ();
 
-			var typeDefinition = new Type[] { typeof (IGraphConnections) };
 			var nodeTemplate = (Node)Activator.CreateInstance (nodeType);
-			object metadataInstance = nodeTemplate.CreateInstance ();
+			var metadataInstance = (NodeInstanceBase)nodeTemplate.CreateInstance ();
 
 			var instanceType = metadataInstance.GetType ();
-
-			var inputsProperty = instanceType.GetMethod ("Inputs", typeDefinition);
-			var outputsProperty = instanceType.GetMethod ("Outputs", typeDefinition);
 
 			var singleNodeGraph = new ManifestCaptureGraphInstance (nodeTemplate);
 
@@ -53,9 +49,10 @@ namespace RPGCore.Behaviour.Manifest
 			var nodeProperty = instanceType.GetProperty ("Node");
 			nodeProperty.SetValue (metadataInstance, nodeTemplate);
 
-			object[] connectParameters = { singleNodeGraph };
-			var inputsArray = (InputMap[])inputsProperty.Invoke (metadataInstance, connectParameters);
-			var outputsArray = (OutputMap[])outputsProperty.Invoke (metadataInstance, connectParameters);
+			var connectionMapper = new ConnectionMapper (metadataInstance, singleNodeGraph);
+
+			var inputsArray = metadataInstance.Inputs (connectionMapper);
+			var outputsArray = metadataInstance.Outputs (connectionMapper);
 
 			if (inputsArray != null)
 			{

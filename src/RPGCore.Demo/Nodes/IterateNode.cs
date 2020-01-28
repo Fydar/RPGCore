@@ -17,12 +17,12 @@ namespace RPGCore.Demo.Nodes
 
 			public List<GraphInstance> SubGraphs;
 
-			public override InputMap[] Inputs(IGraphConnections graph) => new[]
+			public override InputMap[] Inputs(ConnectionMapper graph) => new[]
 			{
 				graph.Connect (ref Node.Repetitions, ref Repetitions),
 			};
 
-			public override OutputMap[] Outputs(IGraphConnections graph) => null;
+			public override OutputMap[] Outputs(ConnectionMapper graph) => null;
 
 			public override void Setup()
 			{

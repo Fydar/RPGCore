@@ -4,14 +4,12 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
-	public sealed class GraphInstance : IGraphInstance, IGraphConnections
+	public sealed class GraphInstance : IGraphInstance, IConnectionCallback
 	{
 		private readonly INodeInstance[] nodeInstances;
 		private readonly IConnection[] connections;
 		private readonly InputMap[][] allInputs;
 		private readonly OutputMap[][] allOutputs;
-
-		private INodeInstance currentNode;
 
 		[JsonIgnore]
 		public Graph Template { get; }
@@ -65,16 +63,19 @@ namespace RPGCore.Behaviour
 			allOutputs = new OutputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
-				currentNode = nodeInstances[i];
-				allOutputs[i] = template.Nodes[i].Outputs (this, currentNode);
+				var currentNode = nodeInstances[i];
+				var connectionMapper = new ConnectionMapper (currentNode, this);
+				allOutputs[i] = template.Nodes[i].Outputs (connectionMapper, currentNode);
 			}
 
 			// Allow inputs to subscribe to those outputs.
 			allInputs = new InputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
-				currentNode = nodeInstances[i];
-				allInputs[i] = template.Nodes[i].Inputs (this, currentNode);
+				var currentNode = nodeInstances[i];
+				var connectionMapper = new ConnectionMapper (currentNode, this);
+
+				allInputs[i] = template.Nodes[i].Inputs (connectionMapper, currentNode);
 			}
 
 			// Stop events from taking effect immediately.
@@ -108,7 +109,7 @@ namespace RPGCore.Behaviour
 			// Run node setup process
 			for (int i = 0; i < nodeCount; i++)
 			{
-				currentNode = nodeInstances[i];
+				var currentNode = nodeInstances[i];
 				Template.Nodes[i].Setup (this, currentNode);
 			}
 
@@ -164,75 +165,6 @@ namespace RPGCore.Behaviour
 				}
 			}
 			return null;
-		}
-
-		InputMap IGraphConnections.Connect<T>(ref InputSocket socket, ref Input<T> input)
-		{
-			if (socket.ConnectionId >= 0)
-			{
-				var connection = GetConnection (socket.ConnectionId);
-
-				if (connection.ConnectionType == typeof (int)
-					&& typeof (T) == typeof (float))
-				{
-					var converter = new IntToFloatConverter ();
-					converter.SetSource (connection);
-					connection.RegisterConverter (converter);
-
-					input = new Input<T> (currentNode, converter);
-				}
-				else
-				{
-					input = new Input<T> (currentNode, connection);
-				}
-			}
-
-			return new InputMap (socket, typeof (T));
-		}
-
-		OutputMap IGraphConnections.Connect<T>(ref OutputSocket socket, ref Output<T> output)
-		{
-			var newConnection = GetOrCreateOutputConnection<T> (socket.Id);
-			if (newConnection != null && output.Connection != null)
-			{
-				newConnection.Value = output.Connection.Value;
-			}
-			output = new Output<T> (newConnection);
-
-			return new OutputMap (socket, typeof (T));
-		}
-
-		InputMap IGraphConnections.Connect<T>(ref InputSocket socket, ref T node)
-		{
-			if (socket.ConnectionId >= 0)
-			{
-				node = (T)nodeInstances[socket.ConnectionId];
-			}
-
-			return new InputMap (socket, typeof (T));
-		}
-
-		private OutputConnection<T> GetOrCreateOutputConnection<T>(int id)
-		{
-			if (id < 0)
-			{
-				return null;
-			}
-
-			var shared = (OutputConnection<T>)connections[id];
-			if (shared == null)
-			{
-				shared = new OutputConnection<T> (id);
-				connections[id] = shared;
-			}
-			return shared;
-		}
-
-		private IConnection GetConnection(int id)
-		{
-			return id < 0
-				? null
-				: connections[id];
 		}
 
 		public InputSource GetSource<T>(Input<T> input)
@@ -345,5 +277,75 @@ namespace RPGCore.Behaviour
 				node.OnReceiveInput (input);
 			}
 		}
+
+		InputMap IConnectionCallback.Connect<T>(INodeInstance parent, ref InputSocket socket, ref Input<T> input)
+		{
+			if (socket.ConnectionId >= 0)
+			{
+				var connection = GetConnection (socket.ConnectionId);
+
+				if (connection.ConnectionType == typeof (int)
+					&& typeof (T) == typeof (float))
+				{
+					var converter = new IntToFloatConverter ();
+					converter.SetSource (connection);
+					connection.RegisterConverter (converter);
+
+					input = new Input<T> (parent, converter);
+				}
+				else
+				{
+					input = new Input<T> (parent, connection);
+				}
+			}
+
+			return new InputMap (socket, typeof (T));
+		}
+
+		OutputMap IConnectionCallback.Connect<T>(INodeInstance parent, ref OutputSocket socket, ref Output<T> output)
+		{
+			var newConnection = GetOrCreateOutputConnection<T> (socket.Id);
+			if (newConnection != null && output.Connection != null)
+			{
+				newConnection.Value = output.Connection.Value;
+			}
+			output = new Output<T> (newConnection);
+
+			return new OutputMap (socket, typeof (T));
+		}
+
+		InputMap IConnectionCallback.Connect<T>(INodeInstance parent, ref InputSocket socket, ref T node)
+		{
+			if (socket.ConnectionId >= 0)
+			{
+				node = (T)nodeInstances[socket.ConnectionId];
+			}
+
+			return new InputMap (socket, typeof (T));
+		}
+
+		private IConnection GetConnection(int id)
+		{
+			return id < 0
+				? null
+				: connections[id];
+		}
+
+		private OutputConnection<T> GetOrCreateOutputConnection<T>(int id)
+		{
+			if (id < 0)
+			{
+				return null;
+			}
+
+			var shared = (OutputConnection<T>)connections[id];
+			if (shared == null)
+			{
+				shared = new OutputConnection<T> (id);
+				connections[id] = shared;
+			}
+			return shared;
+		}
+
 	}
 }

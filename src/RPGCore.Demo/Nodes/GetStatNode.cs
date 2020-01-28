@@ -16,12 +16,12 @@ namespace RPGCore.Demo.Nodes
 
 			public Output<int> Output;
 
-			public override InputMap[] Inputs(IGraphConnections connections) => new[]
+			public override InputMap[] Inputs(ConnectionMapper connections) => new[]
 			{
 				connections.Connect (ref Node.Character, ref Character),
 			};
 
-			public override OutputMap[] Outputs(IGraphConnections connections) => new[]
+			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 			{
 				connections.Connect (ref Node.Output, ref Output)
 			};

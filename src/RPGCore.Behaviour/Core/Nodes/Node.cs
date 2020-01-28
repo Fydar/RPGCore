@@ -11,8 +11,8 @@ namespace RPGCore.Behaviour
 		public abstract INodeInstance CreateInstance();
 		public abstract void Setup(IGraphInstance graph, INodeInstance metadata);
 
-		internal abstract InputMap[] Inputs(IGraphConnections connections, INodeInstance instance);
-		internal abstract OutputMap[] Outputs(IGraphConnections connections, INodeInstance instance);
+		internal abstract InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance);
+		internal abstract OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance);
 	}
 
 	public abstract class Node<TNode> : Node
@@ -31,7 +31,7 @@ namespace RPGCore.Behaviour
 
 		public sealed override INodeInstance CreateInstance() => Create ();
 
-		internal sealed override InputMap[] Inputs(IGraphConnections connections, INodeInstance instance)
+		internal sealed override InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance)
 		{
 			var castedInstance = (Instance)instance;
 			castedInstance.Node = (TNode)this;
@@ -39,7 +39,7 @@ namespace RPGCore.Behaviour
 			return castedInstance.Inputs (connections);
 		}
 
-		internal sealed override OutputMap[] Outputs(IGraphConnections connections, INodeInstance instance)
+		internal sealed override OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance)
 		{
 			var castedInstance = (Instance)instance;
 			castedInstance.Node = (TNode)this;

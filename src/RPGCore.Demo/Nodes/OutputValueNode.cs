@@ -13,12 +13,12 @@ namespace RPGCore.Demo.Nodes
 		{
 			public Input<float> Value;
 
-			public override InputMap[] Inputs(IGraphConnections connections) => new[]
+			public override InputMap[] Inputs(ConnectionMapper connections) => new[]
 			{
 				connections.Connect (ref Node.Value, ref Value),
 			};
 
-			public override OutputMap[] Outputs(IGraphConnections connections) => null;
+			public override OutputMap[] Outputs(ConnectionMapper connections) => null;
 
 			public override void Setup()
 			{

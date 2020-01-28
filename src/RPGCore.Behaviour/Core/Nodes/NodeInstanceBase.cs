@@ -15,7 +15,7 @@ namespace RPGCore.Behaviour
 		public abstract void Remove();
 		public abstract void Setup();
 
-		public abstract InputMap[] Inputs(IGraphConnections connections);
-		public abstract OutputMap[] Outputs(IGraphConnections connections);
+		public abstract InputMap[] Inputs(ConnectionMapper connections);
+		public abstract OutputMap[] Outputs(ConnectionMapper connections);
 	}
 }
