@@ -2,10 +2,10 @@
 
 namespace RPGCore.Behaviour
 {
-	public struct Input<T> : IReadOnlyEventField<T>
+	public readonly struct Input<T> : IReadOnlyEventField<T>
 	{
-		public IConnection<T> Connection { get; private set; }
-		public INodeInstance Parent { get; private set; }
+		public IConnection<T> Connection { get; }
+		public INodeInstance Parent { get; }
 
 		public bool IsConnected => Connection != null;
 
@@ -57,7 +57,7 @@ namespace RPGCore.Behaviour
 
 		public void Dispose()
 		{
-			Connection.Dispose ();
+			Connection?.Dispose ();
 		}
 	}
 }

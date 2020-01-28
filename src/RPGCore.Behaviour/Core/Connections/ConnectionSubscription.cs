@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour
 {
-	public struct ConnectionSubscription
+	public readonly struct ConnectionSubscription
 	{
-		public INodeInstance Node;
-		public List<Action> Callbacks;
+		public readonly INodeInstance Node;
+		public readonly List<Action> Callbacks;
 
 		public ConnectionSubscription(INodeInstance node)
 		{

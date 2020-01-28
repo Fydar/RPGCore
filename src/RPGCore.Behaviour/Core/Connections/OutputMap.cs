@@ -2,10 +2,10 @@
 
 namespace RPGCore.Behaviour
 {
-	public struct OutputMap
+	public readonly struct OutputMap
 	{
-		public int ConnectionId;
-		public Type ConnectionType;
+		public readonly int ConnectionId;
+		public readonly Type ConnectionType;
 
 		public OutputMap(OutputSocket source, Type connectionType)
 		{

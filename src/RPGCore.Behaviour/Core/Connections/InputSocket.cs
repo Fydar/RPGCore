@@ -2,20 +2,16 @@
 
 namespace RPGCore.Behaviour
 {
-	public struct InputSocket
+	public readonly struct InputSocket
 	{
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		private int internalConnectionId;
+		private readonly int internalConnectionId;
 
 		public int ConnectionId
 		{
 			get
 			{
 				return internalConnectionId - 1;
-			}
-			set
-			{
-				internalConnectionId = value + 1;
 			}
 		}
 

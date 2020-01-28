@@ -1,8 +1,8 @@
 ﻿namespace RPGCore.Behaviour
 {
-	public struct OutputSocket
+	public readonly struct OutputSocket
 	{
-		public int Id;
+		public readonly int Id;
 
 		public OutputSocket(int id)
 		{

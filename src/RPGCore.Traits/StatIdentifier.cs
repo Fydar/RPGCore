@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Traits
 {
-	public struct StatIdentifier : IEquatable<StatIdentifier>
+	public readonly struct StatIdentifier : IEquatable<StatIdentifier>
 	{
 		public string Identifer { get; }
 

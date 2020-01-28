@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour
 {
 	[TypeConverter (typeof (LocalPropertyIdConverter))]
 	[DebuggerDisplay ("{ToString()}")]
-	public struct LocalPropertyId : IEquatable<LocalPropertyId>
+	public readonly struct LocalPropertyId : IEquatable<LocalPropertyId>
 	{
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		public static readonly LocalPropertyId None = new LocalPropertyId (LocalId.None, (string[])null);

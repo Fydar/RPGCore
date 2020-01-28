@@ -2,11 +2,11 @@
 
 namespace RPGCore.Behaviour
 {
-	public struct InputSource
+	public readonly struct InputSource
 	{
-		public Node Node;
-		public INodeInstance Instance;
-		public OutputMap OutputInformation;
+		public readonly Node Node;
+		public readonly INodeInstance Instance;
+		public readonly OutputMap OutputInformation;
 
 		public InputSource(Node node, INodeInstance instance, OutputMap outputMapping)
 		{

@@ -2,10 +2,10 @@
 
 namespace RPGCore.Behaviour
 {
-	public struct EventInput
+	public readonly struct EventInput
 	{
-		public IConnection Connection { get; private set; }
-		public INodeInstance Parent { get; private set; }
+		public IConnection Connection { get; }
+		public INodeInstance Parent { get; }
 
 		public bool IsConnected => Connection != null;
 

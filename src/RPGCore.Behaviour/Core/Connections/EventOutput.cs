@@ -2,7 +2,7 @@
 
 namespace RPGCore.Behaviour
 {
-	public struct EventOutput
+	public readonly struct EventOutput
 	{
 		public IConnection Connection { get; }
 
