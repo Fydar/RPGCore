@@ -146,7 +146,6 @@ namespace RPGCore.Demo
 			}
 			instancedItem.Remove ();
 
-
 			var settings = new JsonSerializerSettings ();
 			settings.Converters.Add (new LocalIdJsonConverter ());
 			settings.Converters.Add (new SerializedGraphInstanceProxyConverter (null));

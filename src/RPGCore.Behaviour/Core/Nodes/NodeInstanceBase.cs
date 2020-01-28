@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
@@ -9,6 +10,7 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		internal abstract Node NodeBase { get; }
 
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		Node INodeInstance.NodeBase => NodeBase;
 
 		public virtual void OnInputChanged() { }

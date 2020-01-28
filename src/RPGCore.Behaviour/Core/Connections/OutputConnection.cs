@@ -54,6 +54,8 @@ namespace RPGCore.Behaviour
 				BufferEventsInternal = value;
 			}
 		}
+
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private bool BufferEventsInternal;
 
 		[JsonIgnore]

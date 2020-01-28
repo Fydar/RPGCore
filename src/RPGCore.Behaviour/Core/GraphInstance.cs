@@ -1,20 +1,23 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
 	public sealed class GraphInstance : IGraphInstance, IConnectionCallback
 	{
-		private readonly INodeInstance[] nodeInstances;
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		private readonly GraphInstanceNode[] nodes;
+
 		private readonly IConnection[] connections;
-		private readonly InputMap[][] allInputs;
-		private readonly OutputMap[][] allOutputs;
 
 		[JsonIgnore]
 		public Graph Template { get; }
 
-		public INodeInstance this[LocalId id]
+		public IReadOnlyList<GraphInstanceNode> Nodes => nodes;
+
+		public GraphInstanceNode? this[LocalId id]
 		{
 			get
 			{
@@ -23,7 +26,7 @@ namespace RPGCore.Behaviour
 					var node = Template.Nodes[i];
 					if (node.Id == id)
 					{
-						return nodeInstances[i];
+						return nodes[i];
 					}
 				}
 				return null;
@@ -35,7 +38,7 @@ namespace RPGCore.Behaviour
 			Template = template;
 
 			int nodeCount = template.Nodes.Length;
-			nodeInstances = new INodeInstance[nodeCount];
+			nodes = new GraphInstanceNode[nodeCount];
 
 			var serializer = new JsonSerializer ();
 			serializer.Converters.Add (new OutputConverter ());
@@ -54,28 +57,26 @@ namespace RPGCore.Behaviour
 					serializer.Populate (sr, instance);
 				}
 
-				nodeInstances[i] = instance;
+				nodes[i].Instance = instance;
 			}
 
 			connections = new IConnection[template.ConnectionsCount];
 
 			// Allow all outputs to make their output type visible
-			allOutputs = new OutputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
-				var currentNode = nodeInstances[i];
-				var connectionMapper = new ConnectionMapper (currentNode, this);
-				allOutputs[i] = template.Nodes[i].Outputs (connectionMapper, currentNode);
+				var currentNode = nodes[i].Instance;
+				var connectionMapper = new ConnectionMapper (nodes[i].Instance, this);
+				nodes[i].Outputs = template.Nodes[i].Outputs (connectionMapper, currentNode);
 			}
 
 			// Allow inputs to subscribe to those outputs.
-			allInputs = new InputMap[nodeCount][];
 			for (int i = 0; i < nodeCount; i++)
 			{
-				var currentNode = nodeInstances[i];
+				var currentNode = nodes[i].Instance;
 				var connectionMapper = new ConnectionMapper (currentNode, this);
 
-				allInputs[i] = template.Nodes[i].Inputs (connectionMapper, currentNode);
+				nodes[i].Inputs = template.Nodes[i].Inputs (connectionMapper, currentNode);
 			}
 
 			// Stop events from taking effect immediately.
@@ -92,13 +93,13 @@ namespace RPGCore.Behaviour
 			// Start allowing events to fire
 			for (int i = 0; i < nodeCount; i++)
 			{
-				var nodeInstance = nodeInstances[i];
-				var nodeInputs = allInputs[i];
-
+				var nodeInputs = nodes[i].Inputs;
 				if (nodeInputs == null)
 				{
 					continue;
 				}
+
+				var nodeInstance = nodes[i].Instance;
 
 				foreach (var input in nodeInputs)
 				{
@@ -109,7 +110,7 @@ namespace RPGCore.Behaviour
 			// Run node setup process
 			for (int i = 0; i < nodeCount; i++)
 			{
-				var currentNode = nodeInstances[i];
+				var currentNode = nodes[i].Instance;
 				Template.Nodes[i].Setup (this, currentNode);
 			}
 
@@ -122,9 +123,9 @@ namespace RPGCore.Behaviour
 
 		public void Remove()
 		{
-			foreach (var node in nodeInstances)
+			foreach (var node in nodes)
 			{
-				node.Remove ();
+				node.Instance.Remove ();
 			}
 		}
 
@@ -132,10 +133,9 @@ namespace RPGCore.Behaviour
 		{
 			var nodeMap = new Dictionary<LocalId, JObject> ();
 
-			for (int i = 0; i < nodeInstances.Length; i++)
+			for (int i = 0; i < nodes.Length; i++)
 			{
-				var instance = nodeInstances[i];
-				var node = Template.Nodes[i];
+				var instance = nodes[i].Instance;
 
 				var serializer = new JsonSerializer
 				{
@@ -143,7 +143,7 @@ namespace RPGCore.Behaviour
 				};
 				serializer.Converters.Add (new SerializedGraphInstanceProxyConverter (null));
 
-				nodeMap.Add (node.Id, JObject.FromObject (instance, serializer));
+				nodeMap.Add (instance.NodeBase.Id, JObject.FromObject (instance, serializer));
 			}
 
 			return new SerializedGraphInstance ()
@@ -155,9 +155,9 @@ namespace RPGCore.Behaviour
 
 		public INodeInstance GetNode<T>()
 		{
-			for (int i = nodeInstances.Length - 1; i >= 0; i--)
+			for (int i = nodes.Length - 1; i >= 0; i--)
 			{
-				var node = nodeInstances[i];
+				var node = nodes[i].Instance;
 
 				if (node.GetType () == typeof (T))
 				{
@@ -181,24 +181,22 @@ namespace RPGCore.Behaviour
 				return new InputSource ();
 			}
 
-			for (int x = 0; x < allOutputs.Length; x++)
+			for (int x = 0; x < nodes.Length; x++)
 			{
-				var outputSet = allOutputs[x];
-
-				if (outputSet == null)
+				var node = nodes[x];
+				if (node.Outputs == null)
 				{
 					continue;
 				}
 
-				for (int y = 0; y < outputSet.Length; y++)
+				for (int y = 0; y < node.Outputs.Length; y++)
 				{
-					var output = outputSet[y];
+					var output = node.Outputs[y];
 
 					if (output.ConnectionId == connectionId)
 					{
-						var instance = nodeInstances[x];
-						var node = Template.Nodes[x];
-						return new InputSource (node, instance, output);
+						var nodeTemplate = Template.Nodes[x];
+						return new InputSource (nodeTemplate, node.Instance, output);
 					}
 				}
 			}
@@ -219,22 +217,22 @@ namespace RPGCore.Behaviour
 				yield break;
 			}
 
-			for (int x = 0; x < allInputs.Length; x++)
+			for (int x = 0; x < nodes.Length; x++)
 			{
-				var inputSet = allInputs[x];
+				var node = nodes[x];
 
-				if (inputSet == null)
+				if (node.Inputs == null)
 				{
 					continue;
 				}
 
-				for (int y = 0; y < inputSet.Length; y++)
+				for (int y = 0; y < node.Inputs.Length; y++)
 				{
-					var input = inputSet[y];
+					var input = node.Inputs[y];
 
 					if (input.ConnectionId == connectionId)
 					{
-						var instance = nodeInstances[x];
+						var instance = node.Instance;
 						yield return new OutputSource (instance, input);
 					}
 				}
@@ -244,9 +242,9 @@ namespace RPGCore.Behaviour
 		public T GetNodeInstance<T>()
 			where T : INodeInstance
 		{
-			for (int i = 0; i < nodeInstances.Length; i++)
+			for (int i = 0; i < nodes.Length; i++)
 			{
-				var instance = nodeInstances[i];
+				var instance = nodes[i].Instance;
 
 				if (typeof (T).IsAssignableFrom (instance.GetType ()))
 				{
@@ -259,9 +257,9 @@ namespace RPGCore.Behaviour
 		public IEnumerable<T> GetNodeInstances<T>()
 			where T : INodeInstance
 		{
-			for (int i = 0; i < nodeInstances.Length; i++)
+			for (int i = 0; i < nodes.Length; i++)
 			{
-				var instance = nodeInstances[i];
+				var instance = nodes[i].Instance;
 
 				if (typeof (T).IsAssignableFrom (instance.GetType ()))
 				{
@@ -318,7 +316,7 @@ namespace RPGCore.Behaviour
 		{
 			if (socket.ConnectionId >= 0)
 			{
-				node = (T)nodeInstances[socket.ConnectionId];
+				node = (T)nodes[socket.ConnectionId].Instance;
 			}
 
 			return new InputMap (socket, typeof (T));
