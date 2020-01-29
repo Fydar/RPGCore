@@ -285,9 +285,8 @@ namespace RPGCore.Behaviour
 				if (connection.ConnectionType == typeof (int)
 					&& typeof (T) == typeof (float))
 				{
-					var converter = new IntToFloatConverter ();
+					var converter = connection.UseConverter (typeof (IntToFloatConverter));
 					converter.SetSource (connection);
-					connection.RegisterConverter (converter);
 
 					input = new Input<T> (parent, converter);
 				}

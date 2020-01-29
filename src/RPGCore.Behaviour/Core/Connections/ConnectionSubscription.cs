@@ -13,5 +13,10 @@ namespace RPGCore.Behaviour
 			Node = node;
 			Callbacks = new List<Action> ();
 		}
+
+		public override string ToString()
+		{
+			return $"{Node?.NodeBase?.Id}: {Node?.NodeBase.GetType ().Name}";
+		}
 	}
 }

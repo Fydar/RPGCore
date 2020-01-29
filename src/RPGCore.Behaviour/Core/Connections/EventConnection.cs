@@ -35,14 +35,29 @@ namespace RPGCore.Behaviour
 			Consumers.Add (new ConnectionSubscription (node));
 		}
 
-		public void RegisterConverter(IConnectionTypeConverter converter)
+		public IConnectionTypeConverter UseConverter(Type converterType)
 		{
 			if (Converters == null)
 			{
 				Converters = new List<IConnectionTypeConverter> ();
 			}
 
-			Converters.Add (converter);
+			IConnectionTypeConverter converter = null;
+			foreach (var existingConverter in Converters)
+			{
+				if (existingConverter.GetType() == converterType)
+				{
+					converter = existingConverter;
+					break;
+				}
+			}
+			if (converter == null)
+			{
+				converter = (IConnectionTypeConverter)Activator.CreateInstance (converterType);
+				Converters.Add (converter);
+			}
+
+			return converter;
 		}
 
 		public virtual void Subscribe(INodeInstance node, Action callback)

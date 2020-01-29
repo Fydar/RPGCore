@@ -46,7 +46,7 @@ namespace RPGCore.Behaviour
 
 		public void RegisterInput(INodeInstance node) => Source.RegisterInput (node);
 
-		public void RegisterConverter(IConnectionTypeConverter converter) => Source.RegisterConverter (converter);
+		public IConnectionTypeConverter UseConverter(Type converterType) => Source.UseConverter(converterType);
 
 		public void Dispose()
 		{
@@ -61,5 +61,6 @@ namespace RPGCore.Behaviour
 		{
 			throw new NotImplementedException ();
 		}
+
 	}
 }

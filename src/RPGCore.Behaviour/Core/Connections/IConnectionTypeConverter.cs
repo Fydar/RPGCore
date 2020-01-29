@@ -6,5 +6,7 @@ namespace RPGCore.Behaviour
 	{
 		Type ConvertFromType { get; }
 		Type ConvertToType { get; }
+
+		void SetSource(IConnection source);
 	}
 }
