@@ -19,35 +19,35 @@ namespace RPGCore.Behaviour
 
 			public void Clear()
 			{
-				Field.Handlers.Clear (Context);
+				Field.Handlers.Clear(Context);
 			}
 
 			public void Add(IEventFieldHandler handler)
 			{
-				Field.Handlers.InternalHandlers.Add (new KeyValuePair<object, IEventFieldHandler> (Context, handler));
+				Field.Handlers.InternalHandlers.Add(new KeyValuePair<object, IEventFieldHandler>(Context, handler));
 			}
 
 			public void Remove(IEventFieldHandler handler)
 			{
-				Field.Handlers.InternalHandlers.Remove (new KeyValuePair<object, IEventFieldHandler> (Context, handler));
+				Field.Handlers.InternalHandlers.Remove(new KeyValuePair<object, IEventFieldHandler>(Context, handler));
 			}
 		}
 
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly IEventField Field;
 
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly List<KeyValuePair<object, IEventFieldHandler>> InternalHandlers;
 
 		public EventFieldHandlerCollection(IEventField field)
 		{
 			Field = field;
-			InternalHandlers = new List<KeyValuePair<object, IEventFieldHandler>> ();
+			InternalHandlers = new List<KeyValuePair<object, IEventFieldHandler>>();
 		}
 
 		public ContextWrapped this[object context]
 		{
-			get => new ContextWrapped (Field, context);
+			get => new ContextWrapped(Field, context);
 		}
 
 		public void Clear(object context)
@@ -56,14 +56,14 @@ namespace RPGCore.Behaviour
 			{
 				if (InternalHandlers[i].Key == context)
 				{
-					InternalHandlers.RemoveAt (i);
+					InternalHandlers.RemoveAt(i);
 				}
 			}
 		}
 
 		public void Clear()
 		{
-			InternalHandlers.Clear ();
+			InternalHandlers.Clear();
 		}
 
 		public void InvokeBeforeChanged()
@@ -75,7 +75,7 @@ namespace RPGCore.Behaviour
 
 			for (int i = 0; i < InternalHandlers.Count; i++)
 			{
-				InternalHandlers[i].Value.OnBeforeChanged ();
+				InternalHandlers[i].Value.OnBeforeChanged();
 			}
 		}
 
@@ -88,18 +88,18 @@ namespace RPGCore.Behaviour
 
 			for (int i = 0; i < InternalHandlers.Count; i++)
 			{
-				InternalHandlers[i].Value.OnAfterChanged ();
+				InternalHandlers[i].Value.OnAfterChanged();
 			}
 		}
 
 		public IEnumerator<KeyValuePair<object, IEventFieldHandler>> GetEnumerator()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)InternalHandlers).GetEnumerator ();
+			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)InternalHandlers).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)InternalHandlers).GetEnumerator ();
+			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)InternalHandlers).GetEnumerator();
 		}
 	}
 }

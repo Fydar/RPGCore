@@ -23,12 +23,12 @@ namespace RPGCore.Packages
 			{
 				Animate = false;
 			}
-			DrawBar (ProgressBarLeft, ProgressBarTop, 0, ProgressBarLength);
+			DrawBar(ProgressBarLeft, ProgressBarTop, 0, ProgressBarLength);
 		}
 
 		public void OnAfterBuildResource(ProjectBuildProcess process, ProjectResource resource)
 		{
-			DrawBar (ProgressBarLeft, ProgressBarTop, process.Progress, ProgressBarLength, process.Project.Name);
+			DrawBar(ProgressBarLeft, ProgressBarTop, process.Progress, ProgressBarLength, process.Project.Name);
 		}
 
 		private void DrawBar(int left, int top, double complete, int total, string suffix = null)
@@ -41,26 +41,26 @@ namespace RPGCore.Packages
 				{
 					if (Animate)
 					{
-						Console.SetCursorPosition (left, top);
+						Console.SetCursorPosition(left, top);
 					}
 
-					Console.Write ("Download ");
-					Console.Write (complete.ToString ("00%"));
+					Console.Write("Download ");
+					Console.Write(complete.ToString("00%"));
 
-					Console.Write (" [");
+					Console.Write(" [");
 					int j = 0;
 					for (; j < filled; j++)
 					{
-						Console.Write ("=");
+						Console.Write("=");
 					}
 					for (; j < total; j++)
 					{
-						Console.Write (" ");
+						Console.Write(" ");
 					}
-					Console.Write ("] ");
+					Console.Write("] ");
 					ProgressBarFill = filled;
 
-					Console.WriteLine (suffix);
+					Console.WriteLine(suffix);
 				}
 			}
 		}

@@ -29,17 +29,17 @@ namespace RPGCore.Behaviour
 		{
 			if (Consumers == null)
 			{
-				Consumers = new List<ConnectionSubscription> ();
+				Consumers = new List<ConnectionSubscription>();
 			}
 
-			Consumers.Add (new ConnectionSubscription (node));
+			Consumers.Add(new ConnectionSubscription(node));
 		}
 
 		public IConnectionTypeConverter UseConverter(Type converterType)
 		{
 			if (Converters == null)
 			{
-				Converters = new List<IConnectionTypeConverter> ();
+				Converters = new List<IConnectionTypeConverter>();
 			}
 
 			IConnectionTypeConverter converter = null;
@@ -53,8 +53,8 @@ namespace RPGCore.Behaviour
 			}
 			if (converter == null)
 			{
-				converter = (IConnectionTypeConverter)Activator.CreateInstance (converterType);
-				Converters.Add (converter);
+				converter = (IConnectionTypeConverter)Activator.CreateInstance(converterType);
+				Converters.Add(converter);
 			}
 
 			return converter;
@@ -64,10 +64,10 @@ namespace RPGCore.Behaviour
 		{
 			if (Consumers == null)
 			{
-				Consumers = new List<ConnectionSubscription> ();
+				Consumers = new List<ConnectionSubscription>();
 			}
 
-			var subscription = new ConnectionSubscription ();
+			var subscription = new ConnectionSubscription();
 			foreach (var previousSubscribers in Consumers)
 			{
 				if (subscription.Node == previousSubscribers.Node)
@@ -77,13 +77,13 @@ namespace RPGCore.Behaviour
 			}
 			if (subscription.Node == null)
 			{
-				subscription = new ConnectionSubscription (node);
-				subscription.Callbacks.Add (callback);
-				Consumers.Add (subscription);
+				subscription = new ConnectionSubscription(node);
+				subscription.Callbacks.Add(callback);
+				Consumers.Add(subscription);
 			}
 			else
 			{
-				subscription.Callbacks.Add (callback);
+				subscription.Callbacks.Add(callback);
 			}
 		}
 
@@ -106,7 +106,7 @@ namespace RPGCore.Behaviour
 
 						if (callback == findCallback)
 						{
-							subscriber.Callbacks.RemoveAt (j);
+							subscriber.Callbacks.RemoveAt(j);
 						}
 					}
 				}
@@ -122,11 +122,11 @@ namespace RPGCore.Behaviour
 
 			foreach (var subscriber in Consumers)
 			{
-				subscriber.Node.OnInputChanged ();
+				subscriber.Node.OnInputChanged();
 
 				foreach (var callback in subscriber.Callbacks)
 				{
-					callback?.Invoke ();
+					callback?.Invoke();
 				}
 			}
 		}

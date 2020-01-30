@@ -7,10 +7,10 @@ namespace RPGCore.Behaviour
 	{
 		int ConnectionId { get; }
 
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		Type ConnectionType { get; }
 
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		bool BufferEvents { get; set; }
 
 		IConnectionTypeConverter UseConverter(Type converterType);

@@ -17,13 +17,13 @@ namespace RPGCore.Traits
 			return Identifer;
 		}
 
-		public override bool Equals(object obj) => obj is StateIdentifier identifier && Equals (identifier);
+		public override bool Equals(object obj) => obj is StateIdentifier identifier && Equals(identifier);
 		public bool Equals(StateIdentifier other) => Identifer == other.Identifer;
-		public override int GetHashCode() => 1924603977 + EqualityComparer<string>.Default.GetHashCode (Identifer);
+		public override int GetHashCode() => 1924603977 + EqualityComparer<string>.Default.GetHashCode(Identifer);
 
 		public static bool operator ==(StateIdentifier left, StateIdentifier right)
 		{
-			return left.Equals (right);
+			return left.Equals(right);
 		}
 
 		public static bool operator !=(StateIdentifier left, StateIdentifier right)
@@ -33,7 +33,7 @@ namespace RPGCore.Traits
 
 		public static implicit operator StateIdentifier(string source)
 		{
-			return new StateIdentifier (source);
+			return new StateIdentifier(source);
 		}
 	}
 }

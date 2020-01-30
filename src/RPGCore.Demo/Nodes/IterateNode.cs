@@ -9,7 +9,7 @@ namespace RPGCore.Demo.Nodes
 		public InputSocket Repetitions;
 		public string SubgraphId;
 
-		public override Instance Create() => new IterateInstance ();
+		public override Instance Create() => new IterateInstance();
 
 		public class IterateInstance : Instance
 		{
@@ -28,7 +28,7 @@ namespace RPGCore.Demo.Nodes
 			{
 				if (SubGraphs == null)
 				{
-					SubGraphs = new List<GraphInstance> ();
+					SubGraphs = new List<GraphInstance>();
 				}
 			}
 
@@ -38,8 +38,8 @@ namespace RPGCore.Demo.Nodes
 				var graphToUse = Graph.Template.SubGraphs[Template.SubgraphId];
 
 				Console.ForegroundColor = ConsoleColor.Cyan;
-				Console.WriteLine ($"[{Template.Id}]: Repeating {Template.SubgraphId} {repetitions} times");
-				Console.ResetColor ();
+				Console.WriteLine($"[{Template.Id}]: Repeating {Template.SubgraphId} {repetitions} times");
+				Console.ResetColor();
 
 				for (int i = 0; i < repetitions; i++)
 				{
@@ -50,17 +50,17 @@ namespace RPGCore.Demo.Nodes
 					}
 					else
 					{
-						subgraphInstance = graphToUse.Create ();
-						SubGraphs.Add (subgraphInstance);
+						subgraphInstance = graphToUse.Create();
+						SubGraphs.Add(subgraphInstance);
 					}
-					subgraphInstance.Setup ();
+					subgraphInstance.Setup();
 				}
 
 				while (SubGraphs.Count > repetitions)
 				{
 					var removeGraph = SubGraphs[SubGraphs.Count - 1];
-					SubGraphs.RemoveAt (SubGraphs.Count - 1);
-					removeGraph.Remove ();
+					SubGraphs.RemoveAt(SubGraphs.Count - 1);
+					removeGraph.Remove();
 				}
 			}
 
@@ -68,7 +68,7 @@ namespace RPGCore.Demo.Nodes
 			{
 				foreach (var removeGraph in SubGraphs)
 				{
-					removeGraph.Remove ();
+					removeGraph.Remove();
 				}
 			}
 		}

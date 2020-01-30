@@ -8,14 +8,14 @@ namespace RPGCore.Packages
 
 		public string Name
 		{
-			get => Element.SelectSingleNode ("Name").InnerXml;
-			set => Element.SelectSingleNode ("Name").InnerXml = value;
+			get => Element.SelectSingleNode("Name").InnerXml;
+			set => Element.SelectSingleNode("Name").InnerXml = value;
 		}
 
 		public string Version
 		{
-			get => Element.SelectSingleNode ("Version").InnerXml;
-			set => Element.SelectSingleNode ("Version").InnerXml = value;
+			get => Element.SelectSingleNode("Version").InnerXml;
+			set => Element.SelectSingleNode("Version").InnerXml = value;
 		}
 
 		public ProjectDefinitionProperties(XmlNode element)

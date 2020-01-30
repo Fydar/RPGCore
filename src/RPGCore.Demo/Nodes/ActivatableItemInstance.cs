@@ -4,10 +4,10 @@ namespace RPGCore.Demo.Nodes
 {
 	public sealed class ActivatableItemNode : NodeTemplate<ActivatableItemNode>
 	{
-		public OutputSocket Output = new OutputSocket ();
+		public OutputSocket Output = new OutputSocket();
 
 
-		public override Instance Create() => new ActivatableItemInstance ();
+		public override Instance Create() => new ActivatableItemInstance();
 
 		public sealed class ActivatableItemInstance : Instance
 		{

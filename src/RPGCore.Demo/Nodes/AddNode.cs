@@ -9,7 +9,7 @@ namespace RPGCore.Demo.Nodes
 
 		public OutputSocket Output;
 
-		public override Instance Create() => new AddInstance ();
+		public override Instance Create() => new AddInstance();
 
 		public class AddInstance : Instance
 		{
@@ -31,6 +31,7 @@ namespace RPGCore.Demo.Nodes
 
 			public override void Setup()
 			{
+
 			}
 
 			public override void OnInputChanged()

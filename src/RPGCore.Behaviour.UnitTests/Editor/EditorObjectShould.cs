@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RPGCore.Behaviour.Manifest;
 using System;
@@ -27,7 +26,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 		[Test]
 		public void Work()
 		{
-			var types = TypeManifest.Construct (
+			var types = TypeManifest.Construct(
 				new Type[]
 				{
 					typeof(int),
@@ -41,16 +40,16 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 				}
 			);
 
-			var manifest = new BehaviourManifest ()
+			var manifest = new BehaviourManifest()
 			{
 				Nodes = null,
 				Types = types
 			};
 
-			var sourceObject = new RootModel ()
+			var sourceObject = new RootModel()
 			{
 				FirstValue = "Lol",
-				AChild = new ChildModel ()
+				AChild = new ChildModel()
 				{
 
 				},
@@ -60,9 +59,9 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 					new ChildModel(),
 					null
 				},
-				MoreChildren = new Dictionary<string, ChildModel> ()
+				MoreChildren = new Dictionary<string, ChildModel>()
 				{
-					["alpha"] = new ChildModel ()
+					["alpha"] = new ChildModel()
 					{
 
 					},
@@ -70,22 +69,22 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 				}
 			};
 
-			var editorSession = new EditorSession (manifest, sourceObject, new JsonSerializer ());
+			var editorSession = new EditorSession(manifest, sourceObject, new JsonSerializer());
 
-			DrawTree (editorSession.Root);
+			DrawTree(editorSession.Root);
 
-			editorSession.Root["BChild"].SetValue (new ChildModel ());
-			editorSession.Root["BChild"].ApplyModifiedProperties ();
+			editorSession.Root["BChild"].SetValue(new ChildModel());
+			editorSession.Root["BChild"].ApplyModifiedProperties();
 
-			DrawTree (editorSession.Root);
+			DrawTree(editorSession.Root);
 		}
 
 		private static void DrawTree(EditorField root, int indent = 0)
 		{
-			TestContext.Error.WriteLine (new string (' ', indent * 3) + root.Name);
+			TestContext.Error.WriteLine(new string(' ', indent * 3) + root.Name);
 			foreach (var child in root)
 			{
-				DrawTree (child, indent + 1);
+				DrawTree(child, indent + 1);
 			}
 		}
 	}

@@ -11,7 +11,7 @@ namespace RPGCore.Packages
 
 		public PackageDefinitionFile()
 		{
-			ResourceDependancies = new Dictionary<string, ResourceDependancyDefinition> ();
+			ResourceDependancies = new Dictionary<string, ResourceDependancyDefinition>();
 		}
 	}
 }

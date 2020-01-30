@@ -26,19 +26,19 @@ namespace RPGCore.Packages
 
 		public Stream LoadStream()
 		{
-			return Package.LoadStream (FullName);
+			return Package.LoadStream(FullName);
 		}
 
 		public byte[] LoadData()
 		{
-			return Package.OpenAsset (FullName);
+			return Package.OpenAsset(FullName);
 		}
 
 		public Task<byte[]> LoadDataAsync()
 		{
 			var pkg = Package;
 			string pkgKey = FullName;
-			return Task.Run (() => pkg.OpenAsset (pkgKey));
+			return Task.Run(() => pkg.OpenAsset(pkgKey));
 		}
 
 		public override string ToString()

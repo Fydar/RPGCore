@@ -10,14 +10,14 @@ namespace RPGCore.Inventory.Slots
 
 		public CustomInventory(IInventory parent)
 		{
-			Parent = parent ?? throw new ArgumentNullException (nameof (parent));
+			Parent = parent ?? throw new ArgumentNullException(nameof(parent));
 		}
 
 		public IEnumerable<IItem> Items
 		{
 			get
 			{
-				throw new NotImplementedException ();
+				throw new NotImplementedException();
 			}
 		}
 

@@ -23,20 +23,20 @@ namespace RPGCore.Behaviour
 			[JsonIgnore]
 			public TNode Template { get; internal set; }
 
-			[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			internal override NodeTemplate TemplateBase => Template;
 		}
 
 		public abstract Instance Create();
 
-		public sealed override INodeInstance CreateInstance() => Create ();
+		public sealed override INodeInstance CreateInstance() => Create();
 
 		internal sealed override InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance)
 		{
 			var castedInstance = (Instance)instance;
 			castedInstance.Template = (TNode)this;
 
-			return castedInstance.Inputs (connections);
+			return castedInstance.Inputs(connections);
 		}
 
 		internal sealed override OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance)
@@ -44,7 +44,7 @@ namespace RPGCore.Behaviour
 			var castedInstance = (Instance)instance;
 			castedInstance.Template = (TNode)this;
 
-			return castedInstance.Outputs (connections);
+			return castedInstance.Outputs(connections);
 		}
 
 		public sealed override void Setup(IGraphInstance graph, INodeInstance metadata)
@@ -53,7 +53,7 @@ namespace RPGCore.Behaviour
 			instance.Template = (TNode)this;
 			instance.Graph = graph;
 
-			metadata.Setup ();
+			metadata.Setup();
 		}
 	}
 }

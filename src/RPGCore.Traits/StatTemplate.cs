@@ -10,7 +10,7 @@
 
 		public StatInstance CreateInstance(StatIdentifier identifier)
 		{
-			return new StatInstance ()
+			return new StatInstance()
 			{
 				Identifier = identifier,
 				Template = this

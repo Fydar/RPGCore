@@ -9,14 +9,14 @@ namespace RPGCore.CLI
 	{
 		private static Task<int> Main(string[] args)
 		{
-			var rootCommand = new RootCommand ("Command-line tool for RPGCore")
+			var rootCommand = new RootCommand("Command-line tool for RPGCore")
 			{
 				new BuildCommand("build", "Builds the current .bproj."),
 				new FormatCommand("format", "Formats a .bproj file.")
 			};
 			rootCommand.Name = "bpack";
 
-			return rootCommand.InvokeAsync (args);
+			return rootCommand.InvokeAsync(args);
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace RPGCore.View
 
 		public override string ToString()
 		{
-			return EntityId.ToString ();
+			return EntityId.ToString();
 		}
 	}
 }

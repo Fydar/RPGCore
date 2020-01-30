@@ -7,7 +7,7 @@ namespace RPGCore.Traits.UnitTests
 
 		public static StatIdentifier MaxMana = "character_maxmana";
 
-		public static StatIdentifier[] AllStats = TraitIdentifiers.AllStats (typeof (CharacterTrait));
-		public static StateIdentifier[] AllStates = TraitIdentifiers.AllStates (typeof (CharacterTrait));
+		public static StatIdentifier[] AllStats = TraitIdentifiers.AllStats(typeof(CharacterTrait));
+		public static StateIdentifier[] AllStates = TraitIdentifiers.AllStates(typeof(CharacterTrait));
 	}
 }

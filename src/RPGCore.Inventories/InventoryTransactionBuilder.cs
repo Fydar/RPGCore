@@ -16,20 +16,20 @@ namespace RPGCore.Inventory.Slots
 
 		public InventoryTransactionBuilder()
 		{
-			Items = new List<ItemTransaction> ();
+			Items = new List<ItemTransaction>();
 		}
 
-		public void Add (ItemTransaction itemTransaction)
+		public void Add(ItemTransaction itemTransaction)
 		{
-			Items.Add (itemTransaction);
+			Items.Add(itemTransaction);
 		}
 
 		public InventoryTransaction Build(TransactionStatus status)
 		{
-			return new InventoryTransaction (status, Items);
+			return new InventoryTransaction(status, Items);
 		}
 
-		public IEnumerator<ItemTransaction> GetEnumerator() => Items.GetEnumerator ();
-		IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator ();
+		public IEnumerator<ItemTransaction> GetEnumerator() => Items.GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
 	}
 }

@@ -15,7 +15,7 @@
 
 		public IItem Duplicate()
 		{
-			return new UniqueItem (Template);
+			return new UniqueItem(Template);
 		}
 	}
 }

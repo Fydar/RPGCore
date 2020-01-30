@@ -14,7 +14,7 @@ namespace RPGCore.Traits
 
 		public StateInstance()
 		{
-			Handlers = new EventFieldHandlerCollection (this);
+			Handlers = new EventFieldHandlerCollection(this);
 		}
 	}
 }

@@ -42,14 +42,14 @@ namespace RPGCore.Behaviour.Editor
 					return;
 				}
 
-				var replace = JToken.FromObject (Value);
+				var replace = JToken.FromObject(Value);
 
-				if (JToken.DeepEquals (replace, field.Json))
+				if (JToken.DeepEquals(replace, field.Json))
 				{
 					return;
 				}
 
-				field.Json.Replace (replace);
+				field.Json.Replace(replace);
 				field.Json = replace;
 				IsDirty = false;
 			}
@@ -60,7 +60,7 @@ namespace RPGCore.Behaviour.Editor
 		public TypeInformation Type;
 		public EditorSession Session;
 
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private Dictionary<string, EditorField> Children;
 		private readonly List<object> Features;
 		private JToken Json;
@@ -72,40 +72,40 @@ namespace RPGCore.Behaviour.Editor
 
 		public EditorField(EditorSession session, JToken json, string name, FieldInformation field)
 		{
-			Children = new Dictionary<string, EditorField> ();
-			Features = new List<object> ();
+			Children = new Dictionary<string, EditorField>();
+			Features = new List<object>();
 
 			Session = session;
 			Name = name;
 			Field = field;
 			Json = json;
-			Type = session.Manifest.GetTypeInformation (field.Type);
+			Type = session.Manifest.GetTypeInformation(field.Type);
 
 			if (Type == null)
 			{
-				throw new InvalidOperationException ($"Cannot find type information for type \"{field.Type}\".");
+				throw new InvalidOperationException($"Cannot find type information for type \"{field.Type}\".");
 			}
 
-			UpdateChildren ();
+			UpdateChildren();
 		}
 
 		private void UpdateChildren()
 		{
-			var newChildren = new Dictionary<string, EditorField> ();
+			var newChildren = new Dictionary<string, EditorField>();
 
 			if (Field.Format == FieldFormat.Dictionary)
 			{
 				if (Json.Type != JTokenType.Null)
 				{
-					foreach (var property in ((JObject)Json).Properties ())
+					foreach (var property in ((JObject)Json).Properties())
 					{
 						string key = property.Name;
 
-						if (!Children.TryGetValue (key, out var field))
+						if (!Children.TryGetValue(key, out var field))
 						{
-							field = new EditorField (Session, property.Value, property.Name, Field.ValueFormat);
+							field = new EditorField(Session, property.Value, property.Name, Field.ValueFormat);
 						}
-						newChildren.Add (key, field);
+						newChildren.Add(key, field);
 					}
 				}
 			}
@@ -113,17 +113,17 @@ namespace RPGCore.Behaviour.Editor
 			{
 				if (Json.Type != JTokenType.Null)
 				{
-					var children = ((JArray)Json).Children ();
+					var children = ((JArray)Json).Children();
 					int index = 0;
 					foreach (var token in children)
 					{
 						string childName = $"[{index}]";
 
-						if (!Children.TryGetValue (childName, out var field))
+						if (!Children.TryGetValue(childName, out var field))
 						{
-							field = new EditorField (Session, token, childName, Field.ValueFormat);
+							field = new EditorField(Session, token, childName, Field.ValueFormat);
 						}
-						newChildren.Add (childName, field);
+						newChildren.Add(childName, field);
 
 						index++;
 					}
@@ -133,22 +133,22 @@ namespace RPGCore.Behaviour.Editor
 			{
 				if (Type.Fields != null && Type.Fields.Count != 0)
 				{
-					PopulateMissing ((JObject)Json, Type);
+					PopulateMissing((JObject)Json, Type);
 
 					foreach (var childField in Type.Fields)
 					{
 						string key = childField.Key;
 						var property = Json[key];
 
-						if (!Children.TryGetValue (key, out var field))
+						if (!Children.TryGetValue(key, out var field))
 						{
 							if (childField.Value.Type == "JObject")
 							{
 								var type = Json["Type"];
 
-								var genericField = new FieldInformation ()
+								var genericField = new FieldInformation()
 								{
-									Type = type.ToObject<string> (),
+									Type = type.ToObject<string>(),
 									Format = FieldFormat.Object,
 
 									Attributes = childField.Value.Attributes,
@@ -157,14 +157,14 @@ namespace RPGCore.Behaviour.Editor
 									ValueFormat = childField.Value.ValueFormat
 								};
 
-								field = new EditorField (Session, property, key, genericField);
+								field = new EditorField(Session, property, key, genericField);
 							}
 							else
 							{
-								field = new EditorField (Session, property, key, childField.Value);
+								field = new EditorField(Session, property, key, childField.Value);
 							}
 						}
-						newChildren.Add (key, field);
+						newChildren.Add(key, field);
 					}
 				}
 			}
@@ -174,11 +174,11 @@ namespace RPGCore.Behaviour.Editor
 		public T GetFeature<T>()
 			where T : class
 		{
-			var getFeatureType = typeof (T);
+			var getFeatureType = typeof(T);
 			foreach (object feature in Features)
 			{
-				var featureType = feature.GetType ();
-				if (getFeatureType.IsAssignableFrom (featureType))
+				var featureType = feature.GetType();
+				if (getFeatureType.IsAssignableFrom(featureType))
 				{
 					return (T)feature;
 				}
@@ -189,12 +189,12 @@ namespace RPGCore.Behaviour.Editor
 		public T GetOrCreateFeature<T>()
 			where T : class, new()
 		{
-			var feature = GetFeature<T> ();
+			var feature = GetFeature<T>();
 
 			if (feature == null)
 			{
-				feature = new T ();
-				Features.Add (feature);
+				feature = new T();
+				Features.Add(feature);
 			}
 			return feature;
 		}
@@ -203,12 +203,12 @@ namespace RPGCore.Behaviour.Editor
 		{
 			if (Field.Format != FieldFormat.Object)
 			{
-				throw new InvalidOperationException ($"Cannot set the value of \"{Field.Format}\" typed fields.");
+				throw new InvalidOperationException($"Cannot set the value of \"{Field.Format}\" typed fields.");
 			}
 
 			if (Queued == null)
 			{
-				Queued = new QueuedItem<T> (value);
+				Queued = new QueuedItem<T>(value);
 			}
 			else
 			{
@@ -220,12 +220,12 @@ namespace RPGCore.Behaviour.Editor
 		{
 			if (Field.Format != FieldFormat.Object)
 			{
-				throw new InvalidOperationException ($"Cannot get the value of \"{Field.Format}\" typed fields.");
+				throw new InvalidOperationException($"Cannot get the value of \"{Field.Format}\" typed fields.");
 			}
 
 			if (Queued == null)
 			{
-				Queued = new QueuedItem<T> (Json.ToObject<T> (Session.JsonSerializer));
+				Queued = new QueuedItem<T>(Json.ToObject<T>(Session.JsonSerializer));
 			}
 
 			return ((QueuedItem<T>)Queued).Value;
@@ -235,7 +235,7 @@ namespace RPGCore.Behaviour.Editor
 		{
 			if (Field.Format != FieldFormat.Object)
 			{
-				throw new InvalidOperationException ($"Cannot apply modified properties of \"{Field.Format}\" typed fields.");
+				throw new InvalidOperationException($"Cannot apply modified properties of \"{Field.Format}\" typed fields.");
 			}
 
 			if (Queued == null)
@@ -245,13 +245,13 @@ namespace RPGCore.Behaviour.Editor
 
 			if (Json.Type == JTokenType.Null)
 			{
-				Queued.ApplyValue (this);
+				Queued.ApplyValue(this);
 
-				UpdateChildren ();
+				UpdateChildren();
 			}
 			else
 			{
-				Queued.ApplyValue (this);
+				Queued.ApplyValue(this);
 			}
 		}
 
@@ -262,22 +262,22 @@ namespace RPGCore.Behaviour.Editor
 
 		public IEnumerator<EditorField> GetEnumerator()
 		{
-			return ((IEnumerable<EditorField>)Children.Values).GetEnumerator ();
+			return ((IEnumerable<EditorField>)Children.Values).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<EditorField>)this).GetEnumerator ();
+			return ((IEnumerable<EditorField>)this).GetEnumerator();
 		}
 
 		private static void PopulateMissing(JObject serialized, TypeInformation information)
 		{
 			// Remove any additional fields.
-			foreach (var item in serialized.Children<JProperty> ().ToList ())
+			foreach (var item in serialized.Children<JProperty>().ToList())
 			{
-				if (!information.Fields.Keys.Contains (item.Name))
+				if (!information.Fields.Keys.Contains(item.Name))
 				{
-					item.Remove ();
+					item.Remove();
 				}
 			}
 
@@ -286,9 +286,9 @@ namespace RPGCore.Behaviour.Editor
 			{
 				foreach (var field in information.Fields)
 				{
-					if (!serialized.ContainsKey (field.Key))
+					if (!serialized.ContainsKey(field.Key))
 					{
-						serialized.Add (field.Key, field.Value.DefaultValue);
+						serialized.Add(field.Key, field.Value.DefaultValue);
 					}
 				}
 			}

@@ -16,8 +16,8 @@ namespace RPGCore.Behaviour.Manifest
 
 		public static TypeInformation Construct(Type type)
 		{
-			var information = new TypeInformation ();
-			ConstructTypeInformation (type, information);
+			var information = new TypeInformation();
+			ConstructTypeInformation(type, information);
 			return information;
 		}
 
@@ -25,13 +25,13 @@ namespace RPGCore.Behaviour.Manifest
 		{
 
 			// Implicit Conversions
-			var conversions = new Dictionary<string, TypeConversion> ();
-			var methods = type.GetMethods (BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+			var conversions = new Dictionary<string, TypeConversion>();
+			var methods = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
 			foreach (var method in methods)
 			{
 				if (method.Name == "op_implicit")
 				{
-					conversions.Add (method.ReturnType.FullName, TypeConversion.Construct (method));
+					conversions.Add(method.ReturnType.FullName, TypeConversion.Construct(method));
 				}
 			}
 			typeInformation.ImplicitConversions = conversions;
@@ -40,7 +40,7 @@ namespace RPGCore.Behaviour.Manifest
 			object defaultInstance = null;
 			try
 			{
-				defaultInstance = Activator.CreateInstance (type);
+				defaultInstance = Activator.CreateInstance(type);
 			}
 			catch
 			{
@@ -49,22 +49,22 @@ namespace RPGCore.Behaviour.Manifest
 			// Default Value
 			if (defaultInstance != null)
 			{
-				typeInformation.DefaultValue = JToken.FromObject (defaultInstance);
+				typeInformation.DefaultValue = JToken.FromObject(defaultInstance);
 			}
 
 			// Fields
 			if (typeInformation.DefaultValue != null &&
 				typeInformation.DefaultValue.Type == JTokenType.Object)
 			{
-				var fieldInfos = new Dictionary<string, FieldInformation> ();
-				foreach (var field in type.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+				var fieldInfos = new Dictionary<string, FieldInformation>();
+				foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 				{
-					if (field.FieldType == typeof (OutputSocket))
+					if (field.FieldType == typeof(OutputSocket))
 					{
 						continue;
 					}
 
-					if (field.GetCustomAttribute<JsonIgnoreAttribute> () != null)
+					if (field.GetCustomAttribute<JsonIgnoreAttribute>() != null)
 					{
 						continue;
 					}
@@ -74,7 +74,7 @@ namespace RPGCore.Behaviour.Manifest
 						continue;
 					}
 
-					fieldInfos.Add (field.Name, FieldInformation.ConstructFieldInformation (field, defaultInstance));
+					fieldInfos.Add(field.Name, FieldInformation.ConstructFieldInformation(field, defaultInstance));
 				}
 				typeInformation.Fields = fieldInfos;
 			}

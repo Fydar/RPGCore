@@ -18,7 +18,7 @@ namespace RPGCore.Behaviour
 					return;
 				}
 
-				Connection.Subscribe (Parent, value);
+				Connection.Subscribe(Parent, value);
 			}
 			remove
 			{
@@ -27,7 +27,7 @@ namespace RPGCore.Behaviour
 					return;
 				}
 
-				Connection.Unsubscribe (Parent, value);
+				Connection.Unsubscribe(Parent, value);
 			}
 		}
 

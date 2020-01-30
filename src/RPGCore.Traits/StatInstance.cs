@@ -24,12 +24,12 @@ namespace RPGCore.Traits
 
 		public StatInstance()
 		{
-			Handlers = new EventFieldHandlerCollection (this);
+			Handlers = new EventFieldHandlerCollection(this);
 		}
 
 		public override string ToString()
 		{
-			return $"{nameof (StatInstance)}({Identifier.ToString ()})";
+			return $"{nameof(StatInstance)}({Identifier.ToString()})";
 		}
 
 		private float CalculateValue()
@@ -83,7 +83,7 @@ namespace RPGCore.Traits
 
 		public void AddModifier(StatModifier modifier)
 		{
-			Handlers.InvokeBeforeChanged ();
+			Handlers.InvokeBeforeChanged();
 
 			switch (modifier.Phase)
 			{
@@ -93,28 +93,28 @@ namespace RPGCore.Traits
 						case StatModificationType.Additive:
 							if (BaseAdditiveModifiers == null)
 							{
-								BaseAdditiveModifiers = new List<StatModifier> ();
+								BaseAdditiveModifiers = new List<StatModifier>();
 							}
-							BaseAdditiveModifiers.Add (modifier);
+							BaseAdditiveModifiers.Add(modifier);
 							break;
 						case StatModificationType.SimpleMultiplicative:
 							if (BaseSimpleModifiers == null)
 							{
-								BaseSimpleModifiers = new List<StatModifier> ();
+								BaseSimpleModifiers = new List<StatModifier>();
 							}
-							BaseSimpleModifiers.Add (modifier);
+							BaseSimpleModifiers.Add(modifier);
 							break;
 
 						case StatModificationType.CompoundMultiplicative:
 							if (BaseCompoundModifiers == null)
 							{
-								BaseCompoundModifiers = new List<StatModifier> ();
+								BaseCompoundModifiers = new List<StatModifier>();
 							}
-							BaseCompoundModifiers.Add (modifier);
+							BaseCompoundModifiers.Add(modifier);
 							break;
 
 						case StatModificationType.None:
-							throw new InvalidOperationException ($"\"{modifier.Type}\" is not a valid stat modification type.");
+							throw new InvalidOperationException($"\"{modifier.Type}\" is not a valid stat modification type.");
 					}
 					break;
 
@@ -124,44 +124,44 @@ namespace RPGCore.Traits
 						case StatModificationType.Additive:
 							if (AdditiveModifiers == null)
 							{
-								AdditiveModifiers = new List<StatModifier> ();
+								AdditiveModifiers = new List<StatModifier>();
 							}
-							AdditiveModifiers.Add (modifier);
+							AdditiveModifiers.Add(modifier);
 							break;
 						case StatModificationType.SimpleMultiplicative:
 							if (SimpleModifiers == null)
 							{
-								SimpleModifiers = new List<StatModifier> ();
+								SimpleModifiers = new List<StatModifier>();
 							}
-							SimpleModifiers.Add (modifier);
+							SimpleModifiers.Add(modifier);
 							break;
 
 						case StatModificationType.CompoundMultiplicative:
 							if (CompoundModifiers == null)
 							{
-								CompoundModifiers = new List<StatModifier> ();
+								CompoundModifiers = new List<StatModifier>();
 							}
-							CompoundModifiers.Add (modifier);
+							CompoundModifiers.Add(modifier);
 							break;
 
 						case StatModificationType.None:
-							throw new InvalidOperationException ($"\"{modifier.Type}\" is not a valid stat modification type.");
+							throw new InvalidOperationException($"\"{modifier.Type}\" is not a valid stat modification type.");
 					}
 					break;
 
 				case StatModificationPhase.None:
-					throw new InvalidOperationException ($"\"{modifier.Phase}\" is not a valid stat modification phase.");
+					throw new InvalidOperationException($"\"{modifier.Phase}\" is not a valid stat modification phase.");
 			}
-			Handlers.InvokeAfterChanged ();
+			Handlers.InvokeAfterChanged();
 
-			modifier.CurrentValue.Handlers[this].Add (this);
+			modifier.CurrentValue.Handlers[this].Add(this);
 
-			Value = CalculateValue ();
+			Value = CalculateValue();
 		}
 
 		public bool RemoveModifier(StatModifier modifier)
 		{
-			Handlers.InvokeBeforeChanged ();
+			Handlers.InvokeBeforeChanged();
 
 			bool result;
 			switch (modifier.Phase)
@@ -172,29 +172,29 @@ namespace RPGCore.Traits
 						case StatModificationType.Additive:
 							if (BaseAdditiveModifiers == null)
 							{
-								BaseAdditiveModifiers = new List<StatModifier> ();
+								BaseAdditiveModifiers = new List<StatModifier>();
 							}
-							result = BaseAdditiveModifiers.Remove (modifier);
+							result = BaseAdditiveModifiers.Remove(modifier);
 							break;
 						case StatModificationType.SimpleMultiplicative:
 							if (BaseSimpleModifiers == null)
 							{
-								BaseSimpleModifiers = new List<StatModifier> ();
+								BaseSimpleModifiers = new List<StatModifier>();
 							}
-							result = BaseSimpleModifiers.Remove (modifier);
+							result = BaseSimpleModifiers.Remove(modifier);
 							break;
 
 						case StatModificationType.CompoundMultiplicative:
 							if (BaseCompoundModifiers == null)
 							{
-								BaseCompoundModifiers = new List<StatModifier> ();
+								BaseCompoundModifiers = new List<StatModifier>();
 							}
-							result = BaseCompoundModifiers.Remove (modifier);
+							result = BaseCompoundModifiers.Remove(modifier);
 							break;
 
 						default:
 						case StatModificationType.None:
-							throw new InvalidOperationException ($"\"{modifier.Type}\" is not a valid stat modification type.");
+							throw new InvalidOperationException($"\"{modifier.Type}\" is not a valid stat modification type.");
 					}
 					break;
 
@@ -204,40 +204,40 @@ namespace RPGCore.Traits
 						case StatModificationType.Additive:
 							if (AdditiveModifiers == null)
 							{
-								AdditiveModifiers = new List<StatModifier> ();
+								AdditiveModifiers = new List<StatModifier>();
 							}
-							result = AdditiveModifiers.Remove (modifier);
+							result = AdditiveModifiers.Remove(modifier);
 							break;
 						case StatModificationType.SimpleMultiplicative:
 							if (SimpleModifiers == null)
 							{
-								SimpleModifiers = new List<StatModifier> ();
+								SimpleModifiers = new List<StatModifier>();
 							}
-							result = SimpleModifiers.Remove (modifier);
+							result = SimpleModifiers.Remove(modifier);
 							break;
 
 						case StatModificationType.CompoundMultiplicative:
 							if (CompoundModifiers == null)
 							{
-								CompoundModifiers = new List<StatModifier> ();
+								CompoundModifiers = new List<StatModifier>();
 							}
-							result = CompoundModifiers.Remove (modifier);
+							result = CompoundModifiers.Remove(modifier);
 							break;
 
 						default:
 						case StatModificationType.None:
-							throw new InvalidOperationException ($"\"{modifier.Type}\" is not a valid stat modification type.");
+							throw new InvalidOperationException($"\"{modifier.Type}\" is not a valid stat modification type.");
 					}
 					break;
 
 				default:
 				case StatModificationPhase.None:
-					throw new InvalidOperationException ($"\"{modifier.Phase}\" is not a valid stat modification phase.");
+					throw new InvalidOperationException($"\"{modifier.Phase}\" is not a valid stat modification phase.");
 			}
 
-			Handlers.InvokeAfterChanged ();
+			Handlers.InvokeAfterChanged();
 
-			Value = CalculateValue ();
+			Value = CalculateValue();
 
 			return result;
 		}
@@ -248,7 +248,7 @@ namespace RPGCore.Traits
 
 		public void OnAfterChanged()
 		{
-			Value = CalculateValue ();
+			Value = CalculateValue();
 		}
 	}
 }

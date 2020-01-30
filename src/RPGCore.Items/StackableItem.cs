@@ -29,22 +29,22 @@ namespace RPGCore.Items
 		{
 			if (quantity <= 0)
 			{
-				throw new InvalidOperationException ($"Can't take less than or equal to 0 items from a {nameof (StackableItem)} stack.");
+				throw new InvalidOperationException($"Can't take less than or equal to 0 items from a {nameof(StackableItem)} stack.");
 			}
 
 			if (quantity > Quantity)
 			{
-				throw new InvalidOperationException ($"Can't take more items from a {nameof (StackableItem)} than there are in the stack.");
+				throw new InvalidOperationException($"Can't take more items from a {nameof(StackableItem)} than there are in the stack.");
 			}
 
 			if (quantity == Quantity)
 			{
-				throw new InvalidOperationException ($"Instead of taking the whole stack from a {nameof (StackableItem)}, move the whole {nameof (StackableItem)}.");
+				throw new InvalidOperationException($"Instead of taking the whole stack from a {nameof(StackableItem)}, move the whole {nameof(StackableItem)}.");
 			}
 
 			Quantity -= quantity;
 
-			return new StackableItem (Template, quantity);
+			return new StackableItem(Template, quantity);
 		}
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace RPGCore.Items
 		/// <returns>A duplicate of this item.</returns>
 		public IItem Duplicate()
 		{
-			return new StackableItem (Template, Quantity);
+			return new StackableItem(Template, Quantity);
 		}
 
 		public override string ToString()

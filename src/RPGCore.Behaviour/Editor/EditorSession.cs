@@ -16,16 +16,16 @@ namespace RPGCore.Behaviour.Editor
 			Manifest = manifest;
 			JsonSerializer = jsonSerializer;
 
-			var rootJson = JObject.FromObject (instance, JsonSerializer);
-			string type = instance.GetType ().Name;
+			var rootJson = JObject.FromObject(instance, JsonSerializer);
+			string type = instance.GetType().Name;
 			Instance = rootJson;
 
-			var rootField = new FieldInformation ()
+			var rootField = new FieldInformation()
 			{
 				Type = type,
 				Format = FieldFormat.Object
 			};
-			Root = new EditorField (this, rootJson, "root", rootField);
+			Root = new EditorField(this, rootJson, "root", rootField);
 		}
 
 		public EditorSession(BehaviourManifest manifest, JObject instance, string type, JsonSerializer jsonSerializer)
@@ -34,12 +34,12 @@ namespace RPGCore.Behaviour.Editor
 			JsonSerializer = jsonSerializer;
 			Instance = instance;
 
-			var rootField = new FieldInformation ()
+			var rootField = new FieldInformation()
 			{
 				Type = type,
 				Format = FieldFormat.Object
 			};
-			Root = new EditorField (this, instance, "root", rootField);
+			Root = new EditorField(this, instance, "root", rootField);
 		}
 	}
 }

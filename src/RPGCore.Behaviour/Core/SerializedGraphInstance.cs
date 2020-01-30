@@ -13,18 +13,18 @@ namespace RPGCore.Behaviour
 
 		public GraphInstance Unpack(Graph graph)
 		{
-			var graphInstance = graph.Create (NodeInstances);
+			var graphInstance = graph.Create(NodeInstances);
 
 			return graphInstance;
 		}
 
 		public string AsJson()
 		{
-			var settings = new JsonSerializerSettings ();
-			settings.Converters.Add (new LocalIdJsonConverter ());
-			settings.Converters.Add (new SerializedGraphInstanceProxyConverter (null));
+			var settings = new JsonSerializerSettings();
+			settings.Converters.Add(new LocalIdJsonConverter());
+			settings.Converters.Add(new SerializedGraphInstanceProxyConverter(null));
 
-			return JsonConvert.SerializeObject (this, settings);
+			return JsonConvert.SerializeObject(this, settings);
 		}
 	}
 
@@ -42,15 +42,15 @@ namespace RPGCore.Behaviour
 
 		public override bool CanConvert(Type objectType)
 		{
-			return typeof (IGraphInstance).IsAssignableFrom (objectType);
+			return typeof(IGraphInstance).IsAssignableFrom(objectType);
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			var jObject = JObject.Load (reader);
-			var serializedGraphInstance = jObject.ToObject<SerializedGraphInstance> (serializer);
+			var jObject = JObject.Load(reader);
+			var serializedGraphInstance = jObject.ToObject<SerializedGraphInstance>(serializer);
 
-			var result = serializedGraphInstance.Unpack (Graph.SubGraphs.Values.First ());
+			var result = serializedGraphInstance.Unpack(Graph.SubGraphs.Values.First());
 
 			return result;
 		}
@@ -58,10 +58,10 @@ namespace RPGCore.Behaviour
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			var graphInstance = (GraphInstance)value;
-			var serializedGraphInstance = graphInstance.Pack ();
+			var serializedGraphInstance = graphInstance.Pack();
 
-			var token = JToken.FromObject (serializedGraphInstance, serializer);
-			token.WriteTo (writer);
+			var token = JToken.FromObject(serializedGraphInstance, serializer);
+			token.WriteTo(writer);
 		}
 	}
 
@@ -74,33 +74,33 @@ namespace RPGCore.Behaviour
 				return null;
 			}
 
-			var connectionType = typeof (OutputConnection<>).MakeGenericType (objectType.GenericTypeArguments);
-			var outputType = typeof (Output<>).MakeGenericType (objectType.GenericTypeArguments);
+			var connectionType = typeof(OutputConnection<>).MakeGenericType(objectType.GenericTypeArguments);
+			var outputType = typeof(Output<>).MakeGenericType(objectType.GenericTypeArguments);
 
-			object connectionObject = JObject.Load (reader).ToObject (connectionType, serializer);
-			object outputObject = Activator.CreateInstance (outputType, connectionObject);
+			object connectionObject = JObject.Load(reader).ToObject(connectionType, serializer);
+			object outputObject = Activator.CreateInstance(outputType, connectionObject);
 
 			return outputObject;
 		}
 
 		public override bool CanConvert(Type objectType)
 		{
-			return IsSubclassOfRawGeneric (typeof (Output<>), objectType)
-				&& !typeof (IConnection).IsAssignableFrom (objectType);
+			return IsSubclassOfRawGeneric(typeof(Output<>), objectType)
+				&& !typeof(IConnection).IsAssignableFrom(objectType);
 		}
 
 		public override bool CanWrite => false;
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			throw new NotSupportedException ("JsonCreationConverter should only be used while deserializing.");
+			throw new NotSupportedException("JsonCreationConverter should only be used while deserializing.");
 		}
 
 		private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
 		{
-			while (toCheck != null && toCheck != typeof (object))
+			while (toCheck != null && toCheck != typeof(object))
 			{
-				var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition () : toCheck;
+				var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
 				if (generic == cur)
 				{
 					return true;

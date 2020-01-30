@@ -27,7 +27,7 @@ namespace RPGCore.Behaviour.UnitTests
 
 			public void OnAfterChanged()
 			{
-				target.Add (source.Value);
+				target.Add(source.Value);
 			}
 
 			public void OnBeforeChanged()
@@ -44,22 +44,22 @@ namespace RPGCore.Behaviour.UnitTests
 		[Test]
 		public void FireEvents()
 		{
-			var target = new EventField<TestPlayer> ();
+			var target = new EventField<TestPlayer>();
 
-			var mainhand = target.Watch (e => e?.Mainhand);
-			var mainhandDamage = mainhand.Watch (e => e?.Damage);
+			var mainhand = target.Watch(e => e?.Mainhand);
+			var mainhandDamage = mainhand.Watch(e => e?.Damage);
 
-			var damages = new List<int> ();
+			var damages = new List<int>();
 
-			mainhandDamage.Handlers[this].Add (new AddToListEventHandler<int> (mainhandDamage, damages));
+			mainhandDamage.Handlers[this].Add(new AddToListEventHandler<int>(mainhandDamage, damages));
 
-			target.Value = new TestPlayer ()
+			target.Value = new TestPlayer()
 			{
-				Mainhand = new EventField<TestWeapon> ()
+				Mainhand = new EventField<TestWeapon>()
 				{
-					Value = new TestWeapon ()
+					Value = new TestWeapon()
 					{
-						Damage = new EventField<int> ()
+						Damage = new EventField<int>()
 						{
 							Value = 10
 						}
@@ -67,13 +67,13 @@ namespace RPGCore.Behaviour.UnitTests
 				}
 			};
 
-			target.Value = new TestPlayer ()
+			target.Value = new TestPlayer()
 			{
-				Mainhand = new EventField<TestWeapon> ()
+				Mainhand = new EventField<TestWeapon>()
 				{
-					Value = new TestWeapon ()
+					Value = new TestWeapon()
 					{
-						Damage = new EventField<int> ()
+						Damage = new EventField<int>()
 						{
 							Value = 20
 						}
@@ -83,9 +83,9 @@ namespace RPGCore.Behaviour.UnitTests
 
 			target.Value.Mainhand.Value = null;
 
-			target.Value.Mainhand.Value = new TestWeapon ()
+			target.Value.Mainhand.Value = new TestWeapon()
 			{
-				Damage = new EventField<int> ()
+				Damage = new EventField<int>()
 				{
 					Value = 25
 				}
@@ -93,16 +93,16 @@ namespace RPGCore.Behaviour.UnitTests
 
 			target.Value.Mainhand.Value.Damage.Value = 15;
 
-			mainhandDamage.Handlers[this].Clear ();
+			mainhandDamage.Handlers[this].Clear();
 
 			target.Value.Mainhand.Value.Damage.Value = 5;
 
 			int[] expectedValues = { 10, 20, 0, 25, 15 };
-			Assert.AreEqual (expectedValues.Length, damages.Count);
+			Assert.AreEqual(expectedValues.Length, damages.Count);
 			for (int i = 0; i < damages.Count; i++)
 			{
 				int damage = damages[i];
-				Assert.AreEqual (expectedValues[i], damage);
+				Assert.AreEqual(expectedValues[i], damage);
 			}
 		}
 	}

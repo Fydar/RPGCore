@@ -10,13 +10,13 @@ namespace RPGCore.Behaviour
 
 		public override void BuildResource(IResource resource, Stream writer)
 		{
-			var serializer = new JsonSerializer ();
+			var serializer = new JsonSerializer();
 			SerializedGraph serializedGraph;
 
-			using (var sr = new StreamReader (resource.LoadStream ()))
-			using (var reader = new JsonTextReader (sr))
+			using (var sr = new StreamReader(resource.LoadStream()))
+			using (var reader = new JsonTextReader(sr))
 			{
-				serializedGraph = serializer.Deserialize<SerializedGraph> (reader);
+				serializedGraph = serializer.Deserialize<SerializedGraph>(reader);
 			}
 
 			foreach (var node in serializedGraph.Nodes)
@@ -24,8 +24,8 @@ namespace RPGCore.Behaviour
 				node.Value.Editor = default;
 			}
 
-			using var streamWriter = new StreamWriter (writer);
-			serializer.Serialize (streamWriter, serializedGraph);
+			using var streamWriter = new StreamWriter(writer);
+			serializer.Serialize(streamWriter, serializedGraph);
 		}
 	}
 }

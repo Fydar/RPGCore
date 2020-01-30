@@ -8,15 +8,15 @@ namespace RPGCore.Behaviour
 
 		public IConnection<TInput> Source;
 
-		public TOutput Value => Convert (Source.Value);
+		public TOutput Value => Convert(Source.Value);
 
 		protected abstract TOutput Convert(TInput original);
 
 		public Type ConnectionType => Source.ConnectionType;
 
-		public Type ConvertFromType => typeof (TInput);
+		public Type ConvertFromType => typeof(TInput);
 
-		public Type ConvertToType => typeof (TOutput);
+		public Type ConvertToType => typeof(TOutput);
 
 		public EventFieldHandlerCollection Handlers => Source.Handlers;
 
@@ -34,28 +34,28 @@ namespace RPGCore.Behaviour
 		}
 
 		public void Subscribe(INodeInstance node, Action callback) =>
-			Source.Subscribe (node, callback);
+			Source.Subscribe(node, callback);
 
 		public void Unsubscribe(INodeInstance node, Action callback) =>
-			Source.Unsubscribe (node, callback);
+			Source.Unsubscribe(node, callback);
 
 		public void SetSource(IConnection source)
 		{
 			Source = (IConnection<TInput>)source;
 		}
 
-		public void RegisterInput(INodeInstance node) => Source.RegisterInput (node);
+		public void RegisterInput(INodeInstance node) => Source.RegisterInput(node);
 
 		public IConnectionTypeConverter UseConverter(Type converterType) => Source.UseConverter(converterType);
 
 		public object GetValue()
 		{
-			throw new NotImplementedException ();
+			throw new NotImplementedException();
 		}
 
 		public void SetValue(object value)
 		{
-			throw new NotImplementedException ();
+			throw new NotImplementedException();
 		}
 
 	}

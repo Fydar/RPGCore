@@ -18,20 +18,20 @@ namespace RPGCore.Packages
 			{
 				if (items == null)
 				{
-					items = new Dictionary<string, IResource> ();
+					items = new Dictionary<string, IResource>();
 				}
 
-				items.Add (asset.FullName, asset);
+				items.Add(asset.FullName, asset);
 			}
 
 			public IEnumerator<IResource> GetEnumerator()
 			{
-				return items.Values.GetEnumerator ();
+				return items.Values.GetEnumerator();
 			}
 
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return items.Values.GetEnumerator ();
+				return items.Values.GetEnumerator();
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace RPGCore.Packages
 
 		public PackageExplorer()
 		{
-			Resources = new PackageResourceCollection ();
+			Resources = new PackageResourceCollection();
 		}
 
 		public void Dispose()
@@ -54,26 +54,26 @@ namespace RPGCore.Packages
 
 		public Stream LoadStream(string packageKey)
 		{
-			var fileStream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.Read);
-			var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true);
+			var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+			var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
 
-			var entry = archive.GetEntry (packageKey);
+			var entry = archive.GetEntry(packageKey);
 
-			var zipStream = entry.Open ();
+			var zipStream = entry.Open();
 
-			return new PackageStream (zipStream, fileStream, archive);
+			return new PackageStream(zipStream, fileStream, archive);
 		}
 
 		public byte[] OpenAsset(string packageKey)
 		{
-			using var fileStream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.Read);
-			using var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true);
+			using var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
 
-			var entry = archive.GetEntry (packageKey);
+			var entry = archive.GetEntry(packageKey);
 
 			byte[] buffer = new byte[entry.Length];
-			using var zipStream = entry.Open ();
-			zipStream.Read (buffer, 0, (int)entry.Length);
+			using var zipStream = entry.Open();
+			zipStream.Read(buffer, 0, (int)entry.Length);
 			return buffer;
 		}
 
@@ -83,26 +83,26 @@ namespace RPGCore.Packages
 			{
 				path = path
 			};
-			using (var fileStream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.Read))
+			using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
 			{
-				using (var archive = new ZipArchive (fileStream, ZipArchiveMode.Read, true))
+				using (var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true))
 				{
-					var entry = archive.GetEntry ("Main.bmft");
+					var entry = archive.GetEntry("Main.bmft");
 
 					byte[] buffer = new byte[entry.Length];
-					using (var zipStream = entry.Open ())
+					using (var zipStream = entry.Open())
 					{
-						zipStream.Read (buffer, 0, (int)entry.Length);
-						string json = Encoding.UTF8.GetString (buffer);
+						zipStream.Read(buffer, 0, (int)entry.Length);
+						string json = Encoding.UTF8.GetString(buffer);
 					}
 
 					foreach (var projectEntry in archive.Entries)
 					{
-						var resource = new PackageResource (package, projectEntry);
-						package.Resources.Add (resource);
+						var resource = new PackageResource(package, projectEntry);
+						package.Resources.Add(resource);
 					}
 				}
-				fileStream.Close ();
+				fileStream.Close();
 			}
 
 			return package;

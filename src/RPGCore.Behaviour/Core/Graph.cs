@@ -34,7 +34,7 @@ namespace RPGCore.Behaviour
 
 		public GraphInstance Create(IDictionary<LocalId, JObject> data = null)
 		{
-			return new GraphInstance (this, data);
+			return new GraphInstance(this, data);
 		}
 	}
 }

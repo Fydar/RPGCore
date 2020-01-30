@@ -28,43 +28,43 @@ namespace RPGCore.Packages
 
 		public override void Flush()
 		{
-			InternalStream.Flush ();
+			InternalStream.Flush();
 		}
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			return InternalStream.Read (buffer, offset, count);
+			return InternalStream.Read(buffer, offset, count);
 		}
 
 		public override long Seek(long offset, SeekOrigin origin)
 		{
-			return InternalStream.Seek (offset, origin);
+			return InternalStream.Seek(offset, origin);
 		}
 
 		public override void SetLength(long value)
 		{
-			InternalStream.SetLength (value);
+			InternalStream.SetLength(value);
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)
 		{
-			InternalStream.Write (buffer, offset, count);
+			InternalStream.Write(buffer, offset, count);
 		}
 
 		~PackageStream()
 		{
-			Dispose (false);
+			Dispose(false);
 		}
 
 		protected override void Dispose(bool disposing)
 		{
-			InternalStream.Dispose ();
-			base.Dispose (disposing);
+			InternalStream.Dispose();
+			base.Dispose(disposing);
 			if (!disposed)
 			{
 				foreach (var component in Components)
 				{
-					component.Dispose ();
+					component.Dispose();
 				}
 				disposed = true;
 			}

@@ -16,7 +16,7 @@ namespace RPGCore.Behaviour
 			TargetField = target;
 			Chain = chain;
 
-			chainedField = Chain (SourceField.Value);
+			chainedField = Chain(SourceField.Value);
 		}
 
 		public void OnBeforeChanged()
@@ -26,19 +26,19 @@ namespace RPGCore.Behaviour
 				return;
 			}
 
-			chainedField.Handlers[this].Clear ();
+			chainedField.Handlers[this].Clear();
 		}
 
 		public void OnAfterChanged()
 		{
-			chainedField = Chain (SourceField.Value);
+			chainedField = Chain(SourceField.Value);
 			if (chainedField == null)
 			{
 				TargetField.Value = default;
 				return;
 			}
 
-			chainedField.Handlers[this].Add (new EventFieldMirrorHandler<B> (chainedField, TargetField));
+			chainedField.Handlers[this].Add(new EventFieldMirrorHandler<B>(chainedField, TargetField));
 			TargetField.Value = chainedField.Value;
 		}
 	}

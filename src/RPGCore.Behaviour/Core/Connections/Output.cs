@@ -29,12 +29,12 @@ namespace RPGCore.Behaviour
 
 		public void StartMirroring(IReadOnlyEventField<T> target)
 		{
-			Connection.StartMirroring (target);
+			Connection.StartMirroring(target);
 		}
 
 		public void StopMirroring()
 		{
-			Connection.StopMirroring ();
+			Connection.StopMirroring();
 		}
 
 		public override string ToString()

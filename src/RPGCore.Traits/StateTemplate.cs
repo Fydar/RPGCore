@@ -10,7 +10,7 @@
 
 		public StateInstance CreateInstance(StateIdentifier identifier)
 		{
-			return new StateInstance ()
+			return new StateInstance()
 			{
 				Identifier = identifier,
 				Template = this

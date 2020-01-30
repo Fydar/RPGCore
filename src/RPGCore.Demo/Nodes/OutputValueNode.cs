@@ -7,7 +7,7 @@ namespace RPGCore.Demo.Nodes
 	{
 		public InputSocket Value;
 
-		public override Instance Create() => new OutputValueInstance ();
+		public override Instance Create() => new OutputValueInstance();
 
 		public class OutputValueInstance : Instance
 		{
@@ -27,8 +27,8 @@ namespace RPGCore.Demo.Nodes
 			public override void OnInputChanged()
 			{
 				Console.ForegroundColor = ConsoleColor.DarkGray;
-				Console.WriteLine ($"[{Template.Id}]: Outputting value {Value.Value}");
-				Console.ResetColor ();
+				Console.WriteLine($"[{Template.Id}]: Outputting value {Value.Value}");
+				Console.ResetColor();
 			}
 
 			public override void Remove()

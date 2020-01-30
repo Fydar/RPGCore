@@ -6,29 +6,29 @@ using System.Globalization;
 
 namespace RPGCore.Behaviour
 {
-	[TypeConverter (typeof (LocalIdConverter))]
-	[DebuggerDisplay ("{ToString(),nq}")]
+	[TypeConverter(typeof(LocalIdConverter))]
+	[DebuggerDisplay("{ToString(),nq}")]
 	public readonly struct LocalId : IEquatable<LocalId>
 	{
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		public static readonly LocalId None = new LocalId (0);
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public static readonly LocalId None = new LocalId(0);
 
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ulong Id;
 
 		public LocalId(string id)
 		{
-			if (string.IsNullOrWhiteSpace (id))
+			if (string.IsNullOrWhiteSpace(id))
 			{
 				Id = 0;
 				return;
 			}
 
-			if (id.StartsWith ("0x", StringComparison.OrdinalIgnoreCase))
+			if (id.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
 			{
-				id = id.Substring (2);
+				id = id.Substring(2);
 			}
-			Id = ulong.Parse (id, NumberStyles.HexNumber);
+			Id = ulong.Parse(id, NumberStyles.HexNumber);
 		}
 
 		public LocalId(ulong id)
@@ -38,7 +38,7 @@ namespace RPGCore.Behaviour
 
 		public override bool Equals(object obj)
 		{
-			return obj is LocalId id && Equals (id);
+			return obj is LocalId id && Equals(id);
 		}
 
 		public bool Equals(LocalId other)
@@ -48,24 +48,24 @@ namespace RPGCore.Behaviour
 
 		public override int GetHashCode()
 		{
-			return 2108858624 + Id.GetHashCode ();
+			return 2108858624 + Id.GetHashCode();
 		}
 
 		public override string ToString()
 		{
-			return "0x" + Id.ToString ("x8");
+			return "0x" + Id.ToString("x8");
 		}
 
 		public static LocalId NewId()
 		{
 			byte[] buffer = new byte[8];
-			new Random ().NextBytes (buffer);
-			return new LocalId (BitConverter.ToUInt64 (buffer, 0));
+			new Random().NextBytes(buffer);
+			return new LocalId(BitConverter.ToUInt64(buffer, 0));
 		}
 
 		public static bool operator ==(LocalId left, LocalId right)
 		{
-			return left.Equals (right);
+			return left.Equals(right);
 		}
 
 		public static bool operator !=(LocalId left, LocalId right)
@@ -75,7 +75,7 @@ namespace RPGCore.Behaviour
 
 		public static implicit operator LocalId(ulong source)
 		{
-			return new LocalId (source);
+			return new LocalId(source);
 		}
 	}
 
@@ -86,17 +86,17 @@ namespace RPGCore.Behaviour
 
 		public override bool CanConvert(Type objectType)
 		{
-			return objectType == typeof (LocalId);
+			return objectType == typeof(LocalId);
 		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			writer.WriteValue (value.ToString ());
+			writer.WriteValue(value.ToString());
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			return new LocalId (reader.Value.ToString ());
+			return new LocalId(reader.Value.ToString());
 		}
 	}
 
@@ -104,25 +104,25 @@ namespace RPGCore.Behaviour
 	{
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
-			return sourceType == typeof (string) || base.CanConvertFrom (context, sourceType);
+			return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
 		}
 
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			string stringValue = value as string;
 
-			return !string.IsNullOrEmpty (stringValue)
-				? new LocalId (stringValue)
-				: base.ConvertFrom (context, culture, value);
+			return !string.IsNullOrEmpty(stringValue)
+				? new LocalId(stringValue)
+				: base.ConvertFrom(context, culture, value);
 		}
 
 		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
 			var localId = (LocalId)value;
 
-			return localId != null && destinationType == typeof (string)
-				? localId.ToString ()
-				: base.ConvertTo (context, culture, value, destinationType);
+			return localId != null && destinationType == typeof(string)
+				? localId.ToString()
+				: base.ConvertTo(context, culture, value, destinationType);
 		}
 	}
 }

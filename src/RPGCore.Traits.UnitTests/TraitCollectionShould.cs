@@ -8,24 +8,24 @@ namespace RPGCore.Traits.UnitTests
 		[Test]
 		public void ContextualInformation()
 		{
-			var context = new TraitContext ()
+			var context = new TraitContext()
 			{
-				Stats = new Dictionary<StatIdentifier, StatTemplate> ()
+				Stats = new Dictionary<StatIdentifier, StatTemplate>()
 				{
-					[CharacterTrait.MaxHealth] = new StatTemplate ()
+					[CharacterTrait.MaxHealth] = new StatTemplate()
 					{
 						Name = "Max Health",
 						MaxValue = 1000
 					},
-					[CharacterTrait.MaxMana] = new StatTemplate ()
+					[CharacterTrait.MaxMana] = new StatTemplate()
 					{
 						Name = "Max Mana",
 						MaxValue = 1000
 					}
 				},
-				States = new Dictionary<StateIdentifier, StateTemplate> ()
+				States = new Dictionary<StateIdentifier, StateTemplate>()
 				{
-					[CharacterTrait.CurrentHealth] = new StateTemplate ()
+					[CharacterTrait.CurrentHealth] = new StateTemplate()
 					{
 						Name = "Current Health",
 						MaxValue = 1000
@@ -33,19 +33,19 @@ namespace RPGCore.Traits.UnitTests
 				}
 			};
 
-			var characterTraits = new TraitCollection ();
+			var characterTraits = new TraitCollection();
 		}
 
 		[Test]
 		public void FindAllFields()
 		{
-			var characterTraits = new TraitCollection ();
+			var characterTraits = new TraitCollection();
 
 			foreach (var stat in CharacterTrait.AllStats)
 			{
 				var statInstance = characterTraits[stat];
 
-				TestContext.Error.WriteLine (stat);
+				TestContext.Error.WriteLine(stat);
 			}
 		}
 	}

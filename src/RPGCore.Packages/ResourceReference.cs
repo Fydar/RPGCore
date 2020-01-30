@@ -42,16 +42,16 @@ namespace RPGCore.Packages
 
 		public override void IncludeInBuild(ProjectBuildProcess build, string output)
 		{
-			string accessPath = Path.Combine (DefinitionFile.Path, IncludePath);
-			var accessFile = new FileInfo (accessPath);
+			string accessPath = Path.Combine(DefinitionFile.Path, IncludePath);
+			var accessFile = new FileInfo(accessPath);
 
-			File.Copy (accessPath, Path.Combine (output, accessFile.Name), true);
+			File.Copy(accessPath, Path.Combine(output, accessFile.Name), true);
 
-			string sha = GetChecksum (accessPath);
+			string sha = GetChecksum(accessPath);
 
-			build.PackageDefinition.ResourceDependancies.Add (
+			build.PackageDefinition.ResourceDependancies.Add(
 				accessFile.Name,
-				new ResourceDependancyDefinition ()
+				new ResourceDependancyDefinition()
 				{
 					Name = Name,
 					Sha = sha
@@ -61,12 +61,12 @@ namespace RPGCore.Packages
 
 		private static string GetChecksum(string file)
 		{
-			using var stream = new FileStream (file, FileMode.OpenOrCreate,
+			using var stream = new FileStream(file, FileMode.OpenOrCreate,
 				FileAccess.Read, FileShare.Read, 1024 * 32);
 
-			var sha = new SHA256Managed ();
-			byte[] checksum = sha.ComputeHash (stream);
-			return BitConverter.ToString (checksum).Replace ("-", string.Empty);
+			var sha = new SHA256Managed();
+			byte[] checksum = sha.ComputeHash(stream);
+			return BitConverter.ToString(checksum).Replace("-", string.Empty);
 		}
 	}
 }

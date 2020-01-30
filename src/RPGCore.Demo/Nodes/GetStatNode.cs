@@ -8,7 +8,7 @@ namespace RPGCore.Demo.Nodes
 
 		public OutputSocket Output;
 
-		public override Instance Create() => new GetStatInstance ();
+		public override Instance Create() => new GetStatInstance();
 
 		public class GetStatInstance : Instance
 		{
@@ -28,14 +28,14 @@ namespace RPGCore.Demo.Nodes
 
 			public override void Setup()
 			{
-				var statValue = Character.Watch (c => c?.Health);
+				var statValue = Character.Watch(c => c?.Health);
 
-				Output.StartMirroring (statValue);
+				Output.StartMirroring(statValue);
 			}
 
 			public override void Remove()
 			{
-				Output.StopMirroring ();
+				Output.StopMirroring();
 			}
 		}
 	}

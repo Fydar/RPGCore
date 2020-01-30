@@ -83,22 +83,22 @@ namespace RPGCore.Packages
 
 		public static MemorySize SizeOf(string data)
 		{
-			return new MemorySize ((ulong)data.Length * 2);
+			return new MemorySize((ulong)data.Length * 2);
 		}
 
 		public static MemorySize SizeOf(string data, Encoding encoding)
 		{
-			return new MemorySize ((ulong)encoding.GetByteCount (data));
+			return new MemorySize((ulong)encoding.GetByteCount(data));
 		}
 
 		public static MemorySize SizeOf(byte[] data)
 		{
-			return new MemorySize ((ulong)data.Length);
+			return new MemorySize((ulong)data.Length);
 		}
 
 		public static MemorySize SizeOf(FileInfo file)
 		{
-			return new MemorySize ((ulong)file.Length);
+			return new MemorySize((ulong)file.Length);
 		}
 
 		public override string ToString()
@@ -109,22 +109,22 @@ namespace RPGCore.Packages
 				{
 					if (Kilobytes < 1.0f)
 					{
-						return $"{Bytes.ToString ()} {byteSuffix}";
+						return $"{Bytes.ToString()} {byteSuffix}";
 					}
-					return $"{Kilobytes.ToString ()} {kilobyteSuffix}";
+					return $"{Kilobytes.ToString()} {kilobyteSuffix}";
 				}
-				return $"{Megabytes.ToString ()} {megabyteSuffix}";
+				return $"{Megabytes.ToString()} {megabyteSuffix}";
 			}
-			return $"{Gigabytes.ToString ()} {gigabyteSuffix}";
+			return $"{Gigabytes.ToString()} {gigabyteSuffix}";
 		}
 
-		public override bool Equals(object obj) => obj is MemorySize size && Equals (size);
+		public override bool Equals(object obj) => obj is MemorySize size && Equals(size);
 
 		public bool Equals(MemorySize other) => Bytes == other.Bytes;
 
-		public override int GetHashCode() => 1182642244 + Bytes.GetHashCode ();
+		public override int GetHashCode() => 1182642244 + Bytes.GetHashCode();
 
-		public int CompareTo(MemorySize other) => Bytes.CompareTo (other.Bytes);
+		public int CompareTo(MemorySize other) => Bytes.CompareTo(other.Bytes);
 
 		public string ToString(string format, IFormatProvider formatProvider)
 		{
@@ -134,18 +134,18 @@ namespace RPGCore.Packages
 				{
 					if (Kilobytes < 1.0f)
 					{
-						return $"{Bytes.ToString (format, formatProvider)} {byteSuffix}";
+						return $"{Bytes.ToString(format, formatProvider)} {byteSuffix}";
 					}
-					return $"{Kilobytes.ToString (format, formatProvider)} {kilobyteSuffix}";
+					return $"{Kilobytes.ToString(format, formatProvider)} {kilobyteSuffix}";
 				}
-				return $"{Megabytes.ToString (format, formatProvider)} {megabyteSuffix}";
+				return $"{Megabytes.ToString(format, formatProvider)} {megabyteSuffix}";
 			}
-			return $"{Gigabytes.ToString (format, formatProvider)} {gigabyteSuffix}";
+			return $"{Gigabytes.ToString(format, formatProvider)} {gigabyteSuffix}";
 		}
 
 		public static bool operator ==(MemorySize left, MemorySize right)
 		{
-			return left.Equals (right);
+			return left.Equals(right);
 		}
 
 		public static bool operator !=(MemorySize left, MemorySize right)
@@ -155,22 +155,22 @@ namespace RPGCore.Packages
 
 		public static MemorySize operator +(MemorySize left, MemorySize right)
 		{
-			return new MemorySize (left.Bytes + right.Bytes);
+			return new MemorySize(left.Bytes + right.Bytes);
 		}
 
 		public static MemorySize operator -(MemorySize left, MemorySize right)
 		{
-			return new MemorySize (left.Bytes + right.Bytes);
+			return new MemorySize(left.Bytes + right.Bytes);
 		}
 
 		public static MemorySize operator *(MemorySize left, double right)
 		{
-			return new MemorySize (Convert.ToUInt64 (left.Bytes * right));
+			return new MemorySize(Convert.ToUInt64(left.Bytes * right));
 		}
 
 		public static MemorySize operator /(MemorySize left, double right)
 		{
-			return new MemorySize (Convert.ToUInt64 (left.Bytes / right));
+			return new MemorySize(Convert.ToUInt64(left.Bytes / right));
 		}
 	}
 }

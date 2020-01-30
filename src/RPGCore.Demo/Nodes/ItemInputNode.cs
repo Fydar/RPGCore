@@ -6,7 +6,7 @@ namespace RPGCore.Demo.Nodes
 	{
 		public OutputSocket Character;
 
-		public override Instance Create() => new ItemInputInstance ();
+		public override Instance Create() => new ItemInputInstance();
 
 		public class ItemInputInstance : Instance, IInputNode<DemoPlayer>
 		{

@@ -22,27 +22,27 @@ namespace RPGCore.Packages
 			{
 				if (Resources == null)
 				{
-					Resources = new Dictionary<string, ProjectResource> ();
+					Resources = new Dictionary<string, ProjectResource>();
 				}
 
-				Resources.Add (folder.FullName, folder);
+				Resources.Add(folder.FullName, folder);
 			}
 
-			public void Add(IResource folder) => throw new NotImplementedException ();
+			public void Add(IResource folder) => throw new NotImplementedException();
 
 			public IEnumerator<ProjectResource> GetEnumerator()
 			{
-				return Resources.Values.GetEnumerator ();
+				return Resources.Values.GetEnumerator();
 			}
 
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return Resources.Values.GetEnumerator ();
+				return Resources.Values.GetEnumerator();
 			}
 
 			IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()
 			{
-				return Resources.Values.GetEnumerator ();
+				return Resources.Values.GetEnumerator();
 			}
 		}
 
@@ -56,24 +56,24 @@ namespace RPGCore.Packages
 
 		public ProjectExplorer()
 		{
-			Resources = new ProjectResourceCollection ();
+			Resources = new ProjectResourceCollection();
 		}
 
 		public static ProjectExplorer Load(string path)
 		{
 			string bprojPath = null;
-			if (path.EndsWith (".bproj"))
+			if (path.EndsWith(".bproj"))
 			{
 				bprojPath = path;
-				path = new DirectoryInfo (path).Parent.FullName;
+				path = new DirectoryInfo(path).Parent.FullName;
 			}
 			else
 			{
-				string[] rootFiles = Directory.GetFiles (path);
+				string[] rootFiles = Directory.GetFiles(path);
 				for (int i = 0; i < rootFiles.Length; i++)
 				{
 					string rootFile = rootFiles[i];
-					if (rootFile.EndsWith (".bproj", StringComparison.Ordinal))
+					if (rootFile.EndsWith(".bproj", StringComparison.Ordinal))
 					{
 						bprojPath = rootFile;
 						break;
@@ -83,25 +83,25 @@ namespace RPGCore.Packages
 
 			var project = new ProjectExplorer
 			{
-				Definition = ProjectDefinitionFile.Load (bprojPath)
+				Definition = ProjectDefinitionFile.Load(bprojPath)
 			};
 
-			var ignoredDirectories = new List<string> ()
+			var ignoredDirectories = new List<string>()
 			{
 				Path.Combine(path, "bin")
 			};
 
-			string normalizedPath = path.Replace ('\\', '/');
+			string normalizedPath = path.Replace('\\', '/');
 			long totalSize = 0;
 
-			foreach (string filePath in Directory.EnumerateFiles (path, "*", SearchOption.AllDirectories))
+			foreach (string filePath in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
 			{
-				if (ignoredDirectories.Any (p => filePath.StartsWith (p)))
+				if (ignoredDirectories.Any(p => filePath.StartsWith(p)))
 				{
 					continue;
 				}
 
-				var file = new FileInfo (filePath);
+				var file = new FileInfo(filePath);
 
 				if (file.Extension == ".bproj")
 				{
@@ -109,12 +109,12 @@ namespace RPGCore.Packages
 				}
 
 				string packageKey = filePath
-					.Replace ('\\', '/')
-					.Replace (normalizedPath + "/", "");
+					.Replace('\\', '/')
+					.Replace(normalizedPath + "/", "");
 
-				var resource = new ProjectResource (packageKey, file);
+				var resource = new ProjectResource(packageKey, file);
 
-				project.Resources.Add (resource);
+				project.Resources.Add(resource);
 
 				totalSize += resource.UncompressedSize;
 			}
@@ -130,11 +130,11 @@ namespace RPGCore.Packages
 
 		public void Export(BuildPipeline pipeline, string path)
 		{
-			Directory.CreateDirectory (path);
+			Directory.CreateDirectory(path);
 
-			var buildProcess = new ProjectBuildProcess (pipeline, this, path);
+			var buildProcess = new ProjectBuildProcess(pipeline, this, path);
 
-			buildProcess.PerformBuild ();
+			buildProcess.PerformBuild();
 		}
 	}
 }

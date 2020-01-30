@@ -27,28 +27,28 @@ namespace RPGCore.Packages
 
 		public byte[] LoadData()
 		{
-			return File.ReadAllBytes (Entry.FullName);
+			return File.ReadAllBytes(Entry.FullName);
 		}
 
 		public async Task<byte[]> LoadDataAsync()
 		{
 			byte[] result;
-			using (var stream = File.Open (Entry.FullName, FileMode.Open))
+			using (var stream = File.Open(Entry.FullName, FileMode.Open))
 			{
 				result = new byte[stream.Length];
-				await stream.ReadAsync (result, 0, (int)stream.Length);
+				await stream.ReadAsync(result, 0, (int)stream.Length);
 			}
 			return result;
 		}
 
 		public Stream LoadStream()
 		{
-			return File.Open (Entry.FullName, FileMode.Open);
+			return File.Open(Entry.FullName, FileMode.Open);
 		}
 
 		public StreamWriter WriteStream()
 		{
-			return new StreamWriter (Entry.FullName, false);
+			return new StreamWriter(Entry.FullName, false);
 		}
 
 		public override string ToString()

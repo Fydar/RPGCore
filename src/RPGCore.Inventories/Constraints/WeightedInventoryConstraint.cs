@@ -39,7 +39,7 @@ namespace RPGCore.Inventory.Slots
 				}
 			}
 
-			int remainingWeight = Math.Max (Weight - currentWeight, 0);
+			int remainingWeight = Math.Max(Weight - currentWeight, 0);
 
 			int quantityCanAdd = remainingWeight / item.Template.Weight;
 			return quantityCanAdd;

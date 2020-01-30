@@ -7,20 +7,20 @@ namespace RPGCore.View
 	{
 		public TraitCollection Traits;
 
-		public EventField<string> Name = new EventField<string> ();
-		public EventField<EntityRef> SelectedTarget = new EventField<EntityRef> ();
+		public EventField<string> Name = new EventField<string>();
+		public EventField<EntityRef> SelectedTarget = new EventField<EntityRef>();
 
 		public ViewCharacter()
 		{
-			Id = new EntityRef ()
+			Id = new EntityRef()
 			{
-				EntityId = LocalId.NewId ()
+				EntityId = LocalId.NewId()
 			};
 		}
 
 		public override string ToString()
 		{
-			return $"{Name.Value}({Id}, {string.Join (", ", Traits.States)}";
+			return $"{Name.Value}({Id}, {string.Join(", ", Traits.States)}";
 		}
 	}
 }

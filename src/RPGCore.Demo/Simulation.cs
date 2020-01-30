@@ -17,9 +17,9 @@ namespace RPGCore.Demo
 	{
 		public void Start()
 		{
-			new Server ().Run ();
+			new Server().Run();
 
-			var nodes = NodeManifest.Construct (
+			var nodes = NodeManifest.Construct(
 				new Type[] {
 					typeof (AddNode),
 					typeof (RollNode),
@@ -30,40 +30,40 @@ namespace RPGCore.Demo
 					typeof (GetStatNode),
 				}
 			);
-			var types = TypeManifest.ConstructBaseTypes ();
+			var types = TypeManifest.ConstructBaseTypes();
 
-			var manifest = new BehaviourManifest ()
+			var manifest = new BehaviourManifest()
 			{
 				Nodes = nodes,
 				Types = types
 			};
 
-			File.WriteAllText ("Content/RPGCoreMath.bmfst", manifest.ToString ());
+			File.WriteAllText("Content/RPGCoreMath.bmfst", manifest.ToString());
 
-			Console.WriteLine ("Importing Graph...");
+			Console.WriteLine("Importing Graph...");
 
-			var proj = ProjectExplorer.Load ("Content/Core");
-			Console.WriteLine (proj.Name);
-			Console.WriteLine ("\t\"" + proj.Name + "\"");
+			var proj = ProjectExplorer.Load("Content/Core");
+			Console.WriteLine(proj.Name);
+			Console.WriteLine("\t\"" + proj.Name + "\"");
 			foreach (var resource in ((IPackageExplorer)proj).Resources)
 			{
-				Console.WriteLine ("\t" + resource.FullName);
+				Console.WriteLine("\t" + resource.FullName);
 			}
 
 			var editorTargetResource = proj.Resources["Fireball/Main.bhvr"];
-			var editorTargetData = editorTargetResource.LoadStream ();
+			var editorTargetData = editorTargetResource.LoadStream();
 
 			JObject editorTarget;
 
-			var serializer = new JsonSerializer ();
+			var serializer = new JsonSerializer();
 
-			using (var sr = new StreamReader (editorTargetData))
-			using (var reader = new JsonTextReader (sr))
+			using (var sr = new StreamReader(editorTargetData))
+			using (var reader = new JsonTextReader(sr))
 			{
-				editorTarget = JObject.Load (reader);
+				editorTarget = JObject.Load(reader);
 			}
 
-			var editor = new EditorSession (manifest, editorTarget, "SerializedGraph", serializer);
+			var editor = new EditorSession(manifest, editorTarget, "SerializedGraph", serializer);
 
 			foreach (var node in editor.Root["Nodes"])
 			{
@@ -71,106 +71,106 @@ namespace RPGCore.Demo
 
 				foreach (var field in nodeData)
 				{
-					Console.WriteLine ($"{field}");
+					Console.WriteLine($"{field}");
 					if (field.Name == "MaxValue")
 					{
-						field.SetValue (field.GetValue<int> () + 10);
-						field.ApplyModifiedProperties ();
+						field.SetValue(field.GetValue<int>() + 10);
+						field.ApplyModifiedProperties();
 
-						field.SetValue (field.GetValue<int> ());
-						field.ApplyModifiedProperties ();
+						field.SetValue(field.GetValue<int>());
+						field.ApplyModifiedProperties();
 					}
 					else if (field.Name == "ValueB")
 					{
-						Console.WriteLine (field.GetValue<LocalPropertyId> ());
+						Console.WriteLine(field.GetValue<LocalPropertyId>());
 					}
 				}
 			}
 
-			using (var file = editorTargetResource.WriteStream ())
-			using (var jsonWriter = new JsonTextWriter (file)
+			using (var file = editorTargetResource.WriteStream())
+			using (var jsonWriter = new JsonTextWriter(file)
 			{
 				Formatting = Formatting.Indented
 			})
 			{
-				serializer.Serialize (jsonWriter, editorTarget);
+				serializer.Serialize(jsonWriter, editorTarget);
 			}
 
-			Console.WriteLine (new DirectoryInfo ("Content/Temp").FullName);
+			Console.WriteLine(new DirectoryInfo("Content/Temp").FullName);
 
-			var consoleRenderer = new BuildConsoleRenderer ();
+			var consoleRenderer = new BuildConsoleRenderer();
 
-			var buildPipeline = new BuildPipeline ()
+			var buildPipeline = new BuildPipeline()
 			{
-				Exporters = new List<ResourceExporter> ()
+				Exporters = new List<ResourceExporter>()
 				{
 					new BhvrExporter()
 				},
-				BuildActions = new List<IBuildAction> ()
+				BuildActions = new List<IBuildAction>()
 				{
 					consoleRenderer
 				}
 			};
 
-			consoleRenderer.DrawProgressBar (32);
-			proj.Export (buildPipeline, "Content/Temp");
+			consoleRenderer.DrawProgressBar(32);
+			proj.Export(buildPipeline, "Content/Temp");
 
-			Console.WriteLine ("Exported package...");
-			var exportedPackage = PackageExplorer.Load ("Content/Temp/Core.bpkg");
+			Console.WriteLine("Exported package...");
+			var exportedPackage = PackageExplorer.Load("Content/Temp/Core.bpkg");
 
 			var fireballAsset = exportedPackage.Resources["Fireball/Main.bhvr"];
-			var data = fireballAsset.LoadStream ();
+			var data = fireballAsset.LoadStream();
 
 			SerializedGraph packageItem;
 
-			using (var sr = new StreamReader (data))
-			using (var reader = new JsonTextReader (sr))
+			using (var sr = new StreamReader(data))
+			using (var reader = new JsonTextReader(sr))
 			{
-				packageItem = serializer.Deserialize<SerializedGraph> (reader);
+				packageItem = serializer.Deserialize<SerializedGraph>(reader);
 			}
 
-			Console.WriteLine ("Imported: " + packageItem.Name);
-			var unpackedGraph = packageItem.Unpack ();
+			Console.WriteLine("Imported: " + packageItem.Name);
+			var unpackedGraph = packageItem.Unpack();
 
-			Console.WriteLine ("Running Simulation...");
+			Console.WriteLine("Running Simulation...");
 
-			var player = new DemoPlayer ();
+			var player = new DemoPlayer();
 
-			IGraphInstance instancedItem = unpackedGraph.Create ();
-			instancedItem.Setup ();
-			instancedItem.SetInput (player);
+			IGraphInstance instancedItem = unpackedGraph.Create();
+			instancedItem.Setup();
+			instancedItem.SetInput(player);
 			for (int i = 0; i < 5; i++)
 			{
-				Thread.Sleep (100);
+				Thread.Sleep(100);
 				player.Health.Value -= 10;
 			}
-			instancedItem.Remove ();
+			instancedItem.Remove();
 
-			var settings = new JsonSerializerSettings ();
-			settings.Converters.Add (new LocalIdJsonConverter ());
-			settings.Converters.Add (new SerializedGraphInstanceProxyConverter (null));
+			var settings = new JsonSerializerSettings();
+			settings.Converters.Add(new LocalIdJsonConverter());
+			settings.Converters.Add(new SerializedGraphInstanceProxyConverter(null));
 
-			string serializedGraph = JsonConvert.SerializeObject (instancedItem, settings);
+			string serializedGraph = JsonConvert.SerializeObject(instancedItem, settings);
 
 			// var packedInstance = ((GraphInstance)instancedItem).Pack ();
 			// string serializedGraph = packedInstance.AsJson ();
-			Console.WriteLine (serializedGraph);
+			Console.WriteLine(serializedGraph);
 
-			var deserialized = JsonConvert.DeserializeObject<SerializedGraphInstance> (serializedGraph);
-			var unpackedInstance = deserialized.Unpack (unpackedGraph);
+			var deserialized = JsonConvert.DeserializeObject<SerializedGraphInstance>(serializedGraph);
+			var unpackedInstance = deserialized.Unpack(unpackedGraph);
 
-			unpackedInstance.SetInput (player);
-			unpackedInstance.Setup ();
+			unpackedInstance.SetInput(player);
+			unpackedInstance.Setup();
 			for (int i = 0; i < 5; i++)
 			{
-				Thread.Sleep (100);
+				Thread.Sleep(100);
 				player.Health.Value -= 20;
 			}
-			unpackedInstance.Remove ();
+			unpackedInstance.Remove();
 
 			for (int i = 0; i < 5; i++)
 			{
-				Thread.Sleep (100);
+				Thread.Sleep(100);
 				player.Health.Value -= 20;
 			}
 		}

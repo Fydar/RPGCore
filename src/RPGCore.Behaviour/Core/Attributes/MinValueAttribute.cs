@@ -2,7 +2,7 @@ using System;
 
 namespace RPGCore.Behaviour
 {
-	[AttributeUsage (AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
 	public sealed class MinValueAttribute : Attribute
 	{
 		private readonly long longMin;

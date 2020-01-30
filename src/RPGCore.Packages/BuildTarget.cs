@@ -5,7 +5,7 @@ namespace RPGCore.Packages
 {
 	public class BuildTarget
 	{
-		[XmlAttribute ("name")]
+		[XmlAttribute("name")]
 		public string Name;
 
 	}

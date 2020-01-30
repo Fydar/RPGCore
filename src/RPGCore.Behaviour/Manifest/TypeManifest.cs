@@ -13,19 +13,19 @@ namespace RPGCore.Behaviour.Manifest
 
 		public static TypeManifest Construct(Type[] valueTypes, Type[] objectTypes)
 		{
-			var manifest = new TypeManifest ();
+			var manifest = new TypeManifest();
 
-			var valueTypeInformation = new Dictionary<string, TypeInformation> ();
+			var valueTypeInformation = new Dictionary<string, TypeInformation>();
 			foreach (var type in valueTypes)
 			{
-				valueTypeInformation.Add (type.Name, TypeInformation.Construct (type));
+				valueTypeInformation.Add(type.Name, TypeInformation.Construct(type));
 			}
 			manifest.JsonTypes = valueTypeInformation;
 
-			var objectTypeInformation = new Dictionary<string, TypeInformation> ();
+			var objectTypeInformation = new Dictionary<string, TypeInformation>();
 			foreach (var type in objectTypes)
 			{
-				objectTypeInformation.Add (type.Name, TypeInformation.Construct (type));
+				objectTypeInformation.Add(type.Name, TypeInformation.Construct(type));
 			}
 			manifest.ObjectTypes = objectTypeInformation;
 
@@ -34,7 +34,7 @@ namespace RPGCore.Behaviour.Manifest
 
 		public static TypeManifest ConstructBaseTypes()
 		{
-			return Construct (
+			return Construct(
 				new Type[]
 				{
 					typeof(bool),
@@ -66,7 +66,7 @@ namespace RPGCore.Behaviour.Manifest
 
 		public override string ToString()
 		{
-			return JsonConvert.SerializeObject (this, Formatting.Indented);
+			return JsonConvert.SerializeObject(this, Formatting.Indented);
 		}
 	}
 }

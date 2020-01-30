@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		internal abstract NodeTemplate TemplateBase { get; }
 
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		NodeTemplate INodeInstance.Template => TemplateBase;
 
 		public virtual void OnInputChanged() { }

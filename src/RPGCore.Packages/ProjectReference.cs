@@ -22,10 +22,10 @@ namespace RPGCore.Packages
 
 		public override void IncludeInBuild(ProjectBuildProcess build, string output)
 		{
-			string accessPath = Path.Combine (File.Path, IncludePath);
+			string accessPath = Path.Combine(File.Path, IncludePath);
 
-			using var projectExplorer = ProjectExplorer.Load (accessPath);
-			projectExplorer.Export (build.Pipeline, Path.Combine (output));
+			using var projectExplorer = ProjectExplorer.Load(accessPath);
+			projectExplorer.Export(build.Pipeline, Path.Combine(output));
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace RPGCore.Traits
 		{
 			Phase = phase;
 			Type = type;
-			CurrentValue = currentValue ?? throw new ArgumentNullException (nameof (currentValue));
+			CurrentValue = currentValue ?? throw new ArgumentNullException(nameof(currentValue));
 		}
 	}
 }

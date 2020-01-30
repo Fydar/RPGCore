@@ -5,11 +5,11 @@ namespace RPGCore.Demo.Nodes
 {
 	public sealed class RollNode : NodeTemplate<RollNode>
 	{
-		public OutputSocket Output = new OutputSocket ();
+		public OutputSocket Output = new OutputSocket();
 		public int MinValue = 2;
 		public int MaxValue = 12;
 
-		public override Instance Create() => new RollInstance ();
+		public override Instance Create() => new RollInstance();
 
 		public sealed class RollInstance : Instance
 		{
@@ -28,13 +28,13 @@ namespace RPGCore.Demo.Nodes
 			{
 				while (Seed == 0)
 				{
-					Seed = new Random ().Next ();
+					Seed = new Random().Next();
 				}
 
-				int newValue = new Random (Seed).Next (Template.MinValue, Template.MaxValue);
+				int newValue = new Random(Seed).Next(Template.MinValue, Template.MaxValue);
 
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
-				Console.WriteLine ("RollNode: Output set to " + newValue + $" outputting to {string.Join (", ", Graph.GetSource (Output))}");
+				Console.WriteLine("RollNode: Output set to " + newValue + $" outputting to {string.Join(", ", Graph.GetSource(Output))}");
 
 				Output.Value = newValue;
 			}

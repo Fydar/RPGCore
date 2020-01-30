@@ -12,21 +12,21 @@ namespace RPGCore.Behaviour.Manifest
 
 		public static NodeManifest Construct()
 		{
-			var manifest = new NodeManifest ();
+			var manifest = new NodeManifest();
 
-			var information = new Dictionary<string, NodeInformation> ();
-			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies ())
+			var information = new Dictionary<string, NodeInformation>();
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
-				foreach (var type in assembly.GetTypes ())
+				foreach (var type in assembly.GetTypes())
 				{
 					if (type.IsAbstract)
 					{
 						continue;
 					}
 
-					if (typeof (NodeTemplate).IsAssignableFrom (type))
+					if (typeof(NodeTemplate).IsAssignableFrom(type))
 					{
-						information.Add (type.FullName, NodeInformation.ConstructNodeInformation (type));
+						information.Add(type.FullName, NodeInformation.ConstructNodeInformation(type));
 					}
 				}
 			}
@@ -36,12 +36,12 @@ namespace RPGCore.Behaviour.Manifest
 
 		public static NodeManifest Construct(Type[] types)
 		{
-			var manifest = new NodeManifest ();
+			var manifest = new NodeManifest();
 
-			var information = new Dictionary<string, NodeInformation> ();
+			var information = new Dictionary<string, NodeInformation>();
 			foreach (var type in types)
 			{
-				information.Add (type.FullName, NodeInformation.ConstructNodeInformation (type));
+				information.Add(type.FullName, NodeInformation.ConstructNodeInformation(type));
 			}
 			manifest.Nodes = information;
 			return manifest;
@@ -49,7 +49,7 @@ namespace RPGCore.Behaviour.Manifest
 
 		public override string ToString()
 		{
-			return JsonConvert.SerializeObject (this, Formatting.Indented);
+			return JsonConvert.SerializeObject(this, Formatting.Indented);
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace RPGCore.Packages
 
 		public static XmlProjectFile Load(string path)
 		{
-			if (!File.Exists (path))
+			if (!File.Exists(path))
 			{
 				return null;
 			}
@@ -27,9 +27,9 @@ namespace RPGCore.Packages
 			{
 				PreserveWhitespace = true
 			};
-			doc.Load (path);
+			doc.Load(path);
 
-			var model = new XmlProjectFile (doc)
+			var model = new XmlProjectFile(doc)
 			{
 				Path = path
 			};
@@ -38,11 +38,11 @@ namespace RPGCore.Packages
 
 		public void Format()
 		{
-			Minify ();
+			Minify();
 
-			var nodes = AllNodesWithIndent (Document.DocumentElement, 1).ToArray ();
+			var nodes = AllNodesWithIndent(Document.DocumentElement, 1).ToArray();
 
-			Document.DocumentElement.InsertBefore (Document.CreateWhitespace ("\n\n"), Document.DocumentElement.FirstChild);
+			Document.DocumentElement.InsertBefore(Document.CreateWhitespace("\n\n"), Document.DocumentElement.FirstChild);
 
 			foreach (var indentedNode in nodes)
 			{
@@ -54,27 +54,27 @@ namespace RPGCore.Packages
 					int indent = indentedNode.Item1;
 
 					// Indent opening tag
-					var startIndent = Document.CreateWhitespace (new string (' ', indent * 2));
-					childNode.ParentNode.InsertBefore (startIndent, childNode);
+					var startIndent = Document.CreateWhitespace(new string(' ', indent * 2));
+					childNode.ParentNode.InsertBefore(startIndent, childNode);
 
-					if (HasChildElement (childNode))
+					if (HasChildElement(childNode))
 					{
-						childNode.ParentNode.InsertAfter (Document.CreateWhitespace ("\n\n"), childNode);
+						childNode.ParentNode.InsertAfter(Document.CreateWhitespace("\n\n"), childNode);
 
-						childNode.InsertBefore (Document.CreateWhitespace ("\n"), childNode.FirstChild);
+						childNode.InsertBefore(Document.CreateWhitespace("\n"), childNode.FirstChild);
 
-						if (HasChildObjects (childNode))
+						if (HasChildObjects(childNode))
 						{
-							childNode.InsertBefore (Document.CreateWhitespace ("\n"), childNode.FirstChild);
+							childNode.InsertBefore(Document.CreateWhitespace("\n"), childNode.FirstChild);
 						}
 
 						// Indent closing tag
-						var endIndent = Document.CreateWhitespace (new string (' ', indent * 2));
-						childNode.InsertAfter (endIndent, childNode.LastChild);
+						var endIndent = Document.CreateWhitespace(new string(' ', indent * 2));
+						childNode.InsertAfter(endIndent, childNode.LastChild);
 					}
 					else
 					{
-						childNode.ParentNode.InsertAfter (Document.CreateWhitespace ("\n"), childNode);
+						childNode.ParentNode.InsertAfter(Document.CreateWhitespace("\n"), childNode);
 					}
 				}
 			}
@@ -100,7 +100,7 @@ namespace RPGCore.Packages
 			{
 				var childNode = node.ChildNodes[i];
 
-				if (HasChildElement (childNode))
+				if (HasChildElement(childNode))
 				{
 					return true;
 				}
@@ -110,13 +110,13 @@ namespace RPGCore.Packages
 
 		public void Minify()
 		{
-			var allNodes = AllNodes (Document.DocumentElement).ToArray ();
+			var allNodes = AllNodes(Document.DocumentElement).ToArray();
 			foreach (var node in allNodes)
 			{
 				if (node.NodeType == XmlNodeType.SignificantWhitespace
 				|| node.NodeType == XmlNodeType.Whitespace)
 				{
-					node.ParentNode.RemoveChild (node);
+					node.ParentNode.RemoveChild(node);
 				}
 			}
 		}
@@ -128,7 +128,7 @@ namespace RPGCore.Packages
 				var childNode = rootNode.ChildNodes[i];
 				yield return childNode;
 
-				foreach (var node in AllNodes (childNode))
+				foreach (var node in AllNodes(childNode))
 				{
 					yield return node;
 				}
@@ -140,9 +140,9 @@ namespace RPGCore.Packages
 			for (int i = 0; i < rootNode.ChildNodes.Count; i++)
 			{
 				var childNode = rootNode.ChildNodes[i];
-				yield return new Tuple<int, XmlNode> (indent, childNode);
+				yield return new Tuple<int, XmlNode>(indent, childNode);
 
-				foreach (var node in AllNodesWithIndent (childNode, indent + 1))
+				foreach (var node in AllNodesWithIndent(childNode, indent + 1))
 				{
 					yield return node;
 				}
@@ -151,7 +151,7 @@ namespace RPGCore.Packages
 
 		public void Save(string path)
 		{
-			Document.Save (path);
+			Document.Save(path);
 		}
 	}
 }

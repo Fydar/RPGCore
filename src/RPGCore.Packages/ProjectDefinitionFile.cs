@@ -10,37 +10,37 @@ namespace RPGCore.Packages
 		public List<Reference> References;
 
 		public ProjectDefinitionFile(XmlDocument document)
-			: base (document)
+			: base(document)
 		{
-			Properties = new ProjectDefinitionProperties (Document.GetElementsByTagName ("Properties").Item (0));
+			Properties = new ProjectDefinitionProperties(Document.GetElementsByTagName("Properties").Item(0));
 
-			References = new List<Reference> ();
-			var projectReferenceTags = Document.GetElementsByTagName ("ProjectReference");
+			References = new List<Reference>();
+			var projectReferenceTags = Document.GetElementsByTagName("ProjectReference");
 			for (int i = 0; i < projectReferenceTags.Count; i++)
 			{
-				var projectReferenceElement = projectReferenceTags.Item (i);
+				var projectReferenceElement = projectReferenceTags.Item(i);
 
 				if (projectReferenceElement is XmlElement element)
 				{
-					References.Add (new ProjectReference (this, element));
+					References.Add(new ProjectReference(this, element));
 				}
 			}
 
-			var resourceReferenceTags = Document.GetElementsByTagName ("ResourceReference");
+			var resourceReferenceTags = Document.GetElementsByTagName("ResourceReference");
 			for (int i = 0; i < resourceReferenceTags.Count; i++)
 			{
-				var resourceReferenceElement = resourceReferenceTags.Item (i);
+				var resourceReferenceElement = resourceReferenceTags.Item(i);
 
 				if (resourceReferenceElement is XmlElement element)
 				{
-					References.Add (new ResourceReference (this, element));
+					References.Add(new ResourceReference(this, element));
 				}
 			}
 		}
 
 		public static new ProjectDefinitionFile Load(string path)
 		{
-			if (!File.Exists (path))
+			if (!File.Exists(path))
 			{
 				return null;
 			}
@@ -49,9 +49,9 @@ namespace RPGCore.Packages
 			{
 				PreserveWhitespace = true
 			};
-			doc.Load (path);
+			doc.Load(path);
 
-			var model = new ProjectDefinitionFile (doc)
+			var model = new ProjectDefinitionFile(doc)
 			{
 				Path = path
 			};

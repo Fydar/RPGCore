@@ -11,12 +11,12 @@ namespace RPGCore.Behaviour
 		public ConnectionSubscription(INodeInstance node)
 		{
 			Node = node;
-			Callbacks = new List<Action> ();
+			Callbacks = new List<Action>();
 		}
 
 		public override string ToString()
 		{
-			return $"{Node?.Template?.Id}: {Node?.Template.GetType ().Name}";
+			return $"{Node?.Template?.Id}: {Node?.Template.GetType().Name}";
 		}
 	}
 }

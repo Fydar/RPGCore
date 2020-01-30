@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 
 		public DemoPlayer()
 		{
-			behaviours = new List<INodeInstance> ();
+			behaviours = new List<INodeInstance>();
 			Health = new EventField<int>
 			{
 				Value = 100
