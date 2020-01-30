@@ -4,7 +4,7 @@ namespace RPGCore.Behaviour
 {
 	public readonly struct InputSocket
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		private readonly int internalConnectionId;
 
 		public int ConnectionId
@@ -20,6 +20,6 @@ namespace RPGCore.Behaviour
 			internalConnectionId = connectionId + 1;
 		}
 
-		public override string ToString() => $"Input {ConnectionId.ToString()}";
+		public override string ToString() => $"Input {ConnectionId.ToString ()}";
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour;
+using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Demo.Nodes;
 using RPGCore.Packages;
@@ -10,9 +12,9 @@ using System.Threading;
 
 namespace RPGCore.Demo
 {
-	public sealed class Simulation
+	public static class MiscTest
 	{
-		public void Start()
+		public static void Run()
 		{
 			var nodes = NodeManifest.Construct(
 				new Type[] {
@@ -32,11 +34,66 @@ namespace RPGCore.Demo
 				Nodes = nodes,
 				Types = types
 			};
-			var serializer = new JsonSerializer();
+
+			File.WriteAllText("Content/RPGCoreMath.bmfst", manifest.ToString());
 
 			Console.WriteLine("Importing Graph...");
 
 			var proj = ProjectExplorer.Load("Content/Core");
+			Console.WriteLine(proj.Name);
+			Console.WriteLine("\t\"" + proj.Name + "\"");
+			foreach (var resource in ((IPackageExplorer)proj).Resources)
+			{
+				Console.WriteLine("\t" + resource.FullName);
+			}
+
+			var editorTargetResource = proj.Resources["Fireball/Main.bhvr"];
+			var editorTargetData = editorTargetResource.LoadStream();
+
+			JObject editorTarget;
+
+			var serializer = new JsonSerializer();
+
+			using (var sr = new StreamReader(editorTargetData))
+			using (var reader = new JsonTextReader(sr))
+			{
+				editorTarget = JObject.Load(reader);
+			}
+
+			var editor = new EditorSession(manifest, editorTarget, "SerializedGraph", serializer);
+
+			foreach (var node in editor.Root["Nodes"])
+			{
+				var nodeData = node["Data"];
+
+				foreach (var field in nodeData)
+				{
+					Console.WriteLine($"{field}");
+					if (field.Name == "MaxValue")
+					{
+						field.SetValue(field.GetValue<int>() + 10);
+						field.ApplyModifiedProperties();
+
+						field.SetValue(field.GetValue<int>());
+						field.ApplyModifiedProperties();
+					}
+					else if (field.Name == "ValueB")
+					{
+						Console.WriteLine(field.GetValue<LocalPropertyId>());
+					}
+				}
+			}
+
+			using (var file = editorTargetResource.WriteStream())
+			using (var jsonWriter = new JsonTextWriter(file)
+			{
+				Formatting = Formatting.Indented
+			})
+			{
+				serializer.Serialize(jsonWriter, editorTarget);
+			}
+
+			Console.WriteLine(new DirectoryInfo("Content/Temp").FullName);
 
 			var consoleRenderer = new BuildConsoleRenderer();
 
@@ -51,6 +108,7 @@ namespace RPGCore.Demo
 					consoleRenderer
 				}
 			};
+
 			consoleRenderer.DrawProgressBar(32);
 			proj.Export(buildPipeline, "Content/Temp");
 
@@ -61,6 +119,7 @@ namespace RPGCore.Demo
 			var data = fireballAsset.LoadStream();
 
 			SerializedGraph packageItem;
+
 			using (var sr = new StreamReader(data))
 			using (var reader = new JsonTextReader(sr))
 			{
@@ -89,6 +148,9 @@ namespace RPGCore.Demo
 			settings.Converters.Add(new SerializedGraphInstanceProxyConverter(null));
 
 			string serializedGraph = JsonConvert.SerializeObject(instancedItem, settings);
+
+			// var packedInstance = ((GraphInstance)instancedItem).Pack ();
+			// string serializedGraph = packedInstance.AsJson ();
 			Console.WriteLine(serializedGraph);
 
 			var deserialized = JsonConvert.DeserializeObject<SerializedGraphInstance>(serializedGraph);

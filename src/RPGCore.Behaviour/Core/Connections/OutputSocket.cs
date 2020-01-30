@@ -9,6 +9,6 @@
 			Id = id;
 		}
 
-		public override string ToString() => $"Output {Id.ToString()}";
+		public override string ToString() => $"Output {Id.ToString ()}";
 	}
 }

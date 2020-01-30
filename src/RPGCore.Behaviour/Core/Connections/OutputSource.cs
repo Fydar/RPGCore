@@ -10,7 +10,7 @@ namespace RPGCore.Behaviour
 
 		public OutputSource(INodeInstance instance, InputMap outputMapping)
 		{
-			Instance = instance ?? throw new ArgumentNullException(nameof(instance));
+			Instance = instance ?? throw new ArgumentNullException (nameof (instance));
 			InputInformation = outputMapping;
 		}
 
