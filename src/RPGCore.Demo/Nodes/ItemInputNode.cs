@@ -2,7 +2,7 @@
 
 namespace RPGCore.Demo.Nodes
 {
-	public sealed class ItemInputNode : Node<ItemInputNode>
+	public sealed class ItemInputNode : NodeTemplate<ItemInputNode>
 	{
 		public OutputSocket Character;
 
@@ -16,7 +16,7 @@ namespace RPGCore.Demo.Nodes
 
 			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect (ref Node.Character, ref Character)
+				connections.Connect (ref Template.Character, ref Character)
 			};
 
 			public override void Setup()

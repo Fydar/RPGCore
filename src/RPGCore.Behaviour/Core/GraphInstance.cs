@@ -143,7 +143,7 @@ namespace RPGCore.Behaviour
 				};
 				serializer.Converters.Add (new SerializedGraphInstanceProxyConverter (null));
 
-				nodeMap.Add (instance.NodeBase.Id, JObject.FromObject (instance, serializer));
+				nodeMap.Add (instance.Template.Id, JObject.FromObject (instance, serializer));
 			}
 
 			return new SerializedGraphInstance ()
@@ -171,14 +171,14 @@ namespace RPGCore.Behaviour
 		{
 			if (input.Connection == null)
 			{
-				return new InputSource ();
+				return default;
 			}
 
 			int connectionId = input.Connection.ConnectionId;
 
 			if (connectionId == -1)
 			{
-				return new InputSource ();
+				return default;
 			}
 
 			for (int x = 0; x < nodes.Length; x++)
@@ -195,12 +195,11 @@ namespace RPGCore.Behaviour
 
 					if (output.ConnectionId == connectionId)
 					{
-						var nodeTemplate = Template.Nodes[x];
-						return new InputSource (nodeTemplate, node.Instance, output);
+						return new InputSource (node.Instance, output);
 					}
 				}
 			}
-			return new InputSource ();
+			return default;
 		}
 
 		public IEnumerable<OutputSource> GetSource<T>(Output<T> output)

@@ -13,7 +13,7 @@ namespace RPGCore.Behaviour.Manifest
 		{
 			var nodeInformation = new NodeInformation ();
 
-			var nodeTemplate = (Node)Activator.CreateInstance (nodeType);
+			var nodeTemplate = (NodeTemplate)Activator.CreateInstance (nodeType);
 			var metadataInstance = (NodeInstanceBase)nodeTemplate.CreateInstance ();
 
 			var instanceType = metadataInstance.GetType ();
@@ -46,7 +46,7 @@ namespace RPGCore.Behaviour.Manifest
 			}
 			nodeInformation.Fields = fieldInfos;
 
-			var nodeProperty = instanceType.GetProperty ("Node");
+			var nodeProperty = instanceType.GetProperty ("Template");
 			nodeProperty.SetValue (metadataInstance, nodeTemplate);
 
 			var connectionMapper = new ConnectionMapper (metadataInstance, singleNodeGraph);

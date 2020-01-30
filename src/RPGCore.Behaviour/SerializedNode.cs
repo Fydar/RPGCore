@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 		public JObject Data;
 		public PackageNodeEditor Editor;
 
-		public Node UnpackNodeAndInputs(Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
+		public NodeTemplate UnpackNodeAndInputs(Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
 		{
 			if (nodeType is null)
 			{
@@ -26,13 +26,13 @@ namespace RPGCore.Behaviour
 
 			object nodeObject = Data.ToObject (nodeType, jsonSerializer);
 
-			var node = (Node)nodeObject;
+			var node = (NodeTemplate)nodeObject;
 			node.Id = id;
 
 			return node;
 		}
 
-		public static void UnpackOutputs(List<LocalPropertyId> connectionIds, Node node)
+		public static void UnpackOutputs(List<LocalPropertyId> connectionIds, NodeTemplate node)
 		{
 			var nodeType = node.GetType ();
 

@@ -16,7 +16,7 @@ namespace RPGCore.Behaviour
 
 		public Graph Unpack()
 		{
-			var nodes = new List<Node> (Nodes.Count);
+			var nodes = new List<NodeTemplate> (Nodes.Count);
 
 			// Find all valid outputs that inputs can map too.
 			var allValidOutputs = new HashSet<LocalPropertyId> ();

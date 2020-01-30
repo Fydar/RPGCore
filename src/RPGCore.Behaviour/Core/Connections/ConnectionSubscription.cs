@@ -16,7 +16,7 @@ namespace RPGCore.Behaviour
 
 		public override string ToString()
 		{
-			return $"{Node?.NodeBase?.Id}: {Node?.NodeBase.GetType ().Name}";
+			return $"{Node?.Template?.Id}: {Node?.Template.GetType ().Name}";
 		}
 	}
 }

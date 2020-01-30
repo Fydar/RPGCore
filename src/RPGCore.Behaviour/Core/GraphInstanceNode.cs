@@ -15,7 +15,7 @@
 
 		public override string ToString()
 		{
-			return $"{Instance?.NodeBase?.Id}: {Instance?.NodeBase.GetType().Name}";
+			return $"{Instance?.Template?.Id}: {Instance?.Template.GetType().Name}";
 		}
 	}
 }

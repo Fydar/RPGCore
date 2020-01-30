@@ -6,11 +6,11 @@ namespace RPGCore.Behaviour
 	public sealed class Graph
 	{
 		public string Name;
-		public readonly Node[] Nodes;
+		public readonly NodeTemplate[] Nodes;
 		public readonly int ConnectionsCount;
 		public Dictionary<string, Graph> SubGraphs;
 
-		public Node this[LocalId id]
+		public NodeTemplate this[LocalId id]
 		{
 			get
 			{
@@ -25,7 +25,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Graph(Node[] nodes, int connectionCount, Dictionary<string, Graph> subGraphs)
+		public Graph(NodeTemplate[] nodes, int connectionCount, Dictionary<string, Graph> subGraphs)
 		{
 			Nodes = nodes;
 			ConnectionsCount = connectionCount;

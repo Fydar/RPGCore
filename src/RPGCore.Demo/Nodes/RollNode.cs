@@ -3,7 +3,7 @@ using System;
 
 namespace RPGCore.Demo.Nodes
 {
-	public sealed class RollNode : Node<RollNode>
+	public sealed class RollNode : NodeTemplate<RollNode>
 	{
 		public OutputSocket Output = new OutputSocket ();
 		public int MinValue = 2;
@@ -21,7 +21,7 @@ namespace RPGCore.Demo.Nodes
 
 			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect (ref Node.Output, ref Output),
+				connections.Connect (ref Template.Output, ref Output),
 			};
 
 			public override void Setup()
@@ -31,7 +31,7 @@ namespace RPGCore.Demo.Nodes
 					Seed = new Random ().Next ();
 				}
 
-				int newValue = new Random (Seed).Next (Node.MinValue, Node.MaxValue);
+				int newValue = new Random (Seed).Next (Template.MinValue, Template.MaxValue);
 
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
 				Console.WriteLine ("RollNode: Output set to " + newValue + $" outputting to {string.Join (", ", Graph.GetSource (Output))}");

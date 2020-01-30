@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Demo.Nodes
 {
-	public sealed class IterateNode : Node<IterateNode>
+	public sealed class IterateNode : NodeTemplate<IterateNode>
 	{
 		public InputSocket Repetitions;
 		public string SubgraphId;
@@ -19,7 +19,7 @@ namespace RPGCore.Demo.Nodes
 
 			public override InputMap[] Inputs(ConnectionMapper graph) => new[]
 			{
-				graph.Connect (ref Node.Repetitions, ref Repetitions),
+				graph.Connect (ref Template.Repetitions, ref Repetitions),
 			};
 
 			public override OutputMap[] Outputs(ConnectionMapper graph) => null;
@@ -35,10 +35,10 @@ namespace RPGCore.Demo.Nodes
 			public override void OnInputChanged()
 			{
 				int repetitions = (int)Repetitions.Value;
-				var graphToUse = Graph.Template.SubGraphs[Node.SubgraphId];
+				var graphToUse = Graph.Template.SubGraphs[Template.SubgraphId];
 
 				Console.ForegroundColor = ConsoleColor.Cyan;
-				Console.WriteLine ($"[{Node.Id}]: Repeating {Node.SubgraphId} {repetitions} times");
+				Console.WriteLine ($"[{Template.Id}]: Repeating {Template.SubgraphId} {repetitions} times");
 				Console.ResetColor ();
 
 				for (int i = 0; i < repetitions; i++)

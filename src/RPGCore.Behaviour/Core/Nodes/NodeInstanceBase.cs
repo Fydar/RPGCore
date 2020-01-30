@@ -8,10 +8,10 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public IGraphInstance Graph { get; internal set; }
 		[JsonIgnore]
-		internal abstract Node NodeBase { get; }
+		internal abstract NodeTemplate TemplateBase { get; }
 
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		Node INodeInstance.NodeBase => NodeBase;
+		NodeTemplate INodeInstance.Template => TemplateBase;
 
 		public virtual void OnInputChanged() { }
 		public abstract void Remove();

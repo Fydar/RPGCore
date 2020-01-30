@@ -2,7 +2,8 @@
 {
 	public interface INodeInstance
 	{
-		Node NodeBase { get; }
+		IGraphInstance Graph { get; }
+		NodeTemplate Template { get; }
 
 		void OnInputChanged();
 		void Setup();

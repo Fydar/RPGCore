@@ -15,6 +15,8 @@ namespace RPGCore.Behaviour
 
 		public EventFieldHandlerCollection Handlers => Connection.Handlers;
 
+		public InputSource Source => Parent.Graph.GetSource (this);
+
 		public event Action OnAfterChanged
 		{
 			add

@@ -2,10 +2,10 @@
 {
 	public sealed class ManifestCaptureGraphInstance : IConnectionCallback
 	{
-		private readonly Node node;
+		private readonly NodeTemplate node;
 		private readonly INodeInstance instance;
 
-		public ManifestCaptureGraphInstance(Node singleNodeGraph)
+		public ManifestCaptureGraphInstance(NodeTemplate singleNodeGraph)
 		{
 			node = singleNodeGraph;
 			instance = node.CreateInstance ();

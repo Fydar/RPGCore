@@ -2,7 +2,7 @@
 
 namespace RPGCore.Demo.Nodes
 {
-	public sealed class AddNode : Node<AddNode>
+	public sealed class AddNode : NodeTemplate<AddNode>
 	{
 		public InputSocket ValueA;
 		public InputSocket ValueB;
@@ -20,13 +20,13 @@ namespace RPGCore.Demo.Nodes
 
 			public override InputMap[] Inputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect (ref Node.ValueA, ref ValueA),
-				connections.Connect (ref Node.ValueB, ref ValueB)
+				connections.Connect (ref Template.ValueA, ref ValueA),
+				connections.Connect (ref Template.ValueB, ref ValueB)
 			};
 
 			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect (ref Node.Output, ref Output)
+				connections.Connect (ref Template.Output, ref Output)
 			};
 
 			public override void Setup()

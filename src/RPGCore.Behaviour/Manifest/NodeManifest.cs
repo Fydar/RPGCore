@@ -24,7 +24,7 @@ namespace RPGCore.Behaviour.Manifest
 						continue;
 					}
 
-					if (typeof (Node).IsAssignableFrom (type))
+					if (typeof (NodeTemplate).IsAssignableFrom (type))
 					{
 						information.Add (type.FullName, NodeInformation.ConstructNodeInformation (type));
 					}

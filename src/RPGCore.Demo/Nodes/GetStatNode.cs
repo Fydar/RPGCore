@@ -2,7 +2,7 @@
 
 namespace RPGCore.Demo.Nodes
 {
-	public sealed class GetStatNode : Node<GetStatNode>
+	public sealed class GetStatNode : NodeTemplate<GetStatNode>
 	{
 		public InputSocket Character;
 
@@ -18,12 +18,12 @@ namespace RPGCore.Demo.Nodes
 
 			public override InputMap[] Inputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect (ref Node.Character, ref Character),
+				connections.Connect (ref Template.Character, ref Character),
 			};
 
 			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect (ref Node.Output, ref Output)
+				connections.Connect (ref Template.Output, ref Output)
 			};
 
 			public override void Setup()

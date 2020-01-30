@@ -2,7 +2,7 @@ using RPGCore.Behaviour;
 
 namespace RPGCore.Demo.Nodes
 {
-	public sealed class ActivatableItemNode : Node<ActivatableItemNode>
+	public sealed class ActivatableItemNode : NodeTemplate<ActivatableItemNode>
 	{
 		public OutputSocket Output = new OutputSocket ();
 
@@ -17,7 +17,7 @@ namespace RPGCore.Demo.Nodes
 
 			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect(ref Node.Output, ref Output),
+				connections.Connect(ref Template.Output, ref Output),
 			};
 
 			public override void Setup()

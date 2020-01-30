@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public abstract class Node
+	public abstract class NodeTemplate
 	{
 		[JsonIgnore]
 		public LocalId Id { get; set; }
@@ -15,16 +15,16 @@ namespace RPGCore.Behaviour
 		internal abstract OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance);
 	}
 
-	public abstract class Node<TNode> : Node
-		where TNode : Node<TNode>
+	public abstract class NodeTemplate<TNode> : NodeTemplate
+		where TNode : NodeTemplate<TNode>
 	{
 		public abstract class Instance : NodeInstanceBase
 		{
 			[JsonIgnore]
-			public TNode Node { get; internal set; }
+			public TNode Template { get; internal set; }
 
 			[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-			internal override Node NodeBase => Node;
+			internal override NodeTemplate TemplateBase => Template;
 		}
 
 		public abstract Instance Create();
@@ -34,7 +34,7 @@ namespace RPGCore.Behaviour
 		internal sealed override InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance)
 		{
 			var castedInstance = (Instance)instance;
-			castedInstance.Node = (TNode)this;
+			castedInstance.Template = (TNode)this;
 
 			return castedInstance.Inputs (connections);
 		}
@@ -42,7 +42,7 @@ namespace RPGCore.Behaviour
 		internal sealed override OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance)
 		{
 			var castedInstance = (Instance)instance;
-			castedInstance.Node = (TNode)this;
+			castedInstance.Template = (TNode)this;
 
 			return castedInstance.Outputs (connections);
 		}
@@ -50,7 +50,7 @@ namespace RPGCore.Behaviour
 		public sealed override void Setup(IGraphInstance graph, INodeInstance metadata)
 		{
 			var instance = (Instance)metadata;
-			instance.Node = (TNode)this;
+			instance.Template = (TNode)this;
 			instance.Graph = graph;
 
 			metadata.Setup ();
