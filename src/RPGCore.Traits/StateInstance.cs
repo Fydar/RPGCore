@@ -16,10 +16,5 @@ namespace RPGCore.Traits
 		{
 			Handlers = new EventFieldHandlerCollection (this);
 		}
-
-		public void Dispose()
-		{
-
-		}
 	}
 }

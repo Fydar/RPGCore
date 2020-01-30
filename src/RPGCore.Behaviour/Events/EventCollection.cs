@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace RPGCore.Behaviour
 {
 	[JsonObject]
-	public class EventCollection<TKey, TValue> : IEventCollection<TKey, TValue>, IDisposable
+	public class EventCollection<TKey, TValue> : IEventCollection<TKey, TValue>
 	{
 		[JsonIgnore]
 		public EventCollectionHandlerCollection<TKey, TValue> Handlers { get; set; }
@@ -19,11 +19,6 @@ namespace RPGCore.Behaviour
 		{
 			Handlers = new EventCollectionHandlerCollection<TKey, TValue> (this);
 			Collection = new Dictionary<TKey, TValue> ();
-		}
-
-		public void Dispose()
-		{
-			Handlers.Dispose ();
 		}
 
 		public bool ContainsKey(TKey key)

@@ -56,10 +56,5 @@ namespace RPGCore.Behaviour
 				return "Unconnected Input";
 			}
 		}
-
-		public void Dispose()
-		{
-			Connection?.Dispose ();
-		}
 	}
 }

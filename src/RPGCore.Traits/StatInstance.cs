@@ -250,9 +250,5 @@ namespace RPGCore.Traits
 		{
 			Value = CalculateValue ();
 		}
-
-		public void Dispose()
-		{
-		}
 	}
 }

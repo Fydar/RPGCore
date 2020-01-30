@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public class EventFieldHandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>, IDisposable
+	public class EventFieldHandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>
 	{
 		public readonly ref struct ContextWrapped
 		{
@@ -90,19 +89,6 @@ namespace RPGCore.Behaviour
 			for (int i = 0; i < InternalHandlers.Count; i++)
 			{
 				InternalHandlers[i].Value.OnAfterChanged ();
-			}
-		}
-
-		public void Dispose()
-		{
-			if (InternalHandlers == null)
-			{
-				return;
-			}
-
-			for (int i = 0; i < InternalHandlers.Count; i++)
-			{
-				InternalHandlers[i].Value.Dispose ();
 			}
 		}
 

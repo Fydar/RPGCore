@@ -19,10 +19,5 @@ namespace RPGCore.Behaviour
 		{
 			Target.Value = SourceField.Value;
 		}
-
-		public void Dispose()
-		{
-
-		}
 	}
 }

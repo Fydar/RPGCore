@@ -1,8 +1,6 @@
-using System;
-
 namespace RPGCore.Behaviour
 {
-	public interface IEventFieldHandler : IDisposable
+	public interface IEventFieldHandler
 	{
 		void OnBeforeChanged();
 		void OnAfterChanged();

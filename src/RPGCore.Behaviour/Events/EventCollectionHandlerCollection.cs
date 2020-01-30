@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public class EventCollectionHandlerCollection<TKey, TValue> : IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>, IDisposable
+	public class EventCollectionHandlerCollection<TKey, TValue> : IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>
 	{
 		public readonly ref struct ContextWrapped
 		{
@@ -90,19 +90,6 @@ namespace RPGCore.Behaviour
 			for (int i = 0; i < InternalHandlers.Count; i++)
 			{
 				InternalHandlers[i].Value.OnRemove (key, value);
-			}
-		}
-
-		public void Dispose()
-		{
-			if (InternalHandlers == null)
-			{
-				return;
-			}
-
-			for (int i = 0; i < InternalHandlers.Count; i++)
-			{
-				InternalHandlers[i].Value.Dispose ();
 			}
 		}
 

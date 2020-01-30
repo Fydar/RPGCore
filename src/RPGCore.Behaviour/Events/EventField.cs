@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	public class EventField<T> : IEventField<T>, IDisposable
+	public class EventField<T> : IEventField<T>
 	{
 		[JsonIgnore]
 		public EventFieldHandlerCollection Handlers { get; set; }
@@ -40,11 +40,6 @@ namespace RPGCore.Behaviour
 			: this ()
 		{
 			InternalValue = value;
-		}
-
-		public void Dispose()
-		{
-			Handlers.Dispose ();
 		}
 	}
 }

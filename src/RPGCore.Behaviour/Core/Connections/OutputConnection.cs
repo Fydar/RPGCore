@@ -101,13 +101,6 @@ namespace RPGCore.Behaviour
 		}
 
 		public override string ToString() => $"Connection {ConnectionId}, Value = {GenericValue}";
-		public void Dispose()
-		{
-			Mirroring?.Dispose ();
-			MirrorHandler?.Dispose ();
-
-			Handlers.Dispose ();
-		}
 
 		public object GetValue()
 		{

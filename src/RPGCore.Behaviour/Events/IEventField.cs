@@ -1,15 +1,8 @@
-﻿using System;
-
-namespace RPGCore.Behaviour
+﻿namespace RPGCore.Behaviour
 {
-	public interface IEventField : IEventWrapper, IDisposable
+	public interface IEventField : IEventWrapper
 	{
 		EventFieldHandlerCollection Handlers { get; }
-	}
-
-	public interface IReadOnlyEventField<T> : IEventField
-	{
-		T Value { get; }
 	}
 
 	public interface IEventField<T> : IReadOnlyEventField<T>

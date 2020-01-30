@@ -41,17 +41,5 @@ namespace RPGCore.Behaviour
 			chainedField.Handlers[this].Add (new EventFieldMirrorHandler<B> (chainedField, TargetField));
 			TargetField.Value = chainedField.Value;
 		}
-
-		public void Dispose()
-		{
-			SourceField.Handlers[TargetField].Clear ();
-
-			if (chainedField == null)
-			{
-				return;
-			}
-
-			chainedField.Handlers[this].Clear ();
-		}
 	}
 }

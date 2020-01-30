@@ -25,11 +25,6 @@ namespace RPGCore.Behaviour.UnitTests
 				this.target = target;
 			}
 
-			public void Dispose()
-			{
-
-			}
-
 			public void OnAfterChanged()
 			{
 				target.Add (source.Value);
@@ -98,8 +93,7 @@ namespace RPGCore.Behaviour.UnitTests
 
 			target.Value.Mainhand.Value.Damage.Value = 15;
 
-			mainhand.Dispose ();
-			mainhandDamage.Dispose ();
+			mainhandDamage.Handlers[this].Clear ();
 
 			target.Value.Mainhand.Value.Damage.Value = 5;
 

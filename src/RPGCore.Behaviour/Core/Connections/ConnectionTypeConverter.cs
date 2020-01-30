@@ -48,10 +48,6 @@ namespace RPGCore.Behaviour
 
 		public IConnectionTypeConverter UseConverter(Type converterType) => Source.UseConverter(converterType);
 
-		public void Dispose()
-		{
-		}
-
 		public object GetValue()
 		{
 			throw new NotImplementedException ();
