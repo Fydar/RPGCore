@@ -5,6 +5,8 @@
 
 RPGCore is a toolkit for producing RPG games and mechanics in C#.
 
+![Rewrite Editor](./docs/img/rpgcore_social.png)
+
 ## The "Rewrite"
 
 [![Unity Version: 2019.3.0f6](https://img.shields.io/badge/Unity-2019.3.0f6-333333.svg?logo=unity)](https://unity3d.com/get-unity/download/archive) ![Status: Work-in-progress](https://img.shields.io/badge/status-work--in--progress-orange)
