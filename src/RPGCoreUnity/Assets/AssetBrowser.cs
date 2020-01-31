@@ -14,8 +14,8 @@ public class AssetBrowser : MonoBehaviour
 
 		foreach (var resource in explorer.Resources)
 		{
-			var assetRenderer = Assets.Grab (Holder);
-			assetRenderer.Render (resource);
+			var assetRenderer = Assets.Grab(Holder);
+			assetRenderer.Render(resource);
 		}
 	}
 }

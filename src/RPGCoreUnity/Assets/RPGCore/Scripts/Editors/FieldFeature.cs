@@ -8,7 +8,7 @@ namespace RPGCore.Unity.Editors
 		public Rect GlobalRenderedPosition;
 		public Rect LocalRenderedPosition;
 
-		public Rect InputSocketPosition => new Rect (GlobalRenderedPosition)
+		public Rect InputSocketPosition => new Rect(GlobalRenderedPosition)
 		{
 			xMax = GlobalRenderedPosition.xMin,
 			xMin = GlobalRenderedPosition.xMin - GlobalRenderedPosition.height

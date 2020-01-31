@@ -14,7 +14,7 @@ namespace RPGCore.UI
 		public T SampleButton;
 		public bool Reuse = true;
 
-		public List<T> Pool = new List<T> ();
+		public List<T> Pool = new List<T>();
 		private int currentGrabIndex;
 
 		public T Grab(Transform parent)
@@ -23,29 +23,29 @@ namespace RPGCore.UI
 			{
 				if (Reuse)
 				{
-					SampleButton.gameObject.SetActive (false);
-					Pool.Add (SampleButton);
+					SampleButton.gameObject.SetActive(false);
+					Pool.Add(SampleButton);
 				}
 				else
 				{
-					SampleButton.gameObject.SetActive (false);
+					SampleButton.gameObject.SetActive(false);
 				}
 			}
 
 			if (Pool.Count == currentGrabIndex)
 			{
-				ExpandPool (parent);
+				ExpandPool(parent);
 			}
 
 			var item = Pool[currentGrabIndex];
-			item.gameObject.SetActive (true);
+			item.gameObject.SetActive(true);
 			if (item.transform.parent != parent)
 			{
-				item.transform.SetParent (parent);
+				item.transform.SetParent(parent);
 			}
 			else
 			{
-				item.transform.SetAsLastSibling ();
+				item.transform.SetAsLastSibling();
 			}
 			currentGrabIndex++;
 
@@ -58,17 +58,17 @@ namespace RPGCore.UI
 			{
 				if (Reuse)
 				{
-					Pool.Add (SampleButton);
+					Pool.Add(SampleButton);
 				}
 				else
 				{
-					SampleButton.gameObject.SetActive (false);
+					SampleButton.gameObject.SetActive(false);
 				}
 			}
 
 			foreach (var item in Pool)
 			{
-				item.gameObject.SetActive (false);
+				item.gameObject.SetActive(false);
 			}
 
 			currentGrabIndex = 0;
@@ -76,27 +76,27 @@ namespace RPGCore.UI
 
 		public void Return(T item)
 		{
-			int itemIndex = Pool.IndexOf (item);
+			int itemIndex = Pool.IndexOf(item);
 
 			if (itemIndex == -1)
 			{
-				Debug.LogError ("Item being returned to the pool doesn't belong in it.");
+				Debug.LogError("Item being returned to the pool doesn't belong in it.");
 			}
 
-			Pool.RemoveAt (itemIndex);
-			Pool.Add (item);
-			item.gameObject.SetActive (false);
+			Pool.RemoveAt(itemIndex);
+			Pool.Add(item);
+			item.gameObject.SetActive(false);
 			currentGrabIndex--;
 		}
 
 		private void ExpandPool(Transform parent)
 		{
-			var clone = UnityEngine.Object.Instantiate (SampleButton.gameObject, parent) as GameObject;
+			var clone = UnityEngine.Object.Instantiate(SampleButton.gameObject, parent) as GameObject;
 			clone.transform.localScale = Vector3.one;
-			clone.GetComponent<RectTransform> ().anchoredPosition3D = Vector3.zero;
+			clone.GetComponent<RectTransform>().anchoredPosition3D = Vector3.zero;
 
-			var button = clone.GetComponent<T> ();
-			Pool.Add (button);
+			var button = clone.GetComponent<T>();
+			Pool.Add(button);
 		}
 	}
 }

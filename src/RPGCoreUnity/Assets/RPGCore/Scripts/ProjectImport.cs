@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RPGCore.Unity
 {
-	[CreateAssetMenu (menuName = "RPGCore/Package Import")]
+	[CreateAssetMenu(menuName = "RPGCore/Package Import")]
 	public class ProjectImport : ScriptableObject
 	{
 		public string RelativePath;
@@ -16,7 +16,7 @@ namespace RPGCore.Unity
 			{
 				if (explorer == null)
 				{
-					explorer = ProjectExplorer.Load (RelativePath);
+					explorer = ProjectExplorer.Load(RelativePath);
 				}
 				return explorer;
 			}

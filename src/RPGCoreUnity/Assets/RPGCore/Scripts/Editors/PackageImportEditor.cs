@@ -5,42 +5,42 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-	[CustomEditor (typeof (ProjectImport))]
+	[CustomEditor(typeof(ProjectImport))]
 	public class ProjectImportEditor : Editor
 	{
 		private Texture2D Spritesheet;
 
 		public override void OnInspectorGUI()
 		{
-			DrawDefaultInspector ();
+			DrawDefaultInspector();
 
 			var projectImport = (ProjectImport)target;
 
-			GUILayout.Space (8);
+			GUILayout.Space(8);
 
-			EditorGUILayout.BeginVertical (EditorStyles.helpBox);
+			EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 			foreach (var resource in projectImport.Explorer.Resources)
 			{
-				EditorGUILayout.LabelField (resource.Name);
+				EditorGUILayout.LabelField(resource.Name);
 			}
 
 			if (Spritesheet != null)
 			{
-				var rect = GUILayoutUtility.GetRect (0, 250);
-				var centerRect = new Rect (rect.center.x - (rect.height * 0.5f), rect.y, rect.height, rect.height);
-				GUI.DrawTexture (centerRect, Spritesheet);
+				var rect = GUILayoutUtility.GetRect(0, 250);
+				var centerRect = new Rect(rect.center.x - (rect.height * 0.5f), rect.y, rect.height, rect.height);
+				GUI.DrawTexture(centerRect, Spritesheet);
 			}
 
-			if (GUILayout.Button ("Reload"))
+			if (GUILayout.Button("Reload"))
 			{
-				projectImport.Reload ();
+				projectImport.Reload();
 			}
 
-			if (GUILayout.Button ("Create"))
+			if (GUILayout.Button("Create"))
 			{
-				string path = AssetDatabase.GetAssetPath (target);
-				path = path.Substring (0, path.LastIndexOf ('/'));
-				Debug.Log (path);
+				string path = AssetDatabase.GetAssetPath(target);
+				path = path.Substring(0, path.LastIndexOf('/'));
+				Debug.Log(path);
 
 				/*foreach (var resource in projectImport.Explorer.Resources)
 				{
@@ -70,18 +70,18 @@ namespace RPGCore.Unity.Editors
 				} */
 			}
 
-			if (GUILayout.Button ("Export"))
+			if (GUILayout.Button("Export"))
 			{
-				string path = AssetDatabase.GetAssetPath (target);
-				path = path.Substring (0, path.LastIndexOf ('/'));
-				string exportDirectory = path + "/" + target.name + DateTime.Now.ToString ("ddmmyy");
-				if (!Directory.Exists (exportDirectory))
+				string path = AssetDatabase.GetAssetPath(target);
+				path = path.Substring(0, path.LastIndexOf('/'));
+				string exportDirectory = path + "/" + target.name + DateTime.Now.ToString("ddmmyy");
+				if (!Directory.Exists(exportDirectory))
 				{
-					Directory.CreateDirectory (exportDirectory);
+					Directory.CreateDirectory(exportDirectory);
 				}
-				Debug.Log (exportDirectory);
+				Debug.Log(exportDirectory);
 
-				var manifest = BuildPipeline.BuildAssetBundles (exportDirectory, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
+				var manifest = BuildPipeline.BuildAssetBundles(exportDirectory, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu (menuName = "RPGCore/Misc/Project Configuration")]
+[CreateAssetMenu(menuName = "RPGCore/Misc/Project Configuration")]
 public class ProjectConfiguration : ScriptableObject
 {
 	private static ProjectConfiguration activeConfiguration;
@@ -13,7 +13,7 @@ public class ProjectConfiguration : ScriptableObject
 		{
 			if (activeConfiguration == null)
 			{
-				activeConfiguration = Resources.Load<ProjectConfiguration> ("ProjectConfiguration");
+				activeConfiguration = Resources.Load<ProjectConfiguration>("ProjectConfiguration");
 			}
 			return activeConfiguration;
 		}

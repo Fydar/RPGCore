@@ -31,27 +31,17 @@ namespace RPGCore.Unity.Editors
 				{
 					case Mode.NodeDragging:
 
-						if (Selection.Count == 1)
-						{
-							return $"Dragging nodes {string.Join (", ", Selection)}";
-						}
-						else
-						{
-							return $"Dragging node {string.Join (", ", Selection)}";
-						}
+						return Selection.Count == 1
+							? $"Dragging nodes {string.Join(", ", Selection)}"
+							: $"Dragging node {string.Join(", ", Selection)}";
 
 					case Mode.ViewDragging:
 						return $"Panning to {panPosition}";
 
 					case Mode.CreatingConnection:
-						if (IsOutputSocket)
-						{
-							return $"Creating connection from {connectionOutput}";
-						}
-						else
-						{
-							return $"Creating connection to {connectionOutput}";
-						}
+						return IsOutputSocket
+							? $"Creating connection from {connectionOutput}"
+							: $"Creating connection to {connectionOutput}";
 
 					default:
 						return "None";
@@ -65,7 +55,7 @@ namespace RPGCore.Unity.Editors
 			{
 				if (selection == null)
 				{
-					selection = new HashSet<string> ();
+					selection = new HashSet<string>();
 				}
 				return selection;
 			}
