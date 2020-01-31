@@ -8,13 +8,7 @@
       "Type": "RPGCore.Demo.Nodes.RollNode",
       "Data": {
         "MinValue": 5,
-        "MaxValue": 15,
-        "TooltipFormat": "{0}",
-        "Data": {
-          "Hi": 0,
-          "Goodbyte": false
-        },
-        "Elements": null
+        "MaxValue": 15
       },
       "Editor": {
         "Position": {
@@ -27,13 +21,7 @@
       "Type": "RPGCore.Demo.Nodes.RollNode",
       "Data": {
         "MinValue": 20,
-        "MaxValue": 25,
-        "TooltipFormat": "{0}",
-        "Data": {
-          "Hi": 0,
-          "Goodbyte": false
-        },
-        "Elements": null
+        "MaxValue": 25
       },
       "Editor": {
         "Position": {
@@ -55,5 +43,6 @@
         }
       }
     }
-  }
+  },
+  "SubGraphs": null
 }
