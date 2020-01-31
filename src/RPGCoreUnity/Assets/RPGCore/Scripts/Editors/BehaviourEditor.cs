@@ -28,6 +28,7 @@ namespace RPGCore.Unity.Editors
 				new LocalPropertyIdJsonConverter()
 			}
 		});
+		private GUIStyle NodePadding;
 
 		[MenuItem("Window/Behaviour")]
 		public static void Open()
@@ -47,6 +48,14 @@ namespace RPGCore.Unity.Editors
 			{
 				titleContent = new GUIContent("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
 			}
+			NodePadding = new GUIStyle()
+			{
+				padding = new RectOffset()
+				{
+					left = 4,
+					right = 4
+				}
+			};
 		}
 
 		private void OnGUI()
@@ -63,63 +72,10 @@ namespace RPGCore.Unity.Editors
 
 			DrawBackground(ScreenRect, View.PanPosition);
 			DrawTopBar();
-			DrawAssetSelection();
 
 			DrawNodes();
 			DrawConnections();
 			HandleInput();
-		}
-
-		private void DrawAssetSelection()
-		{
-			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(ProjectImport), true);
-			if (CurrentPackage == null)
-			{
-				return;
-			}
-
-			var explorer = CurrentPackage.Explorer;
-
-			foreach (var resource in explorer.Resources)
-			{
-				if (!resource.Name.EndsWith(".bhvr"))
-				{
-					continue;
-				}
-
-				if (GUILayout.Button(resource.ToString()))
-				{
-					CurrentResource = resource;
-					JObject editorTarget;
-					using (var editorTargetData = CurrentResource.LoadStream())
-					using (var sr = new StreamReader(editorTargetData))
-					using (var reader = new JsonTextReader(sr))
-					{
-						editorTarget = JObject.Load(reader);
-					}
-
-					var nodes = NodeManifest.Construct(new Type[] {
-							typeof (AddNode),
-							typeof (RollNode),
-							typeof (OutputValueNode),
-							typeof (ItemInputNode),
-							typeof (ActivatableItemNode),
-							typeof (IterateNode),
-							typeof (GetStatNode),
-						});
-					var types = TypeManifest.ConstructBaseTypes();
-
-					var manifest = new BehaviourManifest()
-					{
-						Nodes = nodes,
-						Types = types,
-					};
-					Debug.Log(editorTarget);
-					var graphEditor = new EditorSession(manifest, editorTarget, "SerializedGraph", Serializer);
-
-					View.BeginSession(graphEditor);
-				}
-			}
 		}
 
 		private void DrawNodes()
@@ -139,14 +95,14 @@ namespace RPGCore.Unity.Editors
 				var nodeRect = new Rect(
 					View.PanPosition.x + nodeEditorPosition["x"].GetValue<int>(),
 					View.PanPosition.y + nodeEditorPosition["y"].GetValue<int>(),
-					200,
+					220,
 					1000
 				);
 
 				GUILayout.BeginArea(nodeRect);
 
-				var finalRect = EditorGUILayout.BeginVertical();
-				finalRect.xMax -= 2;
+				var finalRect = EditorGUILayout.BeginVertical(NodePadding);
+				// finalRect.xMax -= 2;
 				finalRect.yMax += 4;
 				if (CurrentEvent.type == EventType.Repaint)
 				{
@@ -155,13 +111,20 @@ namespace RPGCore.Unity.Editors
 				}
 
 				var nodeType = node["Type"];
-				EditorGUILayout.LabelField(nodeType.GetValue<string>());
+				string nodeTypeString = nodeType.GetValue<string>();
+				string nodeHeader = nodeTypeString.Substring(nodeTypeString.LastIndexOf(".") + 1);
+				EditorGUILayout.LabelField(nodeHeader, EditorStyles.boldLabel);
 
 				var nodeData = node["Data"];
+
+				float originalLabelWidth = EditorGUIUtility.labelWidth;
+				EditorGUIUtility.labelWidth = 115;
 				foreach (var childField in nodeData)
 				{
 					DrawField(childField);
 				}
+				EditorGUIUtility.labelWidth = originalLabelWidth;
+
 				EditorGUILayout.EndVertical();
 				GUILayout.EndArea();
 
@@ -220,7 +183,7 @@ namespace RPGCore.Unity.Editors
 				var nodeInfo = (NodeInformation)nodeData.Type;
 				if (nodeInfo?.Outputs != null)
 				{
-					var outputRect = new Rect(nodePositionX + 202, nodePositionY + 6, 20, 20);
+					var outputRect = new Rect(nodePositionX + 220, nodePositionY + 6, 20, 20);
 					foreach (var output in nodeInfo.Outputs)
 					{
 						if (CurrentEvent.type == EventType.Repaint)
@@ -268,20 +231,18 @@ namespace RPGCore.Unity.Editors
 					{
 						continue;
 					}
-					var fieldFeature = childField.GetOrCreateFeature<FieldFeature>();
+					var inputFieldFeature = childField.GetOrCreateFeature<FieldFeature>();
 
-					fieldFeature.GlobalRenderedPosition = new Rect(
-						fieldFeature.LocalRenderedPosition.x + nodePositionX,
-						fieldFeature.LocalRenderedPosition.y + nodePositionY,
-						fieldFeature.LocalRenderedPosition.width,
-						fieldFeature.LocalRenderedPosition.height);
+					inputFieldFeature.GlobalRenderedPosition = new Rect(
+						inputFieldFeature.LocalRenderedPosition.x + nodePositionX - 4,
+						inputFieldFeature.LocalRenderedPosition.y + nodePositionY,
+						inputFieldFeature.LocalRenderedPosition.width,
+						inputFieldFeature.LocalRenderedPosition.height);
 
-					var socketRect = fieldFeature.InputSocketPosition;
+					var inputRect = inputFieldFeature.InputSocketPosition;
 
-					if (CurrentEvent.type == EventType.MouseDown && socketRect.Contains(CurrentEvent.mousePosition))
+					if (CurrentEvent.type == EventType.MouseDown && inputRect.Contains(CurrentEvent.mousePosition))
 					{
-						var thisInputId = new LocalPropertyId(new LocalId(node.Name), childField.Name);
-
 						View.BeginConnectionFromInput(childField, node.Name);
 
 						GUI.UnfocusWindow();
@@ -289,7 +250,7 @@ namespace RPGCore.Unity.Editors
 
 						CurrentEvent.Use();
 					}
-					else if (CurrentEvent.type == EventType.MouseUp && socketRect.Contains(CurrentEvent.mousePosition))
+					else if (CurrentEvent.type == EventType.MouseUp && inputRect.Contains(CurrentEvent.mousePosition))
 					{
 						if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
 						{
@@ -308,7 +269,7 @@ namespace RPGCore.Unity.Editors
 					}
 					else if (CurrentEvent.type == EventType.Repaint)
 					{
-						EditorStyles.helpBox.Draw(socketRect, false, false, false, false);
+						EditorStyles.helpBox.Draw(inputRect, false, false, false, false);
 
 						var thisInputConnectedTo = childField.GetValue<LocalPropertyId>();
 						if (thisInputConnectedTo != LocalPropertyId.None)
@@ -326,7 +287,7 @@ namespace RPGCore.Unity.Editors
 								var otherNodeData = otherNode["Data"];
 
 								// Foreach Output
-								otherOutputRect = new Rect(otherNodePositionX + 202, otherNodePositionY + 6, 20, 20);
+								otherOutputRect = new Rect(otherNodePositionX + 220, otherNodePositionY + 6, 20, 20);
 								var otherNodeInfo = (NodeInformation)otherNodeData.Type;
 								foreach (var output in otherNodeInfo.Outputs)
 								{
@@ -348,7 +309,7 @@ namespace RPGCore.Unity.Editors
 							if (foundNode)
 							{
 								var start = new Vector3(otherOutputRect.x, otherOutputRect.center.y);
-								var end = new Vector3(fieldFeature.GlobalRenderedPosition.x, fieldFeature.GlobalRenderedPosition.center.y);
+								var end = new Vector3(inputFieldFeature.GlobalRenderedPosition.x, inputFieldFeature.GlobalRenderedPosition.center.y);
 								var startDir = new Vector3(1, 0);
 								var endDir = new Vector3(-1, 0);
 
@@ -379,7 +340,7 @@ namespace RPGCore.Unity.Editors
 
 						// Foreach Output
 						var nodeInfo = (NodeInformation)nodeData.Type;
-						outputRect = new Rect(nodePositionX + 202, nodePositionY + 6, 20, 20);
+						outputRect = new Rect(nodePositionX + 220, nodePositionY + 6, 20, 20);
 						foreach (var output in nodeInfo.Outputs)
 						{
 							var otherOutputId = new LocalPropertyId(new LocalId(node.Name), output.Key);
@@ -412,19 +373,10 @@ namespace RPGCore.Unity.Editors
 				{
 					var startFieldFeature = View.ConnectionInput.GetOrCreateFeature<FieldFeature>();
 
-					var inputNode = graphEditorNodes[View.ConnectionInputNodeId.ToString()];
-					var nodeEditor = inputNode["Editor"];
-					var nodeEditorPosition = nodeEditor["Position"];
-
-					float nodePositionX = nodeEditorPosition["x"].GetValue<int>() + View.PanPosition.x;
-					float nodePositionY = nodeEditorPosition["y"].GetValue<int>() + View.PanPosition.y;
-
-					var nodeData = inputNode["Data"];
-
-					var socketRect = startFieldFeature.InputSocketPosition;
+					var inputSocketRect = startFieldFeature.InputSocketPosition;
 
 					var start = new Vector3(CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
-					var end = new Vector3(socketRect.xMax, socketRect.center.y);
+					var end = new Vector3(inputSocketRect.xMax, inputSocketRect.center.y);
 					var startDir = new Vector3(1, 0);
 					var endDir = new Vector3(-1, 0);
 
@@ -503,7 +455,7 @@ namespace RPGCore.Unity.Editors
 				var fieldFeature = field.GetOrCreateFeature<FieldFeature>();
 
 				EditorGUI.BeginChangeCheck();
-				EditorGUILayout.LabelField(field.Name, field.GetValue<LocalPropertyId>().ToString());
+				EditorGUILayout.LabelField(field.Name, field.GetValue<LocalPropertyId>().TargetIdentifier.ToString());
 				var renderPos = GUILayoutUtility.GetLastRect();
 				fieldFeature.LocalRenderedPosition = renderPos;
 				if (EditorGUI.EndChangeCheck())
@@ -699,9 +651,7 @@ namespace RPGCore.Unity.Editors
 		{
 			EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
 
-			if (GUILayout.Button(CurrentPackage?.name, EditorStyles.toolbarButton, GUILayout.Width(100)))
-			{
-			}
+			DrawAssetSelection();
 
 			GUILayout.Space(6);
 
@@ -719,11 +669,64 @@ namespace RPGCore.Unity.Editors
 				}
 			}
 
-			if (GUILayout.Button(View.DescribeCurrentAction, EditorStyles.toolbarButton))
+			if (GUILayout.Button(View.DescribeCurrentAction, EditorStyles.toolbarButton, GUILayout.Width(120)))
 			{
 			}
 
 			EditorGUILayout.EndHorizontal();
+		}
+
+		private void DrawAssetSelection()
+		{
+			CurrentPackage = (ProjectImport)EditorGUILayout.ObjectField(CurrentPackage, typeof(ProjectImport), true,
+				GUILayout.Width(180));
+			if (CurrentPackage == null)
+			{
+				return;
+			}
+
+			var explorer = CurrentPackage.Explorer;
+
+			foreach (var resource in explorer.Resources)
+			{
+				if (!resource.Name.EndsWith(".bhvr"))
+				{
+					continue;
+				}
+
+				if (GUILayout.Button(resource.ToString()))
+				{
+					CurrentResource = resource;
+					JObject editorTarget;
+					using (var editorTargetData = CurrentResource.LoadStream())
+					using (var sr = new StreamReader(editorTargetData))
+					using (var reader = new JsonTextReader(sr))
+					{
+						editorTarget = JObject.Load(reader);
+					}
+
+					var nodes = NodeManifest.Construct(new Type[] {
+							typeof (AddNode),
+							typeof (RollNode),
+							typeof (OutputValueNode),
+							typeof (ItemInputNode),
+							typeof (ActivatableItemNode),
+							typeof (IterateNode),
+							typeof (GetStatNode),
+						});
+					var types = TypeManifest.ConstructBaseTypes();
+
+					var manifest = new BehaviourManifest()
+					{
+						Nodes = nodes,
+						Types = types,
+					};
+					Debug.Log(editorTarget);
+					var graphEditor = new EditorSession(manifest, editorTarget, "SerializedGraph", Serializer);
+
+					View.BeginSession(graphEditor);
+				}
+			}
 		}
 	}
 }
