@@ -199,6 +199,53 @@ namespace RPGCore.Behaviour.Editor
 			return feature;
 		}
 
+		public void SetArraySize(int size)
+		{
+			if (Field.Format != FieldFormat.List)
+			{
+				throw new InvalidOperationException($"Cannot set the value of \"{Field.Format}\" typed fields.");
+			}
+
+			JArray jsonArray;
+			if (Json.Type == JTokenType.Null)
+			{
+				jsonArray = new JArray();
+				Json.Replace(jsonArray);
+				Json = jsonArray;
+			}
+			else
+			{
+				jsonArray = (JArray)Json;
+			}
+
+			while (jsonArray.Count > size)
+			{
+				int removeIndex = jsonArray.Count - 1;
+				string childName = $"[{removeIndex}]";
+
+				jsonArray.RemoveAt(removeIndex);
+
+				Children.Remove(childName);
+			}
+
+			while (jsonArray.Count < size)
+			{
+				int addINdex = jsonArray.Count;
+				string childName = $"[{addINdex}]";
+
+				var duplicate = Type.DefaultValue.DeepClone();
+				jsonArray.Add(
+					duplicate
+				);
+
+				if (!Children.TryGetValue(childName, out var field))
+				{
+					field = new EditorField(Session, duplicate, childName, Field.ValueFormat);
+				}
+				Children.Add(childName, field);
+			}
+		}
+
 		public void SetValue<T>(T value)
 		{
 			if (Field.Format != FieldFormat.Object)

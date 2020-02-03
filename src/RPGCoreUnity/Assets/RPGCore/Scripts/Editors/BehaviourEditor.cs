@@ -407,10 +407,10 @@ namespace RPGCore.Unity.Editors
 					EditorGUI.indentLevel++;
 
 					EditorGUI.BeginChangeCheck();
-					int newIndex = EditorGUILayout.DelayedIntField("Size", field.Count);
+					int newSize = EditorGUILayout.DelayedIntField("Size", field.Count);
 					if (EditorGUI.EndChangeCheck())
 					{
-
+						field.SetArraySize(newSize);
 					}
 
 					foreach (var childField in field)
@@ -714,7 +714,35 @@ namespace RPGCore.Unity.Editors
 							typeof (IterateNode),
 							typeof (GetStatNode),
 						});
-					var types = TypeManifest.ConstructBaseTypes();
+					var types = TypeManifest.Construct(
+						new Type[]
+						{
+							typeof(bool),
+							typeof(string),
+							typeof(int),
+							typeof(byte),
+							typeof(long),
+							typeof(short),
+							typeof(uint),
+							typeof(ulong),
+							typeof(ushort),
+							typeof(sbyte),
+							typeof(char),
+							typeof(float),
+							typeof(double),
+							typeof(decimal),
+							typeof(InputSocket),
+							typeof(LocalId),
+						},
+						new Type[]
+						{
+							typeof(SerializedGraph),
+							typeof(SerializedNode),
+							typeof(PackageNodeEditor),
+							typeof(PackageNodePosition),
+							typeof(ExtraData)
+						}
+					);
 
 					var manifest = new BehaviourManifest()
 					{
