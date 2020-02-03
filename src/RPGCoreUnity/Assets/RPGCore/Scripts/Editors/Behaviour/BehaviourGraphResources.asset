@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LightThemeIcon: {fileID: 2800000, guid: b41b08bb29f74d94481b08f5b11f04a3, type: 3}
   DarkThemeIcon: {fileID: 2800000, guid: 6083f367299ebc947a731e4a6ac7042b, type: 3}
-  WindowBackground: {fileID: 2800000, guid: cf7970a5ce32fbc449dbebe77d8628be, type: 3}
+  WindowBackground: {fileID: 2800000, guid: 78f5abfde6bee994c8fc82003a687069, type: 3}
   DefaultTrail: {fileID: 2800000, guid: 556314f2a3a117a42b65c79a7ab52d7c, type: 3}
   SmallConnection: {fileID: 2800000, guid: 98e891d90234e3948a881e4c0285cbb3, type: 3}
   AndNodeGraphic: {fileID: 2800000, guid: 5d8cc6d3fabba8d4ca55673e2066983d, type: 3}
