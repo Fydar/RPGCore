@@ -36,7 +36,12 @@ namespace RPGCore.Unity.Editors
 			["DemoPlayer"] = new GraphTypeInformation()
 			{
 				ConnectionColor = new Color(0.6f, 0.6f, 0.85f),
-				SocketColor = new Color(0.4f, 0.4f, 0.8f),
+				SocketColor = new Color(0.6f, 0.6f, 0.85f),
+			},
+			["Error"] = new GraphTypeInformation()
+			{
+				ConnectionColor = new Color(0.85f, 0.6f, 0.6f),
+				SocketColor = new Color(0.85f, 0.6f, 0.6f),
 			}
 		};
 
@@ -210,27 +215,23 @@ namespace RPGCore.Unity.Editors
 				var nodeInfo = (NodeInformation)nodeData.Type;
 				if (nodeInfo?.Outputs != null)
 				{
-					var outputRect = new Rect(nodePositionX + 220, nodePositionY + 6, 20, 20);
+					var outputSocketRect = new Rect(nodePositionX + 220, nodePositionY + 6, 20, 20);
 					foreach (var output in nodeInfo.Outputs)
 					{
 						if (CurrentEvent.type == EventType.Repaint)
 						{
 							if (!StyleLookup.TryGetValue(output.Value.Type, out var connectionStyle))
 							{
-								connectionStyle = new GraphTypeInformation()
-								{
-									ConnectionColor = new Color(1.0f, 0.8f, 0.8f),
-									SocketColor = new Color(1.0f, 0.8f, 0.8f)
-								};
+								connectionStyle = StyleLookup["Error"];
 								Debug.LogWarning($"Couldn't find a style for connections of type \"{output.Value.Type}\".");
 							}
 
 							var originalColor = GUI.color;
 							GUI.color = connectionStyle.SocketColor;
-							EditorStyles.helpBox.Draw(outputRect, false, false, false, false);
+							GUI.DrawTexture(outputSocketRect, BehaviourGraphResources.Instance.OutputSocket);
 							GUI.color = originalColor;
 						}
-						else if (CurrentEvent.type == EventType.MouseDown && outputRect.Contains(CurrentEvent.mousePosition))
+						else if (CurrentEvent.type == EventType.MouseDown && outputSocketRect.Contains(CurrentEvent.mousePosition))
 						{
 							var outputId = new LocalPropertyId(new LocalId(node.Name), output.Key);
 							View.BeginConnectionFromOutput(outputId);
@@ -240,7 +241,7 @@ namespace RPGCore.Unity.Editors
 
 							CurrentEvent.Use();
 						}
-						else if (CurrentEvent.type == EventType.MouseUp && outputRect.Contains(CurrentEvent.mousePosition))
+						else if (CurrentEvent.type == EventType.MouseUp && outputSocketRect.Contains(CurrentEvent.mousePosition))
 						{
 							if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
 							{
@@ -260,7 +261,7 @@ namespace RPGCore.Unity.Editors
 							}
 						}
 
-						outputRect.y += outputRect.height + 4;
+						outputSocketRect.y += outputSocketRect.height + 4;
 					}
 				}
 
@@ -279,9 +280,9 @@ namespace RPGCore.Unity.Editors
 						inputFieldFeature.LocalRenderedPosition.width,
 						inputFieldFeature.LocalRenderedPosition.height);
 
-					var inputRect = inputFieldFeature.InputSocketPosition;
+					var inputSocketRect = inputFieldFeature.InputSocketPosition;
 
-					if (CurrentEvent.type == EventType.MouseDown && inputRect.Contains(CurrentEvent.mousePosition))
+					if (CurrentEvent.type == EventType.MouseDown && inputSocketRect.Contains(CurrentEvent.mousePosition))
 					{
 						View.BeginConnectionFromInput(childField, node.Name);
 
@@ -290,7 +291,7 @@ namespace RPGCore.Unity.Editors
 
 						CurrentEvent.Use();
 					}
-					else if (CurrentEvent.type == EventType.MouseUp && inputRect.Contains(CurrentEvent.mousePosition))
+					else if (CurrentEvent.type == EventType.MouseUp && inputSocketRect.Contains(CurrentEvent.mousePosition))
 					{
 						if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
 						{
@@ -309,16 +310,22 @@ namespace RPGCore.Unity.Editors
 					}
 					else if (CurrentEvent.type == EventType.Repaint)
 					{
+						if (!StyleLookup.TryGetValue("Error", out var inputStyle))
+						{
+							inputStyle = StyleLookup["Error"];
+							Debug.LogWarning($"Couldn't find a style for connections of type \"Error\".");
+						}
+
 						var originalColor = GUI.color;
-						GUI.color = new Color(1.0f, 0.8f, 0.8f);
-						EditorStyles.helpBox.Draw(inputRect, false, false, false, false);
+						GUI.color = inputStyle.SocketColor;
+						GUI.DrawTexture(inputSocketRect, BehaviourGraphResources.Instance.InputSocket);
 						GUI.color = originalColor;
 
 						var thisInputConnectedTo = childField.GetValue<LocalPropertyId>();
 						if (thisInputConnectedTo != LocalPropertyId.None)
 						{
 							bool isFound = false;
-							Rect otherOutputRect = default;
+							Rect otherOutputSocketRect = default;
 							SocketInformation outputSocketInformation = default;
 
 							foreach (var otherNode in graphEditorNodes)
@@ -332,7 +339,7 @@ namespace RPGCore.Unity.Editors
 								var otherNodeData = otherNode["Data"];
 
 								// Foreach Output
-								otherOutputRect = new Rect(otherNodePositionX + 220, otherNodePositionY + 6, 20, 20);
+								otherOutputSocketRect = new Rect(otherNodePositionX + 220, otherNodePositionY + 6, 20, 20);
 								var otherNodeInfo = (NodeInformation)otherNodeData.Type;
 								foreach (var output in otherNodeInfo.Outputs)
 								{
@@ -345,7 +352,7 @@ namespace RPGCore.Unity.Editors
 										break;
 									}
 
-									otherOutputRect.y += otherOutputRect.height + 4;
+									otherOutputSocketRect.y += otherOutputSocketRect.height + 4;
 								}
 								if (isFound)
 								{
@@ -354,18 +361,14 @@ namespace RPGCore.Unity.Editors
 							}
 							if (isFound)
 							{
-								var start = new Vector3(otherOutputRect.x, otherOutputRect.center.y);
+								var start = new Vector3(otherOutputSocketRect.x, otherOutputSocketRect.center.y);
 								var end = new Vector3(inputFieldFeature.GlobalRenderedPosition.x, inputFieldFeature.GlobalRenderedPosition.center.y);
 								var startDir = new Vector3(1, 0);
 								var endDir = new Vector3(-1, 0);
 
 								if (!StyleLookup.TryGetValue(outputSocketInformation.Type, out var connectionStyle))
 								{
-									connectionStyle = new GraphTypeInformation()
-									{
-										ConnectionColor = new Color(1.0f, 0.8f, 0.8f),
-										SocketColor = new Color(1.0f, 0.8f, 0.8f)
-									};
+									connectionStyle = StyleLookup["Error"];
 									Debug.LogWarning($"Couldn't find a style for connections of type \"{outputSocketInformation.Type}\".");
 								}
 
@@ -427,11 +430,7 @@ namespace RPGCore.Unity.Editors
 
 						if (!StyleLookup.TryGetValue(outputSocketInformation.Type, out var connectionStyle))
 						{
-							connectionStyle = new GraphTypeInformation()
-							{
-								ConnectionColor = new Color(1.0f, 0.8f, 0.8f),
-								SocketColor = new Color(1.0f, 0.8f, 0.8f)
-							};
+							connectionStyle = StyleLookup["Error"];
 							Debug.LogWarning($"Couldn't find a style for connections of type \"{outputSocketInformation.Type}\".");
 						}
 
@@ -440,6 +439,12 @@ namespace RPGCore.Unity.Editors
 				}
 				else
 				{
+					if (!StyleLookup.TryGetValue("Error", out var inputStyle))
+					{
+						inputStyle = StyleLookup["Error"];
+						Debug.LogWarning($"Couldn't find a style for connections of type \"Error\".");
+					}
+
 					var startFieldFeature = View.ConnectionInput.GetOrCreateFeature<FieldFeature>();
 
 					var inputSocketRect = startFieldFeature.InputSocketPosition;
@@ -449,7 +454,7 @@ namespace RPGCore.Unity.Editors
 					var startDir = new Vector3(1, 0);
 					var endDir = new Vector3(-1, 0);
 
-					DrawConnection(start, end, startDir, endDir, new Color(0.85f, 0.6f, 0.6f));
+					DrawConnection(start, end, startDir, endDir, inputStyle.ConnectionColor);
 				}
 			}
 		}
@@ -682,7 +687,7 @@ namespace RPGCore.Unity.Editors
 				EditorGUI.DrawRect (screenRect, new Color (0.7f, 0.7f, 0.7f));*/
 
 			var originalTintColour = GUI.color;
-			GUI.color = new Color(1, 1, 1, 0.3f);
+			GUI.color = new Color(1.0f, 1.0f, 1.0f, 0.3f);
 
 			DrawImageTiled(backgroundRect, BehaviourGraphResources.Instance.WindowBackground, viewPosition, gridScale);
 

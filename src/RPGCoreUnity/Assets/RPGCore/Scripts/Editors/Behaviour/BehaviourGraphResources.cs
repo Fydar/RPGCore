@@ -18,6 +18,10 @@ namespace RPGCore.Behaviour.Editor
 		public Texture2D DefaultTrail;
 		public Texture2D SmallConnection;
 
+		[Space]
+		public Texture2D InputSocket;
+		public Texture2D OutputSocket;
+
 		[Header("Nodes")]
 		public Texture2D AndNodeGraphic;
 		public Texture2D OrNodeGraphic;
