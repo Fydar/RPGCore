@@ -199,6 +199,64 @@ namespace RPGCore.Behaviour.Editor
 			return feature;
 		}
 
+		public bool Remove(string key)
+		{
+			if (Field.Format != FieldFormat.Dictionary)
+			{
+				throw new InvalidOperationException($"Cannot remove elements of \"{Field.Format}\" typed fields.");
+			}
+
+			if (Json.Type == JTokenType.Null)
+			{
+				return false;
+			}
+
+			var jsonObject = (JObject)Json;
+
+			bool removed = jsonObject.Remove(key);
+
+			if (!removed)
+			{
+				return false;
+			}
+
+			Children.Remove(key);
+
+			return true;
+		}
+
+		public void Add(string key)
+		{
+			if (Field.Format != FieldFormat.Dictionary)
+			{
+				throw new InvalidOperationException($"Cannot remove elements of \"{Field.Format}\" typed fields.");
+			}
+
+			JObject jsonObject;
+			if (Json.Type == JTokenType.Null)
+			{
+				jsonObject = new JObject();
+				Json.Replace(jsonObject);
+				Json = jsonObject;
+			}
+			else
+			{
+				jsonObject = (JObject)Json;
+			}
+
+			var duplicate = Type.DefaultValue.DeepClone();
+			jsonObject.Add(
+				key,
+				duplicate
+			);
+
+			if (!Children.TryGetValue(key, out var field))
+			{
+				field = new EditorField(Session, duplicate, key, Field.ValueFormat);
+			}
+			Children.Add(key, field);
+		}
+
 		public void SetArraySize(int size)
 		{
 			if (Field.Format != FieldFormat.List)
@@ -230,8 +288,8 @@ namespace RPGCore.Behaviour.Editor
 
 			while (jsonArray.Count < size)
 			{
-				int addINdex = jsonArray.Count;
-				string childName = $"[{addINdex}]";
+				int addIndex = jsonArray.Count;
+				string childName = $"[{addIndex}]";
 
 				var duplicate = Type.DefaultValue.DeepClone();
 				jsonArray.Add(

@@ -622,7 +622,30 @@ namespace RPGCore.Unity.Editors
 			}
 			else if (CurrentEvent.type == EventType.KeyDown)
 			{
+				if (CurrentEvent.keyCode == KeyCode.Space)
+				{
+					var graphEditorNodes = View.Session.Root["Nodes"];
 
+					string newId = LocalId.NewId().ToString();
+					graphEditorNodes.Add(newId);
+
+					var newNode = graphEditorNodes[newId];
+					newNode.SetValue(new SerializedNode()
+					{
+						Type = "RPGCore.Demo.Nodes.AddNode",
+						Data = new JObject("{}")
+					});
+					newNode.ApplyModifiedProperties();
+				}
+				else if (CurrentEvent.keyCode == KeyCode.Delete)
+				{
+					var graphEditorNodes = View.Session.Root["Nodes"];
+
+					foreach (var node in View.Selection)
+					{
+						graphEditorNodes.Remove(node);
+					}
+				}
 			}
 			else if (CurrentEvent.type == EventType.MouseDrag)
 			{
