@@ -29,13 +29,7 @@ The "Rewrite" project delivers the following features:
 
 At it's core, this project features a behaviour system that's used to create modular items and buffs. The behaviour system is setup using a visual scripting tool, shown below.
 
-![Graph Demo](./docs/screenshots/ChargingBuff.png)
-
-The long-term goal of this project is to produce a toolkit for creating modular and event based mechanics for clients and servers.
-
-RPGCore is built around a modular behaviour system. One of the core uses for this system is modular items.
-
-### Fire Cape
+RPGCore is built around a modular behaviour system. One of the core uses for this system is **modular items**.
 
 Below is an item called the "Fire Cape". It applies the Immolate buff to it's owner, which deals damage to nearby enemies.
 
