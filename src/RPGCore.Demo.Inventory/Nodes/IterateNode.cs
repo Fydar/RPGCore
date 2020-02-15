@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RPGCore.Demo.Nodes
+namespace RPGCore.Demo.Inventory.Nodes
 {
 	public sealed class IterateNode : NodeTemplate<IterateNode>
 	{

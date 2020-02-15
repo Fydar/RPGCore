@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -28,11 +28,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+    <ProjectReference Include="..\RPGCore.View\RPGCore.View.csproj" />
   </ItemGroup>
 
   <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Items.dll Assets/RPGCore/Plugins' | true" />
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Items.pdb Assets/RPGCore/Plugins' | true" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Demo.Inventory.dll Assets/Demos/Inventory/Plugins' | true" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Demo.Inventory.pdb Assets/Demos/Inventory/Plugins' | true" />
   </Target>
 
 </Project>

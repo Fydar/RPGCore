@@ -32,8 +32,8 @@
   </ItemGroup>
 
   <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Demo.dll Assets/Plugins/RPGCore' | true" />
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Demo.pdb Assets/Plugins/RPGCore' | true" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Demo.BoardGame.dll Assets/Demos/BoardGame/Plugins' | true" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Demo.BoardGame.pdb Assets/Demos/BoardGame/Plugins' | true" />
   </Target>
 
 </Project>

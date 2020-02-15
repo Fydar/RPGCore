@@ -1,6 +1,6 @@
 ﻿using RPGCore.Behaviour;
 
-namespace RPGCore.Demo.Nodes
+namespace RPGCore.Demo.Inventory.Nodes
 {
 	public sealed class GetStatNode : NodeTemplate<GetStatNode>
 	{

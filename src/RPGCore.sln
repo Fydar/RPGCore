@@ -32,11 +32,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits", "RPGCore.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits.UnitTests", "RPGCore.Traits.UnitTests\RPGCore.Traits.UnitTests.csproj", "{16483ACE-6A20-43A3-B164-AC89173A7AA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo", "RPGCore.Demo\RPGCore.Demo.csproj", "{3886077F-F28A-485A-9F16-CD105DC075A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.Inventory", "RPGCore.Demo.Inventory\RPGCore.Demo.Inventory.csproj", "{3886077F-F28A-485A-9F16-CD105DC075A7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.View", "RPGCore.View\RPGCore.View.csproj", "{F4BA2F8E-FCAF-4C35-B226-592751170BFB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Interactive", "RPGCore.Interactive\RPGCore.Interactive.csproj", "{A292FA89-B1A5-4619-BF1F-51573E36EFD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Demo.BoardGame", "RPGCore.Demo.BoardGame\RPGCore.Demo.BoardGame.csproj", "{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,6 +167,14 @@ Global
 		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Release|x64.ActiveCfg = Release|Any CPU
 		{A292FA89-B1A5-4619-BF1F-51573E36EFD1}.Release|x64.Build.0 = Release|Any CPU
+		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Debug|x64.Build.0 = Debug|Any CPU
+		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Release|x64.ActiveCfg = Release|Any CPU
+		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

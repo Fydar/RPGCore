@@ -40,7 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
-    <ProjectReference Include="..\RPGCore.Demo\RPGCore.Demo.csproj" />
+    <ProjectReference Include="..\RPGCore.Demo.Inventory\RPGCore.Demo.Inventory.csproj" />
     <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
   </ItemGroup>
 

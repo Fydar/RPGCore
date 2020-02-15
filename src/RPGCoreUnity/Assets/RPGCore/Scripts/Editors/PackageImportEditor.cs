@@ -8,8 +8,6 @@ namespace RPGCore.Unity.Editors
 	[CustomEditor(typeof(ProjectImport))]
 	public class ProjectImportEditor : Editor
 	{
-		private Texture2D Spritesheet;
-
 		public override void OnInspectorGUI()
 		{
 			DrawDefaultInspector();
@@ -21,53 +19,13 @@ namespace RPGCore.Unity.Editors
 			EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 			foreach (var resource in projectImport.Explorer.Resources)
 			{
-				EditorGUILayout.LabelField(resource.Name);
+				EditorGUILayout.LabelField(resource.FullName);
 			}
-
-			if (Spritesheet != null)
-			{
-				var rect = GUILayoutUtility.GetRect(0, 250);
-				var centerRect = new Rect(rect.center.x - (rect.height * 0.5f), rect.y, rect.height, rect.height);
-				GUI.DrawTexture(centerRect, Spritesheet);
-			}
+			EditorGUILayout.EndVertical();
 
 			if (GUILayout.Button("Reload"))
 			{
 				projectImport.Reload();
-			}
-
-			if (GUILayout.Button("Create"))
-			{
-				string path = AssetDatabase.GetAssetPath(target);
-				path = path.Substring(0, path.LastIndexOf('/'));
-				Debug.Log(path);
-
-				/*foreach (var resource in projectImport.Explorer.Resources)
-				{
-					string assetFolder = path + "/" + resource.Name;
-					if (!AssetDatabase.IsValidFolder (assetFolder))
-					{
-						assetFolder = AssetDatabase.CreateFolder (path, resource.Name);
-						assetFolder = AssetDatabase.GUIDToAssetPath (assetFolder);
-					}
-
-					string assetImportPath = assetFolder + "/" + resource.Name + ".asset";
-
-					var assetImport = AssetDatabase.LoadAssetAtPath<AssetImport> (assetImportPath);
-					if (assetImport == null)
-					{
-						assetImport = CreateInstance<AssetImport> ();
-						AssetDatabase.CreateAsset (assetImport, assetImportPath);
-					}
-					
-					AssetImporter.GetAtPath (assetImportPath).SetAssetBundleNameAndVariant (target.name, "");
-
-					var assetIcon = resource.FindIcon().LoadImage ();
-
-					AssetDatabase.AddObjectToAsset (assetIcon, assetImport);
-					AssetDatabase.ImportAsset (AssetDatabase.GetAssetPath (assetIcon));
-
-				} */
 			}
 
 			if (GUILayout.Button("Export"))

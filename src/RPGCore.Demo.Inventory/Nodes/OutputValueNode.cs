@@ -1,7 +1,7 @@
 ﻿using RPGCore.Behaviour;
 using System;
 
-namespace RPGCore.Demo.Nodes
+namespace RPGCore.Demo.Inventory.Nodes
 {
 	public sealed class OutputValueNode : NodeTemplate<OutputValueNode>
 	{

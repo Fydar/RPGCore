@@ -1,4 +1,4 @@
-﻿using RPGCore.Demo;
+﻿using RPGCore.Demo.Inventory;
 
 namespace RPGCore.Runner
 {
@@ -8,12 +8,12 @@ namespace RPGCore.Runner
 
 		public Simulator()
 		{
-			simulation = new Simulation ();
+			simulation = new Simulation();
 		}
 
 		public void Start()
 		{
-			simulation.Start ();
+			simulation.Start();
 		}
 
 		public void Update()

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using RPGCore.Behaviour;
 using RPGCore.Traits;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Demo.Inventory
 {
 	public class DemoPlayer
 	{

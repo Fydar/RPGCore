@@ -1,4 +1,4 @@
-﻿namespace RPGCore.Demo.Nodes
+﻿namespace RPGCore.Demo.Inventory.Nodes
 {
 	public struct ExtraData
 	{
