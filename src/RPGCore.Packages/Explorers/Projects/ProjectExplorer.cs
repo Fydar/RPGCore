@@ -32,16 +32,31 @@ namespace RPGCore.Packages
 
 			public IEnumerator<ProjectResource> GetEnumerator()
 			{
+				if (Resources?.Values == null)
+				{
+					return Enumerable.Empty<ProjectResource>().GetEnumerator();
+				}
+
 				return Resources.Values.GetEnumerator();
 			}
 
 			IEnumerator IEnumerable.GetEnumerator()
 			{
+				if (Resources?.Values == null)
+				{
+					return Enumerable.Empty<ProjectResource>().GetEnumerator();
+				}
+
 				return Resources.Values.GetEnumerator();
 			}
 
 			IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()
 			{
+				if (Resources?.Values == null)
+				{
+					return Enumerable.Empty<ProjectResource>().GetEnumerator();
+				}
+
 				return Resources.Values.GetEnumerator();
 			}
 		}
