@@ -13,14 +13,21 @@ namespace RPGCore.Demo.BoardGame
 
 		public void Create(IPackageExplorer gameData)
 		{
-
+			Players = new GamePlayer[]
+			{
+				new  GamePlayer()
+				{
+					CurrentScore = new StatInstance(),
+					SpecialCard = new BuildingTemplate(),
+					Board = new GameBoard(4, 4)
+				},
+				new  GamePlayer()
+				{
+					CurrentScore = new StatInstance(),
+					SpecialCard = new BuildingTemplate(),
+					Board = new GameBoard(4, 4)
+				}
+			};
 		}
-	}
-
-	public class GamePlayer
-	{
-		public StatInstance CurrentScore;
-
-		public BuildingTemplate SpecialCard;
 	}
 }
