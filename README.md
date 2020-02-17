@@ -41,6 +41,6 @@ This graph in the game is interpreted by the tooltip system, which renders the "
 
 ## License
 
-[![License](https://img.shields.io/github/license/Fydar/RPGCore)](https://github.com/Fydar/RPGCore/blob/master/LICENSE)
+[![Creative Commons License](https://i.creativecommons.org/l/by-nc/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc/4.0/)
 
-This work is licensed under the Apache License, Version 2.0, meaning you are free to use this work commercially under the conditions the LICENSE and NOTICE file is included within the source.
+This work is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License](http://creativecommons.org/licenses/by-nc/4.0/)

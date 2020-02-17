@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/Fydar/RPGCore</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/Fydar/RPGCore/master/src/project-icon_rounded_64x64.png</PackageIconUrl>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>CC-BY-NC-4.0</PackageLicenseExpression>
     <Copyright>© 2020 Anthony Marmont</Copyright>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
