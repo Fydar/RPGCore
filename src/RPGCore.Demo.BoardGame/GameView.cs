@@ -1,6 +1,7 @@
 ﻿using RPGCore.Demo.BoardGame.Models;
 using RPGCore.Packages;
 using RPGCore.Traits;
+using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame
 {
@@ -20,13 +21,15 @@ namespace RPGCore.Demo.BoardGame
 				{
 					CurrentScore = new StatInstance(),
 					SpecialCard = new BuildingTemplate(),
-					Board = new GameBoard(4, 4)
+					Board = new GameBoard(4, 4),
+					ResourceHand = new List<string>()
 				},
 				new GamePlayer()
 				{
 					CurrentScore = new StatInstance(),
 					SpecialCard = new BuildingTemplate(),
-					Board = new GameBoard(4, 4)
+					Board = new GameBoard(4, 4),
+					ResourceHand = new List<string>()
 				}
 			};
 		}
