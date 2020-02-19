@@ -75,5 +75,30 @@ namespace RPGCore.Demo.BoardGame
 		{
 			return !(left == right);
 		}
+
+		public Integer2 SimpleTransform(BuildingOrientation orientation, int width, int height)
+		{
+			int sampleX = x;
+			int sampleY = y;
+
+			if (orientation.HasFlag(BuildingOrientation.MirrorX))
+			{
+				sampleX = width - sampleX;
+			}
+
+			if (orientation.HasFlag(BuildingOrientation.MirrorY))
+			{
+				sampleY = height - sampleY;
+			}
+
+			if (orientation.HasFlag(BuildingOrientation.Rotate90))
+			{
+				int temp = width - sampleY;
+				sampleY = sampleX;
+				sampleX = temp;
+			}
+
+			return new Integer2(sampleX, sampleY);
+		}
 	}
 }

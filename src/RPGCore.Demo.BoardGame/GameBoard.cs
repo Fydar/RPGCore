@@ -4,6 +4,14 @@
 	{
 		public GameTile[,] Tiles;
 
+		public GameTile this[int x, int y]
+		{
+			get
+			{
+				return this[new Integer2(x, y)];
+			}
+		}
+
 		public GameTile this[Integer2 position]
 		{
 			get
