@@ -49,7 +49,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public override string ToString()
 		{
-			return string.Format("{0:0.0}, {1:0.0}, {2:0.0}", x, y, z);
+			return string.Format("{0:0}, {1:0}, {2:0}", x, y, z);
 		}
 
 		public static Integer3 operator +(Integer3 left, Integer3 right)

@@ -43,7 +43,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public override string ToString()
 		{
-			return string.Format("{0:0.0}, {1:0.0}", x, y);
+			return string.Format("{0:0}, {1:0}", x, y);
 		}
 
 		public static Integer2 operator +(Integer2 left, Integer2 right)
@@ -74,31 +74,6 @@ namespace RPGCore.Demo.BoardGame
 		public static bool operator !=(Integer2 left, Integer2 right)
 		{
 			return !(left == right);
-		}
-
-		public Integer2 SimpleTransform(BuildingOrientation orientation, int width, int height)
-		{
-			int sampleX = x;
-			int sampleY = y;
-
-			if (orientation.HasFlag(BuildingOrientation.MirrorX))
-			{
-				sampleX = width - sampleX;
-			}
-
-			if (orientation.HasFlag(BuildingOrientation.MirrorY))
-			{
-				sampleY = height - sampleY;
-			}
-
-			if (orientation.HasFlag(BuildingOrientation.Rotate90))
-			{
-				int temp = width - sampleY;
-				sampleY = sampleX;
-				sampleX = temp;
-			}
-
-			return new Integer2(sampleX, sampleY);
 		}
 	}
 }

@@ -5,7 +5,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 {
 	public class GameViewShould
 	{
-		[Test]
+		[Test, Parallelizable]
 		public void CreateSuccessfully()
 		{
 			var explorer = new PackageExplorer();
