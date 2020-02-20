@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using RPGCore.Packages;
 
 namespace RPGCore.Demo.BoardGame.UnitTests
 {
@@ -9,11 +8,9 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 		[Test(Description = "Ensures that buildings are rotated properly."), Parallelizable]
 		public void RotateBuildings()
 		{
-			var explorer = new PackageExplorer();
-
 			var board = new GameBoard();
 
-
+			
 		}
 	}
 }

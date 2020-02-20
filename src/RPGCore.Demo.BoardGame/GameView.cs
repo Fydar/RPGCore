@@ -13,8 +13,12 @@ namespace RPGCore.Demo.BoardGame
 		public BuildingTemplate[] Buildings;
 		public GamePlayer[] Players;
 
+		public IPackageExplorer GameData { get; private set; }
+
 		public void Create(IPackageExplorer gameData)
 		{
+			GameData = gameData;
+
 			Players = new GamePlayer[]
 			{
 				new GamePlayer()

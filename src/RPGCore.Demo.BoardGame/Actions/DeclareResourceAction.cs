@@ -1,4 +1,6 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿using System.Collections.Generic;
+
+namespace RPGCore.Demo.BoardGame
 {
 	public class DeclareResourceAction : GameViewAction
 	{
@@ -10,6 +12,10 @@
 
 			foreach (var player in view.Players)
 			{
+				if (player.ResourceHand == null)
+				{
+					player.ResourceHand = new List<string>();
+				}
 				player.ResourceHand.Add(ResourceIdentifier);
 			}
 

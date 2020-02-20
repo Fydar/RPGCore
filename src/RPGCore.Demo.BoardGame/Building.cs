@@ -10,8 +10,9 @@ namespace RPGCore.Demo.BoardGame
 
 		public GameTile Tile { get; }
 
-		public Building(GameTile tile)
+		public Building(BuildingTemplate template, GameTile tile)
 		{
+			Template = template;
 			Tile = tile;
 		}
 	}
