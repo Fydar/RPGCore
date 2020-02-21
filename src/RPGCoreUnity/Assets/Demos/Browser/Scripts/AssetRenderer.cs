@@ -1,22 +1,21 @@
 ﻿using RPGCore.Packages;
-using RPGCore.UI;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-[Serializable] public class AssetRendererPool : UIPool<AssetRenderer> { }
-
-public class AssetRenderer : MonoBehaviour
+namespace RPGCoreUnity.Demo.Browser
 {
-	public Text Name;
-	public RawImage Icon;
-
-	public void Render(IResource resource)
+	public class AssetRenderer : MonoBehaviour
 	{
-		Name.text = resource.Name;
-		if (resource.Name.EndsWith(".png"))
+		public Text Name;
+		public RawImage Icon;
+
+		public void Render(IResource resource)
 		{
-			Icon.texture = resource.LoadImage();
+			Name.text = resource.Name;
+			if (resource.Name.EndsWith(".png"))
+			{
+				Icon.texture = resource.LoadImage();
+			}
 		}
 	}
 }

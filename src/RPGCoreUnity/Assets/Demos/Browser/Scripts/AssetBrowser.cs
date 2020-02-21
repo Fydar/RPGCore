@@ -1,21 +1,24 @@
 ﻿using RPGCore.Unity;
 using UnityEngine;
 
-public class AssetBrowser : MonoBehaviour
+namespace RPGCoreUnity.Demo.Browser
 {
-	public ProjectImport Package;
-
-	public RectTransform Holder;
-	public AssetRendererPool Assets;
-
-	private void Start()
+	public class AssetBrowser : MonoBehaviour
 	{
-		var explorer = Package.Explorer;
+		public ProjectImport Package;
 
-		foreach (var resource in explorer.Resources)
+		public RectTransform Holder;
+		public AssetRendererPool Assets;
+
+		private void Start()
 		{
-			var assetRenderer = Assets.Grab(Holder);
-			assetRenderer.Render(resource);
+			var explorer = Package.Explorer;
+
+			foreach (var resource in explorer.Resources)
+			{
+				var assetRenderer = Assets.Grab(Holder);
+				assetRenderer.Render(resource);
+			}
 		}
 	}
 }

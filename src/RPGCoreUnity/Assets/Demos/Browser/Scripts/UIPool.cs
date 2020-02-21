@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace RPGCore.UI
+namespace RPGCoreUnity.Demo.Browser
 {
-	[Serializable] public class RectTransformPool : UIPool<RectTransform> { }
-	[Serializable] public class RawImagePool : UIPool<RawImage> { }
-
 	public class UIPool<T>
 		where T : Component
 	{
@@ -100,4 +95,3 @@ namespace RPGCore.UI
 		}
 	}
 }
-
