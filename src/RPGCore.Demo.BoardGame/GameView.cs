@@ -1,7 +1,9 @@
-﻿using RPGCore.Demo.BoardGame.Models;
+﻿using RPGCore.Behaviour;
+using RPGCore.Demo.BoardGame.Models;
 using RPGCore.Packages;
 using RPGCore.Traits;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
 {
@@ -41,6 +43,11 @@ namespace RPGCore.Demo.BoardGame
 		public void Apply(GameViewAction action)
 		{
 			action.Apply(this);
+		}
+
+		public GamePlayer GetPlayerForOwner(LocalId owner)
+		{
+			return Players.Where(player => player.OwnerId == owner).FirstOrDefault();
 		}
 	}
 }

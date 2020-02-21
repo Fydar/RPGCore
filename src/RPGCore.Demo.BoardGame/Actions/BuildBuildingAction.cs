@@ -17,13 +17,13 @@ namespace RPGCore.Demo.BoardGame
 				Recipe = new string[,]
 				{
 					{ "x", "x", "x" },
-					{ "x", "-", "-" },
+					{ "x", null, null },
 				}
 			};
 
 			var rotatedBuilding = new RotatedBuilding(buildingTemplate, Orientation);
 
-			var ownerPlayer = view.Players.Where(player => player.OwnerId == Client).FirstOrDefault();
+			var ownerPlayer = view.GetPlayerForOwner(Client);
 
 			for (int x = 0; x < rotatedBuilding.Width; x++)
 			{
@@ -36,7 +36,7 @@ namespace RPGCore.Demo.BoardGame
 
 					if (recipeTile != null)
 					{
-						tile.Resource = null;
+						tile.Resource = "x";
 					}
 				}
 			}

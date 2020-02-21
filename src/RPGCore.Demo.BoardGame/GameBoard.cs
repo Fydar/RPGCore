@@ -4,6 +4,22 @@
 	{
 		public GameTile[,] Tiles;
 
+		public int Width
+		{
+			get
+			{
+				return Tiles.GetLength(0);
+			}
+		}
+
+		public int Height
+		{
+			get
+			{
+				return Tiles.GetLength(1);
+			}
+		}
+
 		public GameTile this[int x, int y]
 		{
 			get
