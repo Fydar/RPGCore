@@ -14,7 +14,12 @@ namespace RPGCore.Packages
 
 		public string FullName { get; }
 
-		public ProjectResource(string projectKey, FileInfo entry)
+		public ProjectResourceDescription Description { get; }
+		public ProjectExplorer Explorer { get; }
+
+		IResourceDescription IResource.Description => Description;
+
+		public ProjectResource(ProjectExplorer projectExplorer, string projectKey, FileInfo entry)
 		{
 			Entry = entry;
 
@@ -22,7 +27,10 @@ namespace RPGCore.Packages
 			CompressedSize = UncompressedSize;
 
 			Name = Entry.Name;
+			Explorer = projectExplorer;
 			FullName = projectKey;
+
+			Description = new ProjectResourceDescription(this);
 		}
 
 		public byte[] LoadData()

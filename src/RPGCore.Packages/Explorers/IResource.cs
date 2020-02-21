@@ -9,6 +9,7 @@ namespace RPGCore.Packages
 		string FullName { get; }
 		long CompressedSize { get; }
 		long UncompressedSize { get; }
+		IResourceDescription Description { get; }
 
 		Stream LoadStream();
 		byte[] LoadData();

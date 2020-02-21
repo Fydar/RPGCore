@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ namespace RPGCore.Packages
 {
 	public sealed class PackageExplorer : IPackageExplorer
 	{
-		private sealed class PackageResourceCollection : IResourceCollection
+		public sealed class PackageResourceCollection : IResourceCollection
 		{
 			private Dictionary<string, IResource> items;
 
@@ -40,7 +41,11 @@ namespace RPGCore.Packages
 
 		public string Name => bProj.Properties.Name;
 		public string Version => bProj.Properties.Version;
-		public IResourceCollection Resources { get; private set; }
+
+		public PackageResourceCollection Resources { get; }
+		public IReadOnlyDictionary<string, IReadOnlyList<string>> Tags { get; private set; }
+
+		IResourceCollection IPackageExplorer.Resources => Resources;
 
 		public PackageExplorer()
 		{
@@ -96,6 +101,8 @@ namespace RPGCore.Packages
 						string json = Encoding.UTF8.GetString(buffer);
 					}
 
+					package.Tags = LoadJsonDocument<IReadOnlyDictionary<string, IReadOnlyList<string>>>(entry);
+
 					foreach (var projectEntry in archive.Entries)
 					{
 						var resource = new PackageResource(package, projectEntry);
@@ -106,6 +113,16 @@ namespace RPGCore.Packages
 			}
 
 			return package;
+		}
+
+		static T LoadJsonDocument<T>(ZipArchiveEntry entry)
+		{
+			using var zipStream = entry.Open();
+			using var sr = new StreamReader(zipStream);
+			using var reader = new JsonTextReader(sr);
+
+			var serializer = new JsonSerializer();
+			return serializer.Deserialize<T>(reader);
 		}
 	}
 }

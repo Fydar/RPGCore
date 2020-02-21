@@ -28,8 +28,6 @@ namespace RPGCore.Packages
 				Resources.Add(folder.FullName, folder);
 			}
 
-			public void Add(IResource folder) => throw new NotImplementedException();
-
 			public IEnumerator<ProjectResource> GetEnumerator()
 			{
 				if (Resources?.Values == null)
@@ -127,7 +125,7 @@ namespace RPGCore.Packages
 					.Replace('\\', '/')
 					.Replace(normalizedPath + "/", "");
 
-				var resource = new ProjectResource(packageKey, file);
+				var resource = new ProjectResource(project, packageKey, file);
 
 				project.Resources.Add(resource);
 

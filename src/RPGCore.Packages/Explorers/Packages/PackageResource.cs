@@ -14,6 +14,10 @@ namespace RPGCore.Packages
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
 
+		public PackageResourceDescription Description { get; }
+
+		IResourceDescription IResource.Description => Description;
+
 		public PackageResource(PackageExplorer package, ZipArchiveEntry packageEntry)
 		{
 			Package = package;
@@ -22,6 +26,8 @@ namespace RPGCore.Packages
 
 			CompressedSize = packageEntry.CompressedLength;
 			UncompressedSize = packageEntry.Length;
+
+			Description = new PackageResourceDescription(package, this);
 		}
 
 		public Stream LoadStream()
