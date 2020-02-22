@@ -10,6 +10,8 @@ namespace RPGCore.Behaviour
 	[DebuggerDisplay("{ToString(),nq}")]
 	public readonly struct LocalId : IEquatable<LocalId>
 	{
+		private static readonly Random Rand = new Random();
+
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public static readonly LocalId None = new LocalId(0);
 
@@ -59,8 +61,15 @@ namespace RPGCore.Behaviour
 		public static LocalId NewId()
 		{
 			byte[] buffer = new byte[8];
-			new Random().NextBytes(buffer);
+			Rand.NextBytes(buffer);
 			return new LocalId(BitConverter.ToUInt64(buffer, 0));
+		}
+
+		public static LocalId NewShortId()
+		{
+			byte[] buffer = new byte[4];
+			Rand.NextBytes(buffer);
+			return new LocalId(BitConverter.ToUInt32(buffer, 0));
 		}
 
 		public static bool operator ==(LocalId left, LocalId right)
