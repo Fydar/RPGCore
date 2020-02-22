@@ -4,6 +4,7 @@ using RPGCore.Items;
 
 namespace RPGCore.Inventories.UnitTests
 {
+	[TestFixture(TestOf = typeof(ItemStorageSlot))]
 	public class ItemStorageSlotAddingShould
 	{
 		[Test, Parallelizable]

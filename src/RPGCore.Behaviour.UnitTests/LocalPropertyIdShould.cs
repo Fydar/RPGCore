@@ -2,9 +2,10 @@
 
 namespace RPGCore.Behaviour.UnitTests
 {
+	[TestFixture(TestOf = typeof(LocalPropertyId))]
 	public class LocalPropertyIdShould
 	{
-		[Test]
+		[Test, Parallelizable]
 		public void ParseString()
 		{
 			var parsedLocalPropertyId = new LocalPropertyId("0xff001000.Output");

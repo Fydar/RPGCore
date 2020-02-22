@@ -4,6 +4,7 @@ using RPGCore.Items;
 
 namespace RPGCore.Inventories.UnitTests
 {
+	[TestFixture(TestOf = typeof(WeightedInventoryConstraint))]
 	public class WeightedInventoryConstraintShould
 	{
 		[Test, Parallelizable]

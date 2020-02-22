@@ -5,13 +5,14 @@ using System;
 
 namespace RPGCore.Demo.BoardGame.UnitTests
 {
+	[TestFixture(TestOf = typeof(GameView))]
 	public class GameViewShould
 	{
 		[Test, Parallelizable]
 		public void CreateSuccessfully()
 		{
-			var player1 = LocalId.NewId();
-			var player2 = LocalId.NewId();
+			var player1 = LocalId.NewShortId();
+			var player2 = LocalId.NewShortId();
 
 			var explorer = new PackageExplorer();
 			var gameView = new GameView();
@@ -113,7 +114,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			DrawGameState(gameView);
 		}
 
-		void DrawGameState(GameView game)
+		private void DrawGameState(GameView game)
 		{
 			for (int i = 0; i < game.Players.Length; i++)
 			{

@@ -4,7 +4,8 @@ using RPGCore.Items;
 
 namespace RPGCore.Inventories.UnitTests
 {
-	public class StorageSlotSwapShould
+	[TestFixture(TestOf = typeof(ItemStorageSlot))]
+	public class ItemStorageSlotSwapShould
 	{
 		[Test, Parallelizable]
 		public void SwapEmptyToEmpty()

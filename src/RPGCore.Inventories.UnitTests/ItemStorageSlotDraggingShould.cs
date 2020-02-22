@@ -4,7 +4,8 @@ using RPGCore.Items;
 
 namespace RPGCore.Inventories.UnitTests
 {
-	public class StorageSlotDraggingShould
+	[TestFixture(TestOf = typeof(ItemStorageSlot))]
+	public class ItemStorageSlotDraggingShould
 	{
 		[Test, Parallelizable]
 		public void DragEmptyToEmpty()

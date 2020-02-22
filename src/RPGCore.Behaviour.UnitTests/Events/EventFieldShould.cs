@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour.UnitTests
 {
+	[TestFixture(TestOf = typeof(EventField<>))]
 	public class EventFieldShould
 	{
 		public class TestPlayer
@@ -41,7 +42,7 @@ namespace RPGCore.Behaviour.UnitTests
 		{
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void FireEvents()
 		{
 			var target = new EventField<TestPlayer>();

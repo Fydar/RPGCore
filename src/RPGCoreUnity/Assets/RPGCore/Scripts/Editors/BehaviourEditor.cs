@@ -641,7 +641,7 @@ namespace RPGCore.Unity.Editors
 				{
 					var graphEditorNodes = View.Session.Root["Nodes"];
 
-					foreach (var node in View.Selection)
+					foreach (string node in View.Selection)
 					{
 						graphEditorNodes.Remove(node);
 					}

@@ -3,9 +3,10 @@ using System;
 
 namespace RPGCore.Items.UnitTests
 {
+	[TestFixture(TestOf = typeof(StackableItem))]
 	public class StackableItemShould
 	{
-		[Test]
+		[Test, Parallelizable]
 		public void TakeItemFromStack()
 		{
 			var sourceItem = new StackableItem(new ProceduralItemTemplate(), 12);
@@ -16,48 +17,47 @@ namespace RPGCore.Items.UnitTests
 			Assert.AreEqual(8, sourceItem.Quantity);
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void ThrowWhenTakeNegative()
 		{
 			Assert.Throws<InvalidOperationException>(new TestDelegate(() =>
-		  {
-			  var sourceItem = new StackableItem(new ProceduralItemTemplate(), 6);
+			{
+				var sourceItem = new StackableItem(new ProceduralItemTemplate(), 6);
 
-			  var resultItem = sourceItem.Take(-4);
-		  }));
+				var resultItem = sourceItem.Take(-4);
+			}));
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void ThrowWhenTakeNone()
 		{
 			Assert.Throws<InvalidOperationException>(new TestDelegate(() =>
-		  {
-			  var sourceItem = new StackableItem(new ProceduralItemTemplate(), 6);
+			{
+				var sourceItem = new StackableItem(new ProceduralItemTemplate(), 6);
 
-			  var resultItem = sourceItem.Take(0);
-		  }));
+				var resultItem = sourceItem.Take(0);
+			}));
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void ThrowWhenUnableToTake()
 		{
 			Assert.Throws<InvalidOperationException>(new TestDelegate(() =>
-		  {
-			  var sourceItem = new StackableItem(new ProceduralItemTemplate(), 6);
+			{
+				var sourceItem = new StackableItem(new ProceduralItemTemplate(), 6);
 
-			  var resultItem = sourceItem.Take(8);
-		  }));
+				var resultItem = sourceItem.Take(8);
+			}));
 		}
-
-		[Test]
+		[Test, Parallelizable]
 		public void ThrowWhenTakeWholeStack()
 		{
 			Assert.Throws<InvalidOperationException>(new TestDelegate(() =>
-		  {
-			  var sourceItem = new StackableItem(new ProceduralItemTemplate(), 8);
+			{
+				var sourceItem = new StackableItem(new ProceduralItemTemplate(), 8);
 
-			  var resultItem = sourceItem.Take(8);
-		  }));
+				var resultItem = sourceItem.Take(8);
+			}));
 		}
 	}
 }

@@ -5,6 +5,7 @@ using RPGCore.Items;
 
 namespace RPGCore.Inventories.UnitTests
 {
+	[TestFixture(TestOf = typeof(IItemSlot))]
 	public class ItemSlotSwappingShould
 	{
 		[Test, Parallelizable]

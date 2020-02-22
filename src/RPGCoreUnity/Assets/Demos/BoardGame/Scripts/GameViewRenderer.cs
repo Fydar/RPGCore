@@ -176,7 +176,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 					yield return null;
 				}
 
-				Debug.Log($"Running action {action.GetType()}");
+				Debug.Log($"<b>{action.Client}</b>: Running action {action.GetType().Name}\n");
 
 				Game.Apply(action);
 

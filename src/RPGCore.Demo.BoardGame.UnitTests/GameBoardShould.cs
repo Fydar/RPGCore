@@ -10,7 +10,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 		{
 			var board = new GameBoard();
 
-			
+
 		}
 	}
 }

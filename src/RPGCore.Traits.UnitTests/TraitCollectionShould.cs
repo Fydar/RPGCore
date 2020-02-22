@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 namespace RPGCore.Traits.UnitTests
 {
+	[TestFixture(TestOf = typeof(TraitCollection))]
 	public class TraitCollectionShould
 	{
-		[Test]
+		[Test, Parallelizable]
 		public void ContextualInformation()
 		{
 			var context = new TraitContext()
@@ -36,7 +37,7 @@ namespace RPGCore.Traits.UnitTests
 			var characterTraits = new TraitCollection();
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void FindAllFields()
 		{
 			var characterTraits = new TraitCollection();

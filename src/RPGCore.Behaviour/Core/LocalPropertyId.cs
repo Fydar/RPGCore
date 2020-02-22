@@ -6,28 +6,28 @@ using System.Globalization;
 
 namespace RPGCore.Behaviour
 {
-	[TypeConverter (typeof (LocalPropertyIdConverter))]
-	[DebuggerDisplay ("{ToString()}")]
+	[TypeConverter(typeof(LocalPropertyIdConverter))]
+	[DebuggerDisplay("{ToString()}")]
 	public readonly struct LocalPropertyId : IEquatable<LocalPropertyId>
 	{
-		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
-		public static readonly LocalPropertyId None = new LocalPropertyId (LocalId.None, (string[])null);
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public static readonly LocalPropertyId None = new LocalPropertyId(LocalId.None, (string[])null);
 
 		public readonly LocalId TargetIdentifier;
 		public readonly string[] PropertyPath;
 
 		public LocalPropertyId(string expression)
 		{
-			if (string.IsNullOrEmpty (expression))
+			if (string.IsNullOrEmpty(expression))
 			{
 				TargetIdentifier = LocalId.None;
 				PropertyPath = null;
 				return;
 			}
 
-			string[] elements = expression.Split ('.');
+			string[] elements = expression.Split('.');
 
-			TargetIdentifier = new LocalId (elements[0]);
+			TargetIdentifier = new LocalId(elements[0]);
 			PropertyPath = new string[elements.Length - 1];
 			for (int i = 0; i < elements.Length - 1; i++)
 			{
@@ -38,7 +38,7 @@ namespace RPGCore.Behaviour
 		public LocalPropertyId(LocalId targetIdentifier, string property)
 		{
 			TargetIdentifier = targetIdentifier;
-			PropertyPath = property.Split ('.');
+			PropertyPath = property.Split('.');
 		}
 
 		public LocalPropertyId(LocalId targetIdentifier, string[] propertyPath)
@@ -49,13 +49,13 @@ namespace RPGCore.Behaviour
 
 		public override bool Equals(object obj)
 		{
-			return obj is LocalPropertyId id && Equals (id);
+			return obj is LocalPropertyId id && Equals(id);
 		}
 
 		public bool Equals(LocalPropertyId other)
 		{
 			return TargetIdentifier == other.TargetIdentifier
-				&& ArrayEquals (PropertyPath, other.PropertyPath);
+				&& ArrayEquals(PropertyPath, other.PropertyPath);
 		}
 
 		public override int GetHashCode()
@@ -69,7 +69,7 @@ namespace RPGCore.Behaviour
 					foreach (string property in PropertyPath)
 					{
 						hash = hash * 23 + ((property != null)
-							? property.GetHashCode ()
+							? property.GetHashCode()
 							: 0);
 					}
 
@@ -86,12 +86,12 @@ namespace RPGCore.Behaviour
 			{
 				return "0x00";
 			}
-			return TargetIdentifier.ToString () + "." + string.Join (".", PropertyPath);
+			return TargetIdentifier.ToString() + "." + string.Join(".", PropertyPath);
 		}
 
 		public static bool operator ==(LocalPropertyId left, LocalPropertyId right)
 		{
-			return left.Equals (right);
+			return left.Equals(right);
 		}
 
 		public static bool operator !=(LocalPropertyId left, LocalPropertyId right)
@@ -129,17 +129,17 @@ namespace RPGCore.Behaviour
 
 		public override bool CanConvert(Type objectType)
 		{
-			return objectType == typeof (LocalPropertyId);
+			return objectType == typeof(LocalPropertyId);
 		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			writer.WriteValue (value.ToString ());
+			writer.WriteValue(value.ToString());
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			return new LocalPropertyId (reader.Value?.ToString ());
+			return new LocalPropertyId(reader.Value?.ToString());
 		}
 	}
 
@@ -147,25 +147,25 @@ namespace RPGCore.Behaviour
 	{
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
-			return sourceType == typeof (string) || base.CanConvertFrom (context, sourceType);
+			return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
 		}
 
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			string stringValue = value as string;
 
-			return !string.IsNullOrEmpty (stringValue)
-				? new LocalPropertyId (stringValue)
-				: base.ConvertFrom (context, culture, value);
+			return !string.IsNullOrEmpty(stringValue)
+				? new LocalPropertyId(stringValue)
+				: base.ConvertFrom(context, culture, value);
 		}
 
 		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
 			var localPropertyId = (LocalPropertyId)value;
 
-			return localPropertyId != null && destinationType == typeof (string)
-				? localPropertyId.ToString ()
-				: base.ConvertTo (context, culture, value, destinationType);
+			return localPropertyId != null && destinationType == typeof(string)
+				? localPropertyId.ToString()
+				: base.ConvertTo(context, culture, value, destinationType);
 		}
 	}
 }

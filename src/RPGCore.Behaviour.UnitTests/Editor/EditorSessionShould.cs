@@ -6,7 +6,8 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour.Editor.UnitTests
 {
-	public class EditorObjectShould
+	[TestFixture(TestOf = typeof(EditorSession))]
+	public class EditorSessionShould
 	{
 		public class RootModel
 		{
@@ -23,7 +24,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 			public bool ChildSecondValue;
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void Work()
 		{
 			var types = TypeManifest.Construct(

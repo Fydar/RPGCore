@@ -2,9 +2,10 @@
 
 namespace RPGCore.Behaviour.UnitTests
 {
+	[TestFixture(TestOf = typeof(LocalId))]
 	public class LocalIdShould
 	{
-		[Test]
+		[Test, Parallelizable]
 		public void CaseInvarientParsing()
 		{
 			int original = 1048471;
@@ -18,7 +19,7 @@ namespace RPGCore.Behaviour.UnitTests
 			Assert.AreEqual(upperId, lowerId);
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void MatchesIntegerLiteral()
 		{
 			var stringLiteral = new LocalId("0xff001000");
@@ -27,7 +28,7 @@ namespace RPGCore.Behaviour.UnitTests
 			Assert.AreEqual(stringLiteral, integerLiteral);
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void PrefixInvarientParsing()
 		{
 			int original = 1048471;

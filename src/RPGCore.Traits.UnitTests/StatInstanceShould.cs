@@ -3,9 +3,10 @@ using RPGCore.Behaviour;
 
 namespace RPGCore.Traits.UnitTests
 {
+	[TestFixture(TestOf = typeof(StatInstance))]
 	public class StatInstanceShould
 	{
-		[Test]
+		[Test, Parallelizable]
 		public void UpdateFromModifierChanges()
 		{
 			var template = new StatTemplate()
@@ -35,7 +36,7 @@ namespace RPGCore.Traits.UnitTests
 			Assert.AreEqual(15.0f, instance.Value);
 		}
 
-		[Test]
+		[Test, Parallelizable]
 		public void UnsubscribeModifierWhenRemoved()
 		{
 			var template = new StatTemplate()

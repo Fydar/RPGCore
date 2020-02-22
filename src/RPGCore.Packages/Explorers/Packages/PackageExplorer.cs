@@ -115,7 +115,7 @@ namespace RPGCore.Packages
 			return package;
 		}
 
-		static T LoadJsonDocument<T>(ZipArchiveEntry entry)
+		private static T LoadJsonDocument<T>(ZipArchiveEntry entry)
 		{
 			using var zipStream = entry.Open();
 			using var sr = new StreamReader(zipStream);

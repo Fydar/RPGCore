@@ -1,5 +1,4 @@
-﻿using RPGCore.Demo.BoardGame.Models;
-using System.Linq;
+﻿using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
 {
