@@ -8,98 +8,98 @@ namespace RPGCore.Behaviour
 	{
 		public readonly ref struct ContextWrapped
 		{
-			private readonly IEventCollection<TKey, TValue> Collection;
-			private readonly object Context;
+			private readonly IEventCollection<TKey, TValue> collection;
+			private readonly object context;
 
 			public ContextWrapped(IEventCollection<TKey, TValue> collection, object context)
 			{
-				Collection = collection;
-				Context = context;
+				this.collection = collection;
+				this.context = context;
 			}
 
 			public void Clear()
 			{
-				Collection.Handlers.Clear(Context);
+				collection.Handlers.Clear(context);
 			}
 
 			public void Add(IEventCollectionHandler<TKey, TValue> handler)
 			{
-				Collection.Handlers.InternalHandlers.Add(new KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>(Context, handler));
+				collection.Handlers.internalHandlers.Add(new KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>(context, handler));
 			}
 
 			public void Remove(IEventCollectionHandler<TKey, TValue> handler)
 			{
-				Collection.Handlers.InternalHandlers.Remove(new KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>(Context, handler));
+				collection.Handlers.internalHandlers.Remove(new KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>(context, handler));
 			}
 		}
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly IEventCollection<TKey, TValue> Collection;
+		private readonly IEventCollection<TKey, TValue> collection;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly List<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> InternalHandlers;
+		private readonly List<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> internalHandlers;
 
 		public EventCollectionHandlerCollection(IEventCollection<TKey, TValue> collection)
 		{
-			Collection = collection;
-			InternalHandlers = new List<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>();
+			this.collection = collection;
+			internalHandlers = new List<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>();
 		}
 
 		public ContextWrapped this[object context]
 		{
-			get => new ContextWrapped(Collection, context);
+			get => new ContextWrapped(collection, context);
 		}
 
 		public void Clear(object context)
 		{
-			for (int i = InternalHandlers.Count - 1; i >= 0; i--)
+			for (int i = internalHandlers.Count - 1; i >= 0; i--)
 			{
-				if (InternalHandlers[i].Key == context)
+				if (internalHandlers[i].Key == context)
 				{
-					InternalHandlers.RemoveAt(i);
+					internalHandlers.RemoveAt(i);
 				}
 			}
 		}
 
 		public void Clear()
 		{
-			InternalHandlers.Clear();
+			internalHandlers.Clear();
 		}
 
 		public void InvokeAdd(TKey key, TValue value)
 		{
-			if (InternalHandlers == null)
+			if (internalHandlers == null)
 			{
 				return;
 			}
 
-			for (int i = 0; i < InternalHandlers.Count; i++)
+			for (int i = 0; i < internalHandlers.Count; i++)
 			{
-				InternalHandlers[i].Value.OnAdd(key, value);
+				internalHandlers[i].Value.OnAdd(key, value);
 			}
 		}
 
 		public void InvokeRemoved(TKey key, TValue value)
 		{
-			if (InternalHandlers == null)
+			if (internalHandlers == null)
 			{
 				return;
 			}
 
-			for (int i = 0; i < InternalHandlers.Count; i++)
+			for (int i = 0; i < internalHandlers.Count; i++)
 			{
-				InternalHandlers[i].Value.OnRemove(key, value);
+				internalHandlers[i].Value.OnRemove(key, value);
 			}
 		}
 
 		public IEnumerator<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>> GetEnumerator()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>)InternalHandlers).GetEnumerator();
+			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>)internalHandlers).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>)InternalHandlers).GetEnumerator();
+			return ((IEnumerable<KeyValuePair<object, IEventCollectionHandler<TKey, TValue>>>)internalHandlers).GetEnumerator();
 		}
 	}
 }

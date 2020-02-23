@@ -18,7 +18,6 @@ namespace RPGCore.Runner
 
 		public void Update()
 		{
-
 		}
 	}
 }

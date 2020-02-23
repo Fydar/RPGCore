@@ -8,98 +8,98 @@ namespace RPGCore.Behaviour
 	{
 		public readonly ref struct ContextWrapped
 		{
-			private readonly IEventField Field;
-			private readonly object Context;
+			private readonly IEventField field;
+			private readonly object context;
 
 			public ContextWrapped(IEventField field, object context)
 			{
-				Field = field;
-				Context = context;
+				this.field = field;
+				this.context = context;
 			}
 
 			public void Clear()
 			{
-				Field.Handlers.Clear(Context);
+				field.Handlers.Clear(context);
 			}
 
 			public void Add(IEventFieldHandler handler)
 			{
-				Field.Handlers.InternalHandlers.Add(new KeyValuePair<object, IEventFieldHandler>(Context, handler));
+				field.Handlers.internalHandlers.Add(new KeyValuePair<object, IEventFieldHandler>(context, handler));
 			}
 
 			public void Remove(IEventFieldHandler handler)
 			{
-				Field.Handlers.InternalHandlers.Remove(new KeyValuePair<object, IEventFieldHandler>(Context, handler));
+				field.Handlers.internalHandlers.Remove(new KeyValuePair<object, IEventFieldHandler>(context, handler));
 			}
 		}
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly IEventField Field;
+		private readonly IEventField field;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly List<KeyValuePair<object, IEventFieldHandler>> InternalHandlers;
+		private readonly List<KeyValuePair<object, IEventFieldHandler>> internalHandlers;
 
 		public EventFieldHandlerCollection(IEventField field)
 		{
-			Field = field;
-			InternalHandlers = new List<KeyValuePair<object, IEventFieldHandler>>();
+			this.field = field;
+			internalHandlers = new List<KeyValuePair<object, IEventFieldHandler>>();
 		}
 
 		public ContextWrapped this[object context]
 		{
-			get => new ContextWrapped(Field, context);
+			get => new ContextWrapped(field, context);
 		}
 
 		public void Clear(object context)
 		{
-			for (int i = InternalHandlers.Count - 1; i >= 0; i--)
+			for (int i = internalHandlers.Count - 1; i >= 0; i--)
 			{
-				if (InternalHandlers[i].Key == context)
+				if (internalHandlers[i].Key == context)
 				{
-					InternalHandlers.RemoveAt(i);
+					internalHandlers.RemoveAt(i);
 				}
 			}
 		}
 
 		public void Clear()
 		{
-			InternalHandlers.Clear();
+			internalHandlers.Clear();
 		}
 
 		public void InvokeBeforeChanged()
 		{
-			if (InternalHandlers == null)
+			if (internalHandlers == null)
 			{
 				return;
 			}
 
-			for (int i = 0; i < InternalHandlers.Count; i++)
+			for (int i = 0; i < internalHandlers.Count; i++)
 			{
-				InternalHandlers[i].Value.OnBeforeChanged();
+				internalHandlers[i].Value.OnBeforeChanged();
 			}
 		}
 
 		public void InvokeAfterChanged()
 		{
-			if (InternalHandlers == null)
+			if (internalHandlers == null)
 			{
 				return;
 			}
 
-			for (int i = 0; i < InternalHandlers.Count; i++)
+			for (int i = 0; i < internalHandlers.Count; i++)
 			{
-				InternalHandlers[i].Value.OnAfterChanged();
+				internalHandlers[i].Value.OnAfterChanged();
 			}
 		}
 
 		public IEnumerator<KeyValuePair<object, IEventFieldHandler>> GetEnumerator()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)InternalHandlers).GetEnumerator();
+			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)internalHandlers).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)InternalHandlers).GetEnumerator();
+			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)internalHandlers).GetEnumerator();
 		}
 	}
 }

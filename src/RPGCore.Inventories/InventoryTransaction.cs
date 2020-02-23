@@ -20,7 +20,6 @@ namespace RPGCore.Inventory.Slots
 
 		public InventoryTransaction()
 		{
-
 		}
 
 		public InventoryTransaction(TransactionStatus status, IReadOnlyList<ItemTransaction> items)

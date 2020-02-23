@@ -9,10 +9,10 @@ namespace RPGCore.Packages
 	public class PackageResourceTags : IResourceTags
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private IReadOnlyList<string> TagsInternal;
+		private readonly IReadOnlyList<string> tags;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public int Count => TagsInternal?.Count ?? 0;
+		public int Count => tags?.Count ?? 0;
 
 		public PackageResourceTags(IReadOnlyDictionary<string, IReadOnlyList<string>> tagsDocument, PackageResource resource)
 		{
@@ -26,14 +26,14 @@ namespace RPGCore.Packages
 				}
 			}
 
-			TagsInternal = tags;
+			this.tags = tags;
 		}
 
 		public IEnumerator<string> GetEnumerator()
 		{
-			return TagsInternal == null
+			return tags == null
 				? Enumerable.Empty<string>().GetEnumerator()
-				: TagsInternal.GetEnumerator();
+				: tags.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()

@@ -23,7 +23,6 @@ namespace RPGCore.Behaviour.Manifest
 
 		protected static void ConstructTypeInformation(Type type, TypeInformation typeInformation)
 		{
-
 			// Implicit Conversions
 			var conversions = new Dictionary<string, TypeConversion>();
 			var methods = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);

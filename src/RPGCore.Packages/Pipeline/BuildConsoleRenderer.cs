@@ -9,7 +9,7 @@ namespace RPGCore.Packages
 		public int ProgressBarLength { get; private set; }
 		public int ProgressBarFill { get; private set; }
 
-		private bool Animate = true;
+		private bool animate = true;
 
 		public void DrawProgressBar(int length)
 		{
@@ -21,7 +21,7 @@ namespace RPGCore.Packages
 			}
 			catch
 			{
-				Animate = false;
+				animate = false;
 			}
 			DrawBar(ProgressBarLeft, ProgressBarTop, 0, ProgressBarLength);
 		}
@@ -39,7 +39,7 @@ namespace RPGCore.Packages
 			{
 				lock (Console.Out)
 				{
-					if (Animate)
+					if (animate)
 					{
 						Console.SetCursorPosition(left, top);
 					}

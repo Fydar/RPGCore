@@ -10,6 +10,7 @@ namespace RPGCore.Packages
 		IEnumerable<string> Keys { get; }
 
 		bool ContainsKey(string key);
+
 		bool TryGetValue(string key, out IResourceCollection value);
 	}
 }

@@ -49,8 +49,8 @@ namespace RPGCore.Behaviour
 
 	internal sealed class InputSocketConverter : JsonConverter
 	{
-		private readonly HashSet<LocalPropertyId> ValidOutputs;
-		private readonly List<LocalPropertyId> MappedInputs;
+		private readonly HashSet<LocalPropertyId> validOutputs;
+		private readonly List<LocalPropertyId> mappedInputs;
 
 		public override bool CanWrite => false;
 
@@ -61,8 +61,8 @@ namespace RPGCore.Behaviour
 
 		public InputSocketConverter(HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
 		{
-			ValidOutputs = validOutputs;
-			MappedInputs = mappedInputs;
+			this.validOutputs = validOutputs;
+			this.mappedInputs = mappedInputs;
 		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -79,17 +79,17 @@ namespace RPGCore.Behaviour
 
 			var inputSource = new LocalPropertyId(reader.Value.ToString());
 
-			if (!ValidOutputs.Contains(inputSource))
+			if (!validOutputs.Contains(inputSource))
 			{
 				Console.WriteLine($"Ignoring desired input of \"{inputSource}\" as it is not valid.");
 				return new InputSocket();
 			}
 
-			int connectionId = MappedInputs.IndexOf(inputSource);
+			int connectionId = mappedInputs.IndexOf(inputSource);
 			if (connectionId == -1)
 			{
-				connectionId = MappedInputs.Count;
-				MappedInputs.Add(inputSource);
+				connectionId = mappedInputs.Count;
+				mappedInputs.Add(inputSource);
 			}
 
 			return new InputSocket(connectionId);

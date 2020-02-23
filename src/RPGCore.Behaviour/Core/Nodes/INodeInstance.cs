@@ -6,7 +6,9 @@
 		NodeTemplate Template { get; }
 
 		void OnInputChanged();
+
 		void Setup();
+
 		void Remove();
 	}
 }

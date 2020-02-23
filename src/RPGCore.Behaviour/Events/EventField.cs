@@ -8,23 +8,25 @@ namespace RPGCore.Behaviour
 	{
 		[JsonIgnore]
 		public EventFieldHandlerCollection Handlers { get; set; }
+
 		[JsonIgnore]
 		public Action OnBeforeChanged;
+
 		[JsonIgnore]
 		public Action OnAfterChanged;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private T InternalValue;
+		private T internalValue;
 
 		public T Value
 		{
-			get => InternalValue;
+			get => internalValue;
 			set
 			{
 				Handlers.InvokeBeforeChanged();
 				OnBeforeChanged?.Invoke();
 
-				InternalValue = value;
+				internalValue = value;
 
 				Handlers.InvokeAfterChanged();
 				OnAfterChanged?.Invoke();
@@ -39,7 +41,7 @@ namespace RPGCore.Behaviour
 		public EventField(T value)
 			: this()
 		{
-			InternalValue = value;
+			internalValue = value;
 		}
 	}
 }

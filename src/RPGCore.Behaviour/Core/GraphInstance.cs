@@ -342,6 +342,5 @@ namespace RPGCore.Behaviour
 			}
 			return shared;
 		}
-
 	}
 }

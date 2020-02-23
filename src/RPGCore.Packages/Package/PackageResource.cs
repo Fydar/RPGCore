@@ -8,7 +8,7 @@ namespace RPGCore.Packages
 {
 	public sealed class PackageResource : IResource
 	{
-		private readonly PackageExplorer Package;
+		private readonly PackageExplorer package;
 
 		public string Name { get; }
 		public string FullName { get; }
@@ -23,7 +23,7 @@ namespace RPGCore.Packages
 
 		public PackageResource(PackageExplorer package, ZipArchiveEntry packageEntry, IReadOnlyDictionary<string, IReadOnlyList<string>> tagsDocument)
 		{
-			Package = package;
+			this.package = package;
 			Name = packageEntry.Name;
 			FullName = packageEntry.FullName;
 
@@ -35,17 +35,17 @@ namespace RPGCore.Packages
 
 		public Stream LoadStream()
 		{
-			return Package.LoadStream(FullName);
+			return package.LoadStream(FullName);
 		}
 
 		public byte[] LoadData()
 		{
-			return Package.OpenAsset(FullName);
+			return package.OpenAsset(FullName);
 		}
 
 		public Task<byte[]> LoadDataAsync()
 		{
-			var pkg = Package;
+			var pkg = package;
 			string pkgKey = FullName;
 			return Task.Run(() => pkg.OpenAsset(pkgKey));
 		}

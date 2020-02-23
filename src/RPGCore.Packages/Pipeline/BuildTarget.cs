@@ -7,6 +7,5 @@ namespace RPGCore.Packages
 	{
 		[XmlAttribute("name")]
 		public string Name;
-
 	}
 }

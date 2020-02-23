@@ -10,6 +10,7 @@ namespace RPGCore.Behaviour.UnitTests
 		{
 			public EventField<TestWeapon> Mainhand;
 		}
+
 		public class TestWeapon
 		{
 			public EventField<int> Damage;
@@ -33,7 +34,6 @@ namespace RPGCore.Behaviour.UnitTests
 
 			public void OnBeforeChanged()
 			{
-
 			}
 		}
 

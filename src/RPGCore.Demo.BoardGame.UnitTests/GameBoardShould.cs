@@ -9,8 +9,6 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 		public void RotateBuildings()
 		{
 			var board = new GameBoard();
-
-
 		}
 	}
 }

@@ -10,19 +10,19 @@ namespace RPGCore.Behaviour
 	[DebuggerDisplay("{ToString(),nq}")]
 	public readonly struct LocalId : IEquatable<LocalId>
 	{
-		private static readonly Random Rand = new Random();
+		private static readonly Random random = new Random();
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public static readonly LocalId None = new LocalId(0);
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly ulong Id;
+		private readonly ulong id;
 
 		public LocalId(string id)
 		{
 			if (string.IsNullOrWhiteSpace(id))
 			{
-				Id = 0;
+				this.id = 0;
 				return;
 			}
 
@@ -30,12 +30,12 @@ namespace RPGCore.Behaviour
 			{
 				id = id.Substring(2);
 			}
-			Id = ulong.Parse(id, NumberStyles.HexNumber);
+			this.id = ulong.Parse(id, NumberStyles.HexNumber);
 		}
 
 		public LocalId(ulong id)
 		{
-			Id = id;
+			this.id = id;
 		}
 
 		public override bool Equals(object obj)
@@ -45,30 +45,30 @@ namespace RPGCore.Behaviour
 
 		public bool Equals(LocalId other)
 		{
-			return Id == other.Id;
+			return id == other.id;
 		}
 
 		public override int GetHashCode()
 		{
-			return 2108858624 + Id.GetHashCode();
+			return 2108858624 + id.GetHashCode();
 		}
 
 		public override string ToString()
 		{
-			return "0x" + Id.ToString("x8");
+			return "0x" + id.ToString("x8");
 		}
 
 		public static LocalId NewId()
 		{
 			byte[] buffer = new byte[8];
-			Rand.NextBytes(buffer);
+			random.NextBytes(buffer);
 			return new LocalId(BitConverter.ToUInt64(buffer, 0));
 		}
 
 		public static LocalId NewShortId()
 		{
 			byte[] buffer = new byte[4];
-			Rand.NextBytes(buffer);
+			random.NextBytes(buffer);
 			return new LocalId(BitConverter.ToUInt32(buffer, 0));
 		}
 

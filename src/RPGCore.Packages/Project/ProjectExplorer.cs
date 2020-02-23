@@ -19,28 +19,28 @@ namespace RPGCore.Packages
 		[DebuggerTypeProxy(typeof(ProjectResourceCollectionDebugView))]
 		private sealed class ProjectResourceCollection : IProjectResourceCollection, IResourceCollection
 		{
-			private Dictionary<string, ProjectResource> Resources;
+			private Dictionary<string, ProjectResource> resources;
 
-			public int Count => Resources?.Count ?? 0;
+			public int Count => resources?.Count ?? 0;
 
-			public ProjectResource this[string key] => Resources[key];
+			public ProjectResource this[string key] => resources[key];
 			IResource IResourceCollection.this[string key] => this[key];
 
 			public void Add(ProjectResource folder)
 			{
-				if (Resources == null)
+				if (resources == null)
 				{
-					Resources = new Dictionary<string, ProjectResource>();
+					resources = new Dictionary<string, ProjectResource>();
 				}
 
-				Resources.Add(folder.FullName, folder);
+				resources.Add(folder.FullName, folder);
 			}
 
 			public IEnumerator<ProjectResource> GetEnumerator()
 			{
-				return Resources?.Values == null
+				return resources?.Values == null
 					? Enumerable.Empty<ProjectResource>().GetEnumerator()
-					: Resources.Values.GetEnumerator();
+					: resources.Values.GetEnumerator();
 			}
 
 			IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()
@@ -64,11 +64,11 @@ namespace RPGCore.Packages
 					public IResource Value;
 				}
 
-				private readonly ProjectResourceCollection Source;
+				private readonly ProjectResourceCollection source;
 
 				public ProjectResourceCollectionDebugView(ProjectResourceCollection source)
 				{
-					Source = source;
+					this.source = source;
 				}
 
 				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
@@ -76,10 +76,10 @@ namespace RPGCore.Packages
 				{
 					get
 					{
-						var keys = new DebuggerRow[Source.Resources.Count];
+						var keys = new DebuggerRow[source.resources.Count];
 
 						int i = 0;
-						foreach (var kvp in Source.Resources)
+						foreach (var kvp in source.resources)
 						{
 							keys[i] = new DebuggerRow
 							{
@@ -109,7 +109,6 @@ namespace RPGCore.Packages
 		/// </summary>
 		public long UncompressedSize { get; private set; }
 
-
 		/// <summary>
 		/// <para>The name of this package, specified in it's definition file.</para>
 		/// </summary>
@@ -123,22 +122,21 @@ namespace RPGCore.Packages
 		/// <summary>
 		/// <para>A collection of all of the resources contained in this project.</para>
 		/// </summary>
-		public IProjectResourceCollection Resources => ResourcesInternal;
+		public IProjectResourceCollection Resources => resources;
 
 		/// <summary>
 		/// <para>An index of the tags contained within this project for performing asset queries.</para>
 		/// </summary>
-		public ITagsCollection Tags => TagsInternal;
+		public ITagsCollection Tags => tags;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => ResourcesInternal;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => TagsInternal;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => resources;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => tags;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private ProjectResourceCollection ResourcesInternal;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection TagsInternal;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private ProjectResourceCollection resources;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
 
 		public ProjectExplorer()
 		{
-			ResourcesInternal = new ProjectResourceCollection();
 		}
 
 		public static ProjectExplorer Load(string projectPath, ImportPipeline importPipeline)
@@ -167,6 +165,7 @@ namespace RPGCore.Packages
 			{
 				ProjectPath = projectPath,
 				Definition = ProjectDefinitionFile.Load(bprojPath),
+				resources = new ProjectResourceCollection()
 			};
 
 			var ignoredDirectories = new List<string>()
@@ -219,14 +218,13 @@ namespace RPGCore.Packages
 				}
 			}
 
-			projectExplorer.TagsInternal = new PackageTagsCollection(tags);
+			projectExplorer.tags = new PackageTagsCollection(tags);
 
 			return projectExplorer;
 		}
 
 		public void Dispose()
 		{
-
 		}
 
 		public void Export(BuildPipeline pipeline, string path)

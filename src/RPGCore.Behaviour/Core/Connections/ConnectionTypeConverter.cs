@@ -47,16 +47,5 @@ namespace RPGCore.Behaviour
 		public void RegisterInput(INodeInstance node) => Source.RegisterInput(node);
 
 		public IConnectionTypeConverter UseConverter(Type converterType) => Source.UseConverter(converterType);
-
-		public object GetValue()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetValue(object value)
-		{
-			throw new NotImplementedException();
-		}
-
 	}
 }

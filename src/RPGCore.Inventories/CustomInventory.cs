@@ -23,8 +23,6 @@ namespace RPGCore.Inventory.Slots
 
 		public InventoryTransaction AddItem(IItem item)
 		{
-
-
 			return InventoryTransaction.None;
 		}
 	}

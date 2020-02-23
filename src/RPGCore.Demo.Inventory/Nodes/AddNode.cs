@@ -31,7 +31,6 @@ namespace RPGCore.Demo.Inventory.Nodes
 
 			public override void Setup()
 			{
-
 			}
 
 			public override void OnInputChanged()

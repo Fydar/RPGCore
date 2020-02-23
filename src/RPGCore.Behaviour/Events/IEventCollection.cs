@@ -8,8 +8,11 @@ namespace RPGCore.Behaviour
 		TValue this[TKey key] { get; }
 
 		bool ContainsKey(TKey key);
+
 		void Add(TKey key, TValue value);
+
 		bool Remove(TKey key);
+
 		bool TryGetValue(TKey key, out TValue value);
 	}
 }

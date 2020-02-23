@@ -52,7 +52,6 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 				FirstValue = "Lol",
 				AChild = new ChildModel()
 				{
-
 				},
 				BChild = null,
 				Children = new ChildModel[]
@@ -64,7 +63,6 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 				{
 					["alpha"] = new ChildModel()
 					{
-
 					},
 					["beta"] = null
 				}

@@ -7,56 +7,56 @@ namespace RPGCore.Behaviour
 	public class OutputConnection<T> : EventConnection, IConnection<T>, IEventField<T>
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private T GenericValue;
+		private T valueInternal;
 
 		public virtual T Value
 		{
-			get => GenericValue;
+			get => valueInternal;
 			set
 			{
-				if (!BufferEventsInternal)
+				if (!bufferEvents)
 				{
 					Handlers.InvokeBeforeChanged();
-					GenericValue = value;
+					valueInternal = value;
 					Handlers.InvokeAfterChanged();
 
 					InvokeAfterChanged();
 				}
 				else
 				{
-					Buffer = value;
-					BufferUsed = true;
+					buffer = value;
+					bufferUsed = true;
 				}
 			}
 		}
 
-		private bool BufferUsed;
-		private T Buffer;
+		private bool bufferUsed;
+		private T buffer;
 
 		[JsonIgnore]
 		public override bool BufferEvents
 		{
 			get
 			{
-				return BufferEventsInternal;
+				return bufferEvents;
 			}
 			set
 			{
-				if (BufferEventsInternal && !value)
+				if (bufferEvents && !value)
 				{
-					if (BufferUsed)
+					if (bufferUsed)
 					{
-						BufferEventsInternal = value;
-						Value = Buffer;
-						BufferUsed = false;
+						bufferEvents = value;
+						Value = buffer;
+						bufferUsed = false;
 					}
 				}
-				BufferEventsInternal = value;
+				bufferEvents = value;
 			}
 		}
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private bool BufferEventsInternal;
+		private bool bufferEvents;
 
 		[JsonIgnore]
 		public override Type ConnectionType => typeof(T);
@@ -67,7 +67,7 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public IReadOnlyEventField<T> Mirroring { get; private set; }
 
-		private EventFieldMirrorHandler<T> MirrorHandler;
+		private EventFieldMirrorHandler<T> mirrorHandler;
 
 		public OutputConnection(int connectionId)
 			: base(connectionId)
@@ -85,8 +85,8 @@ namespace RPGCore.Behaviour
 			Mirroring = target;
 
 			Value = Mirroring.Value;
-			MirrorHandler = new EventFieldMirrorHandler<T>(Mirroring, this);
-			Mirroring.Handlers[this].Add(MirrorHandler);
+			mirrorHandler = new EventFieldMirrorHandler<T>(Mirroring, this);
+			Mirroring.Handlers[this].Add(mirrorHandler);
 		}
 
 		public void StopMirroring()
@@ -95,12 +95,12 @@ namespace RPGCore.Behaviour
 			{
 				throw new InvalidOperationException("Connection cannot stop mirroring as it is currently not mirroring anything.");
 			}
-			Mirroring.Handlers[this].Remove(MirrorHandler);
-			MirrorHandler = null;
+			Mirroring.Handlers[this].Remove(mirrorHandler);
+			mirrorHandler = null;
 			Mirroring = null;
 		}
 
-		public override string ToString() => $"Connection {ConnectionId}, Value = {GenericValue}";
+		public override string ToString() => $"Connection {ConnectionId}, Value = {valueInternal}";
 
 		public object GetValue()
 		{

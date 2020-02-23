@@ -14,8 +14,11 @@ namespace RPGCore.Behaviour
 		bool BufferEvents { get; set; }
 
 		IConnectionTypeConverter UseConverter(Type converterType);
+
 		void RegisterInput(INodeInstance node);
+
 		void Subscribe(INodeInstance node, Action callback);
+
 		void Unsubscribe(INodeInstance node, Action callback);
 	}
 

@@ -49,6 +49,7 @@ namespace RPGCore.Items.UnitTests
 				var resultItem = sourceItem.Take(8);
 			}));
 		}
+
 		[Test, Parallelizable]
 		public void ThrowWhenTakeWholeStack()
 		{

@@ -12,24 +12,25 @@ namespace RPGCore.Inventory.Slots
 	/// </remarks>
 	public class InventoryTransactionBuilder : IEnumerable<ItemTransaction>
 	{
-		private readonly List<ItemTransaction> Items;
+		private readonly List<ItemTransaction> items;
 
 		public InventoryTransactionBuilder()
 		{
-			Items = new List<ItemTransaction>();
+			items = new List<ItemTransaction>();
 		}
 
 		public void Add(ItemTransaction itemTransaction)
 		{
-			Items.Add(itemTransaction);
+			items.Add(itemTransaction);
 		}
 
 		public InventoryTransaction Build(TransactionStatus status)
 		{
-			return new InventoryTransaction(status, Items);
+			return new InventoryTransaction(status, items);
 		}
 
-		public IEnumerator<ItemTransaction> GetEnumerator() => Items.GetEnumerator();
-		IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
+		public IEnumerator<ItemTransaction> GetEnumerator() => items.GetEnumerator();
+
+		IEnumerator IEnumerable.GetEnumerator() => items.GetEnumerator();
 	}
 }

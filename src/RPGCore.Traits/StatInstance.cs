@@ -97,6 +97,7 @@ namespace RPGCore.Traits
 							}
 							BaseAdditiveModifiers.Add(modifier);
 							break;
+
 						case StatModificationType.SimpleMultiplicative:
 							if (BaseSimpleModifiers == null)
 							{
@@ -128,6 +129,7 @@ namespace RPGCore.Traits
 							}
 							AdditiveModifiers.Add(modifier);
 							break;
+
 						case StatModificationType.SimpleMultiplicative:
 							if (SimpleModifiers == null)
 							{
@@ -176,6 +178,7 @@ namespace RPGCore.Traits
 							}
 							result = BaseAdditiveModifiers.Remove(modifier);
 							break;
+
 						case StatModificationType.SimpleMultiplicative:
 							if (BaseSimpleModifiers == null)
 							{
@@ -208,6 +211,7 @@ namespace RPGCore.Traits
 							}
 							result = AdditiveModifiers.Remove(modifier);
 							break;
+
 						case StatModificationType.SimpleMultiplicative:
 							if (SimpleModifiers == null)
 							{

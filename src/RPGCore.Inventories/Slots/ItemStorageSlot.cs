@@ -51,6 +51,7 @@ namespace RPGCore.Inventory.Slots
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IItem storedItem;
+
 		private int? maxStackSize;
 
 		public ItemStorageSlot(IInventory parent = null, IInventoryConstraint[] constraints = null, IInventoryBehaviour[] behaviours = null)

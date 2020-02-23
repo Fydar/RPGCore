@@ -18,7 +18,9 @@ namespace RPGCore.Traits
 		}
 
 		public override bool Equals(object obj) => obj is StatIdentifier identifier && Equals(identifier);
+
 		public bool Equals(StatIdentifier other) => Identifer == other.Identifer;
+
 		public override int GetHashCode() => 1924603977 + EqualityComparer<string>.Default.GetHashCode(Identifer);
 
 		public static bool operator ==(StatIdentifier left, StatIdentifier right)

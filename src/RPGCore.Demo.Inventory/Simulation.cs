@@ -3,7 +3,6 @@ using RPGCore.Behaviour;
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Demo.Inventory.Nodes;
 using RPGCore.Packages;
-using RPGCore.Packages.Pipeline;
 using System;
 using System.Collections.Generic;
 using System.IO;

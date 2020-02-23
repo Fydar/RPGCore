@@ -28,7 +28,6 @@ namespace RPGCore.Demo.BoardGame
 
 			public override void Remove()
 			{
-
 			}
 		}
 	}

@@ -11,6 +11,7 @@ namespace RPGCore.Traits
 	{
 		[JsonProperty]
 		public EventCollection<StatIdentifier, StatInstance> Stats;
+
 		[JsonProperty]
 		public EventCollection<StateIdentifier, StateInstance> States;
 

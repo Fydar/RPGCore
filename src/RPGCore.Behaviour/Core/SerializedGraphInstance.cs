@@ -30,14 +30,14 @@ namespace RPGCore.Behaviour
 
 	public sealed class SerializedGraphInstanceProxyConverter : JsonConverter
 	{
-		private readonly Graph Graph;
+		private readonly Graph graph;
 
 		public override bool CanRead => true;
 		public override bool CanWrite => true;
 
 		public SerializedGraphInstanceProxyConverter(Graph graph)
 		{
-			Graph = graph;
+			this.graph = graph;
 		}
 
 		public override bool CanConvert(Type objectType)
@@ -50,7 +50,7 @@ namespace RPGCore.Behaviour
 			var jObject = JObject.Load(reader);
 			var serializedGraphInstance = jObject.ToObject<SerializedGraphInstance>(serializer);
 
-			var result = serializedGraphInstance.Unpack(Graph.SubGraphs.Values.First());
+			var result = serializedGraphInstance.Unpack(graph.SubGraphs.Values.First());
 
 			return result;
 		}
@@ -110,5 +110,4 @@ namespace RPGCore.Behaviour
 			return false;
 		}
 	}
-
 }

@@ -7,13 +7,13 @@ namespace RPGCore.Inventory.Slots
 {
 	public class SlottedInventory : IInventory
 	{
-		private readonly List<IItemSlot> Slots;
+		private readonly List<IItemSlot> slots;
 
 		public int Capacity { get; set; }
 		public IItemSlotFactory ItemSlotFactory { get; }
 		public IInventory Parent { get; }
 
-		public IEnumerable<IItem> Items => Slots.Select(slot => slot.CurrentItem);
+		public IEnumerable<IItem> Items => slots.Select(slot => slot.CurrentItem);
 
 		public SlottedInventory(int capacity, IItemSlotFactory itemSlotFactory, IInventory parent = null)
 		{
@@ -21,18 +21,18 @@ namespace RPGCore.Inventory.Slots
 			ItemSlotFactory = itemSlotFactory ?? throw new ArgumentNullException(nameof(itemSlotFactory));
 			Parent = parent;
 
-			Slots = new List<IItemSlot>(capacity);
+			slots = new List<IItemSlot>(capacity);
 
 			for (int i = 0; i < capacity; i++)
 			{
 				var slot = ItemSlotFactory.Build(parent);
-				Slots.Add(slot);
+				slots.Add(slot);
 			}
 		}
 
 		public InventoryTransaction AddItem(IItem item)
 		{
-			foreach (var slot in Slots)
+			foreach (var slot in slots)
 			{
 				var result = slot.AddItem(item);
 

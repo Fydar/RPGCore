@@ -53,7 +53,6 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				Client = player1
 			});
 
-
 			gameView.Apply(new DeclareResourceAction()
 			{
 				Client = player2,
@@ -75,7 +74,6 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			{
 				Client = player2
 			});
-
 
 			gameView.Apply(new DeclareResourceAction()
 			{
@@ -109,7 +107,6 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			{
 				Client = player1
 			});
-
 
 			DrawGameState(gameView);
 		}

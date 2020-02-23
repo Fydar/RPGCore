@@ -53,7 +53,6 @@ namespace RPGCore.Demo.BoardGame
 
 			public override void Remove()
 			{
-
 			}
 
 			public override void OnInputChanged()

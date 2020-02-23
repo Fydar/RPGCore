@@ -6,30 +6,30 @@ namespace RPGCore.Traits
 {
 	public static class TraitIdentifiers
 	{
-		private static readonly Dictionary<Type, StatIdentifier[]> StatsCache = new Dictionary<Type, StatIdentifier[]>();
-		private static readonly Dictionary<Type, StateIdentifier[]> StatesCache = new Dictionary<Type, StateIdentifier[]>();
+		private static readonly Dictionary<Type, StatIdentifier[]> statsCache = new Dictionary<Type, StatIdentifier[]>();
+		private static readonly Dictionary<Type, StateIdentifier[]> statesCache = new Dictionary<Type, StateIdentifier[]>();
 
 		public static StatIdentifier[] AllStats(Type source)
 		{
-			if (StatsCache.TryGetValue(source, out var cache))
+			if (statsCache.TryGetValue(source, out var cache))
 			{
 				return cache;
 			}
 
 			cache = GetAllMembers<StatIdentifier>(source);
-			StatsCache[source] = cache;
+			statsCache[source] = cache;
 			return cache;
 		}
 
 		public static StateIdentifier[] AllStates(Type source)
 		{
-			if (StatesCache.TryGetValue(source, out var cache))
+			if (statesCache.TryGetValue(source, out var cache))
 			{
 				return cache;
 			}
 
 			cache = GetAllMembers<StateIdentifier>(source);
-			StatesCache[source] = cache;
+			statesCache[source] = cache;
 			return cache;
 		}
 

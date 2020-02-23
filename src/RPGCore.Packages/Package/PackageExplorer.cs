@@ -18,28 +18,28 @@ namespace RPGCore.Packages
 		[DebuggerTypeProxy(typeof(PackageResourceCollectionDebugView))]
 		private sealed class PackageResourceCollection : IPackageResourceCollection, IResourceCollection
 		{
-			private Dictionary<string, PackageResource> Resources;
+			private Dictionary<string, PackageResource> resources;
 
-			public int Count => Resources?.Count ?? 0;
+			public int Count => resources?.Count ?? 0;
 
-			public PackageResource this[string key] => Resources[key];
+			public PackageResource this[string key] => resources[key];
 			IResource IResourceCollection.this[string key] => this[key];
 
 			internal void Add(PackageResource asset)
 			{
-				if (Resources == null)
+				if (resources == null)
 				{
-					Resources = new Dictionary<string, PackageResource>();
+					resources = new Dictionary<string, PackageResource>();
 				}
 
-				Resources.Add(asset.FullName, asset);
+				resources.Add(asset.FullName, asset);
 			}
 
 			public IEnumerator<PackageResource> GetEnumerator()
 			{
-				return Resources?.Values == null
+				return resources?.Values == null
 					? Enumerable.Empty<PackageResource>().GetEnumerator()
-					: Resources.Values.GetEnumerator();
+					: resources.Values.GetEnumerator();
 			}
 
 			IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()
@@ -63,11 +63,11 @@ namespace RPGCore.Packages
 					public IResource Value;
 				}
 
-				private readonly PackageResourceCollection Source;
+				private readonly PackageResourceCollection source;
 
 				public PackageResourceCollectionDebugView(PackageResourceCollection source)
 				{
-					Source = source;
+					this.source = source;
 				}
 
 				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
@@ -75,10 +75,10 @@ namespace RPGCore.Packages
 				{
 					get
 					{
-						var keys = new DebuggerRow[Source.Resources.Count];
+						var keys = new DebuggerRow[source.resources.Count];
 
 						int i = 0;
-						foreach (var kvp in Source.Resources)
+						foreach (var kvp in source.resources)
 						{
 							keys[i] = new DebuggerRow
 							{
@@ -108,7 +108,6 @@ namespace RPGCore.Packages
 		/// </summary>
 		public long CompressedSize { get; private set; }
 
-
 		/// <summary>
 		/// <para>The name of this package, specified in it's definition file.</para>
 		/// </summary>
@@ -122,18 +121,18 @@ namespace RPGCore.Packages
 		/// <summary>
 		/// <para>A collection of all of the resources contained in this package.</para>
 		/// </summary>
-		public IPackageResourceCollection Resources => ResourcesInternal;
+		public IPackageResourceCollection Resources => resources;
 
 		/// <summary>
 		/// <para>An index of the tags contained within this package for performing asset queries.</para>
 		/// </summary>
-		public ITagsCollection Tags => TagsInternal;
+		public ITagsCollection Tags => tags;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => ResourcesInternal;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => TagsInternal;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => resources;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => tags;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageResourceCollection ResourcesInternal;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection TagsInternal;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageResourceCollection resources;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
 
 		public PackageExplorer()
 		{
@@ -172,7 +171,7 @@ namespace RPGCore.Packages
 			{
 				PackagePath = path,
 				CompressedSize = packageFileInfo.Length,
-				ResourcesInternal = new PackageResourceCollection()
+				resources = new PackageResourceCollection()
 			};
 
 			var tags = new Dictionary<string, IResourceCollection>();
@@ -195,7 +194,7 @@ namespace RPGCore.Packages
 				foreach (var projectEntry in archive.Entries)
 				{
 					var resource = new PackageResource(package, projectEntry, tagsDocument);
-					package.ResourcesInternal.Add(resource);
+					package.resources.Add(resource);
 
 					foreach (var tagCategory in tagsDocument)
 					{
@@ -215,14 +214,13 @@ namespace RPGCore.Packages
 				}
 			}
 
-			package.TagsInternal = new PackageTagsCollection(tags);
+			package.tags = new PackageTagsCollection(tags);
 
 			return package;
 		}
 
 		public void Dispose()
 		{
-
 		}
 
 		private static T LoadJsonDocument<T>(ZipArchiveEntry entry)

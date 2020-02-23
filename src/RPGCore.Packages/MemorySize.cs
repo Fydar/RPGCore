@@ -5,7 +5,7 @@ using System.Text;
 namespace RPGCore.Packages
 {
 	/// <summary>
-	/// A simple structure that formats for bytes. 
+	/// A simple structure that formats for bytes.
 	/// </summary>
 	public struct MemorySize : IEquatable<MemorySize>, IComparable<MemorySize>, IFormattable
 	{
@@ -103,19 +103,19 @@ namespace RPGCore.Packages
 
 		public override string ToString()
 		{
-			if (Gigabytes < 1.0f)
+			if (Gigabytes >= 1.0f)
 			{
-				if (Megabytes < 1.0f)
-				{
-					if (Kilobytes < 1.0f)
-					{
-						return $"{Bytes.ToString()} {byteSuffix}";
-					}
-					return $"{Kilobytes.ToString()} {kilobyteSuffix}";
-				}
+				return $"{Gigabytes.ToString()} {gigabyteSuffix}";
+			}
+			if (Megabytes >= 1.0f)
+			{
 				return $"{Megabytes.ToString()} {megabyteSuffix}";
 			}
-			return $"{Gigabytes.ToString()} {gigabyteSuffix}";
+			if (Kilobytes >= 1.0f)
+			{
+				return $"{Kilobytes.ToString()} {kilobyteSuffix}";
+			}
+			return $"{Bytes.ToString()} {byteSuffix}";
 		}
 
 		public override bool Equals(object obj) => obj is MemorySize size && Equals(size);
@@ -128,19 +128,19 @@ namespace RPGCore.Packages
 
 		public string ToString(string format, IFormatProvider formatProvider)
 		{
-			if (Gigabytes < 1.0f)
+			if (Gigabytes >= 1.0f)
 			{
-				if (Megabytes < 1.0f)
-				{
-					if (Kilobytes < 1.0f)
-					{
-						return $"{Bytes.ToString(format, formatProvider)} {byteSuffix}";
-					}
-					return $"{Kilobytes.ToString(format, formatProvider)} {kilobyteSuffix}";
-				}
+				return $"{Gigabytes.ToString(format, formatProvider)} {gigabyteSuffix}";
+			}
+			if (Megabytes >= 1.0f)
+			{
 				return $"{Megabytes.ToString(format, formatProvider)} {megabyteSuffix}";
 			}
-			return $"{Gigabytes.ToString(format, formatProvider)} {gigabyteSuffix}";
+			if (Kilobytes >= 1.0f)
+			{
+				return $"{Kilobytes.ToString(format, formatProvider)} {kilobyteSuffix}";
+			}
+			return $"{Bytes.ToString(format, formatProvider)} {byteSuffix}";
 		}
 
 		public static bool operator ==(MemorySize left, MemorySize right)

@@ -9,9 +9,11 @@ namespace RPGCore.Behaviour
 		public LocalId Id { get; set; }
 
 		public abstract INodeInstance CreateInstance();
+
 		public abstract void Setup(IGraphInstance graph, INodeInstance metadata);
 
 		internal abstract InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance);
+
 		internal abstract OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance);
 	}
 

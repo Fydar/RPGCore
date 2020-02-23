@@ -12,7 +12,9 @@ namespace RPGCore.Packages
 		IResourceTags Tags { get; }
 
 		Stream LoadStream();
+
 		byte[] LoadData();
+
 		Task<byte[]> LoadDataAsync();
 	}
 }
