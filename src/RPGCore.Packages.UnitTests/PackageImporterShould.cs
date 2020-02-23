@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace Tests
+namespace RPGCore.Packages.UnitTests
 {
-	public class Tests
+	public class PackageImporterShould
 	{
 		[SetUp]
 		public void Setup()
@@ -10,7 +10,7 @@ namespace Tests
 		}
 
 		[Test, Parallelizable]
-		public void Test1()
+		public void ImportFilesOnDisk()
 		{
 			Assert.Pass();
 		}

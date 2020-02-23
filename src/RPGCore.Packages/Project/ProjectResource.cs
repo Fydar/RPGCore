@@ -1,3 +1,5 @@
+using RPGCore.Packages.Pipeline;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -14,23 +16,24 @@ namespace RPGCore.Packages
 
 		public string FullName { get; }
 
-		public ProjectResourceDescription Description { get; }
+		public ProjectResourceTags Tags { get; }
 		public ProjectExplorer Explorer { get; }
 
-		IResourceDescription IResource.Description => Description;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		IResourceTags IResource.Tags => Tags;
 
-		public ProjectResource(ProjectExplorer projectExplorer, string projectKey, FileInfo entry)
+		public ProjectResource(ProjectResourceImporter projectResourceImporter)
 		{
-			Entry = entry;
-
-			UncompressedSize = entry.Length;
-			CompressedSize = UncompressedSize;
+			Entry = projectResourceImporter.FileInfo;
 
 			Name = Entry.Name;
-			Explorer = projectExplorer;
-			FullName = projectKey;
+			UncompressedSize = Entry.Length;
+			CompressedSize = UncompressedSize;
 
-			Description = new ProjectResourceDescription(this);
+			Explorer = projectResourceImporter.ProjectExplorer;
+			FullName = projectResourceImporter.ProjectKey;
+
+			Tags = new ProjectResourceTags(projectResourceImporter);
 		}
 
 		public byte[] LoadData()

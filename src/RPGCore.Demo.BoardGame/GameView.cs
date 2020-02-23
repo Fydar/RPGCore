@@ -15,9 +15,9 @@ namespace RPGCore.Demo.BoardGame
 		public BuildingTemplate[] Buildings;
 		public GamePlayer[] Players;
 
-		public IPackageExplorer GameData { get; private set; }
+		public IExplorer GameData { get; private set; }
 
-		public void Create(IPackageExplorer gameData)
+		public void Create(IExplorer gameData)
 		{
 			GameData = gameData;
 

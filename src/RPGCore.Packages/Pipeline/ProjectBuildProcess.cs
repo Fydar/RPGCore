@@ -1,6 +1,8 @@
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 
 namespace RPGCore.Packages
@@ -42,6 +44,19 @@ namespace RPGCore.Packages
 				zipStream.Write(bytes, 0, bytes.Length);
 			}
 
+			var tagsEntry = archive.CreateEntry("tags.json");
+			var tagsDocument = new Dictionary<string, List<string>>();
+			foreach (var projectTagCategory in Project.Tags)
+			{
+				if (!tagsDocument.TryGetValue(projectTagCategory.Key, out var taggedResources))
+				{
+					taggedResources = new List<string>();
+					tagsDocument[projectTagCategory.Key] = taggedResources;
+				}
+				taggedResources.AddRange(projectTagCategory.Value.Select(tag => tag.FullName));
+			}
+			WriteJsonDocument(tagsEntry, tagsDocument);
+
 			long currentProgress = 0;
 
 			foreach (var resource in Project.Resources)
@@ -76,6 +91,16 @@ namespace RPGCore.Packages
 					}
 				}
 			}
+		}
+
+		private static void WriteJsonDocument(ZipArchiveEntry entry, object value)
+		{
+			using var zipStream = entry.Open();
+			using var sr = new StreamWriter(zipStream);
+			using var writer = new JsonTextWriter(sr);
+
+			var serializer = new JsonSerializer();
+			serializer.Serialize(writer, value);
 		}
 	}
 }

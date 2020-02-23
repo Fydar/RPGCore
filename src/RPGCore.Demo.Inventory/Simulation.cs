@@ -3,6 +3,7 @@ using RPGCore.Behaviour;
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Demo.Inventory.Nodes;
 using RPGCore.Packages;
+using RPGCore.Packages.Pipeline;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -64,12 +65,17 @@ namespace RPGCore.Demo.Inventory
 
 			Console.WriteLine("Importing Graph...");
 
-			var proj = ProjectExplorer.Load("Content/Core");
+			var importPipeline = new ImportPipeline();
+			importPipeline.ImportProcessors.Add(
+				new TagAllProjectResourceImporter());
+
+			var projectExplorer = ProjectExplorer.Load("Content/Core", importPipeline);
 
 			var consoleRenderer = new BuildConsoleRenderer();
 
 			var buildPipeline = new BuildPipeline()
 			{
+				ImportPipeline = importPipeline,
 				Exporters = new List<ResourceExporter>()
 				{
 					new BhvrExporter()
@@ -80,7 +86,7 @@ namespace RPGCore.Demo.Inventory
 				}
 			};
 			consoleRenderer.DrawProgressBar(32);
-			proj.Export(buildPipeline, "Content/Temp");
+			projectExplorer.Export(buildPipeline, "Content/Temp");
 
 			Console.WriteLine("Exported package...");
 			var exportedPackage = PackageExplorer.Load("Content/Temp/Core.bpkg");

@@ -39,10 +39,12 @@ namespace RPGCore.Demo.Inventory
 
 			Console.WriteLine("Importing Graph...");
 
-			var proj = ProjectExplorer.Load("Content/Core");
+			var importPipeline = new ImportPipeline();
+
+			var proj = ProjectExplorer.Load("Content/Core", importPipeline);
 			Console.WriteLine(proj.Name);
 			Console.WriteLine("\t\"" + proj.Name + "\"");
-			foreach (var resource in ((IPackageExplorer)proj).Resources)
+			foreach (var resource in ((IExplorer)proj).Resources)
 			{
 				Console.WriteLine("\t" + resource.FullName);
 			}

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
@@ -14,11 +16,12 @@ namespace RPGCore.Packages
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
 
-		public PackageResourceDescription Description { get; }
+		public PackageResourceTags Tags { get; }
 
-		IResourceDescription IResource.Description => Description;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		IResourceTags IResource.Tags => Tags;
 
-		public PackageResource(PackageExplorer package, ZipArchiveEntry packageEntry)
+		public PackageResource(PackageExplorer package, ZipArchiveEntry packageEntry, IReadOnlyDictionary<string, IReadOnlyList<string>> tagsDocument)
 		{
 			Package = package;
 			Name = packageEntry.Name;
@@ -27,7 +30,7 @@ namespace RPGCore.Packages
 			CompressedSize = packageEntry.CompressedLength;
 			UncompressedSize = packageEntry.Length;
 
-			Description = new PackageResourceDescription(package, this);
+			Tags = new PackageResourceTags(tagsDocument, this);
 		}
 
 		public Stream LoadStream()

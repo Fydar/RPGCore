@@ -4,8 +4,16 @@ namespace RPGCore.Packages
 {
 	public class BuildPipeline
 	{
-		public List<ResourceExporter> Exporters = new List<ResourceExporter>();
-		public List<IBuildAction> BuildActions = new List<IBuildAction>();
+		public ImportPipeline ImportPipeline { get; set; }
+		public List<ResourceExporter> Exporters { get; set; }
+		public List<IBuildAction> BuildActions { get; set; }
+
+		public BuildPipeline()
+		{
+			ImportPipeline = new ImportPipeline();
+			Exporters = new List<ResourceExporter>();
+			BuildActions = new List<IBuildAction>();
+		}
 
 		public ResourceExporter GetExporter(ProjectResource resource)
 		{
