@@ -48,6 +48,14 @@ for(int i; i < 10; i++)
 
 Indentation should be denoted using tabs rather than spaces.
 
+```csharp
+// Prefer:
+  ⇥
+
+// Over:
+․․․․
+```
+
 ### Code Blocks
 
 New lines should be inserted before the opening parenthesis of method blocks and control flow statements.
@@ -77,4 +85,94 @@ if (condition)
 // Over:
 if (condition)
     Console.WriteLine("Output");
+```
+
+### Naming
+
+Use predefined type names over framework type names.
+
+```csharp
+// Prefer:
+string fieldA;
+int fieldB;
+bool fieldC;
+
+// Over:
+String fieldA;
+Int32 fieldB;
+Boolean fieldC;
+```
+
+Use predefined type names over framework names for accessing a type's static members.
+
+```csharp
+// Prefer:
+string.Join(", ", names);
+int.Parse(input);
+
+// Over:
+String.Join(", ", names);
+Int32.Parse(input);
+```
+
+**Interfaces** should be prefixed with `I`.
+
+```csharp
+// Prefer:
+public interface IInterfaceName
+{
+
+}
+```
+
+**Class** and **struct** names should be `PascalCase`.
+
+```csharp
+// Prefer:
+public class ClassName
+{
+
+}
+```
+
+**Methods** (instance and static) should be `PascalCase`.
+
+```csharp
+// Prefer:
+public void Run();
+
+// Over:
+public void run();
+```
+
+**Properties** (instance and static) should be `PascalCase`.
+
+```csharp
+// Prefer:
+public string PropertyA { get; set; }
+public string PropertyB => PropertyA;
+
+// Over:
+public string propertyA { get; set; }
+public string propertyB => propertyA;
+```
+
+**Fields** (instance and static) should be `camelCase`.
+
+```csharp
+// Prefer:
+private string field;
+
+// Over:
+private string Field;
+```
+
+**Constants** should be `PascalCase`.
+
+```csharp
+// Prefer:
+private string ConstantValue;
+
+// Over:
+private const string CONSTANT_VALUE;
 ```
