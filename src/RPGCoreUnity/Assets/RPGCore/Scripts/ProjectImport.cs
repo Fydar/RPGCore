@@ -16,7 +16,9 @@ namespace RPGCore.Unity
 			{
 				if (explorer == null)
 				{
-					explorer = ProjectExplorer.Load(RelativePath);
+					var importPipeline = new ImportPipeline();
+
+					explorer = ProjectExplorer.Load(RelativePath, importPipeline);
 				}
 				return explorer;
 			}

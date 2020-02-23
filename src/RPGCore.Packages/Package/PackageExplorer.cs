@@ -9,6 +9,9 @@ using System.Text;
 
 namespace RPGCore.Packages
 {
+	/// <summary>
+	/// <para>Used for loading the content of a compiled package.</para>
+	/// </summary>
 	public sealed class PackageExplorer : IExplorer
 	{
 		[DebuggerDisplay("Count = {Count,nq}")]
@@ -90,13 +93,40 @@ namespace RPGCore.Packages
 			}
 		}
 
-		private readonly ProjectDefinitionFile Definition;
-		private string path;
+		/// <summary>
+		/// <para>The project definition for this package.</para>
+		/// </summary>
+		public ProjectDefinitionFile Definition { get; private set; }
 
+		/// <summary>
+		/// <para>The path of the package on disk.</para>
+		/// </summary>
+		public string PackagePath { get; private set; }
+
+		/// <summary>
+		/// <para>The size of the package on disk.</para>
+		/// </summary>
+		public long CompressedSize { get; private set; }
+
+
+		/// <summary>
+		/// <para>The name of this package, specified in it's definition file.</para>
+		/// </summary>
 		public string Name => Definition?.Properties?.Name;
+
+		/// <summary>
+		/// <para>The version of the package, specified in it's definition file.</para>
+		/// </summary>
 		public string Version => Definition?.Properties?.Version;
 
+		/// <summary>
+		/// <para>A collection of all of the resources contained in this package.</para>
+		/// </summary>
 		public IPackageResourceCollection Resources => ResourcesInternal;
+
+		/// <summary>
+		/// <para>An index of the tags contained within this package for performing asset queries.</para>
+		/// </summary>
 		public ITagsCollection Tags => TagsInternal;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => ResourcesInternal;
@@ -109,14 +139,9 @@ namespace RPGCore.Packages
 		{
 		}
 
-		public void Dispose()
-		{
-
-		}
-
 		public Stream LoadStream(string packageKey)
 		{
-			var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+			var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 			var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
 
 			var entry = archive.GetEntry(packageKey);
@@ -128,7 +153,7 @@ namespace RPGCore.Packages
 
 		public byte[] OpenAsset(string packageKey)
 		{
-			using var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+			using var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
 
 			var entry = archive.GetEntry(packageKey);
@@ -141,9 +166,12 @@ namespace RPGCore.Packages
 
 		public static PackageExplorer Load(string path)
 		{
+			var packageFileInfo = new FileInfo(path);
+
 			var package = new PackageExplorer
 			{
-				path = path,
+				PackagePath = path,
+				CompressedSize = packageFileInfo.Length,
 				ResourcesInternal = new PackageResourceCollection()
 			};
 
@@ -190,6 +218,11 @@ namespace RPGCore.Packages
 			package.TagsInternal = new PackageTagsCollection(tags);
 
 			return package;
+		}
+
+		public void Dispose()
+		{
+
 		}
 
 		private static T LoadJsonDocument<T>(ZipArchiveEntry entry)

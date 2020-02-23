@@ -7,6 +7,12 @@ using System.Linq;
 
 namespace RPGCore.Packages
 {
+	/// <summary>
+	/// <para>Used for loading the content of an uncompiled package.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Can be used to analyse and modify the content of a project.</para>
+	/// </remarks>
 	public sealed class ProjectExplorer : IExplorer
 	{
 		[DebuggerDisplay("Count = {Count,nq}")]
@@ -88,14 +94,40 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public ProjectDefinitionFile Definition;
+		/// <summary>
+		/// <para>The project definition for this project.</para>
+		/// </summary>
+		public ProjectDefinitionFile Definition { get; private set; }
 
-		public string Name => Definition.Properties.Name;
-		public string Version => Definition.Properties.Version;
+		/// <summary>
+		/// <para>The path of the project folder on disk.</para>
+		/// </summary>
+		public string ProjectPath { get; private set; }
 
+		/// <summary>
+		/// <para>The size of all of the projects resources on disk.</para>
+		/// </summary>
 		public long UncompressedSize { get; private set; }
 
+
+		/// <summary>
+		/// <para>The name of this package, specified in it's definition file.</para>
+		/// </summary>
+		public string Name => Definition?.Properties?.Name;
+
+		/// <summary>
+		/// <para>The version of the project, specified in it's definition file.</para>
+		/// </summary>
+		public string Version => Definition?.Properties?.Version;
+
+		/// <summary>
+		/// <para>A collection of all of the resources contained in this project.</para>
+		/// </summary>
 		public IProjectResourceCollection Resources => ResourcesInternal;
+
+		/// <summary>
+		/// <para>An index of the tags contained within this project for performing asset queries.</para>
+		/// </summary>
 		public ITagsCollection Tags => TagsInternal;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => ResourcesInternal;
@@ -109,17 +141,17 @@ namespace RPGCore.Packages
 			ResourcesInternal = new ProjectResourceCollection();
 		}
 
-		public static ProjectExplorer Load(string path, ImportPipeline importPipeline)
+		public static ProjectExplorer Load(string projectPath, ImportPipeline importPipeline)
 		{
 			string bprojPath = null;
-			if (path.EndsWith(".bproj"))
+			if (projectPath.EndsWith(".bproj"))
 			{
-				bprojPath = path;
-				path = new DirectoryInfo(path).Parent.FullName;
+				bprojPath = projectPath;
+				projectPath = new DirectoryInfo(projectPath).Parent.FullName;
 			}
 			else
 			{
-				string[] rootFiles = Directory.GetFiles(path);
+				string[] rootFiles = Directory.GetFiles(projectPath);
 				for (int i = 0; i < rootFiles.Length; i++)
 				{
 					string rootFile = rootFiles[i];
@@ -133,18 +165,19 @@ namespace RPGCore.Packages
 
 			var projectExplorer = new ProjectExplorer
 			{
-				Definition = ProjectDefinitionFile.Load(bprojPath)
+				ProjectPath = projectPath,
+				Definition = ProjectDefinitionFile.Load(bprojPath),
 			};
 
 			var ignoredDirectories = new List<string>()
 			{
-				Path.Combine(path, "bin")
+				Path.Combine(projectPath, "bin")
 			};
 
-			string normalizedPath = path.Replace('\\', '/');
-			long totalSize = 0;
+			string normalizedPath = projectPath.Replace('\\', '/');
+			long uncompressedSize = 0;
 
-			foreach (string filePath in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
+			foreach (string filePath in Directory.EnumerateFiles(projectPath, "*", SearchOption.AllDirectories))
 			{
 				if (ignoredDirectories.Any(p => filePath.StartsWith(p)))
 				{
@@ -166,9 +199,9 @@ namespace RPGCore.Packages
 
 				projectExplorer.Resources.Add(resource);
 
-				totalSize += resource.UncompressedSize;
+				uncompressedSize += resource.UncompressedSize;
 			}
-			projectExplorer.UncompressedSize = totalSize;
+			projectExplorer.UncompressedSize = uncompressedSize;
 
 			var tags = new Dictionary<string, IResourceCollection>();
 			foreach (var resource in projectExplorer.Resources)
