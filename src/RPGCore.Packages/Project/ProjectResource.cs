@@ -22,7 +22,7 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		IResourceTags IResource.Tags => Tags;
 
-		public ProjectResource(ProjectResourceImporter projectResourceImporter)
+		internal ProjectResource(ProjectResourceImporter projectResourceImporter)
 		{
 			Entry = projectResourceImporter.FileInfo;
 

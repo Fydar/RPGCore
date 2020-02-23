@@ -1,54 +1,56 @@
-using System;
 using System.IO;
+using System.IO.Compression;
 
 namespace RPGCore.Packages
 {
-	public sealed class PackageStream : Stream, IDisposable
+	public sealed class PackageStream : Stream
 	{
-		public Stream InternalStream;
-		public IDisposable[] Components;
+		private readonly FileStream fileStream;
+		private readonly ZipArchive zipArchive;
+		private readonly Stream internalStream;
 
 		private bool disposed;
 
-		public override bool CanRead => InternalStream.CanRead;
+		public override bool CanRead => internalStream.CanRead;
 
-		public override bool CanSeek => InternalStream.CanSeek;
+		public override bool CanSeek => internalStream.CanSeek;
 
-		public override bool CanWrite => InternalStream.CanWrite;
+		public override bool CanWrite => internalStream.CanWrite;
 
-		public override long Length => InternalStream.Length;
+		public override long Length => internalStream.Length;
 
-		public override long Position { get => InternalStream.Position; set => InternalStream.Position = value; }
+		public override long Position { get => internalStream.Position; set => internalStream.Position = value; }
 
-		public PackageStream(Stream internalStream, params IDisposable[] components)
+		public PackageStream(FileStream fileStream, ZipArchive zipArchive, Stream internalStream)
 		{
-			InternalStream = internalStream;
-			Components = components;
+			this.fileStream = fileStream;
+			this.zipArchive = zipArchive;
+			this.internalStream = internalStream;
 		}
 
 		public override void Flush()
 		{
-			InternalStream.Flush();
+			internalStream.Flush();
 		}
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			return InternalStream.Read(buffer, offset, count);
+			return internalStream.Read(buffer, offset, count);
 		}
 
 		public override long Seek(long offset, SeekOrigin origin)
 		{
-			return InternalStream.Seek(offset, origin);
+			return internalStream.Seek(offset, origin);
 		}
 
 		public override void SetLength(long value)
 		{
-			InternalStream.SetLength(value);
+			internalStream.SetLength(value);
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)
 		{
-			InternalStream.Write(buffer, offset, count);
+			internalStream.Write(buffer, offset, count);
 		}
 
 		~PackageStream()
@@ -58,14 +60,12 @@ namespace RPGCore.Packages
 
 		protected override void Dispose(bool disposing)
 		{
-			InternalStream.Dispose();
 			base.Dispose(disposing);
 			if (!disposed)
 			{
-				foreach (var component in Components)
-				{
-					component.Dispose();
-				}
+				internalStream.Dispose();
+				zipArchive.Dispose();
+				fileStream.Dispose();
 				disposed = true;
 			}
 		}

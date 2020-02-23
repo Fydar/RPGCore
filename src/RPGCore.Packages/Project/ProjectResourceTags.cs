@@ -15,7 +15,7 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count => tags?.Count ?? 0;
 
-		public ProjectResourceTags(ProjectResourceImporter projectResourceImporter)
+		internal ProjectResourceTags(ProjectResourceImporter projectResourceImporter)
 		{
 			tags = projectResourceImporter.Tags;
 		}

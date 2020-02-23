@@ -16,7 +16,7 @@ namespace RPGCore.Packages
 		public int Count => tags?.Count ?? 0;
 		public IEnumerable<string> Keys => tags.Keys;
 
-		public PackageTagsCollection(IReadOnlyDictionary<string, IResourceCollection> tags)
+		internal PackageTagsCollection(IReadOnlyDictionary<string, IResourceCollection> tags)
 		{
 			this.tags = tags;
 		}

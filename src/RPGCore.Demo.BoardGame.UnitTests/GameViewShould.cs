@@ -14,7 +14,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			var player1 = LocalId.NewShortId();
 			var player2 = LocalId.NewShortId();
 
-			var explorer = new PackageExplorer();
+			PackageExplorer explorer = null;
 			var gameView = new GameView();
 			gameView.Create(explorer);
 			gameView.Players = new GamePlayer[]

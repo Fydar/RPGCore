@@ -1,98 +1,20 @@
 using Newtonsoft.Json;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 
 namespace RPGCore.Packages
 {
 	/// <summary>
 	/// <para>Used for loading the content of a compiled package.</para>
 	/// </summary>
+	/// <remarks>
+	/// <para>Can be used to analyse and modify the content of a project.</para>
+	/// </remarks>
 	public sealed class PackageExplorer : IExplorer
 	{
-		[DebuggerDisplay("Count = {Count,nq}")]
-		[DebuggerTypeProxy(typeof(PackageResourceCollectionDebugView))]
-		private sealed class PackageResourceCollection : IPackageResourceCollection, IResourceCollection
-		{
-			private Dictionary<string, PackageResource> resources;
-
-			public int Count => resources?.Count ?? 0;
-
-			public PackageResource this[string key] => resources[key];
-			IResource IResourceCollection.this[string key] => this[key];
-
-			internal void Add(PackageResource asset)
-			{
-				if (resources == null)
-				{
-					resources = new Dictionary<string, PackageResource>();
-				}
-
-				resources.Add(asset.FullName, asset);
-			}
-
-			public IEnumerator<PackageResource> GetEnumerator()
-			{
-				return resources?.Values == null
-					? Enumerable.Empty<PackageResource>().GetEnumerator()
-					: resources.Values.GetEnumerator();
-			}
-
-			IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()
-			{
-				return GetEnumerator();
-			}
-
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return GetEnumerator();
-			}
-
-			private class PackageResourceCollectionDebugView
-			{
-				[DebuggerDisplay("{Value}", Name = "{Key}")]
-				internal struct DebuggerRow
-				{
-					public string Key;
-
-					[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-					public IResource Value;
-				}
-
-				private readonly PackageResourceCollection source;
-
-				public PackageResourceCollectionDebugView(PackageResourceCollection source)
-				{
-					this.source = source;
-				}
-
-				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-				public DebuggerRow[] Keys
-				{
-					get
-					{
-						var keys = new DebuggerRow[source.resources.Count];
-
-						int i = 0;
-						foreach (var kvp in source.resources)
-						{
-							keys[i] = new DebuggerRow
-							{
-								Key = kvp.Key,
-								Value = kvp.Value
-							};
-							i++;
-						}
-						return keys;
-					}
-				}
-			}
-		}
-
 		/// <summary>
 		/// <para>The project definition for this package.</para>
 		/// </summary>
@@ -134,7 +56,7 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageResourceCollection resources;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
 
-		public PackageExplorer()
+		private PackageExplorer()
 		{
 		}
 
@@ -142,19 +64,17 @@ namespace RPGCore.Packages
 		{
 			var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 			var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
-
 			var entry = archive.GetEntry(packageKey);
 
 			var zipStream = entry.Open();
 
-			return new PackageStream(zipStream, fileStream, archive);
+			return new PackageStream(fileStream, archive, zipStream);
 		}
 
 		public byte[] OpenAsset(string packageKey)
 		{
 			using var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
-
 			var entry = archive.GetEntry(packageKey);
 
 			byte[] buffer = new byte[entry.Length];
@@ -163,53 +83,42 @@ namespace RPGCore.Packages
 			return buffer;
 		}
 
-		public static PackageExplorer Load(string path)
+		public static PackageExplorer Load(string packagePath)
 		{
-			var packageFileInfo = new FileInfo(path);
+			var packageFileInfo = new FileInfo(packagePath);
+
+			using var fileStream = new FileStream(packagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
 
 			var package = new PackageExplorer
 			{
-				PackagePath = path,
+				PackagePath = packagePath,
 				CompressedSize = packageFileInfo.Length,
 				resources = new PackageResourceCollection()
 			};
 
+			var tagsEntry = archive.GetEntry("tags.json");
+			var tagsDocument = LoadJsonDocument<IReadOnlyDictionary<string, IReadOnlyList<string>>>(tagsEntry);
 			var tags = new Dictionary<string, IResourceCollection>();
 
-			using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true))
+			foreach (var projectEntry in archive.Entries)
 			{
-				var entry = archive.GetEntry("Main.bmft");
+				var resource = new PackageResource(package, projectEntry, tagsDocument);
+				package.resources.Add(resource);
 
-				byte[] buffer = new byte[entry.Length];
-				using (var zipStream = entry.Open())
+				foreach (var tagCategory in tagsDocument)
 				{
-					zipStream.Read(buffer, 0, (int)entry.Length);
-					string json = Encoding.UTF8.GetString(buffer);
-				}
-
-				var tagsEntry = archive.GetEntry("tags.json");
-				var tagsDocument = LoadJsonDocument<IReadOnlyDictionary<string, IReadOnlyList<string>>>(tagsEntry);
-
-				foreach (var projectEntry in archive.Entries)
-				{
-					var resource = new PackageResource(package, projectEntry, tagsDocument);
-					package.resources.Add(resource);
-
-					foreach (var tagCategory in tagsDocument)
+					if (tagCategory.Value.Contains(resource.FullName))
 					{
-						if (tagCategory.Value.Contains(resource.FullName))
+						if (!tags.TryGetValue(tagCategory.Key, out var taggedResourcesCollection))
 						{
-							if (!tags.TryGetValue(tagCategory.Key, out var taggedResourcesCollection))
-							{
-								taggedResourcesCollection = new PackageResourceCollection();
-								tags[tagCategory.Key] = taggedResourcesCollection;
-							}
-
-							var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
-
-							taggedResources.Add(resource);
+							taggedResourcesCollection = new PackageResourceCollection();
+							tags[tagCategory.Key] = taggedResourcesCollection;
 						}
+
+						var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
+
+						taggedResources.Add(resource);
 					}
 				}
 			}

@@ -14,7 +14,7 @@ namespace RPGCore.Packages.Pipeline
 
 		public List<string> Tags { get; }
 
-		public ProjectResourceImporter(ProjectExplorer projectExplorer, FileInfo fileInfo, string projectKey)
+		internal ProjectResourceImporter(ProjectExplorer projectExplorer, FileInfo fileInfo, string projectKey)
 		{
 			ProjectExplorer = projectExplorer;
 			FileInfo = fileInfo;

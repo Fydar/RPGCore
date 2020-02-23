@@ -4,8 +4,8 @@ namespace RPGCore.Packages
 {
 	public interface IPackageResourceCollection : IEnumerable<PackageResource>
 	{
-		PackageResource this[string key] { get; }
-
 		int Count { get; }
+
+		PackageResource this[string key] { get; }
 	}
 }

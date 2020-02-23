@@ -21,7 +21,7 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		IResourceTags IResource.Tags => Tags;
 
-		public PackageResource(PackageExplorer package, ZipArchiveEntry packageEntry, IReadOnlyDictionary<string, IReadOnlyList<string>> tagsDocument)
+		internal PackageResource(PackageExplorer package, ZipArchiveEntry packageEntry, IReadOnlyDictionary<string, IReadOnlyList<string>> tagsDocument)
 		{
 			this.package = package;
 			Name = packageEntry.Name;
