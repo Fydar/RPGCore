@@ -12,7 +12,7 @@
       "SubGraphs": null,
       "Nodes": {
         "0a084c2c": {
-          "Type": "RPGCore.Demo.Nodes.RollNode",
+          "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
           "Data": {
             "MinValue": 1,
             "MaxValue": 99
@@ -25,7 +25,7 @@
           }
         },
         "472a7ba2": {
-          "Type": "RPGCore.Demo.Nodes.OutputValueNode",
+          "Type": "RPGCore.Demo.Inventory.Nodes.OutputValueNode",
           "Data": {
             "Value": "0a084c2c.Output"
           },
@@ -41,7 +41,7 @@
   },
   "Nodes": {
     "1749d7ac": {
-      "Type": "RPGCore.Demo.Nodes.ItemInputNode",
+      "Type": "RPGCore.Demo.Inventory.Nodes.ItemInputNode",
       "Data": {},
       "Editor": {
         "Position": {
@@ -51,7 +51,7 @@
       }
     },
     "0a084c2c": {
-      "Type": "RPGCore.Demo.Nodes.RollNode",
+      "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
       "Data": {
         "MinValue": 3,
         "MaxValue": 4
@@ -64,7 +64,7 @@
       }
     },
     "74bd14a0": {
-      "Type": "RPGCore.Demo.Nodes.GetStatNode",
+      "Type": "RPGCore.Demo.Inventory.Nodes.GetStatNode",
       "Data": {
         "Character": "1749d7ac.Character"
       },
@@ -76,7 +76,7 @@
       }
     },
     "0a4f194f": {
-      "Type": "RPGCore.Demo.Nodes.AddNode",
+      "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
       "Data": {
         "ValueB": "0a084c2c.Output",
         "ValueA": "74bd14a0.Output"
@@ -89,7 +89,7 @@
       }
     },
     "472a7ba2": {
-      "Type": "RPGCore.Demo.Nodes.OutputValueNode",
+      "Type": "RPGCore.Demo.Inventory.Nodes.OutputValueNode",
       "Data": {
         "Value": "0a4f194f.Output"
       },
@@ -101,7 +101,7 @@
       }
     },
     "9471ab3a": {
-      "Type": "RPGCore.Demo.Nodes.IterateNode",
+      "Type": "RPGCore.Demo.Inventory.Nodes.IterateNode",
       "Data": {
         "SubgraphId": "RepeatThis",
         "Repetitions": "0a084c2c.Output"
