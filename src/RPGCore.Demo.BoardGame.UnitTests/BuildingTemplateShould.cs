@@ -1,12 +1,13 @@
 using NUnit.Framework;
 using RPGCore.Demo.BoardGame.Models;
+using System.Linq;
 
 namespace RPGCore.Demo.BoardGame.UnitTests
 {
 	[TestFixture(TestOf = typeof(BuildingTemplate))]
 	public class BuildingTemplateShould
 	{
-		[Test(Description = "Should be able to determine ever location a building can be built in."), Parallelizable]
+		[Test(Description = "Should be able to describe a patterns symmetry and whether it's rotatable."), Parallelizable]
 		public void DeterminePatternSymmetryAndRotatable()
 		{
 			var pattern1x1 = new BuildingTemplate()
@@ -125,6 +126,81 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			Assert.IsTrue(pattern4x2TRotated.IsVerticallySymmetric);
 			Assert.IsFalse(pattern4x2TRotated.IsHorizontallySymmetric);
 			Assert.IsTrue(pattern4x2TRotated.IsRotating);
+		}
+
+		[Test(Description = "Should be able to list all meaningful orientations of a building."), Parallelizable]
+		public void ListAllMeaningfulOrientations()
+		{
+			var pattern2x2 = new BuildingTemplate()
+			{
+				Recipe = new string[,]
+				{
+					{ "y", "y" },
+					{ "y", "y" }
+				}
+			}.MeaningfulOrientations();
+
+			var pattern2x2MinusLowerLeft = new BuildingTemplate()
+			{
+				Recipe = new string[,]
+				{
+					{ "y", "y" },
+					{ "y", null }
+				}
+			}.MeaningfulOrientations();
+
+			var pattern2x2MinusTopRight = new BuildingTemplate()
+			{
+				Recipe = new string[,]
+				{
+					{ null, "y" },
+					{ "y", "y" }
+				}
+			}.MeaningfulOrientations();
+
+			var pattern3x2L = new BuildingTemplate()
+			{
+				Recipe = new string[,]
+				{
+					{ "x", "x", "x" },
+					{ "x", null, null }
+				}
+			}.MeaningfulOrientations();
+
+			/*
+			Assert.IsTrue(pattern2x2.SequenceEqual(new[]
+			{
+				BuildingOrientation.None
+			}));
+
+			Assert.IsTrue(pattern2x2MinusLowerLeft.SequenceEqual(new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.Rotate90,
+				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorXandY,
+			}));
+
+			Assert.IsTrue(pattern2x2MinusTopRight.SequenceEqual(new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.Rotate90,
+				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorXandY,
+			}));
+
+			Assert.IsTrue(pattern3x2L.SequenceEqual(new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorY,
+				BuildingOrientation.MirrorXandY,
+				BuildingOrientation.Rotate90,
+				BuildingOrientation.Rotate90MirrorX,
+				BuildingOrientation.Rotate90MirrorY,
+				BuildingOrientation.Rotate90MirrorXandY
+			}));
+			*/
 		}
 	}
 }
