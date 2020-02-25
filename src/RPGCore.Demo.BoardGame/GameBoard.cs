@@ -1,4 +1,8 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿using RPGCore.Demo.BoardGame.Models;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace RPGCore.Demo.BoardGame
 {
 	public class GameBoard
 	{
@@ -91,6 +95,62 @@
 				}
 			}
 			return null;
+		}
+
+		public IEnumerable<OffsetAndRotation> AllBuildableLocations(BuildingTemplate buildingTemplate)
+		{
+			if (buildingTemplate.Width > Width
+				|| buildingTemplate.Height > Height)
+			{
+				yield break;
+			}
+
+			int availableXOffset = Width - buildingTemplate.Width + 1;
+			int availableYOffset = Height - buildingTemplate.Width + 1;
+
+			foreach (var orientation in buildingTemplate.MeaningfulOrientations())
+			{
+
+				for (int buildingOffsetX = 0; buildingOffsetX < availableXOffset; buildingOffsetX++)
+				{
+					for (int buildingOffsetY = 0; buildingOffsetY < availableYOffset; buildingOffsetY++)
+					{
+						var buildLocation = new OffsetAndRotation(new Integer2(buildingOffsetX, buildingOffsetY), orientation);
+
+						if (CanBuildBuilding(buildLocation, buildingTemplate))
+						{
+							yield return buildLocation;
+						}
+					}
+				}
+			}
+		}
+
+		public bool CanBuildBuilding(OffsetAndRotation offsetAndRotation, BuildingTemplate buildingTemplate)
+		{
+			var rotatedBuild = new RotatedBuilding(buildingTemplate, offsetAndRotation.Orientation);
+
+			for (int x = 0; x < rotatedBuild.Width; x++)
+			{
+				for (int y = 0; y < rotatedBuild.Height; y++)
+				{
+					var tilePos = offsetAndRotation.Offset + new Integer2(x, y);
+					var tile = this[tilePos];
+
+					if (tile == null)
+					{
+						return false;
+					}
+
+					string resourceAtPos = rotatedBuild[x, y];
+
+					if (tile.Resource != resourceAtPos)
+					{
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 	}
 }

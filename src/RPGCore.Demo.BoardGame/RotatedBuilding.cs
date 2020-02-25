@@ -15,6 +15,16 @@ namespace RPGCore.Demo.BoardGame
 					? Template.Width
 					: Template.Height;
 
+		public bool IsHorizontallySymmetric => Orientation.HasFlag(BuildingOrientation.Rotate90)
+					? Template.IsVerticallySymmetric
+					: Template.IsHorizontallySymmetric;
+
+		public bool IsVerticallySymmetric => Orientation.HasFlag(BuildingOrientation.Rotate90)
+					? Template.IsHorizontallySymmetric
+					: Template.IsVerticallySymmetric;
+
+		public bool IsRotating => Template.IsRotating;
+
 		public string this[int x, int y]
 		{
 			get

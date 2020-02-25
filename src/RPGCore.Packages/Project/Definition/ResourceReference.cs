@@ -48,15 +48,6 @@ namespace RPGCore.Packages
 			File.Copy(accessPath, Path.Combine(output, accessFile.Name), true);
 
 			string sha = GetChecksum(accessPath);
-
-			build.PackageDefinition.ResourceDependancies.Add(
-				accessFile.Name,
-				new ResourceDependancyDefinition()
-				{
-					Name = Name,
-					Sha = sha
-				}
-			);
 		}
 
 		private static string GetChecksum(string file)
