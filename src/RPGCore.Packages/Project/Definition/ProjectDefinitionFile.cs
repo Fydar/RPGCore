@@ -9,8 +9,8 @@ namespace RPGCore.Packages
 		public ProjectDefinitionProperties Properties;
 		public List<Reference> References;
 
-		public ProjectDefinitionFile(XmlDocument document)
-			: base(document)
+		private ProjectDefinitionFile(string path, XmlDocument document)
+			: base(path, document)
 		{
 			Properties = new ProjectDefinitionProperties(Document.GetElementsByTagName("Properties").Item(0));
 
@@ -51,10 +51,7 @@ namespace RPGCore.Packages
 			};
 			doc.Load(path);
 
-			var model = new ProjectDefinitionFile(doc)
-			{
-				Path = path
-			};
+			var model = new ProjectDefinitionFile(path, doc);
 			return model;
 		}
 	}

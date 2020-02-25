@@ -8,32 +8,13 @@ namespace RPGCore.Packages
 {
 	public class XmlProjectFile
 	{
-		protected XmlDocument Document;
-		public string Path;
+		public string Path { get; }
+		protected XmlDocument Document { get; }
 
-		public XmlProjectFile(XmlDocument document)
+		protected XmlProjectFile(string path, XmlDocument document)
 		{
+			Path = path;
 			Document = document;
-		}
-
-		public static XmlProjectFile Load(string path)
-		{
-			if (!File.Exists(path))
-			{
-				return null;
-			}
-
-			var doc = new XmlDocument
-			{
-				PreserveWhitespace = true
-			};
-			doc.Load(path);
-
-			var model = new XmlProjectFile(doc)
-			{
-				Path = path
-			};
-			return model;
 		}
 
 		public void Format()
@@ -80,6 +61,41 @@ namespace RPGCore.Packages
 			}
 		}
 
+		public void Minify()
+		{
+			var allNodes = AllNodes(Document.DocumentElement).ToArray();
+			foreach (var node in allNodes)
+			{
+				if (node.NodeType == XmlNodeType.SignificantWhitespace
+				|| node.NodeType == XmlNodeType.Whitespace)
+				{
+					node.ParentNode.RemoveChild(node);
+				}
+			}
+		}
+
+		public void Save(string path)
+		{
+			Document.Save(path);
+		}
+
+		public static XmlProjectFile Load(string path)
+		{
+			if (!File.Exists(path))
+			{
+				return null;
+			}
+
+			var doc = new XmlDocument
+			{
+				PreserveWhitespace = true
+			};
+			doc.Load(path);
+
+			var model = new XmlProjectFile(path, doc);
+			return model;
+		}
+
 		private static bool HasChildElement(XmlNode node)
 		{
 			for (int i = 0; i < node.ChildNodes.Count; i++)
@@ -108,19 +124,6 @@ namespace RPGCore.Packages
 			return false;
 		}
 
-		public void Minify()
-		{
-			var allNodes = AllNodes(Document.DocumentElement).ToArray();
-			foreach (var node in allNodes)
-			{
-				if (node.NodeType == XmlNodeType.SignificantWhitespace
-				|| node.NodeType == XmlNodeType.Whitespace)
-				{
-					node.ParentNode.RemoveChild(node);
-				}
-			}
-		}
-
 		private static IEnumerable<XmlNode> AllNodes(XmlNode rootNode)
 		{
 			for (int i = 0; i < rootNode.ChildNodes.Count; i++)
@@ -147,11 +150,6 @@ namespace RPGCore.Packages
 					yield return node;
 				}
 			}
-		}
-
-		public void Save(string path)
-		{
-			Document.Save(path);
 		}
 	}
 }
