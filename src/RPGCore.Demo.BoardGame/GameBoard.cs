@@ -1,6 +1,5 @@
 ﻿using RPGCore.Demo.BoardGame.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
 {
@@ -110,7 +109,6 @@ namespace RPGCore.Demo.BoardGame
 
 			foreach (var orientation in buildingTemplate.MeaningfulOrientations())
 			{
-
 				for (int buildingOffsetX = 0; buildingOffsetX < availableXOffset; buildingOffsetX++)
 				{
 					for (int buildingOffsetY = 0; buildingOffsetY < availableYOffset; buildingOffsetY++)
@@ -143,6 +141,11 @@ namespace RPGCore.Demo.BoardGame
 					}
 
 					string resourceAtPos = rotatedBuild[x, y];
+
+					if (resourceAtPos == null)
+					{
+						continue;
+					}
 
 					if (tile.Resource != resourceAtPos)
 					{

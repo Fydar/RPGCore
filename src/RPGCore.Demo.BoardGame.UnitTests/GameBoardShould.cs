@@ -23,8 +23,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			board[1, 2].Resource = "y";
 			board[1, 3].Resource = "y";
 
-
-			for (int y = 0; y < 4; y++)
+			for (int y = 4 - 1; y >= 0; y--)
 			{
 				for (int x = 0; x < board.Width; x++)
 				{
@@ -32,7 +31,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 					Console.Write(tile.ToChar());
 				}
-				Console.WriteLine();
+				Console.Write("\n");
 			}
 
 			var cottage = new BuildingTemplate()
@@ -48,7 +47,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				Recipe = new string[,]
 				{
 					{ "y", "y" },
-					{ "y", "y" }
+					{ "y", null }
 				}
 			};
 
@@ -61,16 +60,16 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				}
 			};
 
-			TestContext.Error.WriteLine($"--[Cottage]--");
+			Console.WriteLine($"--[Cottage]--");
 			foreach (var location in board.AllBuildableLocations(cottage))
 			{
-				TestContext.Error.WriteLine($"{location.Offset} {location.Orientation}");
+				Console.WriteLine($"{location.Offset} {location.Orientation}");
 			}
 
-			TestContext.Error.WriteLine($"\n--[Block Cottage]--");
+			Console.WriteLine($"\n--[Block Cottage]--");
 			foreach (var location in board.AllBuildableLocations(blockCottage))
 			{
-				TestContext.Error.WriteLine($"{location.Offset} {location.Orientation}");
+				Console.WriteLine($"{location.Offset} {location.Orientation}");
 			}
 		}
 	}

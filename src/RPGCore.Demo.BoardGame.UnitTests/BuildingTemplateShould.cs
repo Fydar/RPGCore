@@ -103,13 +103,15 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			Assert.IsTrue(pattern2x2.IsHorizontallySymmetric);
 			Assert.IsFalse(pattern2x2.IsRotating);
 
-			Assert.False(pattern2x2MinusLowerLeft.IsVerticallySymmetric);
-			Assert.False(pattern2x2MinusLowerLeft.IsHorizontallySymmetric);
-			Assert.IsTrue(pattern2x2MinusLowerLeft.IsRotating);
+			Assert.IsFalse(pattern2x2MinusLowerLeft.IsVerticallySymmetric);
+			Assert.IsFalse(pattern2x2MinusLowerLeft.IsHorizontallySymmetric);
+			// Can achieve the same pattern without using rotation
+			Assert.IsFalse(pattern2x2MinusLowerLeft.IsRotating);
 
-			Assert.False(pattern2x2MinusTopRight.IsVerticallySymmetric);
-			Assert.False(pattern2x2MinusTopRight.IsHorizontallySymmetric);
-			Assert.IsTrue(pattern2x2MinusLowerLeft.IsRotating);
+			Assert.IsFalse(pattern2x2MinusTopRight.IsVerticallySymmetric);
+			Assert.IsFalse(pattern2x2MinusTopRight.IsHorizontallySymmetric);
+			// Can achieve the same pattern without using rotation
+			Assert.IsFalse(pattern2x2MinusLowerLeft.IsRotating);
 
 			Assert.IsFalse(pattern3x2L.IsVerticallySymmetric);
 			Assert.IsFalse(pattern3x2L.IsHorizontallySymmetric);
@@ -119,8 +121,8 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			Assert.IsFalse(pattern4x2L.IsHorizontallySymmetric);
 			Assert.IsTrue(pattern4x2L.IsRotating);
 
-			Assert.False(pattern4x2T.IsVerticallySymmetric);
-			Assert.True(pattern4x2T.IsHorizontallySymmetric);
+			Assert.IsFalse(pattern4x2T.IsVerticallySymmetric);
+			Assert.IsTrue(pattern4x2T.IsHorizontallySymmetric);
 			Assert.IsTrue(pattern4x2T.IsRotating);
 
 			Assert.IsTrue(pattern4x2TRotated.IsVerticallySymmetric);
@@ -167,7 +169,16 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				}
 			}.MeaningfulOrientations();
 
-			/*
+			var pattern3x2LRotated = new BuildingTemplate()
+			{
+				Recipe = new string[,]
+				{
+					{ "x", null },
+					{ "x", null },
+					{ "x", "x" },
+				}
+			}.MeaningfulOrientations();
+
 			Assert.IsTrue(pattern2x2.SequenceEqual(new[]
 			{
 				BuildingOrientation.None
@@ -176,16 +187,16 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			Assert.IsTrue(pattern2x2MinusLowerLeft.SequenceEqual(new[]
 			{
 				BuildingOrientation.None,
-				BuildingOrientation.Rotate90,
 				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorY,
 				BuildingOrientation.MirrorXandY,
 			}));
 
 			Assert.IsTrue(pattern2x2MinusTopRight.SequenceEqual(new[]
 			{
 				BuildingOrientation.None,
-				BuildingOrientation.Rotate90,
 				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorY,
 				BuildingOrientation.MirrorXandY,
 			}));
 
@@ -200,7 +211,18 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				BuildingOrientation.Rotate90MirrorY,
 				BuildingOrientation.Rotate90MirrorXandY
 			}));
-			*/
+
+			Assert.IsTrue(pattern3x2LRotated.SequenceEqual(new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorY,
+				BuildingOrientation.MirrorXandY,
+				BuildingOrientation.Rotate90,
+				BuildingOrientation.Rotate90MirrorX,
+				BuildingOrientation.Rotate90MirrorY,
+				BuildingOrientation.Rotate90MirrorXandY
+			}));
 		}
 	}
 }

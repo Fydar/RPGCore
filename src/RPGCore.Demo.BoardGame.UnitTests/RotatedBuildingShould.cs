@@ -71,7 +71,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 		private void WriteBuilding(RotatedBuilding transformed)
 		{
 			Console.WriteLine($"Building {transformed.Width}x{transformed.Height} ({transformed.Orientation})");
-			for (int y = 0; y < transformed.Height; y++)
+			for (int y = transformed.Height - 1; y >= 0; y--)
 			{
 				Console.Write("    ");
 

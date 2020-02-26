@@ -73,14 +73,29 @@ namespace RPGCore.Demo.BoardGame.Models
 		{
 			get
 			{
+				if (IsTheSameWhenRotated)
+				{
+					return false;
+				}
+				if (IsRotatedSameAsMirror)
+				{
+					return false;
+				}
+				return true;
+			}
+		}
+
+		private bool IsTheSameWhenRotated
+		{
+			get
+			{
 				int height = Height;
 				int width = Width;
 
 				if (width != height)
 				{
-					return true;
+					return false;
 				}
-
 
 				for (int x = 0; x < width; x++)
 				{
@@ -91,12 +106,43 @@ namespace RPGCore.Demo.BoardGame.Models
 
 						if (Recipe[x, y] != Recipe[rotatedX, rotatedY])
 						{
-							return true;
+
+							return false;
 						}
 					}
 				}
 
-				return false;
+				return true;
+			}
+		}
+
+		private bool IsRotatedSameAsMirror
+		{
+			get
+			{
+				int height = Height;
+				int width = Width;
+
+				if (width != height)
+				{
+					return false;
+				}
+
+				for (int x = 0; x < width; x++)
+				{
+					for (int y = 0; y < height; y++)
+					{
+						int rotatedY = height - x - 1;
+						int rotatedX = y;
+
+						if (Recipe[width - x - 1, y] != Recipe[rotatedX, rotatedY])
+						{
+							return false;
+						}
+					}
+				}
+
+				return true;
 			}
 		}
 
@@ -108,36 +154,34 @@ namespace RPGCore.Demo.BoardGame.Models
 
 			yield return BuildingOrientation.None;
 
-			if (isRotating)
-			{
-				yield return BuildingOrientation.Rotate90;
-			}
-
 			if (!horizontally)
 			{
 				yield return BuildingOrientation.MirrorX;
-
-				if (isRotating)
-				{
-					yield return BuildingOrientation.Rotate90MirrorY;
-				}
 			}
 			if (!vertically)
 			{
 				yield return BuildingOrientation.MirrorY;
-
-				if (isRotating)
-				{
-					yield return BuildingOrientation.Rotate90MirrorX;
-				}
 			}
 			if (!horizontally && !vertically)
 			{
 				yield return BuildingOrientation.MirrorXandY;
+			}
+			if (isRotating)
+			{
+				yield return BuildingOrientation.Rotate90;
 
-				if (isRotating)
+				if (!vertically)
 				{
-					yield return BuildingOrientation.Rotate90MirrorXandY;
+					yield return BuildingOrientation.Rotate90MirrorX;
+				}
+				if (!horizontally)
+				{
+					yield return BuildingOrientation.Rotate90MirrorY;
+
+					if (!vertically)
+					{
+						yield return BuildingOrientation.Rotate90MirrorXandY;
+					}
 				}
 			}
 		}

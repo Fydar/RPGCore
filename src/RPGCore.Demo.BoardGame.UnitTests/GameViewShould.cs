@@ -122,7 +122,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 					Console.WriteLine($"(Current players turn)");
 				}
 
-				for (int y = 0; y < 4; y++)
+				for (int y = 4 - 1; y >= 0; y--)
 				{
 					for (int x = 0; x < player.Board.Width; x++)
 					{
