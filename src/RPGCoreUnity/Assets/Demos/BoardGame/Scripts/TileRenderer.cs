@@ -8,17 +8,32 @@ namespace RPGCoreUnity.Demo.BoardGame
 		public GameObject Resource;
 		public GameObject Building;
 
+		private GameViewRenderer GameViewRenderer;
 		private GameTile Tile;
 
-		public void Render(GameTile tile)
+		public Integer2 Position { get; private set; }
+
+		public void Render(GameViewRenderer gameViewRenderer, GameTile tile, Integer2 position)
 		{
+			GameViewRenderer = gameViewRenderer;
 			Tile = tile;
+			Position = position;
 		}
 
 		public void UpdateRendering()
 		{
 			Resource.SetActive(Tile.Resource != null);
 			Building.SetActive(Tile.Building != null);
+		}
+
+		private void OnMouseEnter()
+		{
+			GameViewRenderer.OnTileHover(this);
+		}
+
+		private void OnMouseExit()
+		{
+			GameViewRenderer.OnTileUnhover(this);
 		}
 	}
 }

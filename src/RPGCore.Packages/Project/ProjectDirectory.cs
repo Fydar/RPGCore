@@ -11,5 +11,7 @@ namespace RPGCore.Packages
 		public IReadOnlyList<IDirectory> Directories => throw new System.NotImplementedException();
 
 		public IResourceCollection Resources => throw new System.NotImplementedException();
+
+		public IDirectory Parent => throw new System.NotImplementedException();
 	}
 }

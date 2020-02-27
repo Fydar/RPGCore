@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using RPGCore.Demo.BoardGame.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RPGCore.Demo.BoardGame.UnitTests
@@ -133,43 +134,124 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 		[Test(Description = "Should be able to list all meaningful orientations of a building."), Parallelizable]
 		public void ListAllMeaningfulOrientations()
 		{
-			var pattern2x2 = new BuildingTemplate()
+			// 2x2 Square Building
+			AssertThatSequenceEquals(new BuildingTemplate()
 			{
 				Recipe = new string[,]
 				{
 					{ "y", "y" },
 					{ "y", "y" }
 				}
-			}.MeaningfulOrientations();
+			}.MeaningfulOrientations(), new[]
+			{
+				BuildingOrientation.None
+			});
 
-			var pattern2x2MinusLowerLeft = new BuildingTemplate()
+			// 3x3 Cross Building
+			AssertThatSequenceEquals(new BuildingTemplate()
+			{
+				Recipe = new string[,]
+				{
+					{ null, "x", null },
+					{ "x", "x", "x" },
+					{ null, "x", null },
+				}
+			}.MeaningfulOrientations(), new[]
+			{
+				BuildingOrientation.None
+			});
+
+			// 4x2 Pyramid Building
+			AssertThatSequenceEquals(new BuildingTemplate()
+			{
+				Recipe = new string[,]
+				{
+					{ "x", null },
+					{ "x", "x" },
+					{ "x", "x" },
+					{ "x", null },
+				}
+			}.MeaningfulOrientations(), new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.MirrorY,
+				BuildingOrientation.Rotate90,
+				BuildingOrientation.Rotate90MirrorX,
+			});
+
+			// 5x2 Pyramid Building
+			AssertThatSequenceEquals(new BuildingTemplate()
+			{
+				Recipe = new string[,]
+				{
+					{ "x", null, null },
+					{ "x", "x", null },
+					{ "x", "x", "x", },
+					{ "x", "x", null },
+					{ "x", null, null },
+				}
+			}.MeaningfulOrientations(), new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.MirrorY,
+				BuildingOrientation.Rotate90,
+				BuildingOrientation.Rotate90MirrorX,
+			});
+
+			// 2x2 Square with lower-right removed
+			AssertThatSequenceEquals(new BuildingTemplate()
 			{
 				Recipe = new string[,]
 				{
 					{ "y", "y" },
 					{ "y", null }
 				}
-			}.MeaningfulOrientations();
+			}.MeaningfulOrientations(), new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorY,
+				BuildingOrientation.MirrorXandY,
+			});
 
-			var pattern2x2MinusTopRight = new BuildingTemplate()
+			// 2x2 Square with upper-left removed
+			AssertThatSequenceEquals(new BuildingTemplate()
 			{
 				Recipe = new string[,]
 				{
 					{ null, "y" },
 					{ "y", "y" }
 				}
-			}.MeaningfulOrientations();
+			}.MeaningfulOrientations(), new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorY,
+				BuildingOrientation.MirrorXandY,
+			});
 
-			var pattern3x2L = new BuildingTemplate()
+			// 2x3 "L" shapred building
+			AssertThatSequenceEquals(new BuildingTemplate()
 			{
 				Recipe = new string[,]
 				{
 					{ "x", "x", "x" },
 					{ "x", null, null }
 				}
-			}.MeaningfulOrientations();
+			}.MeaningfulOrientations(), new[]
+			{
+				BuildingOrientation.None,
+				BuildingOrientation.MirrorX,
+				BuildingOrientation.MirrorY,
+				BuildingOrientation.MirrorXandY,
+				BuildingOrientation.Rotate90,
+				BuildingOrientation.Rotate90MirrorX,
+				BuildingOrientation.Rotate90MirrorY,
+				BuildingOrientation.Rotate90MirrorXandY
+			});
 
-			var pattern3x2LRotated = new BuildingTemplate()
+			// 3x2 "L" shapred building rotated
+			AssertThatSequenceEquals(new BuildingTemplate()
 			{
 				Recipe = new string[,]
 				{
@@ -177,30 +259,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 					{ "x", null },
 					{ "x", "x" },
 				}
-			}.MeaningfulOrientations();
-
-			Assert.IsTrue(pattern2x2.SequenceEqual(new[]
-			{
-				BuildingOrientation.None
-			}));
-
-			Assert.IsTrue(pattern2x2MinusLowerLeft.SequenceEqual(new[]
-			{
-				BuildingOrientation.None,
-				BuildingOrientation.MirrorX,
-				BuildingOrientation.MirrorY,
-				BuildingOrientation.MirrorXandY,
-			}));
-
-			Assert.IsTrue(pattern2x2MinusTopRight.SequenceEqual(new[]
-			{
-				BuildingOrientation.None,
-				BuildingOrientation.MirrorX,
-				BuildingOrientation.MirrorY,
-				BuildingOrientation.MirrorXandY,
-			}));
-
-			Assert.IsTrue(pattern3x2L.SequenceEqual(new[]
+			}.MeaningfulOrientations(), new[]
 			{
 				BuildingOrientation.None,
 				BuildingOrientation.MirrorX,
@@ -210,19 +269,38 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				BuildingOrientation.Rotate90MirrorX,
 				BuildingOrientation.Rotate90MirrorY,
 				BuildingOrientation.Rotate90MirrorXandY
-			}));
+			});
+		}
 
-			Assert.IsTrue(pattern3x2LRotated.SequenceEqual(new[]
+		private static void AssertThatSequenceEquals(IEnumerable<BuildingOrientation> actual, BuildingOrientation[] expected)
+		{
+			var actualArray = actual.ToArray();
+
+			bool equal;
+			if (actualArray.Length != expected.Length)
 			{
-				BuildingOrientation.None,
-				BuildingOrientation.MirrorX,
-				BuildingOrientation.MirrorY,
-				BuildingOrientation.MirrorXandY,
-				BuildingOrientation.Rotate90,
-				BuildingOrientation.Rotate90MirrorX,
-				BuildingOrientation.Rotate90MirrorY,
-				BuildingOrientation.Rotate90MirrorXandY
-			}));
+				equal = false;
+			}
+			else
+			{
+				equal = true;
+				for (int i = 0; i < expected.Length; i++)
+				{
+					var expectedElement = expected[i];
+					var actualElement = actualArray[i];
+
+					if (expectedElement != actualElement)
+					{
+						equal = false;
+						break;
+					}
+				}
+			}
+
+			if (!equal)
+			{
+				Assert.Fail($"{nameof(BuildingOrientation)} sequence differs from the expected sequence.\n  Expected: \"{string.Join("\", \"", expected)}\"\n  Actual:   \"{string.Join("\", \"", actualArray)}\"");
+			}
 		}
 	}
 }

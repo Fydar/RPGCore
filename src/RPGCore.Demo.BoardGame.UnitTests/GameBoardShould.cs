@@ -33,6 +33,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				}
 				Console.Write("\n");
 			}
+			Console.Write("\n");
 
 			var cottage = new BuildingTemplate()
 			{
@@ -68,6 +69,12 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 			Console.WriteLine($"\n--[Block Cottage]--");
 			foreach (var location in board.AllBuildableLocations(blockCottage))
+			{
+				Console.WriteLine($"{location.Offset} {location.Orientation}");
+			}
+
+			Console.WriteLine($"\n--[Block Cottage]-- (minus bottom)");
+			foreach (var location in board.AllBuildableLocations(blockCottage, new IntegerRect(0, 2, 4, 2)))
 			{
 				Console.WriteLine($"{location.Offset} {location.Orientation}");
 			}

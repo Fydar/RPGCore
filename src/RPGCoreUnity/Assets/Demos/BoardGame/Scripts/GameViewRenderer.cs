@@ -7,6 +7,9 @@ namespace RPGCoreUnity.Demo.BoardGame
 {
 	public class GameViewRenderer : MonoBehaviour
 	{
+		public PlayerSelection ThisPlayerSelection;
+		public SelectionRenderer SelectionRenderer;
+
 		[Header("Grid")]
 		public GameObject TilePrefab;
 
@@ -15,6 +18,82 @@ namespace RPGCoreUnity.Demo.BoardGame
 		private GameView Game;
 		private LocalId Player1;
 		private LocalId Player2;
+
+		private TileRenderer CurrentlyHoveredTile;
+		private TileRenderer DraggingStart;
+		private bool IsDragging;
+
+		public void OnTileHover(TileRenderer tileRenderer)
+		{
+			CurrentlyHoveredTile = tileRenderer;
+		}
+
+		public void OnTileUnhover(TileRenderer tileRenderer)
+		{
+			if (CurrentlyHoveredTile == tileRenderer)
+			{
+				CurrentlyHoveredTile = null;
+			}
+		}
+
+		private void Update()
+		{
+			if (Input.GetMouseButtonDown(0))
+			{
+				if (CurrentlyHoveredTile != null)
+				{
+					IsDragging = true;
+					DraggingStart = CurrentlyHoveredTile;
+				}
+			}
+			if (Input.GetMouseButtonUp(0))
+			{
+				if (IsDragging)
+				{
+					IsDragging = false;
+					DraggingStart = null;
+				}
+			}
+
+			if (IsDragging && DraggingStart != null && CurrentlyHoveredTile != null)
+			{
+				ThisPlayerSelection.isSelected = true;
+
+				int minPositionX = Mathf.Min(DraggingStart.Position.x, CurrentlyHoveredTile.Position.x);
+				int minPositionY = Mathf.Min(DraggingStart.Position.y, CurrentlyHoveredTile.Position.y);
+				int maxPositionX = Mathf.Max(DraggingStart.Position.x, CurrentlyHoveredTile.Position.x);
+				int maxPositionY = Mathf.Max(DraggingStart.Position.y, CurrentlyHoveredTile.Position.y);
+
+				int width = minPositionX - maxPositionX;
+				int height = minPositionY - maxPositionY;
+
+				if (width > 0)
+				{
+					width++;
+				}
+				else
+				{
+					width--;
+				}
+
+				if (height > 0)
+				{
+					height++;
+				}
+				else
+				{
+					height--;
+				}
+
+				width = Mathf.Abs(width);
+				height = Mathf.Abs(height);
+
+				ThisPlayerSelection.x = minPositionX;
+				ThisPlayerSelection.y = minPositionY;
+				ThisPlayerSelection.width = width;
+				ThisPlayerSelection.height = height;
+			}
+		}
 
 		private void Awake()
 		{
@@ -72,10 +151,12 @@ namespace RPGCoreUnity.Demo.BoardGame
 						boardRenderer.TileRenderers[x, y] = tileRenderer;
 
 						var tile = player.Board[x, y];
-						tileRenderer.Render(tile);
+						tileRenderer.Render(this, tile, new Integer2(x, y));
 					}
 				}
 			}
+
+			SelectionRenderer.Render(ThisPlayerSelection);
 
 			StartCoroutine(Run());
 		}

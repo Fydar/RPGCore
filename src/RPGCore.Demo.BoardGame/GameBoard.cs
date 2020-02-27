@@ -96,22 +96,27 @@ namespace RPGCore.Demo.BoardGame
 			return null;
 		}
 
-		public IEnumerable<OffsetAndRotation> AllBuildableLocations(BuildingTemplate buildingTemplate)
+		public IEnumerable<OffsetAndRotation> AllBuildableLocations(BuildingTemplate buildingTemplate, IntegerRect? rect = null)
 		{
-			if (buildingTemplate.Width > Width
-				|| buildingTemplate.Height > Height)
+			int boardWidth = Width;
+			int boardHeight = Height;
+
+			var boundingRect = rect ?? new IntegerRect(0, 0, boardWidth, boardHeight);
+
+			if (buildingTemplate.Width > boundingRect.width
+				|| buildingTemplate.Height > boundingRect.height)
 			{
 				yield break;
 			}
 
-			int availableXOffset = Width - buildingTemplate.Width + 1;
-			int availableYOffset = Height - buildingTemplate.Width + 1;
+			int availableXOffset = boundingRect.xMax - buildingTemplate.Width + 1;
+			int availableYOffset = boundingRect.yMax - buildingTemplate.Height + 1;
 
 			foreach (var orientation in buildingTemplate.MeaningfulOrientations())
 			{
-				for (int buildingOffsetX = 0; buildingOffsetX < availableXOffset; buildingOffsetX++)
+				for (int buildingOffsetX = boundingRect.x; buildingOffsetX < availableXOffset; buildingOffsetX++)
 				{
-					for (int buildingOffsetY = 0; buildingOffsetY < availableYOffset; buildingOffsetY++)
+					for (int buildingOffsetY = boundingRect.y; buildingOffsetY < availableYOffset; buildingOffsetY++)
 					{
 						var buildLocation = new OffsetAndRotation(new Integer2(buildingOffsetX, buildingOffsetY), orientation);
 
