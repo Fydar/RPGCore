@@ -7,6 +7,7 @@ namespace RPGCore.Packages
 		string Name { get; }
 		string FullName { get; }
 
+		IDirectory Parent { get; }
 		IReadOnlyList<IDirectory> Directories { get; }
 		IResourceCollection Resources { get; }
 	}

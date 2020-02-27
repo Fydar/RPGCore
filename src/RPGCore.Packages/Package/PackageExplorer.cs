@@ -50,11 +50,18 @@ namespace RPGCore.Packages
 		/// </summary>
 		public ITagsCollection Tags => tags;
 
+		/// <summary>
+		/// <para>A directory representing the root of the package.</para>
+		/// </summary>
+		public IDirectory RootDirectory => rootDirectory;
+
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => resources;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => tags;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IExplorer.RootDirectory => rootDirectory;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageResourceCollection resources;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageDirectory rootDirectory;
 
 		private PackageExplorer()
 		{

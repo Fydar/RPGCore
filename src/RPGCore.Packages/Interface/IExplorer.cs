@@ -8,5 +8,6 @@ namespace RPGCore.Packages
 		string Version { get; }
 		IResourceCollection Resources { get; }
 		ITagsCollection Tags { get; }
+		IDirectory RootDirectory { get; }
 	}
 }
