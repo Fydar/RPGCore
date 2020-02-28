@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGCore.Demo.BoardGame;
+using System;
 using UnityEngine;
 
 namespace RPGCoreUnity.Demo.BoardGame
@@ -13,5 +14,6 @@ namespace RPGCoreUnity.Demo.BoardGame
 		public int height;
 
 		public Rect AsRect => new Rect(x, y, width, height);
+		public IntegerRect AsIntegerRect => new IntegerRect(x, y, width, height);
 	}
 }

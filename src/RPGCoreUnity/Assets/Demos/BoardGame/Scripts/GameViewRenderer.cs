@@ -15,7 +15,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 
 		private GameBoardRenderer[] Boards;
 
-		private GameView Game;
+		public GameView Game;
 		private LocalId Player1;
 		private LocalId Player2;
 
@@ -176,18 +176,18 @@ namespace RPGCoreUnity.Demo.BoardGame
 				new DeclareResourceAction()
 				{
 					Client = Player1,
-					ResourceIdentifier = "1"
+					ResourceIdentifier = "x"
 				},
 				new PlaceResourceAction()
 				{
 					Client = Player1,
-					ResourceIdentifier = "1",
+					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(1, 1)
 				},
 				new PlaceResourceAction()
 				{
 					Client = Player2,
-					ResourceIdentifier = "1",
+					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(3, 3)
 				},
 				new EndTurnAction()
@@ -198,18 +198,18 @@ namespace RPGCoreUnity.Demo.BoardGame
 				new DeclareResourceAction()
 				{
 					Client = Player2,
-					ResourceIdentifier = "2"
+					ResourceIdentifier = "x"
 				},
 				new PlaceResourceAction()
 				{
 					Client = Player1,
-					ResourceIdentifier = "2",
+					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(0, 1)
 				},
 				new PlaceResourceAction()
 				{
 					Client = Player2,
-					ResourceIdentifier = "2",
+					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(2, 3)
 				},
 				new EndTurnAction()
@@ -220,18 +220,18 @@ namespace RPGCoreUnity.Demo.BoardGame
 				new DeclareResourceAction()
 				{
 					Client = Player1,
-					ResourceIdentifier = "3"
+					ResourceIdentifier = "x"
 				},
 				new PlaceResourceAction()
 				{
 					Client = Player1,
-					ResourceIdentifier = "3",
+					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(1, 2)
 				},
 				new PlaceResourceAction()
 				{
 					Client = Player2,
-					ResourceIdentifier = "3",
+					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(2, 2)
 				},
 				new BuildBuildingAction()
@@ -252,7 +252,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 
 			foreach (var action in actions)
 			{
-				while (!Input.GetMouseButtonDown(0))
+				while (!Input.GetKeyDown(KeyCode.Space))
 				{
 					yield return null;
 				}

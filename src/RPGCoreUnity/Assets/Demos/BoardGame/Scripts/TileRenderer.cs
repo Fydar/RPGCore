@@ -26,6 +26,11 @@ namespace RPGCoreUnity.Demo.BoardGame
 			Building.SetActive(Tile.Building != null);
 		}
 
+		private void Update()
+		{
+			UpdateRendering();
+		}
+
 		private void OnMouseEnter()
 		{
 			GameViewRenderer.OnTileHover(this);

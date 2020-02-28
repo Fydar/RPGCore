@@ -103,24 +103,20 @@ namespace RPGCore.Demo.BoardGame
 
 			var boundingRect = rect ?? new IntegerRect(0, 0, boardWidth, boardHeight);
 
-			if (buildingTemplate.Width > boundingRect.width
-				|| buildingTemplate.Height > boundingRect.height)
-			{
-				yield break;
-			}
-
-			int availableXOffset = boundingRect.xMax - buildingTemplate.Width + 1;
-			int availableYOffset = boundingRect.yMax - buildingTemplate.Height + 1;
-
 			foreach (var orientation in buildingTemplate.MeaningfulOrientations())
 			{
+				var rotatedBuilding = new RotatedBuilding(buildingTemplate, orientation);
+
+				int availableXOffset = boundingRect.xMax - rotatedBuilding.Width + 1;
+				int availableYOffset = boundingRect.yMax - rotatedBuilding.Height + 1;
+
 				for (int buildingOffsetX = boundingRect.x; buildingOffsetX < availableXOffset; buildingOffsetX++)
 				{
 					for (int buildingOffsetY = boundingRect.y; buildingOffsetY < availableYOffset; buildingOffsetY++)
 					{
 						var buildLocation = new OffsetAndRotation(new Integer2(buildingOffsetX, buildingOffsetY), orientation);
 
-						if (CanBuildBuilding(buildLocation, buildingTemplate))
+						if (CanBuildBuilding(buildLocation, rotatedBuilding))
 						{
 							yield return buildLocation;
 						}
@@ -129,13 +125,11 @@ namespace RPGCore.Demo.BoardGame
 			}
 		}
 
-		public bool CanBuildBuilding(OffsetAndRotation offsetAndRotation, BuildingTemplate buildingTemplate)
+		public bool CanBuildBuilding(OffsetAndRotation offsetAndRotation, RotatedBuilding rotatedBuilding)
 		{
-			var rotatedBuild = new RotatedBuilding(buildingTemplate, offsetAndRotation.Orientation);
-
-			for (int x = 0; x < rotatedBuild.Width; x++)
+			for (int x = 0; x < rotatedBuilding.Width; x++)
 			{
-				for (int y = 0; y < rotatedBuild.Height; y++)
+				for (int y = 0; y < rotatedBuilding.Height; y++)
 				{
 					var tilePos = offsetAndRotation.Offset + new Integer2(x, y);
 					var tile = this[tilePos];
@@ -145,7 +139,7 @@ namespace RPGCore.Demo.BoardGame
 						return false;
 					}
 
-					string resourceAtPos = rotatedBuild[x, y];
+					string resourceAtPos = rotatedBuilding[x, y];
 
 					if (resourceAtPos == null)
 					{
