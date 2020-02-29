@@ -12,8 +12,8 @@ namespace RPGCore.Demo.BoardGame.Models
 		public Graph GlobalEffectGraph;
 		public Graph LocalEffectGraph;
 
-		public int Width => Recipe.GetLength(0);
-		public int Height => Recipe.GetLength(1);
+		public int Width => Recipe?.GetLength(0) ?? 0;
+		public int Height => Recipe?.GetLength(1) ?? 0;
 
 		public bool IsHorizontallySymmetric
 		{

@@ -18,6 +18,7 @@ namespace RPGCore.Packages
 
 		public ProjectResourceTags Tags { get; }
 		public ProjectExplorer Explorer { get; }
+		public IDirectory Directory { get; internal set; }
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		IResourceTags IResource.Tags => Tags;

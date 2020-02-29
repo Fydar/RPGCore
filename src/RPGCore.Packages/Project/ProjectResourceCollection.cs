@@ -16,6 +16,15 @@ namespace RPGCore.Packages
 		public ProjectResource this[string key] => resources[key];
 		IResource IResourceCollection.this[string key] => this[key];
 
+		internal ProjectResourceCollection()
+		{
+		}
+
+		internal ProjectResourceCollection(Dictionary<string, ProjectResource> resources)
+		{
+			this.resources = resources;
+		}
+
 		public void Add(ProjectResource folder)
 		{
 			if (resources == null)

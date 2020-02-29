@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace RPGCore.Packages
 {
@@ -52,7 +50,7 @@ namespace RPGCore.Packages
 		/// <summary>
 		/// <para>A directory representing the root of the project.</para>
 		/// </summary>
-		public PackageDirectory RootDirectory => rootDirectory;
+		public ProjectDirectory RootDirectory => rootDirectory;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => resources;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => tags;
@@ -60,10 +58,55 @@ namespace RPGCore.Packages
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private ProjectResourceCollection resources;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageDirectory rootDirectory;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private ProjectDirectory rootDirectory;
 
 		internal ProjectExplorer()
 		{
+		}
+
+		private static ProjectDirectory CreateDirectory(string normalisedRootPath, string directoryPath, string projectKey, ProjectExplorer projectExplorer, ImportPipeline importPipeline)
+		{
+			var newRootDirectory = new ProjectDirectory(projectKey);
+
+			foreach (string filePath in Directory.EnumerateFiles(directoryPath, "*", SearchOption.TopDirectoryOnly))
+			{
+				var resourceFileInfo = new FileInfo(filePath);
+
+				if (resourceFileInfo.Extension == ".bproj")
+				{
+					continue;
+				}
+
+				string resourceProjectKey = filePath
+					.Replace('\\', '/')
+					.Replace(normalisedRootPath + "/", "");
+
+				var resource = importPipeline.ImportResource(projectExplorer, resourceFileInfo, resourceProjectKey);
+
+				projectExplorer.Resources.Add(resource);
+
+				newRootDirectory.AddChildResource(resource);
+			}
+
+			foreach (string directoryFullName in Directory.EnumerateDirectories(directoryPath, "*", SearchOption.AllDirectories))
+			{
+				var directoryInformation = new DirectoryInfo(directoryFullName);
+
+				if (directoryInformation.Name == "bin")
+				{
+					continue;
+				}
+
+				string directoryProjectKey = directoryFullName
+					.Replace('\\', '/')
+					.Replace(normalisedRootPath + "/", "");
+
+				var childDirectory = CreateDirectory(normalisedRootPath, directoryFullName, directoryProjectKey, projectExplorer, importPipeline);
+
+				newRootDirectory.AddChildDirectory(childDirectory);
+			}
+
+			return newRootDirectory;
 		}
 
 		public static ProjectExplorer Load(string projectPath, ImportPipeline importPipeline)
@@ -76,59 +119,39 @@ namespace RPGCore.Packages
 			}
 			else
 			{
-				string[] rootFiles = Directory.GetFiles(projectPath);
-				for (int i = 0; i < rootFiles.Length; i++)
+				foreach (string rootFile in Directory.EnumerateFiles(projectPath, "*.bproj"))
 				{
-					string rootFile = rootFiles[i];
-					if (rootFile.EndsWith(".bproj", StringComparison.Ordinal))
-					{
-						bprojPath = rootFile;
-						break;
-					}
+					bprojPath = rootFile;
+					break;
 				}
 			}
+
+			var resources = new Dictionary<string, ProjectResource>();
 
 			var projectExplorer = new ProjectExplorer
 			{
 				ProjectPath = projectPath,
 				Definition = ProjectDefinitionFile.Load(bprojPath),
-				resources = new ProjectResourceCollection()
+				resources = new ProjectResourceCollection(resources)
 			};
 
-			var ignoredDirectories = new List<string>()
-			{
-				Path.Combine(projectPath, "bin")
-			};
+			projectExplorer.rootDirectory = CreateDirectory(
+				projectPath.Replace('\\', '/'),
+				projectPath,
+				"/",
+				projectExplorer,
+				importPipeline
+			);
 
-			string normalizedPath = projectPath.Replace('\\', '/');
+			// Size Calculation
 			long uncompressedSize = 0;
-
-			foreach (string filePath in Directory.EnumerateFiles(projectPath, "*", SearchOption.AllDirectories))
+			foreach (var resource in projectExplorer.Resources)
 			{
-				if (ignoredDirectories.Any(p => filePath.StartsWith(p)))
-				{
-					continue;
-				}
-
-				var resourceFileInfo = new FileInfo(filePath);
-
-				if (resourceFileInfo.Extension == ".bproj")
-				{
-					continue;
-				}
-
-				string projectKey = filePath
-					.Replace('\\', '/')
-					.Replace(normalizedPath + "/", "");
-
-				var resource = importPipeline.ImportResource(projectExplorer, resourceFileInfo, projectKey);
-
-				projectExplorer.Resources.Add(resource);
-
 				uncompressedSize += resource.UncompressedSize;
 			}
 			projectExplorer.UncompressedSize = uncompressedSize;
 
+			// Tag Indexing
 			var tags = new Dictionary<string, IResourceCollection>();
 			foreach (var resource in projectExplorer.Resources)
 			{
