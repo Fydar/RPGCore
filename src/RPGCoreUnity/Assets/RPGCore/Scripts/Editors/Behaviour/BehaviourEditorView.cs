@@ -9,7 +9,7 @@ namespace RPGCore.Unity.Editors
 	[Serializable]
 	public class BehaviourEditorView
 	{
-		public enum Mode
+		public enum ControlMode
 		{
 			None,
 			NodeDragging,
@@ -17,7 +17,7 @@ namespace RPGCore.Unity.Editors
 			CreatingConnection
 		}
 
-		[SerializeField] private Mode currentMode;
+		[SerializeField] private ControlMode currentMode;
 		[SerializeField] private Vector2 panPosition;
 		[SerializeField] private HashSet<string> selection;
 		[SerializeField] private LocalPropertyId connectionOutput;
@@ -29,16 +29,16 @@ namespace RPGCore.Unity.Editors
 			{
 				switch (currentMode)
 				{
-					case Mode.NodeDragging:
+					case ControlMode.NodeDragging:
 
 						return Selection.Count == 1
 							? $"Dragging nodes {string.Join(", ", Selection)}"
 							: $"Dragging node {string.Join(", ", Selection)}";
 
-					case Mode.ViewDragging:
+					case ControlMode.ViewDragging:
 						return $"Panning to {panPosition}";
 
-					case Mode.CreatingConnection:
+					case ControlMode.CreatingConnection:
 						return IsOutputSocket
 							? $"Creating connection from {connectionOutput}"
 							: $"Creating connection to {connectionOutput}";
@@ -80,7 +80,7 @@ namespace RPGCore.Unity.Editors
 
 		public bool IsOutputSocket => isOutputSocket;
 
-		public Mode CurrentMode
+		public ControlMode CurrentMode
 		{
 			get
 			{
@@ -101,7 +101,7 @@ namespace RPGCore.Unity.Editors
 
 		public void BeginConnectionFromOutput(LocalPropertyId connectionStart)
 		{
-			currentMode = Mode.CreatingConnection;
+			currentMode = ControlMode.CreatingConnection;
 			connectionOutput = connectionStart;
 			isOutputSocket = true;
 		}
@@ -111,7 +111,7 @@ namespace RPGCore.Unity.Editors
 			ConnectionInput = connectionEnd;
 			ConnectionInputNodeId = connectionInputNodeId;
 
-			currentMode = Mode.CreatingConnection;
+			currentMode = ControlMode.CreatingConnection;
 			isOutputSocket = false;
 		}
 	}

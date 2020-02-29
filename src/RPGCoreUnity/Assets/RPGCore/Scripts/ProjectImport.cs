@@ -1,4 +1,5 @@
-﻿using RPGCore.Packages;
+﻿using RPGCore.Demo.BoardGame;
+using RPGCore.Packages;
 using UnityEngine;
 
 namespace RPGCore.Unity
@@ -17,6 +18,7 @@ namespace RPGCore.Unity
 				if (explorer == null)
 				{
 					var importPipeline = new ImportPipeline();
+					importPipeline.ImportProcessors.Add(new BoardGameResourceImporter());
 
 					explorer = ProjectExplorer.Load(RelativePath, importPipeline);
 				}

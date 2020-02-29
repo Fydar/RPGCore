@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
@@ -13,14 +13,9 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-	public struct GraphTypeInformation
+	public class BehaviourGraphFrame : WindowFrame
 	{
-		public Color ConnectionColor;
-		public Color SocketColor;
-	}
 
-	public class BehaviourEditor : EditorWindow
-	{
 		public static Dictionary<string, GraphTypeInformation> StyleLookup = new Dictionary<string, GraphTypeInformation>()
 		{
 			["Single"] = new GraphTypeInformation()
@@ -60,24 +55,8 @@ namespace RPGCore.Unity.Editors
 		});
 		private GUIStyle NodePadding;
 
-		[MenuItem("Window/Behaviour")]
-		public static void Open()
+		public override void OnEnable()
 		{
-			var window = GetWindow<BehaviourEditor>();
-
-			window.Show();
-		}
-
-		private void OnEnable()
-		{
-			if (EditorGUIUtility.isProSkin)
-			{
-				titleContent = new GUIContent("Behaviour", BehaviourGraphResources.Instance.DarkThemeIcon);
-			}
-			else
-			{
-				titleContent = new GUIContent("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
-			}
 			NodePadding = new GUIStyle()
 			{
 				padding = new RectOffset()
@@ -88,7 +67,7 @@ namespace RPGCore.Unity.Editors
 			};
 		}
 
-		private void OnGUI()
+		public override void OnGUI()
 		{
 			if (View == null)
 			{
@@ -96,7 +75,7 @@ namespace RPGCore.Unity.Editors
 			}
 
 			ScreenRect = new Rect(0, EditorGUIUtility.singleLineHeight + 1,
-				position.width, position.height - (EditorGUIUtility.singleLineHeight + 1));
+				Position.width, Position.height - (EditorGUIUtility.singleLineHeight + 1));
 
 			CurrentEvent = Event.current;
 
@@ -174,7 +153,7 @@ namespace RPGCore.Unity.Editors
 						View.Selection.Clear();
 						View.Selection.Add(node.Name);
 
-						View.CurrentMode = BehaviourEditorView.Mode.NodeDragging;
+						View.CurrentMode = BehaviourEditorView.ControlMode.NodeDragging;
 						GUI.UnfocusWindow();
 						GUI.FocusControl("");
 
@@ -243,7 +222,7 @@ namespace RPGCore.Unity.Editors
 						}
 						else if (CurrentEvent.type == EventType.MouseUp && outputSocketRect.Contains(CurrentEvent.mousePosition))
 						{
-							if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+							if (View.CurrentMode == BehaviourEditorView.ControlMode.CreatingConnection)
 							{
 								if (!View.IsOutputSocket)
 								{
@@ -251,7 +230,7 @@ namespace RPGCore.Unity.Editors
 
 									View.ConnectionInput.SetValue(thisOutputSocket);
 									View.ConnectionInput.ApplyModifiedProperties();
-									View.CurrentMode = BehaviourEditorView.Mode.None;
+									View.CurrentMode = BehaviourEditorView.ControlMode.None;
 
 									GUI.UnfocusWindow();
 									GUI.FocusControl("");
@@ -293,13 +272,13 @@ namespace RPGCore.Unity.Editors
 					}
 					else if (CurrentEvent.type == EventType.MouseUp && inputSocketRect.Contains(CurrentEvent.mousePosition))
 					{
-						if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+						if (View.CurrentMode == BehaviourEditorView.ControlMode.CreatingConnection)
 						{
 							if (View.IsOutputSocket)
 							{
 								childField.SetValue(View.ConnectionOutput);
 								childField.ApplyModifiedProperties();
-								View.CurrentMode = BehaviourEditorView.Mode.None;
+								View.CurrentMode = BehaviourEditorView.ControlMode.None;
 
 								GUI.UnfocusWindow();
 								GUI.FocusControl("");
@@ -380,7 +359,7 @@ namespace RPGCore.Unity.Editors
 			}
 
 			// Draw active connection
-			if (View.CurrentMode == BehaviourEditorView.Mode.CreatingConnection)
+			if (View.CurrentMode == BehaviourEditorView.ControlMode.CreatingConnection)
 			{
 				if (View.IsOutputSocket)
 				{
@@ -594,7 +573,7 @@ namespace RPGCore.Unity.Editors
 			{
 				switch (View.CurrentMode)
 				{
-					case BehaviourEditorView.Mode.NodeDragging:
+					case BehaviourEditorView.ControlMode.NodeDragging:
 						CurrentEvent.Use();
 
 						foreach (string selectedNode in View.Selection)
@@ -607,18 +586,18 @@ namespace RPGCore.Unity.Editors
 							var posY = pos["y"];
 							posY.ApplyModifiedProperties();
 						}
-						View.CurrentMode = BehaviourEditorView.Mode.None;
+						View.CurrentMode = BehaviourEditorView.ControlMode.None;
 						break;
 
-					case BehaviourEditorView.Mode.ViewDragging:
-						View.CurrentMode = BehaviourEditorView.Mode.None;
+					case BehaviourEditorView.ControlMode.ViewDragging:
+						View.CurrentMode = BehaviourEditorView.ControlMode.None;
 						break;
 
-					case BehaviourEditorView.Mode.CreatingConnection:
-						View.CurrentMode = BehaviourEditorView.Mode.None;
+					case BehaviourEditorView.ControlMode.CreatingConnection:
+						View.CurrentMode = BehaviourEditorView.ControlMode.None;
 						break;
 				}
-				Repaint();
+				Window.Repaint();
 			}
 			else if (CurrentEvent.type == EventType.KeyDown)
 			{
@@ -651,7 +630,7 @@ namespace RPGCore.Unity.Editors
 			{
 				switch (View.CurrentMode)
 				{
-					case BehaviourEditorView.Mode.NodeDragging:
+					case BehaviourEditorView.ControlMode.NodeDragging:
 						foreach (string selectedNode in View.Selection)
 						{
 							var pos = View.Session.Root["Nodes"][selectedNode]["Editor"]["Position"];
@@ -664,11 +643,11 @@ namespace RPGCore.Unity.Editors
 						}
 						break;
 
-					case BehaviourEditorView.Mode.ViewDragging:
+					case BehaviourEditorView.ControlMode.ViewDragging:
 						View.PanPosition += CurrentEvent.delta;
 						break;
 				}
-				Repaint();
+				Window.Repaint();
 			}
 			else if (CurrentEvent.type == EventType.MouseDown)
 			{
@@ -677,10 +656,10 @@ namespace RPGCore.Unity.Editors
 					GUI.UnfocusWindow();
 					GUI.FocusControl("");
 
-					View.CurrentMode = BehaviourEditorView.Mode.ViewDragging;
+					View.CurrentMode = BehaviourEditorView.ControlMode.ViewDragging;
 
 					CurrentEvent.Use();
-					Repaint();
+					Window.Repaint();
 				}
 			}
 		}
