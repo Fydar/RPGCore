@@ -9,8 +9,8 @@ namespace RPGCore.Demo.BoardGame.Models
 
 		public string[,] Recipe;
 
-		public Graph GlobalEffectGraph;
-		public Graph LocalEffectGraph;
+		public SerializedGraph GlobalEffectGraph;
+		public SerializedGraph LocalEffectGraph;
 
 		public int Width => Recipe?.GetLength(0) ?? 0;
 		public int Height => Recipe?.GetLength(1) ?? 0;

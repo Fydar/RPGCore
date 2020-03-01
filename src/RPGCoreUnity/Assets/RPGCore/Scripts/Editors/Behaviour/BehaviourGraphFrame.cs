@@ -15,7 +15,6 @@ namespace RPGCore.Unity.Editors
 {
 	public class BehaviourGraphFrame : WindowFrame
 	{
-
 		public static Dictionary<string, GraphTypeInformation> StyleLookup = new Dictionary<string, GraphTypeInformation>()
 		{
 			["Single"] = new GraphTypeInformation()
@@ -93,7 +92,7 @@ namespace RPGCore.Unity.Editors
 			{
 				return;
 			}
-			var graphEditorNodes = View.Session.Root["Nodes"];
+			var graphEditorNodes = View.GraphField["Nodes"];
 
 			// Draw Nodes
 			foreach (var node in graphEditorNodes)
@@ -177,7 +176,7 @@ namespace RPGCore.Unity.Editors
 				return;
 			}
 
-			var graphEditorNodes = View.Session.Root["Nodes"];
+			var graphEditorNodes = View.GraphField["Nodes"];
 
 			// Foreach output
 			foreach (var node in graphEditorNodes)
@@ -459,7 +458,7 @@ namespace RPGCore.Unity.Editors
 
 						foreach (string selectedNode in View.Selection)
 						{
-							var pos = View.Session.Root["Nodes"][selectedNode]["Editor"]["Position"];
+							var pos = View.GraphField["Nodes"][selectedNode]["Editor"]["Position"];
 
 							var posX = pos["x"];
 							posX.ApplyModifiedProperties();
@@ -484,7 +483,7 @@ namespace RPGCore.Unity.Editors
 			{
 				if (CurrentEvent.keyCode == KeyCode.Space)
 				{
-					var graphEditorNodes = View.Session.Root["Nodes"];
+					var graphEditorNodes = View.GraphField["Nodes"];
 
 					string newId = LocalId.NewId().ToString();
 					graphEditorNodes.Add(newId);
@@ -499,7 +498,7 @@ namespace RPGCore.Unity.Editors
 				}
 				else if (CurrentEvent.keyCode == KeyCode.Delete)
 				{
-					var graphEditorNodes = View.Session.Root["Nodes"];
+					var graphEditorNodes = View.GraphField["Nodes"];
 
 					foreach (string node in View.Selection)
 					{
@@ -514,7 +513,7 @@ namespace RPGCore.Unity.Editors
 					case BehaviourEditorView.ControlMode.NodeDragging:
 						foreach (string selectedNode in View.Selection)
 						{
-							var pos = View.Session.Root["Nodes"][selectedNode]["Editor"]["Position"];
+							var pos = View.GraphField["Nodes"][selectedNode]["Editor"]["Position"];
 
 							var posX = pos["x"];
 							posX.SetValue(posX.GetValue<int>() + ((int)CurrentEvent.delta.x));
@@ -711,7 +710,7 @@ namespace RPGCore.Unity.Editors
 					Debug.Log(editorTarget);
 					var graphEditor = new EditorSession(manifest, editorTarget, "SerializedGraph", Serializer);
 
-					View.BeginSession(graphEditor);
+					View.BeginSession(graphEditor, graphEditor.Root);
 				}
 			}
 		}

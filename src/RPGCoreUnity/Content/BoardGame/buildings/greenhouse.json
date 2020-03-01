@@ -1,3 +1,20 @@
 {
-  "DislayName": "Greenhouse"
+  "DisplayName": "Greenhouse",
+  "Recipe": null,
+  "GlobalEffectGraph": {
+    "Name": null,
+    "Description": null,
+    "Type": null,
+    "CustomData": null,
+    "Nodes": null,
+    "SubGraphs": null
+  },
+  "LocalEffectGraph": {
+    "Name": null,
+    "Description": null,
+    "Type": null,
+    "CustomData": null,
+    "Nodes": null,
+    "SubGraphs": null
+  }
 }

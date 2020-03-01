@@ -99,6 +99,24 @@ namespace RPGCore.Unity.Editors
 
 					// EditorGUI.DrawRect(renderPos, Color.red);
 				}
+				else if (field.Field.Type == "SerializedGraph")
+				{
+					var fieldFeature = field.GetOrCreateFeature<FieldFeature>();
+
+					if (field.GetValue<SerializedGraph>() == null)
+					{
+						field.SetValue(new SerializedGraph());
+						field.ApplyModifiedProperties();
+					}
+
+					if (GUILayout.Button($"Edit \"{field.Name}\" Graph"))
+					{
+						BehaviourEditor.Open(field.Session, field);
+					}
+
+					var renderPos = GUILayoutUtility.GetLastRect();
+					fieldFeature.LocalRenderedPosition = renderPos;
+				}
 				else if (field.Field.Format == FieldFormat.Dictionary)
 				{
 					EditorGUILayout.LabelField(field.Name);

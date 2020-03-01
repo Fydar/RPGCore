@@ -23,6 +23,27 @@ namespace RPGCore.Unity.Editors
 		[SerializeField] private LocalPropertyId connectionOutput;
 		[SerializeField] private bool isOutputSocket;
 
+		public LocalPropertyId ConnectionOutput => connectionOutput;
+
+		public EditorField ConnectionInput { get; set; }
+		public string ConnectionInputNodeId { get; set; }
+		public EditorSession Session { get; private set; }
+		public EditorField GraphField { get; private set; }
+
+		public bool IsOutputSocket => isOutputSocket;
+
+		public ControlMode CurrentMode
+		{
+			get
+			{
+				return currentMode;
+			}
+			set
+			{
+				currentMode = value;
+			}
+		}
+
 		public string DescribeCurrentAction
 		{
 			get
@@ -73,30 +94,10 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		public LocalPropertyId ConnectionOutput => connectionOutput;
-
-		public EditorField ConnectionInput { get; set; }
-		public string ConnectionInputNodeId { get; set; }
-
-		public bool IsOutputSocket => isOutputSocket;
-
-		public ControlMode CurrentMode
-		{
-			get
-			{
-				return currentMode;
-			}
-			set
-			{
-				currentMode = value;
-			}
-		}
-
-		public EditorSession Session { get; private set; }
-
-		public void BeginSession(EditorSession session)
+		public void BeginSession(EditorSession session, EditorField graphField)
 		{
 			Session = session;
+			GraphField = graphField;
 		}
 
 		public void BeginConnectionFromOutput(LocalPropertyId connectionStart)

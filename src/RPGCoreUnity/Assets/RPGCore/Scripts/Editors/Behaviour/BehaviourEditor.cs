@@ -16,6 +16,20 @@ namespace RPGCore.Unity.Editors
 			window.Show();
 		}
 
+		public static void Open(EditorSession session, EditorField graphField)
+		{
+			var window = GetWindow<BehaviourEditor>();
+
+			window.Show();
+
+			window.GraphFrame = new BehaviourGraphFrame();
+			window.GraphFrame.View = new BehaviourEditorView();
+			window.GraphFrame.View.BeginSession(session, graphField);
+
+			window.GraphFrame.Window = window;
+			window.GraphFrame.OnEnable();
+		}
+
 		private void OnEnable()
 		{
 			if (EditorGUIUtility.isProSkin)
@@ -27,7 +41,10 @@ namespace RPGCore.Unity.Editors
 				titleContent = new GUIContent("Behaviour", BehaviourGraphResources.Instance.LightThemeIcon);
 			}
 
-			GraphFrame = new BehaviourGraphFrame();
+			if (GraphFrame == null)
+			{
+				GraphFrame = new BehaviourGraphFrame();
+			}
 			GraphFrame.Window = this;
 			GraphFrame.OnEnable();
 		}
