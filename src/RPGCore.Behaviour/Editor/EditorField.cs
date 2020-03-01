@@ -130,7 +130,9 @@ namespace RPGCore.Behaviour.Editor
 					}
 				}
 			}
-			else if (Field.Format == FieldFormat.Object && json.Type == JTokenType.Object)
+			else if (Field.Format == FieldFormat.Object
+				&& json != null
+				&& json.Type == JTokenType.Object)
 			{
 				if (Type.Fields != null && Type.Fields.Count != 0)
 				{
@@ -245,7 +247,7 @@ namespace RPGCore.Behaviour.Editor
 				jsonObject = (JObject)json;
 			}
 
-			var duplicate = Type.DefaultValue.DeepClone();
+			var duplicate = Type.DefaultValue?.DeepClone() ?? JValue.CreateNull();
 			jsonObject.Add(
 				key,
 				duplicate
@@ -292,7 +294,7 @@ namespace RPGCore.Behaviour.Editor
 				int addIndex = jsonArray.Count;
 				string childName = $"[{addIndex}]";
 
-				var duplicate = Type.DefaultValue.DeepClone();
+				var duplicate = Type.DefaultValue?.DeepClone() ?? JValue.CreateNull();
 				jsonArray.Add(
 					duplicate
 				);
