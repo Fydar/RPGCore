@@ -20,6 +20,11 @@ namespace RPGCore.Packages
 			tags = projectResourceImporter.Tags;
 		}
 
+		public bool Contains(string tag)
+		{
+			return tags.Contains(tag);
+		}
+
 		public IEnumerator<string> GetEnumerator()
 		{
 			return tags == null

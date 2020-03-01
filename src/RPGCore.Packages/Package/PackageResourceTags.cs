@@ -29,6 +29,11 @@ namespace RPGCore.Packages
 			this.tags = tags;
 		}
 
+		public bool Contains(string tag)
+		{
+			return tags.Contains(tag);
+		}
+
 		public IEnumerator<string> GetEnumerator()
 		{
 			return tags == null
