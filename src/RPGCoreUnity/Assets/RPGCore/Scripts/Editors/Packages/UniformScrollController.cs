@@ -19,7 +19,7 @@ namespace RPGCore.Unity.Editors
 		public UniformScrollController(Rect area, float elementHeight, ref Vector2 offset, int elements)
 		{
 			float maxOverflow = area.height % elementHeight;
-			int maxScrollMinIndex = Mathf.CeilToInt((area.height + maxOverflow) / elementHeight) - 1;
+			int maxScrollMinIndex = Mathf.CeilToInt((area.height + maxOverflow) / elementHeight) - 2;
 
 			float scrollHeight = Mathf.Max(0.0f, ((elements - maxScrollMinIndex) * elementHeight) + (1 - maxOverflow));
 

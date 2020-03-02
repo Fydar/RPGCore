@@ -27,6 +27,12 @@ namespace RPGCore.Unity.Editors
 				Title = new GUIContent("Json"),
 				Frame = new JsonTextWindowFrame(resource)
 			});
+
+			VisualiserTabs.Add(new FrameTab()
+			{
+				Title = new GUIContent("Image"),
+				Frame = new TextureWindowFrame(resource)
+			});
 		}
 
 		public override void OnEnable()
@@ -55,12 +61,21 @@ namespace RPGCore.Unity.Editors
 			for (int i = 0; i < VisualiserTabs.Count; i++)
 			{
 				var tab = VisualiserTabs[i];
+
+				var originalColor = GUI.color;
+				GUI.color = i == VisualiserTabsIndex
+					? GUI.color
+					: GUI.color * 0.725f;
+
 				if (GUILayout.Button(tab.Title, EditorStyles.toolbarButton))
 				{
 					VisualiserTabsIndex = i;
 				}
+
+				GUI.color = originalColor;
 			}
 			EditorGUILayout.EndHorizontal();
+
 
 			if (VisualiserTabsIndex >= 0 && VisualiserTabsIndex < VisualiserTabs.Count)
 			{

@@ -94,10 +94,18 @@ namespace RPGCore.Unity.Editors
 					for (int i = 0; i < CurrentResourceTabs.Count; i++)
 					{
 						var tab = CurrentResourceTabs[i];
+
+						var originalColor = GUI.color;
+						GUI.color = i == CurrentResourceTabIndex
+							? GUI.color
+							: GUI.color * 0.725f;
+
 						if (GUILayout.Button(tab.Title, EditorStyles.toolbarButton))
 						{
 							CurrentResourceTabIndex = i;
 						}
+
+						GUI.color = originalColor;
 					}
 					EditorGUILayout.EndHorizontal();
 
