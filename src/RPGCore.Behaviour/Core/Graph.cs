@@ -5,7 +5,6 @@ namespace RPGCore.Behaviour
 {
 	public sealed class Graph
 	{
-		public string Name;
 		public readonly NodeTemplate[] Nodes;
 		public readonly int ConnectionsCount;
 		public Dictionary<string, Graph> SubGraphs;

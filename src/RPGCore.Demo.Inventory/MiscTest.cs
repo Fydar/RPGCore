@@ -128,7 +128,7 @@ namespace RPGCore.Demo.Inventory
 				packageItem = serializer.Deserialize<SerializedGraph>(reader);
 			}
 
-			Console.WriteLine("Imported: " + packageItem.Name);
+			Console.WriteLine("Imported: " + fireballAsset.Name);
 			var unpackedGraph = packageItem.Unpack();
 
 			Console.WriteLine("Running Simulation...");

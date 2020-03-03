@@ -148,7 +148,6 @@ namespace RPGCore.Behaviour
 
 			return new SerializedGraphInstance()
 			{
-				GraphType = Template.Name,
 				NodeInstances = nodeMap
 			};
 		}

@@ -6,11 +6,6 @@ namespace RPGCore.Behaviour
 {
 	public class SerializedGraph
 	{
-		public string Name;
-		public string Description;
-		public string Type;
-
-		public Dictionary<string, string> CustomData;
 		public Dictionary<LocalId, SerializedNode> Nodes;
 		public Dictionary<string, SerializedGraph> SubGraphs;
 

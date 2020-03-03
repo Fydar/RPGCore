@@ -8,7 +8,6 @@ namespace RPGCore.Behaviour
 {
 	public sealed class SerializedGraphInstance
 	{
-		public string GraphType;
 		public Dictionary<LocalId, JObject> NodeInstances;
 
 		public GraphInstance Unpack(Graph graph)
