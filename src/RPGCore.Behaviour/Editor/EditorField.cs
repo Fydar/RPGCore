@@ -230,6 +230,13 @@ namespace RPGCore.Behaviour.Editor
 
 		public void Add(string key)
 		{
+			var duplicate = Type.DefaultValue?.DeepClone() ?? JValue.CreateNull();
+
+			AddInternal(key, duplicate);
+		}
+
+		void AddInternal(string key, JToken value)
+		{
 			if (Field.Format != FieldFormat.Dictionary)
 			{
 				throw new InvalidOperationException($"Cannot remove elements of \"{Field.Format}\" typed fields.");
@@ -247,15 +254,14 @@ namespace RPGCore.Behaviour.Editor
 				jsonObject = (JObject)json;
 			}
 
-			var duplicate = Type.DefaultValue?.DeepClone() ?? JValue.CreateNull();
 			jsonObject.Add(
 				key,
-				duplicate
+				value
 			);
 
 			if (!children.TryGetValue(key, out var field))
 			{
-				field = new EditorField(Session, duplicate, key, Field.ValueFormat);
+				field = new EditorField(Session, value, key, Field.ValueFormat);
 			}
 			children.Add(key, field);
 		}
