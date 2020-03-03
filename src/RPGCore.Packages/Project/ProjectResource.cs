@@ -13,8 +13,8 @@ namespace RPGCore.Packages
 		public long UncompressedSize { get; }
 
 		public string Name { get; }
-
 		public string FullName { get; }
+		public string Extension { get; }
 
 		public ProjectResourceTags Tags { get; }
 		public ProjectExplorer Explorer { get; }
@@ -28,6 +28,7 @@ namespace RPGCore.Packages
 			Entry = projectResourceImporter.FileInfo;
 
 			Name = Entry.Name;
+			Extension = Entry.Extension;
 			UncompressedSize = Entry.Length;
 			CompressedSize = UncompressedSize;
 

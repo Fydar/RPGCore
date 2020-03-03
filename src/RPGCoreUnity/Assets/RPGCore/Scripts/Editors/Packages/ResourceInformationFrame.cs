@@ -9,30 +9,44 @@ namespace RPGCore.Unity.Editors
 	{
 		public IResource Resource { get; private set; }
 
-		private readonly List<FrameTab> VisualiserTabs = new List<FrameTab>();
-		private int VisualiserTabsIndex;
+		private readonly List<FrameTab> visualiserTabs = new List<FrameTab>();
+		private int visualiserTabsIndex;
 
 		public ResourceInformationFrame(IResource resource)
 		{
 			Resource = resource;
 
-			VisualiserTabs.Add(new FrameTab()
+			if (resource.Extension == ".png"
+				|| resource.Extension == ".jpeg")
 			{
-				Title = new GUIContent("Raw"),
-				Frame = new RawTextWindowFrame(resource)
-			});
+				visualiserTabs.Add(new FrameTab()
+				{
+					Title = new GUIContent("Image"),
+					Frame = new TextureWindowFrame(resource)
+				});
+			}
+			else if (resource.Extension == ".json")
+			{
+				visualiserTabs.Add(new FrameTab()
+				{
+					Title = new GUIContent("Json"),
+					Frame = new JsonTextWindowFrame(resource)
+				});
 
-			VisualiserTabs.Add(new FrameTab()
+				visualiserTabs.Add(new FrameTab()
+				{
+					Title = new GUIContent("Raw"),
+					Frame = new RawTextWindowFrame(resource)
+				});
+			}
+			else
 			{
-				Title = new GUIContent("Json"),
-				Frame = new JsonTextWindowFrame(resource)
-			});
-
-			VisualiserTabs.Add(new FrameTab()
-			{
-				Title = new GUIContent("Image"),
-				Frame = new TextureWindowFrame(resource)
-			});
+				visualiserTabs.Add(new FrameTab()
+				{
+					Title = new GUIContent("Raw"),
+					Frame = new RawTextWindowFrame(resource)
+				});
+			}
 		}
 
 		public override void OnEnable()
@@ -58,18 +72,18 @@ namespace RPGCore.Unity.Editors
 
 
 			EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
-			for (int i = 0; i < VisualiserTabs.Count; i++)
+			for (int i = 0; i < visualiserTabs.Count; i++)
 			{
-				var tab = VisualiserTabs[i];
+				var tab = visualiserTabs[i];
 
 				var originalColor = GUI.color;
-				GUI.color = i == VisualiserTabsIndex
+				GUI.color = i == visualiserTabsIndex
 					? GUI.color
 					: GUI.color * 0.725f;
 
 				if (GUILayout.Button(tab.Title, EditorStyles.toolbarButton))
 				{
-					VisualiserTabsIndex = i;
+					visualiserTabsIndex = i;
 				}
 
 				GUI.color = originalColor;
@@ -77,9 +91,9 @@ namespace RPGCore.Unity.Editors
 			EditorGUILayout.EndHorizontal();
 
 
-			if (VisualiserTabsIndex >= 0 && VisualiserTabsIndex < VisualiserTabs.Count)
+			if (visualiserTabsIndex >= 0 && visualiserTabsIndex < visualiserTabs.Count)
 			{
-				var currentTab = VisualiserTabs[VisualiserTabsIndex];
+				var currentTab = visualiserTabs[visualiserTabsIndex];
 				currentTab.Frame.OnGUI();
 			}
 		}

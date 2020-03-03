@@ -12,6 +12,7 @@ namespace RPGCore.Packages
 
 		public string Name { get; }
 		public string FullName { get; }
+		public string Extension { get;  }
 
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
@@ -26,6 +27,11 @@ namespace RPGCore.Packages
 			this.package = package;
 			Name = packageEntry.Name;
 			FullName = packageEntry.FullName;
+
+			int dotIndex = packageEntry.FullName.LastIndexOf('.');
+			Extension = dotIndex != -1
+				? packageEntry.FullName.Substring(dotIndex)
+				: null;
 
 			CompressedSize = packageEntry.CompressedLength;
 			UncompressedSize = packageEntry.Length;
