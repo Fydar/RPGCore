@@ -12,7 +12,7 @@ namespace RPGCore.Demo.BoardGame
 		public int CurrentPlayersTurn;
 		public bool DeclaredResource;
 
-		public BuildingTemplate[] Buildings;
+		public string[] Buildings;
 		public GamePlayer[] Players;
 
 		public IExplorer GameData { get; private set; }
@@ -26,14 +26,14 @@ namespace RPGCore.Demo.BoardGame
 				new GamePlayer()
 				{
 					CurrentScore = new StatInstance(),
-					SpecialCard = new BuildingTemplate(),
+					SpecialCard = new SpecialCardSlot(),
 					Board = new GameBoard(4, 4),
 					ResourceHand = new List<string>()
 				},
 				new GamePlayer()
 				{
 					CurrentScore = new StatInstance(),
-					SpecialCard = new BuildingTemplate(),
+					SpecialCard = new SpecialCardSlot(),
 					Board = new GameBoard(4, 4),
 					ResourceHand = new List<string>()
 				}
