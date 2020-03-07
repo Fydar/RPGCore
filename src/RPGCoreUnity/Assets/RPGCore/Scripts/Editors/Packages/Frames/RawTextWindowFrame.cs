@@ -27,6 +27,11 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
+		public RawTextWindowFrame(string[] lines)
+		{
+			this.lines = lines;
+		}
+
 		protected virtual string[] BuildLines(IResource resource)
 		{
 			var linesList = new List<string>();
@@ -87,7 +92,7 @@ namespace RPGCore.Unity.Editors
 				new GUIContent(guideString),
 				out _, out float maxWidth);
 
-			var rect = GUILayoutUtility.GetRect(0, 480, GUILayout.ExpandWidth(true));
+			var rect = GUILayoutUtility.GetRect(0, 480, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 			var lineNumberBackgroundRect = new Rect(
 				rect.x,
 				rect.y,

@@ -8,6 +8,8 @@ namespace RPGCore.Unity.Editors
 {
 	public static class RPGCoreEditor
 	{
+		const int FoldoutIndent = -10;
+
 		public static void DrawEditor(EditorSession editor)
 		{
 			if (editor == null)
@@ -30,9 +32,11 @@ namespace RPGCore.Unity.Editors
 			{
 				var fieldFeature = field.GetOrCreateFeature<FieldFeature>();
 
-				EditorGUI.indentLevel--;
-				fieldFeature.Expanded = EditorGUILayout.Foldout(fieldFeature.Expanded, field.Name, true);
-				EditorGUI.indentLevel++;
+				var fieldRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight, GUILayout.ExpandWidth(true));
+				GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
+				fieldRect.xMin += FoldoutIndent;
+
+				fieldFeature.Expanded = EditorGUI.Foldout(fieldRect, fieldFeature.Expanded, field.Name, true);
 
 				if (fieldFeature.Expanded)
 				{
@@ -58,6 +62,26 @@ namespace RPGCore.Unity.Editors
 				{
 					EditorGUI.BeginChangeCheck();
 					int newValue = EditorGUILayout.IntField(field.Name, field.GetValue<int>());
+					if (EditorGUI.EndChangeCheck())
+					{
+						field.SetValue(newValue);
+						field.ApplyModifiedProperties();
+					}
+				}
+				else if (field.Field.Type == "Single")
+				{
+					EditorGUI.BeginChangeCheck();
+					float newValue = EditorGUILayout.FloatField(field.Name, field.GetValue<float>());
+					if (EditorGUI.EndChangeCheck())
+					{
+						field.SetValue(newValue);
+						field.ApplyModifiedProperties();
+					}
+				}
+				else if(field.Field.Type == "Double")
+				{
+					EditorGUI.BeginChangeCheck();
+					double newValue = EditorGUILayout.DoubleField(field.Name, field.GetValue<double>());
 					if (EditorGUI.EndChangeCheck())
 					{
 						field.SetValue(newValue);
@@ -110,12 +134,13 @@ namespace RPGCore.Unity.Editors
 					}
 
 					var fieldRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight, GUILayout.ExpandWidth(true));
-					PrefixLable(fieldRect, out var lable, out var content);
-					content.width = 140;
+					GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
+					fieldRect.xMin += 4;
+					var buttonRect = EditorGUI.PrefixLabel(fieldRect, new GUIContent(field.Name));
 
-					EditorGUI.LabelField(lable, field.Name);
+					buttonRect.width = 160;
 
-					if (GUI.Button(content, $"Edit Graph"))
+					if (GUI.Button(buttonRect, $"Edit Graph"))
 					{
 						BehaviourEditor.Open(field.Session, field);
 					}
@@ -138,9 +163,11 @@ namespace RPGCore.Unity.Editors
 				{
 					var fieldFeature = field.GetOrCreateFeature<FieldFeature>();
 
-					EditorGUI.indentLevel--;
-					fieldFeature.Expanded = EditorGUILayout.Foldout(fieldFeature.Expanded, field.Name, true);
-					EditorGUI.indentLevel++;
+					var fieldRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight, GUILayout.ExpandWidth(true));
+					fieldRect.xMin += FoldoutIndent;
+					GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
+
+					fieldFeature.Expanded = EditorGUI.Foldout(fieldRect, fieldFeature.Expanded, field.Name, true);
 
 					if (fieldFeature.Expanded)
 					{
@@ -157,19 +184,6 @@ namespace RPGCore.Unity.Editors
 			{
 				EditorGUILayout.LabelField(field.Name, "Unknown Type");
 			}
-		}
-
-		public static void PrefixLable (Rect position, out Rect lable, out Rect content)
-		{
-			content = EditorGUI.PrefixLabel (position, new GUIContent (" "));
-
-			float indent = EditorGUI.indentLevel * 15.0f;
-			position.xMin += indent;
-
-			lable = new Rect (position)
-			{
-				xMax = content.xMin
-			};
 		}
 	}
 }

@@ -11,8 +11,8 @@
         },
         "Editor": {
           "Position": {
-            "x": -112,
-            "y": 51
+            "x": 20,
+            "y": 178
           }
         }
       },
@@ -24,8 +24,8 @@
         },
         "Editor": {
           "Position": {
-            "x": 188,
-            "y": -27
+            "x": 344,
+            "y": 95
           }
         }
       },
@@ -37,8 +37,8 @@
         },
         "Editor": {
           "Position": {
-            "x": -111,
-            "y": -81
+            "x": 20,
+            "y": 51
           }
         }
       },
@@ -50,8 +50,8 @@
         },
         "Editor": {
           "Position": {
-            "x": -103,
-            "y": 169
+            "x": 190,
+            "y": 291
           }
         }
       },
@@ -63,8 +63,8 @@
         },
         "Editor": {
           "Position": {
-            "x": 475,
-            "y": 33
+            "x": 652,
+            "y": 161
           }
         }
       }
@@ -74,5 +74,6 @@
   "LocalEffectGraph": {
     "Nodes": null,
     "SubGraphs": null
-  }
+  },
+  "BodyText": null
 }

@@ -1,5 +1,4 @@
 ﻿using RPGCore.Behaviour;
-using RPGCore.Demo.BoardGame.Models;
 using RPGCore.Packages;
 using RPGCore.Traits;
 using System.Collections.Generic;

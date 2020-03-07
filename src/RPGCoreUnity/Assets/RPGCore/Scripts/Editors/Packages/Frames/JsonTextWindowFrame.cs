@@ -26,7 +26,13 @@ namespace RPGCore.Unity.Editors
 			}
 
 			string allLines = jobject.ToString(Formatting.Indented);
+			string[] builtLines = HighlightSyntax(allLines);
 
+			return builtLines;
+		}
+
+		private static string[] HighlightSyntax(string allLines)
+		{
 			string[] builtLines = allLines.Split(new char[] { '\n' }, System.StringSplitOptions.None);
 
 			var sb = new StringBuilder();
@@ -99,6 +105,11 @@ namespace RPGCore.Unity.Editors
 
 		public JsonTextWindowFrame(IResource resource)
 			: base(resource)
+		{
+		}
+
+		public JsonTextWindowFrame(string text)
+			: base(HighlightSyntax(text))
 		{
 		}
 	}

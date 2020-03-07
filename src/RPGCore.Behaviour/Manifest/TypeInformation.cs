@@ -75,6 +75,30 @@ namespace RPGCore.Behaviour.Manifest
 
 					fieldInfos.Add(field.Name, FieldInformation.ConstructFieldInformation(field, defaultInstance));
 				}
+				foreach (var field in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+				{
+					if (field.PropertyType == typeof(OutputSocket))
+					{
+						continue;
+					}
+
+					if (field.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+					{
+						continue;
+					}
+
+					var getter = field.GetGetMethod();
+					var setter = field.GetSetMethod();
+
+					if (getter == null
+						|| getter.IsPrivate
+						|| setter == null)
+					{
+						continue;
+					}
+
+					fieldInfos.Add(field.Name, FieldInformation.ConstructFieldInformation(field, defaultInstance));
+				}
 				typeInformation.Fields = fieldInfos;
 			}
 		}

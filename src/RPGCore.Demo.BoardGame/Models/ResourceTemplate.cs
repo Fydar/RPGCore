@@ -2,6 +2,7 @@
 {
 	public class ResourceTemplate
 	{
-		public string DisplayName;
+		public string DisplayName { get; set; }
+		public VoxelColour Colour { get; set; }
 	}
 }

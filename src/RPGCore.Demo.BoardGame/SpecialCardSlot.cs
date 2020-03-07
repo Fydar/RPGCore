@@ -2,7 +2,7 @@
 {
 	public class SpecialCardSlot
 	{
-		public string BuildingIdentifier;
+		public string BuildingIdentifier { get; set; }
 
 	}
 }

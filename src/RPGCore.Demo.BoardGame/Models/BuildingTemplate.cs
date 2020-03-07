@@ -1,20 +1,26 @@
-﻿using RPGCore.Behaviour;
+﻿using Newtonsoft.Json;
+using RPGCore.Behaviour;
 using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame.Models
 {
 	public class BuildingTemplate
 	{
-		public string DisplayName;
+		public string DisplayName { get; set; }
+		public string BodyText { get; set; }
 
-		public string[,] Recipe;
+		public string[,] Recipe { get; set; }
 
-		public SerializedGraph GlobalEffectGraph;
-		public SerializedGraph LocalEffectGraph;
+		public SerializedGraph GlobalEffectGraph { get; set; }
+		public SerializedGraph LocalEffectGraph { get; set; }
 
+		[JsonIgnore]
 		public int Width => Recipe?.GetLength(0) ?? 0;
+
+		[JsonIgnore]
 		public int Height => Recipe?.GetLength(1) ?? 0;
 
+		[JsonIgnore]
 		public bool IsHorizontallySymmetric
 		{
 			get
@@ -42,6 +48,7 @@ namespace RPGCore.Demo.BoardGame.Models
 			}
 		}
 
+		[JsonIgnore]
 		public bool IsVerticallySymmetric
 		{
 			get
@@ -69,6 +76,7 @@ namespace RPGCore.Demo.BoardGame.Models
 			}
 		}
 
+		[JsonIgnore]
 		public bool IsRotating
 		{
 			get
@@ -85,6 +93,7 @@ namespace RPGCore.Demo.BoardGame.Models
 			}
 		}
 
+		[JsonIgnore]
 		private bool IsTheSameWhenRotated
 		{
 			get
@@ -116,6 +125,7 @@ namespace RPGCore.Demo.BoardGame.Models
 			}
 		}
 
+		[JsonIgnore]
 		private bool IsRotatedSameAsMirror
 		{
 			get

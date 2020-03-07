@@ -76,6 +76,7 @@ namespace RPGCore.Unity.Editors
 					typeof(PackageNodeEditor),
 					typeof(PackageNodePosition),
 					typeof(ExtraData),
+					typeof(VoxelColour),
 
 					typeof(ResourceTemplate),
 					typeof(BuildingTemplate),
@@ -109,6 +110,7 @@ namespace RPGCore.Unity.Editors
 		{
 			if (Resource is ProjectResource projectResource)
 			{
+				EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 				if (GUILayout.Button("Save", EditorStyles.toolbarButton, GUILayout.Width(100)))
 				{
 					using (var file = projectResource.WriteStream())
@@ -122,6 +124,12 @@ namespace RPGCore.Unity.Editors
 						);
 					}
 				}
+
+				if (GUILayout.Button("View Manifest", EditorStyles.toolbarButton, GUILayout.Width(120)))
+				{
+					GenericWindow.Open(new GUIContent("Manifest"), new JsonTextWindowFrame(EditorSession.Manifest.ToString()));
+				}
+				EditorGUILayout.EndHorizontal();
 			}
 
 			RPGCoreEditor.DrawEditor(EditorSession);

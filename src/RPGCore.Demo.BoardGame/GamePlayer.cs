@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame
 {
-
 	public class GamePlayer
 	{
 		public LocalId OwnerId;
