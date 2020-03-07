@@ -81,7 +81,7 @@ namespace RPGCore.Unity.Editors
 				return;
 			}
 
-			string guideString = new string('0', lines.Length.ToString().Length);
+			string guideString = new string('0', Math.Max(2, lines.Length.ToString().Length));
 
 			lineNumberStyle.CalcMinMaxWidth(
 				new GUIContent(guideString),

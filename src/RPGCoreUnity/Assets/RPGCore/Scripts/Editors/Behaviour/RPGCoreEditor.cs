@@ -109,7 +109,13 @@ namespace RPGCore.Unity.Editors
 						field.ApplyModifiedProperties();
 					}
 
-					if (GUILayout.Button($"Edit \"{field.Name}\" Graph"))
+					var fieldRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight, GUILayout.ExpandWidth(true));
+					PrefixLable(fieldRect, out var lable, out var content);
+					content.width = 140;
+
+					EditorGUI.LabelField(lable, field.Name);
+
+					if (GUI.Button(content, $"Edit Graph"))
 					{
 						BehaviourEditor.Open(field.Session, field);
 					}
@@ -151,6 +157,19 @@ namespace RPGCore.Unity.Editors
 			{
 				EditorGUILayout.LabelField(field.Name, "Unknown Type");
 			}
+		}
+
+		public static void PrefixLable (Rect position, out Rect lable, out Rect content)
+		{
+			content = EditorGUI.PrefixLabel (position, new GUIContent (" "));
+
+			float indent = EditorGUI.indentLevel * 15.0f;
+			position.xMin += indent;
+
+			lable = new Rect (position)
+			{
+				xMax = content.xMin
+			};
 		}
 	}
 }
