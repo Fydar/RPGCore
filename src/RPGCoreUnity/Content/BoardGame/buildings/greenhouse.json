@@ -2,18 +2,76 @@
   "DisplayName": "Greenhouse",
   "Recipe": null,
   "GlobalEffectGraph": {
-    "Name": null,
-    "Description": null,
-    "Type": null,
-    "CustomData": null,
-    "Nodes": null,
+    "Nodes": {
+      "0xec8f900d0f5b2e8b": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": -112,
+            "y": 51
+          }
+        }
+      },
+      "0xc77d5f3b7dd09b10": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0x44c54c91220f6a15.Output",
+          "ValueB": "0xec8f900d0f5b2e8b.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 188,
+            "y": -27
+          }
+        }
+      },
+      "0x44c54c91220f6a15": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": -111,
+            "y": -81
+          }
+        }
+      },
+      "0xce7062c6bf9f8b0c": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": -103,
+            "y": 169
+          }
+        }
+      },
+      "0xc0327fae1bacebf0": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0xc77d5f3b7dd09b10.Output",
+          "ValueB": "0xce7062c6bf9f8b0c.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 475,
+            "y": 33
+          }
+        }
+      }
+    },
     "SubGraphs": null
   },
   "LocalEffectGraph": {
-    "Name": null,
-    "Description": null,
-    "Type": null,
-    "CustomData": null,
     "Nodes": null,
     "SubGraphs": null
   }

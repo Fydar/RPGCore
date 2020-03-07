@@ -82,11 +82,6 @@ namespace RPGCore.Behaviour.Editor
 			this.json = json;
 			Type = session.Manifest.GetTypeInformation(field.Type);
 
-			if (Type == null)
-			{
-				throw new InvalidOperationException($"Cannot find type information for type \"{field.Type}\".");
-			}
-
 			UpdateChildren();
 		}
 
@@ -134,7 +129,7 @@ namespace RPGCore.Behaviour.Editor
 				&& json != null
 				&& json.Type == JTokenType.Object)
 			{
-				if (Type.Fields != null && Type.Fields.Count != 0)
+				if (Type?.Fields != null && Type.Fields.Count != 0)
 				{
 					PopulateMissing((JObject)json, Type);
 
@@ -361,12 +356,13 @@ namespace RPGCore.Behaviour.Editor
 			{
 				queued.ApplyValue(this);
 
-				UpdateChildren();
 			}
 			else
 			{
 				queued.ApplyValue(this);
 			}
+			children = new Dictionary<string, EditorField>();
+			UpdateChildren();
 		}
 
 		public override string ToString()

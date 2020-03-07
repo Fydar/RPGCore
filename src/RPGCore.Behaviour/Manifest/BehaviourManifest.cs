@@ -14,6 +14,11 @@ namespace RPGCore.Behaviour.Manifest
 
 		public TypeInformation GetTypeInformation(string type)
 		{
+			if (string.IsNullOrEmpty(type))
+			{
+				return null;
+			}
+
 			string lookupType;
 			int arrayIndex = type.LastIndexOf('[');
 			if (arrayIndex == -1)

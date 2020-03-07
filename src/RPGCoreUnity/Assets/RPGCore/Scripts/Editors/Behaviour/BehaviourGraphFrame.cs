@@ -100,7 +100,7 @@ namespace RPGCore.Unity.Editors
 
 				var nodeType = node["Type"];
 				string nodeTypeString = nodeType.GetValue<string>();
-				string nodeHeader = nodeTypeString.Substring(nodeTypeString.LastIndexOf(".") + 1);
+				string nodeHeader = nodeTypeString?.Substring(nodeTypeString.LastIndexOf(".") + 1) ?? "Unknown";
 				EditorGUILayout.LabelField(nodeHeader, EditorStyles.boldLabel);
 
 				var nodeData = node["Data"];
@@ -469,12 +469,14 @@ namespace RPGCore.Unity.Editors
 					graphEditorNodes.Add(newId);
 
 					var newNode = graphEditorNodes[newId];
+					var nodeData = new JObject();
 					newNode.SetValue(new SerializedNode()
 					{
 						Type = "RPGCore.Demo.Inventory.Nodes.AddNode",
-						Data = new JObject("{}")
+						Data = nodeData
 					});
 					newNode.ApplyModifiedProperties();
+					Window.Repaint();
 				}
 				else if (CurrentEvent.keyCode == KeyCode.Delete)
 				{

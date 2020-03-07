@@ -1,4 +1,5 @@
 ﻿using RPGCore.Packages;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -77,9 +78,9 @@ namespace RPGCore.Unity.Editors
 									Frame = new EditorSessionFrame(currentResource)
 								});
 							}
-							catch
+							catch (Exception exception)
 							{
-
+								Debug.LogError(exception.ToString());
 							}
 
 							currentResourceTabs.Add(new FrameTab()
