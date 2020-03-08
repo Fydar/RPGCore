@@ -14,14 +14,14 @@ namespace RPGCore.Behaviour.Manifest
 		public Dictionary<string, FieldInformation> Fields;
 		public JToken DefaultValue;
 
-		public static TypeInformation Construct(Type type)
+		internal static TypeInformation Construct(Type type)
 		{
 			var information = new TypeInformation();
-			ConstructTypeInformation(type, information);
+			PopulateTypeInformation(type, information);
 			return information;
 		}
 
-		protected static void ConstructTypeInformation(Type type, TypeInformation typeInformation)
+		protected static void PopulateTypeInformation(Type type, TypeInformation typeInformation)
 		{
 			// Implicit Conversions
 			var conversions = new Dictionary<string, TypeConversion>();

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using RPGCore.Behaviour.Manifest;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.Globalization;
 
 namespace RPGCore.Behaviour
 {
+	[EditorType]
 	[TypeConverter(typeof(LocalIdConverter))]
 	[DebuggerDisplay("{ToString(),nq}")]
 	public readonly struct LocalId : IEquatable<LocalId>

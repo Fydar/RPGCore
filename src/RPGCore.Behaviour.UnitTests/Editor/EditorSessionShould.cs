@@ -9,6 +9,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 	[TestFixture(TestOf = typeof(EditorSession))]
 	public class EditorSessionShould
 	{
+		[EditorType]
 		public class RootModel
 		{
 			public string FirstValue;
@@ -18,6 +19,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 			public Dictionary<string, ChildModel> MoreChildren;
 		}
 
+		[EditorType]
 		public class ChildModel
 		{
 			public int ChildFirstValue;
@@ -27,25 +29,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 		[Test, Parallelizable]
 		public void Work()
 		{
-			var types = TypeManifest.Construct(
-				new Type[]
-				{
-					typeof(int),
-					typeof(bool),
-					typeof(string),
-				},
-				new Type[]
-				{
-					typeof(RootModel),
-					typeof(ChildModel)
-				}
-			);
-
-			var manifest = new BehaviourManifest()
-			{
-				Nodes = null,
-				Types = types
-			};
+			var manifest = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
 
 			var sourceObject = new RootModel()
 			{

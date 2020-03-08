@@ -1,11 +1,13 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RPGCore.Behaviour.Manifest;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace RPGCore.Behaviour
 {
+	[EditorType]
 	public sealed class SerializedNode
 	{
 		public string Type;

@@ -40,54 +40,7 @@ namespace RPGCore.Unity.Editors
 				editorTarget = JObject.Load(reader);
 			}
 
-			var nodes = NodeManifest.Construct(new Type[] {
-				typeof (AddNode),
-				typeof (RollNode),
-				typeof (OutputValueNode),
-				typeof (ItemInputNode),
-				typeof (ActivatableItemNode),
-				typeof (IterateNode),
-				typeof (GetStatNode),
-			});
-			var types = TypeManifest.Construct(
-				new Type[]
-				{
-					typeof(bool),
-					typeof(string),
-					typeof(int),
-					typeof(byte),
-					typeof(long),
-					typeof(short),
-					typeof(uint),
-					typeof(ulong),
-					typeof(ushort),
-					typeof(sbyte),
-					typeof(char),
-					typeof(float),
-					typeof(double),
-					typeof(decimal),
-					typeof(InputSocket),
-					typeof(LocalId),
-				},
-				new Type[]
-				{
-					typeof(SerializedGraph),
-					typeof(SerializedNode),
-					typeof(PackageNodeEditor),
-					typeof(PackageNodePosition),
-					typeof(ExtraData),
-					typeof(VoxelColour),
-
-					typeof(ResourceTemplate),
-					typeof(BuildingTemplate),
-				}
-			);
-
-			var manifest = new BehaviourManifest()
-			{
-				Nodes = nodes,
-				Types = types,
-			};
+			var manifest = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
 
 			string typeName = null;
 			if (Resource.Tags.Contains("type-building"))

@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using RPGCore.Behaviour.Manifest;
+using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
+	[EditorType]
 	public readonly struct InputSocket
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]

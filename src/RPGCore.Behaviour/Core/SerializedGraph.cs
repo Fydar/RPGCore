@@ -1,9 +1,11 @@
+using RPGCore.Behaviour.Manifest;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace RPGCore.Behaviour
 {
+	[EditorType]
 	public class SerializedGraph
 	{
 		public Dictionary<LocalId, SerializedNode> Nodes;

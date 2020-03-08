@@ -1,11 +1,109 @@
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
 {
 	public sealed class BehaviourManifest
 	{
+		static readonly Type[] frameworkTypes = new[]
+		{
+			typeof(bool),
+			typeof(string),
+			typeof(int),
+			typeof(byte),
+			typeof(long),
+			typeof(short),
+			typeof(uint),
+			typeof(ulong),
+			typeof(ushort),
+			typeof(sbyte),
+			typeof(char),
+			typeof(float),
+			typeof(double),
+			typeof(decimal),
+		};
+
 		public TypeManifest Types;
-		public NodeManifest Nodes;
+
+		private static IEnumerable<Assembly> GetDependentAssemblies(AppDomain appDomain, Assembly analyzedAssembly)
+		{
+			return appDomain.GetAssemblies()
+				.Where(assembly => GetNamesOfAssembliesReferencedBy(assembly)
+					.Contains(analyzedAssembly.FullName));
+		}
+
+		public static IEnumerable<string> GetNamesOfAssembliesReferencedBy(Assembly assembly)
+		{
+			return assembly.GetReferencedAssemblies()
+				.Select(assemblyName => assemblyName.FullName);
+		}
+
+		public static BehaviourManifest CreateFromAppDomain(AppDomain appDomain)
+		{
+			var manifest = new BehaviourManifest();
+
+			var objectTypes = new Dictionary<string, TypeInformation>();
+			foreach (var type in frameworkTypes)
+			{
+				objectTypes.Add(type.Name, TypeInformation.Construct(type));
+			}
+
+			var nodeTypes = new Dictionary<string, NodeInformation>();
+			foreach (var assembly in GetDependentAssemblies(appDomain, typeof(NodeTemplate).Assembly))
+			{
+				Type[] types;
+				try
+				{
+					types = assembly.GetTypes();
+				}
+				catch
+				{
+					continue;
+				}
+
+				foreach (var type in types)
+				{
+					ConstructType(type, objectTypes);
+
+					if (type.IsAbstract)
+					{
+						continue;
+					}
+
+					if (typeof(NodeTemplate).IsAssignableFrom(type))
+					{
+						nodeTypes.Add(type.Name, NodeInformation.Construct(type));
+					}
+				}
+			}
+
+			manifest.Types = new TypeManifest()
+			{
+				ObjectTypes = objectTypes,
+				NodeTypes = nodeTypes,
+			};
+
+			return manifest;
+		}
+
+		static void ConstructType(Type type, Dictionary<string, TypeInformation> objectTypes)
+		{
+			if (!type.IsAbstract)
+			{
+				var typeAttributes = type.GetCustomAttribute(typeof(EditorTypeAttribute));
+				if (typeAttributes != null)
+				{
+					objectTypes.Add(type.Name, TypeInformation.Construct(type));
+				}
+			}
+		}
+
+		private BehaviourManifest()
+		{
+		}
 
 		public override string ToString()
 		{
@@ -14,39 +112,27 @@ namespace RPGCore.Behaviour.Manifest
 
 		public TypeInformation GetTypeInformation(string type)
 		{
-			if (string.IsNullOrEmpty(type))
+			if (Types == null
+				|| string.IsNullOrEmpty(type))
 			{
 				return null;
 			}
 
-			string lookupType;
 			int arrayIndex = type.LastIndexOf('[');
-			if (arrayIndex == -1)
-			{
-				lookupType = type;
-			}
-			else
-			{
-				lookupType = type.Substring(0, arrayIndex);
-			}
+			string lookupType = arrayIndex == -1
+				? type
+				: type.Substring(0, arrayIndex);
 
-			if (Types.JsonTypes != null)
-			{
-				if (Types.JsonTypes.TryGetValue(lookupType, out var jsonType))
-				{
-					return jsonType;
-				}
-			}
-			if (Types?.ObjectTypes != null)
+			if (Types.ObjectTypes != null)
 			{
 				if (Types.ObjectTypes.TryGetValue(lookupType, out var objectType))
 				{
 					return objectType;
 				}
 			}
-			if (Nodes?.Nodes != null)
+			if (Types.NodeTypes != null)
 			{
-				if (Nodes.Nodes.TryGetValue(lookupType, out var nodeType))
+				if (Types.NodeTypes.TryGetValue(lookupType, out var nodeType))
 				{
 					return nodeType;
 				}

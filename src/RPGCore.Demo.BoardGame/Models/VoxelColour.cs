@@ -1,5 +1,8 @@
-﻿namespace RPGCore.Demo.BoardGame.Models
+﻿using RPGCore.Behaviour.Manifest;
+
+namespace RPGCore.Demo.BoardGame.Models
 {
+	[EditorType]
 	public struct VoxelColour
 	{
 		public float Red { get; set; }

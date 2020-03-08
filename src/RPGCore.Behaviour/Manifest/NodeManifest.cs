@@ -26,7 +26,7 @@ namespace RPGCore.Behaviour.Manifest
 
 					if (typeof(NodeTemplate).IsAssignableFrom(type))
 					{
-						information.Add(type.FullName, NodeInformation.ConstructNodeInformation(type));
+						information.Add(type.FullName, NodeInformation.Construct(type));
 					}
 				}
 			}
@@ -41,7 +41,7 @@ namespace RPGCore.Behaviour.Manifest
 			var information = new Dictionary<string, NodeInformation>();
 			foreach (var type in types)
 			{
-				information.Add(type.FullName, NodeInformation.ConstructNodeInformation(type));
+				information.Add(type.FullName, NodeInformation.Construct(type));
 			}
 			manifest.Nodes = information;
 			return manifest;

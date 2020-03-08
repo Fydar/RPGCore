@@ -14,52 +14,8 @@ namespace RPGCore.Demo.Inventory
 	{
 		public void Start()
 		{
-			var nodes = NodeManifest.Construct(
-				new Type[] {
-					typeof (AddNode),
-					typeof (RollNode),
-					typeof (OutputValueNode),
-					typeof (ItemInputNode),
-					typeof (ActivatableItemNode),
-					typeof (IterateNode),
-					typeof (GetStatNode),
-				}
-			);
-			var types = TypeManifest.Construct(
-				new Type[]
-				{
-					typeof(bool),
-					typeof(string),
-					typeof(int),
-					typeof(byte),
-					typeof(long),
-					typeof(short),
-					typeof(uint),
-					typeof(ulong),
-					typeof(ushort),
-					typeof(sbyte),
-					typeof(char),
-					typeof(float),
-					typeof(double),
-					typeof(decimal),
-					typeof(InputSocket),
-					typeof(LocalId),
-				},
-				new Type[]
-				{
-					typeof(SerializedGraph),
-					typeof(SerializedNode),
-					typeof(PackageNodeEditor),
-					typeof(PackageNodePosition),
-					typeof(ExtraData)
-				}
-			);
+			var manifest = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
 
-			var manifest = new BehaviourManifest()
-			{
-				Nodes = nodes,
-				Types = types
-			};
 			var serializer = new JsonSerializer();
 
 			Console.WriteLine("Importing Graph...");

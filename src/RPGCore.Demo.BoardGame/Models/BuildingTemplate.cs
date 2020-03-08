@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
+using RPGCore.Behaviour.Manifest;
 using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame.Models
 {
+	[EditorType]
 	public class BuildingTemplate
 	{
 		public string DisplayName { get; set; }

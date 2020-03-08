@@ -16,24 +16,7 @@ namespace RPGCore.Demo.Inventory
 	{
 		public static void Run()
 		{
-			var nodes = NodeManifest.Construct(
-				new Type[] {
-					typeof (AddNode),
-					typeof (RollNode),
-					typeof (OutputValueNode),
-					typeof (ItemInputNode),
-					typeof (ActivatableItemNode),
-					typeof (IterateNode),
-					typeof (GetStatNode),
-				}
-			);
-			var types = TypeManifest.ConstructBaseTypes();
-
-			var manifest = new BehaviourManifest()
-			{
-				Nodes = nodes,
-				Types = types
-			};
+			var manifest = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
 
 			File.WriteAllText("Content/RPGCoreMath.bmfst", manifest.ToString());
 

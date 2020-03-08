@@ -9,7 +9,7 @@ namespace RPGCore.Behaviour.Manifest
 		public Dictionary<string, SocketInformation> Inputs;
 		public Dictionary<string, SocketInformation> Outputs;
 
-		public static NodeInformation ConstructNodeInformation(Type nodeType)
+		public static NodeInformation Construct(Type nodeType)
 		{
 			var nodeInformation = new NodeInformation();
 
