@@ -31,7 +31,7 @@ namespace RPGCore.Behaviour.Manifest
 		private static IEnumerable<Assembly> GetDependentAssemblies(AppDomain appDomain, Assembly analyzedAssembly)
 		{
 			return appDomain.GetAssemblies()
-				.Where(assembly => GetNamesOfAssembliesReferencedBy(assembly)
+				.Where(assembly => assembly == analyzedAssembly || GetNamesOfAssembliesReferencedBy(assembly)
 					.Contains(analyzedAssembly.FullName));
 		}
 
@@ -75,7 +75,7 @@ namespace RPGCore.Behaviour.Manifest
 
 					if (typeof(NodeTemplate).IsAssignableFrom(type))
 					{
-						nodeTypes.Add(type.Name, NodeInformation.Construct(type));
+						nodeTypes.Add(type.FullName, NodeInformation.Construct(type));
 					}
 				}
 			}

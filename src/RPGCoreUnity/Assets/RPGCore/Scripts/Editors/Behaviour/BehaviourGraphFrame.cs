@@ -72,6 +72,7 @@ namespace RPGCore.Unity.Editors
 			{
 				return;
 			}
+
 			var graphEditorNodes = View.GraphField["Nodes"];
 
 			// Draw Nodes
@@ -223,13 +224,35 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
-				// Foreach Input
-				foreach (var childField in nodeData)
+				IEnumerable<EditorField> InputSocketFields(EditorField nodeDataField)
 				{
-					if (childField.Field.Type != "InputSocket")
+					foreach (var childField in nodeDataField)
 					{
-						continue;
+						if (childField.Field.Type != "InputSocket")
+						{
+							continue;
+						}
+						if (childField.Field.Format == FieldFormat.List)
+						{
+							foreach (var listElement in childField)
+							{
+								yield return listElement;
+							}
+						}
+						else if (childField.Field.Format == FieldFormat.Object)
+						{
+							yield return childField;
+						}
+						else
+						{
+							Debug.LogError($"Unknown InputSocket format. InputSockets cannot be a \"{childField.Field.Format}\".");
+						}
 					}
+				}
+
+				// Foreach Input
+				foreach (var childField in InputSocketFields(nodeData))
+				{
 					var inputFieldFeature = childField.GetOrCreateFeature<FieldFeature>();
 
 					inputFieldFeature.GlobalRenderedPosition = new Rect(

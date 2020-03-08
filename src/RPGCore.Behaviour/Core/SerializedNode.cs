@@ -24,6 +24,7 @@ namespace RPGCore.Behaviour
 			var jsonSerializer = new JsonSerializer();
 
 			jsonSerializer.Converters.Add(new InputSocketConverter(validOutputs, connectionIds));
+			jsonSerializer.Converters.Add(new InputSocketArrayConverter(validOutputs, connectionIds));
 			jsonSerializer.Converters.Add(new LocalIdJsonConverter());
 
 			object nodeObject = Data.ToObject(nodeType, jsonSerializer);
@@ -58,7 +59,7 @@ namespace RPGCore.Behaviour
 
 		public override bool CanConvert(Type objectType)
 		{
-			return (objectType == typeof(InputSocket));
+			return objectType == typeof(InputSocket);
 		}
 
 		public InputSocketConverter(HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
@@ -95,6 +96,64 @@ namespace RPGCore.Behaviour
 			}
 
 			return new InputSocket(connectionId);
+		}
+	}
+
+	internal sealed class InputSocketArrayConverter : JsonConverter
+	{
+		private readonly HashSet<LocalPropertyId> validOutputs;
+		private readonly List<LocalPropertyId> mappedInputs;
+
+		public override bool CanWrite => false;
+
+		public override bool CanConvert(Type objectType)
+		{
+			if (!objectType.IsArray)
+			{
+				return false;
+			}
+
+			return objectType.IsArray && objectType.GetElementType() == typeof(InputSocket);
+		}
+
+		public InputSocketArrayConverter(HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
+		{
+			this.validOutputs = validOutputs;
+			this.mappedInputs = mappedInputs;
+		}
+
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			throw new InvalidOperationException();
+		}
+
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			var array = JArray.Load(reader);
+
+			var inputSockets = new InputSocket[array.Count];
+			for (int i = 0; i < array.Count; i++)
+			{
+				var arrayElement = array[i];
+
+				var inputSource = new LocalPropertyId(arrayElement.ToObject<string>());
+
+				if (!validOutputs.Contains(inputSource))
+				{
+					Console.WriteLine($"Ignoring desired input of \"{inputSource}\" as it is not valid.");
+					return new InputSocket[0];
+				}
+
+				int connectionId = mappedInputs.IndexOf(inputSource);
+				if (connectionId == -1)
+				{
+					connectionId = mappedInputs.Count;
+					mappedInputs.Add(inputSource);
+				}
+				inputSockets[i] = new InputSocket(connectionId);
+			}
+
+			return inputSockets;
 		}
 	}
 }

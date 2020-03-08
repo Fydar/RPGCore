@@ -20,13 +20,13 @@ namespace RPGCore.Demo.Inventory.Nodes
 
 			public override InputMap[] Inputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect (ref Template.ValueA, ref ValueA),
-				connections.Connect (ref Template.ValueB, ref ValueB)
+				connections.Connect(ref Template.ValueA, ref ValueA),
+				connections.Connect(ref Template.ValueB, ref ValueB)
 			};
 
 			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 			{
-				connections.Connect (ref Template.Output, ref Output)
+				connections.Connect(ref Template.Output, ref Output)
 			};
 
 			public override void Setup()
