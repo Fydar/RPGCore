@@ -1,4 +1,3 @@
-using RPGCore.Behaviour.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,6 +15,8 @@ namespace RPGCore.Unity.Editors
 			window.Show();
 
 			window.WindowTitle = title;
+			window.titleContent = title;
+
 			window.Frame = frame;
 			window.Frame.Window = window;
 			window.Frame.OnEnable();
@@ -28,7 +29,10 @@ namespace RPGCore.Unity.Editors
 				Frame.Window = this;
 				Frame.OnEnable();
 			}
-			titleContent = WindowTitle;
+			if (WindowTitle != null)
+			{
+				titleContent = WindowTitle;
+			}
 		}
 
 		private void OnGUI()

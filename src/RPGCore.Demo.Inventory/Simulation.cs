@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
-using RPGCore.Behaviour.Manifest;
-using RPGCore.Demo.Inventory.Nodes;
 using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
@@ -14,8 +12,6 @@ namespace RPGCore.Demo.Inventory
 	{
 		public void Start()
 		{
-			var manifest = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
-
 			var serializer = new JsonSerializer();
 
 			Console.WriteLine("Importing Graph...");
@@ -46,7 +42,7 @@ namespace RPGCore.Demo.Inventory
 			Console.WriteLine("Exported package...");
 			var exportedPackage = PackageExplorer.Load("Content/Temp/Core.bpkg");
 
-			var fireballAsset = exportedPackage.Resources["Fireball/Main.bhvr"];
+			var fireballAsset = exportedPackage.Resources["Fireball/Main.json"];
 			var data = fireballAsset.LoadStream();
 
 			SerializedGraph packageItem;

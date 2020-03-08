@@ -10,8 +10,9 @@ namespace RPGCore.Unity.Editors
 	{
 		private const string KeyColor = "#0451a5";
 		private const string StringValueColor = "#a31515";
-		private const string BoolValueColor = "#0000ff";
 		private const string NumericValueColor = "#098658";
+
+		// private const string BoolValueColor = "#0000ff";
 
 		protected override string[] BuildLines(IResource resource)
 		{
@@ -82,7 +83,16 @@ namespace RPGCore.Unity.Editors
 						sb.Append("</color>");
 						isToken = false;
 					}
-					else if (quoteIndex == 2 && isValue && !isToken && c != '{' && c != '[' && !char.IsWhiteSpace(c))
+					else if (quoteIndex == 2
+						&& isValue
+						&& !isToken
+						&& c != '{'
+						&& c != '}'
+						&& c != '['
+						&& c != ']'
+						&& c != ','
+						&& c != '.'
+						&& !char.IsWhiteSpace(c))
 					{
 						isToken = true;
 

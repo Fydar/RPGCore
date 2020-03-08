@@ -51,6 +51,10 @@ namespace RPGCore.Unity.Editors
 			{
 				typeName = "ResourceTemplate";
 			}
+			else
+			{
+				typeName = "ProceduralItemTemplate";
+			}
 
 			EditorSession = new EditorSession(manifest, editorTarget, typeName, Serializer);
 		}

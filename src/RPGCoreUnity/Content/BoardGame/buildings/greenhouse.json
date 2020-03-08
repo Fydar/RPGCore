@@ -50,8 +50,8 @@
         },
         "Editor": {
           "Position": {
-            "x": 190,
-            "y": 291
+            "x": 185,
+            "y": 275
           }
         }
       },
@@ -72,7 +72,34 @@
     "SubGraphs": null
   },
   "LocalEffectGraph": {
-    "Nodes": null,
+    "Nodes": {
+      "0x9d4f3aadc6668bc0": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 3,
+            "y": 100
+          }
+        }
+      },
+      "0xcf7ac2e4b68b0853": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      }
+    },
     "SubGraphs": null
   },
   "BodyText": null

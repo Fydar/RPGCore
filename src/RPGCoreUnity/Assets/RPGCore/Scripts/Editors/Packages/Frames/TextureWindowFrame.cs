@@ -11,6 +11,8 @@ namespace RPGCore.Unity.Editors
 		{
 			texture = new Texture2D(2, 2);
 			texture.LoadImage(resource.LoadData());
+
+			texture.filterMode = FilterMode.Point;
 		}
 
 		public override void OnEnable()
@@ -22,6 +24,11 @@ namespace RPGCore.Unity.Editors
 		{
 			int aspect = texture.width / texture.height;
 			var rect = GUILayoutUtility.GetRect(480, 480 / aspect, GUILayout.ExpandWidth(false));
+
+			rect = new Rect(rect.x + 24,
+				rect.y + 24,
+				rect.width - 48,
+				rect.height - 48);
 
 			GUI.DrawTexture(rect, texture);
 		}

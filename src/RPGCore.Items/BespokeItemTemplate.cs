@@ -1,10 +1,13 @@
-﻿namespace RPGCore.Items
+﻿using RPGCore.Behaviour.Manifest;
+
+namespace RPGCore.Items
 {
+	[EditorType]
 	public class BespokeItemTemplate : ItemTemplate
 	{
 		public override string ToString()
 		{
-			return "Item";
+			return $"{nameof(BespokeItemTemplate)}({DisplayName})";
 		}
 	}
 }
