@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "RPGCore.Demo.BoardGame.Console": {
+      "commandName": "Project"
+    }
+  }
+}

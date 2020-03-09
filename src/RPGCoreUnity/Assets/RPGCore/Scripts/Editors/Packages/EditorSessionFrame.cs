@@ -51,6 +51,10 @@ namespace RPGCore.Unity.Editors
 			{
 				typeName = "ResourceTemplate";
 			}
+			else if (Resource.Tags.Contains("type-buildingpack"))
+			{
+				typeName = "BuildingPackTemplate";
+			}
 			else
 			{
 				typeName = "ProceduralItemTemplate";

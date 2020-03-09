@@ -10,6 +10,7 @@ namespace RPGCore.Demo.BoardGame.Models
 	{
 		public string DisplayName { get; set; }
 		public string BodyText { get; set; }
+		public string PackIdentifier { get; set; }
 
 		public string[,] Recipe { get; set; }
 
