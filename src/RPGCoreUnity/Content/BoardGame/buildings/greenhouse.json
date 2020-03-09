@@ -1,5 +1,6 @@
 {
   "DisplayName": "Greenhouse",
+  "PackIdentifier": "agriculturepack",
   "Recipe": null,
   "GlobalEffectGraph": {
     "Nodes": {

@@ -1,9 +1,5 @@
 {
   "Behaviour": {
-    "Name": "Ice Bolt",
-    "Description": "Fires a fast travelling bolt of ice.",
-    "Type": null,
-    "CustomData": null,
     "Nodes": {
       "0a084c2c": {
         "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
@@ -46,5 +42,8 @@
       }
     },
     "SubGraphs": null
-  }
+  },
+  "DisplayName": "Ice Bolt",
+  "Description": "Fires a fast travelling bolt of ice.",
+  "Weight": 0
 }

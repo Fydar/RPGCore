@@ -1,15 +1,7 @@
 {
   "Behaviour": {
-    "Name": "Fireball",
-    "Description": "Fires a ball of fire that explodes on impact.",
-    "Type": null,
-    "CustomData": null,
     "SubGraphs": {
       "RepeatThis": {
-        "Name": "Fireball",
-        "Description": "Fires a ball of fire that explodes on impact.",
-        "Type": null,
-        "CustomData": null,
         "SubGraphs": null,
         "Nodes": {
           "0a084c2c": {
@@ -115,5 +107,8 @@
         }
       }
     }
-  }
+  },
+  "DisplayName": "Fireball",
+  "Description": "Fires a ball of fire that explodes on impact.",
+  "Weight": 0
 }

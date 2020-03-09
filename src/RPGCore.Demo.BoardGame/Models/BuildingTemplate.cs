@@ -198,5 +198,10 @@ namespace RPGCore.Demo.BoardGame.Models
 				}
 			}
 		}
+
+		public override string ToString()
+		{
+			return $"{nameof(BuildingTemplate)}({DisplayName})";
+		}
 	}
 }

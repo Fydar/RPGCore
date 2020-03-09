@@ -46,22 +46,37 @@ namespace RPGCore.Demo.BoardGame
 
 		private void StartGame()
 		{
-			var buildingPackResources = GameData.Tags["type-buildingpack"];
-			var buildingPackTemplates = new BuildingPackTemplate[buildingPackResources.Count];
+			var packTemplates = LoadAll<BuildingPackTemplate>(GameData.Tags["type-buildingpack"])
+				.ToDictionary(template => template.Identifier);
+
+			var resourceTemplates = LoadAll<ResourceTemplate>(GameData.Tags["type-resource"]);
+
+			var buildingTemplates = LoadAll<BuildingTemplate>(GameData.Tags["type-building"]);
+
+
+			var fullBuildingPacks = packTemplates
+				.Select(pack => buildingTemplates
+					.Where(building => building.PackIdentifier == pack.Value.Identifier).ToArray()).ToArray();
+
+		}
+
+		static T[] LoadAll<T>(IResourceCollection resources)
+		{
+			var deserializedResources = new T[resources.Count];
 
 			var serializer = new JsonSerializer();
 			int index = 0;
-			foreach (var buildingPackResource in buildingPackResources)
+			foreach (var buildingPackResource in resources)
 			{
 				using (var data = buildingPackResource.LoadStream())
 				using (var sr = new StreamReader(data))
 				using (var reader = new JsonTextReader(sr))
 				{
-					buildingPackTemplates[index] = serializer.Deserialize<BuildingPackTemplate>(reader);
+					deserializedResources[index] = serializer.Deserialize<T>(reader);
 				}
 				index++;
 			}
-
+			return deserializedResources;
 		}
 
 		public void Apply(GameViewAction action)
