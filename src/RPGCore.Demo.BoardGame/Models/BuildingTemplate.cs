@@ -9,6 +9,7 @@ namespace RPGCore.Demo.BoardGame.Models
 	public class BuildingTemplate
 	{
 		public string DisplayName { get; set; }
+		public string Identifier { get; set; }
 		public string BodyText { get; set; }
 		public string PackIdentifier { get; set; }
 

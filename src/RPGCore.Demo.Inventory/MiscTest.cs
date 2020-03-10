@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
-using RPGCore.Demo.Inventory.Nodes;
 using RPGCore.Packages;
 using System;
 using System.Collections.Generic;

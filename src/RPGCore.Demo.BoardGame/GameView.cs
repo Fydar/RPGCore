@@ -3,6 +3,7 @@ using RPGCore.Behaviour;
 using RPGCore.Demo.BoardGame.Models;
 using RPGCore.Packages;
 using RPGCore.Traits;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -51,13 +52,23 @@ namespace RPGCore.Demo.BoardGame
 
 			var resourceTemplates = LoadAll<ResourceTemplate>(GameData.Tags["type-resource"]);
 
-			var buildingTemplates = LoadAll<BuildingTemplate>(GameData.Tags["type-building"]);
+			var buildingTemplates = LoadAll<BuildingTemplate>(GameData.Tags["type-building"])
+				.ToDictionary(template => template.Identifier);
 
 
 			var fullBuildingPacks = packTemplates
 				.Select(pack => buildingTemplates
-					.Where(building => building.PackIdentifier == pack.Value.Identifier).ToArray()).ToArray();
+					.Where(building => building.Value.PackIdentifier == pack.Value.Identifier).ToArray()).ToArray();
 
+			var rand = new Random();
+
+			Buildings = fullBuildingPacks.Select(pack =>
+			{
+				if (pack == null || pack.Length == 0)
+					return null;
+
+				return pack[rand.Next(0, pack.Length)].Key;
+			}).ToArray();
 		}
 
 		static T[] LoadAll<T>(IResourceCollection resources)

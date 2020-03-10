@@ -12,7 +12,7 @@ namespace RPGCore.Packages
 
 		public string Name { get; }
 		public string FullName { get; }
-		public string Extension { get;  }
+		public string Extension { get; }
 
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
