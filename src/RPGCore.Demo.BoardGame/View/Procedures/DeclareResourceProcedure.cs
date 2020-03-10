@@ -2,11 +2,11 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class DeclareResourceAction : GameViewAction
+	public class DeclareResourceProcedure : GameViewProcedure 
 	{
 		public string ResourceIdentifier { get; set; }
 
-		public override ActionApplyResult Apply(GameView view)
+		public override ProcedureResult Apply(GameView view)
 		{
 			view.DeclaredResource = true;
 
@@ -19,7 +19,7 @@ namespace RPGCore.Demo.BoardGame
 				player.ResourceHand.Add(ResourceIdentifier);
 			}
 
-			return ActionApplyResult.Success;
+			return ProcedureResult.Success;
 		}
 	}
 }

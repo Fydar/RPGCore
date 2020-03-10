@@ -90,7 +90,7 @@ namespace RPGCore.Demo.BoardGame
 			return deserializedResources;
 		}
 
-		public void Apply(GameViewAction action)
+		public void Apply(GameViewProcedure  action)
 		{
 			action.Apply(this);
 		}

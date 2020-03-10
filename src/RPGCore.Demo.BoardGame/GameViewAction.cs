@@ -2,10 +2,10 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public abstract class GameViewAction
+	public abstract class GameViewProcedure 
 	{
 		public LocalId Client { get; set; }
 
-		public abstract ActionApplyResult Apply(GameView view);
+		public abstract ProcedureResult Apply(GameView view);
 	}
 }

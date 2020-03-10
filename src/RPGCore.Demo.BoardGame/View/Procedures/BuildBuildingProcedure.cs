@@ -2,14 +2,14 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class BuildBuildingAction : GameViewAction
+	public class BuildBuildingProcedure : GameViewProcedure 
 	{
 		public string BuildingIdentifier { get; set; }
 		public Integer2 Offset { get; set; }
 		public Integer2 BuildingPosition { get; set; }
 		public BuildingOrientation Orientation { get; set; }
 
-		public override ActionApplyResult Apply(GameView view)
+		public override ProcedureResult Apply(GameView view)
 		{
 			var buildingTemplate = new BuildingTemplate()
 			{
@@ -43,7 +43,7 @@ namespace RPGCore.Demo.BoardGame
 			var placeTile = ownerPlayer.Board[BuildingPosition];
 			placeTile.Building = new Building(buildingTemplate, placeTile);
 
-			return ActionApplyResult.Success;
+			return ProcedureResult.Success;
 		}
 	}
 }

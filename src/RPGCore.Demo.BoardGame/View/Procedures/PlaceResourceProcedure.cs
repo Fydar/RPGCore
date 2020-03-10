@@ -2,12 +2,12 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class PlaceResourceAction : GameViewAction
+	public class PlaceResourceProcedure : GameViewProcedure
 	{
 		public string ResourceIdentifier { get; set; }
 		public Integer2 ResourcePosition { get; set; }
 
-		public override ActionApplyResult Apply(GameView view)
+		public override ProcedureResult Apply(GameView view)
 		{
 			var ownerPlayer = view.Players.Where(player => player.OwnerId == Client).FirstOrDefault();
 
@@ -18,12 +18,12 @@ namespace RPGCore.Demo.BoardGame
 				|| placeTile.Building != null
 				|| !owned)
 			{
-				return ActionApplyResult.Unauthorized;
+				return ProcedureResult.NotModified;
 			}
 
 			placeTile.Resource = ResourceIdentifier;
 
-			return ActionApplyResult.Success;
+			return ProcedureResult.Success;
 		}
 	}
 }

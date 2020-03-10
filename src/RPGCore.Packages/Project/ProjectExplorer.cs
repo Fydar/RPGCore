@@ -88,7 +88,7 @@ namespace RPGCore.Packages
 				newRootDirectory.AddChildResource(resource);
 			}
 
-			foreach (string directoryFullName in Directory.EnumerateDirectories(directoryPath, "*", SearchOption.AllDirectories))
+			foreach (string directoryFullName in Directory.EnumerateDirectories(directoryPath, "*", SearchOption.TopDirectoryOnly))
 			{
 				var directoryInformation = new DirectoryInfo(directoryFullName);
 

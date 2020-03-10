@@ -1,8 +1,8 @@
 ﻿namespace RPGCore.Demo.BoardGame
 {
-	public enum ActionApplyResult
+	public enum ProcedureResult
 	{
 		Success,
-		Unauthorized
+		NotModified
 	}
 }

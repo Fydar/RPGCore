@@ -33,62 +33,62 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				}
 			};
 
-			gameView.Apply(new DeclareResourceAction()
+			gameView.Apply(new DeclareResourceProcedure()
 			{
 				Client = player1,
 				ResourceIdentifier = "1"
 			});
-			gameView.Apply(new PlaceResourceAction()
+			gameView.Apply(new PlaceResourceProcedure()
 			{
 				Client = player1,
 				ResourceIdentifier = "1",
 				ResourcePosition = new Integer2(1, 1)
 			});
-			gameView.Apply(new PlaceResourceAction()
+			gameView.Apply(new PlaceResourceProcedure()
 			{
 				Client = player2,
 				ResourceIdentifier = "1",
 				ResourcePosition = new Integer2(3, 3)
 			});
-			gameView.Apply(new EndTurnAction()
+			gameView.Apply(new EndTurnProcedure()
 			{
 				Client = player1
 			});
 
-			gameView.Apply(new DeclareResourceAction()
+			gameView.Apply(new DeclareResourceProcedure()
 			{
 				Client = player2,
 				ResourceIdentifier = "2"
 			});
-			gameView.Apply(new PlaceResourceAction()
+			gameView.Apply(new PlaceResourceProcedure()
 			{
 				Client = player1,
 				ResourceIdentifier = "2",
 				ResourcePosition = new Integer2(2, 1)
 			});
-			gameView.Apply(new PlaceResourceAction()
+			gameView.Apply(new PlaceResourceProcedure()
 			{
 				Client = player2,
 				ResourceIdentifier = "2",
 				ResourcePosition = new Integer2(2, 1)
 			});
-			gameView.Apply(new EndTurnAction()
+			gameView.Apply(new EndTurnProcedure()
 			{
 				Client = player2
 			});
 
-			gameView.Apply(new DeclareResourceAction()
+			gameView.Apply(new DeclareResourceProcedure()
 			{
 				Client = player1,
 				ResourceIdentifier = "3"
 			});
-			gameView.Apply(new PlaceResourceAction()
+			gameView.Apply(new PlaceResourceProcedure()
 			{
 				Client = player1,
 				ResourceIdentifier = "3",
 				ResourcePosition = new Integer2(1, 2)
 			});
-			gameView.Apply(new PlaceResourceAction()
+			gameView.Apply(new PlaceResourceProcedure()
 			{
 				Client = player2,
 				ResourceIdentifier = "3",
@@ -97,7 +97,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 			DrawGameState(gameView);
 
-			gameView.Apply(new BuildBuildingAction()
+			gameView.Apply(new BuildBuildingProcedure()
 			{
 				Client = player1,
 				BuildingIdentifier = "building",
@@ -105,7 +105,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 				Offset = new Integer2(1, 1),
 				Orientation = BuildingOrientation.None
 			});
-			gameView.Apply(new EndTurnAction()
+			gameView.Apply(new EndTurnProcedure()
 			{
 				Client = player1
 			});
