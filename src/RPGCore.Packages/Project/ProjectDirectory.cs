@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RPGCore.Packages
 {
@@ -14,7 +15,10 @@ namespace RPGCore.Packages
 
 		public IDirectory Parent { get; private set; }
 
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly List<IDirectory> directories;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ProjectResourceCollection resources;
 
 		internal ProjectDirectory(string fullName)
@@ -45,7 +49,7 @@ namespace RPGCore.Packages
 
 			return lastDelimiter == -1
 				? fullName
-				: fullName.Substring(lastDelimiter);
+				: fullName.Substring(lastDelimiter + 1);
 		}
 	}
 }

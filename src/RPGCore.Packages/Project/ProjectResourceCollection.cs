@@ -9,8 +9,10 @@ namespace RPGCore.Packages
 	[DebuggerTypeProxy(typeof(ProjectResourceCollectionDebugView))]
 	internal sealed class ProjectResourceCollection : IProjectResourceCollection, IResourceCollection
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private Dictionary<string, ProjectResource> resources;
 
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count => resources?.Count ?? 0;
 
 		public ProjectResource this[string key] => resources[key];
@@ -75,6 +77,12 @@ namespace RPGCore.Packages
 			{
 				get
 				{
+					if (source.resources == null
+						|| source.resources.Count == 0)
+					{
+						return null;
+					}
+
 					var keys = new DebuggerRow[source.resources.Count];
 
 					int i = 0;

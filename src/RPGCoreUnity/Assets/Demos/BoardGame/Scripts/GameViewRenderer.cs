@@ -171,70 +171,70 @@ namespace RPGCoreUnity.Demo.BoardGame
 
 		private IEnumerator<YieldInstruction> Run()
 		{
-			var actions = new GameViewAction[]
+			var actions = new GameViewProcedure[]
 			{
-				new DeclareResourceAction()
+				new DeclareResourceProcedure()
 				{
 					Client = Player1,
 					ResourceIdentifier = "x"
 				},
-				new PlaceResourceAction()
+				new PlaceResourceProcedure()
 				{
 					Client = Player1,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(1, 1)
 				},
-				new PlaceResourceAction()
+				new PlaceResourceProcedure()
 				{
 					Client = Player2,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(3, 3)
 				},
-				new EndTurnAction()
+				new EndTurnProcedure()
 				{
 					Client = Player1
 				},
 
-				new DeclareResourceAction()
+				new DeclareResourceProcedure()
 				{
 					Client = Player2,
 					ResourceIdentifier = "x"
 				},
-				new PlaceResourceAction()
+				new PlaceResourceProcedure()
 				{
 					Client = Player1,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(0, 1)
 				},
-				new PlaceResourceAction()
+				new PlaceResourceProcedure()
 				{
 					Client = Player2,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(2, 3)
 				},
-				new EndTurnAction()
+				new EndTurnProcedure()
 				{
 					Client = Player2
 				},
 
-				new DeclareResourceAction()
+				new DeclareResourceProcedure()
 				{
 					Client = Player1,
 					ResourceIdentifier = "x"
 				},
-				new PlaceResourceAction()
+				new PlaceResourceProcedure()
 				{
 					Client = Player1,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(1, 2)
 				},
-				new PlaceResourceAction()
+				new PlaceResourceProcedure()
 				{
 					Client = Player2,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(2, 2)
 				},
-				new BuildBuildingAction()
+				new BuildBuildingProcedure()
 				{
 					Client = Player1,
 					BuildingIdentifier = "building",
@@ -242,7 +242,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 					Offset = new Integer2(2, 1),
 					Orientation = BuildingOrientation.MirrorXandY
 				},
-				new EndTurnAction()
+				new EndTurnProcedure()
 				{
 					Client = Player1
 				}
