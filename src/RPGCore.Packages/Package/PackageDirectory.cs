@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RPGCore.Packages
+﻿namespace RPGCore.Packages
 {
 	public class PackageDirectory : IDirectory
 	{
@@ -8,7 +6,7 @@ namespace RPGCore.Packages
 
 		public string FullName => throw new System.NotImplementedException();
 
-		public IReadOnlyList<IDirectory> Directories => throw new System.NotImplementedException();
+		public IDirectoryCollection Directories => throw new System.NotImplementedException();
 
 		public IResourceCollection Resources => throw new System.NotImplementedException();
 

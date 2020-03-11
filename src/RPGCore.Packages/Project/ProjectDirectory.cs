@@ -9,14 +9,14 @@ namespace RPGCore.Packages
 
 		public string FullName { get; }
 
-		public IReadOnlyList<IDirectory> Directories => directories;
+		public IDirectoryCollection Directories => directories;
 
 		public IResourceCollection Resources => resources;
 
 		public IDirectory Parent { get; private set; }
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly List<IDirectory> directories;
+		private readonly ProjectDirectoryCollection directories;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ProjectResourceCollection resources;
@@ -26,7 +26,7 @@ namespace RPGCore.Packages
 			FullName = fullName;
 			Name = NameFromFullName(fullName);
 
-			directories = new List<IDirectory>();
+			directories = new ProjectDirectoryCollection();
 			resources = new ProjectResourceCollection();
 		}
 

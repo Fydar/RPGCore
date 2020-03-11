@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RPGCore.Packages
+﻿namespace RPGCore.Packages
 {
 	public interface IDirectory
 	{
@@ -8,7 +6,7 @@ namespace RPGCore.Packages
 		string FullName { get; }
 
 		IDirectory Parent { get; }
-		IReadOnlyList<IDirectory> Directories { get; }
+		IDirectoryCollection Directories { get; }
 		IResourceCollection Resources { get; }
 	}
 }
