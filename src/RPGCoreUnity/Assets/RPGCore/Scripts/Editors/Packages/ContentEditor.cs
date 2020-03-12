@@ -27,8 +27,10 @@ namespace RPGCore.Unity.Editors
 				titleContent = new GUIContent("Content", ContentEditorResources.Instance.LightThemeIcon);
 			}
 
-			Frame = new ContentEditorFrame();
-			Frame.Window = this;
+			Frame = new ContentEditorFrame
+			{
+				Window = this
+			};
 			Frame.OnEnable();
 		}
 

@@ -9,9 +9,13 @@ namespace RPGCore.Unity.Editors
 {
 	public class ContentEditorFrame : WindowFrame
 	{
-		private ProjectImport currentPackage;
-
 		[SerializeField] private TreeViewState resourceTreeViewState;
+		[SerializeField] private float treeViewWidth = 190;
+
+		private bool isDraggingTreeView;
+
+		private ProjectImport[] availableProjects;
+
 		private ResourceTreeView resourceTreeView;
 
 		private ProjectResource currentResource;
@@ -33,43 +37,88 @@ namespace RPGCore.Unity.Editors
 				resourceTreeView = new ResourceTreeView(resourceTreeViewState);
 			}
 
-			currentPackage = (ProjectImport)EditorGUILayout.ObjectField(currentPackage, typeof(ProjectImport), true,
-				GUILayout.Width(180));
-			if (currentPackage == null)
+			if (availableProjects == null)
 			{
-				return;
+				availableProjects = Resources.LoadAll<ProjectImport>("");
 			}
 
-			if (resourceTreeView != null)
+			var headerRect = new Rect(
+				0,
+				0,
+				Position.width,
+				EditorGUIUtility.singleLineHeight + 8);
+
+			var treeViewRect = new Rect(
+				0,
+				EditorGUIUtility.singleLineHeight + 3,
+				treeViewWidth,
+				Position.height - EditorGUIUtility.singleLineHeight - 3);
+
+			var treeViewDivierLineRect = new Rect(
+				treeViewRect.xMax,
+				treeViewRect.y,
+				1,
+				treeViewRect.height);
+
+			var treeViewDivierDragRect = new Rect(
+				treeViewRect.xMax - 1,
+				treeViewRect.y,
+				5,
+				treeViewRect.height);
+
+			var remainingRect = new Rect(
+				treeViewWidth + 4,
+				EditorGUIUtility.singleLineHeight + 3,
+				Position.width - treeViewWidth - 4,
+				Position.height - EditorGUIUtility.singleLineHeight);
+
+			EditorGUI.DrawRect(treeViewDivierLineRect, new Color(0.0f, 0.0f, 0.0f, 0.2f));
+
+			EditorGUIUtility.AddCursorRect(treeViewDivierDragRect, MouseCursor.ResizeHorizontal);
+			if (treeViewDivierDragRect.Contains(Event.current.mousePosition))
 			{
-				resourceTreeView.SetTarget(currentPackage.Explorer);
-
-				var treeViewRect = new Rect(
-					0,
-					EditorGUIUtility.singleLineHeight + 6,
-					180,
-					Position.height - EditorGUIUtility.singleLineHeight - 6);
-
-				var remainingRect = new Rect(
-					184,
-					0,
-					Position.width - 184,
-					Position.height);
-
-				resourceTreeView.OnGUI(treeViewRect);
-
-				GUILayout.BeginArea(remainingRect);
-
-				foreach (int selected in resourceTreeView.GetSelection())
+				if (Event.current.type == EventType.MouseDown)
 				{
-					if (resourceTreeView.resourceMapping.TryGetValue(selected, out var resource))
+					isDraggingTreeView = true;
+				}
+			}
+			if (Event.current.type == EventType.MouseUp)
+			{
+				isDraggingTreeView = false;
+			}
+
+			if (isDraggingTreeView)
+			{
+				treeViewWidth = Event.current.mousePosition.x;
+				Window.Repaint();
+			}
+
+
+			GUILayout.BeginArea(headerRect, EditorStyles.toolbar);
+			EditorGUILayout.BeginHorizontal();
+
+
+			EditorGUILayout.EndHorizontal();
+			GUILayout.EndArea();
+
+
+			resourceTreeView.SetTarget(availableProjects);
+			resourceTreeView.OnGUI(treeViewRect);
+
+			GUILayout.BeginArea(remainingRect);
+
+			foreach (int selected in resourceTreeView.GetSelection())
+			{
+				if (resourceTreeView.resourceMapping.TryGetValue(selected, out var resource))
+				{
+					if (currentResource != resource)
 					{
-						if (currentResource != resource)
+						currentResource = resource;
+
+						currentResourceTabs.Clear();
+
+						if (currentResource.Extension == ".json")
 						{
-							currentResource = resource;
-
-							currentResourceTabs.Clear();
-
 							try
 							{
 								currentResourceTabs.Add(new FrameTab()
@@ -82,15 +131,22 @@ namespace RPGCore.Unity.Editors
 							{
 								Debug.LogError(exception.ToString());
 							}
-
-							currentResourceTabs.Add(new FrameTab()
-							{
-								Title = new GUIContent("Information"),
-								Frame = new ResourceInformationFrame(currentResource)
-							});
 						}
-					}
 
+						currentResourceTabs.Add(new FrameTab()
+						{
+							Title = new GUIContent("Information"),
+							Frame = new ResourceInformationFrame(currentResource)
+						});
+					}
+				}
+				else
+				{
+					currentResource = null;
+				}
+
+				if (currentResource != null)
+				{
 					EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 					for (int i = 0; i < currentResourceTabs.Count; i++)
 					{
@@ -116,9 +172,9 @@ namespace RPGCore.Unity.Editors
 						currentTab.Frame.OnGUI();
 					}
 				}
-
-				GUILayout.EndArea();
 			}
+
+			GUILayout.EndArea();
 		}
 	}
 }

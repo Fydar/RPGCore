@@ -15,6 +15,8 @@ namespace RPGCore.Behaviour.Editor
 		public Texture2D WindowBackground;
 
 		[Header("Icons")]
+		public Texture2D ProjectIcon;
+		public Texture2D DependanciesIcon;
 		public Texture2D FolderIcon;
 		public Texture2D DocumentIcon;
 

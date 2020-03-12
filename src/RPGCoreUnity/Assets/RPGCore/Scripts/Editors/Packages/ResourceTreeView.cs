@@ -7,7 +7,7 @@ namespace RPGCore.Unity.Editors
 {
 	internal class ResourceTreeView : TreeView
 	{
-		private ProjectExplorer projectExplorer;
+		private ProjectImport[] projectImports;
 		public Dictionary<int, ProjectResource> resourceMapping;
 
 		public ResourceTreeView(TreeViewState treeViewState)
@@ -20,33 +20,60 @@ namespace RPGCore.Unity.Editors
 			return false;
 		}
 
-		public void SetTarget(ProjectExplorer projectExplorer)
+		public void SetTarget(ProjectImport[] projectImports)
 		{
-			if (this.projectExplorer == projectExplorer)
+			if (this.projectImports == projectImports)
 			{
 				return;
 			}
 
-			this.projectExplorer = projectExplorer;
+			this.projectImports = projectImports;
 			Reload();
 		}
 
 		protected override TreeViewItem BuildRoot()
 		{
 			resourceMapping = new Dictionary<int, ProjectResource>();
+
 			var root = new TreeViewItem { id = 0, depth = -1, displayName = "Root" };
+			var collection = new List<TreeViewItem>();
 
-			var allItems = new List<TreeViewItem>();
+			if (projectImports != null)
+			{
+				int id = 1;
+				foreach (var projectImport in projectImports)
+				{
+					BuildProject(collection, projectImport.Explorer, 0, ref id);
+				}
+			}
 
-			int ids = 1;
-			BuildRecursive(allItems, projectExplorer.RootDirectory, 0, ref ids);
-
-			SetupParentsAndChildrenFromDepths(root, allItems);
+			SetupParentsAndChildrenFromDepths(root, collection);
 
 			return root;
 		}
 
-		private void BuildRecursive(List<TreeViewItem> collection, IDirectory directory, int depth, ref int id)
+		private void BuildProject(List<TreeViewItem> collection, IExplorer explorer, int depth, ref int id)
+		{
+			collection.Add(new TreeViewItem
+			{
+				displayName = explorer.Name,
+				id = id++,
+				depth = depth,
+				icon = ContentEditorResources.Instance.ProjectIcon
+			});
+
+			collection.Add(new TreeViewItem
+			{
+				displayName = "Dependancies",
+				id = id++,
+				depth = depth + 1,
+				icon = ContentEditorResources.Instance.DependanciesIcon
+			});
+
+			BuildDirectory(collection, explorer.RootDirectory, depth + 1, ref id);
+		}
+
+		private void BuildDirectory(List<TreeViewItem> collection, IDirectory directory, int depth, ref int id)
 		{
 			foreach (var childDirectory in directory.Directories)
 			{
@@ -58,7 +85,7 @@ namespace RPGCore.Unity.Editors
 					icon = ContentEditorResources.Instance.FolderIcon
 				});
 
-				BuildRecursive(collection, childDirectory, depth + 1, ref id);
+				BuildDirectory(collection, childDirectory, depth + 1, ref id);
 			}
 
 			foreach (var resource in directory.Resources)

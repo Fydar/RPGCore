@@ -3,21 +3,18 @@ using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
-using RPGCore.Demo.BoardGame.Models;
-using RPGCore.Demo.Inventory.Nodes;
 using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
 	public class EditorSessionFrame : WindowFrame
 	{
-		public IResource Resource { get; private set;}
+		public IResource Resource { get; private set; }
 		public EditorSession EditorSession { get; private set; }
 
 		private readonly JsonSerializer Serializer = JsonSerializer.Create(new JsonSerializerSettings()

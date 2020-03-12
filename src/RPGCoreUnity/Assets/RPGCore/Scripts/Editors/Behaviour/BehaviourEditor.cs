@@ -22,8 +22,10 @@ namespace RPGCore.Unity.Editors
 
 			window.Show();
 
-			window.GraphFrame = new BehaviourGraphFrame();
-			window.GraphFrame.View = new BehaviourEditorView();
+			window.GraphFrame = new BehaviourGraphFrame
+			{
+				View = new BehaviourEditorView()
+			};
 			window.GraphFrame.View.BeginSession(session, graphField);
 
 			window.GraphFrame.Window = window;

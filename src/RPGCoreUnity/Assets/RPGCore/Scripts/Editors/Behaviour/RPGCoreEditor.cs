@@ -8,7 +8,7 @@ namespace RPGCore.Unity.Editors
 {
 	public static class RPGCoreEditor
 	{
-		const int FoldoutIndent = -10;
+		private const int FoldoutIndent = -10;
 
 		public static void DrawEditor(EditorSession editor)
 		{
@@ -78,7 +78,7 @@ namespace RPGCore.Unity.Editors
 						field.ApplyModifiedProperties();
 					}
 				}
-				else if(field.Field.Type == "Double")
+				else if (field.Field.Type == "Double")
 				{
 					EditorGUI.BeginChangeCheck();
 					double newValue = EditorGUILayout.DoubleField(field.Name, field.GetValue<double>());
