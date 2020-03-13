@@ -7,6 +7,6 @@
 		public Integer2 BuildingPosition { get; set; }
 		public BuildingOrientation Orientation { get; set; }
 
-		
+
 	}
 }

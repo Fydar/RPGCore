@@ -8,7 +8,7 @@ namespace RPGCore.Behaviour.Manifest
 {
 	public sealed class BehaviourManifest
 	{
-		static readonly Type[] frameworkTypes = new[]
+		private static readonly Type[] frameworkTypes = new[]
 		{
 			typeof(bool),
 			typeof(string),
@@ -89,7 +89,7 @@ namespace RPGCore.Behaviour.Manifest
 			return manifest;
 		}
 
-		static void ConstructType(Type type, Dictionary<string, TypeInformation> objectTypes)
+		private static void ConstructType(Type type, Dictionary<string, TypeInformation> objectTypes)
 		{
 			if (!type.IsAbstract)
 			{

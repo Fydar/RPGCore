@@ -2,7 +2,7 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class BuildBuildingProcedure : GameViewProcedure 
+	public class BuildBuildingProcedure : GameViewProcedure
 	{
 		public string BuildingIdentifier { get; set; }
 		public Integer2 Offset { get; set; }

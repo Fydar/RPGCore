@@ -3,6 +3,6 @@
 	public class DeclareResourceCommand : GameCommand
 	{
 		public string ResourceIdentifier { get; set; }
-		
+
 	}
 }

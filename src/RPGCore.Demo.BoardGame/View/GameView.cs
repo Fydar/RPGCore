@@ -65,13 +65,15 @@ namespace RPGCore.Demo.BoardGame
 			Buildings = fullBuildingPacks.Select(pack =>
 			{
 				if (pack == null || pack.Length == 0)
+				{
 					return null;
+				}
 
 				return pack[rand.Next(0, pack.Length)].Key;
 			}).ToArray();
 		}
 
-		static T[] LoadAll<T>(IResourceCollection resources)
+		private static T[] LoadAll<T>(IResourceCollection resources)
 		{
 			var deserializedResources = new T[resources.Count];
 
@@ -90,7 +92,7 @@ namespace RPGCore.Demo.BoardGame
 			return deserializedResources;
 		}
 
-		public void Apply(GameViewProcedure  action)
+		public void Apply(GameViewProcedure action)
 		{
 			action.Apply(this);
 		}

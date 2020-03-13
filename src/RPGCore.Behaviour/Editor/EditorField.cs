@@ -230,7 +230,7 @@ namespace RPGCore.Behaviour.Editor
 			AddInternal(key, duplicate);
 		}
 
-		void AddInternal(string key, JToken value)
+		private void AddInternal(string key, JToken value)
 		{
 			if (Field.Format != FieldFormat.Dictionary)
 			{

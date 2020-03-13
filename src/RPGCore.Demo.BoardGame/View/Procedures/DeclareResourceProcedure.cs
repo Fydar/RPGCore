@@ -2,7 +2,7 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class DeclareResourceProcedure : GameViewProcedure 
+	public class DeclareResourceProcedure : GameViewProcedure
 	{
 		public string ResourceIdentifier { get; set; }
 

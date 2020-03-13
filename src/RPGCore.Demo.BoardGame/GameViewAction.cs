@@ -2,7 +2,7 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public abstract class GameViewProcedure 
+	public abstract class GameViewProcedure
 	{
 		public LocalId Client { get; set; }
 

@@ -61,7 +61,7 @@ namespace RPGCore.Packages
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageResourceCollection resources;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageDirectory rootDirectory;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly PackageDirectory rootDirectory;
 
 		private PackageExplorer()
 		{
