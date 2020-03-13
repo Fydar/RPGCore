@@ -18,7 +18,7 @@ namespace RPGCore.Unity.Editors
 
 		private ResourceTreeView resourceTreeView;
 
-		private ProjectResource currentResource;
+		private IResource currentResource;
 		private readonly List<FrameTab> currentResourceTabs = new List<FrameTab>();
 		private int currentResourceTabIndex;
 
@@ -89,7 +89,7 @@ namespace RPGCore.Unity.Editors
 
 			if (isDraggingTreeView)
 			{
-				treeViewWidth = Event.current.mousePosition.x;
+				treeViewWidth = Mathf.Clamp(Event.current.mousePosition.x, 120, 360);
 				Window.Repaint();
 			}
 
@@ -109,35 +109,38 @@ namespace RPGCore.Unity.Editors
 
 			foreach (int selected in resourceTreeView.GetSelection())
 			{
-				if (resourceTreeView.resourceMapping.TryGetValue(selected, out var resource))
+				if (resourceTreeView.itemMappings.TryGetValue(selected, out object item))
 				{
-					if (currentResource != resource)
+					if (item is IResource resource)
 					{
-						currentResource = resource;
-
-						currentResourceTabs.Clear();
-
-						if (currentResource.Extension == ".json")
+						if (currentResource != resource)
 						{
-							try
+							currentResource = resource;
+
+							currentResourceTabs.Clear();
+
+							if (currentResource.Extension == ".json")
 							{
-								currentResourceTabs.Add(new FrameTab()
+								try
 								{
-									Title = new GUIContent("Editor"),
-									Frame = new EditorSessionFrame(currentResource)
-								});
+									currentResourceTabs.Add(new FrameTab()
+									{
+										Title = new GUIContent("Editor"),
+										Frame = new EditorSessionFrame(currentResource)
+									});
+								}
+								catch (Exception exception)
+								{
+									Debug.LogError(exception.ToString());
+								}
 							}
-							catch (Exception exception)
-							{
-								Debug.LogError(exception.ToString());
-							}
-						}
 
-						currentResourceTabs.Add(new FrameTab()
-						{
-							Title = new GUIContent("Information"),
-							Frame = new ResourceInformationFrame(currentResource)
-						});
+							currentResourceTabs.Add(new FrameTab()
+							{
+								Title = new GUIContent("Information"),
+								Frame = new ResourceInformationFrame(currentResource)
+							});
+						}
 					}
 				}
 				else
