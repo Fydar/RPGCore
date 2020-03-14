@@ -1,4 +1,5 @@
-﻿using RPGCore.Packages;
+﻿using RPGCore.Behaviour.Manifest;
+using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -18,9 +19,9 @@ namespace RPGCore.Unity.Editors
 
 		private ResourceTreeView resourceTreeView;
 
-		private IResource currentResource;
-		private readonly List<FrameTab> currentResourceTabs = new List<FrameTab>();
-		private int currentResourceTabIndex;
+		private object currentItem;
+		private readonly List<FrameTab> currentItemTabs = new List<FrameTab>();
+		private int currentItemTabIndex;
 
 		public override void OnEnable()
 		{
@@ -111,22 +112,21 @@ namespace RPGCore.Unity.Editors
 			{
 				if (resourceTreeView.itemMappings.TryGetValue(selected, out object item))
 				{
-					if (item is IResource resource)
+					if (item != currentItem)
 					{
-						if (currentResource != resource)
+						currentItem = item;
+						if (item is IResource resource)
 						{
-							currentResource = resource;
+							currentItemTabs.Clear();
 
-							currentResourceTabs.Clear();
-
-							if (currentResource.Extension == ".json")
+							if (resource.Extension == ".json")
 							{
 								try
 								{
-									currentResourceTabs.Add(new FrameTab()
+									currentItemTabs.Add(new FrameTab()
 									{
 										Title = new GUIContent("Editor"),
-										Frame = new EditorSessionFrame(currentResource)
+										Frame = new EditorSessionFrame(resource)
 									});
 								}
 								catch (Exception exception)
@@ -135,43 +135,59 @@ namespace RPGCore.Unity.Editors
 								}
 							}
 
-							currentResourceTabs.Add(new FrameTab()
+							currentItemTabs.Add(new FrameTab()
 							{
 								Title = new GUIContent("Information"),
-								Frame = new ResourceInformationFrame(currentResource)
+								Frame = new ResourceInformationFrame(resource)
 							});
+						}
+						else if (item is BehaviourManifest manifest)
+						{
+							currentItemTabs.Clear();
+
+							currentItemTabs.Add(new FrameTab()
+							{
+								Title = new GUIContent("Manifest"),
+								Frame = new ManifestInspectFrame(manifest)
+							});
+							currentItemTabIndex = 0;
+						}
+						else
+						{
+							currentItemTabs.Clear();
 						}
 					}
 				}
 				else
 				{
-					currentResource = null;
+					currentItem = null;
+					currentItemTabs.Clear();
 				}
 
-				if (currentResource != null)
+				if (currentItemTabs != null && currentItemTabs.Count != 0)
 				{
 					EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
-					for (int i = 0; i < currentResourceTabs.Count; i++)
+					for (int i = 0; i < currentItemTabs.Count; i++)
 					{
-						var tab = currentResourceTabs[i];
+						var tab = currentItemTabs[i];
 
 						var originalColor = GUI.color;
-						GUI.color = i == currentResourceTabIndex
+						GUI.color = i == currentItemTabIndex
 							? GUI.color
 							: GUI.color * 0.725f;
 
 						if (GUILayout.Button(tab.Title, EditorStyles.toolbarButton))
 						{
-							currentResourceTabIndex = i;
+							currentItemTabIndex = i;
 						}
 
 						GUI.color = originalColor;
 					}
 					EditorGUILayout.EndHorizontal();
 
-					if (currentResourceTabIndex >= 0 && currentResourceTabIndex < currentResourceTabs.Count)
+					if (currentItemTabIndex >= 0 && currentItemTabIndex < currentItemTabs.Count)
 					{
-						var currentTab = currentResourceTabs[currentResourceTabIndex];
+						var currentTab = currentItemTabs[currentItemTabIndex];
 						currentTab.Frame.OnGUI();
 					}
 				}

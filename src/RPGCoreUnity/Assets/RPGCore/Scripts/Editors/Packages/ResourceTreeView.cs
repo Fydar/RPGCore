@@ -1,5 +1,7 @@
 ﻿using RPGCore.Behaviour.Editor;
+using RPGCore.Behaviour.Manifest;
 using RPGCore.Packages;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -39,7 +41,7 @@ namespace RPGCore.Unity.Editors
 		{
 			DragAndDrop.PrepareStartDrag();
 			DragAndDrop.paths = null;
-			DragAndDrop.objectReferences = new Object[] { };
+			DragAndDrop.objectReferences = new UnityEngine.Object[] { };
 			DragAndDrop.SetGenericData("ResourceTreeViewDraggedIds", new List<int>(args.draggedItemIDs));
 			DragAndDrop.visualMode = DragAndDropVisualMode.Move;
 			DragAndDrop.StartDrag("ResourceTreeViewDraggedIds");
@@ -192,6 +194,8 @@ namespace RPGCore.Unity.Editors
 				depth = depth + 2,
 				icon = ContentEditorResources.Instance.ManifestDependancyIcon
 			});
+
+			itemMappings[id] = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
 
 			collection.Add(new TreeViewItem
 			{

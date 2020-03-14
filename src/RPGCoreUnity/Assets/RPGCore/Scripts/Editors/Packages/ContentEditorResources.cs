@@ -21,8 +21,13 @@ namespace RPGCore.Behaviour.Editor
 		public Texture2D ProjectDependancyIcon;
 		public Texture2D ManifestDependancyIcon;
 
+		[Space]
 		public Texture2D FolderIcon;
 		public Texture2D DocumentIcon;
+
+		[Space]
+		public Texture2D InputIcon;
+		public Texture2D OutputIcon;
 
 		public static ContentEditorResources Instance
 		{

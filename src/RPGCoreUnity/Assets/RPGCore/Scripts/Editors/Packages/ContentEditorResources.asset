@@ -24,3 +24,5 @@ MonoBehaviour:
     type: 3}
   FolderIcon: {fileID: 2800000, guid: a9f860f18f0c1f443a7998b4e9a3e841, type: 3}
   DocumentIcon: {fileID: 2800000, guid: 78ad3e57c22072840ab762eee58fd091, type: 3}
+  InputIcon: {fileID: 2800000, guid: 0b83b237ec5a97c4c9c9feead15ea28f, type: 3}
+  OutputIcon: {fileID: 2800000, guid: cb6ca09d1a6a4124999b173cff20b974, type: 3}
