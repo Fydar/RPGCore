@@ -1,14 +1,31 @@
 ﻿using RPGCore.Behaviour;
+using RPGCore.Demo.BoardGame.Models;
+using RPGCore.Packages;
+using RPGCore.Traits;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace RPGCore.Demo.BoardGame
 {
 	public class GameServer
 	{
 		public GameView ServerView;
-		public int ServerViewVersion;
 
 		public event Action<GameViewProcedure> OnRemoteCall;
+
+		public GameServer()
+		{
+
+		}
+
+		public void StartHosting(IExplorer explorer)
+		{
+			ServerView = new GameView();
+
+			ServerView.StartGame(explorer);
+		}
 
 		public void OnClientConnected(LocalId localId, string displayName)
 		{
@@ -33,7 +50,70 @@ namespace RPGCore.Demo.BoardGame
 
 		public void AcceptInput(LocalId localId, GameCommand command)
 		{
-			if (command is DeclareResourceCommand declareResourceCommand)
+			if (command is StartGameCommand startGameCommand)
+			{
+				var gameRules = GameView.Load<GameRulesTemplate>(ServerView.GameData.Resources["gamerules/default-rules.json"]);
+
+				var packTemplates = GameView.LoadAll<BuildingPackTemplate>(ServerView.GameData.Tags["type-buildingpack"])
+					.ToDictionary(template => template.Identifier);
+
+				var resourceTemplates = GameView.LoadAll<ResourceTemplate>(ServerView.GameData.Tags["type-resource"]);
+
+				var buildingTemplates = GameView.LoadAll<BuildingTemplate>(ServerView.GameData.Tags["type-building"])
+					.ToDictionary(template => template.Identifier);
+
+				var rand = new Random();
+
+				var sharedBuildings = gameRules.SharedCards
+					.Select(card => packTemplates[card])
+					.Select(pack => buildingTemplates.Where(building => building.Value.PackIdentifier == pack.Identifier).ToArray())
+					.ToArray();
+
+				var playerBuildings = gameRules.PlayerCards
+					.Select(card => packTemplates[card])
+					.Select(pack => buildingTemplates.Where(building => building.Value.PackIdentifier == pack.Identifier).ToArray())
+					.ToArray();
+
+				string[] buildings = sharedBuildings.Select(pack =>
+				{
+					if (pack == null || pack.Length == 0)
+					{
+						return null;
+					}
+
+					return pack[rand.Next(0, pack.Length)].Key;
+				}).ToArray();
+
+				foreach (var player in ServerView.Players)
+				{
+					var thisPlayerBuildings = playerBuildings
+						.Select(pack =>
+						{
+							if (pack == null || pack.Length == 0)
+							{
+								return null;
+							}
+
+							return pack[rand.Next(0, pack.Length)].Key;
+						})
+						.Select(cardId => new SpecialCardSlot() { BuildingIdentifier = cardId })
+						.ToList();
+
+					player.Board = new GameBoard();
+					player.CurrentScore = new StatInstance();
+					player.ResourceHand = new List<string>();
+					player.SpecialCards = thisPlayerBuildings;
+				}
+
+				var procedure = new StartGameProcedure()
+				{
+					Buildings = buildings,
+					Players = ServerView.Players
+				};
+
+				RemoteCall(procedure);
+			}
+			else if (command is DeclareResourceCommand declareResourceCommand)
 			{
 				var procedure = new DeclareResourceProcedure()
 				{

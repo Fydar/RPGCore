@@ -18,7 +18,7 @@ namespace RPGCore.Demo.BoardGame
 				Board = new GameBoard(),
 				CurrentScore = new StatInstance(),
 				ResourceHand = new List<string>(),
-				SpecialCard = null
+				SpecialCards = null
 			});
 
 			return ProcedureResult.Success;

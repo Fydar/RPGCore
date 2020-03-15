@@ -19,7 +19,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 			PackageExplorer explorer = null;
 			var gameView = new GameView();
-			gameView.Create(explorer);
+			gameView.StartGame(explorer);
 			gameView.Players = new List<GamePlayer>
 			{
 				new GamePlayer()

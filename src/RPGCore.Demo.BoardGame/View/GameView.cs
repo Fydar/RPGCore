@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
 using RPGCore.Packages;
-using RPGCore.Traits;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,34 +13,37 @@ namespace RPGCore.Demo.BoardGame
 		public bool DeclaredResource;
 
 		public string[] Buildings;
-		public List<GamePlayer> Players;
+		public List<GamePlayer> Players = new List<GamePlayer>();
 
 		public IExplorer GameData { get; private set; }
 
-		public void Create(IExplorer gameData)
+		public void StartGame(IExplorer gameData)
 		{
 			GameData = gameData;
-
-			Players = new List<GamePlayer>();
 		}
 
 		public static T[] LoadAll<T>(IResourceCollection resources)
 		{
 			var deserializedResources = new T[resources.Count];
 
-			var serializer = new JsonSerializer();
 			int index = 0;
-			foreach (var buildingPackResource in resources)
+			foreach (var resource in resources)
 			{
-				using (var data = buildingPackResource.LoadStream())
-				using (var sr = new StreamReader(data))
-				using (var reader = new JsonTextReader(sr))
-				{
-					deserializedResources[index] = serializer.Deserialize<T>(reader);
-				}
+				deserializedResources[index] = Load<T>(resource);
 				index++;
 			}
 			return deserializedResources;
+		}
+		
+		public static T Load<T>(IResource resource)
+		{
+			var serializer = new JsonSerializer();
+
+			using var data = resource.LoadStream();
+			using var sr = new StreamReader(data);
+			using var reader = new JsonTextReader(sr);
+
+			return serializer.Deserialize<T>(reader);
 		}
 
 		public void Apply(GameViewProcedure action)

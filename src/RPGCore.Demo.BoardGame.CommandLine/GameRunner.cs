@@ -37,24 +37,18 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 			};
 			consoleRenderer.DrawProgressBar(32);
 			projectExplorer.Export(buildPipeline, "BoardGame/Temp");
-
 			Console.WriteLine("Exported package...");
 
-			var gameView = new GameView();
-			gameView.Create(projectExplorer);
+			var gameServer = new GameServer();
+			gameServer.StartHosting(projectExplorer);
 
-			gameView.Apply(new PlayerJoinedProcedure()
-			{
-				DisplayName = "Player 1",
-				OwnerId = LocalId.NewShortId()
-			});
-			gameView.Apply(new PlayerJoinedProcedure()
-			{
-				DisplayName = "Player 1",
-				OwnerId = LocalId.NewShortId()
-			});
+			var playerA = LocalId.NewShortId();
+			var playerB = LocalId.NewShortId();
 
-			gameView.Apply(new StartGameProcedure() { });
+			gameServer.OnClientConnected(playerA, "Player A");
+			gameServer.OnClientConnected(playerB, "Player B");
+
+			gameServer.AcceptInput(playerA, new StartGameCommand() { });
 		}
 
 		public void Update()

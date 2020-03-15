@@ -1,0 +1,15 @@
+{
+  "PlayerCards": [
+    "monumentspack"
+  ],
+  "SharedCards": [
+    "cottagepack",
+    "agriculturepack",
+    "farmlandpack",
+    "communitypack",
+    "hospitalitypack",
+    "worshippack",
+    "industrialpack"
+  ],
+  "ResourceTurnCarryover": 0
+}

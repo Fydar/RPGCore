@@ -104,7 +104,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 			{
 				CurrentPlayersTurn = 0,
 				DeclaredResource = false,
-				Players = new GamePlayer[]
+				Players = new List<GamePlayer>
 				{
 					new GamePlayer()
 					{
@@ -122,9 +122,9 @@ namespace RPGCoreUnity.Demo.BoardGame
 
 		private void Start()
 		{
-			Boards = new GameBoardRenderer[Game.Players.Length];
+			Boards = new GameBoardRenderer[Game.Players.Count];
 
-			for (int i = 0; i < Game.Players.Length; i++)
+			for (int i = 0; i < Game.Players.Count; i++)
 			{
 				var player = Game.Players[i];
 				var playerHolder = new GameObject(player.OwnerId.ToString());
@@ -175,68 +175,68 @@ namespace RPGCoreUnity.Demo.BoardGame
 			{
 				new DeclareResourceProcedure()
 				{
-					Client = Player1,
+					Player = Player1,
 					ResourceIdentifier = "x"
 				},
 				new PlaceResourceProcedure()
 				{
-					Client = Player1,
+					Player = Player1,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(1, 1)
 				},
 				new PlaceResourceProcedure()
 				{
-					Client = Player2,
+					Player = Player2,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(3, 3)
 				},
 				new EndTurnProcedure()
 				{
-					Client = Player1
+					Player = Player1
 				},
 
 				new DeclareResourceProcedure()
 				{
-					Client = Player2,
+					Player = Player2,
 					ResourceIdentifier = "x"
 				},
 				new PlaceResourceProcedure()
 				{
-					Client = Player1,
+					Player = Player1,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(0, 1)
 				},
 				new PlaceResourceProcedure()
 				{
-					Client = Player2,
+					Player = Player2,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(2, 3)
 				},
 				new EndTurnProcedure()
 				{
-					Client = Player2
+					Player = Player2
 				},
 
 				new DeclareResourceProcedure()
 				{
-					Client = Player1,
+					Player = Player1,
 					ResourceIdentifier = "x"
 				},
 				new PlaceResourceProcedure()
 				{
-					Client = Player1,
+					Player = Player1,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(1, 2)
 				},
 				new PlaceResourceProcedure()
 				{
-					Client = Player2,
+					Player = Player2,
 					ResourceIdentifier = "x",
 					ResourcePosition = new Integer2(2, 2)
 				},
 				new BuildBuildingProcedure()
 				{
-					Client = Player1,
+					Player = Player1,
 					BuildingIdentifier = "building",
 					BuildingPosition = new Integer2(3, 3),
 					Offset = new Integer2(2, 1),
@@ -244,7 +244,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 				},
 				new EndTurnProcedure()
 				{
-					Client = Player1
+					Player = Player1
 				}
 			};
 
@@ -257,7 +257,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 					yield return null;
 				}
 
-				Debug.Log($"<b>{action.Client}</b>: Running action {action.GetType().Name}\n");
+				Debug.Log($"Running action {action.GetType().Name}\n");
 
 				Game.Apply(action);
 

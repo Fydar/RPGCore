@@ -23,6 +23,10 @@ namespace RPGCore.Demo.BoardGame
 			{
 				projectResource.Tags.Add("type-buildingpack");
 			}
+			else if (projectResource.FileInfo.FullName.Contains("gamerules"))
+			{
+				projectResource.Tags.Add("gamerules");
+			}
 		}
 	}
 }

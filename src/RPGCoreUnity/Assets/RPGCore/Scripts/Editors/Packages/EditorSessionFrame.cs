@@ -52,6 +52,10 @@ namespace RPGCore.Unity.Editors
 			{
 				typeName = "BuildingPackTemplate";
 			}
+			else if (Resource.Tags.Contains("gamerules"))
+			{
+				typeName = "GameRulesTemplate";
+			}
 			else
 			{
 				typeName = "ProceduralItemTemplate";

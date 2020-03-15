@@ -12,6 +12,7 @@ namespace RPGCore.Behaviour
 	[DebuggerDisplay("{ToString(),nq}")]
 	public readonly struct LocalId : IEquatable<LocalId>
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static readonly Random random = new Random();
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]

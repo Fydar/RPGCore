@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace RPGCore.Behaviour.Manifest
@@ -141,6 +142,21 @@ namespace RPGCore.Behaviour.Manifest
 				else if (member.ValueType.IsArray)
 				{
 					var elementType = member.ValueType.GetElementType();
+
+					fieldInformation.Format = FieldFormat.List;
+					fieldInformation.Type = elementType.Name;
+
+					fieldInformation.ValueFormat = new FieldInformation()
+					{
+						Type = elementType.Name,
+						Format = FieldFormat.Object
+					};
+				}
+				else if (member.ValueType.IsGenericType
+					&& !member.ValueType.IsGenericTypeDefinition
+					&& member.ValueType.GetGenericTypeDefinition() == typeof(List<>))
+				{
+					var elementType = member.ValueType.GenericTypeArguments[0];
 
 					fieldInformation.Format = FieldFormat.List;
 					fieldInformation.Type = elementType.Name;
