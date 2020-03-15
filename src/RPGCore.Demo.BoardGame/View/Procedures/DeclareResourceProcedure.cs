@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using RPGCore.Behaviour;
+using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame
 {
 	public class DeclareResourceProcedure : GameViewProcedure
 	{
+		public LocalId Player { get; set; }
 		public string ResourceIdentifier { get; set; }
 
 		public override ProcedureResult Apply(GameView view)

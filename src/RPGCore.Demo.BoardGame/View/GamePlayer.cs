@@ -6,11 +6,12 @@ namespace RPGCore.Demo.BoardGame
 {
 	public class GamePlayer
 	{
-		public LocalId OwnerId;
-		public StatInstance CurrentScore;
-		public SpecialCardSlot SpecialCard;
-		public GameBoard Board;
+		public string DisplayName { get; set; }
+		public LocalId OwnerId { get; set; }
+		public StatInstance CurrentScore { get; set; }
+		public SpecialCardSlot SpecialCard { get; set; }
+		public GameBoard Board { get; set; }
 
-		public List<string> ResourceHand;
+		public List<string> ResourceHand { get; set; }
 	}
 }

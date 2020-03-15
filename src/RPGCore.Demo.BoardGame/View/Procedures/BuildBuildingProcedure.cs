@@ -1,9 +1,11 @@
-﻿using RPGCore.Demo.BoardGame.Models;
+﻿using RPGCore.Behaviour;
+using RPGCore.Demo.BoardGame.Models;
 
 namespace RPGCore.Demo.BoardGame
 {
 	public class BuildBuildingProcedure : GameViewProcedure
 	{
+		public LocalId Player { get; set; }
 		public string BuildingIdentifier { get; set; }
 		public Integer2 Offset { get; set; }
 		public Integer2 BuildingPosition { get; set; }
@@ -22,7 +24,7 @@ namespace RPGCore.Demo.BoardGame
 
 			var rotatedBuilding = new RotatedBuilding(buildingTemplate, Orientation);
 
-			var ownerPlayer = view.GetPlayerForOwner(Client);
+			var ownerPlayer = view.GetPlayerForOwner(Player);
 
 			for (int x = 0; x < rotatedBuilding.Width; x++)
 			{

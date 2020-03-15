@@ -16,7 +16,7 @@ MonoBehaviour:
   DarkThemeIcon: {fileID: 2800000, guid: fe8490e00015d8f44b50f6791b7f7245, type: 3}
   WindowBackground: {fileID: 2800000, guid: 78f5abfde6bee994c8fc82003a687069, type: 3}
   ProjectIcon: {fileID: 2800000, guid: 44b29ae61551cb24c836e5a8cfe583bb, type: 3}
-  PackageIcon: {fileID: 0}
+  PackageIcon: {fileID: 2800000, guid: 44b29ae61551cb24c836e5a8cfe583bb, type: 3}
   DependanciesIcon: {fileID: 2800000, guid: f6710039ae972c84f82371b43603a351, type: 3}
   ProjectDependancyIcon: {fileID: 2800000, guid: 44b29ae61551cb24c836e5a8cfe583bb,
     type: 3}

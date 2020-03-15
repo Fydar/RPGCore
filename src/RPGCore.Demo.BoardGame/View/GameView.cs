@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
-using RPGCore.Demo.BoardGame.Models;
 using RPGCore.Packages;
 using RPGCore.Traits;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +14,7 @@ namespace RPGCore.Demo.BoardGame
 		public bool DeclaredResource;
 
 		public string[] Buildings;
-		public GamePlayer[] Players;
+		public List<GamePlayer> Players;
 
 		public IExplorer GameData { get; private set; }
 
@@ -24,56 +22,10 @@ namespace RPGCore.Demo.BoardGame
 		{
 			GameData = gameData;
 
-			Players = new GamePlayer[]
-			{
-				new GamePlayer()
-				{
-					CurrentScore = new StatInstance(),
-					SpecialCard = new SpecialCardSlot(),
-					Board = new GameBoard(4, 4),
-					ResourceHand = new List<string>()
-				},
-				new GamePlayer()
-				{
-					CurrentScore = new StatInstance(),
-					SpecialCard = new SpecialCardSlot(),
-					Board = new GameBoard(4, 4),
-					ResourceHand = new List<string>()
-				}
-			};
-
-			StartGame();
+			Players = new List<GamePlayer>();
 		}
 
-		private void StartGame()
-		{
-			var packTemplates = LoadAll<BuildingPackTemplate>(GameData.Tags["type-buildingpack"])
-				.ToDictionary(template => template.Identifier);
-
-			var resourceTemplates = LoadAll<ResourceTemplate>(GameData.Tags["type-resource"]);
-
-			var buildingTemplates = LoadAll<BuildingTemplate>(GameData.Tags["type-building"])
-				.ToDictionary(template => template.Identifier);
-
-
-			var fullBuildingPacks = packTemplates
-				.Select(pack => buildingTemplates
-					.Where(building => building.Value.PackIdentifier == pack.Value.Identifier).ToArray()).ToArray();
-
-			var rand = new Random();
-
-			Buildings = fullBuildingPacks.Select(pack =>
-			{
-				if (pack == null || pack.Length == 0)
-				{
-					return null;
-				}
-
-				return pack[rand.Next(0, pack.Length)].Key;
-			}).ToArray();
-		}
-
-		private static T[] LoadAll<T>(IResourceCollection resources)
+		public static T[] LoadAll<T>(IResourceCollection resources)
 		{
 			var deserializedResources = new T[resources.Count];
 

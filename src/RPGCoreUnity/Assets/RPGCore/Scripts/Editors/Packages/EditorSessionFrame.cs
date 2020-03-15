@@ -17,7 +17,7 @@ namespace RPGCore.Unity.Editors
 		public IResource Resource { get; private set; }
 		public EditorSession EditorSession { get; private set; }
 
-		private readonly JsonSerializer Serializer = JsonSerializer.Create(new JsonSerializerSettings()
+		private readonly JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
 		{
 			Converters = new List<JsonConverter>()
 			{
@@ -57,7 +57,7 @@ namespace RPGCore.Unity.Editors
 				typeName = "ProceduralItemTemplate";
 			}
 
-			EditorSession = new EditorSession(manifest, editorTarget, typeName, Serializer);
+			EditorSession = new EditorSession(manifest, editorTarget, typeName, serializer);
 		}
 
 		public override void OnEnable()
@@ -73,7 +73,7 @@ namespace RPGCore.Unity.Editors
 				{
 					using (var file = projectResource.WriteStream())
 					{
-						Serializer.Serialize(
+						serializer.Serialize(
 							new JsonTextWriter(file)
 							{
 								Formatting = Formatting.Indented

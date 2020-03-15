@@ -1,4 +1,5 @@
-﻿using RPGCore.Packages;
+﻿using RPGCore.Behaviour;
+using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
 
@@ -41,6 +42,19 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 
 			var gameView = new GameView();
 			gameView.Create(projectExplorer);
+
+			gameView.Apply(new PlayerJoinedProcedure()
+			{
+				DisplayName = "Player 1",
+				OwnerId = LocalId.NewShortId()
+			});
+			gameView.Apply(new PlayerJoinedProcedure()
+			{
+				DisplayName = "Player 1",
+				OwnerId = LocalId.NewShortId()
+			});
+
+			gameView.Apply(new StartGameProcedure() { });
 		}
 
 		public void Update()

@@ -2,6 +2,7 @@ using NUnit.Framework;
 using RPGCore.Behaviour;
 using RPGCore.Packages;
 using System;
+using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame.UnitTests
 {
@@ -19,7 +20,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			PackageExplorer explorer = null;
 			var gameView = new GameView();
 			gameView.Create(explorer);
-			gameView.Players = new GamePlayer[]
+			gameView.Players = new List<GamePlayer>
 			{
 				new GamePlayer()
 				{
@@ -35,62 +36,62 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 			gameView.Apply(new DeclareResourceProcedure()
 			{
-				Client = player1,
+				Player = player1,
 				ResourceIdentifier = "1"
 			});
 			gameView.Apply(new PlaceResourceProcedure()
 			{
-				Client = player1,
+				Player = player1,
 				ResourceIdentifier = "1",
 				ResourcePosition = new Integer2(1, 1)
 			});
 			gameView.Apply(new PlaceResourceProcedure()
 			{
-				Client = player2,
+				Player = player2,
 				ResourceIdentifier = "1",
 				ResourcePosition = new Integer2(3, 3)
 			});
 			gameView.Apply(new EndTurnProcedure()
 			{
-				Client = player1
+				Player = player1
 			});
 
 			gameView.Apply(new DeclareResourceProcedure()
 			{
-				Client = player2,
+				Player = player2,
 				ResourceIdentifier = "2"
 			});
 			gameView.Apply(new PlaceResourceProcedure()
 			{
-				Client = player1,
+				Player = player1,
 				ResourceIdentifier = "2",
 				ResourcePosition = new Integer2(2, 1)
 			});
 			gameView.Apply(new PlaceResourceProcedure()
 			{
-				Client = player2,
+				Player = player2,
 				ResourceIdentifier = "2",
 				ResourcePosition = new Integer2(2, 1)
 			});
 			gameView.Apply(new EndTurnProcedure()
 			{
-				Client = player2
+				Player = player2
 			});
 
 			gameView.Apply(new DeclareResourceProcedure()
 			{
-				Client = player1,
+				Player = player1,
 				ResourceIdentifier = "3"
 			});
 			gameView.Apply(new PlaceResourceProcedure()
 			{
-				Client = player1,
+				Player = player1,
 				ResourceIdentifier = "3",
 				ResourcePosition = new Integer2(1, 2)
 			});
 			gameView.Apply(new PlaceResourceProcedure()
 			{
-				Client = player2,
+				Player = player2,
 				ResourceIdentifier = "3",
 				ResourcePosition = new Integer2(1, 2)
 			});
@@ -99,7 +100,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 			gameView.Apply(new BuildBuildingProcedure()
 			{
-				Client = player1,
+				Player = player1,
 				BuildingIdentifier = "building",
 				BuildingPosition = new Integer2(2, 2),
 				Offset = new Integer2(1, 1),
@@ -107,7 +108,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			});
 			gameView.Apply(new EndTurnProcedure()
 			{
-				Client = player1
+				Player = player1
 			});
 
 			DrawGameState(gameView);
@@ -115,7 +116,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 		private void DrawGameState(GameView game)
 		{
-			for (int i = 0; i < game.Players.Length; i++)
+			for (int i = 0; i < game.Players.Count; i++)
 			{
 				var player = game.Players[i];
 				Console.WriteLine($"Player {player.OwnerId}");
