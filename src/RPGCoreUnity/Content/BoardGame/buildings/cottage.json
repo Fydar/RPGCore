@@ -1,5 +1,59 @@
 {
   "DisplayName": "Cottage",
   "Identifier": "cottage",
-  "PackIdentifier": "cottagepack"
+  "PackIdentifier": "cottagepack",
+  "BodyText": null,
+  "Recipe": null,
+  "LocalEffectGraph": {
+    "Nodes": {
+      "0x677839f0aeda242f": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0xa89946a43bf7cc0d.Output",
+          "ValueB": "0x5fba4abb63830943.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 298,
+            "y": 39
+          }
+        }
+      },
+      "0x5fba4abb63830943": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": -4,
+            "y": 112
+          }
+        }
+      },
+      "0xa89946a43bf7cc0d": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      }
+    },
+    "SubGraphs": null
+  },
+  "BoardEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  },
+  "GlobalEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  }
 }

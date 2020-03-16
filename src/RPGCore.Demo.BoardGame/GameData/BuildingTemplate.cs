@@ -15,8 +15,9 @@ namespace RPGCore.Demo.BoardGame.Models
 
 		public string[,] Recipe { get; set; }
 
-		public SerializedGraph GlobalEffectGraph { get; set; }
 		public SerializedGraph LocalEffectGraph { get; set; }
+		public SerializedGraph BoardEffectGraph { get; set; }
+		public SerializedGraph GlobalEffectGraph { get; set; }
 
 		[JsonIgnore]
 		public int Width => Recipe?.GetLength(0) ?? 0;
