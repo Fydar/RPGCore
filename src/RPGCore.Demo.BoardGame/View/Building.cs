@@ -1,23 +1,22 @@
-﻿using RPGCore.Demo.BoardGame.Models;
-using RPGCore.Traits;
+﻿using RPGCore.Traits;
 
 namespace RPGCore.Demo.BoardGame
 {
 	public class Building
 	{
-		public BuildingTemplate Template { get; }
+		public string Identifier { get; }
 		public StatInstance LocalReward { get; }
-		public GameTile Tile { get; }
 
-		public Building(BuildingTemplate template, GameTile tile)
+		public GameTile Tile { get; internal set; }
+
+		public Building(string identifier)
 		{
-			Template = template;
-			Tile = tile;
+			Identifier = identifier;
 		}
 
 		public override string ToString()
 		{
-			return Template?.DisplayName ?? "Unknown";
+			return Identifier;
 		}
 	}
 }

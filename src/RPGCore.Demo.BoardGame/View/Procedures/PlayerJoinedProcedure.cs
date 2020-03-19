@@ -14,12 +14,10 @@ namespace RPGCore.Demo.BoardGame
 			view.Players.Add(new GamePlayer()
 			{
 				OwnerId = OwnerId,
-				DisplayName = DisplayName,
-				Board = new GameBoard(),
-				CurrentScore = new StatInstance(),
-				ResourceHand = new List<string>(),
-				SpecialCards = null
+				DisplayName = DisplayName
 			});
+
+			view.PlayerStates.Add(new GamePlayerState());
 
 			return ProcedureResult.Success;
 		}

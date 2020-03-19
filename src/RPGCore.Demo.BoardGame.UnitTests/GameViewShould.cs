@@ -20,19 +20,27 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			PackageExplorer explorer = null;
 			var gameView = new GameView();
 			gameView.StartGame(explorer);
-			gameView.Players = new List<GamePlayer>
+
+			gameView.Apply(new PlayerJoinedProcedure()
 			{
-				new GamePlayer()
+				OwnerId = player1,
+				DisplayName = "Player 1"
+			});
+
+			gameView.Apply(new PlayerJoinedProcedure()
+			{
+				OwnerId = player2,
+				DisplayName = "Player 2"
+			});
+
+			gameView.Apply(new StartGameProcedure()
+			{
+				Buildings = new string[]
 				{
-					OwnerId = player1,
-					Board = new GameBoard(4, 4),
+					"cottagepack"
 				},
-				new GamePlayer()
-				{
-					OwnerId = player2,
-					Board = new GameBoard(4, 4),
-				}
-			};
+				PlayerStates = gameView.PlayerStates
+			});
 
 			gameView.Apply(new DeclareResourceProcedure()
 			{
@@ -116,10 +124,10 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 		private void DrawGameState(GameView game)
 		{
-			for (int i = 0; i < game.Players.Count; i++)
+			for (int i = 0; i < game.PlayerStates.Count; i++)
 			{
-				var player = game.Players[i];
-				Console.WriteLine($"Player {player.OwnerId}");
+				var playerStates = game.PlayerStates[i];
+				Console.WriteLine($"Player {playerStates.OwnerId}");
 				if (game.CurrentPlayersTurn == i)
 				{
 					Console.WriteLine($"(Current players turn)");
@@ -127,9 +135,9 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 				for (int y = 4 - 1; y >= 0; y--)
 				{
-					for (int x = 0; x < player.Board.Width; x++)
+					for (int x = 0; x < playerStates.Board.Width; x++)
 					{
-						var tile = player.Board[x, y];
+						var tile = playerStates.Board[x, y];
 
 						Console.Write(tile.ToChar());
 					}

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace RPGCore.Demo.BoardGame
 {
 	public class GameServer
@@ -59,19 +58,16 @@ namespace RPGCore.Demo.BoardGame
 
 				var resourceTemplates = GameView.LoadAll<ResourceTemplate>(ServerView.GameData.Tags["type-resource"]);
 
-				var buildingTemplates = GameView.LoadAll<BuildingTemplate>(ServerView.GameData.Tags["type-building"])
-					.ToDictionary(template => template.Identifier);
-
 				var rand = new Random();
 
 				var sharedBuildings = gameRules.SharedCards
 					.Select(card => packTemplates[card])
-					.Select(pack => buildingTemplates.Where(building => building.Value.PackIdentifier == pack.Identifier).ToArray())
+					.Select(pack => ServerView.BuildingTemplates.Where(building => building.Value.PackIdentifier == pack.Identifier).ToArray())
 					.ToArray();
 
 				var playerBuildings = gameRules.PlayerCards
 					.Select(card => packTemplates[card])
-					.Select(pack => buildingTemplates.Where(building => building.Value.PackIdentifier == pack.Identifier).ToArray())
+					.Select(pack => ServerView.BuildingTemplates.Where(building => building.Value.PackIdentifier == pack.Identifier).ToArray())
 					.ToArray();
 
 				string[] buildings = sharedBuildings.Select(pack =>
@@ -84,7 +80,7 @@ namespace RPGCore.Demo.BoardGame
 					return pack[rand.Next(0, pack.Length)].Key;
 				}).ToArray();
 
-				foreach (var player in ServerView.Players)
+				foreach (var player in ServerView.PlayerStates)
 				{
 					var thisPlayerBuildings = playerBuildings
 						.Select(pack =>
@@ -108,7 +104,7 @@ namespace RPGCore.Demo.BoardGame
 				var procedure = new StartGameProcedure()
 				{
 					Buildings = buildings,
-					Players = ServerView.Players
+					PlayerStates = ServerView.PlayerStates
 				};
 
 				RemoteCall(procedure);

@@ -1,14 +1,36 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace RPGCore.Demo.BoardGame
 {
 	public class GameTile
 	{
-		public Building Building;
+		public Building Building
+		{
+			get
+			{
+				return building;
+			}
+			set
+			{
+				building = value;
+
+				if (building.Tile == null)
+				{
+					building.Tile = this;
+				}
+				else
+				{
+					throw new InvalidOperationException($"Can't add a {nameof(Building)} to this {nameof(GameTile)} as it belongs to another {nameof(GameTile)}.");
+				}
+			}
+		}
 		public string Resource;
 
+		public GameBoard Board { get; internal set; }
+
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public GameBoard Board { get; }
+		private Building building;
 
 		public bool IsEmpty
 		{
@@ -17,11 +39,6 @@ namespace RPGCore.Demo.BoardGame
 				return Building == null
 					&& Resource == null;
 			}
-		}
-
-		public GameTile(GameBoard board)
-		{
-			Board = board;
 		}
 
 		public char ToChar()

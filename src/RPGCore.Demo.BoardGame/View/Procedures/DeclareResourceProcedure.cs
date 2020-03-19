@@ -12,13 +12,13 @@ namespace RPGCore.Demo.BoardGame
 		{
 			view.DeclaredResource = true;
 
-			foreach (var player in view.Players)
+			foreach (var playerState in view.PlayerStates)
 			{
-				if (player.ResourceHand == null)
+				if (playerState.ResourceHand == null)
 				{
-					player.ResourceHand = new List<string>();
+					playerState.ResourceHand = new List<string>();
 				}
-				player.ResourceHand.Add(ResourceIdentifier);
+				playerState.ResourceHand.Add(ResourceIdentifier);
 			}
 
 			return ProcedureResult.Success;

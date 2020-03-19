@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 
 namespace RPGCore.Packages
 {
@@ -14,16 +15,19 @@ namespace RPGCore.Packages
 
 		public IDirectory Parent { get; private set; }
 
+		public DirectoryInfo PhysicalLocation { get; }
+
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ProjectDirectoryCollection directories;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ProjectResourceCollection resources;
 
-		internal ProjectDirectory(string fullName)
+		internal ProjectDirectory(DirectoryInfo physicalLocation, string fullName)
 		{
 			FullName = fullName;
 			Name = NameFromFullName(fullName);
+			PhysicalLocation = physicalLocation;
 
 			directories = new ProjectDirectoryCollection();
 			resources = new ProjectResourceCollection();

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
+using RPGCore.Demo.BoardGame.Models;
 using RPGCore.Packages;
 using System.Collections.Generic;
 using System.IO;
@@ -12,14 +13,18 @@ namespace RPGCore.Demo.BoardGame
 		public int CurrentPlayersTurn;
 		public bool DeclaredResource;
 
-		public string[] Buildings;
+		public GlobalCardSlot[] Buildings;
 		public List<GamePlayer> Players = new List<GamePlayer>();
+		public List<GamePlayerState> PlayerStates = new List<GamePlayerState>();
 
 		public IExplorer GameData { get; private set; }
+		public Dictionary<string, BuildingTemplate> BuildingTemplates { get; private set; }
 
 		public void StartGame(IExplorer gameData)
 		{
 			GameData = gameData;
+			BuildingTemplates = LoadAll<BuildingTemplate>(GameData.Tags["type-building"])
+					.ToDictionary(template => template.Identifier);
 		}
 
 		public static T[] LoadAll<T>(IResourceCollection resources)
@@ -54,6 +59,11 @@ namespace RPGCore.Demo.BoardGame
 		public GamePlayer GetPlayerForOwner(LocalId owner)
 		{
 			return Players.Where(player => player.OwnerId == owner).FirstOrDefault();
+		}
+
+		public GamePlayerState GetStateForOwner(LocalId owner)
+		{
+			return PlayerStates.Where(player => player.OwnerId == owner).FirstOrDefault();
 		}
 	}
 }

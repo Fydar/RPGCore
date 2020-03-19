@@ -11,7 +11,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public override ProcedureResult Apply(GameView view)
 		{
-			var ownerPlayer = view.Players.Where(player => player.OwnerId == Player).FirstOrDefault();
+			var ownerPlayer = view.GetStateForOwner(Player);
 
 			bool owned = ownerPlayer.ResourceHand.Remove(ResourceIdentifier);
 			var placeTile = ownerPlayer.Board[ResourcePosition];

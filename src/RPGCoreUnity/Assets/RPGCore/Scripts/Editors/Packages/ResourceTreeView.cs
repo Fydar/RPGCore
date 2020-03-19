@@ -87,6 +87,10 @@ namespace RPGCore.Unity.Editors
 					menu.AddItem(new GUIContent("Rename"), false, BeginRenameCallback, id);
 					menu.AddItem(new GUIContent("Delete"), false, DeleteCallback, id);
 				}
+				if (mappedItem is ProjectDirectory projectDirectory)
+				{
+					menu.AddItem(new GUIContent("Open in File Explorer"), false, OpenInFileExplorer, projectDirectory);
+				}
 			}
 
 			menu.ShowAsContext();
@@ -109,6 +113,11 @@ namespace RPGCore.Unity.Editors
 			BeginRename(item);
 		}
 
+		private void OpenInFileExplorer(object args)
+		{
+			var projectDirectory = args as ProjectDirectory;
+			EditorUtility.RevealInFinder(projectDirectory.PhysicalLocation.FullName);
+		}
 
 		protected override void RenameEnded(RenameEndedArgs args)
 		{

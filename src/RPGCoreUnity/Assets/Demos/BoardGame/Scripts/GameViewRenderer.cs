@@ -108,13 +108,24 @@ namespace RPGCoreUnity.Demo.BoardGame
 				{
 					new GamePlayer()
 					{
-						OwnerId = Player1,
-						Board = new GameBoard(4, 4)
+						OwnerId = Player1
 					},
 					new GamePlayer()
 					{
+						OwnerId = Player2
+					}
+				},
+				PlayerStates = new List<GamePlayerState>()
+				{ 
+					new GamePlayerState()
+					{
+						OwnerId = Player1,
+						Board = new GameBoard()
+					},
+					new GamePlayerState()
+					{
 						OwnerId = Player2,
-						Board = new GameBoard(4, 4)
+						Board = new GameBoard()
 					}
 				}
 			};
@@ -122,22 +133,22 @@ namespace RPGCoreUnity.Demo.BoardGame
 
 		private void Start()
 		{
-			Boards = new GameBoardRenderer[Game.Players.Count];
+			Boards = new GameBoardRenderer[Game.PlayerStates.Count];
 
-			for (int i = 0; i < Game.Players.Count; i++)
+			for (int i = 0; i < Game.PlayerStates.Count; i++)
 			{
-				var player = Game.Players[i];
-				var playerHolder = new GameObject(player.OwnerId.ToString());
+				var playerState = Game.PlayerStates[i];
+				var playerHolder = new GameObject(playerState.OwnerId.ToString());
 				playerHolder.transform.position = new Vector3(i * 5.0f, 0.0f, 0.0f);
 
 				var boardRenderer = playerHolder.AddComponent<GameBoardRenderer>();
-				boardRenderer.TileRenderers = new TileRenderer[player.Board.Width, player.Board.Height];
+				boardRenderer.TileRenderers = new TileRenderer[playerState.Board.Width, playerState.Board.Height];
 
 				Boards[i] = boardRenderer;
 
-				for (int x = 0; x < player.Board.Width; x++)
+				for (int x = 0; x < playerState.Board.Width; x++)
 				{
-					for (int y = 0; y < player.Board.Height; y++)
+					for (int y = 0; y < playerState.Board.Height; y++)
 					{
 						var tileClone = Instantiate(TilePrefab,
 							Vector3.zero,
@@ -150,7 +161,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 						var tileRenderer = tileClone.GetComponent<TileRenderer>();
 						boardRenderer.TileRenderers[x, y] = tileRenderer;
 
-						var tile = player.Board[x, y];
+						var tile = playerState.Board[x, y];
 						tileRenderer.Render(this, tile, new Integer2(x, y));
 					}
 				}

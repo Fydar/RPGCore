@@ -3,6 +3,5 @@
 	public class SpecialCardSlot
 	{
 		public string BuildingIdentifier { get; set; }
-
 	}
 }

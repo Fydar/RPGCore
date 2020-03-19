@@ -24,7 +24,7 @@ namespace RPGCore.Demo.BoardGame
 
 			var rotatedBuilding = new RotatedBuilding(buildingTemplate, Orientation);
 
-			var ownerPlayer = view.GetPlayerForOwner(Player);
+			var ownerPlayerState = view.GetStateForOwner(Player);
 
 			for (int x = 0; x < rotatedBuilding.Width; x++)
 			{
@@ -33,7 +33,7 @@ namespace RPGCore.Demo.BoardGame
 					var position = Offset + new Integer2(x, y);
 
 					string recipeTile = rotatedBuilding[x, y];
-					var tile = ownerPlayer.Board[position];
+					var tile = ownerPlayerState.Board[position];
 
 					if (recipeTile != null)
 					{
@@ -42,8 +42,8 @@ namespace RPGCore.Demo.BoardGame
 				}
 			}
 
-			var placeTile = ownerPlayer.Board[BuildingPosition];
-			placeTile.Building = new Building(buildingTemplate, placeTile);
+			var placeTile = ownerPlayerState.Board[BuildingPosition];
+			placeTile.Building = new Building(BuildingIdentifier);
 
 			return ProcedureResult.Success;
 		}

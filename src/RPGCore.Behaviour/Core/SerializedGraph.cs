@@ -13,6 +13,10 @@ namespace RPGCore.Behaviour
 
 		public Graph Unpack()
 		{
+			if (Nodes == null || Nodes.Count == 0)
+			{
+				return null;
+			}
 			var nodes = new List<NodeTemplate>(Nodes.Count);
 
 			// Find all valid outputs that inputs can map too.

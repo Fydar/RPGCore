@@ -1,17 +1,43 @@
 ﻿using RPGCore.Demo.BoardGame.Models;
+using System;
 using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame
 {
 	public class GameBoard
 	{
-		public GameTile[,] Tiles;
+		public GameTile[,] Tiles
+		{
+			get
+			{
+				return tiles;
+			}
+			set
+			{
+				foreach (var tile in Tiles)
+				{
+					if (tile.Board != null)
+					{
+						throw new InvalidOperationException($"Can't add a {nameof(GameTile)} to this {nameof(GameBoard)} as it belongs to another {nameof(GameBoard)}.");
+					}
+				}
+
+				tiles = value;
+
+				foreach (var tile in Tiles)
+				{
+					tile.Board = this;
+				}
+			}
+		}
+
+		private GameTile[,] tiles;
 
 		public int Width
 		{
 			get
 			{
-				return Tiles.GetLength(0);
+				return tiles.GetLength(0);
 			}
 		}
 
@@ -19,7 +45,7 @@ namespace RPGCore.Demo.BoardGame
 		{
 			get
 			{
-				return Tiles.GetLength(1);
+				return tiles.GetLength(1);
 			}
 		}
 
@@ -40,27 +66,27 @@ namespace RPGCore.Demo.BoardGame
 					return null;
 				}
 
-				int width = Tiles.GetLength(0);
-				int height = Tiles.GetLength(1);
+				int width = tiles.GetLength(0);
+				int height = tiles.GetLength(1);
 
 				if (position.x >= width || position.y >= height)
 				{
 					return null;
 				}
 
-				return Tiles[position.x, position.y];
+				return tiles[position.x, position.y];
 			}
 		}
 
 		public GameBoard(int width = 4, int height = 4)
 		{
-			Tiles = new GameTile[width, height];
+			tiles = new GameTile[width, height];
 
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					Tiles[x, y] = new GameTile(this);
+					tiles[x, y] = new GameTile();
 				}
 			}
 		}
@@ -78,14 +104,14 @@ namespace RPGCore.Demo.BoardGame
 
 		public Integer2? GetTilePositon(GameTile tile)
 		{
-			int width = Tiles.GetLength(0);
-			int height = Tiles.GetLength(1);
+			int width = tiles.GetLength(0);
+			int height = tiles.GetLength(1);
 
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					var otherTile = Tiles[x, y];
+					var otherTile = tiles[x, y];
 
 					if (otherTile == tile)
 					{

@@ -7,15 +7,15 @@
   "LocalEffectGraph": {
     "Nodes": {
       "0x677839f0aeda242f": {
-        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Type": "RPGCore.Demo.BoardGame.LocalBuildingInputNode",
         "Data": {
           "ValueA": "0xa89946a43bf7cc0d.Output",
           "ValueB": "0x5fba4abb63830943.Output"
         },
         "Editor": {
           "Position": {
-            "x": 298,
-            "y": 39
+            "x": 358,
+            "y": 111
           }
         }
       },
@@ -27,8 +27,8 @@
         },
         "Editor": {
           "Position": {
-            "x": -4,
-            "y": 112
+            "x": 50,
+            "y": 207
           }
         }
       },
@@ -40,8 +40,8 @@
         },
         "Editor": {
           "Position": {
-            "x": 0,
-            "y": 0
+            "x": 47,
+            "y": 56
           }
         }
       }
@@ -49,11 +49,91 @@
     "SubGraphs": null
   },
   "BoardEffectGraph": {
-    "Nodes": null,
+    "Nodes": {
+      "0x7c116618c0e56359": {
+        "Type": "RPGCore.Demo.BoardGame.BoardBuildingInputNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 60,
+            "y": 218
+          }
+        }
+      },
+      "0x7dc2a97f2acef7f7": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0xca99bdb8732ba77a.Output",
+          "ValueB": "0x7c116618c0e56359.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 431,
+            "y": 129
+          }
+        }
+      },
+      "0xca99bdb8732ba77a": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 64,
+            "y": 64
+          }
+        }
+      }
+    },
     "SubGraphs": null
   },
   "GlobalEffectGraph": {
-    "Nodes": null,
+    "Nodes": {
+      "0x9bf27edfef78167d": {
+        "Type": "RPGCore.Demo.BoardGame.GlobalBuildingInputNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 41,
+            "y": 57
+          }
+        }
+      },
+      "0xf2016702b2a46a2": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0x9bf27edfef78167d.Output",
+          "ValueB": "0xf00151b0263f91c5.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 360,
+            "y": 127
+          }
+        }
+      },
+      "0xf00151b0263f91c5": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 45,
+            "y": 215
+          }
+        }
+      }
+    },
     "SubGraphs": null
   }
 }

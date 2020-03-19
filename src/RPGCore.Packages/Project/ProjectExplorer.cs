@@ -66,7 +66,7 @@ namespace RPGCore.Packages
 
 		private static ProjectDirectory CreateDirectory(string normalisedRootPath, string directoryPath, string projectKey, ProjectExplorer projectExplorer, ImportPipeline importPipeline)
 		{
-			var newRootDirectory = new ProjectDirectory(projectKey);
+			var newRootDirectory = new ProjectDirectory(new DirectoryInfo(directoryPath), projectKey);
 
 			foreach (string filePath in Directory.EnumerateFiles(directoryPath, "*", SearchOption.TopDirectoryOnly))
 			{
