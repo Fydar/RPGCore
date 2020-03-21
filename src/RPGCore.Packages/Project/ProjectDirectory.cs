@@ -6,16 +6,13 @@ namespace RPGCore.Packages
 	public class ProjectDirectory : IDirectory
 	{
 		public string Name { get; }
-
 		public string FullName { get; }
-
-		public IDirectoryCollection Directories => directories;
-
-		public IResourceCollection Resources => resources;
+		public DirectoryInfo PhysicalLocation { get; }
 
 		public IDirectory Parent { get; private set; }
 
-		public DirectoryInfo PhysicalLocation { get; }
+		public IDirectoryCollection Directories => directories;
+		public IResourceCollection Resources => resources;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ProjectDirectoryCollection directories;

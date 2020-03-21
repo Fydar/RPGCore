@@ -119,25 +119,39 @@ namespace RPGCore.Unity.Editors
 				EditorGUILayout.EndVertical();
 				GUILayout.EndArea();
 
+				var globalFinalRect = new Rect(
+					nodeRect.x,
+					nodeRect.y,
+					finalRect.width,
+					finalRect.height
+				);
+
 				if (CurrentEvent.type == EventType.MouseDown)
 				{
-					var globalFinalRect = new Rect(
-						nodeRect.x,
-						nodeRect.y,
-						finalRect.width,
-						finalRect.height
-					);
-
 					if (globalFinalRect.Contains(CurrentEvent.mousePosition))
 					{
-						View.Selection.Clear();
-						View.Selection.Add(node.Name);
+						if (CurrentEvent.button == 1)
+						{
+							var menu = new GenericMenu();
 
-						View.CurrentMode = BehaviourEditorView.ControlMode.NodeDragging;
-						GUI.UnfocusWindow();
-						GUI.FocusControl("");
+							menu.AddItem(new GUIContent("Delete"), false, () => { graphEditorNodes.Remove(node.Name); });
 
-						CurrentEvent.Use();
+							menu.ShowAsContext();
+
+							CurrentEvent.Use();
+						}
+						else
+						{
+
+							View.Selection.Clear();
+							View.Selection.Add(node.Name);
+
+							View.CurrentMode = BehaviourEditorView.ControlMode.NodeDragging;
+							GUI.UnfocusWindow();
+							GUI.FocusControl("");
+
+							CurrentEvent.Use();
+						}
 					}
 				}
 			}
