@@ -9,10 +9,97 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
+	public class ResourceTreeViewItem : TreeViewItem
+	{
+		public object item;
+
+		string baseDisplayName;
+		string modifiedDisplayName;
+
+		public List<FrameTab> Tabs { get; private set; }
+
+		public bool HasUnsavedChanges
+		{
+			get
+			{
+				if (Tabs == null || Tabs.Count == 0)
+				{
+					return false;
+				}
+				foreach (var tab in Tabs)
+				{
+					if (tab.Frame is EditorSessionFrame editorSessionFrame)
+					{
+						if (editorSessionFrame.HasUnsavedChanges)
+						{
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+		}
+
+		public override string displayName
+		{
+			get
+			{
+				return HasUnsavedChanges
+					? modifiedDisplayName
+					: baseDisplayName;
+			}
+			set
+			{
+				baseDisplayName = value;
+				modifiedDisplayName = value + "*";
+			}
+		}
+
+		public void Open()
+		{
+			if (Tabs == null)
+			{
+				Tabs = new List<FrameTab>();
+				if (item is IResource resource)
+				{
+					if (resource.Extension == ".json")
+					{
+						try
+						{
+							Tabs.Add(new FrameTab()
+							{
+								Title = new GUIContent("Editor"),
+								Frame = new EditorSessionFrame(resource)
+							});
+						}
+						catch (Exception exception)
+						{
+							Debug.LogError(exception.ToString());
+						}
+					}
+
+					Tabs.Add(new FrameTab()
+					{
+						Title = new GUIContent("Information"),
+						Frame = new ResourceInformationFrame(resource)
+					});
+				}
+				else if (item is BehaviourManifest manifest)
+				{
+					Tabs.Add(new FrameTab()
+					{
+						Title = new GUIContent("Manifest"),
+						Frame = new ManifestInspectFrame(manifest)
+					});
+				}
+			}
+		}
+	}
+
 	internal class ResourceTreeView : TreeView
 	{
 		private ProjectImport[] projectImports;
-		public Dictionary<int, object> itemMappings;
+		public Dictionary<int, ResourceTreeViewItem> idToItemMapping = new Dictionary<int, ResourceTreeViewItem>();
 
 		public ResourceTreeView(TreeViewState treeViewState)
 			: base(treeViewState)
@@ -23,12 +110,12 @@ namespace RPGCore.Unity.Editors
 		{
 			foreach (int identifier in args.draggedItemIDs)
 			{
-				if (!itemMappings.TryGetValue(identifier, out object mappedItem))
+				if (!idToItemMapping.TryGetValue(identifier, out var mappedItem))
 				{
 					return false;
 				}
 
-				if (!(mappedItem is IResource) && !(mappedItem is IDirectory))
+				if (!(mappedItem.item is IResource) && !(mappedItem.item is IDirectory))
 				{
 					return false;
 				}
@@ -53,14 +140,14 @@ namespace RPGCore.Unity.Editors
 			{
 				return false;
 			}
-			if (!itemMappings.TryGetValue(item.id, out object mappedItem))
+			if (!idToItemMapping.TryGetValue(item.id, out var mappedItem))
 			{
 				return false;
 			}
 
-			return mappedItem is IResource
-				|| mappedItem is IDirectory
-				|| mappedItem is IExplorer;
+			return mappedItem.item is IResource
+				|| mappedItem.item is IDirectory
+				|| mappedItem.item is IExplorer;
 		}
 
 		protected override DragAndDropVisualMode HandleDragAndDrop(DragAndDropArgs args)
@@ -79,15 +166,15 @@ namespace RPGCore.Unity.Editors
 
 			menu.AddItem(new GUIContent("Create"), false, CreateCallback, id);
 
-			if (itemMappings.TryGetValue(id, out object mappedItem))
+			if (idToItemMapping.TryGetValue(id, out var mappedItem))
 			{
-				if (mappedItem is IResource
-					|| mappedItem is IDirectory)
+				if (mappedItem.item is IResource
+					|| mappedItem.item is IDirectory)
 				{
 					menu.AddItem(new GUIContent("Rename"), false, BeginRenameCallback, id);
 					menu.AddItem(new GUIContent("Delete"), false, DeleteCallback, id);
 				}
-				if (mappedItem is ProjectDirectory projectDirectory)
+				if (mappedItem.item is ProjectDirectory projectDirectory)
 				{
 					menu.AddItem(new GUIContent("Open in File Explorer"), false, OpenInFileExplorer, projectDirectory);
 				}
@@ -129,13 +216,13 @@ namespace RPGCore.Unity.Editors
 
 		protected override bool CanRename(TreeViewItem item)
 		{
-			if (!itemMappings.TryGetValue(item.id, out object mappedItem))
+			if (!idToItemMapping.TryGetValue(item.id, out var mappedItem))
 			{
 				return false;
 			}
 
-			return mappedItem is IResource
-				|| mappedItem is IDirectory;
+			return mappedItem.item is IResource
+				|| mappedItem.item is IDirectory;
 		}
 
 
@@ -157,7 +244,7 @@ namespace RPGCore.Unity.Editors
 
 		protected override TreeViewItem BuildRoot()
 		{
-			itemMappings = new Dictionary<int, object>();
+			idToItemMapping.Clear();
 
 			var root = new TreeViewItem { id = 0, depth = -1, displayName = "Root" };
 			var collection = new List<TreeViewItem>();
@@ -178,48 +265,59 @@ namespace RPGCore.Unity.Editors
 
 		private void BuildProject(List<TreeViewItem> collection, IExplorer explorer, int depth, ref int id)
 		{
-			itemMappings[id] = explorer;
-
-			collection.Add(new TreeViewItem
+			var newItem = new ResourceTreeViewItem
 			{
 				displayName = explorer.Name,
 				id = id++,
 				depth = depth,
-				icon = ContentEditorResources.Instance.ProjectIcon
-			});
+				icon = ContentEditorResources.Instance.ProjectIcon,
 
-			collection.Add(new TreeViewItem
+				item = explorer
+			};
+			idToItemMapping[newItem.id] = newItem;
+			collection.Add(newItem);
+
+			collection.Add(new ResourceTreeViewItem
 			{
 				displayName = "Dependancies",
 				id = id++,
 				depth = depth + 1,
-				icon = ContentEditorResources.Instance.DependanciesIcon
+				icon = ContentEditorResources.Instance.DependanciesIcon,
+
+				item = null
 			});
 
-			collection.Add(new TreeViewItem
+			collection.Add(new ResourceTreeViewItem
 			{
 				displayName = "Manifests",
 				id = id++,
 				depth = depth + 2,
-				icon = ContentEditorResources.Instance.ManifestDependancyIcon
+				icon = ContentEditorResources.Instance.ManifestDependancyIcon,
+
+				item = null
 			});
 
-			itemMappings[id] = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
-
-			collection.Add(new TreeViewItem
+			var manifestItem = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
+			var manifestTreeViewItem = new ResourceTreeViewItem
 			{
 				displayName = "RPGCore 1.0.0",
 				id = id++,
 				depth = depth + 3,
-				icon = ContentEditorResources.Instance.ManifestDependancyIcon
-			});
+				icon = ContentEditorResources.Instance.ManifestDependancyIcon,
 
-			collection.Add(new TreeViewItem
+				item = manifestItem
+			};
+			idToItemMapping[manifestTreeViewItem.id] = manifestTreeViewItem;
+			collection.Add(manifestTreeViewItem);
+
+			collection.Add(new ResourceTreeViewItem
 			{
 				displayName = "Projects",
 				id = id++,
 				depth = depth + 2,
-				icon = ContentEditorResources.Instance.ProjectDependancyIcon
+				icon = ContentEditorResources.Instance.ProjectDependancyIcon,
+
+				item = null
 			});
 
 			BuildDirectory(collection, explorer.RootDirectory, depth + 1, ref id);
@@ -229,30 +327,34 @@ namespace RPGCore.Unity.Editors
 		{
 			foreach (var childDirectory in directory.Directories)
 			{
-				itemMappings[id] = childDirectory;
-
-				collection.Add(new TreeViewItem
+				var newItem = new ResourceTreeViewItem
 				{
 					displayName = childDirectory.Name,
 					id = id++,
 					depth = depth,
-					icon = ContentEditorResources.Instance.FolderIcon
-				});
+					icon = ContentEditorResources.Instance.FolderIcon,
+
+					item = childDirectory
+				};
+				idToItemMapping[newItem.id] = newItem;
+				collection.Add(newItem);
 
 				BuildDirectory(collection, childDirectory, depth + 1, ref id);
 			}
 
 			foreach (var resource in directory.Resources)
 			{
-				itemMappings[id] = resource;
-
-				collection.Add(new TreeViewItem
+				var newItem = new ResourceTreeViewItem
 				{
 					displayName = resource.Name,
 					id = id++,
 					depth = depth,
-					icon = ContentEditorResources.Instance.DocumentIcon
-				});
+					icon = ContentEditorResources.Instance.DocumentIcon,
+
+					item = resource
+				};
+				idToItemMapping[newItem.id] = newItem;
+				collection.Add(newItem);
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour.Manifest;
+using System;
 
 namespace RPGCore.Behaviour.Editor
 {
@@ -10,6 +11,8 @@ namespace RPGCore.Behaviour.Editor
 		public EditorField Root;
 		public JObject Instance;
 		public JsonSerializer JsonSerializer;
+
+		public Action OnChanged;
 
 		public EditorSession(BehaviourManifest manifest, object instance, JsonSerializer jsonSerializer)
 		{
@@ -40,6 +43,11 @@ namespace RPGCore.Behaviour.Editor
 				Format = FieldFormat.Object
 			};
 			Root = new EditorField(this, instance, "root", rootField);
+		}
+
+		internal void InvokeOnChanged()
+		{
+			OnChanged?.Invoke();
 		}
 	}
 }

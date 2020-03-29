@@ -259,6 +259,7 @@ namespace RPGCore.Behaviour.Editor
 				field = new EditorField(Session, value, key, Field.ValueFormat);
 			}
 			children.Add(key, field);
+			Session.InvokeOnChanged();
 		}
 
 		public void SetArraySize(int size)
@@ -306,6 +307,7 @@ namespace RPGCore.Behaviour.Editor
 				}
 				children.Add(childName, field);
 			}
+			Session.InvokeOnChanged();
 		}
 
 		public void SetValue<T>(T value)
@@ -363,6 +365,8 @@ namespace RPGCore.Behaviour.Editor
 			}
 			children = new Dictionary<string, EditorField>();
 			UpdateChildren();
+
+			Session.InvokeOnChanged();
 		}
 
 		public override string ToString()

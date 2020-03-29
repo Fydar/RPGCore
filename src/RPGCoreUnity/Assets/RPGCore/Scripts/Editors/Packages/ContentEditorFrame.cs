@@ -41,52 +41,19 @@ namespace RPGCore.Unity.Editors
 				}
 
 				selection = value;
-				selectionTabs.Clear();
 
 				if (selection == null)
 				{
 					return;
 				}
 
+				Selection.Open();
+
 				resourceTreeView.SetSelection(new int[] { selection.id });
 
-				if (selection.item is IResource resource)
-				{
-					if (resource.Extension == ".json")
-					{
-						try
-						{
-							selectionTabs.Add(new FrameTab()
-							{
-								Title = new GUIContent("Editor"),
-								Frame = new EditorSessionFrame(resource)
-							});
-						}
-						catch (Exception exception)
-						{
-							Debug.LogError(exception.ToString());
-						}
-					}
-
-					selectionTabs.Add(new FrameTab()
-					{
-						Title = new GUIContent("Information"),
-						Frame = new ResourceInformationFrame(resource)
-					});
-				}
-				else if (selection.item is BehaviourManifest manifest)
-				{
-					selectionTabs.Add(new FrameTab()
-					{
-						Title = new GUIContent("Manifest"),
-						Frame = new ManifestInspectFrame(manifest)
-					});
-					selectionTabIndex = 0;
-				}
 			}
 		}
 		private ResourceTreeViewItem selection;
-		private readonly List<FrameTab> selectionTabs = new List<FrameTab>();
 		private int selectionTabIndex;
 
 
@@ -199,33 +166,33 @@ namespace RPGCore.Unity.Editors
 				{
 					Selection = null;
 				}
+			}
 
-				if (selectionTabs != null && selectionTabs.Count != 0)
+			if (Selection?.Tabs != null && Selection?.Tabs.Count != 0)
+			{
+				EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+				for (int i = 0; i < Selection.Tabs.Count; i++)
 				{
-					EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
-					for (int i = 0; i < selectionTabs.Count; i++)
+					var tab = Selection.Tabs[i];
+
+					var originalColor = GUI.color;
+					GUI.color = i == selectionTabIndex
+						? GUI.color
+						: GUI.color * 0.725f;
+
+					if (GUILayout.Button(tab.Title, EditorStyles.toolbarButton))
 					{
-						var tab = selectionTabs[i];
-
-						var originalColor = GUI.color;
-						GUI.color = i == selectionTabIndex
-							? GUI.color
-							: GUI.color * 0.725f;
-
-						if (GUILayout.Button(tab.Title, EditorStyles.toolbarButton))
-						{
-							selectionTabIndex = i;
-						}
-
-						GUI.color = originalColor;
+						selectionTabIndex = i;
 					}
-					EditorGUILayout.EndHorizontal();
 
-					if (selectionTabIndex >= 0 && selectionTabIndex < selectionTabs.Count)
-					{
-						var currentTab = selectionTabs[selectionTabIndex];
-						currentTab.Frame.OnGUI();
-					}
+					GUI.color = originalColor;
+				}
+				EditorGUILayout.EndHorizontal();
+
+				if (selectionTabIndex >= 0 && selectionTabIndex < Selection.Tabs.Count)
+				{
+					var currentTab = Selection.Tabs[selectionTabIndex];
+					currentTab.Frame.OnGUI();
 				}
 			}
 

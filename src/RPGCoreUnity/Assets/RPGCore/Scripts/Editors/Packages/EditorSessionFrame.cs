@@ -17,6 +17,8 @@ namespace RPGCore.Unity.Editors
 		public IResource Resource { get; private set; }
 		public EditorSession EditorSession { get; private set; }
 
+		public bool HasUnsavedChanges { get; private set; }
+
 		private readonly JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
 		{
 			Converters = new List<JsonConverter>()
@@ -62,6 +64,11 @@ namespace RPGCore.Unity.Editors
 			}
 
 			EditorSession = new EditorSession(manifest, editorTarget, typeName, serializer);
+
+			EditorSession.OnChanged += () =>
+			{
+				HasUnsavedChanges = true;
+			};
 		}
 
 		public override void OnEnable()
@@ -85,6 +92,8 @@ namespace RPGCore.Unity.Editors
 							EditorSession.Instance
 						);
 					}
+
+					HasUnsavedChanges = false;
 				}
 
 				if (GUILayout.Button("View Manifest", EditorStyles.toolbarButton, GUILayout.Width(120)))
