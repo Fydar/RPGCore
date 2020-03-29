@@ -2,12 +2,14 @@
 using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
+
 	public class BehaviourGraphFrame : WindowFrame
 	{
 		public static Dictionary<string, GraphTypeInformation> StyleLookup = new Dictionary<string, GraphTypeInformation>()
@@ -500,20 +502,36 @@ namespace RPGCore.Unity.Editors
 			{
 				if (CurrentEvent.keyCode == KeyCode.Space)
 				{
-					var graphEditorNodes = View.GraphField["Nodes"];
-
-					string newId = LocalId.NewId().ToString();
-					graphEditorNodes.Add(newId);
-
-					var newNode = graphEditorNodes[newId];
-					var nodeData = new JObject();
-					newNode.SetValue(new SerializedNode()
+					var position = new PackageNodePosition()
 					{
-						Type = "RPGCore.Demo.Inventory.Nodes.AddNode",
-						Data = nodeData
+						x = (int)CurrentEvent.mousePosition.x,
+						y = (int)CurrentEvent.mousePosition.y
+					};
+					var window = new BehaviourGraphAddNodeDropdown(BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain), (newNodeObject) =>
+					{
+						string newNodeType = (string)newNodeObject;
+
+						var graphEditorNodes = View.GraphField["Nodes"];
+
+						string newId = LocalId.NewId().ToString();
+						graphEditorNodes.Add(newId);
+
+						var newNode = graphEditorNodes[newId];
+						var nodeData = new JObject();
+						newNode.SetValue(new SerializedNode()
+						{
+							Type = newNodeType,
+							Data = nodeData,
+							Editor = new PackageNodeEditor()
+							{
+								Position = position
+							}
+						});
+						newNode.ApplyModifiedProperties();
+						Window.Repaint();
 					});
-					newNode.ApplyModifiedProperties();
-					Window.Repaint();
+
+					window.Show(new Rect(CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y, 0, 0));
 				}
 				else if (CurrentEvent.keyCode == KeyCode.Delete)
 				{

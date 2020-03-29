@@ -14,8 +14,21 @@
         },
         "Editor": {
           "Position": {
-            "x": 358,
-            "y": 111
+            "x": 31,
+            "y": 66
+          }
+        }
+      },
+      "0x67aac167888cbcb": {
+        "Type": "RPGCore.Demo.BoardGame.GetNeighboursNode",
+        "Data": {
+          "Building": "0x677839f0aeda242f.Building",
+          "IncludeDiagonal": false
+        },
+        "Editor": {
+          "Position": {
+            "x": 336,
+            "y": 124
           }
         }
       }
@@ -32,8 +45,8 @@
         },
         "Editor": {
           "Position": {
-            "x": 60,
-            "y": 218
+            "x": 35,
+            "y": 61
           }
         }
       }
@@ -50,8 +63,8 @@
         },
         "Editor": {
           "Position": {
-            "x": 41,
-            "y": 57
+            "x": 38,
+            "y": 65
           }
         }
       }

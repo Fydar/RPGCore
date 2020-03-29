@@ -65,6 +65,18 @@
             "y": 287
           }
         }
+      },
+      "0x13a941ecdc7da49c": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.OutputValueNode",
+        "Data": {
+          "Value": "0x0a16b3c6.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 848,
+            "y": 266
+          }
+        }
       }
     },
     "SubGraphs": null

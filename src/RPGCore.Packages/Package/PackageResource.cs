@@ -22,6 +22,8 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		IResourceTags IResource.Tags => Tags;
 
+		public IDirectory Directory => throw new System.NotImplementedException();
+
 		internal PackageResource(PackageExplorer package, ZipArchiveEntry packageEntry, IReadOnlyDictionary<string, IReadOnlyList<string>> tagsDocument)
 		{
 			this.package = package;

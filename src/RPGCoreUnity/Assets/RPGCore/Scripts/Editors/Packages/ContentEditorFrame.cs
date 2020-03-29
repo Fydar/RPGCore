@@ -10,6 +10,14 @@ namespace RPGCore.Unity.Editors
 {
 	public class ContentEditorFrame : WindowFrame
 	{
+		private class Styles
+		{
+			public GUIStyle TopBarBg { get; } = "ProjectBrowserTopBarBg";
+			public GUIStyle Separator { get; } = "ArrowNavigationRight";
+		}
+
+		private static Styles styles;
+
 		[SerializeField] private TreeViewState resourceTreeViewState;
 		[SerializeField] private float treeViewWidth = 190;
 
@@ -19,9 +27,68 @@ namespace RPGCore.Unity.Editors
 
 		private ResourceTreeView resourceTreeView;
 
-		private object currentItem;
-		private readonly List<FrameTab> currentItemTabs = new List<FrameTab>();
-		private int currentItemTabIndex;
+		public ResourceTreeViewItem Selection
+		{
+			get
+			{
+				return selection;
+			}
+			set
+			{
+				if (selection == value)
+				{
+					return;
+				}
+
+				selection = value;
+				selectionTabs.Clear();
+
+				if (selection == null)
+				{
+					return;
+				}
+
+				resourceTreeView.SetSelection(new int[] { selection.id });
+
+				if (selection.item is IResource resource)
+				{
+					if (resource.Extension == ".json")
+					{
+						try
+						{
+							selectionTabs.Add(new FrameTab()
+							{
+								Title = new GUIContent("Editor"),
+								Frame = new EditorSessionFrame(resource)
+							});
+						}
+						catch (Exception exception)
+						{
+							Debug.LogError(exception.ToString());
+						}
+					}
+
+					selectionTabs.Add(new FrameTab()
+					{
+						Title = new GUIContent("Information"),
+						Frame = new ResourceInformationFrame(resource)
+					});
+				}
+				else if (selection.item is BehaviourManifest manifest)
+				{
+					selectionTabs.Add(new FrameTab()
+					{
+						Title = new GUIContent("Manifest"),
+						Frame = new ManifestInspectFrame(manifest)
+					});
+					selectionTabIndex = 0;
+				}
+			}
+		}
+		private ResourceTreeViewItem selection;
+		private readonly List<FrameTab> selectionTabs = new List<FrameTab>();
+		private int selectionTabIndex;
+
 
 		public override void OnEnable()
 		{
@@ -29,6 +96,10 @@ namespace RPGCore.Unity.Editors
 
 		public override void OnGUI()
 		{
+			if (styles == null)
+			{
+				styles = new Styles();
+			}
 			if (resourceTreeViewState == null)
 			{
 				resourceTreeViewState = new TreeViewState();
@@ -67,11 +138,17 @@ namespace RPGCore.Unity.Editors
 				5,
 				treeViewRect.height);
 
-			var remainingRect = new Rect(
-				treeViewWidth + 4,
+			var breadCrumbsBar = new Rect(
+				treeViewWidth + 1,
 				EditorGUIUtility.singleLineHeight + 3,
-				Position.width - treeViewWidth - 4,
-				Position.height - EditorGUIUtility.singleLineHeight);
+				Position.width - treeViewWidth - 1,
+				21f);
+
+			var remainingRect = new Rect(
+				treeViewWidth + 1,
+				EditorGUIUtility.singleLineHeight + 3 + breadCrumbsBar.height,
+				Position.width - treeViewWidth - 1,
+				Position.height - EditorGUIUtility.singleLineHeight - breadCrumbsBar.height);
 
 			EditorGUI.DrawRect(treeViewDivierLineRect, new Color(0.0f, 0.0f, 0.0f, 0.2f));
 
@@ -102,98 +179,125 @@ namespace RPGCore.Unity.Editors
 			EditorGUILayout.EndHorizontal();
 			GUILayout.EndArea();
 
-
 			resourceTreeView.SetTarget(availableProjects);
 			resourceTreeView.OnGUI(treeViewRect);
+
+			DrawBreadcrumbs(breadCrumbsBar);
 
 			GUILayout.BeginArea(remainingRect);
 
 			foreach (int selected in resourceTreeView.GetSelection())
 			{
-				if (resourceTreeView.itemMappings.TryGetValue(selected, out object item))
+				if (resourceTreeView.idToItemMapping.TryGetValue(selected, out var item))
 				{
-					if (item != currentItem)
+					if (item != Selection)
 					{
-						currentItem = item;
-						if (item is IResource resource)
-						{
-							currentItemTabs.Clear();
-
-							if (resource.Extension == ".json")
-							{
-								try
-								{
-									currentItemTabs.Add(new FrameTab()
-									{
-										Title = new GUIContent("Editor"),
-										Frame = new EditorSessionFrame(resource)
-									});
-								}
-								catch (Exception exception)
-								{
-									Debug.LogError(exception.ToString());
-								}
-							}
-
-							currentItemTabs.Add(new FrameTab()
-							{
-								Title = new GUIContent("Information"),
-								Frame = new ResourceInformationFrame(resource)
-							});
-						}
-						else if (item is BehaviourManifest manifest)
-						{
-							currentItemTabs.Clear();
-
-							currentItemTabs.Add(new FrameTab()
-							{
-								Title = new GUIContent("Manifest"),
-								Frame = new ManifestInspectFrame(manifest)
-							});
-							currentItemTabIndex = 0;
-						}
-						else
-						{
-							currentItemTabs.Clear();
-						}
+						Selection = item;
 					}
 				}
 				else
 				{
-					currentItem = null;
-					currentItemTabs.Clear();
+					Selection = null;
 				}
 
-				if (currentItemTabs != null && currentItemTabs.Count != 0)
+				if (selectionTabs != null && selectionTabs.Count != 0)
 				{
 					EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
-					for (int i = 0; i < currentItemTabs.Count; i++)
+					for (int i = 0; i < selectionTabs.Count; i++)
 					{
-						var tab = currentItemTabs[i];
+						var tab = selectionTabs[i];
 
 						var originalColor = GUI.color;
-						GUI.color = i == currentItemTabIndex
+						GUI.color = i == selectionTabIndex
 							? GUI.color
 							: GUI.color * 0.725f;
 
 						if (GUILayout.Button(tab.Title, EditorStyles.toolbarButton))
 						{
-							currentItemTabIndex = i;
+							selectionTabIndex = i;
 						}
 
 						GUI.color = originalColor;
 					}
 					EditorGUILayout.EndHorizontal();
 
-					if (currentItemTabIndex >= 0 && currentItemTabIndex < currentItemTabs.Count)
+					if (selectionTabIndex >= 0 && selectionTabIndex < selectionTabs.Count)
 					{
-						var currentTab = currentItemTabs[currentItemTabIndex];
+						var currentTab = selectionTabs[selectionTabIndex];
 						currentTab.Frame.OnGUI();
 					}
 				}
 			}
 
 			GUILayout.EndArea();
+		}
+
+		private void DrawBreadcrumbs(Rect rect)
+		{
+			var breadcrumbs = new List<ResourceTreeViewItem>();
+			var currentObj = Selection;
+			int itr = 0;
+			while (currentObj != null)
+			{
+				breadcrumbs.Add(currentObj);
+				if (currentObj.parent is ResourceTreeViewItem parentObj)
+				{
+					currentObj = parentObj;
+				}
+				else
+				{
+					break;
+				}
+
+
+				itr++;
+
+				if (itr > 20)
+				{
+					break;
+				}
+			}
+
+			EditorGUI.LabelField(rect, "", styles.TopBarBg);
+
+			for (int i = breadcrumbs.Count - 1; i >= 0; i--)
+			{
+				var breadcrumbItem = breadcrumbs[i];
+				bool lastElement = i == 0;
+
+				GUIContent labelContent;
+
+				if (breadcrumbItem.item is IResource currentResource)
+				{
+					labelContent = new GUIContent(currentResource.Name);
+				}
+				else if (breadcrumbItem.item is IDirectory currentDirectory)
+				{
+					labelContent = new GUIContent(currentDirectory.Name);
+				}
+				else
+				{
+					labelContent = new GUIContent(breadcrumbItem.item?.ToString() ?? "null");
+				}
+
+				var labelStyle = lastElement ? EditorStyles.boldLabel : EditorStyles.label;
+				var size = labelStyle.CalcSize(labelContent);
+				rect.width = size.x;
+				if (GUI.Button(rect, labelContent, labelStyle))
+				{
+					Selection = breadcrumbItem;
+				}
+
+				rect.x += size.x;
+				if (!lastElement)
+				{
+					var buttonRect = new Rect(rect.x, rect.y + (rect.height - styles.Separator.fixedHeight) / 2, styles.Separator.fixedWidth, styles.Separator.fixedHeight);
+					if (EditorGUI.DropdownButton(buttonRect, GUIContent.none, FocusType.Passive, styles.Separator))
+					{
+					}
+				}
+				rect.x += styles.Separator.fixedWidth;
+			}
 		}
 	}
 }
