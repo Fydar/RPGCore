@@ -9,93 +9,6 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-	public class ResourceTreeViewItem : TreeViewItem
-	{
-		public object item;
-
-		string baseDisplayName;
-		string modifiedDisplayName;
-
-		public List<FrameTab> Tabs { get; private set; }
-
-		public bool HasUnsavedChanges
-		{
-			get
-			{
-				if (Tabs == null || Tabs.Count == 0)
-				{
-					return false;
-				}
-				foreach (var tab in Tabs)
-				{
-					if (tab.Frame is EditorSessionFrame editorSessionFrame)
-					{
-						if (editorSessionFrame.HasUnsavedChanges)
-						{
-							return true;
-						}
-					}
-				}
-				return false;
-			}
-		}
-
-		public override string displayName
-		{
-			get
-			{
-				return HasUnsavedChanges
-					? modifiedDisplayName
-					: baseDisplayName;
-			}
-			set
-			{
-				baseDisplayName = value;
-				modifiedDisplayName = value + "*";
-			}
-		}
-
-		public void Open()
-		{
-			if (Tabs == null)
-			{
-				Tabs = new List<FrameTab>();
-				if (item is IResource resource)
-				{
-					if (resource.Extension == ".json")
-					{
-						try
-						{
-							Tabs.Add(new FrameTab()
-							{
-								Title = new GUIContent("Editor"),
-								Frame = new EditorSessionFrame(resource)
-							});
-						}
-						catch (Exception exception)
-						{
-							Debug.LogError(exception.ToString());
-						}
-					}
-
-					Tabs.Add(new FrameTab()
-					{
-						Title = new GUIContent("Information"),
-						Frame = new ResourceInformationFrame(resource)
-					});
-				}
-				else if (item is BehaviourManifest manifest)
-				{
-					Tabs.Add(new FrameTab()
-					{
-						Title = new GUIContent("Manifest"),
-						Frame = new ManifestInspectFrame(manifest)
-					});
-				}
-			}
-		}
-	}
-
 	internal class ResourceTreeView : TreeView
 	{
 		private ProjectImport[] projectImports;
@@ -115,10 +28,11 @@ namespace RPGCore.Unity.Editors
 					return false;
 				}
 
-				if (!(mappedItem.item is IResource) && !(mappedItem.item is IDirectory))
+				if (mappedItem.item is IResource || mappedItem.item is IDirectory)
 				{
-					return false;
+					continue;
 				}
+				return false;
 			}
 
 			return true;

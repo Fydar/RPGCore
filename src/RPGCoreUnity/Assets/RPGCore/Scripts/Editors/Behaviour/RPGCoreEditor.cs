@@ -8,7 +8,7 @@ namespace RPGCore.Unity.Editors
 {
 	public static class RPGCoreEditor
 	{
-		private const int FoldoutIndent = -10;
+		private const int foldoutIndent = -10;
 
 		public static void DrawEditor(EditorSession editor)
 		{
@@ -26,15 +26,13 @@ namespace RPGCore.Unity.Editors
 
 		public static void DrawField(EditorField field)
 		{
-			// EditorGUILayout.LabelField(field.Json.Path);
-
 			if (field.Field.Format == FieldFormat.List)
 			{
 				var fieldFeature = field.GetOrCreateFeature<FieldFeature>();
 
 				var fieldRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight, GUILayout.ExpandWidth(true));
 				GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
-				fieldRect.xMin += FoldoutIndent;
+				fieldRect.xMin += foldoutIndent;
 
 				fieldFeature.Expanded = EditorGUI.Foldout(fieldRect, fieldFeature.Expanded, field.Name, true);
 
@@ -120,8 +118,6 @@ namespace RPGCore.Unity.Editors
 					{
 						//field.Json.Value = newValue;
 					}
-
-					// EditorGUI.DrawRect(renderPos, Color.red);
 				}
 				else if (field.Field.Type == "SerializedGraph")
 				{
@@ -142,7 +138,24 @@ namespace RPGCore.Unity.Editors
 
 					if (GUI.Button(buttonRect, $"Edit Graph"))
 					{
-						BehaviourEditor.Open(field.Session, field);
+						var framedFeature = field.Session.Root.GetFeature<FramedEditorSessionFeature>();
+						if (framedFeature == null)
+						{
+							BehaviourEditor.Open(field.Session, field);
+						}
+						else
+						{
+							foreach (var virtualTab in framedFeature.Frame.EditorContext.VirtualChildren)
+							{
+								if (virtualTab.Frame is BehaviourGraphFrame graphFrame)
+								{
+									if (graphFrame.View.GraphField == field)
+									{
+										framedFeature.Frame.EditorContext.CurrentTab = virtualTab;
+									}
+								}
+							}
+						}
 					}
 
 					var renderPos = GUILayoutUtility.GetLastRect();
@@ -164,7 +177,7 @@ namespace RPGCore.Unity.Editors
 					var fieldFeature = field.GetOrCreateFeature<FieldFeature>();
 
 					var fieldRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight, GUILayout.ExpandWidth(true));
-					fieldRect.xMin += FoldoutIndent;
+					fieldRect.xMin += foldoutIndent;
 					GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
 
 					fieldFeature.Expanded = EditorGUI.Foldout(fieldRect, fieldFeature.Expanded, field.Name, true);

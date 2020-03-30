@@ -22,6 +22,8 @@ namespace RPGCore.Unity.Editors
 
 		public override void OnGUI()
 		{
+			GUILayout.BeginArea(Position);
+
 			int aspect = texture.width / texture.height;
 			var rect = GUILayoutUtility.GetRect(480, 480 / aspect, GUILayout.ExpandWidth(false));
 
@@ -31,6 +33,8 @@ namespace RPGCore.Unity.Editors
 				rect.height - 48);
 
 			GUI.DrawTexture(rect, texture);
+
+			GUILayout.EndArea();
 		}
 	}
 }

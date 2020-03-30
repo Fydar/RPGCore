@@ -12,12 +12,16 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
+	public class FramedEditorSessionFeature
+	{
+		public EditorSessionFrame Frame;
+	}
+
 	public class EditorSessionFrame : WindowFrame
 	{
 		public IResource Resource { get; private set; }
 		public EditorSession EditorSession { get; private set; }
-
-		public bool HasUnsavedChanges { get; private set; }
+		public ResourceTreeViewItem EditorContext { get; internal set; }
 
 		private readonly JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
 		{
@@ -26,6 +30,52 @@ namespace RPGCore.Unity.Editors
 				new LocalPropertyIdJsonConverter()
 			}
 		});
+
+		public override IEnumerable<FrameTab> SpawnChildren()
+		{
+			foreach (var field in AllFields(EditorSession.Root))
+			{
+				if (field.Field.Type == "SerializedGraph")
+				{
+					var frame = new BehaviourGraphFrame
+					{
+						View = new BehaviourEditorView()
+					};
+					frame.View.BeginSession(field.Session, field);
+
+					yield return new FrameTab()
+					{
+						Title = new GUIContent(field.Name),
+						Frame = frame,
+					};
+				}
+			}
+		}
+
+		private IEnumerable<EditorField> AllFields(EditorField root)
+		{
+			yield return root;
+			foreach (var field in root)
+			{
+				foreach (var childField in AllFields(field))
+				{
+					yield return childField;
+				}
+			}
+		}
+
+		public EditorSessionFrame(EditorSession editorSession)
+		{
+			EditorSession = editorSession;
+
+			EditorSession.OnChanged += () =>
+			{
+				HasUnsavedChanges = true;
+			};
+
+			var feature = EditorSession.Root.GetOrCreateFeature<FramedEditorSessionFeature>();
+			feature.Frame = this;
+		}
 
 		public EditorSessionFrame(IResource resource)
 		{
@@ -69,6 +119,9 @@ namespace RPGCore.Unity.Editors
 			{
 				HasUnsavedChanges = true;
 			};
+
+			var feature = EditorSession.Root.GetOrCreateFeature<FramedEditorSessionFeature>();
+			feature.Frame = this;
 		}
 
 		public override void OnEnable()
@@ -77,6 +130,8 @@ namespace RPGCore.Unity.Editors
 
 		public override void OnGUI()
 		{
+			GUILayout.BeginArea(Position);
+
 			if (Resource is ProjectResource projectResource)
 			{
 				EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
@@ -104,6 +159,8 @@ namespace RPGCore.Unity.Editors
 			}
 
 			RPGCoreEditor.DrawEditor(EditorSession);
+
+			GUILayout.EndArea();
 		}
 	}
 }

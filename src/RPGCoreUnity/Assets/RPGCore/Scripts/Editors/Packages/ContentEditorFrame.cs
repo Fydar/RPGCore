@@ -47,15 +47,13 @@ namespace RPGCore.Unity.Editors
 					return;
 				}
 
-				Selection.Open();
+				Selection.Open(Window);
 
 				resourceTreeView.SetSelection(new int[] { selection.id });
 
 			}
 		}
 		private ResourceTreeViewItem selection;
-		private int selectionTabIndex;
-
 
 		public override void OnEnable()
 		{
@@ -81,7 +79,7 @@ namespace RPGCore.Unity.Editors
 				availableProjects = Resources.LoadAll<ProjectImport>("");
 			}
 
-			var headerRect = new Rect(
+			var toolbarRect = new Rect(
 				0,
 				0,
 				Position.width,
@@ -105,17 +103,23 @@ namespace RPGCore.Unity.Editors
 				5,
 				treeViewRect.height);
 
-			var breadCrumbsBar = new Rect(
+			var breadcrumbsBarRect = new Rect(
 				treeViewWidth + 1,
 				EditorGUIUtility.singleLineHeight + 3,
 				Position.width - treeViewWidth - 1,
 				21f);
 
-			var remainingRect = new Rect(
+			var tabsBarRect = new Rect(
 				treeViewWidth + 1,
-				EditorGUIUtility.singleLineHeight + 3 + breadCrumbsBar.height,
+				breadcrumbsBarRect.yMax,
 				Position.width - treeViewWidth - 1,
-				Position.height - EditorGUIUtility.singleLineHeight - breadCrumbsBar.height);
+				21f);
+
+			var rightPanelRect = new Rect(
+				treeViewWidth + 1,
+				tabsBarRect.yMax,
+				Position.width - treeViewWidth - 1,
+				Position.height - EditorGUIUtility.singleLineHeight - tabsBarRect.yMax);
 
 			EditorGUI.DrawRect(treeViewDivierLineRect, new Color(0.0f, 0.0f, 0.0f, 0.2f));
 
@@ -138,20 +142,17 @@ namespace RPGCore.Unity.Editors
 				Window.Repaint();
 			}
 
-
-			GUILayout.BeginArea(headerRect, EditorStyles.toolbar);
+			// Toolbar
+			GUILayout.BeginArea(toolbarRect, EditorStyles.toolbar);
 			EditorGUILayout.BeginHorizontal();
 
 
 			EditorGUILayout.EndHorizontal();
 			GUILayout.EndArea();
 
+			// Treeview and update selectrion
 			resourceTreeView.SetTarget(availableProjects);
 			resourceTreeView.OnGUI(treeViewRect);
-
-			DrawBreadcrumbs(breadCrumbsBar);
-
-			GUILayout.BeginArea(remainingRect);
 
 			foreach (int selected in resourceTreeView.GetSelection())
 			{
@@ -168,35 +169,40 @@ namespace RPGCore.Unity.Editors
 				}
 			}
 
+			// Breadcrumbs
+			DrawBreadcrumbs(breadcrumbsBarRect);
+
+			// Tabs
 			if (Selection?.Tabs != null && Selection?.Tabs.Count != 0)
 			{
+				GUILayout.BeginArea(tabsBarRect, EditorStyles.toolbar);
 				EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
-				for (int i = 0; i < Selection.Tabs.Count; i++)
-				{
-					var tab = Selection.Tabs[i];
 
+				foreach (var tab in Selection.Tabs)
+				{
 					var originalColor = GUI.color;
-					GUI.color = i == selectionTabIndex
+					GUI.color = tab == Selection.CurrentTab
 						? GUI.color
 						: GUI.color * 0.725f;
 
 					if (GUILayout.Button(tab.Title, EditorStyles.toolbarButton))
 					{
-						selectionTabIndex = i;
+						Selection.CurrentTab = tab;
 					}
 
 					GUI.color = originalColor;
 				}
-				EditorGUILayout.EndHorizontal();
 
-				if (selectionTabIndex >= 0 && selectionTabIndex < Selection.Tabs.Count)
-				{
-					var currentTab = Selection.Tabs[selectionTabIndex];
-					currentTab.Frame.OnGUI();
-				}
+				EditorGUILayout.EndHorizontal();
+				GUILayout.EndArea();
 			}
 
-			GUILayout.EndArea();
+			// Right panel
+			if (Selection?.CurrentTab != null)
+			{
+				Selection.CurrentTab.Frame.Position = rightPanelRect;
+				Selection.CurrentTab.Frame.OnGUI();
+			}
 		}
 
 		private void DrawBreadcrumbs(Rect rect)
@@ -215,10 +221,7 @@ namespace RPGCore.Unity.Editors
 				{
 					break;
 				}
-
-
 				itr++;
-
 				if (itr > 20)
 				{
 					break;

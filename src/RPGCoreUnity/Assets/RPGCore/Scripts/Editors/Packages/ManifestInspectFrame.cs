@@ -33,8 +33,7 @@ namespace RPGCore.Unity.Editors
 
 			manifestTreeView.SetTarget(Manifest);
 
-			var rect = GUILayoutUtility.GetRect(0, 0, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-			manifestTreeView.OnGUI(rect);
+			manifestTreeView.OnGUI(Position);
 		}
 	}
 }

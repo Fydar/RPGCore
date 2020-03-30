@@ -6,5 +6,6 @@ namespace RPGCore.Unity.Editors
 	{
 		public GUIContent Title;
 		public WindowFrame Frame;
+		public FrameTab Parent;
 	}
 }

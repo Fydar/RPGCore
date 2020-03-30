@@ -55,6 +55,8 @@ namespace RPGCore.Unity.Editors
 
 		public override void OnGUI()
 		{
+			GUILayout.BeginArea(Position);
+
 			EditorGUILayout.LabelField("Resource Name", Resource.Name);
 			EditorGUILayout.LabelField("Resource Full Name", Resource.FullName);
 			EditorGUILayout.LabelField("Compressed Size", Resource.CompressedSize.ToString());
@@ -96,6 +98,8 @@ namespace RPGCore.Unity.Editors
 				var currentTab = visualiserTabs[visualiserTabsIndex];
 				currentTab.Frame.OnGUI();
 			}
+
+			GUILayout.EndArea();
 		}
 	}
 }

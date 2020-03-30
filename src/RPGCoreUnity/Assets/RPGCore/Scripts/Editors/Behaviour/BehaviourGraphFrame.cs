@@ -9,7 +9,6 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-
 	public class BehaviourGraphFrame : WindowFrame
 	{
 		public static Dictionary<string, GraphTypeInformation> StyleLookup = new Dictionary<string, GraphTypeInformation>()
@@ -38,19 +37,11 @@ namespace RPGCore.Unity.Editors
 
 		public BehaviourEditorView View;
 
-		private Event CurrentEvent;
-		private GUIStyle NodePadding;
+		private Event currentEvent;
+		private GUIStyle nodePadding;
 
 		public override void OnEnable()
 		{
-			NodePadding = new GUIStyle()
-			{
-				padding = new RectOffset()
-				{
-					left = 4,
-					right = 4
-				}
-			};
 		}
 
 		public override void OnGUI()
@@ -60,7 +51,19 @@ namespace RPGCore.Unity.Editors
 				View = new BehaviourEditorView();
 			}
 
-			CurrentEvent = Event.current;
+			if (nodePadding == null)
+			{
+				nodePadding = new GUIStyle()
+				{
+					padding = new RectOffset()
+					{
+						left = 4,
+						right = 4
+					}
+				};
+			}
+
+			currentEvent = Event.current;
 
 			DrawBackground(Position, View.PanPosition);
 			DrawNodes();
@@ -92,10 +95,10 @@ namespace RPGCore.Unity.Editors
 
 				GUILayout.BeginArea(nodeRect);
 
-				var finalRect = EditorGUILayout.BeginVertical(NodePadding);
+				var finalRect = EditorGUILayout.BeginVertical(nodePadding);
 				// finalRect.xMax -= 2;
 				finalRect.yMax += 4;
-				if (CurrentEvent.type == EventType.Repaint)
+				if (currentEvent.type == EventType.Repaint)
 				{
 					GUI.skin.window.Draw(finalRect,
 						false, View.Selection.Contains(node.Name), false, false);
@@ -128,11 +131,11 @@ namespace RPGCore.Unity.Editors
 					finalRect.height
 				);
 
-				if (CurrentEvent.type == EventType.MouseDown)
+				if (currentEvent.type == EventType.MouseDown)
 				{
-					if (globalFinalRect.Contains(CurrentEvent.mousePosition))
+					if (globalFinalRect.Contains(currentEvent.mousePosition))
 					{
-						if (CurrentEvent.button == 1)
+						if (currentEvent.button == 1)
 						{
 							var menu = new GenericMenu();
 
@@ -140,7 +143,7 @@ namespace RPGCore.Unity.Editors
 
 							menu.ShowAsContext();
 
-							CurrentEvent.Use();
+							currentEvent.Use();
 						}
 						else
 						{
@@ -152,7 +155,7 @@ namespace RPGCore.Unity.Editors
 							GUI.UnfocusWindow();
 							GUI.FocusControl("");
 
-							CurrentEvent.Use();
+							currentEvent.Use();
 						}
 					}
 				}
@@ -166,9 +169,9 @@ namespace RPGCore.Unity.Editors
 				return;
 			}
 
-			if (CurrentEvent.type != EventType.Repaint
-				&& CurrentEvent.type != EventType.MouseDown
-				&& CurrentEvent.type != EventType.MouseUp)
+			if (currentEvent.type != EventType.Repaint
+				&& currentEvent.type != EventType.MouseDown
+				&& currentEvent.type != EventType.MouseUp)
 			{
 				return;
 			}
@@ -193,7 +196,7 @@ namespace RPGCore.Unity.Editors
 					var outputSocketRect = new Rect(nodePositionX + 220, nodePositionY + 6, 20, 20);
 					foreach (var output in nodeInfo.Outputs)
 					{
-						if (CurrentEvent.type == EventType.Repaint)
+						if (currentEvent.type == EventType.Repaint)
 						{
 							if (!StyleLookup.TryGetValue(output.Value.Type, out var connectionStyle))
 							{
@@ -206,7 +209,7 @@ namespace RPGCore.Unity.Editors
 							GUI.DrawTexture(outputSocketRect, BehaviourGraphResources.Instance.OutputSocket);
 							GUI.color = originalColor;
 						}
-						else if (CurrentEvent.type == EventType.MouseDown && outputSocketRect.Contains(CurrentEvent.mousePosition))
+						else if (currentEvent.type == EventType.MouseDown && outputSocketRect.Contains(currentEvent.mousePosition))
 						{
 							var outputId = new LocalPropertyId(new LocalId(node.Name), output.Key);
 							View.BeginConnectionFromOutput(outputId);
@@ -214,9 +217,9 @@ namespace RPGCore.Unity.Editors
 							GUI.UnfocusWindow();
 							GUI.FocusControl("");
 
-							CurrentEvent.Use();
+							currentEvent.Use();
 						}
-						else if (CurrentEvent.type == EventType.MouseUp && outputSocketRect.Contains(CurrentEvent.mousePosition))
+						else if (currentEvent.type == EventType.MouseUp && outputSocketRect.Contains(currentEvent.mousePosition))
 						{
 							if (View.CurrentMode == BehaviourEditorView.ControlMode.CreatingConnection)
 							{
@@ -231,7 +234,7 @@ namespace RPGCore.Unity.Editors
 									GUI.UnfocusWindow();
 									GUI.FocusControl("");
 
-									CurrentEvent.Use();
+									currentEvent.Use();
 								}
 							}
 						}
@@ -279,16 +282,16 @@ namespace RPGCore.Unity.Editors
 
 					var inputSocketRect = inputFieldFeature.InputSocketPosition;
 
-					if (CurrentEvent.type == EventType.MouseDown && inputSocketRect.Contains(CurrentEvent.mousePosition))
+					if (currentEvent.type == EventType.MouseDown && inputSocketRect.Contains(currentEvent.mousePosition))
 					{
 						View.BeginConnectionFromInput(childField, node.Name);
 
 						GUI.UnfocusWindow();
 						GUI.FocusControl("");
 
-						CurrentEvent.Use();
+						currentEvent.Use();
 					}
-					else if (CurrentEvent.type == EventType.MouseUp && inputSocketRect.Contains(CurrentEvent.mousePosition))
+					else if (currentEvent.type == EventType.MouseUp && inputSocketRect.Contains(currentEvent.mousePosition))
 					{
 						if (View.CurrentMode == BehaviourEditorView.ControlMode.CreatingConnection)
 						{
@@ -301,11 +304,11 @@ namespace RPGCore.Unity.Editors
 								GUI.UnfocusWindow();
 								GUI.FocusControl("");
 
-								CurrentEvent.Use();
+								currentEvent.Use();
 							}
 						}
 					}
-					else if (CurrentEvent.type == EventType.Repaint)
+					else if (currentEvent.type == EventType.Repaint)
 					{
 						if (!StyleLookup.TryGetValue("Error", out var inputStyle))
 						{
@@ -421,7 +424,7 @@ namespace RPGCore.Unity.Editors
 					if (isFound)
 					{
 						var start = new Vector3(outputRect.x, outputRect.center.y);
-						var end = new Vector3(CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
+						var end = new Vector3(currentEvent.mousePosition.x, currentEvent.mousePosition.y);
 						var startDir = new Vector3(1, 0);
 						var endDir = new Vector3(-1, 0);
 
@@ -446,7 +449,7 @@ namespace RPGCore.Unity.Editors
 
 					var inputSocketRect = startFieldFeature.InputSocketPosition;
 
-					var start = new Vector3(CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y);
+					var start = new Vector3(currentEvent.mousePosition.x, currentEvent.mousePosition.y);
 					var end = new Vector3(inputSocketRect.xMax, inputSocketRect.center.y);
 					var startDir = new Vector3(1, 0);
 					var endDir = new Vector3(-1, 0);
@@ -468,12 +471,12 @@ namespace RPGCore.Unity.Editors
 
 		private void HandleInput()
 		{
-			if (CurrentEvent.type == EventType.MouseUp)
+			if (currentEvent.type == EventType.MouseUp)
 			{
 				switch (View.CurrentMode)
 				{
 					case BehaviourEditorView.ControlMode.NodeDragging:
-						CurrentEvent.Use();
+						currentEvent.Use();
 
 						foreach (string selectedNode in View.Selection)
 						{
@@ -498,14 +501,14 @@ namespace RPGCore.Unity.Editors
 				}
 				Window.Repaint();
 			}
-			else if (CurrentEvent.type == EventType.KeyDown)
+			else if (currentEvent.type == EventType.KeyDown)
 			{
-				if (CurrentEvent.keyCode == KeyCode.Space)
+				if (currentEvent.keyCode == KeyCode.Space)
 				{
 					var position = new PackageNodePosition()
 					{
-						x = (int)CurrentEvent.mousePosition.x,
-						y = (int)CurrentEvent.mousePosition.y
+						x = (int)currentEvent.mousePosition.x,
+						y = (int)currentEvent.mousePosition.y
 					};
 					var window = new BehaviourGraphAddNodeDropdown(BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain), (newNodeObject) =>
 					{
@@ -531,9 +534,9 @@ namespace RPGCore.Unity.Editors
 						Window.Repaint();
 					});
 
-					window.Show(new Rect(CurrentEvent.mousePosition.x, CurrentEvent.mousePosition.y, 0, 0));
+					window.Show(new Rect(currentEvent.mousePosition.x, currentEvent.mousePosition.y, 0, 0));
 				}
-				else if (CurrentEvent.keyCode == KeyCode.Delete)
+				else if (currentEvent.keyCode == KeyCode.Delete)
 				{
 					var graphEditorNodes = View.GraphField["Nodes"];
 
@@ -543,7 +546,7 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 			}
-			else if (CurrentEvent.type == EventType.MouseDrag)
+			else if (currentEvent.type == EventType.MouseDrag)
 			{
 				switch (View.CurrentMode)
 				{
@@ -553,29 +556,29 @@ namespace RPGCore.Unity.Editors
 							var pos = View.GraphField["Nodes"][selectedNode]["Editor"]["Position"];
 
 							var posX = pos["x"];
-							posX.SetValue(posX.GetValue<int>() + ((int)CurrentEvent.delta.x));
+							posX.SetValue(posX.GetValue<int>() + ((int)currentEvent.delta.x));
 
 							var posY = pos["y"];
-							posY.SetValue(posY.GetValue<int>() + ((int)CurrentEvent.delta.y));
+							posY.SetValue(posY.GetValue<int>() + ((int)currentEvent.delta.y));
 						}
 						break;
 
 					case BehaviourEditorView.ControlMode.ViewDragging:
-						View.PanPosition += CurrentEvent.delta;
+						View.PanPosition += currentEvent.delta;
 						break;
 				}
 				Window.Repaint();
 			}
-			else if (CurrentEvent.type == EventType.MouseDown)
+			else if (currentEvent.type == EventType.MouseDown)
 			{
-				if (Position.Contains(CurrentEvent.mousePosition))
+				if (Position.Contains(currentEvent.mousePosition))
 				{
 					GUI.UnfocusWindow();
 					GUI.FocusControl("");
 
 					View.CurrentMode = BehaviourEditorView.ControlMode.ViewDragging;
 
-					CurrentEvent.Use();
+					currentEvent.Use();
 					Window.Repaint();
 				}
 			}
@@ -583,7 +586,7 @@ namespace RPGCore.Unity.Editors
 
 		private void DrawBackground(Rect backgroundRect, Vector2 viewPosition)
 		{
-			if (CurrentEvent.type != EventType.Repaint)
+			if (currentEvent.type != EventType.Repaint)
 			{
 				return;
 			}
@@ -628,7 +631,7 @@ namespace RPGCore.Unity.Editors
 				return;
 			}
 
-			if (CurrentEvent.type != EventType.Repaint)
+			if (currentEvent.type != EventType.Repaint)
 			{
 				return;
 			}

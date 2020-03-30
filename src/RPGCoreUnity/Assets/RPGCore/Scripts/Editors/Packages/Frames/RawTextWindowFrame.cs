@@ -53,6 +53,8 @@ namespace RPGCore.Unity.Editors
 
 		public override void OnGUI()
 		{
+			GUILayout.BeginArea(Position);
+
 			if (textStyle == null)
 			{
 				var courierNewFont = Font.CreateDynamicFontFromOSFont("Courier New", 24);
@@ -124,6 +126,8 @@ namespace RPGCore.Unity.Editors
 					EditorGUI.LabelField(lineRect, lines[element.Index], textStyle);
 				}
 			}
+
+			GUILayout.EndArea();
 		}
 	}
 }
