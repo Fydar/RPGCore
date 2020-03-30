@@ -9,12 +9,12 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-	internal class ResourceTreeView : TreeView
+	internal class ContentTreeView : TreeView
 	{
 		private ProjectImport[] projectImports;
-		public Dictionary<int, ResourceTreeViewItem> idToItemMapping = new Dictionary<int, ResourceTreeViewItem>();
+		public Dictionary<int, ContentTreeViewItem> idToItemMapping = new Dictionary<int, ContentTreeViewItem>();
 
-		public ResourceTreeView(TreeViewState treeViewState)
+		public ContentTreeView(TreeViewState treeViewState)
 			: base(treeViewState)
 		{
 		}
@@ -179,7 +179,7 @@ namespace RPGCore.Unity.Editors
 
 		private void BuildProject(List<TreeViewItem> collection, IExplorer explorer, int depth, ref int id)
 		{
-			var newItem = new ResourceTreeViewItem
+			var newItem = new ContentTreeViewItem
 			{
 				displayName = explorer.Name,
 				id = id++,
@@ -191,7 +191,7 @@ namespace RPGCore.Unity.Editors
 			idToItemMapping[newItem.id] = newItem;
 			collection.Add(newItem);
 
-			collection.Add(new ResourceTreeViewItem
+			collection.Add(new ContentTreeViewItem
 			{
 				displayName = "Dependancies",
 				id = id++,
@@ -201,7 +201,7 @@ namespace RPGCore.Unity.Editors
 				item = null
 			});
 
-			collection.Add(new ResourceTreeViewItem
+			collection.Add(new ContentTreeViewItem
 			{
 				displayName = "Manifests",
 				id = id++,
@@ -212,7 +212,7 @@ namespace RPGCore.Unity.Editors
 			});
 
 			var manifestItem = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
-			var manifestTreeViewItem = new ResourceTreeViewItem
+			var manifestTreeViewItem = new ContentTreeViewItem
 			{
 				displayName = "RPGCore 1.0.0",
 				id = id++,
@@ -224,7 +224,7 @@ namespace RPGCore.Unity.Editors
 			idToItemMapping[manifestTreeViewItem.id] = manifestTreeViewItem;
 			collection.Add(manifestTreeViewItem);
 
-			collection.Add(new ResourceTreeViewItem
+			collection.Add(new ContentTreeViewItem
 			{
 				displayName = "Projects",
 				id = id++,
@@ -241,7 +241,7 @@ namespace RPGCore.Unity.Editors
 		{
 			foreach (var childDirectory in directory.Directories)
 			{
-				var newItem = new ResourceTreeViewItem
+				var newItem = new ContentTreeViewItem
 				{
 					displayName = childDirectory.Name,
 					id = id++,
@@ -258,7 +258,7 @@ namespace RPGCore.Unity.Editors
 
 			foreach (var resource in directory.Resources)
 			{
-				var newItem = new ResourceTreeViewItem
+				var newItem = new ContentTreeViewItem
 				{
 					displayName = resource.Name,
 					id = id++,

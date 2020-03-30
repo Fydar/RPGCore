@@ -66,8 +66,12 @@ namespace RPGCore.Unity.Editors
 			currentEvent = Event.current;
 
 			DrawBackground(Position, View.PanPosition);
+
+			GUI.BeginClip(Position);
 			DrawNodes();
 			DrawConnections();
+			GUI.EndClip();
+
 			HandleInput();
 		}
 

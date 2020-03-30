@@ -22,12 +22,10 @@ namespace RPGCore.Unity.Editors
 		[SerializeField] private float treeViewWidth = 190;
 
 		private bool isDraggingTreeView;
-
 		private ProjectImport[] availableProjects;
+		private ContentTreeView resourceTreeView;
 
-		private ResourceTreeView resourceTreeView;
-
-		public ResourceTreeViewItem Selection
+		public ContentTreeViewItem Selection
 		{
 			get
 			{
@@ -53,7 +51,7 @@ namespace RPGCore.Unity.Editors
 
 			}
 		}
-		private ResourceTreeViewItem selection;
+		private ContentTreeViewItem selection;
 
 		public override void OnEnable()
 		{
@@ -71,57 +69,42 @@ namespace RPGCore.Unity.Editors
 			}
 			if (resourceTreeView == null)
 			{
-				resourceTreeView = new ResourceTreeView(resourceTreeViewState);
+				resourceTreeView = new ContentTreeView(resourceTreeViewState);
 			}
-
 			if (availableProjects == null)
 			{
 				availableProjects = Resources.LoadAll<ProjectImport>("");
 			}
 
 			var toolbarRect = new Rect(
-				0,
-				0,
-				Position.width,
-				EditorGUIUtility.singleLineHeight + 8);
+				0, 0,
+				Position.width, EditorGUIUtility.singleLineHeight + 3);
 
 			var treeViewRect = new Rect(
-				0,
-				EditorGUIUtility.singleLineHeight + 3,
-				treeViewWidth,
-				Position.height - EditorGUIUtility.singleLineHeight - 3);
+				0, toolbarRect.yMax,
+				treeViewWidth, Position.height - toolbarRect.yMax);
 
-			var treeViewDivierLineRect = new Rect(
-				treeViewRect.xMax,
-				treeViewRect.y,
-				1,
-				treeViewRect.height);
+			var treeViewDivierRect = new Rect(
+				treeViewRect.xMax, treeViewRect.y,
+				1, treeViewRect.height);
 
 			var treeViewDivierDragRect = new Rect(
-				treeViewRect.xMax - 1,
-				treeViewRect.y,
-				5,
-				treeViewRect.height);
+				treeViewRect.xMax - 1, treeViewRect.y,
+				5, treeViewRect.height);
 
 			var breadcrumbsBarRect = new Rect(
-				treeViewWidth + 1,
-				EditorGUIUtility.singleLineHeight + 3,
-				Position.width - treeViewWidth - 1,
-				21f);
+				treeViewWidth + 1, toolbarRect.yMax,
+				Position.width - treeViewDivierRect.xMin, 21f);
 
 			var tabsBarRect = new Rect(
-				treeViewWidth + 1,
-				breadcrumbsBarRect.yMax,
-				Position.width - treeViewWidth - 1,
-				21f);
+				treeViewWidth + 1, breadcrumbsBarRect.yMax,
+				Position.width - treeViewDivierRect.xMin, 21f);
 
 			var rightPanelRect = new Rect(
-				treeViewWidth + 1,
-				tabsBarRect.yMax,
-				Position.width - treeViewWidth - 1,
-				Position.height - EditorGUIUtility.singleLineHeight - tabsBarRect.yMax);
+				treeViewWidth + 1, tabsBarRect.yMax,
+				Position.width - treeViewDivierRect.xMin, Position.height - tabsBarRect.yMax);
 
-			EditorGUI.DrawRect(treeViewDivierLineRect, new Color(0.0f, 0.0f, 0.0f, 0.2f));
+			EditorGUI.DrawRect(treeViewDivierRect, new Color(0.0f, 0.0f, 0.0f, 0.2f));
 
 			EditorGUIUtility.AddCursorRect(treeViewDivierDragRect, MouseCursor.ResizeHorizontal);
 			if (treeViewDivierDragRect.Contains(Event.current.mousePosition))
@@ -129,6 +112,7 @@ namespace RPGCore.Unity.Editors
 				if (Event.current.type == EventType.MouseDown)
 				{
 					isDraggingTreeView = true;
+					Event.current.Use();
 				}
 			}
 			if (Event.current.type == EventType.MouseUp)
@@ -207,13 +191,13 @@ namespace RPGCore.Unity.Editors
 
 		private void DrawBreadcrumbs(Rect rect)
 		{
-			var breadcrumbs = new List<ResourceTreeViewItem>();
+			var breadcrumbs = new List<ContentTreeViewItem>();
 			var currentObj = Selection;
 			int itr = 0;
 			while (currentObj != null)
 			{
 				breadcrumbs.Add(currentObj);
-				if (currentObj.parent is ResourceTreeViewItem parentObj)
+				if (currentObj.parent is ContentTreeViewItem parentObj)
 				{
 					currentObj = parentObj;
 				}
@@ -244,6 +228,10 @@ namespace RPGCore.Unity.Editors
 				else if (breadcrumbItem.item is IDirectory currentDirectory)
 				{
 					labelContent = new GUIContent(currentDirectory.Name);
+				}
+				else if (breadcrumbItem.item is IExplorer currentExplorer)
+				{
+					labelContent = new GUIContent(currentExplorer.Name);
 				}
 				else
 				{

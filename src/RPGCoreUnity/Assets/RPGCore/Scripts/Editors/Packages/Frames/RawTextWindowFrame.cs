@@ -53,8 +53,6 @@ namespace RPGCore.Unity.Editors
 
 		public override void OnGUI()
 		{
-			GUILayout.BeginArea(Position);
-
 			if (textStyle == null)
 			{
 				var courierNewFont = Font.CreateDynamicFontFromOSFont("Courier New", 24);
@@ -94,18 +92,17 @@ namespace RPGCore.Unity.Editors
 				new GUIContent(guideString),
 				out _, out float maxWidth);
 
-			var rect = GUILayoutUtility.GetRect(0, 480, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 			var lineNumberBackgroundRect = new Rect(
-				rect.x,
-				rect.y,
+				Position.x,
+				Position.y,
 				maxWidth,
-				rect.height
+				Position.height
 			);
 
-			EditorGUI.DrawRect(rect, new Color(0.95f, 0.95f, 0.95f));
+			EditorGUI.DrawRect(Position, new Color(0.95f, 0.95f, 0.95f));
 			EditorGUI.DrawRect(lineNumberBackgroundRect, new Color(0.90f, 0.90f, 0.90f));
 
-			foreach (var element in new UniformScrollController(rect, EditorGUIUtility.singleLineHeight, ref offset, lines.Length))
+			foreach (var element in new UniformScrollController(Position, EditorGUIUtility.singleLineHeight, ref offset, lines.Length))
 			{
 				var lineNumberRect = new Rect(
 					element.Position.x,
@@ -126,8 +123,6 @@ namespace RPGCore.Unity.Editors
 					EditorGUI.LabelField(lineRect, lines[element.Index], textStyle);
 				}
 			}
-
-			GUILayout.EndArea();
 		}
 	}
 }

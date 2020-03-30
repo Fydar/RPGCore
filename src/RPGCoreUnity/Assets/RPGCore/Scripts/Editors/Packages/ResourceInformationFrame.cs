@@ -96,6 +96,8 @@ namespace RPGCore.Unity.Editors
 			if (visualiserTabsIndex >= 0 && visualiserTabsIndex < visualiserTabs.Count)
 			{
 				var currentTab = visualiserTabs[visualiserTabsIndex];
+				currentTab.Frame.Position = GUILayoutUtility.GetRect(0.0f, 0.0f,
+					GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 				currentTab.Frame.OnGUI();
 			}
 

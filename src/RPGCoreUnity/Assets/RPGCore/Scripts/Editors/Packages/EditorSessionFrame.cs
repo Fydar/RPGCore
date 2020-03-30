@@ -21,7 +21,7 @@ namespace RPGCore.Unity.Editors
 	{
 		public IResource Resource { get; private set; }
 		public EditorSession EditorSession { get; private set; }
-		public ResourceTreeViewItem EditorContext { get; internal set; }
+		public ContentTreeViewItem EditorContext { get; internal set; }
 
 		private readonly JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
 		{
@@ -149,11 +149,6 @@ namespace RPGCore.Unity.Editors
 					}
 
 					HasUnsavedChanges = false;
-				}
-
-				if (GUILayout.Button("View Manifest", EditorStyles.toolbarButton, GUILayout.Width(120)))
-				{
-					GenericWindow.Open(new GUIContent("Manifest"), new JsonTextWindowFrame(EditorSession.Manifest.ToString()));
 				}
 				EditorGUILayout.EndHorizontal();
 			}

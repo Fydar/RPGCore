@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
-	public class ResourceTreeViewItem : TreeViewItem
+	public class ContentTreeViewItem : TreeViewItem
 	{
 		public object item;
 
@@ -108,6 +108,11 @@ namespace RPGCore.Unity.Editors
 
 						VirtualChildren.Add(childTab);
 					}
+				}
+				
+				if (Tabs.Count != 0)
+				{
+					CurrentTab = Tabs[0];
 				}
 			}
 		}
