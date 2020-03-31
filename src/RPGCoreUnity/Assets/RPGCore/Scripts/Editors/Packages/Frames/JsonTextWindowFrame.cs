@@ -3,16 +3,60 @@ using Newtonsoft.Json.Linq;
 using RPGCore.Packages;
 using System.IO;
 using System.Text;
+using UnityEngine;
 
 namespace RPGCore.Unity.Editors
 {
 	public class JsonTextWindowFrame : RawTextWindowFrame
 	{
-		private const string KeyColor = "#0451a5";
-		private const string StringValueColor = "#a31515";
-		private const string NumericValueColor = "#098658";
+		[SerializeField]
+		private string orignalText;
 
-		// private const string BoolValueColor = "#0000ff";
+		public string KeyColor
+		{
+			get
+			{
+				return IsDarkTheme
+					? "#4294ed"
+					: "#0451a5";
+			}
+		}
+
+		public string StringValueColor
+		{
+			get
+			{
+				return IsDarkTheme
+					? "#eb3434"
+					: "#a31515";
+			}
+		}
+
+		public string NumericValueColor
+		{
+			get
+			{
+				return IsDarkTheme
+					? "#2fd497"
+					: "#098658";
+			}
+		}
+
+		public JsonTextWindowFrame(IResource resource)
+			: base(resource)
+		{
+		}
+
+		public JsonTextWindowFrame(string text)
+		{
+			orignalText = text;
+			lines = HighlightSyntax(text);
+		}
+
+		protected override void OnThemeChanged()
+		{
+			lines = HighlightSyntax(orignalText);
+		}
 
 		protected override string[] BuildLines(IResource resource)
 		{
@@ -26,13 +70,13 @@ namespace RPGCore.Unity.Editors
 				jobject = serializer.Deserialize<JObject>(jsonReader);
 			}
 
-			string allLines = jobject.ToString(Formatting.Indented);
-			string[] builtLines = HighlightSyntax(allLines);
+			orignalText = jobject.ToString(Formatting.Indented);
+			string[] builtLines = HighlightSyntax(orignalText);
 
 			return builtLines;
 		}
 
-		private static string[] HighlightSyntax(string allLines)
+		private string[] HighlightSyntax(string allLines)
 		{
 			string[] builtLines = allLines.Split(new char[] { '\n' }, System.StringSplitOptions.None);
 
@@ -111,16 +155,6 @@ namespace RPGCore.Unity.Editors
 			}
 
 			return builtLines;
-		}
-
-		public JsonTextWindowFrame(IResource resource)
-			: base(resource)
-		{
-		}
-
-		public JsonTextWindowFrame(string text)
-			: base(HighlightSyntax(text))
-		{
 		}
 	}
 }
