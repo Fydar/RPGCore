@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame.UnitTests
 {
-	[TestFixture(TestOf = typeof(GameView))]
+	[TestFixture(TestOf = typeof(LobbyView))]
 	public class GameViewShould
 	{
 		[Test, Parallelizable]
@@ -18,8 +18,8 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			var player2 = LocalId.NewShortId();
 
 			PackageExplorer explorer = null;
-			var gameView = new GameView();
-			gameView.StartGame(explorer);
+			var gameView = new LobbyView();
+			gameView.SetupDependancies(explorer);
 
 			gameView.Apply(new PlayerJoinedProcedure()
 			{
@@ -35,11 +35,10 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 
 			gameView.Apply(new StartGameProcedure()
 			{
-				Buildings = new string[]
+				Gameplay = new GameplayView()
 				{
-					"cottagepack"
-				},
-				PlayerStates = gameView.PlayerStates
+					
+				}
 			});
 
 			gameView.Apply(new DeclareResourceProcedure()
@@ -122,28 +121,29 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			DrawGameState(gameView);
 		}
 
-		private void DrawGameState(GameView game)
+		private void DrawGameState(LobbyView game)
 		{
-			for (int i = 0; i < game.PlayerStates.Count; i++)
+			int index = 0;
+			foreach (var gameplayPlayer in game.Gameplay.Players)
 			{
-				var playerStates = game.PlayerStates[i];
-				Console.WriteLine($"Player {playerStates.OwnerId}");
-				if (game.CurrentPlayersTurn == i)
+				Console.WriteLine($"Player {gameplayPlayer.OwnerId}");
+				if (game.Gameplay.CurrentPlayersTurn == index)
 				{
 					Console.WriteLine($"(Current players turn)");
 				}
 
 				for (int y = 4 - 1; y >= 0; y--)
 				{
-					for (int x = 0; x < playerStates.Board.Width; x++)
+					for (int x = 0; x < gameplayPlayer.Board.Width; x++)
 					{
-						var tile = playerStates.Board[x, y];
+						var tile = gameplayPlayer.Board[x, y];
 
 						Console.Write(tile.ToChar());
 					}
 					Console.WriteLine();
 				}
 				Console.WriteLine();
+				index++;
 			}
 			Console.WriteLine("=======");
 		}

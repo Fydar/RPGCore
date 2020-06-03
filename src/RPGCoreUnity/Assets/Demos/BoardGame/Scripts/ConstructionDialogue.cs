@@ -18,7 +18,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 		{
 			optionsPool.Flush();
 
-			var board = gameViewRenderer.Game.PlayerStates[0].Board;
+			var board = gameViewRenderer.Lobby.Gameplay.Players[0].Board;
 
 			var building = new BuildingTemplate()
 			{

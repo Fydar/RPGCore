@@ -2,9 +2,9 @@
 {
 	public class GameClient
 	{
-		public GameView ClientView;
+		public LobbyView ClientView;
 
-		public void AcceptInput(GameViewProcedure procedure)
+		public void AcceptInput(LobbyViewProcedure procedure)
 		{
 			ClientView.Apply(procedure);
 		}

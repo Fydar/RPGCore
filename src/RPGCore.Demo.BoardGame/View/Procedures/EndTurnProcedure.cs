@@ -2,14 +2,14 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class EndTurnProcedure : GameViewProcedure
+	public class EndTurnProcedure : LobbyViewProcedure
 	{
 		public LocalId Player { get; set; }
 
-		public override ProcedureResult Apply(GameView view)
+		public override ProcedureResult Apply(LobbyView view)
 		{
-			view.CurrentPlayersTurn++;
-			view.DeclaredResource = false;
+			view.Gameplay.CurrentPlayersTurn++;
+			view.Gameplay.DeclaredResource = false;
 
 			return ProcedureResult.Success;
 		}

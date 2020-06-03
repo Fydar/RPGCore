@@ -2,15 +2,13 @@
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class PlayerLeftProcedure : GameViewProcedure
+	public class PlayerLeftProcedure : LobbyViewProcedure
 	{
 		public LocalId OwnerId { get; set; }
 
-		public override ProcedureResult Apply(GameView view)
+		public override ProcedureResult Apply(LobbyView view)
 		{
-			var leaver = view.Players.Find(player => player.OwnerId == OwnerId);
-
-			view.Players.Remove(leaver);
+			view.Players.RemovePlayerWithId(OwnerId);
 
 			return ProcedureResult.Success;
 		}

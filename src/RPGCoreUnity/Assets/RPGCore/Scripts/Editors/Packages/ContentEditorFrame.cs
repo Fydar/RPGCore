@@ -214,6 +214,8 @@ namespace RPGCore.Unity.Editors
 
 			EditorGUI.LabelField(rect, "", styles.TopBarBg);
 
+			rect.xMin += 8.0f;
+
 			for (int i = breadcrumbs.Count - 1; i >= 0; i--)
 			{
 				var breadcrumbItem = breadcrumbs[i];

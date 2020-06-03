@@ -6,6 +6,10 @@ namespace RPGCore.Demo.BoardGame
 {
 	public class GameBoard
 	{
+		private GameTile[,] tiles;
+
+		public GameplayPlayer Owner { get; internal set; }
+
 		public GameTile[,] Tiles
 		{
 			get
@@ -14,12 +18,17 @@ namespace RPGCore.Demo.BoardGame
 			}
 			set
 			{
-				foreach (var tile in Tiles)
+				foreach (var tile in value)
 				{
 					if (tile.Board != null)
 					{
 						throw new InvalidOperationException($"Can't add a {nameof(GameTile)} to this {nameof(GameBoard)} as it belongs to another {nameof(GameBoard)}.");
 					}
+				}
+
+				foreach (var tile in Tiles)
+				{
+					tile.Board = null;
 				}
 
 				tiles = value;
@@ -30,8 +39,6 @@ namespace RPGCore.Demo.BoardGame
 				}
 			}
 		}
-
-		private GameTile[,] tiles;
 
 		public int Width
 		{

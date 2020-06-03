@@ -3,7 +3,7 @@ using RPGCore.Demo.BoardGame.Models;
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class BuildBuildingProcedure : GameViewProcedure
+	public class BuildBuildingProcedure : LobbyViewProcedure
 	{
 		public LocalId Player { get; set; }
 		public string BuildingIdentifier { get; set; }
@@ -11,7 +11,7 @@ namespace RPGCore.Demo.BoardGame
 		public Integer2 BuildingPosition { get; set; }
 		public BuildingOrientation Orientation { get; set; }
 
-		public override ProcedureResult Apply(GameView view)
+		public override ProcedureResult Apply(LobbyView view)
 		{
 			var buildingTemplate = new BuildingTemplate()
 			{
@@ -24,7 +24,7 @@ namespace RPGCore.Demo.BoardGame
 
 			var rotatedBuilding = new RotatedBuilding(buildingTemplate, Orientation);
 
-			var ownerPlayerState = view.GetStateForOwner(Player);
+			var gameplayPlayer = view.Gameplay.Players[Player];
 
 			for (int x = 0; x < rotatedBuilding.Width; x++)
 			{
@@ -33,7 +33,7 @@ namespace RPGCore.Demo.BoardGame
 					var position = Offset + new Integer2(x, y);
 
 					string recipeTile = rotatedBuilding[x, y];
-					var tile = ownerPlayerState.Board[position];
+					var tile = gameplayPlayer.Board[position];
 
 					if (recipeTile != null)
 					{
@@ -42,7 +42,7 @@ namespace RPGCore.Demo.BoardGame
 				}
 			}
 
-			var placeTile = ownerPlayerState.Board[BuildingPosition];
+			var placeTile = gameplayPlayer.Board[BuildingPosition];
 			placeTile.Building = new Building(BuildingIdentifier);
 
 			return ProcedureResult.Success;

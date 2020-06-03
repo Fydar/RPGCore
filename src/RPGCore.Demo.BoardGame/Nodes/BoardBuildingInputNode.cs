@@ -11,7 +11,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public class LocalBuildingInputInstance : Instance
 		{
-			public Output<GamePlayer> Player;
+			public Output<LobbyPlayer> Player;
 			public Output<Building> Building;
 
 			public override InputMap[] Inputs(ConnectionMapper connections) => null;

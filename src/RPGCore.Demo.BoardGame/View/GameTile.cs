@@ -5,6 +5,13 @@ namespace RPGCore.Demo.BoardGame
 {
 	public class GameTile
 	{
+		public string Resource;
+
+		public GameBoard Board { get; internal set; }
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private Building building;
+
 		public Building Building
 		{
 			get
@@ -13,10 +20,9 @@ namespace RPGCore.Demo.BoardGame
 			}
 			set
 			{
-				building = value;
-
 				if (building.Tile == null)
 				{
+					building = value;
 					building.Tile = this;
 				}
 				else
@@ -25,12 +31,6 @@ namespace RPGCore.Demo.BoardGame
 				}
 			}
 		}
-		public string Resource;
-
-		public GameBoard Board { get; internal set; }
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private Building building;
 
 		public bool IsEmpty
 		{

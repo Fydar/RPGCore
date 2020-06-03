@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class DeclareResourceProcedure : GameViewProcedure
+	public class DeclareResourceProcedure : LobbyViewProcedure
 	{
 		public LocalId Player { get; set; }
 		public string ResourceIdentifier { get; set; }
 
-		public override ProcedureResult Apply(GameView view)
+		public override ProcedureResult Apply(LobbyView view)
 		{
-			view.DeclaredResource = true;
+			view.Gameplay.DeclaredResource = true;
 
-			foreach (var playerState in view.PlayerStates)
+			foreach (var gameplayPlayer in view.Gameplay.Players)
 			{
-				if (playerState.ResourceHand == null)
+				if (gameplayPlayer.ResourceHand == null)
 				{
-					playerState.ResourceHand = new List<string>();
+					gameplayPlayer.ResourceHand = new List<string>();
 				}
-				playerState.ResourceHand.Add(ResourceIdentifier);
+				gameplayPlayer.ResourceHand.Add(ResourceIdentifier);
 			}
 
 			return ProcedureResult.Success;

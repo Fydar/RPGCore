@@ -3,18 +3,18 @@ using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class PlaceResourceProcedure : GameViewProcedure
+	public class PlaceResourceProcedure : LobbyViewProcedure
 	{
 		public LocalId Player { get; set; }
 		public string ResourceIdentifier { get; set; }
 		public Integer2 ResourcePosition { get; set; }
 
-		public override ProcedureResult Apply(GameView view)
+		public override ProcedureResult Apply(LobbyView view)
 		{
-			var ownerPlayer = view.GetStateForOwner(Player);
+			var gameplayPlayer = view.Gameplay.Players[Player];
 
-			bool owned = ownerPlayer.ResourceHand.Remove(ResourceIdentifier);
-			var placeTile = ownerPlayer.Board[ResourcePosition];
+			bool owned = gameplayPlayer.ResourceHand.Remove(ResourceIdentifier);
+			var placeTile = gameplayPlayer.Board[ResourcePosition];
 
 			if (placeTile.Resource != null
 				|| placeTile.Building != null

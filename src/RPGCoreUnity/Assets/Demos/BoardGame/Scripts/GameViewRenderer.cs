@@ -7,7 +7,25 @@ namespace RPGCoreUnity.Demo.BoardGame
 {
 	public class GameViewRenderer : MonoBehaviour
 	{
+		public LobbyView Lobby;
 		public PlayerSelection ThisPlayerSelection;
+
+		private TileRenderer currentlyHoveredTile;
+
+		public void OnTileHover(TileRenderer tileRenderer)
+		{
+			currentlyHoveredTile = tileRenderer;
+		}
+
+		public void OnTileUnhover(TileRenderer tileRenderer)
+		{
+			if (currentlyHoveredTile == tileRenderer)
+			{
+				currentlyHoveredTile = null;
+			}
+		}
+
+		/*
 		public SelectionRenderer SelectionRenderer;
 
 		[Header("Grid")]
@@ -15,26 +33,11 @@ namespace RPGCoreUnity.Demo.BoardGame
 
 		private GameBoardRenderer[] Boards;
 
-		public GameView Game;
 		private LocalId Player1;
 		private LocalId Player2;
 
-		private TileRenderer CurrentlyHoveredTile;
 		private TileRenderer DraggingStart;
 		private bool IsDragging;
-
-		public void OnTileHover(TileRenderer tileRenderer)
-		{
-			CurrentlyHoveredTile = tileRenderer;
-		}
-
-		public void OnTileUnhover(TileRenderer tileRenderer)
-		{
-			if (CurrentlyHoveredTile == tileRenderer)
-			{
-				CurrentlyHoveredTile = null;
-			}
-		}
 
 		private void Update()
 		{
@@ -100,7 +103,7 @@ namespace RPGCoreUnity.Demo.BoardGame
 			Player1 = LocalId.NewShortId();
 			Player2 = LocalId.NewShortId();
 
-			Game = new GameView()
+			Lobby = new GameView()
 			{
 				CurrentPlayersTurn = 0,
 				DeclaredResource = false,
@@ -133,11 +136,11 @@ namespace RPGCoreUnity.Demo.BoardGame
 
 		private void Start()
 		{
-			Boards = new GameBoardRenderer[Game.PlayerStates.Count];
+			Boards = new GameBoardRenderer[Lobby.PlayerStates.Count];
 
-			for (int i = 0; i < Game.PlayerStates.Count; i++)
+			for (int i = 0; i < Lobby.PlayerStates.Count; i++)
 			{
-				var playerState = Game.PlayerStates[i];
+				var playerState = Lobby.PlayerStates[i];
 				var playerHolder = new GameObject(playerState.OwnerId.ToString());
 				playerHolder.transform.position = new Vector3(i * 5.0f, 0.0f, 0.0f);
 
@@ -270,11 +273,12 @@ namespace RPGCoreUnity.Demo.BoardGame
 
 				Debug.Log($"Running action {action.GetType().Name}\n");
 
-				Game.Apply(action);
+				Lobby.Apply(action);
 
 				UpdateRendering();
 				yield return null;
 			}
 		}
+		*/
 	}
 }
