@@ -15,7 +15,7 @@ namespace RPGCore.Demo.BoardGame
 		private GameplayView gameplay;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public LobbyPlayerCollection players;
+		private LobbyPlayerCollection players;
 
 		public LobbyPlayerCollection Players
 		{
@@ -28,6 +28,7 @@ namespace RPGCore.Demo.BoardGame
 				if (value == null)
 				{
 					players = null;
+					return;
 				}
 
 				if (value.Lobby == null)
@@ -53,6 +54,7 @@ namespace RPGCore.Demo.BoardGame
 				if (value == null)
 				{
 					gameplay = null;
+					return;
 				}
 
 				if (value.Lobby == null)

@@ -6,6 +6,7 @@ namespace RPGCore.Demo.BoardGame
 {
 	public class GameplayView
 	{
+		[JsonIgnore]
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private GameplayPlayerCollection players;
 

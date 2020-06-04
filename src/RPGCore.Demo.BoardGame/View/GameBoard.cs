@@ -1,14 +1,18 @@
-﻿using RPGCore.Demo.BoardGame.Models;
+﻿using Newtonsoft.Json;
+using RPGCore.Demo.BoardGame.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RPGCore.Demo.BoardGame
 {
 	public class GameBoard
 	{
-		private GameTile[,] tiles;
-
+		[JsonIgnore]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public GameplayPlayer Owner { get; internal set; }
+
+		private GameTile[,] tiles;
 
 		public GameTile[,] Tiles
 		{

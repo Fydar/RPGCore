@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 
 namespace RPGCore.Demo.BoardGame
 {
 	public class GameTile
 	{
-		public string Resource;
-
+		[JsonIgnore]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public GameBoard Board { get; internal set; }
+
+		public string Resource;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private Building building;

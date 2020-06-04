@@ -9,6 +9,11 @@ namespace RPGCore.Demo.BoardGame
 {
 	public class GameplayPlayer
 	{
+		[JsonIgnore]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public GameplayView Gameplay { get; internal set; }
+
+		[JsonIgnore]
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private GameBoard board;
 
@@ -17,10 +22,6 @@ namespace RPGCore.Demo.BoardGame
 		public List<BoardCardSlot> Buildings { get; set; }
 		public List<SpecialCardSlot> SpecialCards { get; set; }
 		public List<string> ResourceHand { get; set; }
-
-		[JsonIgnore]
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public GameplayView Gameplay { get; internal set; }
 
 		public GameBoard Board
 		{
