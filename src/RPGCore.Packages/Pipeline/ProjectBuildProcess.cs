@@ -12,7 +12,6 @@ namespace RPGCore.Packages
 		public BuildPipeline Pipeline { get; }
 		public ProjectExplorer Project { get; }
 
-		public PackageDefinitionFile PackageDefinition { get; }
 		public string OutputFolder { get; }
 		public double Progress { get; private set; }
 
@@ -21,25 +20,30 @@ namespace RPGCore.Packages
 			Pipeline = pipeline;
 			Project = project;
 			OutputFolder = outputFolder;
-
-			PackageDefinition = new PackageDefinitionFile();
 		}
 
 		public void PerformBuild()
 		{
-			string bpkgPath = Path.Combine(OutputFolder, Project.Name + ".bpkg");
 			foreach (var reference in Project.Definition.References)
 			{
 				reference.IncludeInBuild(this, OutputFolder);
 			}
 
+			string bpkgPath = Path.Combine(OutputFolder, $"{Project.Definition.Properties.Name}.bpkg");
+
 			using var fileStream = new FileStream(bpkgPath, FileMode.Create, FileAccess.Write);
 			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Create, false);
 
-			var manifest = archive.CreateEntry("Main.bmft");
+			var manifest = archive.CreateEntry("definition.json");
 			using (var zipStream = manifest.Open())
 			{
-				string json = JsonConvert.SerializeObject(PackageDefinition);
+				var packageDefinition = new PackageDefinition(new PackageDefinitionProperties()
+				{
+					Name = Project.Definition?.Properties.Name,
+					Version = Project.Definition?.Properties.Version
+				});
+
+				string json = JsonConvert.SerializeObject(packageDefinition);
 				byte[] bytes = Encoding.UTF8.GetBytes(json);
 				zipStream.Write(bytes, 0, bytes.Length);
 			}
@@ -62,14 +66,14 @@ namespace RPGCore.Packages
 			foreach (var resource in Project.Resources)
 			{
 				var exporter = Pipeline.GetExporter(resource);
+				string entryName = $"data/{resource.FullName}";
 
-				string entryName = resource.FullName;
-				long size = resource.UncompressedSize;
+				Pipeline.BuildActions.OnBeforeExportResource(this, resource);
 
 				ZipArchiveEntry entry;
 				if (exporter == null)
 				{
-					entry = archive.CreateEntryFromFile(resource.Entry.FullName, entryName, CompressionLevel.Optimal);
+					entry = archive.CreateEntryFromFile(resource.FileInfo.FullName, entryName, CompressionLevel.Optimal);
 				}
 				else
 				{
@@ -79,17 +83,10 @@ namespace RPGCore.Packages
 					exporter.BuildResource(resource, zipStream);
 				}
 
-				currentProgress += size;
+				currentProgress += resource.UncompressedSize;
+				Progress = currentProgress / (double)Project.UncompressedSize;
 
-				Progress = (currentProgress / (double)Project.UncompressedSize);
-
-				foreach (var action in Pipeline.BuildActions)
-				{
-					if (action is IResourceBuildStep resourceBuildStep)
-					{
-						resourceBuildStep.OnAfterBuildResource(this, resource);
-					}
-				}
+				Pipeline.BuildActions.OnAfterExportResource(this, resource);
 			}
 		}
 

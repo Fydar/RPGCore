@@ -13,19 +13,19 @@ namespace RPGCore.Demo.BoardGame
 
 			if (projectResource.FileInfo.FullName.Contains("buildings"))
 			{
-				projectResource.Tags.Add("type-building");
+				projectResource.ImporterTags.Add("type-building");
 			}
 			else if (projectResource.FileInfo.FullName.Contains("resources"))
 			{
-				projectResource.Tags.Add("type-resource");
+				projectResource.ImporterTags.Add("type-resource");
 			}
 			else if (projectResource.FileInfo.FullName.Contains("building-packs"))
 			{
-				projectResource.Tags.Add("type-buildingpack");
+				projectResource.ImporterTags.Add("type-buildingpack");
 			}
 			else if (projectResource.FileInfo.FullName.Contains("gamerules"))
 			{
-				projectResource.Tags.Add("gamerules");
+				projectResource.ImporterTags.Add("gamerules");
 			}
 		}
 	}

@@ -181,7 +181,7 @@ namespace RPGCore.Unity.Editors
 		{
 			var newItem = new ContentTreeViewItem
 			{
-				displayName = explorer.Name,
+				displayName = explorer.Definition.Properties.Name,
 				id = id++,
 				depth = depth,
 				icon = ContentEditorResources.Instance.ProjectIcon,

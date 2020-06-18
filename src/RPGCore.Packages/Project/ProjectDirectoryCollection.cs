@@ -16,6 +16,7 @@ namespace RPGCore.Packages
 		public int Count => directories?.Count ?? 0;
 
 		public ProjectDirectory this[int key] => directories[key];
+
 		IDirectory IReadOnlyList<IDirectory>.this[int key] => this[key];
 
 		internal ProjectDirectoryCollection()

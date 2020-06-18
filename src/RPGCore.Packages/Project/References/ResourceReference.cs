@@ -7,7 +7,7 @@ namespace RPGCore.Packages
 {
 	public class ResourceReference : Reference
 	{
-		public ProjectDefinitionFile DefinitionFile;
+		public ProjectDefinition DefinitionFile;
 		public XmlElement Element;
 
 		public string IncludePath
@@ -34,7 +34,7 @@ namespace RPGCore.Packages
 			}
 		}
 
-		public ResourceReference(ProjectDefinitionFile file, XmlElement element)
+		public ResourceReference(ProjectDefinition file, XmlElement element)
 		{
 			DefinitionFile = file;
 			Element = element;

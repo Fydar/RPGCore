@@ -9,7 +9,7 @@ namespace RPGCore.Demo.Inventory
 	{
 		public override void ProcessImport(ProjectResourceImporter projectResource)
 		{
-			projectResource.Tags.Add("basic-tag");
+			projectResource.ImporterTags.Add("basic-tag");
 		}
 	}
 }

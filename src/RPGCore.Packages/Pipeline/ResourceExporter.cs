@@ -8,7 +8,7 @@ namespace RPGCore.Packages
 	/// </summary>
 	public abstract class ResourceExporter
 	{
-		public abstract string ExportExtensions { get; }
+		public abstract bool CanExport(IResource resource);
 
 		public abstract void BuildResource(IResource resource, Stream writer);
 	}

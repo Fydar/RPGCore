@@ -27,9 +27,7 @@ namespace RPGCore.CLI.Commands
 
 			   var projectExplorer = ProjectExplorer.Load(project.DirectoryName, importPipeline);
 
-			   projectExplorer.Definition.Format();
-
-			   projectExplorer.Definition.Save(project.FullName);
+			   projectExplorer.Definition.SaveChanges();
 		   });
 		}
 

@@ -24,18 +24,10 @@ namespace RPGCore.Demo.Inventory
 
 			var consoleRenderer = new BuildConsoleRenderer();
 
-			var buildPipeline = new BuildPipeline()
-			{
-				ImportPipeline = importPipeline,
-				Exporters = new List<ResourceExporter>()
-				{
-					new BhvrExporter()
-				},
-				BuildActions = new List<IBuildAction>()
-				{
-					consoleRenderer
-				}
-			};
+			var buildPipeline = new BuildPipeline();
+			buildPipeline.Exporters.Add(new BhvrExporter());
+			buildPipeline.BuildActions.Add(consoleRenderer);
+
 			consoleRenderer.DrawProgressBar(32);
 			projectExplorer.Export(buildPipeline, "Content/Temp");
 

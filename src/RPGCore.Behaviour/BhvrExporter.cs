@@ -6,7 +6,10 @@ namespace RPGCore.Behaviour
 {
 	public class BhvrExporter : ResourceExporter
 	{
-		public override string ExportExtensions => "bhvr";
+		public override bool CanExport(IResource resource)
+		{
+			return resource.Extension == ".bhvr";
+		}
 
 		public override void BuildResource(IResource resource, Stream writer)
 		{

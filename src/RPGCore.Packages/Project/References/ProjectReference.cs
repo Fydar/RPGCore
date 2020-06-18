@@ -5,7 +5,7 @@ namespace RPGCore.Packages
 {
 	public class ProjectReference : Reference
 	{
-		public ProjectDefinitionFile File;
+		public ProjectDefinition File;
 		public XmlElement Element;
 
 		public string IncludePath
@@ -14,7 +14,7 @@ namespace RPGCore.Packages
 			set => Element.Attributes["Include"].Value = value;
 		}
 
-		public ProjectReference(ProjectDefinitionFile file, XmlElement element)
+		public ProjectReference(ProjectDefinition file, XmlElement element)
 		{
 			File = file;
 			Element = element;

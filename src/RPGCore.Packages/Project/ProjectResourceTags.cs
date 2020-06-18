@@ -10,26 +10,24 @@ namespace RPGCore.Packages
 	public class ProjectResourceTags : IResourceTags
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private readonly List<string> tags;
+		private readonly IReadOnlyList<string> importerTags;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public int Count => tags?.Count ?? 0;
+		public int Count => importerTags?.Count ?? 0;
 
 		internal ProjectResourceTags(ProjectResourceImporter projectResourceImporter)
 		{
-			tags = projectResourceImporter.Tags;
+			importerTags = projectResourceImporter.ImporterTags.ToList();
 		}
 
 		public bool Contains(string tag)
 		{
-			return tags.Contains(tag);
+			return importerTags.Contains(tag);
 		}
 
 		public IEnumerator<string> GetEnumerator()
 		{
-			return tags == null
-				? Enumerable.Empty<string>().GetEnumerator()
-				: tags.GetEnumerator();
+			return importerTags.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()

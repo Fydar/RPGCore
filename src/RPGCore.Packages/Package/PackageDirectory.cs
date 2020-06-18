@@ -2,14 +2,19 @@
 {
 	public class PackageDirectory : IDirectory
 	{
-		public string Name => throw new System.NotImplementedException();
+		public string Name { get; internal set; }
 
-		public string FullName => throw new System.NotImplementedException();
+		public string FullName { get; internal set; }
 
-		public IDirectoryCollection Directories => throw new System.NotImplementedException();
+		public IDirectoryCollection Directories { get; internal set; }
 
-		public IResourceCollection Resources => throw new System.NotImplementedException();
+		public IResourceCollection Resources { get; internal set; }
 
-		public IDirectory Parent => throw new System.NotImplementedException();
+		public IDirectory Parent { get; internal set; }
+
+		internal PackageDirectory()
+		{
+
+		}
 	}
 }

@@ -33,13 +33,9 @@ namespace RPGCore.CLI.Commands
 
 			   var consoleRenderer = new BuildConsoleRenderer();
 
-			   var buildPipeline = new BuildPipeline()
-			   {
-				   BuildActions = new List<IBuildAction>()
-				   {
-						consoleRenderer
-				   }
-			   };
+			   var buildPipeline = new BuildPipeline();
+			   buildPipeline.BuildActions.Add(consoleRenderer);
+
 			   consoleRenderer.DrawProgressBar(32);
 			   projectExplorer.Export(buildPipeline, exportDirectory);
 		   });

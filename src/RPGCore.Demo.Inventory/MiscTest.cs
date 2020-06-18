@@ -24,11 +24,11 @@ namespace RPGCore.Demo.Inventory
 			var importPipeline = new ImportPipeline();
 
 			var proj = ProjectExplorer.Load("Content/Core", importPipeline);
-			Console.WriteLine(proj.Name);
-			Console.WriteLine("\t\"" + proj.Name + "\"");
+			Console.WriteLine(proj.Definition.Properties.Name);
+			Console.WriteLine($"\t\"{proj.Definition.Properties.Name}\"");
 			foreach (var resource in ((IExplorer)proj).Resources)
 			{
-				Console.WriteLine("\t" + resource.FullName);
+				Console.WriteLine($"\t{resource.FullName}");
 			}
 
 			var editorTargetResource = proj.Resources["Fireball/Main.json"];
@@ -81,17 +81,9 @@ namespace RPGCore.Demo.Inventory
 
 			var consoleRenderer = new BuildConsoleRenderer();
 
-			var buildPipeline = new BuildPipeline()
-			{
-				Exporters = new List<ResourceExporter>()
-				{
-					new BhvrExporter()
-				},
-				BuildActions = new List<IBuildAction>()
-				{
-					consoleRenderer
-				}
-			};
+			var buildPipeline = new BuildPipeline();
+			buildPipeline.Exporters.Add(new BhvrExporter());
+			buildPipeline.BuildActions.Add(consoleRenderer);
 
 			consoleRenderer.DrawProgressBar(32);
 			proj.Export(buildPipeline, "Content/Temp");

@@ -4,10 +4,11 @@ namespace RPGCore.Packages
 {
 	public interface ITagsCollection : IEnumerable<KeyValuePair<string, IResourceCollection>>
 	{
-		IResourceCollection this[string tag] { get; }
-
 		int Count { get; }
+
 		IEnumerable<string> Keys { get; }
+
+		IResourceCollection this[string tag] { get; }
 
 		bool ContainsKey(string key);
 

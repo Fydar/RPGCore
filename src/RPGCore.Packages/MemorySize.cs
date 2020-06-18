@@ -7,7 +7,7 @@ namespace RPGCore.Packages
 	/// <summary>
 	/// A simple structure that formats for bytes.
 	/// </summary>
-	public struct MemorySize : IEquatable<MemorySize>, IComparable<MemorySize>, IFormattable
+	internal struct MemorySize : IEquatable<MemorySize>, IComparable<MemorySize>, IFormattable
 	{
 		public const ulong Denomination = 1000;
 
@@ -105,17 +105,17 @@ namespace RPGCore.Packages
 		{
 			if (Gigabytes >= 1.0f)
 			{
-				return $"{Gigabytes.ToString()} {gigabyteSuffix}";
+				return $"{Gigabytes} {gigabyteSuffix}";
 			}
 			if (Megabytes >= 1.0f)
 			{
-				return $"{Megabytes.ToString()} {megabyteSuffix}";
+				return $"{Megabytes} {megabyteSuffix}";
 			}
 			if (Kilobytes >= 1.0f)
 			{
-				return $"{Kilobytes.ToString()} {kilobyteSuffix}";
+				return $"{Kilobytes} {kilobyteSuffix}";
 			}
-			return $"{Bytes.ToString()} {byteSuffix}";
+			return $"{Bytes} {byteSuffix}";
 		}
 
 		public override bool Equals(object obj) => obj is MemorySize size && Equals(size);

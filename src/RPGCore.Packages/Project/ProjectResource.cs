@@ -7,46 +7,43 @@ namespace RPGCore.Packages
 {
 	public sealed class ProjectResource : IResource
 	{
-		public readonly FileInfo Entry;
-
-		public long CompressedSize { get; }
-		public long UncompressedSize { get; }
-
 		public string Name { get; }
 		public string FullName { get; }
 		public string Extension { get; }
+
+		public long UncompressedSize { get; }
 
 		public ProjectResourceTags Tags { get; }
 		public ProjectExplorer Explorer { get; }
 		public IDirectory Directory { get; internal set; }
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		IResourceTags IResource.Tags => Tags;
+		public FileInfo FileInfo { get; }
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IExplorer IResource.Explorer => Explorer;
 
 		internal ProjectResource(ProjectResourceImporter projectResourceImporter)
 		{
-			Entry = projectResourceImporter.FileInfo;
+			Tags = new ProjectResourceTags(projectResourceImporter);
 
-			Name = Entry.Name;
-			Extension = Entry.Extension;
-			UncompressedSize = Entry.Length;
-			CompressedSize = UncompressedSize;
-
+			FileInfo = projectResourceImporter.FileInfo;
 			Explorer = projectResourceImporter.ProjectExplorer;
 			FullName = projectResourceImporter.ProjectKey;
 
-			Tags = new ProjectResourceTags(projectResourceImporter);
+			Name = FileInfo.Name;
+			Extension = FileInfo.Extension;
+			UncompressedSize = FileInfo.Length;
 		}
 
 		public byte[] LoadData()
 		{
-			return File.ReadAllBytes(Entry.FullName);
+			return File.ReadAllBytes(FileInfo.FullName);
 		}
 
 		public async Task<byte[]> LoadDataAsync()
 		{
 			byte[] result;
-			using (var stream = File.Open(Entry.FullName, FileMode.Open))
+			using (var stream = File.Open(FileInfo.FullName, FileMode.Open))
 			{
 				result = new byte[stream.Length];
 				await stream.ReadAsync(result, 0, (int)stream.Length);
@@ -56,12 +53,12 @@ namespace RPGCore.Packages
 
 		public Stream LoadStream()
 		{
-			return File.Open(Entry.FullName, FileMode.Open);
+			return File.Open(FileInfo.FullName, FileMode.Open);
 		}
 
 		public StreamWriter WriteStream()
 		{
-			return new StreamWriter(Entry.FullName, false);
+			return new StreamWriter(FileInfo.FullName, false);
 		}
 
 		public override string ToString()

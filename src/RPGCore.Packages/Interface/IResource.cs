@@ -8,10 +8,10 @@ namespace RPGCore.Packages
 		string Name { get; }
 		string FullName { get; }
 		string Extension { get; }
-		long CompressedSize { get; }
 		long UncompressedSize { get; }
 		IResourceTags Tags { get; }
 		IDirectory Directory { get; }
+		IExplorer Explorer { get; }
 
 		Stream LoadStream();
 

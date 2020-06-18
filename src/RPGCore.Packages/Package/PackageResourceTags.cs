@@ -9,24 +9,14 @@ namespace RPGCore.Packages
 	public class PackageResourceTags : IResourceTags
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private readonly IReadOnlyList<string> tags;
+		internal readonly List<string> tags;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count => tags?.Count ?? 0;
 
-		public PackageResourceTags(IReadOnlyDictionary<string, IReadOnlyList<string>> tagsDocument, PackageResource resource)
+		internal PackageResourceTags()
 		{
-			var tags = new List<string>();
-
-			foreach (var tagCollection in tagsDocument)
-			{
-				if (tagCollection.Value.Contains(resource.FullName))
-				{
-					tags.Add(tagCollection.Key);
-				}
-			}
-
-			this.tags = tags;
+			tags = new List<string>();
 		}
 
 		public bool Contains(string tag)

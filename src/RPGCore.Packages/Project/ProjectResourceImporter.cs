@@ -12,7 +12,7 @@ namespace RPGCore.Packages.Pipeline
 		public FileInfo FileInfo { get; }
 		public string ProjectKey { get; }
 
-		public List<string> Tags { get; }
+		public HashSet<string> ImporterTags { get; }
 
 		internal ProjectResourceImporter(ProjectExplorer projectExplorer, FileInfo fileInfo, string projectKey)
 		{
@@ -20,7 +20,7 @@ namespace RPGCore.Packages.Pipeline
 			FileInfo = fileInfo;
 			ProjectKey = projectKey;
 
-			Tags = new List<string>();
+			ImporterTags = new HashSet<string>();
 		}
 
 		public ProjectResource Import()

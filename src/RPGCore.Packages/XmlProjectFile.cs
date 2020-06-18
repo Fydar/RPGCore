@@ -1,29 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml;
 
 namespace RPGCore.Packages
 {
-	public class XmlProjectFile
+	internal static class XmlProjectFile
 	{
-		public string Path { get; }
-		protected XmlDocument Document { get; }
-
-		protected XmlProjectFile(string path, XmlDocument document)
+		public static void Format(XmlDocument document)
 		{
-			Path = path;
-			Document = document;
-		}
+			Minify(document);
 
-		public void Format()
-		{
-			Minify();
+			var nodes = AllNodesWithIndent(document.DocumentElement, 1).ToArray();
 
-			var nodes = AllNodesWithIndent(Document.DocumentElement, 1).ToArray();
-
-			Document.DocumentElement.InsertBefore(Document.CreateWhitespace("\n\n"), Document.DocumentElement.FirstChild);
+			document.DocumentElement.InsertBefore(document.CreateWhitespace("\n\n"), document.DocumentElement.FirstChild);
 
 			foreach (var indentedNode in nodes)
 			{
@@ -35,35 +25,35 @@ namespace RPGCore.Packages
 					int indent = indentedNode.Item1;
 
 					// Indent opening tag
-					var startIndent = Document.CreateWhitespace(new string(' ', indent * 2));
+					var startIndent = document.CreateWhitespace(new string(' ', indent * 2));
 					childNode.ParentNode.InsertBefore(startIndent, childNode);
 
 					if (HasChildElement(childNode))
 					{
-						childNode.ParentNode.InsertAfter(Document.CreateWhitespace("\n\n"), childNode);
+						childNode.ParentNode.InsertAfter(document.CreateWhitespace("\n\n"), childNode);
 
-						childNode.InsertBefore(Document.CreateWhitespace("\n"), childNode.FirstChild);
+						childNode.InsertBefore(document.CreateWhitespace("\n"), childNode.FirstChild);
 
 						if (HasChildObjects(childNode))
 						{
-							childNode.InsertBefore(Document.CreateWhitespace("\n"), childNode.FirstChild);
+							childNode.InsertBefore(document.CreateWhitespace("\n"), childNode.FirstChild);
 						}
 
 						// Indent closing tag
-						var endIndent = Document.CreateWhitespace(new string(' ', indent * 2));
+						var endIndent = document.CreateWhitespace(new string(' ', indent * 2));
 						childNode.InsertAfter(endIndent, childNode.LastChild);
 					}
 					else
 					{
-						childNode.ParentNode.InsertAfter(Document.CreateWhitespace("\n"), childNode);
+						childNode.ParentNode.InsertAfter(document.CreateWhitespace("\n"), childNode);
 					}
 				}
 			}
 		}
 
-		public void Minify()
+		public static void Minify(XmlDocument document)
 		{
-			var allNodes = AllNodes(Document.DocumentElement).ToArray();
+			var allNodes = AllNodes(document.DocumentElement).ToArray();
 			foreach (var node in allNodes)
 			{
 				if (node.NodeType == XmlNodeType.SignificantWhitespace
@@ -72,28 +62,6 @@ namespace RPGCore.Packages
 					node.ParentNode.RemoveChild(node);
 				}
 			}
-		}
-
-		public void Save(string path)
-		{
-			Document.Save(path);
-		}
-
-		public static XmlProjectFile Load(string path)
-		{
-			if (!File.Exists(path))
-			{
-				return null;
-			}
-
-			var doc = new XmlDocument
-			{
-				PreserveWhitespace = true
-			};
-			doc.Load(path);
-
-			var model = new XmlProjectFile(path, doc);
-			return model;
 		}
 
 		private static bool HasChildElement(XmlNode node)

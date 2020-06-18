@@ -16,11 +16,6 @@ namespace RPGCore.Packages
 	public sealed class PackageExplorer : IExplorer
 	{
 		/// <summary>
-		/// <para>The project definition for this package.</para>
-		/// </summary>
-		public ProjectDefinitionFile Definition { get; private set; }
-
-		/// <summary>
 		/// <para>The path of the package on disk.</para>
 		/// </summary>
 		public string PackagePath { get; private set; }
@@ -31,19 +26,14 @@ namespace RPGCore.Packages
 		public long CompressedSize { get; private set; }
 
 		/// <summary>
-		/// <para>The name of this package, specified in it's definition file.</para>
+		/// <para>The project definition for this package.</para>
 		/// </summary>
-		public string Name => Definition?.Properties?.Name;
-
-		/// <summary>
-		/// <para>The version of the package, specified in it's definition file.</para>
-		/// </summary>
-		public string Version => Definition?.Properties?.Version;
+		public PackageDefinition Definition => definition;
 
 		/// <summary>
 		/// <para>A collection of all of the resources contained in this package.</para>
 		/// </summary>
-		public IPackageResourceCollection Resources => resources;
+		public PackageResourceCollection Resources => resources;
 
 		/// <summary>
 		/// <para>An index of the tags contained within this package for performing asset queries.</para>
@@ -55,39 +45,19 @@ namespace RPGCore.Packages
 		/// </summary>
 		public IDirectory RootDirectory => rootDirectory;
 
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinition IExplorer.Definition => definition;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => resources;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => tags;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IExplorer.RootDirectory => rootDirectory;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageResourceCollection resources;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageDefinition definition;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly PackageResourceCollection resources;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly PackageDirectory rootDirectory;
 
 		private PackageExplorer()
 		{
-		}
-
-		public Stream LoadStream(string packageKey)
-		{
-			var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
-			var entry = archive.GetEntry(packageKey);
-
-			var zipStream = entry.Open();
-
-			return new PackageStream(fileStream, archive, zipStream);
-		}
-
-		public byte[] OpenAsset(string packageKey)
-		{
-			using var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
-			var entry = archive.GetEntry(packageKey);
-
-			byte[] buffer = new byte[entry.Length];
-			using var zipStream = entry.Open();
-			zipStream.Read(buffer, 0, (int)entry.Length);
-			return buffer;
+			resources = new PackageResourceCollection();
 		}
 
 		public static PackageExplorer Load(string packagePath)
@@ -100,17 +70,26 @@ namespace RPGCore.Packages
 			var package = new PackageExplorer
 			{
 				PackagePath = packagePath,
-				CompressedSize = packageFileInfo.Length,
-				resources = new PackageResourceCollection()
+				CompressedSize = packageFileInfo.Length
 			};
+
+			var definitionEntry = archive.GetEntry("definition.json");
+			var definitionDocument = LoadJsonDocument<PackageDefinition>(definitionEntry);
 
 			var tagsEntry = archive.GetEntry("tags.json");
 			var tagsDocument = LoadJsonDocument<IReadOnlyDictionary<string, IReadOnlyList<string>>>(tagsEntry);
 			var tags = new Dictionary<string, IResourceCollection>();
 
+			var rootDirectiory = new PackageDirectory();
+
 			foreach (var projectEntry in archive.Entries)
 			{
-				var resource = new PackageResource(package, projectEntry, tagsDocument);
+				if (!projectEntry.FullName.StartsWith("data/"))
+				{
+					continue;
+				}
+
+				var resource = new PackageResource(package, projectEntry);
 				package.resources.Add(resource);
 
 				foreach (var tagCategory in tagsDocument)
@@ -126,17 +105,42 @@ namespace RPGCore.Packages
 						var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
 
 						taggedResources.Add(resource);
+						resource.Tags.tags.Add(tagCategory.Key);
 					}
 				}
 			}
 
 			package.tags = new PackageTagsCollection(tags);
+			package.definition = definitionDocument;
 
 			return package;
 		}
 
 		public void Dispose()
 		{
+		}
+
+		internal Stream LoadStream(string packageKey)
+		{
+			var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+			var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
+			var entry = archive.GetEntry(packageKey);
+
+			var zipStream = entry.Open();
+
+			return new PackageStream(fileStream, archive, zipStream);
+		}
+
+		internal byte[] OpenAsset(string packageKey)
+		{
+			using var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
+			var entry = archive.GetEntry(packageKey);
+
+			byte[] buffer = new byte[entry.Length];
+			using var zipStream = entry.Open();
+			zipStream.Read(buffer, 0, (int)entry.Length);
+			return buffer;
 		}
 
 		private static T LoadJsonDocument<T>(ZipArchiveEntry entry)

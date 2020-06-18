@@ -7,7 +7,10 @@ namespace RPGCore.Demo.BoardGame
 {
 	public class JsonMinimizerResourceExporter : ResourceExporter
 	{
-		public override string ExportExtensions => "json";
+		public override bool CanExport(IResource resource)
+		{
+			return resource.Extension == ".json";
+		}
 
 		public override void BuildResource(IResource resource, Stream writer)
 		{

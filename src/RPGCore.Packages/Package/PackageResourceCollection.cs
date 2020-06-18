@@ -1,36 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace RPGCore.Packages
 {
 	[DebuggerDisplay("Count = {Count,nq}")]
 	[DebuggerTypeProxy(typeof(PackageResourceCollectionDebugView))]
-	internal sealed class PackageResourceCollection : IPackageResourceCollection, IResourceCollection
+	public sealed class PackageResourceCollection : IResourceCollection
 	{
-		private Dictionary<string, PackageResource> resources;
+		private readonly Dictionary<string, PackageResource> resources;
 
-		public int Count => resources?.Count ?? 0;
+		public int Count => resources.Count;
 
 		public PackageResource this[string key] => resources[key];
+
 		IResource IResourceCollection.this[string key] => this[key];
+
+		internal PackageResourceCollection()
+		{
+			resources = new Dictionary<string, PackageResource>();
+		}
 
 		internal void Add(PackageResource asset)
 		{
-			if (resources == null)
-			{
-				resources = new Dictionary<string, PackageResource>();
-			}
-
 			resources.Add(asset.FullName, asset);
 		}
 
 		public IEnumerator<PackageResource> GetEnumerator()
 		{
-			return resources?.Values == null
-				? Enumerable.Empty<PackageResource>().GetEnumerator()
-				: resources.Values.GetEnumerator();
+			return resources.Values.GetEnumerator();
 		}
 
 		IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()

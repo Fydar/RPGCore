@@ -2,7 +2,7 @@ using System;
 
 namespace RPGCore.Packages
 {
-	public class BuildConsoleRenderer : IResourceBuildStep
+	public class BuildConsoleRenderer : BuildAction
 	{
 		public int ProgressBarLeft { get; private set; }
 		public int ProgressBarTop { get; private set; }
@@ -26,9 +26,9 @@ namespace RPGCore.Packages
 			DrawBar(ProgressBarLeft, ProgressBarTop, 0, ProgressBarLength);
 		}
 
-		public void OnAfterBuildResource(ProjectBuildProcess process, ProjectResource resource)
+		public override void OnAfterExportResource(ProjectBuildProcess process, ProjectResource resource)
 		{
-			DrawBar(ProgressBarLeft, ProgressBarTop, process.Progress, ProgressBarLength, process.Project.Name);
+			DrawBar(ProgressBarLeft, ProgressBarTop, process.Progress, ProgressBarLength, process.Project.Definition.Properties.Name);
 		}
 
 		private void DrawBar(int left, int top, double complete, int total, string suffix = null)

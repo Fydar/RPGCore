@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -8,8 +7,6 @@ namespace RPGCore.Packages
 {
 	public sealed class PackageResource : IResource
 	{
-		private readonly PackageExplorer package;
-
 		public string Name { get; }
 		public string FullName { get; }
 		public string Extension { get; }
@@ -18,17 +15,20 @@ namespace RPGCore.Packages
 		public long UncompressedSize { get; }
 
 		public PackageResourceTags Tags { get; }
+		public PackageExplorer Explorer { get; }
+		public IDirectory Directory { get; internal set; }
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		IResourceTags IResource.Tags => Tags;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IExplorer IResource.Explorer => Explorer;
 
-		public IDirectory Directory => throw new System.NotImplementedException();
-
-		internal PackageResource(PackageExplorer package, ZipArchiveEntry packageEntry, IReadOnlyDictionary<string, IReadOnlyList<string>> tagsDocument)
+		internal PackageResource(PackageExplorer explorer, ZipArchiveEntry packageEntry)
 		{
-			this.package = package;
+			Tags = new PackageResourceTags();
+			Explorer = explorer;
 			Name = packageEntry.Name;
-			FullName = packageEntry.FullName;
+
+			string withoutData = packageEntry.FullName.Substring(5);
+			FullName = withoutData;
 
 			int dotIndex = packageEntry.FullName.LastIndexOf('.');
 			Extension = dotIndex != -1
@@ -37,23 +37,21 @@ namespace RPGCore.Packages
 
 			CompressedSize = packageEntry.CompressedLength;
 			UncompressedSize = packageEntry.Length;
-
-			Tags = new PackageResourceTags(tagsDocument, this);
 		}
 
 		public Stream LoadStream()
 		{
-			return package.LoadStream(FullName);
+			return Explorer.LoadStream(FullName);
 		}
 
 		public byte[] LoadData()
 		{
-			return package.OpenAsset(FullName);
+			return Explorer.OpenAsset(FullName);
 		}
 
 		public Task<byte[]> LoadDataAsync()
 		{
-			var pkg = package;
+			var pkg = Explorer;
 			string pkgKey = FullName;
 			return Task.Run(() => pkg.OpenAsset(pkgKey));
 		}

@@ -233,7 +233,7 @@ namespace RPGCore.Unity.Editors
 				}
 				else if (breadcrumbItem.item is IExplorer currentExplorer)
 				{
-					labelContent = new GUIContent(currentExplorer.Name);
+					labelContent = new GUIContent(currentExplorer.Definition.Properties.Name);
 				}
 				else
 				{

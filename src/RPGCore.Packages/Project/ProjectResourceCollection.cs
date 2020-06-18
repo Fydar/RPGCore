@@ -1,47 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace RPGCore.Packages
 {
 	[DebuggerDisplay("Count = {Count,nq}")]
 	[DebuggerTypeProxy(typeof(ProjectResourceCollectionDebugView))]
-	internal sealed class ProjectResourceCollection : IProjectResourceCollection, IResourceCollection
+	public sealed class ProjectResourceCollection : IResourceCollection
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private Dictionary<string, ProjectResource> resources;
+		private readonly Dictionary<string, ProjectResource> resources;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public int Count => resources?.Count ?? 0;
+		public int Count => resources.Count;
 
 		public ProjectResource this[string key] => resources[key];
+
 		IResource IResourceCollection.this[string key] => this[key];
 
 		internal ProjectResourceCollection()
 		{
+			resources = new Dictionary<string, ProjectResource>();
 		}
 
 		internal ProjectResourceCollection(Dictionary<string, ProjectResource> resources)
 		{
-			this.resources = resources;
+			this.resources = resources ?? throw new System.ArgumentNullException(nameof(resources));
 		}
 
-		public void Add(ProjectResource folder)
+		internal void Add(ProjectResource resource)
 		{
-			if (resources == null)
-			{
-				resources = new Dictionary<string, ProjectResource>();
-			}
-
-			resources.Add(folder.FullName, folder);
+			resources.Add(resource.FullName, resource);
 		}
 
 		public IEnumerator<ProjectResource> GetEnumerator()
 		{
-			return resources?.Values == null
-				? Enumerable.Empty<ProjectResource>().GetEnumerator()
-				: resources.Values.GetEnumerator();
+			return resources.Values.GetEnumerator();
 		}
 
 		IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()
@@ -77,8 +71,7 @@ namespace RPGCore.Packages
 			{
 				get
 				{
-					if (source.resources == null
-						|| source.resources.Count == 0)
+					if (source.resources.Count == 0)
 					{
 						return null;
 					}
