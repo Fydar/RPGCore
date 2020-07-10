@@ -16,16 +16,14 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		internal List<Reference> References { get; }
 
-		public ProjectDefinitionProperties Properties => properties;
+		public ProjectDefinitionProperties Properties { get; }
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinitionProperties IDefinition.Properties => properties;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ProjectDefinitionProperties properties;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinitionProperties IDefinition.Properties => Properties;
 
 		private ProjectDefinition(string path, XmlDocument document)
 		{
 			var projectFile = new FileInfo(path);
-			properties = new ProjectDefinitionProperties(projectFile, document);
+			Properties = new ProjectDefinitionProperties(projectFile, document);
 
 			References = new List<Reference>();
 			var projectReferenceTags = document.GetElementsByTagName("ProjectReference");

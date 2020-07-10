@@ -7,5 +7,7 @@ namespace RPGCore.Packages
 		int Count { get; }
 
 		IResource this[string key] { get; }
+
+		bool Contains(string key);
 	}
 }

@@ -62,6 +62,7 @@ namespace RPGCore.Packages
 				public IDirectory Value;
 			}
 
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			private readonly ProjectDirectoryCollection source;
 
 			public ProjectDirectoryCollectionDebugView(ProjectDirectoryCollection source)

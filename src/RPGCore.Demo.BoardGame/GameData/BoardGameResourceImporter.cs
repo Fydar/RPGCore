@@ -1,4 +1,8 @@
-﻿using RPGCore.Packages.Pipeline;
+﻿using Newtonsoft.Json;
+using RPGCore.Demo.BoardGame.Models;
+using RPGCore.Packages.Pipeline;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
 {
@@ -7,26 +11,70 @@ namespace RPGCore.Demo.BoardGame
 	/// </summary>
 	public class BoardGameResourceImporter : ProjectResourceImportProcessor
 	{
-		public override void ProcessImport(ProjectResourceImporter projectResource)
+		public override void ProcessImport(ProjectResourceImporter importer)
 		{
-			// TODO: Should be changed to use directory APIs.
+			if (importer.FileInfo.FullName.Contains("buildings"))
+			{
+				importer.ImporterTags.Add("type-building");
 
-			if (projectResource.FileInfo.FullName.Contains("buildings"))
-			{
-				projectResource.ImporterTags.Add("type-building");
+				var loaded = Load<BuildingTemplate>(importer);
+				importer.Dependencies.Register(loaded.PackIdentifier);
+
+				if (loaded.Recipe != null)
+				{
+					var alreadyRegistered = new List<string>();
+					foreach (string resource in loaded.Recipe)
+					{
+						if (string.IsNullOrEmpty(resource))
+						{
+							continue;
+						}
+
+						if (!alreadyRegistered.Contains(resource))
+						{
+							importer.Dependencies.Register(resource);
+							alreadyRegistered.Add(resource);
+						}
+					}
+				}
 			}
-			else if (projectResource.FileInfo.FullName.Contains("resources"))
+			else if (importer.FileInfo.FullName.Contains("resources"))
 			{
-				projectResource.ImporterTags.Add("type-resource");
+				importer.ImporterTags.Add("type-resource");
 			}
-			else if (projectResource.FileInfo.FullName.Contains("building-packs"))
+			else if (importer.FileInfo.FullName.Contains("building-packs"))
 			{
-				projectResource.ImporterTags.Add("type-buildingpack");
+				importer.ImporterTags.Add("type-buildingpack");
 			}
-			else if (projectResource.FileInfo.FullName.Contains("gamerules"))
+			else if (importer.FileInfo.FullName.Contains("gamerules"))
 			{
-				projectResource.ImporterTags.Add("gamerules");
+				importer.ImporterTags.Add("type-gamerules");
+
+				var loaded = Load<GameRulesTemplate>(importer);
+
+				var alreadyRegistered = new List<string>();
+				foreach (string resource in loaded.SharedCards.Concat(loaded.PlayerCards))
+				{
+					if (string.IsNullOrEmpty(resource))
+					{
+						continue;
+					}
+
+					if (!alreadyRegistered.Contains(resource))
+					{
+						importer.Dependencies.Register(resource);
+						alreadyRegistered.Add(resource);
+					}
+				}
 			}
+		}
+
+		private static TModel Load<TModel>(ProjectResourceImporter importer)
+		{
+			var serializer = new JsonSerializer();
+			using var file = importer.FileInfo.OpenText();
+			using var reader = new JsonTextReader(file);
+			return serializer.Deserialize<TModel>(reader);
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace RPGCore.Packages
 
 		internal void AddChildResource(ProjectResource projectResource)
 		{
-			resources.Add(projectResource);
+			resources.Add(projectResource.Name, projectResource);
 
 			projectResource.Directory = this;
 		}

@@ -1,10 +1,58 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Packages;
+using RPGCore.Packages.Pipeline;
 using System;
-using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Text;
 
 namespace RPGCore.Demo.BoardGame.CommandLine
 {
+	public class PngImageImporter : ProjectResourceImportProcessor
+	{
+		public override void ProcessImport(ProjectResourceImporter projectResource)
+		{
+			if (projectResource.FileInfo.Extension == ".png")
+			{
+				using var bitmap = new Bitmap(projectResource.FileInfo.FullName);
+				Console.WriteLine(projectResource.FileInfo.Name);
+
+				foreach (var propItem in bitmap.PropertyItems)
+				{
+					string sTag = "";
+					switch (propItem.Type)
+					{
+						case 1:
+							sTag = Encoding.Unicode.GetString(propItem.Value);
+							break;
+						case 2:
+							sTag = Encoding.ASCII.GetString(propItem.Value);
+							break;
+						case 3:
+							sTag = BitConverter.ToUInt16(propItem.Value, 0).ToString();
+							break;
+						case 4:
+							sTag = BitConverter.ToUInt32(propItem.Value, 0).ToString();
+							break;
+					}
+					string sItem = sTag.Replace("\0", string.Empty);
+
+					string name = "0x" + propItem.Id.ToString("x");
+
+					Console.WriteLine(name + ", " + propItem.Type + ", " + sItem);
+				}
+
+				foreach (var property in bitmap.PropertyItems)
+				{
+					// projectResource.ImporterTags.Add(Encoding.UTF8.GetString(property.Value));
+				}
+			}
+		}
+	}
+
 	public sealed class GameRunner
 	{
 		public LobbyView GameView { get; }
@@ -13,11 +61,91 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 		{
 		}
 
+		public static void CompressImageSave(Bitmap bitmap, FileInfo destination, int quality)
+		{
+			static ImageCodecInfo GetEncoder(ImageFormat format)
+			{
+				var codecs = ImageCodecInfo.GetImageDecoders();
+				foreach (var codec in codecs)
+				{
+					if (codec.FormatID == format.Guid)
+					{
+						return codec;
+					}
+				}
+				return null;
+			}
+			ImageCodecInfo encoder;
+			switch (destination.Extension)
+			{
+				case ".png":
+					encoder = GetEncoder(ImageFormat.Png);
+					break;
+
+				case ".jpeg":
+				case ".jpg":
+					encoder = GetEncoder(ImageFormat.Jpeg);
+					break;
+
+				case ".bmp":
+					encoder = GetEncoder(ImageFormat.Bmp);
+					break;
+
+				default:
+					throw new InvalidOperationException("Cannot compress a file of type " + destination.Extension);
+			}
+
+			var parameters = new EncoderParameters(1);
+			parameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
+
+			bitmap.Save(destination.FullName, encoder, parameters);
+		}
+
+		public static Bitmap Resize(Bitmap bitmap, int width, int height)
+		{
+			static Size CalculateResizedDimensions(Image image, int desiredWidth, int desiredHeight)
+			{
+				double widthScale = (double)desiredWidth / image.Width;
+				double heightScale = (double)desiredHeight / image.Height;
+
+				double scale = widthScale < heightScale ? widthScale : heightScale;
+
+				return new Size
+				{
+					Width = (int)(scale * image.Width),
+					Height = (int)(scale * image.Height)
+				};
+			}
+
+			var newSize = CalculateResizedDimensions(bitmap, width, height);
+
+			var resizedImage = new Bitmap(newSize.Width, newSize.Height, PixelFormat.Format24bppRgb);
+			resizedImage.SetResolution(72, 72);
+
+			using var graphics = Graphics.FromImage(resizedImage);
+
+			// set parameters to create a high-quality thumbnail
+			graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+			graphics.SmoothingMode = SmoothingMode.AntiAlias;
+			graphics.CompositingQuality = CompositingQuality.HighQuality;
+			graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+			using var attribute = new ImageAttributes();
+			attribute.SetWrapMode(WrapMode.TileFlipXY);
+
+			graphics.DrawImage(bitmap,
+				new Rectangle(new Point(0, 0), newSize),
+				0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, attribute);
+			return resizedImage;
+		}
+
+
 		public void Start()
 		{
 			// Import the project
 			var importPipeline = new ImportPipeline();
 			importPipeline.ImportProcessors.Add(new BoardGameResourceImporter());
+			importPipeline.ImportProcessors.Add(new PngImageImporter());
 			var projectExplorer = ProjectExplorer.Load("Content/BoardGame", importPipeline);
 
 			// Build the project to a package.
@@ -28,8 +156,81 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 			buildPipeline.BuildActions.Add(consoleRenderer);
 
 			consoleRenderer.DrawProgressBar(32);
+
+			var png = projectExplorer.Resources["pngdemo.png"];
+
+			string tmp = Path.Combine(
+				Path.GetTempPath(),
+				"ImgEdit",
+				Guid.NewGuid().ToString() + png.Extension
+			);
+			Directory.CreateDirectory(new FileInfo(tmp).Directory.FullName);
+
+			using (var fileStream = new FileStream(png.FileInfo.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+			{
+				var bitmap = new Bitmap(fileStream);
+
+				// bitmap = Resize(bitmap, 200, 367);
+
+				byte[] itemData;
+				var newItem = (PropertyItem)FormatterServices.GetUninitializedObject(typeof(PropertyItem));
+
+				itemData = Encoding.ASCII.GetBytes("TMP Image Title");
+				itemData[^1] = 0; // Strings must be null terminated or they will run together
+				newItem.Id = 0x0320; // Title ID
+				newItem.Type = 2; // ASCII
+				newItem.Len = itemData.Length; // Number of items in the byte array
+				newItem.Value = itemData; // The byte array
+				bitmap.SetPropertyItem(newItem);
+
+				itemData = Encoding.ASCII.GetBytes("TMP Model");
+				itemData[^1] = 0;
+				newItem.Id = 0x0110;
+				newItem.Type = 2;
+				newItem.Len = itemData.Length;
+				newItem.Value = itemData;
+				bitmap.SetPropertyItem(newItem);
+
+				itemData = Encoding.ASCII.GetBytes("TMP DESCRIPTION :D");
+				itemData[^1] = 0;
+				newItem.Id = 0x010E;
+				newItem.Type = 2;
+				newItem.Len = itemData.Length;
+				newItem.Value = itemData;
+				bitmap.SetPropertyItem(newItem);
+
+				itemData = Encoding.ASCII.GetBytes("HAY I'M AN ARTISTS");
+				itemData[^1] = 0;
+				newItem.Id = 0x013B;
+				newItem.Type = 2;
+				newItem.Len = itemData.Length;
+				newItem.Value = itemData;
+				bitmap.SetPropertyItem(newItem);
+
+				itemData = Encoding.ASCII.GetBytes("LMAO COPYRIGHTED");
+				itemData[^1] = 0;
+				newItem.Id = 0x8298;
+				newItem.Type = 2;
+				newItem.Len = itemData.Length;
+				newItem.Value = itemData;
+				bitmap.SetPropertyItem(newItem);
+
+				CompressImageSave(bitmap, new FileInfo(tmp), 0);
+			}
+
+			File.Copy(tmp, png.FileInfo.FullName, true);
+			File.Delete(tmp);
+
+
 			projectExplorer.Export(buildPipeline, "BoardGame/Temp");
-			Console.WriteLine("Exported package...");
+			var packageExplorer = PackageExplorer.Load("BoardGame/Temp/BoardGame.bpkg");
+
+			var cottage = packageExplorer.Resources["buildings/cottage.json"];
+
+			foreach (var dep in cottage.Dependencies)
+			{
+				Console.WriteLine($"{dep.Key}: {dep.Resource?.Name}");
+			}
 
 			Step();
 

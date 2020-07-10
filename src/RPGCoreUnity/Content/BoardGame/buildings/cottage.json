@@ -1,7 +1,7 @@
 {
   "DisplayName": "Cottage",
   "Identifier": "cottage",
-  "PackIdentifier": "cottagepack",
+  "PackIdentifier": "building-packs/cottagepack.json",
   "BodyText": null,
   "Recipe": null,
   "LocalEffectGraph": {

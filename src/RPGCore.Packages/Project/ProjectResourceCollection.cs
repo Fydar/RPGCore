@@ -28,9 +28,14 @@ namespace RPGCore.Packages
 			this.resources = resources ?? throw new System.ArgumentNullException(nameof(resources));
 		}
 
-		internal void Add(ProjectResource resource)
+		internal void Add(string key, ProjectResource resource)
 		{
-			resources.Add(resource.FullName, resource);
+			resources.Add(key, resource);
+		}
+
+		public bool Contains(string key)
+		{
+			return resources.ContainsKey(key);
 		}
 
 		public IEnumerator<ProjectResource> GetEnumerator()
@@ -53,12 +58,14 @@ namespace RPGCore.Packages
 			[DebuggerDisplay("{Value}", Name = "{Key}")]
 			internal struct DebuggerRow
 			{
+				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 				public string Key;
 
 				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 				public IResource Value;
 			}
 
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			private readonly ProjectResourceCollection source;
 
 			public ProjectResourceCollectionDebugView(ProjectResourceCollection source)

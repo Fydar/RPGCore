@@ -24,6 +24,11 @@ namespace RPGCore.Packages
 
 		public void PerformBuild()
 		{
+			var serializer = new JsonSerializer()
+			{
+				Formatting = Formatting.None
+			};
+
 			foreach (var reference in Project.Definition.References)
 			{
 				reference.IncludeInBuild(this, OutputFolder);
@@ -66,22 +71,43 @@ namespace RPGCore.Packages
 			foreach (var resource in Project.Resources)
 			{
 				var exporter = Pipeline.GetExporter(resource);
-				string entryName = $"data/{resource.FullName}";
+				string contentName = $"data/{resource.FullName}";
+				string metadataName = $"data/{resource.FullName}.pkgmeta";
 
 				Pipeline.BuildActions.OnBeforeExportResource(this, resource);
 
-				ZipArchiveEntry entry;
+				ZipArchiveEntry contentEntry;
 				if (exporter == null)
 				{
-					entry = archive.CreateEntryFromFile(resource.FileInfo.FullName, entryName, CompressionLevel.Optimal);
+					contentEntry = archive.CreateEntryFromFile(resource.FileInfo.FullName, contentName, CompressionLevel.Optimal);
 				}
 				else
 				{
-					entry = archive.CreateEntry(entryName);
-
-					using var zipStream = entry.Open();
-					exporter.BuildResource(resource, zipStream);
+					contentEntry = archive.CreateEntry(contentName);
+					exporter.BuildResource(resource, contentEntry);
 				}
+
+				var dependencies = new PackageResourceMetadataDependencyModel[resource.Dependencies.Count];
+				for (int i = 0; i < dependencies.Length; i++)
+				{
+					var dependency = resource.Dependencies[i];
+					dependencies[i] = new PackageResourceMetadataDependencyModel()
+					{
+						Resource = dependency.Key
+					};
+				}
+				var metadata = new PackageResourceMetadataModel()
+				{
+					Dependencies = dependencies
+				};
+
+				var metadataEntry = archive.CreateEntry(metadataName);
+				using (var zipStream = metadataEntry.Open())
+				using (var streamWriter = new StreamWriter(zipStream))
+				{
+					serializer.Serialize(streamWriter, metadata);
+				}
+
 
 				currentProgress += resource.UncompressedSize;
 				Progress = currentProgress / (double)Project.UncompressedSize;

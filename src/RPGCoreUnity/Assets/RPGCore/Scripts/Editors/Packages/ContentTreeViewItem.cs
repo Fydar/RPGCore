@@ -97,6 +97,15 @@ namespace RPGCore.Unity.Editors
 					};
 					Tabs.Add(manifestFrame);
 				}
+				else if (item is ProjectExplorer projectExplorer)
+				{
+					var manifestFrame = new FrameTab()
+					{
+						Title = new GUIContent("Project"),
+						Frame = new ProjectInspectFrame(projectExplorer)
+					};
+					Tabs.Add(manifestFrame);
+				}
 
 				VirtualChildren = new List<FrameTab>();
 				foreach (var tab in Tabs)

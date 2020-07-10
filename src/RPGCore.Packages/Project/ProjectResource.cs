@@ -12,22 +12,25 @@ namespace RPGCore.Packages
 		public string Extension { get; }
 
 		public long UncompressedSize { get; }
-
-		public ProjectResourceTags Tags { get; }
-		public ProjectExplorer Explorer { get; }
-		public IDirectory Directory { get; internal set; }
-
 		public FileInfo FileInfo { get; }
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
+		public ProjectExplorer Explorer { get; }
+		public ProjectDirectory Directory { get; internal set; }
+		public ProjectResourceDependencies Dependencies { get; }
+		public ProjectResourceTags Tags { get; }
+
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IExplorer IResource.Explorer => Explorer;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IResource.Directory => Directory;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencies IResource.Dependencies => Dependencies;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
 
 		internal ProjectResource(ProjectResourceImporter projectResourceImporter)
 		{
+			Explorer = projectResourceImporter.ProjectExplorer;
+			Dependencies = new ProjectResourceDependencies(projectResourceImporter);
 			Tags = new ProjectResourceTags(projectResourceImporter);
 
 			FileInfo = projectResourceImporter.FileInfo;
-			Explorer = projectResourceImporter.ProjectExplorer;
 			FullName = projectResourceImporter.ProjectKey;
 
 			Name = FileInfo.Name;

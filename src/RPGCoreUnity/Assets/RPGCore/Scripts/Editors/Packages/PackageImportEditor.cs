@@ -17,9 +17,9 @@ namespace RPGCore.Unity.Editors
 			GUILayout.Space(8);
 
 			EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-			if (projectImport.Explorer?.Resources != null)
+			if (projectImport.SourceFiles?.Resources != null)
 			{
-				foreach (var resource in projectImport.Explorer.Resources)
+				foreach (var resource in projectImport.SourceFiles.Resources)
 				{
 					EditorGUILayout.LabelField(resource.FullName);
 				}

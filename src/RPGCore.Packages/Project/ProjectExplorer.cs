@@ -25,32 +25,27 @@ namespace RPGCore.Packages
 		/// <summary>
 		/// <para>The project definition for this project.</para>
 		/// </summary>
-		public ProjectDefinition Definition => definition;
+		public ProjectDefinition Definition { get; private set; }
 
 		/// <summary>
 		/// <para>A collection of all of the resources contained in this project.</para>
 		/// </summary>
-		public ProjectResourceCollection Resources => resources;
+		public ProjectResourceCollection Resources { get; private set; }
 
 		/// <summary>
 		/// <para>An index of the tags contained within this project for performing asset queries.</para>
 		/// </summary>
-		public ITagsCollection Tags => tags;
+		public ITagsCollection Tags { get; private set; }
 
 		/// <summary>
 		/// <para>A directory representing the root of the project.</para>
 		/// </summary>
-		public ProjectDirectory RootDirectory => rootDirectory;
+		public ProjectDirectory RootDirectory { get; private set; }
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinition IExplorer.Definition => definition;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => resources;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => tags;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IExplorer.RootDirectory => rootDirectory;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private ProjectDefinition definition;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private ProjectResourceCollection resources;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private ProjectDirectory rootDirectory;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinition IExplorer.Definition => Definition;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => Resources;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => Tags;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IExplorer.RootDirectory => RootDirectory;
 
 		internal ProjectExplorer()
 		{
@@ -75,7 +70,7 @@ namespace RPGCore.Packages
 
 				var resource = importPipeline.ImportResource(projectExplorer, resourceFileInfo, resourceProjectKey);
 
-				projectExplorer.resources.Add(resource);
+				projectExplorer.Resources.Add(resource.FullName, resource);
 
 				newRootDirectory.AddChildResource(resource);
 			}
@@ -142,11 +137,11 @@ namespace RPGCore.Packages
 			var projectExplorer = new ProjectExplorer
 			{
 				ProjectPath = projectPath,
-				definition = ProjectDefinition.Load(bprojPath),
-				resources = new ProjectResourceCollection(resources)
+				Definition = ProjectDefinition.Load(bprojPath),
+				Resources = new ProjectResourceCollection(resources)
 			};
 
-			projectExplorer.rootDirectory = CreateDirectory(
+			projectExplorer.RootDirectory = CreateDirectory(
 				projectPath.Replace('\\', '/'),
 				projectPath,
 				"",
@@ -175,11 +170,11 @@ namespace RPGCore.Packages
 					}
 
 					var taggedResources = (ProjectResourceCollection)taggedResourcesCollection;
-					taggedResources.Add(resource);
+					taggedResources.Add(resource.FullName, resource);
 				}
 			}
 
-			projectExplorer.tags = new PackageTagsCollection(tags);
+			projectExplorer.Tags = new PackageTagsCollection(tags);
 
 			return projectExplorer;
 		}

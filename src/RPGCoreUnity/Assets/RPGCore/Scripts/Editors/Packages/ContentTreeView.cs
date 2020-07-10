@@ -168,7 +168,7 @@ namespace RPGCore.Unity.Editors
 				int id = 1;
 				foreach (var projectImport in projectImports)
 				{
-					BuildProject(collection, projectImport.Explorer, 0, ref id);
+					BuildProject(collection, projectImport.SourceFiles, 0, ref id);
 				}
 			}
 

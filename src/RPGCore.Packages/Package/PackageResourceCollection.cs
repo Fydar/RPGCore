@@ -26,6 +26,11 @@ namespace RPGCore.Packages
 			resources.Add(asset.FullName, asset);
 		}
 
+		public bool Contains(string key)
+		{
+			return resources.ContainsKey(key);
+		}
+
 		public IEnumerator<PackageResource> GetEnumerator()
 		{
 			return resources.Values.GetEnumerator();
@@ -33,12 +38,12 @@ namespace RPGCore.Packages
 
 		IEnumerator<IResource> IEnumerable<IResource>.GetEnumerator()
 		{
-			return GetEnumerator();
+			return resources.Values.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return GetEnumerator();
+			return resources.Values.GetEnumerator();
 		}
 
 		private class PackageResourceCollectionDebugView
@@ -46,12 +51,14 @@ namespace RPGCore.Packages
 			[DebuggerDisplay("{Value}", Name = "{Key}")]
 			internal struct DebuggerRow
 			{
+				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 				public string Key;
 
 				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 				public IResource Value;
 			}
 
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			private readonly PackageResourceCollection source;
 
 			public PackageResourceCollectionDebugView(PackageResourceCollection source)

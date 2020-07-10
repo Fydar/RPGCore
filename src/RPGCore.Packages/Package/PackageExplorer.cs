@@ -28,36 +28,31 @@ namespace RPGCore.Packages
 		/// <summary>
 		/// <para>The project definition for this package.</para>
 		/// </summary>
-		public PackageDefinition Definition => definition;
+		public PackageDefinition Definition { get; private set; }
 
 		/// <summary>
 		/// <para>A collection of all of the resources contained in this package.</para>
 		/// </summary>
-		public PackageResourceCollection Resources => resources;
+		public PackageResourceCollection Resources { get; }
 
 		/// <summary>
 		/// <para>An index of the tags contained within this package for performing asset queries.</para>
 		/// </summary>
-		public ITagsCollection Tags => tags;
+		public ITagsCollection Tags { get; private set; }
 
 		/// <summary>
 		/// <para>A directory representing the root of the package.</para>
 		/// </summary>
-		public IDirectory RootDirectory => rootDirectory;
+		public IDirectory RootDirectory { get; private set; }
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinition IExplorer.Definition => definition;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => resources;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => tags;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IExplorer.RootDirectory => rootDirectory;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageDefinition definition;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly PackageResourceCollection resources;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private PackageTagsCollection tags;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly PackageDirectory rootDirectory;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinition IExplorer.Definition => Definition;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IExplorer.Resources => Resources;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] ITagsCollection IExplorer.Tags => Tags;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IExplorer.RootDirectory => RootDirectory;
 
 		private PackageExplorer()
 		{
-			resources = new PackageResourceCollection();
+			Resources = new PackageResourceCollection();
 		}
 
 		public static PackageExplorer Load(string packagePath)
@@ -67,11 +62,6 @@ namespace RPGCore.Packages
 			using var fileStream = new FileStream(packagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
 
-			var package = new PackageExplorer
-			{
-				PackagePath = packagePath,
-				CompressedSize = packageFileInfo.Length
-			};
 
 			var definitionEntry = archive.GetEntry("definition.json");
 			var definitionDocument = LoadJsonDocument<PackageDefinition>(definitionEntry);
@@ -82,15 +72,27 @@ namespace RPGCore.Packages
 
 			var rootDirectiory = new PackageDirectory();
 
-			foreach (var projectEntry in archive.Entries)
+			var package = new PackageExplorer
 			{
-				if (!projectEntry.FullName.StartsWith("data/"))
+				PackagePath = packagePath,
+				CompressedSize = packageFileInfo.Length,
+				RootDirectory = rootDirectiory,
+				Definition = definitionDocument
+			};
+
+			foreach (var packageEntry in archive.Entries)
+			{
+				if (!packageEntry.FullName.StartsWith("data/")
+					|| packageEntry.FullName.EndsWith(".pkgmeta"))
 				{
 					continue;
 				}
 
-				var resource = new PackageResource(package, projectEntry);
-				package.resources.Add(resource);
+				var metadataEntry = archive.GetEntry($"{packageEntry.FullName}.pkgmeta");
+				var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(metadataEntry);
+
+				var resource = new PackageResource(package, packageEntry, metadataModel);
+				package.Resources.Add(resource);
 
 				foreach (var tagCategory in tagsDocument)
 				{
@@ -110,8 +112,7 @@ namespace RPGCore.Packages
 				}
 			}
 
-			package.tags = new PackageTagsCollection(tags);
-			package.definition = definitionDocument;
+			package.Tags = new PackageTagsCollection(tags);
 
 			return package;
 		}

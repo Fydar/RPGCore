@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace RPGCore.Packages
 {
@@ -13,35 +13,32 @@ namespace RPGCore.Packages
 
 		public IResourceCollection this[string tag] => tags[tag];
 
-		public int Count => tags?.Count ?? 0;
+		public int Count => tags.Count;
 		public IEnumerable<string> Keys => tags.Keys;
 
 		internal PackageTagsCollection(IReadOnlyDictionary<string, IResourceCollection> tags)
 		{
-			this.tags = tags;
+			this.tags = tags ?? throw new ArgumentNullException(nameof(tags));
 		}
 
 		public bool ContainsKey(string key)
 		{
-			return tags?.ContainsKey(key) ?? false;
+			return tags.ContainsKey(key);
 		}
 
 		public bool TryGetValue(string key, out IResourceCollection value)
 		{
-			value = default;
-			return tags?.TryGetValue(key, out value) ?? false;
+			return tags.TryGetValue(key, out value);
 		}
 
 		public IEnumerator<KeyValuePair<string, IResourceCollection>> GetEnumerator()
 		{
-			return tags == null
-				? Enumerable.Empty<KeyValuePair<string, IResourceCollection>>().GetEnumerator()
-				: tags.GetEnumerator();
+			return tags.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return GetEnumerator();
+			return tags.GetEnumerator();
 		}
 
 		private class PackageTagsCollectionDebugView
@@ -56,6 +53,7 @@ namespace RPGCore.Packages
 				public IResourceCollection Value;
 			}
 
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			private readonly PackageTagsCollection source;
 
 			public PackageTagsCollectionDebugView(PackageTagsCollection source)

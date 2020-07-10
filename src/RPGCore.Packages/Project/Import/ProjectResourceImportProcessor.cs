@@ -6,6 +6,6 @@
 	/// </summary>
 	public abstract class ProjectResourceImportProcessor
 	{
-		public abstract void ProcessImport(ProjectResourceImporter projectResource);
+		public abstract void ProcessImport(ProjectResourceImporter importer);
 	}
 }

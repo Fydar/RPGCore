@@ -14,29 +14,34 @@ namespace RPGCore.Packages
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
 
-		public PackageResourceTags Tags { get; }
 		public PackageExplorer Explorer { get; }
-		public IDirectory Directory { get; internal set; }
+		public PackageDirectory Directory { get; internal set; }
+		public PackageResourceDependencies Dependencies { get; }
+		public PackageResourceTags Tags { get; }
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IExplorer IResource.Explorer => Explorer;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IResource.Directory => Directory;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencies IResource.Dependencies => Dependencies;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
 
-		internal PackageResource(PackageExplorer explorer, ZipArchiveEntry packageEntry)
+		internal PackageResource(PackageExplorer packageExplorer, ZipArchiveEntry contentEntry, PackageResourceMetadataModel metadataModel)
 		{
+			Explorer = packageExplorer;
+			Dependencies = new PackageResourceDependencies(packageExplorer, metadataModel);
 			Tags = new PackageResourceTags();
-			Explorer = explorer;
-			Name = packageEntry.Name;
 
-			string withoutData = packageEntry.FullName.Substring(5);
+			Name = contentEntry.Name;
+
+			string withoutData = contentEntry.FullName.Substring(5);
 			FullName = withoutData;
 
-			int dotIndex = packageEntry.FullName.LastIndexOf('.');
+			int dotIndex = contentEntry.FullName.LastIndexOf('.');
 			Extension = dotIndex != -1
-				? packageEntry.FullName.Substring(dotIndex)
+				? contentEntry.FullName.Substring(dotIndex)
 				: null;
 
-			CompressedSize = packageEntry.CompressedLength;
-			UncompressedSize = packageEntry.Length;
+			CompressedSize = contentEntry.CompressedLength;
+			UncompressedSize = contentEntry.Length;
 		}
 
 		public Stream LoadStream()

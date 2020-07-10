@@ -12,7 +12,7 @@ namespace RPGCoreUnity.Demo.Browser
 
 		private void Start()
 		{
-			var explorer = Package.Explorer;
+			var explorer = Package.SourceFiles;
 
 			foreach (var resource in explorer.Resources)
 			{

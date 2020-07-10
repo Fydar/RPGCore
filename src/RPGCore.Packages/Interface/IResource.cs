@@ -11,6 +11,7 @@ namespace RPGCore.Packages
 		long UncompressedSize { get; }
 		IResourceTags Tags { get; }
 		IDirectory Directory { get; }
+		IResourceDependencies Dependencies { get; }
 		IExplorer Explorer { get; }
 
 		Stream LoadStream();
