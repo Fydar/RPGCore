@@ -11,7 +11,6 @@ namespace RPGCore.CLI
 		{
 			var rootCommand = new RootCommand("Command-line tool for RPGCore")
 			{
-				new BuildCommand("build", "Builds the current .bproj."),
 				new FormatCommand("format", "Formats a .bproj file.")
 			};
 			rootCommand.Name = "bpack";

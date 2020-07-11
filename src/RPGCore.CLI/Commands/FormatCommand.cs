@@ -23,7 +23,7 @@ namespace RPGCore.CLI.Commands
 			   {
 				   project = FindFileOfType(".bproj");
 			   }
-			   var importPipeline = new ImportPipeline();
+			   var importPipeline = ImportPipeline.Create().Build();
 
 			   var projectExplorer = ProjectExplorer.Load(project.DirectoryName, importPipeline);
 

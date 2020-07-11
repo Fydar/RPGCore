@@ -1,5 +1,6 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Packages;
+using RPGCore.Packages.Extensions.MetaFiles;
 using RPGCore.Packages.Pipeline;
 using System;
 using System.Drawing;
@@ -11,7 +12,7 @@ using System.Text;
 
 namespace RPGCore.Demo.BoardGame.CommandLine
 {
-	public class PngImageImporter : ProjectResourceImportProcessor
+	public class PngImageImporter : ImportProcessor
 	{
 		public override void ProcessImport(ProjectResourceImporter projectResource)
 		{
@@ -143,9 +144,15 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 		public void Start()
 		{
 			// Import the project
-			var importPipeline = new ImportPipeline();
-			importPipeline.ImportProcessors.Add(new BoardGameResourceImporter());
-			importPipeline.ImportProcessors.Add(new PngImageImporter());
+			var importPipeline = ImportPipeline.Create()
+				.UseProcessor(new BoardGameResourceImporter())
+				.UseProcessor(new PngImageImporter())
+				.UseJsonMetaFiles(options =>
+				{
+					options.IsMetaFilesOptional = true;
+				})
+				.Build();
+
 			var projectExplorer = ProjectExplorer.Load("Content/BoardGame", importPipeline);
 
 			// Build the project to a package.

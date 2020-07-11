@@ -5,7 +5,7 @@ namespace RPGCore.Demo.Inventory
 	/// <summary>
 	/// Tags all resources processed by this importer.
 	/// </summary>
-	public class TagAllProjectResourceImporter : ProjectResourceImportProcessor
+	public class TagAllProjectResourceImporter : ImportProcessor
 	{
 		public override void ProcessImport(ProjectResourceImporter projectResource)
 		{

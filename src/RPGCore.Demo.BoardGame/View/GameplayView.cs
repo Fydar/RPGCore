@@ -7,7 +7,7 @@ namespace RPGCore.Demo.BoardGame
 	{
 		[JsonIgnore]
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly GameplayPlayerCollection players;
+		private GameplayPlayerCollection players;
 
 		public int CurrentPlayersTurn;
 		public bool DeclaredResource;

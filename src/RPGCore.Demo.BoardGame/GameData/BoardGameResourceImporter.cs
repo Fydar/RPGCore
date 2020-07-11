@@ -9,7 +9,7 @@ namespace RPGCore.Demo.BoardGame
 	/// <summary>
 	/// Tags appropriate resources using it's directory.
 	/// </summary>
-	public class BoardGameResourceImporter : ProjectResourceImportProcessor
+	public class BoardGameResourceImporter : ImportProcessor
 	{
 		public override void ProcessImport(ProjectResourceImporter importer)
 		{

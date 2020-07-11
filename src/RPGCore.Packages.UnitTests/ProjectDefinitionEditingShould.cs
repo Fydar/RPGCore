@@ -21,18 +21,20 @@ namespace RPGCore.Packages.UnitTests
 		[Test, Parallelizable]
 		public void ModifyName()
 		{
-			var createExplorer = ProjectExplorer.CreateProject(FileName("project"), new ImportPipeline());
+			var importPipeline = ImportPipeline.Create().Build();
+
+			var createExplorer = ProjectExplorer.CreateProject(FileName("project"), importPipeline);
 
 			createExplorer.Definition.Properties.Name = "TestName1";
 
 			createExplorer.Definition.SaveChanges();
 
-			var loadExplorer = ProjectExplorer.Load(FileName("project"), new ImportPipeline());
+			var loadExplorer = ProjectExplorer.Load(FileName("project"), importPipeline);
 			Assert.That(loadExplorer.Definition.Properties.Name, Is.EqualTo("TestName1"));
 
 			loadExplorer.Export(new BuildPipeline()
 			{
-				ImportPipeline = new ImportPipeline(),
+				ImportPipeline = importPipeline
 			}, FileName("export"));
 
 			var packageImport = PackageExplorer.Load(
@@ -43,20 +45,22 @@ namespace RPGCore.Packages.UnitTests
 		[Test, Parallelizable]
 		public void ModifyNameAndVersion()
 		{
-			var createExplorer = ProjectExplorer.CreateProject(FileName("project"), new ImportPipeline());
+			var importPipeline = ImportPipeline.Create().Build();
+
+			var createExplorer = ProjectExplorer.CreateProject(FileName("project"), importPipeline);
 
 			createExplorer.Definition.Properties.Name = "TestName1";
 			createExplorer.Definition.Properties.Version = "1.0.0";
 
 			createExplorer.Definition.SaveChanges();
 
-			var loadExplorer = ProjectExplorer.Load(FileName("project"), new ImportPipeline());
+			var loadExplorer = ProjectExplorer.Load(FileName("project"), importPipeline);
 			Assert.That(loadExplorer.Definition.Properties.Name, Is.EqualTo("TestName1"));
 			Assert.That(loadExplorer.Definition.Properties.Version, Is.EqualTo("1.0.0"));
 
 			loadExplorer.Export(new BuildPipeline()
 			{
-				ImportPipeline = new ImportPipeline(),
+				ImportPipeline = importPipeline,
 			}, FileName("export"));
 
 			var packageImport = PackageExplorer.Load(
@@ -68,18 +72,20 @@ namespace RPGCore.Packages.UnitTests
 		[Test, Parallelizable]
 		public void ModifyVersion()
 		{
-			var createExplorer = ProjectExplorer.CreateProject(FileName("project"), new ImportPipeline());
+			var importPipeline = ImportPipeline.Create().Build();
+
+			var createExplorer = ProjectExplorer.CreateProject(FileName("project"), importPipeline);
 
 			createExplorer.Definition.Properties.Version = "1.0.0";
 
 			createExplorer.Definition.SaveChanges();
 
-			var loadExplorer = ProjectExplorer.Load(FileName("project"), new ImportPipeline());
+			var loadExplorer = ProjectExplorer.Load(FileName("project"), importPipeline);
 			Assert.That(loadExplorer.Definition.Properties.Version, Is.EqualTo("1.0.0"));
 
 			loadExplorer.Export(new BuildPipeline()
 			{
-				ImportPipeline = new ImportPipeline(),
+				ImportPipeline = importPipeline,
 			}, FileName("export"));
 
 			var packageImport = PackageExplorer.Load(

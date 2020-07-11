@@ -6,23 +6,28 @@ namespace RPGCore.Packages
 {
 	public class ImportPipeline
 	{
-		public List<ProjectResourceImportProcessor> ImportProcessors { get; }
+		private List<ImportProcessor> importProcessors { get; }
 
-		public ImportPipeline()
+		internal ImportPipeline(List<ImportProcessor> importProcessors)
 		{
-			ImportProcessors = new List<ProjectResourceImportProcessor>();
+			this.importProcessors = importProcessors;
 		}
 
 		public ProjectResource ImportResource(ProjectExplorer projectExplorer, FileInfo fileInfo, string projectKey)
 		{
 			var resourceImporter = new ProjectResourceImporter(projectExplorer, fileInfo, projectKey);
 
-			foreach (var importer in ImportProcessors)
+			foreach (var importer in importProcessors)
 			{
 				importer.ProcessImport(resourceImporter);
 			}
 
 			return resourceImporter.Import();
+		}
+
+		public static IImportPipelineBuilder Create()
+		{
+			return new ImportPipelineBuilder();
 		}
 	}
 }

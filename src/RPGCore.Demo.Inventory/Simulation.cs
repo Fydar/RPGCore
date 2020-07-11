@@ -16,9 +16,9 @@ namespace RPGCore.Demo.Inventory
 
 			Console.WriteLine("Importing Graph...");
 
-			var importPipeline = new ImportPipeline();
-			importPipeline.ImportProcessors.Add(
-				new TagAllProjectResourceImporter());
+			var importPipeline = ImportPipeline.Create()
+				.UseProcessor(new TagAllProjectResourceImporter())
+				.Build();
 
 			var projectExplorer = ProjectExplorer.Load("Content/Core", importPipeline);
 
