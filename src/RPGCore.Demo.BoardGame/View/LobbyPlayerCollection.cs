@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class LobbyPlayerCollection : IEnumerable<LobbyPlayer>
+	public class LobbyPlayerCollection : IChildOf<LobbyView>, IEnumerable<LobbyPlayer>
 	{
 		[JsonProperty("players")]
 		private readonly List<LobbyPlayer> internalCollection;
@@ -17,7 +17,7 @@ namespace RPGCore.Demo.BoardGame
 
 		[JsonIgnore]
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public LobbyView Lobby { get; internal set; }
+		public LobbyView Parent { get; set; }
 
 		public LobbyPlayer this[LocalId ownerId]
 		{
@@ -48,10 +48,10 @@ namespace RPGCore.Demo.BoardGame
 		{
 			if (lobbyPlayer.Lobby == null)
 			{
-				lobbyPlayer.Lobby = Lobby;
+				lobbyPlayer.Lobby = Parent;
 				internalCollection.Add(lobbyPlayer);
 			}
-			else if (lobbyPlayer.Lobby == Lobby)
+			else if (lobbyPlayer.Lobby == Parent)
 			{
 				throw new ArgumentException($"Can't add a {nameof(LobbyPlayer)} to this {nameof(LobbyPlayerCollection)} as it already belongs to this {nameof(LobbyView)}.");
 			}
@@ -73,7 +73,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public bool RemovePlayer(LobbyPlayer lobbyPlayer)
 		{
-			if (lobbyPlayer.Lobby != Lobby)
+			if (lobbyPlayer.Lobby != Parent)
 			{
 				throw new ArgumentException($"Can't remove a {nameof(LobbyPlayer)} from this {nameof(LobbyPlayerCollection)} as it doesn't recognise this {nameof(LobbyView)} as it's parent.");
 			}

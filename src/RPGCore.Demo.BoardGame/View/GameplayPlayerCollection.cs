@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class GameplayPlayerCollection : IEnumerable<GameplayPlayer>
+	public class GameplayPlayerCollection : IChildOf<GameplayView>, IEnumerable<GameplayPlayer>
 	{
 		[JsonProperty("players")]
 		private readonly List<GameplayPlayer> internalCollection;
@@ -17,7 +17,7 @@ namespace RPGCore.Demo.BoardGame
 
 		[JsonIgnore]
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public GameplayView Gameplay { get; internal set; }
+		public GameplayView Parent { get; set; }
 
 		public GameplayPlayer this[LocalId ownerId]
 		{
@@ -48,10 +48,10 @@ namespace RPGCore.Demo.BoardGame
 		{
 			if (gameplayLayer.Gameplay == null)
 			{
-				gameplayLayer.Gameplay = Gameplay;
+				gameplayLayer.Gameplay = Parent;
 				internalCollection.Add(gameplayLayer);
 			}
-			else if (gameplayLayer.Gameplay == Gameplay)
+			else if (gameplayLayer.Gameplay == Parent)
 			{
 				throw new ArgumentException($"Can't add a {nameof(GameplayPlayer)} to this {nameof(GameplayPlayerCollection)} as it already belongs to this {nameof(LobbyView)}.");
 			}
@@ -73,7 +73,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public bool RemovePlayer(GameplayPlayer gameplayLayer)
 		{
-			if (gameplayLayer.Gameplay != Gameplay)
+			if (gameplayLayer.Gameplay != Parent)
 			{
 				throw new ArgumentException($"Can't remove a {nameof(GameplayPlayer)} from this {nameof(GameplayPlayerCollection)} as it doesn't recognise this {nameof(LobbyView)} as it's parent.");
 			}

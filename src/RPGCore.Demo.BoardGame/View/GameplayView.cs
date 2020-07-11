@@ -1,46 +1,26 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Diagnostics;
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class GameplayView
+	public class GameplayView : IChildOf<LobbyView>
 	{
 		[JsonIgnore]
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private GameplayPlayerCollection players;
-
-		[JsonIgnore]
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public LobbyView Lobby { get; internal set; }
+		private readonly GameplayPlayerCollection players;
 
 		public int CurrentPlayersTurn;
 		public bool DeclaredResource;
 		public GlobalCardSlot[] Buildings;
 
+		[JsonIgnore]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public LobbyView Parent { get; set; }
+
 		public GameplayPlayerCollection Players
 		{
-			get
-			{
-				return players;
-			}
-			set
-			{
-				if (value == null)
-				{
-					players = null;
-				}
-
-				if (value.Gameplay == null)
-				{
-					players = value;
-					players.Gameplay = this;
-				}
-				else
-				{
-					throw new InvalidOperationException($"Can't add a {nameof(GameplayPlayerCollection)} to this {nameof(GameplayView)} as it belongs to another {nameof(GameplayView)}.");
-				}
-			}
+			get => HierachyHelper.Get(this, ref players);
+			set => HierachyHelper.Set(this, ref players, value);
 		}
 
 		public GameplayView()
