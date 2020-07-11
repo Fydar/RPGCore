@@ -166,7 +166,7 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 			);
 			Directory.CreateDirectory(new FileInfo(tmp).Directory.FullName);
 
-			using (var fileStream = new FileStream(png.FileInfo.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+			using (var fileStream = new FileStream(png.Content.FileInfo.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
 			{
 				var bitmap = new Bitmap(fileStream);
 
@@ -218,7 +218,7 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 				CompressImageSave(bitmap, new FileInfo(tmp), 0);
 			}
 
-			File.Copy(tmp, png.FileInfo.FullName, true);
+			File.Copy(tmp, png.Content.FileInfo.FullName, true);
 			File.Delete(tmp);
 
 

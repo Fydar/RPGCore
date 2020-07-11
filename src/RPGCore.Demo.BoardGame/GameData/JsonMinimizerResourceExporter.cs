@@ -21,7 +21,7 @@ namespace RPGCore.Demo.BoardGame
 			};
 
 			JObject document;
-			using (var sr = new StreamReader(resource.LoadStream()))
+			using (var sr = new StreamReader(resource.Content.LoadStream()))
 			using (var reader = new JsonTextReader(sr))
 			{
 				document = serializer.Deserialize<JObject>(reader);

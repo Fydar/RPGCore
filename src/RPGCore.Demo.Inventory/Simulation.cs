@@ -35,7 +35,7 @@ namespace RPGCore.Demo.Inventory
 			var exportedPackage = PackageExplorer.Load("Content/Temp/Core.bpkg");
 
 			var fireballAsset = exportedPackage.Resources["Fireball/Main.json"];
-			var data = fireballAsset.LoadStream();
+			var data = fireballAsset.Content.LoadStream();
 
 			SerializedGraph packageItem;
 			using (var sr = new StreamReader(data))

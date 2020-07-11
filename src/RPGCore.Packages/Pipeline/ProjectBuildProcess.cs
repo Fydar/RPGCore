@@ -79,7 +79,7 @@ namespace RPGCore.Packages
 				ZipArchiveEntry contentEntry;
 				if (exporter == null)
 				{
-					contentEntry = archive.CreateEntryFromFile(resource.FileInfo.FullName, contentName, CompressionLevel.Optimal);
+					contentEntry = archive.CreateEntryFromFile(resource.Content.FileInfo.FullName, contentName, CompressionLevel.Optimal);
 				}
 				else
 				{
