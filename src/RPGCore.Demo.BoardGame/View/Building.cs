@@ -4,11 +4,11 @@ using System.Diagnostics;
 
 namespace RPGCore.Demo.BoardGame
 {
-	public class Building
+	public class Building : IChildOf<GameTile>
 	{
 		[JsonIgnore]
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public GameTile Tile { get; internal set; }
+		public GameTile Parent { get; set; }
 
 		public string Identifier { get; }
 		public StatInstance LocalReward { get; }

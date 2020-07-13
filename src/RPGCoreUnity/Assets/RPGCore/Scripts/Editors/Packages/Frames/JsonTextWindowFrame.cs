@@ -63,7 +63,7 @@ namespace RPGCore.Unity.Editors
 			var serializer = new JsonSerializer();
 			JObject jobject;
 
-			using (var stream = resource.LoadStream())
+			using (var stream = resource.Content.LoadStream())
 			using (var reader = new StreamReader(stream))
 			using (var jsonReader = new JsonTextReader(reader))
 			{

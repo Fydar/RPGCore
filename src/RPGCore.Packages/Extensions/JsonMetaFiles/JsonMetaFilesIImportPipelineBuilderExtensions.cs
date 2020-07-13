@@ -9,7 +9,7 @@ namespace RPGCore.Packages.Extensions.MetaFiles
 			var optionsModel = new JsonMetaFilesOptions();
 			options?.Invoke(optionsModel);
 
-			importPipelineBuilder.Filters.Add(new JsonFileSuffixImportFilter(optionsModel.MetaFileSuffix));
+			importPipelineBuilder.Filters.Add(new JsonMetaFileSuffixImportFilter(optionsModel.MetaFileSuffix));
 			importPipelineBuilder.Processors.Add(new JsonMetaFileImportProcessor(optionsModel));
 
 			return importPipelineBuilder;

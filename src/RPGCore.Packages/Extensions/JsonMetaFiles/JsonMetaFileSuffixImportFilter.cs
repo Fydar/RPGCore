@@ -2,11 +2,11 @@
 
 namespace RPGCore.Packages.Extensions.MetaFiles
 {
-	internal class JsonFileSuffixImportFilter : ImportFilter
+	internal class JsonMetaFileSuffixImportFilter : ImportFilter
 	{
 		private readonly string suffix;
 
-		public JsonFileSuffixImportFilter(string suffix)
+		public JsonMetaFileSuffixImportFilter(string suffix)
 		{
 			this.suffix = suffix;
 		}

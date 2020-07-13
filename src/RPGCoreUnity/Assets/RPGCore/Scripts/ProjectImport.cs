@@ -1,5 +1,6 @@
 ﻿using RPGCore.Demo.BoardGame;
 using RPGCore.Packages;
+using RPGCore.Packages.Extensions.MetaFiles;
 using System.IO;
 using UnityEngine;
 
@@ -20,8 +21,10 @@ namespace RPGCore.Unity
 			{
 				if (sourceFiles == null)
 				{
-					var importPipeline = new ImportPipeline();
-					importPipeline.ImportProcessors.Add(new BoardGameResourceImporter());
+					var importPipeline = ImportPipeline.Create()
+						.UseProcessor(new BoardGameResourceImporter())
+						.UseJsonMetaFiles()
+						.Build();
 
 					sourceFiles = ProjectExplorer.Load(RelativePath, importPipeline);
 				}

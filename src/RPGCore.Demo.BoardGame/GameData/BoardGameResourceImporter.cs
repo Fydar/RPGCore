@@ -70,11 +70,15 @@ namespace RPGCore.Demo.BoardGame
 		}
 
 		private static TModel Load<TModel>(ProjectResourceImporter importer)
+			where TModel : IResourceModel
 		{
 			var serializer = new JsonSerializer();
 			using var file = importer.FileInfo.OpenText();
 			using var reader = new JsonTextReader(file);
-			return serializer.Deserialize<TModel>(reader);
+
+			var model = serializer.Deserialize<TModel>(reader);
+			model.Identifier = importer.ProjectKey;
+			return model;
 		}
 	}
 }

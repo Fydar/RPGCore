@@ -64,6 +64,11 @@ namespace RPGCore.Packages
 					continue;
 				}
 
+				if (!importPipeline.IsResource(resourceFileInfo))
+				{
+					continue;
+				}
+
 				string resourceProjectKey = filePath
 					.Replace('\\', '/')
 					.Replace(normalisedRootPath + "/", "");

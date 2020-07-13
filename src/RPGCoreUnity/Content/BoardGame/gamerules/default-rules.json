@@ -1,15 +1,15 @@
 {
   "PlayerCards": [
-    "monumentspack"
+    "building-packs/monumentspack.json"
   ],
   "SharedCards": [
-    "cottagepack",
-    "agriculturepack",
-    "farmlandpack",
-    "communitypack",
-    "hospitalitypack",
-    "worshippack",
-    "industrialpack"
+    "building-packs/cottagepack.json",
+    "building-packs/agriculturepack.json",
+    "building-packs/farmlandpack.json",
+    "building-packs/communitypack.json",
+    "building-packs/hospitalitypack.json",
+    "building-packs/worshippack.json",
+    "building-packs/industrialpack.json"
   ],
   "ResourceTurnCarryover": 0
 }

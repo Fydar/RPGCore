@@ -2,7 +2,6 @@
 using RPGCore.Behaviour;
 using RPGCore.Packages;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 

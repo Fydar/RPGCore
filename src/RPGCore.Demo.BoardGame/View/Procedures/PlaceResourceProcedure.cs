@@ -1,5 +1,4 @@
 ﻿using RPGCore.Behaviour;
-using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
 {

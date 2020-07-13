@@ -6,10 +6,12 @@ using System.Collections.Generic;
 namespace RPGCore.Demo.BoardGame.Models
 {
 	[EditorType]
-	public class BuildingTemplate
+	public class BuildingTemplate : IResourceModel
 	{
-		public string DisplayName { get; set; }
+		[JsonIgnore]
 		public string Identifier { get; set; }
+
+		public string DisplayName { get; set; }
 		public string BodyText { get; set; }
 		public string PackIdentifier { get; set; }
 

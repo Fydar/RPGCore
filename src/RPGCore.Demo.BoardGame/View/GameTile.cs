@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Diagnostics;
 
 namespace RPGCore.Demo.BoardGame
@@ -17,22 +16,8 @@ namespace RPGCore.Demo.BoardGame
 
 		public Building Building
 		{
-			get
-			{
-				return building;
-			}
-			set
-			{
-				if (building.Tile == null)
-				{
-					building = value;
-					building.Tile = this;
-				}
-				else
-				{
-					throw new InvalidOperationException($"Can't add a {nameof(Building)} to this {nameof(GameTile)} as it belongs to another {nameof(GameTile)}.");
-				}
-			}
+			get => HierachyHelper.Get(this, ref building);
+			set => HierachyHelper.Set(this, ref building, value);
 		}
 
 		public bool IsEmpty

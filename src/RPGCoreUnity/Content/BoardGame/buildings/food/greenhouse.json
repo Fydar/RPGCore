@@ -1,7 +1,6 @@
 {
   "DisplayName": "Greenhouse",
-  "Identifier": "greenhouse",
-  "PackIdentifier": "agriculturepack",
+  "PackIdentifier": "building-packs/agriculturepack.json",
   "Recipe": null,
   "GlobalEffectGraph": {
     "Nodes": {
@@ -104,5 +103,9 @@
     },
     "SubGraphs": null
   },
-  "BodyText": null
+  "BodyText": null,
+  "BoardEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  }
 }

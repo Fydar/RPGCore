@@ -37,11 +37,13 @@ namespace RPGCore.Demo.BoardGame
 		public void SetupDependancies(IExplorer gameData)
 		{
 			GameData = gameData;
-			BuildingTemplates = LoadAll<BuildingTemplate>(GameData.Tags["type-building"])
-				.ToDictionary(template => template.Identifier);
+			var loaded = LoadAll<BuildingTemplate>(GameData.Tags["type-building"]);
+
+			BuildingTemplates = loaded.ToDictionary(template => template.Identifier);
 		}
 
 		public static T[] LoadAll<T>(IResourceCollection resources)
+			where T : IResourceModel
 		{
 			var deserializedResources = new T[resources.Count];
 
@@ -55,6 +57,7 @@ namespace RPGCore.Demo.BoardGame
 		}
 
 		public static T Load<T>(IResource resource)
+			where T : IResourceModel
 		{
 			var serializer = new JsonSerializer();
 
@@ -62,7 +65,10 @@ namespace RPGCore.Demo.BoardGame
 			using var sr = new StreamReader(data);
 			using var reader = new JsonTextReader(sr);
 
-			return serializer.Deserialize<T>(reader);
+			var model = serializer.Deserialize<T>(reader);
+			model.Identifier = resource.FullName;
+
+			return model;
 		}
 
 		public void Apply(LobbyViewProcedure action)

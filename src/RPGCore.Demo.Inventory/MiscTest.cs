@@ -5,7 +5,6 @@ using RPGCore.Behaviour.Editor;
 using RPGCore.Behaviour.Manifest;
 using RPGCore.Packages;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 

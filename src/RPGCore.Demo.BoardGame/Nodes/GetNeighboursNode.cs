@@ -72,8 +72,8 @@ namespace RPGCore.Demo.BoardGame
 				{
 					var direction = directions[i];
 
-					neighbours[i] = Building.Value.Tile.Board.GetTileRelative(
-						Building.Value.Tile,
+					neighbours[i] = Building.Value.Parent.Board.GetTileRelative(
+						Building.Value.Parent,
 						direction);
 				}
 

@@ -1,5 +1,18 @@
 {
   "DisplayName": "Fountain",
-  "Identifier": "fountain",
-  "PackIdentifier": "farmlandpack"
+  "PackIdentifier": "building-packs/farmlandpack.json",
+  "BodyText": null,
+  "Recipe": null,
+  "LocalEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  },
+  "BoardEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  },
+  "GlobalEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  }
 }

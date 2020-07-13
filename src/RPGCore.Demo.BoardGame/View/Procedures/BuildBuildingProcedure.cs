@@ -37,7 +37,7 @@ namespace RPGCore.Demo.BoardGame
 
 					if (recipeTile != null)
 					{
-						tile.Resource = "x";
+						tile.Resource = "q";
 					}
 				}
 			}

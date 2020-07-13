@@ -1,5 +1,18 @@
 {
   "DisplayName": "Inn",
-  "Identifier": "inn",
-  "PackIdentifier": "hospitalitypack"
+  "PackIdentifier": "building-packs/hospitalitypack.json",
+  "BodyText": null,
+  "Recipe": null,
+  "LocalEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  },
+  "BoardEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  },
+  "GlobalEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  }
 }

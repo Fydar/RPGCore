@@ -28,7 +28,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public override bool Equals(object obj)
 		{
-			return obj is Integer3 @float && Equals(@float);
+			return obj is Integer3 integer3 && Equals(integer3);
 		}
 
 		public bool Equals(Integer3 other)

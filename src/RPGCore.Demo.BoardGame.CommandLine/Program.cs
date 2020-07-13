@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RPGCore.Demo.BoardGame.CommandLine
+﻿namespace RPGCore.Demo.BoardGame.CommandLine
 {
 	internal sealed class Program
 	{

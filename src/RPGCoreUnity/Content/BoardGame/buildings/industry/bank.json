@@ -1,5 +1,18 @@
 {
   "DisplayName": "Bank",
-  "Identifier": "bank",
-  "PackIdentifier": "industrialpack"
+  "PackIdentifier": "building-packs/industrialpack.json",
+  "BodyText": null,
+  "Recipe": null,
+  "LocalEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  },
+  "BoardEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  },
+  "GlobalEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  }
 }

@@ -10,7 +10,7 @@ public static class IResourceExtensions
 			name = resource.Name
 		};
 
-		loadedImage.LoadImage(resource.LoadData(), true);
+		loadedImage.LoadImage(resource.Content.LoadData(), true);
 
 		return loadedImage;
 	}

@@ -279,6 +279,18 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 			DrawGameState(gameServer.Lobby);
 			Step();
 
+
+
+			gameServer.AcceptInput(playerA, new BuildBuildingCommand()
+			{
+				BuildingIdentifier = "cottage",
+				BuildingPosition = new Integer2(1, 1),
+				Offset = new Integer2(1, 1),
+			});
+			DrawGameState(gameServer.Lobby);
+			Step();
+
+
 			gameServer.AcceptInput(playerB, new EndTurnCommand());
 			DrawGameState(gameServer.Lobby);
 		}
@@ -312,7 +324,12 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 							Console.WriteLine($"Player {lobbyPlayer.OwnerId}");
 							if (lobby.Gameplay.CurrentPlayersTurn == index)
 							{
-								Console.WriteLine($"  (Current players turn)");
+								Console.ForegroundColor = ConsoleColor.DarkGray;
+								Console.WriteLine($"(Current players turn)");
+							}
+							else
+							{
+								Console.WriteLine();
 							}
 
 							if (gameplayPlayer.ResourceHand != null
@@ -328,17 +345,59 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 								}
 								Console.WriteLine();
 							}
+							else
+							{
+								Console.WriteLine();
+							}
+
+							Console.ForegroundColor = ConsoleColor.DarkGray;
+							for (int x = 0; x < (gameplayPlayer.Board.Width * 2) + 4; x++)
+							{
+								Console.Write('\u2591');
+							}
+							Console.WriteLine();
 
 							for (int y = 4 - 1; y >= 0; y--)
 							{
+								Console.Write('\u2591');
+								Console.Write('\u2591');
+								Console.ResetColor();
+
 								for (int x = 0; x < gameplayPlayer.Board.Width; x++)
 								{
 									var tile = gameplayPlayer.Board[x, y];
 
-									Console.Write(tile.ToChar());
+									if (tile.IsEmpty)
+									{
+										Console.Write("  ");
+									}
+									else if (tile.Building != null)
+									{
+										Console.ForegroundColor = ConsoleColor.DarkGray;
+										Console.Write('\u2588');
+										Console.Write('\u2588');
+										Console.ResetColor();
+									}
+									else
+									{
+										Console.Write(tile.ToChar());
+										Console.Write(tile.ToChar());
+									}
 								}
+
+								Console.ForegroundColor = ConsoleColor.DarkGray;
+								Console.Write('\u2591');
+								Console.Write('\u2591');
 								Console.WriteLine();
 							}
+
+							Console.ForegroundColor = ConsoleColor.DarkGray;
+							for (int x = 0; x < (gameplayPlayer.Board.Width * 2) + 4; x++)
+							{
+								Console.Write('\u2591');
+							}
+							Console.ResetColor();
+
 							Console.WriteLine();
 							index++;
 						}
@@ -347,6 +406,7 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 							Console.WriteLine($"Player {lobbyPlayer.OwnerId}");
 							Console.WriteLine($"  (waiting for game to start)");
 						}
+						Console.WriteLine();
 					}
 				}
 			}

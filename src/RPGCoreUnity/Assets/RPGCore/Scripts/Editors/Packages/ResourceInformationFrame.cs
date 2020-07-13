@@ -59,7 +59,7 @@ namespace RPGCore.Unity.Editors
 
 			EditorGUILayout.LabelField("Resource Name", Resource.Name);
 			EditorGUILayout.LabelField("Resource Full Name", Resource.FullName);
-			EditorGUILayout.LabelField("Uncompressed Size", Resource.UncompressedSize.ToString());
+			EditorGUILayout.LabelField("Uncompressed Size", Resource.Content.UncompressedSize.ToString());
 
 			GUILayout.Space(8);
 

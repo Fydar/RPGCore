@@ -2,7 +2,6 @@ using NUnit.Framework;
 using RPGCore.Behaviour;
 using RPGCore.Packages;
 using System;
-using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame.UnitTests
 {
@@ -37,7 +36,7 @@ namespace RPGCore.Demo.BoardGame.UnitTests
 			{
 				Gameplay = new GameplayView()
 				{
-					
+
 				}
 			});
 

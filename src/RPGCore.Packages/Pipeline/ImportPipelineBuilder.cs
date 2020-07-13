@@ -16,7 +16,7 @@ namespace RPGCore.Packages
 
 		public ImportPipeline Build()
 		{
-			return new ImportPipeline(Processors);
+			return new ImportPipeline(this);
 		}
 
 		public IImportPipelineBuilder UseProcessor(ImportProcessor importProcessor)

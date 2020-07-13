@@ -82,7 +82,7 @@ namespace RPGCore.Unity.Editors
 			Resource = resource;
 
 			JObject editorTarget;
-			using (var editorTargetData = Resource.LoadStream())
+			using (var editorTargetData = Resource.Content.LoadStream())
 			using (var sr = new StreamReader(editorTargetData))
 			using (var reader = new JsonTextReader(sr))
 			{
@@ -137,7 +137,7 @@ namespace RPGCore.Unity.Editors
 				EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 				if (GUILayout.Button("Save", EditorStyles.toolbarButton, GUILayout.Width(100)))
 				{
-					using (var file = projectResource.WriteStream())
+					using (var file = projectResource.Content.WriteStream())
 					{
 						serializer.Serialize(
 							new JsonTextWriter(file)

@@ -88,7 +88,7 @@ namespace RPGCore.Unity.Editors
 		protected virtual string[] BuildLines(IResource resource)
 		{
 			var linesList = new List<string>();
-			using (var stream = resource.LoadStream())
+			using (var stream = resource.Content.LoadStream())
 			using (var reader = new StreamReader(stream))
 			{
 				while (!reader.EndOfStream)

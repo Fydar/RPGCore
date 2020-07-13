@@ -10,7 +10,7 @@ namespace RPGCore.Unity.Editors
 		public TextureWindowFrame(IResource resource)
 		{
 			texture = new Texture2D(2, 2);
-			texture.LoadImage(resource.LoadData());
+			texture.LoadImage(resource.Content.LoadData());
 
 			texture.filterMode = FilterMode.Point;
 		}
