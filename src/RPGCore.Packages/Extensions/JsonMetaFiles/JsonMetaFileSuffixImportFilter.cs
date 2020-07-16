@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using RPGCore.Packages.Archives;
+using System.IO;
 
 namespace RPGCore.Packages.Extensions.MetaFiles
 {
@@ -11,9 +12,9 @@ namespace RPGCore.Packages.Extensions.MetaFiles
 			this.suffix = suffix;
 		}
 
-		public override bool AllowFile(FileInfo file)
+		public override bool AllowFile(IArchiveEntry archiveEntry)
 		{
-			return !file.Name.EndsWith(suffix);
+			return !archiveEntry.Name.EndsWith(suffix);
 		}
 	}
 }

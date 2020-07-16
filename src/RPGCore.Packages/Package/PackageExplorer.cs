@@ -1,9 +1,11 @@
 using Newtonsoft.Json;
+using RPGCore.Packages.Archives;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RPGCore.Packages
 {
@@ -15,15 +17,7 @@ namespace RPGCore.Packages
 	/// </remarks>
 	public sealed class PackageExplorer : IExplorer
 	{
-		/// <summary>
-		/// <para>The path of the package on disk.</para>
-		/// </summary>
-		public string PackagePath { get; private set; }
-
-		/// <summary>
-		/// <para>The size of the package on disk.</para>
-		/// </summary>
-		public long CompressedSize { get; private set; }
+		public IReadOnlyArchive Archive { get; private set; }
 
 		/// <summary>
 		/// <para>The project definition for this package.</para>
@@ -55,32 +49,76 @@ namespace RPGCore.Packages
 			Resources = new PackageResourceCollection();
 		}
 
-		public static PackageExplorer Load(string packagePath)
+		public static Task<PackageExplorer> LoadFromFileAsync(string file)
 		{
-			var packageFileInfo = new FileInfo(packagePath);
+			var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+			var za = new ZipArchive(fs, ZipArchiveMode.Read, true);
+			var archive = new PackedArchive(za);
 
-			using var fileStream = new FileStream(packagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
+			return LoadAsync(archive);
+		}
 
+		public static Task<PackageExplorer> LoadFromDirectoryAsync(string directory)
+		{
+			var archive = new FileSystemArchive(new DirectoryInfo(directory));
 
-			var definitionEntry = archive.GetEntry("definition.json");
+			return LoadAsync(archive);
+		}
+
+		public static async Task<PackageExplorer> LoadAsync(IReadOnlyArchive archive)
+		{
+			var definitionEntry = archive.Files.GetFile("definition.json");
 			var definitionDocument = LoadJsonDocument<PackageDefinition>(definitionEntry);
 
-			var tagsEntry = archive.GetEntry("tags.json");
+			var tagsEntry = archive.Files.GetFile("tags.json");
 			var tagsDocument = LoadJsonDocument<IReadOnlyDictionary<string, IReadOnlyList<string>>>(tagsEntry);
 			var tags = new Dictionary<string, IResourceCollection>();
 
-			var rootDirectiory = new PackageDirectory();
+			var rootDirectiory = new PackageDirectory("", "", null);
+			PackageDirectory ForPath(string path)
+			{
+				int currentIndex = 5;
+				var currentDirectory = rootDirectiory;
+				while (true)
+				{
+					int nextIndex = path.IndexOf('/', currentIndex);
+					if (nextIndex == -1)
+					{
+						break;
+					}
+					string segment = path.Substring(currentIndex, nextIndex - currentIndex);
+
+					bool found = false;
+					foreach (var directory in currentDirectory.Directories)
+					{
+						if (directory.Name == segment)
+						{
+							currentDirectory = directory;
+							found = true;
+							break;
+						}
+					}
+					if (!found)
+					{
+						var newDirectory = new PackageDirectory(segment, path.Substring(5, nextIndex - 5), currentDirectory);
+						currentDirectory.Directories.Add(newDirectory);
+						currentDirectory = newDirectory;
+					}
+
+					currentIndex = nextIndex + 1;
+				}
+
+				return currentDirectory;
+			}
 
 			var package = new PackageExplorer
 			{
-				PackagePath = packagePath,
-				CompressedSize = packageFileInfo.Length,
+				Archive = archive,
 				RootDirectory = rootDirectiory,
 				Definition = definitionDocument
 			};
 
-			foreach (var packageEntry in archive.Entries)
+			foreach (var packageEntry in archive.Files)
 			{
 				if (!packageEntry.FullName.StartsWith("data/")
 					|| packageEntry.FullName.EndsWith(".pkgmeta"))
@@ -88,11 +126,15 @@ namespace RPGCore.Packages
 					continue;
 				}
 
-				var metadataEntry = archive.GetEntry($"{packageEntry.FullName}.pkgmeta");
+				var metadataEntry = archive.Files.GetFile($"{packageEntry.FullName}.pkgmeta");
 				var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(metadataEntry);
 
-				var resource = new PackageResource(package, packageEntry, metadataModel);
-				package.Resources.Add(resource);
+				var forPath = ForPath(packageEntry.FullName);
+
+				var resource = new PackageResource(package, forPath, packageEntry, metadataModel);
+
+				package.Resources.Add(resource.FullName, resource);
+				forPath.Resources.Add(resource.Name, resource);
 
 				foreach (var tagCategory in tagsDocument)
 				{
@@ -106,7 +148,7 @@ namespace RPGCore.Packages
 
 						var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
 
-						taggedResources.Add(resource);
+						taggedResources.Add(resource.FullName, resource);
 						resource.Tags.tags.Add(tagCategory.Key);
 					}
 				}
@@ -123,30 +165,22 @@ namespace RPGCore.Packages
 
 		internal Stream LoadStream(string packageKey)
 		{
-			var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
-			var entry = archive.GetEntry(packageKey);
-
-			var zipStream = entry.Open();
-
-			return new PackageStream(fileStream, archive, zipStream);
+			return Archive.Files.GetFile(packageKey).OpenRead();
 		}
 
 		internal byte[] OpenAsset(string packageKey)
 		{
-			using var fileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Read, true);
-			var entry = archive.GetEntry(packageKey);
+			var entry = Archive.Files.GetFile(packageKey);
 
-			byte[] buffer = new byte[entry.Length];
-			using var zipStream = entry.Open();
-			zipStream.Read(buffer, 0, (int)entry.Length);
+			byte[] buffer = new byte[entry.UncompressedSize];
+			using var zipStream = entry.OpenRead();
+			zipStream.Read(buffer, 0, (int)entry.UncompressedSize);
 			return buffer;
 		}
 
-		private static T LoadJsonDocument<T>(ZipArchiveEntry entry)
+		private static T LoadJsonDocument<T>(IReadOnlyArchiveEntry entry)
 		{
-			using var zipStream = entry.Open();
+			using var zipStream = entry.OpenRead();
 			using var sr = new StreamReader(zipStream);
 			using var reader = new JsonTextReader(sr);
 

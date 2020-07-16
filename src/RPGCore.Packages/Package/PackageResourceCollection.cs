@@ -21,9 +21,9 @@ namespace RPGCore.Packages
 			resources = new Dictionary<string, PackageResource>();
 		}
 
-		internal void Add(PackageResource asset)
+		internal void Add(string key, PackageResource asset)
 		{
-			resources.Add(asset.FullName, asset);
+			resources.Add(key, asset);
 		}
 
 		public bool Contains(string key)

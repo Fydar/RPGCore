@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Packages;
+using RPGCore.Packages.Archives;
 using System.IO;
-using System.IO.Compression;
 
 namespace RPGCore.Demo.BoardGame
 {
@@ -13,7 +13,7 @@ namespace RPGCore.Demo.BoardGame
 			return resource.Extension == ".json";
 		}
 
-		public override void BuildResource(IResource resource, ZipArchiveEntry contentEntry)
+		public override void BuildResource(IResource resource, IArchiveEntry contentEntry)
 		{
 			var serializer = new JsonSerializer()
 			{
@@ -27,7 +27,7 @@ namespace RPGCore.Demo.BoardGame
 				document = serializer.Deserialize<JObject>(reader);
 			}
 
-			using var zipStream = contentEntry.Open();
+			using var zipStream = contentEntry.OpenWrite();
 			using var streamWriter = new StreamWriter(zipStream);
 			serializer.Serialize(streamWriter, document);
 		}

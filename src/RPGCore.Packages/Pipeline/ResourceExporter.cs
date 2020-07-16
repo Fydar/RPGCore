@@ -1,4 +1,4 @@
-using System.IO.Compression;
+using RPGCore.Packages.Archives;
 
 namespace RPGCore.Packages
 {
@@ -10,6 +10,6 @@ namespace RPGCore.Packages
 	{
 		public abstract bool CanExport(IResource resource);
 
-		public abstract void BuildResource(IResource resource, ZipArchiveEntry contentEntry);
+		public abstract void BuildResource(IResource resource, IArchiveEntry contentEntry);
 	}
 }

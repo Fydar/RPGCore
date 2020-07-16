@@ -16,7 +16,7 @@ namespace RPGCore.Packages.Extensions.MetaFiles
 
 		public override void ProcessImport(ProjectResourceImporter projectResource)
 		{
-			string metaPath = $"{projectResource.FileInfo.FullName}{options.MetaFileSuffix}";
+			string metaPath = $"{projectResource.ArchiveEntry.FullName}{options.MetaFileSuffix}";
 			var metaFile = new FileInfo(metaPath);
 
 			if (metaFile.Exists)
@@ -40,7 +40,7 @@ namespace RPGCore.Packages.Extensions.MetaFiles
 			}
 			else if (!options.IsMetaFilesOptional)
 			{
-				Console.WriteLine($"Missing meta file for {projectResource.FileInfo.FullName}");
+				Console.WriteLine($"Missing meta file for {projectResource.ArchiveEntry.FullName}");
 			}
 		}
 	}

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using RPGCore.Packages.Archives;
+using System.Collections.Generic;
 
 namespace RPGCore.Packages.Pipeline
 {
@@ -9,16 +9,18 @@ namespace RPGCore.Packages.Pipeline
 	public class ProjectResourceImporter
 	{
 		public ProjectExplorer ProjectExplorer { get; }
-		public FileInfo FileInfo { get; }
+		public ProjectDirectory Directory { get; }
+		public IArchiveEntry ArchiveEntry { get; }
 		public string ProjectKey { get; }
 
 		public HashSet<string> ImporterTags { get; }
 		public ProjectResourceImporterDependencyCollection Dependencies { get; }
 
-		internal ProjectResourceImporter(ProjectExplorer projectExplorer, FileInfo fileInfo, string projectKey)
+		internal ProjectResourceImporter(ProjectExplorer projectExplorer, ProjectDirectory directory, IArchiveEntry archiveEntry, string projectKey)
 		{
 			ProjectExplorer = projectExplorer;
-			FileInfo = fileInfo;
+			Directory = directory;
+			ArchiveEntry = archiveEntry;
 			ProjectKey = projectKey;
 
 			ImporterTags = new HashSet<string>();
@@ -27,7 +29,7 @@ namespace RPGCore.Packages.Pipeline
 
 		public ProjectResource Import()
 		{
-			return new ProjectResource(this);
+			return new ProjectResource(Directory, this);
 		}
 	}
 }

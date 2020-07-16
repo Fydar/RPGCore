@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using RPGCore.Packages.Archives;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -37,10 +38,13 @@ namespace RPGCore.Packages
 			string bpkgPath = Path.Combine(OutputFolder, $"{Project.Definition.Properties.Name}.bpkg");
 
 			using var fileStream = new FileStream(bpkgPath, FileMode.Create, FileAccess.Write);
-			using var archive = new ZipArchive(fileStream, ZipArchiveMode.Create, false);
+			using var zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Create, false);
+			
+			var archive = new PackedArchive(zipArchive);
 
-			var manifest = archive.CreateEntry("definition.json");
-			using (var zipStream = manifest.Open())
+
+			var manifest = archive.Files.GetFile("definition.json");
+			using (var zipStream = manifest.OpenWrite())
 			{
 				var packageDefinition = new PackageDefinition(new PackageDefinitionProperties()
 				{
@@ -53,7 +57,7 @@ namespace RPGCore.Packages
 				zipStream.Write(bytes, 0, bytes.Length);
 			}
 
-			var tagsEntry = archive.CreateEntry("tags.json");
+			var tagsEntry = archive.Files.GetFile("tags.json");
 			var tagsDocument = new Dictionary<string, List<string>>();
 			foreach (var projectTagCategory in Project.Tags)
 			{
@@ -76,14 +80,21 @@ namespace RPGCore.Packages
 
 				Pipeline.BuildActions.OnBeforeExportResource(this, resource);
 
-				ZipArchiveEntry contentEntry;
+				IArchiveEntry contentEntry;
 				if (exporter == null)
 				{
-					contentEntry = archive.CreateEntryFromFile(resource.Content.FileInfo.FullName, contentName, CompressionLevel.Optimal);
+					// contentEntry = archive.CreateEntryFromFile(resource.Content.ArchiveEntry.FullName, contentName, CompressionLevel.Optimal);
+
+					contentEntry = archive.Files.GetFile(contentName);
+
+					using var stream = resource.Content.LoadStream();
+					using var zipStream = contentEntry.OpenWrite();
+
+					stream.CopyTo(zipStream);
 				}
 				else
 				{
-					contentEntry = archive.CreateEntry(contentName);
+					contentEntry = archive.Files.GetFile(contentName);
 					exporter.BuildResource(resource, contentEntry);
 				}
 
@@ -101,13 +112,12 @@ namespace RPGCore.Packages
 					Dependencies = dependencies
 				};
 
-				var metadataEntry = archive.CreateEntry(metadataName);
-				using (var zipStream = metadataEntry.Open())
+				var metadataEntry = archive.Files.GetFile(metadataName);
+				using (var zipStream = metadataEntry.OpenWrite())
 				using (var streamWriter = new StreamWriter(zipStream))
 				{
 					serializer.Serialize(streamWriter, metadata);
 				}
-
 
 				currentProgress += resource.UncompressedSize;
 				Progress = currentProgress / (double)Project.UncompressedSize;
@@ -116,9 +126,9 @@ namespace RPGCore.Packages
 			}
 		}
 
-		private static void WriteJsonDocument(ZipArchiveEntry entry, object value)
+		private static void WriteJsonDocument(IArchiveEntry entry, object value)
 		{
-			using var zipStream = entry.Open();
+			using var zipStream = entry.OpenWrite();
 			using var sr = new StreamWriter(zipStream);
 			using var writer = new JsonTextWriter(sr);
 

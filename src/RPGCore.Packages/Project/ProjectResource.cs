@@ -13,7 +13,7 @@ namespace RPGCore.Packages
 
 		public ProjectExplorer Explorer { get; }
 		public ProjectResourceContent Content { get; internal set; }
-		public ProjectDirectory Directory { get; internal set; }
+		public ProjectDirectory Directory { get; }
 		public ProjectResourceDependencies Dependencies { get; }
 		public ProjectResourceTags Tags { get; }
 
@@ -23,18 +23,19 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencies IResource.Dependencies => Dependencies;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
 
-		internal ProjectResource(ProjectResourceImporter projectResourceImporter)
+		internal ProjectResource(ProjectDirectory directory, ProjectResourceImporter projectResourceImporter)
 		{
 			Explorer = projectResourceImporter.ProjectExplorer;
-			Content = new ProjectResourceContent(projectResourceImporter.FileInfo);
+			Content = new ProjectResourceContent(projectResourceImporter.ArchiveEntry);
+			Directory = directory;
 			Dependencies = new ProjectResourceDependencies(projectResourceImporter);
 			Tags = new ProjectResourceTags(projectResourceImporter);
 
 			FullName = projectResourceImporter.ProjectKey;
 
-			Name = projectResourceImporter.FileInfo.Name;
-			Extension = projectResourceImporter.FileInfo.Extension;
-			UncompressedSize = projectResourceImporter.FileInfo.Length;
+			Name = projectResourceImporter.ArchiveEntry.Name;
+			Extension = projectResourceImporter.ArchiveEntry.Extension;
+			UncompressedSize = projectResourceImporter.ArchiveEntry.UncompressedSize;
 		}
 
 		public override string ToString()

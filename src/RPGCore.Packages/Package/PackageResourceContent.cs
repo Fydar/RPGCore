@@ -1,6 +1,6 @@
+using RPGCore.Packages.Archives;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Threading.Tasks;
 
 namespace RPGCore.Packages
@@ -17,13 +17,13 @@ namespace RPGCore.Packages
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
 
-		internal PackageResourceContent(PackageExplorer packageExplorer, string contentKey, ZipArchiveEntry zipArchiveEntry)
+		internal PackageResourceContent(PackageExplorer packageExplorer, string contentKey, IReadOnlyArchiveEntry zipArchiveEntry)
 		{
 			this.packageExplorer = packageExplorer;
 			this.contentKey = contentKey;
 
-			CompressedSize = zipArchiveEntry.CompressedLength;
-			UncompressedSize = zipArchiveEntry.Length;
+			CompressedSize = zipArchiveEntry.CompressedSize;
+			UncompressedSize = zipArchiveEntry.UncompressedSize;
 		}
 
 		public Stream LoadStream()

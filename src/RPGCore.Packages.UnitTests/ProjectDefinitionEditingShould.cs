@@ -32,13 +32,13 @@ namespace RPGCore.Packages.UnitTests
 			var loadExplorer = ProjectExplorer.Load(FileName("project"), importPipeline);
 			Assert.That(loadExplorer.Definition.Properties.Name, Is.EqualTo("TestName1"));
 
-			loadExplorer.Export(new BuildPipeline()
+			loadExplorer.ExportToDirectory(new BuildPipeline()
 			{
 				ImportPipeline = importPipeline
 			}, FileName("export"));
 
-			var packageImport = PackageExplorer.Load(
-				Path.Combine(FileName("export"), "TestName1.bpkg"));
+			var packageImport = PackageExplorer.LoadFromFileAsync(
+				Path.Combine(FileName("export"), "TestName1.bpkg")).Result;
 			Assert.That(packageImport.Definition.Properties.Name, Is.EqualTo("TestName1"));
 		}
 
@@ -58,13 +58,13 @@ namespace RPGCore.Packages.UnitTests
 			Assert.That(loadExplorer.Definition.Properties.Name, Is.EqualTo("TestName1"));
 			Assert.That(loadExplorer.Definition.Properties.Version, Is.EqualTo("1.0.0"));
 
-			loadExplorer.Export(new BuildPipeline()
+			loadExplorer.ExportToDirectory(new BuildPipeline()
 			{
 				ImportPipeline = importPipeline,
 			}, FileName("export"));
 
-			var packageImport = PackageExplorer.Load(
-				Path.Combine(FileName("export"), "TestName1.bpkg"));
+			var packageImport = PackageExplorer.LoadFromFileAsync(
+				Path.Combine(FileName("export"), "TestName1.bpkg")).Result;
 			Assert.That(packageImport.Definition.Properties.Name, Is.EqualTo("TestName1"));
 			Assert.That(packageImport.Definition.Properties.Version, Is.EqualTo("1.0.0"));
 		}
@@ -83,13 +83,13 @@ namespace RPGCore.Packages.UnitTests
 			var loadExplorer = ProjectExplorer.Load(FileName("project"), importPipeline);
 			Assert.That(loadExplorer.Definition.Properties.Version, Is.EqualTo("1.0.0"));
 
-			loadExplorer.Export(new BuildPipeline()
+			loadExplorer.ExportToDirectory(new BuildPipeline()
 			{
 				ImportPipeline = importPipeline,
 			}, FileName("export"));
 
-			var packageImport = PackageExplorer.Load(
-				Path.Combine(FileName("export"), "project.bpkg"));
+			var packageImport = PackageExplorer.LoadFromFileAsync(
+				Path.Combine(FileName("export"), "project.bpkg")).Result;
 			Assert.That(packageImport.Definition.Properties.Version, Is.EqualTo("1.0.0"));
 		}
 	}

@@ -5,30 +5,30 @@ using System.Diagnostics;
 namespace RPGCore.Packages
 {
 	[DebuggerDisplay("Count = {Count,nq}")]
-	[DebuggerTypeProxy(typeof(ProjectDirectoryCollectionDebugView))]
-	public sealed class ProjectDirectoryCollection : IDirectoryCollection
+	[DebuggerTypeProxy(typeof(PackageDirectoryCollectionDebugView))]
+	public sealed class PackageDirectoryCollection : IDirectoryCollection
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly List<ProjectDirectory> directories;
+		private readonly List<PackageDirectory> directories;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count => directories.Count;
 
-		public ProjectDirectory this[int key] => directories[key];
+		public PackageDirectory this[int key] => directories[key];
 
 		IDirectory IReadOnlyList<IDirectory>.this[int key] => this[key];
 
-		internal ProjectDirectoryCollection()
+		internal PackageDirectoryCollection()
 		{
-			directories = new List<ProjectDirectory>();
+			directories = new List<PackageDirectory>();
 		}
 
-		internal void Add(ProjectDirectory item)
+		internal void Add(PackageDirectory item)
 		{
 			directories.Add(item);
 		}
 
-		public IEnumerator<ProjectDirectory> GetEnumerator()
+		public IEnumerator<PackageDirectory> GetEnumerator()
 		{
 			return directories.GetEnumerator();
 		}
@@ -36,7 +36,7 @@ namespace RPGCore.Packages
 		IEnumerator<IDirectory> IEnumerable<IDirectory>.GetEnumerator() => GetEnumerator();
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-		private class ProjectDirectoryCollectionDebugView
+		private class PackageDirectoryCollectionDebugView
 		{
 			[DebuggerDisplay("{Value}", Name = "{Key}")]
 			internal struct DebuggerRow
@@ -49,9 +49,9 @@ namespace RPGCore.Packages
 			}
 
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			private readonly ProjectDirectoryCollection source;
+			private readonly PackageDirectoryCollection source;
 
-			public ProjectDirectoryCollectionDebugView(ProjectDirectoryCollection source)
+			public PackageDirectoryCollectionDebugView(PackageDirectoryCollection source)
 			{
 				this.source = source;
 			}

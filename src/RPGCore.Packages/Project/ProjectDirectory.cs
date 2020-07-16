@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using RPGCore.Packages;
+using System.Diagnostics;
 
 namespace RPGCore.Packages
 {
@@ -7,49 +7,22 @@ namespace RPGCore.Packages
 	{
 		public string Name { get; }
 		public string FullName { get; }
-		public DirectoryInfo PhysicalLocation { get; }
 
-		public IDirectory Parent { get; private set; }
+		public ProjectDirectoryCollection Directories { get; }
+		public ProjectResourceCollection Resources { get; }
+		public IDirectory Parent { get; }
 
-		public IDirectoryCollection Directories => directories;
-		public IResourceCollection Resources => resources;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectoryCollection IDirectory.Directories => Directories;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IDirectory.Resources => Resources;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly ProjectDirectoryCollection directories;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly ProjectResourceCollection resources;
-
-		internal ProjectDirectory(DirectoryInfo physicalLocation, string fullName)
+		internal ProjectDirectory(string name, string fullName, ProjectDirectory parent)
 		{
+			Name = name;
 			FullName = fullName;
-			Name = NameFromFullName(fullName);
-			PhysicalLocation = physicalLocation;
+			Parent = parent;
 
-			directories = new ProjectDirectoryCollection();
-			resources = new ProjectResourceCollection();
-		}
-
-		internal void AddChildDirectory(ProjectDirectory projectDirectory)
-		{
-			directories.Add(projectDirectory);
-			projectDirectory.Parent = this;
-		}
-
-		internal void AddChildResource(ProjectResource projectResource)
-		{
-			resources.Add(projectResource.Name, projectResource);
-
-			projectResource.Directory = this;
-		}
-
-		private static string NameFromFullName(string fullName)
-		{
-			int lastDelimiter = fullName.LastIndexOf('/');
-
-			return lastDelimiter == -1
-				? fullName
-				: fullName.Substring(lastDelimiter + 1);
+			Directories = new ProjectDirectoryCollection();
+			Resources = new ProjectResourceCollection();
 		}
 	}
 }

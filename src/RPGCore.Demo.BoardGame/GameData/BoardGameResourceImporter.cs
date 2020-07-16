@@ -2,6 +2,7 @@
 using RPGCore.Demo.BoardGame.Models;
 using RPGCore.Packages.Pipeline;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace RPGCore.Demo.BoardGame
@@ -13,7 +14,7 @@ namespace RPGCore.Demo.BoardGame
 	{
 		public override void ProcessImport(ProjectResourceImporter importer)
 		{
-			if (importer.FileInfo.FullName.Contains("buildings"))
+			if (importer.ArchiveEntry.FullName.Contains("buildings"))
 			{
 				importer.ImporterTags.Add("type-building");
 
@@ -38,15 +39,15 @@ namespace RPGCore.Demo.BoardGame
 					}
 				}
 			}
-			else if (importer.FileInfo.FullName.Contains("resources"))
+			else if (importer.ArchiveEntry.FullName.Contains("resources"))
 			{
 				importer.ImporterTags.Add("type-resource");
 			}
-			else if (importer.FileInfo.FullName.Contains("building-packs"))
+			else if (importer.ArchiveEntry.FullName.Contains("building-packs"))
 			{
 				importer.ImporterTags.Add("type-buildingpack");
 			}
-			else if (importer.FileInfo.FullName.Contains("gamerules"))
+			else if (importer.ArchiveEntry.FullName.Contains("gamerules"))
 			{
 				importer.ImporterTags.Add("type-gamerules");
 
@@ -73,8 +74,9 @@ namespace RPGCore.Demo.BoardGame
 			where TModel : IResourceModel
 		{
 			var serializer = new JsonSerializer();
-			using var file = importer.FileInfo.OpenText();
-			using var reader = new JsonTextReader(file);
+			using var file = importer.ArchiveEntry.OpenRead();
+			using var sr = new StreamReader(file);
+			using var reader = new JsonTextReader(sr);
 
 			var model = serializer.Deserialize<TModel>(reader);
 			model.Identifier = importer.ProjectKey;

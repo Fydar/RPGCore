@@ -1,20 +1,27 @@
-﻿namespace RPGCore.Packages
+﻿using System.Diagnostics;
+
+namespace RPGCore.Packages
 {
 	public class PackageDirectory : IDirectory
 	{
-		public string Name { get; internal set; }
+		public string Name { get; }
+		public string FullName { get; }
 
-		public string FullName { get; internal set; }
+		public PackageDirectoryCollection Directories { get; }
+		public PackageResourceCollection Resources { get; }
+		public IDirectory Parent { get; }
 
-		public IDirectoryCollection Directories { get; internal set; }
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectoryCollection IDirectory.Directories => Directories;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IDirectory.Resources => Resources;
 
-		public IResourceCollection Resources { get; internal set; }
-
-		public IDirectory Parent { get; internal set; }
-
-		internal PackageDirectory()
+		internal PackageDirectory(string name, string fullName, PackageDirectory parent)
 		{
+			Name = name;
+			FullName = fullName;
+			Parent = parent;
 
+			Directories = new PackageDirectoryCollection();
+			Resources = new PackageResourceCollection();
 		}
 	}
 }

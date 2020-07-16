@@ -1,3 +1,4 @@
+using RPGCore.Packages.Archives;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -8,23 +9,23 @@ namespace RPGCore.Packages
 	public sealed class ProjectResourceContent : IResourceContent
 	{
 		public long UncompressedSize { get; }
-		public FileInfo FileInfo { get; }
+		public IArchiveEntry ArchiveEntry { get; }
 
-		internal ProjectResourceContent(FileInfo fileInfo)
+		internal ProjectResourceContent(IArchiveEntry archiveEntry)
 		{
-			FileInfo = fileInfo;
-			UncompressedSize = FileInfo.Length;
+			ArchiveEntry = archiveEntry;
+			UncompressedSize = ArchiveEntry.UncompressedSize;
 		}
 
 		public byte[] LoadData()
 		{
-			return File.ReadAllBytes(FileInfo.FullName);
+			return File.ReadAllBytes(ArchiveEntry.FullName);
 		}
 
 		public async Task<byte[]> LoadDataAsync()
 		{
 			byte[] result;
-			using (var stream = File.Open(FileInfo.FullName, FileMode.Open))
+			using (var stream = File.Open(ArchiveEntry.FullName, FileMode.Open))
 			{
 				result = new byte[stream.Length];
 				await stream.ReadAsync(result, 0, (int)stream.Length);
@@ -34,12 +35,12 @@ namespace RPGCore.Packages
 
 		public Stream LoadStream()
 		{
-			return File.Open(FileInfo.FullName, FileMode.Open);
+			return ArchiveEntry.OpenRead();
 		}
 
 		public StreamWriter WriteStream()
 		{
-			return new StreamWriter(FileInfo.FullName, false);
+			return new StreamWriter(ArchiveEntry.FullName, false);
 		}
 
 		public override string ToString()

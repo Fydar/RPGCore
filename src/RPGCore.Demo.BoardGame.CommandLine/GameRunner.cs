@@ -1,5 +1,6 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Packages;
+using RPGCore.Packages.Archives;
 using RPGCore.Packages.Extensions.MetaFiles;
 using RPGCore.Packages.Pipeline;
 using System;
@@ -16,10 +17,11 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 	{
 		public override void ProcessImport(ProjectResourceImporter projectResource)
 		{
-			if (projectResource.FileInfo.Extension == ".png")
+			if (projectResource.ArchiveEntry.Extension == ".png")
 			{
-				using var bitmap = new Bitmap(projectResource.FileInfo.FullName);
-				Console.WriteLine(projectResource.FileInfo.Name);
+				using var stream = projectResource.ArchiveEntry.OpenRead();
+				using var bitmap = new Bitmap(stream);
+				Console.WriteLine(projectResource.ArchiveEntry.Name);
 
 				foreach (var propItem in bitmap.PropertyItems)
 				{
@@ -160,6 +162,7 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 
 			var buildPipeline = new BuildPipeline();
 			buildPipeline.Exporters.Add(new BhvrExporter());
+			buildPipeline.Exporters.Add(new JsonMinimizerResourceExporter());
 			buildPipeline.BuildActions.Add(consoleRenderer);
 
 			consoleRenderer.DrawProgressBar(32);
@@ -173,9 +176,9 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 			);
 			Directory.CreateDirectory(new FileInfo(tmp).Directory.FullName);
 
-			using (var fileStream = new FileStream(png.Content.FileInfo.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+			using (var stream = png.Content.ArchiveEntry.OpenRead())
 			{
-				var bitmap = new Bitmap(fileStream);
+				var bitmap = new Bitmap(stream);
 
 				// bitmap = Resize(bitmap, 200, 367);
 
@@ -225,12 +228,14 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 				CompressImageSave(bitmap, new FileInfo(tmp), 0);
 			}
 
-			File.Copy(tmp, png.Content.FileInfo.FullName, true);
+			File.Copy(tmp, png.Content.ArchiveEntry.FullName, true);
 			File.Delete(tmp);
 
 
-			projectExplorer.Export(buildPipeline, "BoardGame/Temp");
-			var packageExplorer = PackageExplorer.Load("BoardGame/Temp/BoardGame.bpkg");
+			projectExplorer.ExportToDirectory(buildPipeline, "BoardGame/Temp");
+			var packageExplorer = PackageExplorer.LoadFromFileAsync("BoardGame/Temp/BoardGame.bpkg").Result;
+
+			packageExplorer.Archive.CopyTo(new FileSystemArchive(new DirectoryInfo("BoardGame/Temp/Fast"))).Wait();
 
 			var cottage = packageExplorer.Resources["buildings/cottage.json"];
 

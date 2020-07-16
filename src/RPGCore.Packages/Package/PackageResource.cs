@@ -1,5 +1,5 @@
+using RPGCore.Packages.Archives;
 using System.Diagnostics;
-using System.IO.Compression;
 
 namespace RPGCore.Packages
 {
@@ -11,7 +11,7 @@ namespace RPGCore.Packages
 
 		public PackageExplorer Explorer { get; }
 		public PackageResourceContent Content { get; }
-		public PackageDirectory Directory { get; internal set; }
+		public PackageDirectory Directory { get; }
 		public PackageResourceDependencies Dependencies { get; }
 		public PackageResourceTags Tags { get; }
 
@@ -21,9 +21,10 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencies IResource.Dependencies => Dependencies;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
 
-		internal PackageResource(PackageExplorer packageExplorer, ZipArchiveEntry contentEntry, PackageResourceMetadataModel metadataModel)
+		internal PackageResource(PackageExplorer packageExplorer, PackageDirectory directory, IReadOnlyArchiveEntry contentEntry, PackageResourceMetadataModel metadataModel)
 		{
 			Explorer = packageExplorer;
+			Directory = directory;
 			Dependencies = new PackageResourceDependencies(packageExplorer, metadataModel);
 			Tags = new PackageResourceTags();
 
