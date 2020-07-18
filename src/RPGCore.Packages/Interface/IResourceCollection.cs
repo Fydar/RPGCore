@@ -9,5 +9,6 @@ namespace RPGCore.Packages
 		IResource this[string key] { get; }
 
 		bool Contains(string key);
+		bool TryGetResource(string key, out IResource value);
 	}
 }

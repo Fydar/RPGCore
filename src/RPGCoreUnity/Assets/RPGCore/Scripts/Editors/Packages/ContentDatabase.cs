@@ -14,7 +14,7 @@ public static class ContentDatabase
 			{
 				string path = ProjectConfiguration.ActiveConfiguration.References[0].RelativePath;
 				Debug.Log("Loading package at path: " + new FileInfo(path).FullName);
-				primaryPackage = PackageExplorer.Load(path);
+				primaryPackage = PackageExplorer.LoadFromFileAsync(path).Result;
 			}
 			return primaryPackage;
 		}

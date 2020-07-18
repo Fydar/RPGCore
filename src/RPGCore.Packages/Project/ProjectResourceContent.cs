@@ -19,7 +19,11 @@ namespace RPGCore.Packages
 
 		public byte[] LoadData()
 		{
-			return File.ReadAllBytes(ArchiveEntry.FullName);
+			using var stream = ArchiveEntry.OpenRead();
+			byte[] buffer = new byte[ArchiveEntry.UncompressedSize];
+			stream.Read(buffer, 0, buffer.Length);
+
+			return buffer;
 		}
 
 		public async Task<byte[]> LoadDataAsync()
@@ -38,9 +42,9 @@ namespace RPGCore.Packages
 			return ArchiveEntry.OpenRead();
 		}
 
-		public StreamWriter WriteStream()
+		public Stream OpenWrite()
 		{
-			return new StreamWriter(ArchiveEntry.FullName, false);
+			return ArchiveEntry.OpenWrite();
 		}
 
 		public override string ToString()

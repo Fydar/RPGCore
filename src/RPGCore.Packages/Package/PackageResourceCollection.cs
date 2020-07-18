@@ -31,6 +31,18 @@ namespace RPGCore.Packages
 			return resources.ContainsKey(key);
 		}
 
+		public bool TryGetResource(string key, out PackageResource value)
+		{
+			return resources.TryGetValue(key, out value);
+		}
+
+		bool IResourceCollection.TryGetResource(string key, out IResource value)
+		{
+			bool result = TryGetResource(key, out var resource);
+			value = resource;
+			return result;
+		}
+
 		public IEnumerator<PackageResource> GetEnumerator()
 		{
 			return resources.Values.GetEnumerator();

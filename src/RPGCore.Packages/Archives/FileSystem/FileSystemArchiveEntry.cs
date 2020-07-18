@@ -46,14 +46,6 @@ namespace RPGCore.Packages.Archives
 			});
 		}
 
-		public async Task UpdateAsync(Stream content)
-		{
-			FileInfo.Directory.Create();
-
-			using var fs = FileInfo.Open(FileMode.Create, FileAccess.Write);
-			await content.CopyToAsync(fs);
-		}
-
 		async Task<IArchiveEntry> IArchiveEntry.DuplicateAsync(string destination)
 		{
 			var result = await DuplicateAsync(destination);
@@ -72,6 +64,7 @@ namespace RPGCore.Packages.Archives
 
 		public Stream OpenWrite()
 		{
+			FileInfo.Directory.Create();
 			return FileInfo.Open(FileMode.Create, FileAccess.Write);
 		}
 	}

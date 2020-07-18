@@ -1,4 +1,5 @@
-﻿using RPGCore.Demo.BoardGame;
+﻿using Portfolio.Pipeline;
+using RPGCore.Demo.BoardGame;
 using RPGCore.Packages;
 using RPGCore.Packages.Extensions.MetaFiles;
 using System.IO;
@@ -10,6 +11,7 @@ namespace RPGCore.Unity
 	public class ProjectImport : ScriptableObject
 	{
 		public string RelativePath;
+		public string ImportPipelineName;
 		public string OutputPath => Path.Combine(RelativePath, "bin/build.bpkg");
 
 		private ProjectExplorer sourceFiles;
@@ -21,10 +23,18 @@ namespace RPGCore.Unity
 			{
 				if (sourceFiles == null)
 				{
-					var importPipeline = ImportPipeline.Create()
+					ImportPipeline importPipeline;
+					if (ImportPipelineName == "Portfolio")
+					{
+						importPipeline = PortfolioPipelines.Import;
+					}
+					else
+					{
+						importPipeline = ImportPipeline.Create()
 						.UseProcessor(new BoardGameResourceImporter())
 						.UseJsonMetaFiles()
 						.Build();
+					}
 
 					sourceFiles = ProjectExplorer.Load(RelativePath, importPipeline);
 				}
@@ -38,7 +48,7 @@ namespace RPGCore.Unity
 			{
 				if (lastBuild == null)
 				{
-					lastBuild = PackageExplorer.Load(OutputPath);
+					lastBuild = PackageExplorer.LoadFromFileAsync(OutputPath).Result;
 
 
 				}

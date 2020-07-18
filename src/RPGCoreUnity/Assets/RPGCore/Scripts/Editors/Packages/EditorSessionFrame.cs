@@ -108,6 +108,10 @@ namespace RPGCore.Unity.Editors
 			{
 				typeName = "GameRulesTemplate";
 			}
+			else if (Resource.Tags.Contains("type-project"))
+			{
+				typeName = "ProjectModel";
+			}
 			else
 			{
 				typeName = "ProceduralItemTemplate";
@@ -137,15 +141,14 @@ namespace RPGCore.Unity.Editors
 				EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 				if (GUILayout.Button("Save", EditorStyles.toolbarButton, GUILayout.Width(100)))
 				{
-					using (var file = projectResource.Content.WriteStream())
+					using (var file = projectResource.Content.OpenWrite())
+					using (var sr = new StreamWriter(file))
+					using (var jsonWriter = new JsonTextWriter(sr)
 					{
-						serializer.Serialize(
-							new JsonTextWriter(file)
-							{
-								Formatting = Formatting.Indented
-							},
-							EditorSession.Instance
-						);
+						Formatting = Formatting.Indented
+					})
+					{
+						serializer.Serialize(jsonWriter, EditorSession.Instance);
 					}
 
 					HasUnsavedChanges = false;

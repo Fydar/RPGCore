@@ -2,6 +2,7 @@ using RPGCore.Packages.Archives;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Threading.Tasks;
 
 namespace RPGCore.Packages
@@ -15,9 +16,9 @@ namespace RPGCore.Packages
 	public sealed class ProjectExplorer : IExplorer
 	{
 		/// <summary>
-		/// <para>The path of the project folder on disk.</para>
+		/// <para>The source for this project explorer.</para>
 		/// </summary>
-		public string ProjectPath { get; private set; }
+		public IArchive Archive { get; private set; }
 
 		/// <summary>
 		/// <para>The size of all of the projects resources on disk.</para>
@@ -137,7 +138,7 @@ namespace RPGCore.Packages
 
 			var projectExplorer = new ProjectExplorer
 			{
-				ProjectPath = projectPath,
+				Archive = archive,
 				Definition = ProjectDefinition.Load(bprojPath),
 				Resources = new ProjectResourceCollection(resources),
 				RootDirectory = rootDirectiory
@@ -199,14 +200,33 @@ namespace RPGCore.Packages
 		{
 		}
 
-		public void ExportToDirectory(BuildPipeline pipeline, string path)
+		public void ExportZippedToDirectory(BuildPipeline pipeline, string path)
 		{
 			var directoryInfo = new DirectoryInfo(path);
 			directoryInfo.Create();
 
 			var buildProcess = new ProjectBuildProcess(pipeline, this, directoryInfo.FullName);
 
-			buildProcess.PerformBuild();
+
+			string bpkgPath = Path.Combine(directoryInfo.FullName, $"{Definition.Properties.Name}.bpkg");
+
+			using var fileStream = new FileStream(bpkgPath, FileMode.Create, FileAccess.Write);
+			using var zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Create, false);
+
+			var archive = new PackedArchive(zipArchive);
+			buildProcess.PerformBuild(archive);
+		}
+
+		public void ExportFoldersToDirectory(BuildPipeline pipeline, string path)
+		{
+			var directoryInfo = new DirectoryInfo(path);
+			directoryInfo.Create();
+
+			var buildProcess = new ProjectBuildProcess(pipeline, this, directoryInfo.FullName);
+
+			string folderPath = Path.Combine(directoryInfo.FullName, $"{Definition.Properties.Name}");
+			var archive = new FileSystemArchive(new DirectoryInfo(folderPath));
+			buildProcess.PerformBuild(archive);
 		}
 	}
 }

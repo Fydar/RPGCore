@@ -20,7 +20,7 @@ namespace RPGCore.Demo.Inventory
 
 			Console.WriteLine("Importing Graph...");
 
-			var importPipeline = new ImportPipeline();
+			var importPipeline = ImportPipeline.Create().Build();
 
 			var proj = ProjectExplorer.Load("Content/Core", importPipeline);
 			Console.WriteLine(proj.Definition.Properties.Name);
@@ -67,8 +67,9 @@ namespace RPGCore.Demo.Inventory
 				}
 			}
 
-			using (var file = editorTargetResource.Content.WriteStream())
-			using (var jsonWriter = new JsonTextWriter(file)
+			using (var file = editorTargetResource.Content.OpenWrite())
+			using (var sr = new StreamWriter(file))
+			using (var jsonWriter = new JsonTextWriter(sr)
 			{
 				Formatting = Formatting.Indented
 			})
@@ -85,10 +86,10 @@ namespace RPGCore.Demo.Inventory
 			buildPipeline.BuildActions.Add(consoleRenderer);
 
 			consoleRenderer.DrawProgressBar(32);
-			proj.Export(buildPipeline, "Content/Temp");
+			proj.ExportZippedToDirectory(buildPipeline, "Content/Temp");
 
 			Console.WriteLine("Exported package...");
-			var exportedPackage = PackageExplorer.Load("Content/Temp/Core.bpkg");
+			var exportedPackage = PackageExplorer.LoadFromFileAsync("Content/Temp/Core.bpkg").Result;
 
 			var fireballAsset = exportedPackage.Resources["Fireball/Main.json"];
 			var data = fireballAsset.Content.LoadStream();

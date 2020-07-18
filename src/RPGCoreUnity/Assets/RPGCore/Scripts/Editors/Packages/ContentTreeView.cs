@@ -116,8 +116,8 @@ namespace RPGCore.Unity.Editors
 
 		private void OpenInFileExplorer(object args)
 		{
-			var projectDirectory = args as ProjectDirectory;
-			EditorUtility.RevealInFinder(projectDirectory.PhysicalLocation.FullName);
+			// var projectDirectory = args as ProjectDirectory;
+			// EditorUtility.RevealInFinder(projectDirectory.FullName);
 		}
 
 		protected override void RenameEnded(RenameEndedArgs args)

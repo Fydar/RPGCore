@@ -23,25 +23,12 @@ namespace RPGCore.Packages
 			OutputFolder = outputFolder;
 		}
 
-		public void PerformBuild()
+		public void PerformBuild(IArchive archive)
 		{
 			var serializer = new JsonSerializer()
 			{
 				Formatting = Formatting.None
 			};
-
-			foreach (var reference in Project.Definition.References)
-			{
-				reference.IncludeInBuild(this, OutputFolder);
-			}
-
-			string bpkgPath = Path.Combine(OutputFolder, $"{Project.Definition.Properties.Name}.bpkg");
-
-			using var fileStream = new FileStream(bpkgPath, FileMode.Create, FileAccess.Write);
-			using var zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Create, false);
-			
-			var archive = new PackedArchive(zipArchive);
-
 
 			var manifest = archive.Files.GetFile("definition.json");
 			using (var zipStream = manifest.OpenWrite())

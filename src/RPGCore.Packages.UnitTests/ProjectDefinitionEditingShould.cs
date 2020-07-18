@@ -32,7 +32,7 @@ namespace RPGCore.Packages.UnitTests
 			var loadExplorer = ProjectExplorer.Load(FileName("project"), importPipeline);
 			Assert.That(loadExplorer.Definition.Properties.Name, Is.EqualTo("TestName1"));
 
-			loadExplorer.ExportToDirectory(new BuildPipeline()
+			loadExplorer.ExportZippedToDirectory(new BuildPipeline()
 			{
 				ImportPipeline = importPipeline
 			}, FileName("export"));
@@ -58,7 +58,7 @@ namespace RPGCore.Packages.UnitTests
 			Assert.That(loadExplorer.Definition.Properties.Name, Is.EqualTo("TestName1"));
 			Assert.That(loadExplorer.Definition.Properties.Version, Is.EqualTo("1.0.0"));
 
-			loadExplorer.ExportToDirectory(new BuildPipeline()
+			loadExplorer.ExportZippedToDirectory(new BuildPipeline()
 			{
 				ImportPipeline = importPipeline,
 			}, FileName("export"));
@@ -83,7 +83,7 @@ namespace RPGCore.Packages.UnitTests
 			var loadExplorer = ProjectExplorer.Load(FileName("project"), importPipeline);
 			Assert.That(loadExplorer.Definition.Properties.Version, Is.EqualTo("1.0.0"));
 
-			loadExplorer.ExportToDirectory(new BuildPipeline()
+			loadExplorer.ExportZippedToDirectory(new BuildPipeline()
 			{
 				ImportPipeline = importPipeline,
 			}, FileName("export"));

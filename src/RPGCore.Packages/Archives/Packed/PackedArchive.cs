@@ -25,8 +25,9 @@ namespace RPGCore.Packages.Archives
 			{
 				var destFile = destination.Files.GetFile(file.FullName);
 
-				using var openStrema = file.OpenRead();
-				await destFile.UpdateAsync(openStrema);
+				using var openStream = file.OpenRead();
+				var dest = file.OpenWrite();
+				await openStream.CopyToAsync(dest);
 			}
 		}
 	}

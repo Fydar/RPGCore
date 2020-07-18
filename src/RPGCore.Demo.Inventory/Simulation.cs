@@ -28,7 +28,7 @@ namespace RPGCore.Demo.Inventory
 			buildPipeline.BuildActions.Add(consoleRenderer);
 
 			consoleRenderer.DrawProgressBar(32);
-			projectExplorer.ExportToDirectory(buildPipeline, "Content/Temp");
+			projectExplorer.ExportZippedToDirectory(buildPipeline, "Content/Temp");
 
 			Console.WriteLine("Exported package...");
 			var exportedPackage = PackageExplorer.LoadFromFileAsync("Content/Temp/Core.bpkg").Result;

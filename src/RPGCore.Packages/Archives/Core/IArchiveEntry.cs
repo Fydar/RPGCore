@@ -10,6 +10,5 @@ namespace RPGCore.Packages.Archives
 		Task DeleteAsync();
 		Task RenameAsync(string destination);
 		Task<IArchiveEntry> DuplicateAsync(string destination);
-		Task UpdateAsync(Stream content);
 	}
 }

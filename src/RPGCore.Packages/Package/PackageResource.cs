@@ -33,7 +33,7 @@ namespace RPGCore.Packages
 			string withoutData = contentEntry.FullName.Substring(5);
 			FullName = withoutData;
 
-			Content = new PackageResourceContent(packageExplorer, FullName, contentEntry);
+			Content = new PackageResourceContent(packageExplorer, contentEntry.FullName, contentEntry);
 
 			int dotIndex = contentEntry.FullName.LastIndexOf('.');
 			Extension = dotIndex != -1

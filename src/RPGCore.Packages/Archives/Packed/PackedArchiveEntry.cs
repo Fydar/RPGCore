@@ -61,12 +61,6 @@ namespace RPGCore.Packages.Archives
 			return new PackedArchiveEntry(Archive, FullName);
 		}
 
-		public async Task UpdateAsync(Stream content)
-		{
-			using var fs = GetOrCreateEntry().Open();
-			await content.CopyToAsync(fs);
-		}
-
 		async Task<IArchiveEntry> IArchiveEntry.DuplicateAsync(string destination)
 		{
 			var result = await DuplicateAsync(destination);

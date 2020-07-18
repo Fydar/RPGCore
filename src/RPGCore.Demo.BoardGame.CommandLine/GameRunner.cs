@@ -232,7 +232,7 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 			File.Delete(tmp);
 
 
-			projectExplorer.ExportToDirectory(buildPipeline, "BoardGame/Temp");
+			projectExplorer.ExportZippedToDirectory(buildPipeline, "BoardGame/Temp");
 			var packageExplorer = PackageExplorer.LoadFromFileAsync("BoardGame/Temp/BoardGame.bpkg").Result;
 
 			packageExplorer.Archive.CopyTo(new FileSystemArchive(new DirectoryInfo("BoardGame/Temp/Fast"))).Wait();

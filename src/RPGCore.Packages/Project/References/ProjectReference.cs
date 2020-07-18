@@ -25,7 +25,7 @@ namespace RPGCore.Packages
 			string accessPath = Path.Combine(File.Path, IncludePath);
 
 			using var projectExplorer = ProjectExplorer.Load(accessPath, build.Pipeline.ImportPipeline);
-			projectExplorer.ExportToDirectory(build.Pipeline, Path.Combine(output));
+			projectExplorer.ExportZippedToDirectory(build.Pipeline, Path.Combine(output));
 		}
 	}
 }

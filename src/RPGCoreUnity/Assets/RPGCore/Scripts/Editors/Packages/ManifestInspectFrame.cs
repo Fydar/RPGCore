@@ -30,6 +30,7 @@ namespace RPGCore.Unity.Editors
 				}
 				manifestTreeView = new BehaviourManifestTreeView(manifestTreeViewState);
 			}
+			Debug.Log(Manifest.ToString());
 
 			manifestTreeView.SetTarget(Manifest);
 
