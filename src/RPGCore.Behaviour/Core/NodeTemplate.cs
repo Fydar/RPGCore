@@ -12,9 +12,9 @@ namespace RPGCore.Behaviour
 
 		public abstract void Setup(IGraphInstance graph, INodeInstance metadata);
 
-		internal abstract InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance);
+		public abstract InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance);
 
-		internal abstract OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance);
+		public abstract OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance);
 	}
 
 	public abstract class NodeTemplate<TNode> : NodeTemplate
@@ -33,7 +33,7 @@ namespace RPGCore.Behaviour
 
 		public sealed override INodeInstance CreateInstance() => Create();
 
-		internal sealed override InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance)
+		public sealed override InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance)
 		{
 			var castedInstance = (Instance)instance;
 			castedInstance.Template = (TNode)this;
@@ -41,7 +41,7 @@ namespace RPGCore.Behaviour
 			return castedInstance.Inputs(connections);
 		}
 
-		internal sealed override OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance)
+		public sealed override OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance)
 		{
 			var castedInstance = (Instance)instance;
 			castedInstance.Template = (TNode)this;

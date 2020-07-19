@@ -44,6 +44,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame.Unit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame.CommandLine", "RPGCore.Demo.BoardGame.CommandLine\RPGCore.Demo.BoardGame.CommandLine.csproj", "{812B4171-BA11-444C-86BA-123F4A9501B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.DataEditor", "RPGCore.DataEditor\RPGCore.DataEditor.csproj", "{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -195,6 +197,14 @@ Global
 		{812B4171-BA11-444C-86BA-123F4A9501B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{812B4171-BA11-444C-86BA-123F4A9501B3}.Release|x64.ActiveCfg = Release|Any CPU
 		{812B4171-BA11-444C-86BA-123F4A9501B3}.Release|x64.Build.0 = Release|Any CPU
+		{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}.Debug|x64.Build.0 = Debug|Any CPU
+		{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}.Release|x64.ActiveCfg = Release|Any CPU
+		{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

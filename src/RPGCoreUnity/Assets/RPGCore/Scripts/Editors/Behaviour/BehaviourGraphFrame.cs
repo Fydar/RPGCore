@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
-using RPGCore.Behaviour.Manifest;
+using RPGCore.DataEditor;
+using RPGCore.DataEditor.Manifest;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -82,17 +83,22 @@ namespace RPGCore.Unity.Editors
 				return;
 			}
 
-			var graphEditorNodes = View.GraphField["Nodes"];
+			var graphEditorNodesField = View.EditorObject.Fields["Nodes"];
+			var graphEditorNodes = graphEditorNodesField.Value as EditorDictionary;
 
 			// Draw Nodes
-			foreach (var node in graphEditorNodes)
+			foreach (var nodeField in graphEditorNodes.KeyValuePairs)
 			{
-				var nodeEditor = node["Editor"];
-				var nodeEditorPosition = nodeEditor["Position"];
+				var node = nodeField.Value.Value as EditorObject;
+
+				var nodeEditor = node.Fields["Editor"].Value as EditorObject;
+				var nodeType = node.Fields["Type"].Value as EditorValue;
+				var nodeData = node.Fields["Data"].Value as EditorObject;
+				var nodeEditorPosition = nodeEditor.Fields["Position"].Value as EditorObject;
 
 				var nodeRect = new Rect(
-					View.PanPosition.x + nodeEditorPosition["x"].GetValue<int>(),
-					View.PanPosition.y + nodeEditorPosition["y"].GetValue<int>(),
+					View.PanPosition.x + (nodeEditorPosition.Fields["x"].Value as EditorValue).GetValue<int>(),
+					View.PanPosition.y + (nodeEditorPosition.Fields["y"].Value as EditorValue).GetValue<int>(),
 					220,
 					1000
 				);
@@ -105,22 +111,27 @@ namespace RPGCore.Unity.Editors
 				if (currentEvent.type == EventType.Repaint)
 				{
 					GUI.skin.window.Draw(finalRect,
-						false, View.Selection.Contains(node.Name), false, false);
+						false, View.Selection.Contains(nodeField.Key), false, false);
 				}
 
-				var nodeType = node["Type"];
 				string nodeTypeString = nodeType.GetValue<string>();
 				string nodeHeader = nodeTypeString?.Substring(nodeTypeString.LastIndexOf(".") + 1) ?? "Unknown";
 				EditorGUILayout.LabelField(nodeHeader, EditorStyles.boldLabel);
 
-				var nodeData = node["Data"];
 
 				float originalLabelWidth = EditorGUIUtility.labelWidth;
 				EditorGUIUtility.labelWidth = 115;
 				EditorGUI.indentLevel++;
-				foreach (var childField in nodeData)
+				if (nodeData.Fields != null)
 				{
-					RPGCoreEditor.DrawField(childField);
+					foreach (var childField in nodeData.Fields.Values)
+					{
+						RPGCoreEditor.DrawField(childField);
+					}
+				}
+				else
+				{
+					EditorGUILayout.LabelField("There are no fields here");
 				}
 				EditorGUI.indentLevel--;
 				EditorGUIUtility.labelWidth = originalLabelWidth;
@@ -143,7 +154,7 @@ namespace RPGCore.Unity.Editors
 						{
 							var menu = new GenericMenu();
 
-							menu.AddItem(new GUIContent("Delete"), false, () => { graphEditorNodes.Remove(node.Name); });
+							menu.AddItem(new GUIContent("Delete"), false, () => { graphEditorNodes.Remove(nodeField.Key); });
 
 							menu.ShowAsContext();
 
@@ -153,7 +164,7 @@ namespace RPGCore.Unity.Editors
 						{
 
 							View.Selection.Clear();
-							View.Selection.Add(node.Name);
+							View.Selection.Add(nodeField.Key);
 
 							View.CurrentMode = BehaviourEditorView.ControlMode.NodeDragging;
 							GUI.UnfocusWindow();
@@ -180,18 +191,21 @@ namespace RPGCore.Unity.Editors
 				return;
 			}
 
-			var graphEditorNodes = View.GraphField["Nodes"];
+			var graphEditorNodesField = View.EditorObject.Fields["Nodes"];
+			var graphEditorNodes = graphEditorNodesField.Value as EditorDictionary;
 
 			// Foreach output
-			foreach (var node in graphEditorNodes)
+			foreach (var nodeField in graphEditorNodes.KeyValuePairs)
 			{
-				var nodeEditor = node["Editor"];
-				var nodeEditorPosition = nodeEditor["Position"];
+				var node = nodeField.Value.Value as EditorObject;
 
-				float nodePositionX = nodeEditorPosition["x"].GetValue<int>() + View.PanPosition.x;
-				float nodePositionY = nodeEditorPosition["y"].GetValue<int>() + View.PanPosition.y;
+				var nodeEditor = node.Fields["Editor"].Value as EditorObject;
+				var nodeType = node.Fields["Type"].Value as EditorValue;
+				var nodeData = node.Fields["Data"].Value as EditorObject;
+				var nodeEditorPosition = nodeEditor.Fields["Position"].Value as EditorObject;
 
-				var nodeData = node["Data"];
+				float nodePositionX = (nodeEditorPosition.Fields["x"].Value as EditorValue).GetValue<int>() + View.PanPosition.x;
+				float nodePositionY = (nodeEditorPosition.Fields["y"].Value as EditorValue).GetValue<int>() + View.PanPosition.y;
 
 				// Foreach Output
 				var nodeInfo = (NodeInformation)nodeData.Type;
@@ -215,7 +229,7 @@ namespace RPGCore.Unity.Editors
 						}
 						else if (currentEvent.type == EventType.MouseDown && outputSocketRect.Contains(currentEvent.mousePosition))
 						{
-							var outputId = new LocalPropertyId(new LocalId(node.Name), output.Key);
+							var outputId = new LocalPropertyId(new LocalId(nodeField.Key), output.Key);
 							View.BeginConnectionFromOutput(outputId);
 
 							GUI.UnfocusWindow();
@@ -229,10 +243,10 @@ namespace RPGCore.Unity.Editors
 							{
 								if (!View.IsOutputSocket)
 								{
-									var thisOutputSocket = new LocalPropertyId(new LocalId(node.Name), output.Key);
+									var thisOutputSocket = new LocalPropertyId(new LocalId(nodeField.Key), output.Key);
 
-									View.ConnectionInput.SetValue(thisOutputSocket);
-									View.ConnectionInput.ApplyModifiedProperties();
+									(View.ConnectionInput.Value as EditorValue).SetValue(thisOutputSocket);
+									(View.ConnectionInput.Value as EditorValue).ApplyModifiedProperties();
 									View.CurrentMode = BehaviourEditorView.ControlMode.None;
 
 									GUI.UnfocusWindow();
@@ -247,14 +261,15 @@ namespace RPGCore.Unity.Editors
 					}
 				}
 
-				IEnumerable<EditorField> InputSocketFields(EditorField nodeDataField)
+				IEnumerable<EditorField> InputSocketFields(EditorObject nodeDataContainer)
 				{
-					foreach (var childField in nodeDataField)
+					foreach (var childField in nodeDataContainer.Fields.Values)
 					{
 						if (childField.Field.Type != "InputSocket")
 						{
 							continue;
 						}
+						/*
 						if (childField.Field.Format == FieldFormat.List)
 						{
 							foreach (var listElement in childField)
@@ -262,13 +277,14 @@ namespace RPGCore.Unity.Editors
 								yield return listElement;
 							}
 						}
-						else if (childField.Field.Format == FieldFormat.Object)
+						*/
+						else if (childField.Field.Wrapper == null)
 						{
 							yield return childField;
 						}
 						else
 						{
-							Debug.LogError($"Unknown InputSocket format. InputSockets cannot be a \"{childField.Field.Format}\".");
+							Debug.LogError($"Unknown InputSocket format. InputSockets cannot be wrapped.");
 						}
 					}
 				}
@@ -276,6 +292,7 @@ namespace RPGCore.Unity.Editors
 				// Foreach Input
 				foreach (var childField in InputSocketFields(nodeData))
 				{
+					var childFieldValue = childField.Value as EditorValue;
 					var inputFieldFeature = childField.GetOrCreateFeature<FieldFeature>();
 
 					inputFieldFeature.GlobalRenderedPosition = new Rect(
@@ -288,7 +305,7 @@ namespace RPGCore.Unity.Editors
 
 					if (currentEvent.type == EventType.MouseDown && inputSocketRect.Contains(currentEvent.mousePosition))
 					{
-						View.BeginConnectionFromInput(childField, node.Name);
+						View.BeginConnectionFromInput(childField, nodeField.Key);
 
 						GUI.UnfocusWindow();
 						GUI.FocusControl("");
@@ -301,8 +318,8 @@ namespace RPGCore.Unity.Editors
 						{
 							if (View.IsOutputSocket)
 							{
-								childField.SetValue(View.ConnectionOutput);
-								childField.ApplyModifiedProperties();
+								childFieldValue.SetValue(View.ConnectionOutput);
+								childFieldValue.ApplyModifiedProperties();
 								View.CurrentMode = BehaviourEditorView.ControlMode.None;
 
 								GUI.UnfocusWindow();
@@ -325,38 +342,49 @@ namespace RPGCore.Unity.Editors
 						GUI.DrawTexture(inputSocketRect, BehaviourGraphResources.Instance.InputSocket);
 						GUI.color = originalColor;
 
-						var thisInputConnectedTo = childField.GetValue<LocalPropertyId>();
+						var thisInputConnectedTo = childFieldValue.GetValue<LocalPropertyId>();
 						if (thisInputConnectedTo != LocalPropertyId.None)
 						{
 							bool isFound = false;
 							Rect otherOutputSocketRect = default;
 							SocketInformation outputSocketInformation = default;
 
-							foreach (var otherNode in graphEditorNodes)
+							foreach (var otherNodeField in graphEditorNodes.KeyValuePairs)
 							{
-								var otherNodeEditor = otherNode["Editor"];
-								var otherNodeEditorPosition = otherNodeEditor["Position"];
+								var otherNode = otherNodeField.Value.Value as EditorObject;
 
-								float otherNodePositionX = otherNodeEditorPosition["x"].GetValue<int>() + View.PanPosition.x;
-								float otherNodePositionY = otherNodeEditorPosition["y"].GetValue<int>() + View.PanPosition.y;
+								var otherNodeEditor = otherNode.Fields["Editor"];
+								var otherNodeEditorPositionField = (otherNodeEditor.Value as EditorObject).Fields["Position"];
+								var otherNodeEditorPosition = otherNodeEditorPositionField.Value as EditorObject;
 
-								var otherNodeData = otherNode["Data"];
+								float otherNodePositionX = (otherNodeEditorPosition.Fields["x"].Value as EditorValue).GetValue<int>() + View.PanPosition.x;
+								float otherNodePositionY = (otherNodeEditorPosition.Fields["y"].Value as EditorValue).GetValue<int>() + View.PanPosition.y;
+
+								var otherNodeKvp = node.Fields["Data"];
+								var otherNodeData = otherNodeKvp.Value as EditorObject;
 
 								// Foreach Output
 								otherOutputSocketRect = new Rect(otherNodePositionX + 220, otherNodePositionY + 6, 20, 20);
 								var otherNodeInfo = (NodeInformation)otherNodeData.Type;
-								foreach (var output in otherNodeInfo.Outputs)
+								if (otherNodeInfo.Outputs != null)
 								{
-									var otherOutputId = new LocalPropertyId(new LocalId(otherNode.Name), output.Key);
-
-									if (otherOutputId == thisInputConnectedTo)
+									foreach (var output in otherNodeInfo.Outputs)
 									{
-										isFound = true;
-										outputSocketInformation = output.Value;
-										break;
-									}
+										var otherOutputId = new LocalPropertyId(new LocalId(otherNodeField.Key), output.Key);
 
-									otherOutputSocketRect.y += otherOutputSocketRect.height + 4;
+										if (otherOutputId == thisInputConnectedTo)
+										{
+											isFound = true;
+											outputSocketInformation = output.Value;
+											break;
+										}
+
+										otherOutputSocketRect.y += otherOutputSocketRect.height + 4;
+									}
+								}
+								else
+								{
+									Debug.Log("There are no outputs on this node");
 								}
 								if (isFound)
 								{
@@ -393,22 +421,24 @@ namespace RPGCore.Unity.Editors
 					Rect outputRect = default;
 					SocketInformation outputSocketInformation = default;
 
-					foreach (var node in graphEditorNodes)
+					foreach (var nodeField in graphEditorNodes.KeyValuePairs)
 					{
-						var nodeEditor = node["Editor"];
-						var nodeEditorPosition = nodeEditor["Position"];
+						var node = nodeField.Value.Value as EditorObject;
 
-						float nodePositionX = nodeEditorPosition["x"].GetValue<int>() + View.PanPosition.x;
-						float nodePositionY = nodeEditorPosition["y"].GetValue<int>() + View.PanPosition.y;
+						var nodeEditor = node.Fields["Editor"].Value as EditorObject;
+						var nodeType = node.Fields["Type"].Value as EditorValue;
+						var nodeData = node.Fields["Data"].Value as EditorObject;
+						var nodeEditorPosition = nodeEditor.Fields["Position"].Value as EditorObject;
 
-						var nodeData = node["Data"];
+						float nodePositionX = (nodeEditorPosition.Fields["x"].Value as EditorValue).GetValue<int>() + View.PanPosition.x;
+						float nodePositionY = (nodeEditorPosition.Fields["y"].Value as EditorValue).GetValue<int>() + View.PanPosition.y;
 
 						// Foreach Output
 						var nodeInfo = (NodeInformation)nodeData.Type;
 						outputRect = new Rect(nodePositionX + 220, nodePositionY + 6, 20, 20);
 						foreach (var output in nodeInfo.Outputs)
 						{
-							var otherOutputId = new LocalPropertyId(new LocalId(node.Name), output.Key);
+							var otherOutputId = new LocalPropertyId(new LocalId(nodeField.Key), output.Key);
 
 							if (otherOutputId == View.ConnectionOutput)
 							{
@@ -484,12 +514,15 @@ namespace RPGCore.Unity.Editors
 
 						foreach (string selectedNode in View.Selection)
 						{
-							var pos = View.GraphField["Nodes"][selectedNode]["Editor"]["Position"];
+							var nodesField = View.EditorObject.Fields["Nodes"];
+							var selectedNodeData = (nodesField.Value as EditorDictionary).KeyValuePairs[selectedNode].Value as EditorObject;
+							var editor = selectedNodeData.Fields["Editor"].Value as EditorObject;
+							var editorPosition = editor.Fields["Position"].Value as EditorObject;
 
-							var posX = pos["x"];
+							var posX = editorPosition.Fields["x"].Value as EditorValue;
 							posX.ApplyModifiedProperties();
 
-							var posY = pos["y"];
+							var posY = editorPosition.Fields["y"].Value as EditorValue;
 							posY.ApplyModifiedProperties();
 						}
 						View.CurrentMode = BehaviourEditorView.ControlMode.None;
@@ -518,14 +551,15 @@ namespace RPGCore.Unity.Editors
 					{
 						string newNodeType = (string)newNodeObject;
 
-						var graphEditorNodes = View.GraphField["Nodes"];
+						var graphEditorNodesField = View.EditorObject.Fields["Nodes"];
+						var graphEditorNodes = graphEditorNodesField.Value as EditorDictionary;
 
 						string newId = LocalId.NewId().ToString();
 						graphEditorNodes.Add(newId);
 
-						var newNode = graphEditorNodes[newId];
+						var newNode = graphEditorNodes.KeyValuePairs[newId];
 						var nodeData = new JObject();
-						newNode.SetValue(new SerializedNode()
+						/*newNode.SetValue(new SerializedNode()
 						{
 							Type = newNodeType,
 							Data = nodeData,
@@ -535,6 +569,7 @@ namespace RPGCore.Unity.Editors
 							}
 						});
 						newNode.ApplyModifiedProperties();
+						*/
 						Window.Repaint();
 					});
 
@@ -542,7 +577,8 @@ namespace RPGCore.Unity.Editors
 				}
 				else if (currentEvent.keyCode == KeyCode.Delete)
 				{
-					var graphEditorNodes = View.GraphField["Nodes"];
+					var graphEditorNodesField = View.EditorObject.Fields["Nodes"];
+					var graphEditorNodes = graphEditorNodesField.Value as EditorDictionary;
 
 					foreach (string node in View.Selection)
 					{
@@ -557,12 +593,16 @@ namespace RPGCore.Unity.Editors
 					case BehaviourEditorView.ControlMode.NodeDragging:
 						foreach (string selectedNode in View.Selection)
 						{
-							var pos = View.GraphField["Nodes"][selectedNode]["Editor"]["Position"];
 
-							var posX = pos["x"];
+							var nodesField = View.EditorObject.Fields["Nodes"];
+							var selectedNodeData = (nodesField.Value as EditorDictionary).KeyValuePairs[selectedNode].Value as EditorObject;
+							var editor = selectedNodeData.Fields["Editor"].Value as EditorObject;
+							var editorPosition = editor.Fields["Position"].Value as EditorObject;
+
+							var posX = editorPosition.Fields["x"].Value as EditorValue;
 							posX.SetValue(posX.GetValue<int>() + ((int)currentEvent.delta.x));
 
-							var posY = pos["y"];
+							var posY = editorPosition.Fields["y"].Value as EditorValue;
 							posY.SetValue(posY.GetValue<int>() + ((int)currentEvent.delta.y));
 						}
 						break;

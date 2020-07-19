@@ -1,6 +1,7 @@
-﻿using System.Reflection;
+﻿using RPGCore.Behaviour;
+using System.Reflection;
 
-namespace RPGCore.Behaviour.Manifest
+namespace RPGCore.DataEditor.Manifest
 {
 	public struct SocketInformation
 	{

@@ -1,5 +1,4 @@
-﻿using RPGCore.Behaviour.Manifest;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {

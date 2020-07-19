@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RPGCore.Behaviour.Manifest;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

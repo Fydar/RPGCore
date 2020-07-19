@@ -1,10 +1,11 @@
 using Newtonsoft.Json;
+using RPGCore.Behaviour;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace RPGCore.Behaviour.Manifest
+namespace RPGCore.DataEditor.Manifest
 {
 	public sealed class BehaviourManifest
 	{

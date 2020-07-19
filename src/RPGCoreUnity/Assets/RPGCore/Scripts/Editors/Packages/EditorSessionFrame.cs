@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour;
-using RPGCore.Behaviour.Editor;
-using RPGCore.Behaviour.Manifest;
+using RPGCore.DataEditor;
+using RPGCore.DataEditor.Manifest;
 using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
@@ -41,25 +41,29 @@ namespace RPGCore.Unity.Editors
 					{
 						View = new BehaviourEditorView()
 					};
-					frame.View.BeginSession(field.Session, field);
+					frame.View.BeginSession(field.Session, field.Value as EditorObject);
 
 					yield return new FrameTab()
 					{
-						Title = new GUIContent(field.Name),
+						Title = new GUIContent(field.Field.Name),
 						Frame = frame,
 					};
 				}
 			}
 		}
 
-		private IEnumerable<EditorField> AllFields(EditorField root)
+		private IEnumerable<EditorField> AllFields(IEditorValue root)
 		{
-			yield return root;
-			foreach (var field in root)
+			if (root is EditorObject editorObject)
 			{
-				foreach (var childField in AllFields(field))
+				foreach (var field in editorObject.Fields)
 				{
-					yield return childField;
+					yield return field.Value;
+
+					foreach (var childField in AllFields(field.Value.Value))
+					{
+						yield return childField;
+					}
 				}
 			}
 		}
@@ -73,7 +77,7 @@ namespace RPGCore.Unity.Editors
 				HasUnsavedChanges = true;
 			};
 
-			var feature = EditorSession.Root.GetOrCreateFeature<FramedEditorSessionFeature>();
+			var feature = EditorSession.GetOrCreateFeature<FramedEditorSessionFeature>();
 			feature.Frame = this;
 		}
 
@@ -124,7 +128,7 @@ namespace RPGCore.Unity.Editors
 				HasUnsavedChanges = true;
 			};
 
-			var feature = EditorSession.Root.GetOrCreateFeature<FramedEditorSessionFeature>();
+			var feature = EditorSession.GetOrCreateFeature<FramedEditorSessionFeature>();
 			feature.Frame = this;
 		}
 

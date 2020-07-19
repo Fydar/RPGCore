@@ -1,5 +1,3 @@
-using RPGCore.Behaviour.Manifest;
-
 namespace RPGCore.Behaviour
 {
 	[EditorType]

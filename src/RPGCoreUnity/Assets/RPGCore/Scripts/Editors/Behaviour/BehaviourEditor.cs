@@ -1,4 +1,5 @@
 using RPGCore.Behaviour.Editor;
+using RPGCore.DataEditor;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace RPGCore.Unity.Editors
 			window.Show();
 		}
 
-		public static void Open(EditorSession session, EditorField graphField)
+		public static void Open(EditorSession session, EditorObject editorObject)
 		{
 			var window = GetWindow<BehaviourEditor>();
 
@@ -26,7 +27,7 @@ namespace RPGCore.Unity.Editors
 			{
 				View = new BehaviourEditorView()
 			};
-			window.GraphFrame.View.BeginSession(session, graphField);
+			window.GraphFrame.View.BeginSession(session, editorObject);
 
 			window.GraphFrame.Window = window;
 			window.GraphFrame.OnEnable();

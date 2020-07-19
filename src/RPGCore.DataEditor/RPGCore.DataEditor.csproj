@@ -1,10 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-
-    <IsPackable>false</IsPackable>
+    <Deterministic>true</Deterministic>
 
     <Product>RPGCore</Product>
     <Company>Anthony Marmont</Company>
@@ -28,14 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
-    <ProjectReference Include="..\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="nunit" Version="3.11.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
   </ItemGroup>
+
+  <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.DataEditor.dll Assets/RPGCore/Plugins' | true" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.DataEditor.pdb Assets/RPGCore/Plugins' | true" />
+  </Target>
 
 </Project>

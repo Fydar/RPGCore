@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour;
-using RPGCore.Behaviour.Editor;
-using RPGCore.Behaviour.Manifest;
+using RPGCore.DataEditor;
+using RPGCore.DataEditor.Manifest;
 using RPGCore.Packages;
 using System;
 using System.IO;
@@ -45,24 +45,27 @@ namespace RPGCore.Demo.Inventory
 
 			var editor = new EditorSession(manifest, editorTarget, "SerializedGraph", serializer);
 
-			foreach (var node in editor.Root["Nodes"])
+			foreach (var node in (editor.Root.Fields["Nodes"].Value as EditorObject).Fields.Values)
 			{
-				var nodeData = node["Data"];
+				var nodeData = (node.Value as EditorObject).Fields["Data"];
 
-				foreach (var field in nodeData)
+				foreach (var field in (nodeData.Value as EditorObject).Fields.Values)
 				{
-					Console.WriteLine($"{field}");
-					if (field.Name == "MaxValue")
-					{
-						field.SetValue(field.GetValue<int>() + 10);
-						field.ApplyModifiedProperties();
+					var editableValue = field.Value as EditorValue;
 
-						field.SetValue(field.GetValue<int>());
-						field.ApplyModifiedProperties();
-					}
-					else if (field.Name == "ValueB")
+					Console.WriteLine($"{field}");
+					if (field.Field.Name == "MaxValue")
 					{
-						Console.WriteLine(field.GetValue<LocalPropertyId>());
+
+						editableValue.SetValue(editableValue.GetValue<int>() + 10);
+						editableValue.ApplyModifiedProperties();
+
+						editableValue.SetValue(editableValue.GetValue<int>());
+						editableValue.ApplyModifiedProperties();
+					}
+					else if (field.Field.Name == "ValueB")
+					{
+						Console.WriteLine(editableValue.GetValue<LocalPropertyId>());
 					}
 				}
 			}

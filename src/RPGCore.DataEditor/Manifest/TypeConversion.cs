@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace RPGCore.Behaviour.Manifest
+namespace RPGCore.DataEditor.Manifest
 {
 	public struct TypeConversion
 	{

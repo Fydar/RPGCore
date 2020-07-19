@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RPGCore.Behaviour.Manifest
+namespace RPGCore.Behaviour
 {
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
 	public class EditorTypeAttribute : Attribute

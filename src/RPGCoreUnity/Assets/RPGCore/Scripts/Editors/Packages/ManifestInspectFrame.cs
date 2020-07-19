@@ -1,4 +1,4 @@
-﻿using RPGCore.Behaviour.Manifest;
+﻿using RPGCore.DataEditor.Manifest;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 

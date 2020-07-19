@@ -1,4 +1,4 @@
-﻿using RPGCore.Behaviour.Manifest;
+﻿using RPGCore.DataEditor.Manifest;
 using RPGCore.Packages;
 using System;
 using System.Collections.Generic;
@@ -118,7 +118,7 @@ namespace RPGCore.Unity.Editors
 						VirtualChildren.Add(childTab);
 					}
 				}
-				
+
 				if (Tabs.Count != 0)
 				{
 					CurrentTab = Tabs[0];

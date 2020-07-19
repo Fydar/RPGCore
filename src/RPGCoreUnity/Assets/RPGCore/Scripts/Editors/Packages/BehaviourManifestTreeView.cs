@@ -1,5 +1,5 @@
 ﻿using RPGCore.Behaviour.Editor;
-using RPGCore.Behaviour.Manifest;
+using RPGCore.DataEditor.Manifest;
 using System.Collections.Generic;
 using UnityEditor.IMGUI.Controls;
 

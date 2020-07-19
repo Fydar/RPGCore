@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+using RPGCore.Behaviour;
 using System;
 using System.Collections.Generic;
 
-namespace RPGCore.Behaviour.Manifest
+namespace RPGCore.DataEditor.Manifest
 {
 	public sealed class NodeManifest
 	{

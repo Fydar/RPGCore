@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace RPGCore.Behaviour.Manifest
+namespace RPGCore.DataEditor.Manifest
 {
 	public sealed class TypeManifest
 	{

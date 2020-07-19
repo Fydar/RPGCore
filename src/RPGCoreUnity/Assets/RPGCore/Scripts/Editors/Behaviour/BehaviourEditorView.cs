@@ -1,5 +1,6 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Behaviour.Editor;
+using RPGCore.DataEditor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,7 @@ namespace RPGCore.Unity.Editors
 		public EditorField ConnectionInput { get; set; }
 		public string ConnectionInputNodeId { get; set; }
 		public EditorSession Session { get; private set; }
-		public EditorField GraphField { get; private set; }
+		public EditorObject EditorObject { get; private set; }
 
 		public bool IsOutputSocket => isOutputSocket;
 
@@ -94,10 +95,10 @@ namespace RPGCore.Unity.Editors
 			}
 		}
 
-		public void BeginSession(EditorSession session, EditorField graphField)
+		public void BeginSession(EditorSession session, EditorObject editorObject)
 		{
 			Session = session;
-			GraphField = graphField;
+			EditorObject = editorObject;
 		}
 
 		public void BeginConnectionFromOutput(LocalPropertyId connectionStart)
