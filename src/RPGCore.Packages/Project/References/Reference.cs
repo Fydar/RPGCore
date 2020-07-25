@@ -1,5 +1,3 @@
-using RPGCore.Packages.Archives;
-
 namespace RPGCore.Packages
 {
 	public abstract class Reference

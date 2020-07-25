@@ -2,7 +2,7 @@
 
 namespace RPGCore.Packages
 {
-	public interface IResourceDependencies : IEnumerable<IResourceDependency>
+	public interface IResourceDependencyCollection : IEnumerable<IResourceDependency>
 	{
 		int Count { get; }
 

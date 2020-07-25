@@ -6,7 +6,7 @@ namespace RPGCore.Packages
 {
 	[DebuggerDisplay("Count = {Count,nq}")]
 	[DebuggerTypeProxy(typeof(PackageResourceDependenciesDebugView))]
-	public class PackageResourceDependencies : IResourceDependencies
+	public class PackageResourceDependencies : IResourceDependencyCollection
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly PackageExplorer packageExplorer;
@@ -29,17 +29,20 @@ namespace RPGCore.Packages
 			}
 		}
 
-		IResourceDependency IResourceDependencies.this[int index] => this[index];
+		IResourceDependency IResourceDependencyCollection.this[int index] => this[index];
 
 		internal PackageResourceDependencies(PackageExplorer packageExplorer, PackageResourceMetadataModel metadataModel)
 		{
 			this.packageExplorer = packageExplorer;
 			dependencies = new List<PackageResourceDependency>();
 
-			foreach (var importerDependency in metadataModel.Dependencies)
+			if (metadataModel.Dependencies != null)
 			{
-				dependencies.Add(
-					new PackageResourceDependency(packageExplorer, importerDependency));
+				foreach (var importerDependency in metadataModel.Dependencies)
+				{
+					dependencies.Add(
+						new PackageResourceDependency(packageExplorer, importerDependency));
+				}
 			}
 		}
 

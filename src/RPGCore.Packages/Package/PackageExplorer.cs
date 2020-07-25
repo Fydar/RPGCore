@@ -118,20 +118,28 @@ namespace RPGCore.Packages
 				Definition = definitionDocument
 			};
 
-			foreach (var packageEntry in archive.Files)
+			foreach (var metadataEntry in archive.Files)
 			{
+				/*
 				if (!packageEntry.FullName.StartsWith("data/")
 					|| packageEntry.FullName.EndsWith(".pkgmeta"))
 				{
 					continue;
 				}
-
 				var metadataEntry = archive.Files.GetFile($"{packageEntry.FullName}.pkgmeta");
+				*/
+
+				if (!metadataEntry.FullName.EndsWith(".pkgmeta"))
+				{
+					continue;
+				}
+				var contentEntry = archive.Files.GetFile(metadataEntry.FullName.Substring(0, metadataEntry.FullName.Length - 8));
+
 				var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(metadataEntry);
 
-				var forPath = ForPath(packageEntry.FullName);
+				var forPath = ForPath(contentEntry.FullName);
 
-				var resource = new PackageResource(package, forPath, packageEntry, metadataModel);
+				var resource = new PackageResource(package, forPath, contentEntry, metadataModel);
 
 				package.Resources.Add(resource.FullName, resource);
 				forPath.Resources.Add(resource.Name, resource);

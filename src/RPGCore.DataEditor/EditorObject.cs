@@ -44,7 +44,7 @@ namespace RPGCore.DataEditor
 			Fields.Clear();
 			if (json != null && json.Type == JTokenType.Object)
 			{
-				PopulateMissing((JObject)this.json, Type);
+				PopulateMissing((JObject)json, Type);
 
 				foreach (var field in Type.Fields)
 				{

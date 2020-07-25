@@ -65,10 +65,7 @@ namespace RPGCore.Packages
 			}
 
 			string bprojPath = Path.Combine(directoryInfo.FullName, $"{directoryInfo.Name}.bproj");
-			File.WriteAllText(bprojPath,
-				@"<Project>
-	
-</Project>");
+			File.WriteAllText(bprojPath, "<Project>\r\n\t\r\n</Project>");
 
 			return Load(projectDirectoryPath, importPipeline);
 		}
@@ -164,6 +161,14 @@ namespace RPGCore.Packages
 
 				projectExplorer.Resources.Add(resource.FullName, resource);
 				forPath.Resources.Add(resource.Name, resource);
+			}
+
+			foreach (var resource in projectExplorer.Resources)
+			{
+				foreach (var dependency in resource.Dependencies)
+				{
+					dependency.Resource.Dependants.dependencies.Add(new ProjectResourceDependency(projectExplorer, resource.FullName, dependency.metdadata));
+				}
 			}
 
 			// Size Calculation

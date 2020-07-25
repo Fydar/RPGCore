@@ -2,7 +2,6 @@ using Newtonsoft.Json;
 using RPGCore.Packages;
 using RPGCore.Packages.Archives;
 using System.IO;
-using System.IO.Compression;
 
 namespace RPGCore.Behaviour
 {
@@ -13,7 +12,7 @@ namespace RPGCore.Behaviour
 			return resource.Extension == ".bhvr";
 		}
 
-		public override void BuildResource(IResource resource, IArchiveEntry contentEntry)
+		public override void BuildResource(IResource resource, IArchive archive)
 		{
 			var serializer = new JsonSerializer();
 			SerializedGraph serializedGraph;
@@ -29,7 +28,8 @@ namespace RPGCore.Behaviour
 				node.Value.Editor = default;
 			}
 
-			using var zipStream = contentEntry.OpenWrite();
+			var entry = archive.Files.GetFile($"data/{resource.FullName}");
+			using var zipStream = entry.OpenWrite();
 			using var streamWriter = new StreamWriter(zipStream);
 			serializer.Serialize(streamWriter, serializedGraph);
 		}

@@ -106,7 +106,6 @@ namespace RPGCore.DataEditor.Manifest
 			}
 			catch
 			{
-				//defaultValueToken = JObject.FromObject(defaultValue);
 				defaultValueToken = JToken.FromObject(defaultValue);
 			}
 

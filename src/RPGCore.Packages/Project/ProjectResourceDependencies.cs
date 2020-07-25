@@ -1,5 +1,4 @@
-﻿using RPGCore.Packages.Pipeline;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -7,10 +6,10 @@ namespace RPGCore.Packages
 {
 	[DebuggerDisplay("Count = {Count,nq}")]
 	[DebuggerTypeProxy(typeof(ProjectResourceDependenciesDebugView))]
-	public sealed class ProjectResourceDependencies : IResourceDependencies
+	public sealed class ProjectResourceDependencies : IResourceDependencyCollection
 	{
 		private readonly ProjectExplorer projectExplorer;
-		private readonly List<ProjectResourceDependency> dependencies;
+		internal readonly List<ProjectResourceDependency> dependencies;
 
 		public int Count
 		{
@@ -28,21 +27,20 @@ namespace RPGCore.Packages
 			}
 		}
 
-		IResourceDependency IResourceDependencies.this[int index] => this[index];
+		IResourceDependency IResourceDependencyCollection.this[int index] => this[index];
 
-		internal ProjectResourceDependencies(ProjectResourceImporter projectResourceImporter)
+		internal ProjectResourceDependencies(ProjectExplorer projectExplorer)
 		{
-			projectExplorer = projectResourceImporter.ProjectExplorer;
+			this.projectExplorer = projectExplorer;
 			dependencies = new List<ProjectResourceDependency>();
-
-			foreach (var importerDependency in projectResourceImporter.Dependencies)
-			{
-				dependencies.Add(
-					new ProjectResourceDependency(projectExplorer, importerDependency.Resource));
-			}
 		}
 
-		public IEnumerator<IResourceDependency> GetEnumerator()
+		public IEnumerator<ProjectResourceDependency> GetEnumerator()
+		{
+			return dependencies.GetEnumerator();
+		}
+
+		IEnumerator<IResourceDependency> IEnumerable<IResourceDependency>.GetEnumerator()
 		{
 			return dependencies.GetEnumerator();
 		}

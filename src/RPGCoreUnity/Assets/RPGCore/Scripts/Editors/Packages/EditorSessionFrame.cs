@@ -116,6 +116,26 @@ namespace RPGCore.Unity.Editors
 			{
 				typeName = "ProjectModel";
 			}
+			else if (Resource.Tags.Contains("type-skill"))
+			{
+				typeName = "SkillModel";
+			}
+			else if (Resource.Tags.Contains("type-category"))
+			{
+				typeName = "ProjectCategoryModel";
+			}
+			else if (Resource.Tags.Contains("type-education"))
+			{
+				typeName = "EducationalInstitutionModel";
+			}
+			else if (Resource.Tags.Contains("type-company"))
+			{
+				typeName = "CompanyModel";
+			}
+			else if (Resource.Tags.Contains("type-category"))
+			{
+				typeName = "ProjectCategoryModel";
+			}
 			else
 			{
 				typeName = "ProceduralItemTemplate";

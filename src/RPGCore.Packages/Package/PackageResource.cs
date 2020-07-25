@@ -18,8 +18,10 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IExplorer IResource.Explorer => Explorer;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceContent IResource.Content => Content;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IResource.Directory => Directory;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencies IResource.Dependencies => Dependencies;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencyCollection IResource.Dependencies => Dependencies;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
+
+		public IResourceDependencyCollection Dependants => throw new System.NotImplementedException();
 
 		internal PackageResource(PackageExplorer packageExplorer, PackageDirectory directory, IReadOnlyArchiveEntry contentEntry, PackageResourceMetadataModel metadataModel)
 		{

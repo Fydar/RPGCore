@@ -15,6 +15,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 		public class RootModel
 		{
 			public string FirstValue;
+			public int SecondValue;
 			public ChildModel AChild;
 			public ChildModel BChild;
 			public ChildModel[] Children;
@@ -26,6 +27,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 		{
 			public int ChildFirstValue;
 			public bool ChildSecondValue;
+			public int IntegerValue;
 		}
 		[EditorType]
 		public class GenericModel

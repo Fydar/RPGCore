@@ -27,7 +27,7 @@ namespace RPGCore.Packages.Archives
 
 				using var openStream = file.OpenRead();
 				var dest = file.OpenWrite();
-				await  openStream.CopyToAsync(dest);
+				await openStream.CopyToAsync(dest);
 			}
 		}
 	}

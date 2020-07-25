@@ -26,6 +26,10 @@ namespace RPGCore.DataEditor
 			var rootJson = JObject.FromObject(instance, JsonSerializer);
 			string type = instance.GetType().Name;
 			var typeInformation = Manifest.GetTypeInformation(type);
+			if (typeInformation == null)
+			{
+				throw new InvalidOperationException($"Failed to find type for {type}");
+			}
 
 			Instance = rootJson;
 			Root = new EditorObject(this, typeInformation, rootJson);
@@ -39,6 +43,10 @@ namespace RPGCore.DataEditor
 			features = new List<object>();
 
 			var typeInformation = Manifest.GetTypeInformation(type);
+			if (typeInformation == null)
+			{
+				throw new InvalidOperationException($"Failed to find type for {type}");
+			}
 
 			Root = new EditorObject(this, typeInformation, instance);
 		}

@@ -1,3 +1,6 @@
+using Newtonsoft.Json;
+using RPGCore.DataEditor.Manifest;
+using System;
 using UnityEditor;
 using UnityEngine;
 

@@ -16,12 +16,28 @@ namespace RPGCore.Packages.Pipeline
 			dependancies = new List<ProjectResourceImporterDependency>();
 		}
 
-		public void Register(string resource, DependencyFlags dependencyFlags = DependencyFlags.None)
+		public void Register(string resource, DependencyFlags dependencyFlags = DependencyFlags.None, Dictionary<string, string> metadata = null)
 		{
+			foreach (var dependency in dependancies)
+			{
+				if (dependency.Resource == resource)
+				{
+					dependency.DependencyFlags &= dependencyFlags;
+
+					foreach (var meta in metadata)
+					{
+						dependency.Metadata.Add(meta.Key, meta.Value);
+					}
+
+					return;
+				}
+			}
+
 			dependancies.Add(new ProjectResourceImporterDependency()
 			{
 				Resource = resource,
-				DependencyFlags = dependencyFlags
+				DependencyFlags = dependencyFlags,
+				Metadata = metadata
 			});
 		}
 

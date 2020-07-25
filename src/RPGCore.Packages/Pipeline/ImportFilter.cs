@@ -1,5 +1,4 @@
 ﻿using RPGCore.Packages.Archives;
-using System.IO;
 
 namespace RPGCore.Packages
 {

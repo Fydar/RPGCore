@@ -2,7 +2,6 @@ using Newtonsoft.Json;
 using RPGCore.Packages.Archives;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 
@@ -67,12 +66,11 @@ namespace RPGCore.Packages
 
 				Pipeline.BuildActions.OnBeforeExportResource(this, resource);
 
-				IArchiveEntry contentEntry;
 				if (exporter == null)
 				{
 					// contentEntry = archive.CreateEntryFromFile(resource.Content.ArchiveEntry.FullName, contentName, CompressionLevel.Optimal);
 
-					contentEntry = archive.Files.GetFile(contentName);
+					var contentEntry = archive.Files.GetFile(contentName);
 
 					using var stream = resource.Content.LoadStream();
 					using var zipStream = contentEntry.OpenWrite();
@@ -81,8 +79,7 @@ namespace RPGCore.Packages
 				}
 				else
 				{
-					contentEntry = archive.Files.GetFile(contentName);
-					exporter.BuildResource(resource, contentEntry);
+					exporter.BuildResource(resource, archive);
 				}
 
 				var dependencies = new PackageResourceMetadataDependencyModel[resource.Dependencies.Count];

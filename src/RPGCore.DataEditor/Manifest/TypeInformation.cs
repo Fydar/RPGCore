@@ -53,7 +53,7 @@ namespace RPGCore.DataEditor.Manifest
 			else
 			{
 				var constructors = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-				if (constructors.Length == 0 && constructors.Any(c => c.GetParameters().Length == 0))
+				if (constructors.Length == 0 || constructors.Any(c => c.GetParameters().Length == 0))
 				{
 					try
 					{
@@ -99,35 +99,35 @@ namespace RPGCore.DataEditor.Manifest
 
 				fieldInfos.Add(field.Name, FieldInformation.ConstructFieldInformation(field, defaultInstance));
 			}
-			foreach (var field in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+			foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
-				if (field.PropertyType == typeof(OutputSocket))
+				if (property.PropertyType == typeof(OutputSocket))
 				{
 					continue;
 				}
 
-				if (field.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+				if (property.GetCustomAttribute<JsonIgnoreAttribute>() != null)
 				{
 					continue;
 				}
 
-				if (field.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
+				if (property.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
 				{
 					continue;
 				}
 
-				var getter = field.GetGetMethod();
-				var setter = field.GetSetMethod();
+				var getter = property.GetGetMethod();
+				var setter = property.GetSetMethod();
 
 				if (getter == null
 					|| getter.IsPrivate
 					|| setter == null
-					|| field.Name.StartsWith("m_"))
+					|| property.Name.StartsWith("m_"))
 				{
 					continue;
 				}
 
-				fieldInfos.Add(field.Name, FieldInformation.ConstructFieldInformation(field, defaultInstance));
+				fieldInfos.Add(property.Name, FieldInformation.ConstructFieldInformation(property, defaultInstance));
 			}
 			typeInformation.Fields = fieldInfos;
 		}

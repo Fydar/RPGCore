@@ -1,5 +1,4 @@
-﻿using RPGCore.Packages;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace RPGCore.Packages
 {

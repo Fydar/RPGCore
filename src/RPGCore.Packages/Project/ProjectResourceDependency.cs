@@ -1,10 +1,16 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RPGCore.Packages
 {
 	public sealed class ProjectResourceDependency : IResourceDependency
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ProjectExplorer projectExplorer;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		internal readonly Dictionary<string, string> metdadata;
+		public IReadOnlyDictionary<string, string> Metadata => metdadata;
 
 		public string Key { get; }
 
@@ -33,9 +39,10 @@ namespace RPGCore.Packages
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResource IResourceDependency.Resource => Resource;
 
-		internal ProjectResourceDependency(ProjectExplorer projectExplorer, string key)
+		internal ProjectResourceDependency(ProjectExplorer projectExplorer, string key, Dictionary<string, string> metdadata)
 		{
 			this.projectExplorer = projectExplorer;
+			this.metdadata = metdadata;
 
 			Key = key;
 		}

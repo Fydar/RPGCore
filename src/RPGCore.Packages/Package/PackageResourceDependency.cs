@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RPGCore.Packages
 {
@@ -6,6 +7,10 @@ namespace RPGCore.Packages
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly PackageExplorer packageExplorer;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private readonly Dictionary<string, string> metdadata;
+		public IReadOnlyDictionary<string, string> Metadata => metdadata;
 
 		public bool IsValid => packageExplorer.Resources.Contains(Key);
 

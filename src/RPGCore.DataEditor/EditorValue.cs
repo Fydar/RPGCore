@@ -82,7 +82,16 @@ namespace RPGCore.DataEditor
 		{
 			if (queued == null)
 			{
-				queued = new QueuedItem<T>(json.ToObject<T>(Session.JsonSerializer));
+				T loaded;
+				try
+				{
+					loaded = json.ToObject<T>(Session.JsonSerializer);
+				}
+				catch
+				{
+					loaded = default;
+				}
+				queued = new QueuedItem<T>(loaded);
 			}
 
 			return ((QueuedItem<T>)queued).Value;

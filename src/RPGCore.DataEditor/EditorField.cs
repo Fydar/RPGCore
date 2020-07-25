@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using RPGCore.DataEditor.Manifest;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -26,11 +27,19 @@ namespace RPGCore.DataEditor
 			if (field.Type != "JObject")
 			{
 				FieldType = session.Manifest.GetTypeInformation(field.Type);
+				if (FieldType == null)
+				{
+					throw new InvalidOperationException($"Failed to find type for {field.Type}");
+				}
 			}
 			else
 			{
 				var typeName = json.Parent["Type"].ToString();
 				FieldType = session.Manifest.GetTypeInformation(typeName);
+				if (FieldType == null)
+				{
+					throw new InvalidOperationException($"Failed to find type for {typeName}");
+				}
 			}
 
 			this.json = json;
