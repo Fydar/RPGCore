@@ -23,12 +23,7 @@ namespace RPGCore.Packages.Pipeline
 				if (dependency.Resource == resource)
 				{
 					dependency.DependencyFlags &= dependencyFlags;
-
-					foreach (var meta in metadata)
-					{
-						dependency.Metadata.Add(meta.Key, meta.Value);
-					}
-
+					dependency.Metadata = metadata;
 					return;
 				}
 			}

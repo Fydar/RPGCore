@@ -1,4 +1,5 @@
 using RPGCore.Packages.Archives;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -167,7 +168,16 @@ namespace RPGCore.Packages
 			{
 				foreach (var dependency in resource.Dependencies)
 				{
-					dependency.Resource.Dependants.dependencies.Add(new ProjectResourceDependency(projectExplorer, resource.FullName, dependency.metdadata));
+					var dependencyResource = dependency.Resource;
+
+					if (dependencyResource == null)
+					{
+						Console.WriteLine($"ERROR: Unable to resolve dependency for \"{dependency.Key}\"");
+					}
+					else
+					{
+						dependencyResource.Dependants.dependencies.Add(new ProjectResourceDependency(projectExplorer, resource.FullName, dependency.metdadata));
+					}
 				}
 			}
 

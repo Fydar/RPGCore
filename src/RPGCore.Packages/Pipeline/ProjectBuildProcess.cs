@@ -1,9 +1,12 @@
 using Newtonsoft.Json;
 using RPGCore.Packages.Archives;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RPGCore.Packages
 {
@@ -58,55 +61,83 @@ namespace RPGCore.Packages
 
 			long currentProgress = 0;
 
+			var maxThread = new SemaphoreSlim(6);
+			var tasks = new List<Task>();
+			int failed = 0;
+
 			foreach (var resource in Project.Resources)
 			{
-				var exporter = Pipeline.GetExporter(resource);
-				string contentName = $"data/{resource.FullName}";
-				string metadataName = $"data/{resource.FullName}.pkgmeta";
-
-				Pipeline.BuildActions.OnBeforeExportResource(this, resource);
-
-				if (exporter == null)
+				maxThread.Wait();
+				tasks.Add(Task.Factory.StartNew(() =>
 				{
-					// contentEntry = archive.CreateEntryFromFile(resource.Content.ArchiveEntry.FullName, contentName, CompressionLevel.Optimal);
+					var exporter = Pipeline.GetExporter(resource);
+					string contentName = $"data/{resource.FullName}";
+					string metadataName = $"data/{resource.FullName}.pkgmeta";
 
-					var contentEntry = archive.Files.GetFile(contentName);
+					Pipeline.BuildActions.OnBeforeExportResource(this, resource);
 
-					using var stream = resource.Content.LoadStream();
-					using var zipStream = contentEntry.OpenWrite();
-
-					stream.CopyTo(zipStream);
-				}
-				else
-				{
-					exporter.BuildResource(resource, archive);
-				}
-
-				var dependencies = new PackageResourceMetadataDependencyModel[resource.Dependencies.Count];
-				for (int i = 0; i < dependencies.Length; i++)
-				{
-					var dependency = resource.Dependencies[i];
-					dependencies[i] = new PackageResourceMetadataDependencyModel()
+					if (exporter == null)
 					{
-						Resource = dependency.Key
+						// contentEntry = archive.CreateEntryFromFile(resource.Content.ArchiveEntry.FullName, contentName, CompressionLevel.Optimal);
+
+						var contentEntry = archive.Files.GetFile(contentName);
+
+						using var stream = resource.Content.LoadStream();
+						using var zipStream = contentEntry.OpenWrite();
+
+						stream.CopyTo(zipStream);
+					}
+					else
+					{
+						try
+						{
+							exporter.BuildResource(resource, archive);
+						}
+						catch (Exception exception)
+						{
+							Console.WriteLine($"ERROR: Failed to export {resource.FullName}: {exception}");
+							failed++;
+						}
+					}
+
+					var dependencies = new PackageResourceMetadataDependencyModel[resource.Dependencies.Count];
+					for (int i = 0; i < dependencies.Length; i++)
+					{
+						var dependency = resource.Dependencies[i];
+						dependencies[i] = new PackageResourceMetadataDependencyModel()
+						{
+							Resource = dependency.Key
+						};
+					}
+					var metadata = new PackageResourceMetadataModel()
+					{
+						Dependencies = dependencies
 					};
-				}
-				var metadata = new PackageResourceMetadataModel()
+
+					var metadataEntry = archive.Files.GetFile(metadataName);
+					using (var zipStream = metadataEntry.OpenWrite())
+					using (var streamWriter = new StreamWriter(zipStream))
+					{
+						serializer.Serialize(streamWriter, metadata);
+					}
+
+					currentProgress += resource.UncompressedSize;
+					Progress = currentProgress / (double)Project.UncompressedSize;
+
+					Pipeline.BuildActions.OnAfterExportResource(this, resource);
+
+				}, TaskCreationOptions.LongRunning)
+				.ContinueWith((task) =>
 				{
-					Dependencies = dependencies
-				};
+					tasks.Remove(task);
+					return maxThread.Release();
+				}));
+			}
+			Task.WaitAll(tasks.ToArray());
 
-				var metadataEntry = archive.Files.GetFile(metadataName);
-				using (var zipStream = metadataEntry.OpenWrite())
-				using (var streamWriter = new StreamWriter(zipStream))
-				{
-					serializer.Serialize(streamWriter, metadata);
-				}
-
-				currentProgress += resource.UncompressedSize;
-				Progress = currentProgress / (double)Project.UncompressedSize;
-
-				Pipeline.BuildActions.OnAfterExportResource(this, resource);
+			if (failed > 0)
+			{
+				throw new InvalidOperationException($"Failed to export {failed} resources.");
 			}
 		}
 

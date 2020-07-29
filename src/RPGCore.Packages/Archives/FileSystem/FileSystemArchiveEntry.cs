@@ -21,7 +21,8 @@ namespace RPGCore.Packages.Archives
 			FileInfo = fileInfo;
 
 			Name = fileInfo.Name;
-			FullName = fileInfo.FullName.Replace(archive.DirectoryInfo.FullName + "\\", "")
+			FullName = fileInfo.FullName
+				.Substring(archive.DirectoryInfo.FullName.Length + 1)
 				.Replace('\\', '/');
 			Extension = fileInfo.Extension;
 		}
