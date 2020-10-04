@@ -10,6 +10,6 @@ namespace RPGCore.Packages
 	{
 		public abstract bool CanExport(IResource resource);
 
-		public abstract void BuildResource(IResource resource, IArchive destination);
+		public abstract void BuildResource(IResource resource, IArchiveDirectory destination);
 	}
 }

@@ -14,8 +14,6 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count => resources.Count;
 
-		int IResourceCollection.Count => throw new System.NotImplementedException();
-
 		public ProjectResource this[string key] => resources[key];
 
 		IResource IResourceCollection.this[string key] => this[key];

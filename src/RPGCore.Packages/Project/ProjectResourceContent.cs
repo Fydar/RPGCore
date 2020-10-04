@@ -9,9 +9,9 @@ namespace RPGCore.Packages
 	public sealed class ProjectResourceContent : IResourceContent
 	{
 		public long UncompressedSize { get; }
-		public IArchiveEntry ArchiveEntry { get; }
+		public IArchiveFile ArchiveEntry { get; }
 
-		internal ProjectResourceContent(IArchiveEntry archiveEntry)
+		internal ProjectResourceContent(IArchiveFile archiveEntry)
 		{
 			ArchiveEntry = archiveEntry;
 			UncompressedSize = ArchiveEntry.UncompressedSize;

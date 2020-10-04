@@ -235,7 +235,8 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 			projectExplorer.ExportZippedToDirectory(buildPipeline, "BoardGame/Temp");
 			var packageExplorer = PackageExplorer.LoadFromFileAsync("BoardGame/Temp/BoardGame.bpkg").Result;
 
-			packageExplorer.Archive.CopyTo(new FileSystemArchive(new DirectoryInfo("BoardGame/Temp/Fast"))).Wait();
+			var dest = new FileSystemArchive(new DirectoryInfo("BoardGame/Temp"));
+			packageExplorer.Source.CopyInto(dest.RootDirectory, "Fast").Wait();
 
 			var cottage = packageExplorer.Resources["buildings/cottage.json"];
 

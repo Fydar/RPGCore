@@ -2,6 +2,7 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
 using System.IO;
 
 namespace RPGCore.CLI.Commands
@@ -16,19 +17,19 @@ namespace RPGCore.CLI.Commands
 			});
 
 			Handler = CommandHandler.Create((ParseResult parseResult, IConsole console) =>
-		   {
-			   var project = parseResult.ValueForOption<FileInfo>("project");
+			{
+				var project = parseResult.ValueForOption<FileInfo>("project");
 
-			   if (project == null)
-			   {
-				   project = FindFileOfType(".bproj");
-			   }
-			   var importPipeline = ImportPipeline.Create().Build();
+				if (project == null)
+				{
+					project = FindFileOfType(".bproj");
+				}
+				var importPipeline = ImportPipeline.Create().Build();
 
-			   var projectExplorer = ProjectExplorer.Load(project.DirectoryName, importPipeline);
+				var projectExplorer = ProjectExplorer.Load(project.DirectoryName, importPipeline);
 
-			   projectExplorer.Definition.SaveChanges();
-		   });
+				projectExplorer.Definition.SaveChanges();
+			});
 		}
 
 		private static FileInfo FindFileOfType(string extension)

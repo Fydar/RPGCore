@@ -23,7 +23,7 @@ namespace RPGCore.Packages
 
 		public IResourceDependencyCollection Dependants => throw new System.NotImplementedException();
 
-		internal PackageResource(PackageExplorer packageExplorer, PackageDirectory directory, IReadOnlyArchiveEntry contentEntry, PackageResourceMetadataModel metadataModel)
+		internal PackageResource(PackageExplorer packageExplorer, PackageDirectory directory, IReadOnlyArchiveFile contentEntry, PackageResourceMetadataModel metadataModel)
 		{
 			Explorer = packageExplorer;
 			Directory = directory;

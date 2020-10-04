@@ -13,7 +13,7 @@ namespace RPGCore.Demo.BoardGame
 			return resource.Extension == ".json";
 		}
 
-		public override void BuildResource(IResource resource, IArchiveEntry contentEntry)
+		public override void BuildResource(IResource resource, IArchiveDirectory destination)
 		{
 			var serializer = new JsonSerializer()
 			{
@@ -27,7 +27,9 @@ namespace RPGCore.Demo.BoardGame
 				document = serializer.Deserialize<JObject>(reader);
 			}
 
-			using var zipStream = contentEntry.OpenWrite();
+
+			var entry = destination.Files.GetFile($"data/{resource.FullName}");
+			using var zipStream = entry.OpenWrite();
 			using var streamWriter = new StreamWriter(zipStream);
 			serializer.Serialize(streamWriter, document);
 		}

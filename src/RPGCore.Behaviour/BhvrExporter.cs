@@ -12,7 +12,7 @@ namespace RPGCore.Behaviour
 			return resource.Extension == ".bhvr";
 		}
 
-		public override void BuildResource(IResource resource, IArchive archive)
+		public override void BuildResource(IResource resource, IArchiveDirectory destination)
 		{
 			var serializer = new JsonSerializer();
 			SerializedGraph serializedGraph;
@@ -28,7 +28,7 @@ namespace RPGCore.Behaviour
 				node.Value.Editor = default;
 			}
 
-			var entry = archive.Files.GetFile($"data/{resource.FullName}");
+			var entry = destination.Files.GetFile($"data/{resource.FullName}");
 			using var zipStream = entry.OpenWrite();
 			using var streamWriter = new StreamWriter(zipStream);
 			serializer.Serialize(streamWriter, serializedGraph);

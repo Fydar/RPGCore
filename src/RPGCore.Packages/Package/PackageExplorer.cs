@@ -17,7 +17,7 @@ namespace RPGCore.Packages
 	/// </remarks>
 	public sealed class PackageExplorer : IExplorer
 	{
-		public IReadOnlyArchive Archive { get; private set; }
+		public IReadOnlyArchiveDirectory Source { get; private set; }
 
 		/// <summary>
 		/// <para>The project definition for this package.</para>
@@ -55,116 +55,81 @@ namespace RPGCore.Packages
 			var za = new ZipArchive(fs, ZipArchiveMode.Read, true);
 			var archive = new PackedArchive(za);
 
-			return LoadAsync(archive);
+			return LoadAsync(archive.RootDirectory);
 		}
 
 		public static Task<PackageExplorer> LoadFromDirectoryAsync(string directory)
 		{
 			var archive = new FileSystemArchive(new DirectoryInfo(directory));
 
-			return LoadAsync(archive);
+			return LoadAsync(archive.RootDirectory);
 		}
 
-		public static async Task<PackageExplorer> LoadAsync(IReadOnlyArchive archive)
+		public static async Task<PackageExplorer> LoadAsync(IReadOnlyArchiveDirectory source)
 		{
-			var definitionEntry = archive.Files.GetFile("definition.json");
+			var definitionEntry = source.Files.GetFile("definition.json");
 			var definitionDocument = LoadJsonDocument<PackageDefinition>(definitionEntry);
 
-			var tagsEntry = archive.Files.GetFile("tags.json");
+			var tagsEntry = source.Files.GetFile("tags.json");
 			var tagsDocument = LoadJsonDocument<IReadOnlyDictionary<string, IReadOnlyList<string>>>(tagsEntry);
 			var tags = new Dictionary<string, IResourceCollection>();
 
 			var rootDirectiory = new PackageDirectory("", "", null);
-			PackageDirectory ForPath(string path)
+
+			var packageExplorer = new PackageExplorer
 			{
-				int currentIndex = 5;
-				var currentDirectory = rootDirectiory;
-				while (true)
-				{
-					int nextIndex = path.IndexOf('/', currentIndex);
-					if (nextIndex == -1)
-					{
-						break;
-					}
-					string segment = path.Substring(currentIndex, nextIndex - currentIndex);
-
-					bool found = false;
-					foreach (var directory in currentDirectory.Directories)
-					{
-						if (directory.Name == segment)
-						{
-							currentDirectory = directory;
-							found = true;
-							break;
-						}
-					}
-					if (!found)
-					{
-						var newDirectory = new PackageDirectory(segment, path.Substring(5, nextIndex - 5), currentDirectory);
-						currentDirectory.Directories.Add(newDirectory);
-						currentDirectory = newDirectory;
-					}
-
-					currentIndex = nextIndex + 1;
-				}
-
-				return currentDirectory;
-			}
-
-			var package = new PackageExplorer
-			{
-				Archive = archive,
+				Source = source,
 				RootDirectory = rootDirectiory,
 				Definition = definitionDocument
 			};
 
-			foreach (var metadataEntry in archive.Files)
+			void ImportDirectory(IReadOnlyArchiveDirectory directory, PackageDirectory packageDirectory)
 			{
-				/*
-				if (!packageEntry.FullName.StartsWith("data/")
-					|| packageEntry.FullName.EndsWith(".pkgmeta"))
+				foreach (var childDirectory in directory.Directories)
 				{
-					continue;
+					ImportDirectory(childDirectory,
+						new PackageDirectory(childDirectory.Name, childDirectory.FullName, packageDirectory));
 				}
-				var metadataEntry = archive.Files.GetFile($"{packageEntry.FullName}.pkgmeta");
-				*/
 
-				if (!metadataEntry.FullName.EndsWith(".pkgmeta"))
+				foreach (var file in directory.Files)
 				{
-					continue;
-				}
-				var contentEntry = archive.Files.GetFile(metadataEntry.FullName.Substring(0, metadataEntry.FullName.Length - 8));
-
-				var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(metadataEntry);
-
-				var forPath = ForPath(contentEntry.FullName);
-
-				var resource = new PackageResource(package, forPath, contentEntry, metadataModel);
-
-				package.Resources.Add(resource.FullName, resource);
-				forPath.Resources.Add(resource.Name, resource);
-
-				foreach (var tagCategory in tagsDocument)
-				{
-					if (tagCategory.Value.Contains(resource.FullName))
+					if (!file.FullName.EndsWith(".pkgmeta"))
 					{
-						if (!tags.TryGetValue(tagCategory.Key, out var taggedResourcesCollection))
+						continue;
+					}
+					var contentEntry = directory.Files.GetFile(file.Name.Substring(0, file.Name.Length - 8));
+
+					var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(file);
+
+					var resource = new PackageResource(packageExplorer, packageDirectory, contentEntry, metadataModel);
+
+					packageExplorer.Resources.Add(resource.FullName, resource);
+					packageDirectory.Resources.Add(resource.Name, resource);
+
+					foreach (var tagCategory in tagsDocument)
+					{
+						if (tagCategory.Value.Contains(resource.FullName))
 						{
-							taggedResourcesCollection = new PackageResourceCollection();
-							tags[tagCategory.Key] = taggedResourcesCollection;
+							if (!tags.TryGetValue(tagCategory.Key, out var taggedResourcesCollection))
+							{
+								taggedResourcesCollection = new PackageResourceCollection();
+								tags[tagCategory.Key] = taggedResourcesCollection;
+							}
+
+							var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
+
+							taggedResources.Add(resource.FullName, resource);
+							resource.Tags.tags.Add(tagCategory.Key);
 						}
-
-						var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
-
-						taggedResources.Add(resource.FullName, resource);
-						resource.Tags.tags.Add(tagCategory.Key);
 					}
 				}
 			}
 
-			package.Tags = new PackageTagsCollection(tags);
+			ImportDirectory(source, rootDirectiory);
 
-			return package;
+			packageExplorer.Tags = new PackageTagsCollection(tags);
+
+			return packageExplorer;
 		}
 
 		public void Dispose()
@@ -173,12 +138,12 @@ namespace RPGCore.Packages
 
 		internal Stream LoadStream(string packageKey)
 		{
-			return Archive.Files.GetFile(packageKey).OpenRead();
+			return Source.Files.GetFile(packageKey).OpenRead();
 		}
 
 		internal byte[] OpenAsset(string packageKey)
 		{
-			var entry = Archive.Files.GetFile(packageKey);
+			var entry = Source.Files.GetFile(packageKey);
 
 			byte[] buffer = new byte[entry.UncompressedSize];
 			using var zipStream = entry.OpenRead();
@@ -186,7 +151,7 @@ namespace RPGCore.Packages
 			return buffer;
 		}
 
-		private static T LoadJsonDocument<T>(IReadOnlyArchiveEntry entry)
+		private static T LoadJsonDocument<T>(IReadOnlyArchiveFile entry)
 		{
 			using var zipStream = entry.OpenRead();
 			using var sr = new StreamReader(zipStream);

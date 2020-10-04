@@ -25,14 +25,14 @@ namespace RPGCore.Packages
 			OutputFolder = outputFolder;
 		}
 
-		public void PerformBuild(IArchive archive)
+		public void PerformBuild(IArchiveDirectory destination)
 		{
 			var serializer = new JsonSerializer()
 			{
 				Formatting = Formatting.None
 			};
 
-			var manifest = archive.Files.GetFile("definition.json");
+			var manifest = destination.Files.GetFile("definition.json");
 			using (var zipStream = manifest.OpenWrite())
 			{
 				var packageDefinition = new PackageDefinition(new PackageDefinitionProperties()
@@ -46,7 +46,7 @@ namespace RPGCore.Packages
 				zipStream.Write(bytes, 0, bytes.Length);
 			}
 
-			var tagsEntry = archive.Files.GetFile("tags.json");
+			var tagsEntry = destination.Files.GetFile("tags.json");
 			var tagsDocument = new Dictionary<string, List<string>>();
 			foreach (var projectTagCategory in Project.Tags)
 			{
@@ -61,7 +61,7 @@ namespace RPGCore.Packages
 
 			long currentProgress = 0;
 
-			var maxThread = new SemaphoreSlim(6);
+			var maxThread = new SemaphoreSlim(destination.Archive.MaximumWriteThreads);
 			var tasks = new List<Task>();
 			int failed = 0;
 
@@ -80,7 +80,7 @@ namespace RPGCore.Packages
 					{
 						// contentEntry = archive.CreateEntryFromFile(resource.Content.ArchiveEntry.FullName, contentName, CompressionLevel.Optimal);
 
-						var contentEntry = archive.Files.GetFile(contentName);
+						var contentEntry = destination.Files.GetFile(contentName);
 
 						using var stream = resource.Content.LoadStream();
 						using var zipStream = contentEntry.OpenWrite();
@@ -91,7 +91,7 @@ namespace RPGCore.Packages
 					{
 						try
 						{
-							exporter.BuildResource(resource, archive);
+							exporter.BuildResource(resource, destination);
 						}
 						catch (Exception exception)
 						{
@@ -114,7 +114,7 @@ namespace RPGCore.Packages
 						Dependencies = dependencies
 					};
 
-					var metadataEntry = archive.Files.GetFile(metadataName);
+					var metadataEntry = destination.Files.GetFile(metadataName);
 					using (var zipStream = metadataEntry.OpenWrite())
 					using (var streamWriter = new StreamWriter(zipStream))
 					{
@@ -141,7 +141,7 @@ namespace RPGCore.Packages
 			}
 		}
 
-		private static void WriteJsonDocument(IArchiveEntry entry, object value)
+		private static void WriteJsonDocument(IArchiveFile entry, object value)
 		{
 			using var zipStream = entry.OpenWrite();
 			using var sr = new StreamWriter(zipStream);

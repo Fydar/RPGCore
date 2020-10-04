@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
 using RPGCore.Packages;
+using RPGCore.Packages.Archives;
 using System;
 using System.IO;
 using System.Threading;
@@ -9,6 +10,21 @@ namespace RPGCore.Demo.Inventory
 {
 	public sealed class Simulation
 	{
+		void RenderDirectory(IReadOnlyArchiveDirectory archiveDirectory, int indent = 0)
+		{
+			string indentString = new string(' ', indent * 2);
+
+			foreach (var subdirectory in archiveDirectory.Directories)
+			{
+				Console.WriteLine($"{indentString}> {subdirectory.Name}");
+				RenderDirectory(subdirectory, indent + 1);
+			}
+			foreach (var file in archiveDirectory.Files)
+			{
+				Console.WriteLine($"{indentString}- {file.Name}");
+			}
+		}
+
 		public void Start()
 		{
 			var serializer = new JsonSerializer();
@@ -21,6 +37,9 @@ namespace RPGCore.Demo.Inventory
 
 			var projectExplorer = ProjectExplorer.Load("Content/Core", importPipeline);
 
+			Console.WriteLine("Building project files...");
+			RenderDirectory(projectExplorer.Archive.RootDirectory);
+
 			var consoleRenderer = new BuildConsoleRenderer();
 
 			var buildPipeline = new BuildPipeline();
@@ -32,6 +51,7 @@ namespace RPGCore.Demo.Inventory
 
 			Console.WriteLine("Exported package...");
 			var exportedPackage = PackageExplorer.LoadFromFileAsync("Content/Temp/Core.bpkg").Result;
+			RenderDirectory(exportedPackage.Source);
 
 			var fireballAsset = exportedPackage.Resources["Fireball/Main.json"];
 			var data = fireballAsset.Content.LoadStream();

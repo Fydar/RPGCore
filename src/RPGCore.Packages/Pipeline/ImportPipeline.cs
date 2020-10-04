@@ -15,11 +15,11 @@ namespace RPGCore.Packages
 			filters = builder.Filters;
 		}
 
-		public bool IsResource(IArchiveEntry archiveEntry)
+		public bool IsResource(IArchiveFile file)
 		{
 			foreach (var filter in filters)
 			{
-				if (!filter.AllowFile(archiveEntry))
+				if (!filter.AllowFile(file))
 				{
 					return false;
 				}
@@ -27,7 +27,7 @@ namespace RPGCore.Packages
 			return true;
 		}
 
-		public ProjectResource ImportResource(ProjectExplorer projectExplorer, ProjectDirectory directory, IArchiveEntry archiveEntry, string projectKey)
+		public ProjectResource ImportResource(ProjectExplorer projectExplorer, ProjectDirectory directory, IArchiveFile archiveEntry, string projectKey)
 		{
 			var resourceImporter = new ProjectResourceImporter(projectExplorer, directory, archiveEntry, projectKey);
 

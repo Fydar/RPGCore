@@ -1,14 +1,12 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace RPGCore.Packages.Archives
 {
 	public interface IArchiveEntry : IReadOnlyArchiveEntry
 	{
-		Stream OpenWrite();
+		new IArchive Archive { get; }
+		new IArchiveDirectory Parent { get; }
 
-		Task DeleteAsync();
-		Task RenameAsync(string destination);
-		Task<IArchiveEntry> DuplicateAsync(string destination);
+		Task MoveInto(IArchiveDirectory destination, string name);
 	}
 }

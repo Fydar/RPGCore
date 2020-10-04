@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace RPGCore.Packages.Archives
 {
@@ -6,10 +7,9 @@ namespace RPGCore.Packages.Archives
 	{
 		string Name { get; }
 		string FullName { get; }
-		string Extension { get; }
-		long CompressedSize { get; }
-		long UncompressedSize { get; }
+		IReadOnlyArchive Archive { get; }
+		IReadOnlyArchiveDirectory Parent { get; }
 
-		Stream OpenRead();
+		Task CopyInto(IArchiveDirectory destination, string name);
 	}
 }

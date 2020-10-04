@@ -98,41 +98,6 @@ namespace RPGCore.Packages
 			var resources = new Dictionary<string, ProjectResource>();
 
 			var rootDirectiory = new ProjectDirectory("", "", null);
-			ProjectDirectory ForPath(string path)
-			{
-				int currentIndex = 0;
-				var currentDirectory = rootDirectiory;
-				while (true)
-				{
-					int nextIndex = path.IndexOf('/', currentIndex);
-					if (nextIndex == -1)
-					{
-						break;
-					}
-					string segment = path.Substring(currentIndex, nextIndex - currentIndex);
-
-					bool found = false;
-					foreach (var directory in currentDirectory.Directories)
-					{
-						if (directory.Name == segment)
-						{
-							currentDirectory = directory;
-							found = true;
-							break;
-						}
-					}
-					if (!found)
-					{
-						var newDirectory = new ProjectDirectory(segment, path, currentDirectory);
-						currentDirectory.Directories.Add(newDirectory);
-						currentDirectory = newDirectory;
-					}
-
-					currentIndex = nextIndex + 1;
-				}
-
-				return currentDirectory;
-			}
 
 			var projectExplorer = new ProjectExplorer
 			{
@@ -142,27 +107,31 @@ namespace RPGCore.Packages
 				RootDirectory = rootDirectiory
 			};
 
-			// Resources
-			foreach (var projectEntry in archive.Files)
+			void ImportDirectory(IArchiveDirectory directory, ProjectDirectory projectDirectory)
 			{
-				if (projectEntry.FullName.StartsWith("bin/")
-					|| projectEntry.FullName.EndsWith(".bproj"))
+				foreach (var childDirectory in directory.Directories)
 				{
-					continue;
+					ImportDirectory(childDirectory,
+						new ProjectDirectory(childDirectory.Name, childDirectory.FullName, projectDirectory));
 				}
 
-				if (!importPipeline.IsResource(projectEntry))
+				foreach (var file in directory.Files)
 				{
-					continue;
+					if (file.FullName.StartsWith("bin/")
+						|| file.FullName.EndsWith(".bproj")
+						|| !importPipeline.IsResource(file))
+					{
+						continue;
+					}
+
+					var resource = importPipeline.ImportResource(projectExplorer, projectDirectory, file, file.FullName);
+
+					projectExplorer.Resources.Add(resource.FullName, resource);
+					projectDirectory.Resources.Add(resource.Name, resource);
 				}
-
-				var forPath = ForPath(projectEntry.FullName);
-
-				var resource = importPipeline.ImportResource(projectExplorer, forPath, projectEntry, projectEntry.FullName);
-
-				projectExplorer.Resources.Add(resource.FullName, resource);
-				forPath.Resources.Add(resource.Name, resource);
 			}
+
+			ImportDirectory(archive.RootDirectory, rootDirectiory);
 
 			foreach (var resource in projectExplorer.Resources)
 			{
@@ -229,7 +198,7 @@ namespace RPGCore.Packages
 			using var zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Create, false);
 
 			var archive = new PackedArchive(zipArchive);
-			buildProcess.PerformBuild(archive);
+			buildProcess.PerformBuild(archive.RootDirectory);
 		}
 
 		public void ExportFoldersToDirectory(BuildPipeline pipeline, string path)
@@ -241,7 +210,7 @@ namespace RPGCore.Packages
 
 			string folderPath = Path.Combine(directoryInfo.FullName, $"{Definition.Properties.Name}");
 			var archive = new FileSystemArchive(new DirectoryInfo(folderPath));
-			buildProcess.PerformBuild(archive);
+			buildProcess.PerformBuild(archive.RootDirectory);
 		}
 	}
 }

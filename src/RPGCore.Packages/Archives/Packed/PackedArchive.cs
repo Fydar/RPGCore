@@ -1,33 +1,40 @@
 ﻿using System.Diagnostics;
 using System.IO.Compression;
-using System.Threading.Tasks;
 
 namespace RPGCore.Packages.Archives
 {
 	public class PackedArchive : IArchive
 	{
 		public ZipArchive ZipArchive { get; }
-		public PackedArchiveEntryCollection Files { get; }
+		public PackedArchiveDirectory RootDirectory { get; }
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveEntryCollection IReadOnlyArchive.Files => Files;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchive.RootDirectory => RootDirectory;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchive.RootDirectory => RootDirectory;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveEntryCollection IArchive.Files => Files;
+		public int MaximumWriteThreads => 1;
 
 		public PackedArchive(ZipArchive zipArchive)
 		{
 			ZipArchive = zipArchive;
-			Files = new PackedArchiveEntryCollection(this);
-		}
+			RootDirectory = new PackedArchiveDirectory(this, null, "");
 
-		public async Task CopyTo(IArchive destination)
-		{
-			foreach (var file in Files)
+			if (zipArchive.Mode != ZipArchiveMode.Create)
 			{
-				var destFile = destination.Files.GetFile(file.FullName);
+				foreach (var zipEntry in zipArchive.Entries)
+				{
+					string[] elements = zipEntry.FullName
+						.Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
 
-				using var openStream = file.OpenRead();
-				var dest = file.OpenWrite();
-				await openStream.CopyToAsync(dest);
+					var placeDirectory = RootDirectory;
+					for (int i = 0; i < elements.Length - 1; i++)
+					{
+						string element = elements[i];
+
+						placeDirectory = placeDirectory.Directories.GetOrCreateDirectory(element);
+					}
+
+					placeDirectory.Files.files.Add(new PackedArchiveFile(this, placeDirectory, zipEntry.Name));
+				}
 			}
 		}
 	}

@@ -17,13 +17,13 @@ namespace RPGCore.Packages
 		public long CompressedSize { get; }
 		public long UncompressedSize { get; }
 
-		internal PackageResourceContent(PackageExplorer packageExplorer, string contentKey, IReadOnlyArchiveEntry zipArchiveEntry)
+		internal PackageResourceContent(PackageExplorer packageExplorer, string contentKey, IReadOnlyArchiveFile zipArchiveEntry)
 		{
 			this.packageExplorer = packageExplorer;
 			this.contentKey = contentKey;
 
-			CompressedSize = zipArchiveEntry.CompressedSize;
-			UncompressedSize = zipArchiveEntry.UncompressedSize;
+			CompressedSize = 0;
+			UncompressedSize = 0;
 		}
 
 		public Stream LoadStream()

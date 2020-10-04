@@ -2,6 +2,7 @@
 {
 	public interface IArchive : IReadOnlyArchive
 	{
-		new IArchiveEntryCollection Files { get; }
+		int MaximumWriteThreads { get; }
+		new IArchiveDirectory RootDirectory { get; }
 	}
 }

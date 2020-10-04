@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace RPGCore.Packages.Archives
 {
-	public class PackedArchiveEntry : IArchiveEntry
+	public class PackedArchiveFile : IArchiveFile
 	{
+		public PackedArchiveDirectory Parent { get; }
+
 		public PackedArchive Archive { get; }
 
 		public string Name { get; }
@@ -16,55 +18,32 @@ namespace RPGCore.Packages.Archives
 		public long CompressedSize => GetEntry().CompressedLength;
 		public long UncompressedSize => GetEntry().Length;
 
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchive IArchiveEntry.Archive => Archive;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchiveEntry.Parent => Parent;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchive IReadOnlyArchiveEntry.Archive => Archive;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchiveEntry.Parent => Parent;
+
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] string IReadOnlyArchiveEntry.Name => Name;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] string IReadOnlyArchiveEntry.FullName => FullName;
 
-		public PackedArchiveEntry(PackedArchive archive, string key)
+		public PackedArchiveFile(PackedArchive archive, PackedArchiveDirectory parent, string name)
 		{
 			Archive = archive;
-			FullName = key;
+			Parent = parent;
 
-			int directoryIndex = key.LastIndexOf('/');
-			Name = directoryIndex == -1
-				? key
-				: key.Substring(directoryIndex + 1);
+			Name = name;
+			FullName = MakeFullName(parent, name);
 
-			int dotIndex = key.LastIndexOf('.');
+			int dotIndex = name.LastIndexOf('.');
 			Extension = dotIndex != -1
-				? key.Substring(dotIndex)
+				? name.Substring(dotIndex)
 				: "";
 		}
 
 		public Task DeleteAsync()
 		{
 			return Task.Run(() => GetEntry()?.Delete());
-		}
-
-		public async Task RenameAsync(string destination)
-		{
-			var entry = Archive.ZipArchive.GetEntry(FullName);
-
-			await DuplicateAsync(destination);
-
-			entry.Delete();
-		}
-
-		public async Task<PackedArchiveEntry> DuplicateAsync(string destination)
-		{
-			var destinationEntry = Archive.ZipArchive.CreateEntry(destination);
-
-			using var destinationStream = destinationEntry.Open();
-			using var sourceStream = GetEntry().Open();
-
-			await sourceStream.CopyToAsync(destinationStream);
-
-			return new PackedArchiveEntry(Archive, FullName);
-		}
-
-		async Task<IArchiveEntry> IArchiveEntry.DuplicateAsync(string destination)
-		{
-			var result = await DuplicateAsync(destination);
-			return result;
 		}
 
 		public Stream OpenRead()
@@ -95,6 +74,28 @@ namespace RPGCore.Packages.Archives
 		private ZipArchiveEntry GetOrCreateEntry()
 		{
 			return GetEntry() ?? Archive.ZipArchive.CreateEntry(FullName);
+		}
+
+		public Task MoveInto(IArchiveDirectory destination, string name)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public Task CopyInto(IArchiveDirectory destination, string name)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		private static string MakeFullName(PackedArchiveDirectory parent, string key)
+		{
+			if (parent == null || parent.FullName == "")
+			{
+				return key;
+			}
+			else
+			{
+				return $"{parent.FullName}/{key}";
+			}
 		}
 	}
 }

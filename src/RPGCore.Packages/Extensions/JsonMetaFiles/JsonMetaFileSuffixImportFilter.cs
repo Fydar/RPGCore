@@ -11,7 +11,7 @@ namespace RPGCore.Packages.Extensions.MetaFiles
 			this.suffix = suffix;
 		}
 
-		public override bool AllowFile(IArchiveEntry archiveEntry)
+		public override bool AllowFile(IArchiveFile archiveEntry)
 		{
 			return !archiveEntry.Name.EndsWith(suffix);
 		}

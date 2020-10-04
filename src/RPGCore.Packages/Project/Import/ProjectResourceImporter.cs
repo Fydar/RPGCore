@@ -10,13 +10,13 @@ namespace RPGCore.Packages.Pipeline
 	{
 		public ProjectExplorer ProjectExplorer { get; }
 		public ProjectDirectory Directory { get; }
-		public IArchiveEntry ArchiveEntry { get; }
+		public IArchiveFile ArchiveEntry { get; }
 		public string ProjectKey { get; }
 
 		public HashSet<string> ImporterTags { get; }
 		public ProjectResourceImporterDependencyCollection Dependencies { get; }
 
-		internal ProjectResourceImporter(ProjectExplorer projectExplorer, ProjectDirectory directory, IArchiveEntry archiveEntry, string projectKey)
+		internal ProjectResourceImporter(ProjectExplorer projectExplorer, ProjectDirectory directory, IArchiveFile archiveEntry, string projectKey)
 		{
 			ProjectExplorer = projectExplorer;
 			Directory = directory;
