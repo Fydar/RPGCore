@@ -18,7 +18,7 @@ namespace RPGCore.Packages.Archives
 		public FileSystemArchiveDirectory GetDirectory(string key)
 		{
 			return new FileSystemArchiveDirectory(archive, owner,
-				new DirectoryInfo(Path.Combine(archive.RootDirectoryInfo.FullName, key)));
+				new DirectoryInfo(Path.Combine(owner.directoryInfo.FullName, key)));
 		}
 
 		public IEnumerator<FileSystemArchiveDirectory> GetEnumerator()

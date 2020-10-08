@@ -26,18 +26,6 @@ namespace RPGCore.Packages.Archives
 					return directory;
 				}
 			}
-			throw new KeyNotFoundException($"The directory named \"{key}\" does not exist.");
-		}
-
-		public PackedArchiveDirectory GetOrCreateDirectory(string key)
-		{
-			foreach (var directory in directories)
-			{
-				if (directory.Name == key)
-				{
-					return directory;
-				}
-			}
 
 			var newDirectory = new PackedArchiveDirectory(archive, owner, key);
 			directories.Add(newDirectory);

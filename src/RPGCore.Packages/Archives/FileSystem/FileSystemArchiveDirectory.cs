@@ -8,9 +8,8 @@ namespace RPGCore.Packages.Archives
 	{
 		internal readonly DirectoryInfo directoryInfo;
 
-		public string Name => directoryInfo.Name;
-		public string FullName => "";
-		public string ArchiveKey => "";
+		public string Name { get; }
+		public string FullName { get; }
 		public FileSystemArchive Archive { get; }
 		public FileSystemArchiveDirectory Parent { get; }
 		public FileSystemArchiveDirectoryCollection Directories { get; }
@@ -24,43 +23,49 @@ namespace RPGCore.Packages.Archives
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectoryCollection IReadOnlyArchiveDirectory.Directories => Directories;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveFileCollection IReadOnlyArchiveDirectory.Files => Files;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchiveEntry.Parent => Parent;
-
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchive IReadOnlyArchiveEntry.Archive => Archive;
 
 		internal FileSystemArchiveDirectory(FileSystemArchive archive, FileSystemArchiveDirectory parent, DirectoryInfo directoryInfo)
 		{
-			this.Archive = archive;
+			Archive = archive;
 			Parent = parent;
 			this.directoryInfo = directoryInfo;
 
 			Directories = new FileSystemArchiveDirectoryCollection(archive, this);
 			Files = new FileSystemArchiveFileCollection(archive, this);
+
+			if (parent != null)
+			{
+				Name = directoryInfo.Name;
+				FullName = MakeFullName(parent, directoryInfo.Name);
+			}
 		}
 
 		public Task CopyInto(IArchiveDirectory destination, string name)
 		{
 			static void CopyIntoRecursive(FileSystemArchiveDirectory from, IArchiveDirectory to, string rename)
 			{
-				foreach (var file in from.Files)
+				foreach (var fromFile in from.Files)
 				{
-					var destFile = to.Files.GetFile(file.Name);
+					var toFile = to.Files.GetFile(fromFile.Name);
 
-					if (destFile is FileSystemArchiveFile fileSystemFile)
+					if (toFile is FileSystemArchiveFile toFileSystemFile)
 					{
-						file.FileInfo.CopyTo(fileSystemFile.FileInfo.FullName, true);
+						fromFile.FileInfo.CopyTo(toFileSystemFile.FileInfo.FullName, true);
 					}
 					else
 					{
-						using var openStream = file.OpenRead();
-						var dest = file.OpenWrite();
-						openStream.CopyTo(dest);
+						using var readStream = fromFile.OpenRead();
+						using var writeStream = toFile.OpenWrite();
+
+						readStream.CopyTo(writeStream);
 					}
 				}
-				foreach (var directory in from.Directories)
+				foreach (var childFromDirectory in from.Directories)
 				{
-					var destDirectory = to.Directories.GetDirectory(directory.Name);
+					var childToDirectory = to.Directories.GetDirectory(childFromDirectory.Name);
 
-					CopyIntoRecursive(directory, destDirectory, directory.Name);
+					CopyIntoRecursive(childFromDirectory, childToDirectory, childFromDirectory.Name);
 				}
 			}
 
@@ -70,6 +75,23 @@ namespace RPGCore.Packages.Archives
 		public Task MoveInto(IArchiveDirectory destination, string name)
 		{
 			throw new System.NotImplementedException();
+		}
+
+		private static string MakeFullName(IArchiveDirectory parent, string key)
+		{
+			if (parent == null || string.IsNullOrEmpty(parent.FullName))
+			{
+				return key;
+			}
+			else
+			{
+				return $"{parent.FullName}/{key}";
+			}
+		}
+
+		public override string ToString()
+		{
+			return FullName;
 		}
 	}
 }

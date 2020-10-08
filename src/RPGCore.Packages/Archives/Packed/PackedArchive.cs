@@ -30,7 +30,7 @@ namespace RPGCore.Packages.Archives
 					{
 						string element = elements[i];
 
-						placeDirectory = placeDirectory.Directories.GetOrCreateDirectory(element);
+						placeDirectory = placeDirectory.Directories.GetDirectory(element);
 					}
 
 					placeDirectory.Files.files.Add(new PackedArchiveFile(this, placeDirectory, zipEntry.Name));

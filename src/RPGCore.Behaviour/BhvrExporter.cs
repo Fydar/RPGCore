@@ -28,7 +28,7 @@ namespace RPGCore.Behaviour
 				node.Value.Editor = default;
 			}
 
-			var entry = destination.Files.GetFile($"data/{resource.FullName}");
+			var entry = destination.Files.GetFile(resource.Name);
 			using var zipStream = entry.OpenWrite();
 			using var streamWriter = new StreamWriter(zipStream);
 			serializer.Serialize(streamWriter, serializedGraph);

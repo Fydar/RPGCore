@@ -60,79 +60,91 @@ namespace RPGCore.Packages
 			WriteJsonDocument(tagsEntry, tagsDocument);
 
 			long currentProgress = 0;
-
 			var maxThread = new SemaphoreSlim(destination.Archive.MaximumWriteThreads);
 			var tasks = new List<Task>();
 			int failed = 0;
 
-			foreach (var resource in Project.Resources)
+			void ExportDirectory(ProjectDirectory projectDirectory, IArchiveDirectory writeDirectory)
 			{
-				maxThread.Wait();
-				tasks.Add(Task.Factory.StartNew(() =>
+				foreach (var childDirectory in projectDirectory.Directories)
 				{
-					var exporter = Pipeline.GetExporter(resource);
-					string contentName = $"data/{resource.FullName}";
-					string metadataName = $"data/{resource.FullName}.pkgmeta";
+					var childWriteDirectory = writeDirectory.Directories.GetDirectory(childDirectory.Name);
 
-					Pipeline.BuildActions.OnBeforeExportResource(this, resource);
+					ExportDirectory(childDirectory, childWriteDirectory);
+				}
 
-					if (exporter == null)
+				foreach (var resource in projectDirectory.Resources)
+				{
+					maxThread.Wait();
+					tasks.Add(Task.Factory.StartNew(() =>
 					{
-						// contentEntry = archive.CreateEntryFromFile(resource.Content.ArchiveEntry.FullName, contentName, CompressionLevel.Optimal);
+						var exporter = Pipeline.GetExporter(resource);
 
-						var contentEntry = destination.Files.GetFile(contentName);
+						string destinationContentKey = resource.Name;
+						string destinationMetadataKey = $"{resource.Name}.pkgmeta";
 
-						using var stream = resource.Content.LoadStream();
-						using var zipStream = contentEntry.OpenWrite();
+						Pipeline.BuildActions.OnBeforeExportResource(this, resource);
 
-						stream.CopyTo(zipStream);
-					}
-					else
-					{
-						try
+						if (exporter == null)
 						{
-							exporter.BuildResource(resource, destination);
+							var destinationContent = writeDirectory.Files.GetFile(destinationContentKey);
+
+							using var stream = resource.Content.LoadStream();
+							using var zipStream = destinationContent.OpenWrite();
+
+							stream.CopyTo(zipStream);
 						}
-						catch (Exception exception)
+						else
 						{
-							Console.WriteLine($"ERROR: Failed to export {resource.FullName}: {exception}");
-							failed++;
+							try
+							{
+								exporter.BuildResource(resource, writeDirectory);
+							}
+							catch (Exception exception)
+							{
+								Console.WriteLine($"ERROR: Failed to export {resource.FullName}: {exception}");
+								failed++;
+							}
 						}
-					}
 
-					var dependencies = new PackageResourceMetadataDependencyModel[resource.Dependencies.Count];
-					for (int i = 0; i < dependencies.Length; i++)
-					{
-						var dependency = resource.Dependencies[i];
-						dependencies[i] = new PackageResourceMetadataDependencyModel()
+						var dependencies = new PackageResourceMetadataDependencyModel[resource.Dependencies.Count];
+						for (int i = 0; i < dependencies.Length; i++)
 						{
-							Resource = dependency.Key
+							var dependency = resource.Dependencies[i];
+							dependencies[i] = new PackageResourceMetadataDependencyModel()
+							{
+								Resource = dependency.Key
+							};
+						}
+						var metadata = new PackageResourceMetadataModel()
+						{
+							Dependencies = dependencies
 						};
-					}
-					var metadata = new PackageResourceMetadataModel()
+
+						var metadataEntry = writeDirectory.Files.GetFile(destinationMetadataKey);
+						using (var zipStream = metadataEntry.OpenWrite())
+						using (var streamWriter = new StreamWriter(zipStream))
+						{
+							serializer.Serialize(streamWriter, metadata);
+						}
+
+						currentProgress += resource.UncompressedSize;
+						Progress = currentProgress / (double)Project.UncompressedSize;
+
+						Pipeline.BuildActions.OnAfterExportResource(this, resource);
+
+					}, TaskCreationOptions.LongRunning)
+					.ContinueWith((task) =>
 					{
-						Dependencies = dependencies
-					};
-
-					var metadataEntry = destination.Files.GetFile(metadataName);
-					using (var zipStream = metadataEntry.OpenWrite())
-					using (var streamWriter = new StreamWriter(zipStream))
-					{
-						serializer.Serialize(streamWriter, metadata);
-					}
-
-					currentProgress += resource.UncompressedSize;
-					Progress = currentProgress / (double)Project.UncompressedSize;
-
-					Pipeline.BuildActions.OnAfterExportResource(this, resource);
-
-				}, TaskCreationOptions.LongRunning)
-				.ContinueWith((task) =>
-				{
-					tasks.Remove(task);
-					return maxThread.Release();
-				}));
+						tasks.Remove(task);
+						return maxThread.Release();
+					}));
+				}
 			}
+
+			var dataArchiveDirectory = destination.Directories.GetDirectory("data");
+			ExportDirectory(Project.RootDirectory, dataArchiveDirectory);
+
 			Task.WaitAll(tasks.ToArray());
 
 			if (failed > 0)

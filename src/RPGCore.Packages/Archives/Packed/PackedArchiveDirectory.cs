@@ -27,11 +27,15 @@ namespace RPGCore.Packages.Archives
 		{
 			Archive = archive;
 			Parent = parent;
-			Name = name;
-			FullName = MakeFullName(parent, name);
 
 			Directories = new PackedArchiveDirectoryCollection(archive, this);
 			Files = new PackedArchiveFileCollection(archive, this);
+
+			if (parent != null)
+			{
+				Name = name;
+				FullName = MakeFullName(parent, name);
+			}
 		}
 
 		public Task CopyInto(IArchiveDirectory destination, string name)
@@ -62,9 +66,9 @@ namespace RPGCore.Packages.Archives
 			throw new System.NotImplementedException();
 		}
 
-		private static string MakeFullName(PackedArchiveDirectory parent, string key)
+		private static string MakeFullName(IArchiveDirectory parent, string key)
 		{
-			if (parent == null || parent.FullName == "")
+			if (parent == null || string.IsNullOrEmpty(parent.FullName))
 			{
 				return key;
 			}

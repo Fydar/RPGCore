@@ -86,9 +86,9 @@ namespace RPGCore.Packages.Archives
 			throw new System.NotImplementedException();
 		}
 
-		private static string MakeFullName(PackedArchiveDirectory parent, string key)
+		private static string MakeFullName(IArchiveDirectory parent, string key)
 		{
-			if (parent == null || parent.FullName == "")
+			if (parent == null || string.IsNullOrEmpty(parent.FullName))
 			{
 				return key;
 			}

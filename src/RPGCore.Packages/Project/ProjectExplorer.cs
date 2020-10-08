@@ -111,8 +111,10 @@ namespace RPGCore.Packages
 			{
 				foreach (var childDirectory in directory.Directories)
 				{
-					ImportDirectory(childDirectory,
-						new ProjectDirectory(childDirectory.Name, childDirectory.FullName, projectDirectory));
+					var childProjectDirectory = new ProjectDirectory(childDirectory.Name, childDirectory.FullName, projectDirectory);
+					projectDirectory.Directories.Add(childProjectDirectory);
+
+					ImportDirectory(childDirectory, childProjectDirectory);
 				}
 
 				foreach (var file in directory.Files)

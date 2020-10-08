@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Threading.Tasks;
 
 namespace RPGCore.Packages.Archives
@@ -31,18 +32,11 @@ namespace RPGCore.Packages.Archives
 			FileInfo = fileInfo;
 
 			Name = fileInfo.Name;
-			FullName = fileInfo.FullName
-				.Substring(archive.RootDirectoryInfo.FullName.Length + 1)
-				.Replace('\\', '/');
+			FullName = MakeFullName(parent, fileInfo.Name);
 			Extension = fileInfo.Extension;
 		}
 
 		Task IArchiveEntry.MoveInto(IArchiveDirectory destination, string name)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		Task IReadOnlyArchiveEntry.CopyInto(IArchiveDirectory destination, string name)
 		{
 			throw new System.NotImplementedException();
 		}
@@ -73,9 +67,37 @@ namespace RPGCore.Packages.Archives
 			return FileInfo.Open(FileMode.Create, FileAccess.Write);
 		}
 
-		public Task CopyInto(IArchiveDirectory destination, string name)
+		public async Task CopyInto(IArchiveDirectory destination, string name)
 		{
-			return null;
+			var toFile = destination.Files.GetFile(Name);
+
+			if (toFile is FileSystemArchiveFile toFileSystemFile)
+			{
+				FileInfo.CopyTo(toFileSystemFile.FileInfo.FullName, true);
+			}
+			if (toFile is PackedArchiveFile toParckedFile)
+			{
+				toParckedFile.Archive.ZipArchive.CreateEntryFromFile(FileInfo.FullName, toFile.FullName);
+			}
+			else
+			{
+				using var readStream = OpenRead();
+				using var writeStream = toFile.OpenWrite();
+
+				readStream.CopyTo(writeStream);
+			}
+		}
+
+		private static string MakeFullName(IArchiveDirectory parent, string key)
+		{
+			if (parent == null || string.IsNullOrEmpty(parent.FullName))
+			{
+				return key;
+			}
+			else
+			{
+				return $"{parent.FullName}/{key}";
+			}
 		}
 	}
 }
