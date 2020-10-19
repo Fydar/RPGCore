@@ -221,23 +221,21 @@ namespace RPGCore.Packages
 						maxThread.Wait();
 						tasks.Add(Task.Factory.StartNew(() =>
 						{
+							var updates = processor.ProcessImport(importProcessorContext, resource);
 
+							if (updates != null)
+							{
+								foreach (var update in updates)
+								{
+									ApplyUpdate(update);
+								}
+							}
 						}, TaskCreationOptions.LongRunning)
 						.ContinueWith((task) =>
 						{
 							tasks.Remove(task);
 							return maxThread.Release();
 						}));
-
-						var updates = processor.ProcessImport(importProcessorContext, resource);
-
-						if (updates != null)
-						{
-							foreach (var update in updates)
-							{
-								ApplyUpdate(update);
-							}
-						}
 					}
 
 					Task.WaitAll(tasks.ToArray());
