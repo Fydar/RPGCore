@@ -5,11 +5,13 @@ namespace RPGCore.Packages
 {
 	public interface IImportPipelineBuilder
 	{
-		List<ImportProcessor> Processors { get; }
-		List<ImportFilter> Filters { get; }
+		IReadOnlyList<IArchiveDirectoryImporter> DirectoryImporters { get; }
+		IReadOnlyList<IArchiveFileImporter> FileImporters { get; }
+		IReadOnlyList<IImportProcessor> ImportProcessors { get; }
 
 		ImportPipeline Build();
-		IImportPipelineBuilder UseFilter(ImportFilter importFilter);
-		IImportPipelineBuilder UseProcessor(ImportProcessor importProcessor);
+		IImportPipelineBuilder UseImporter(IArchiveDirectoryImporter directoryImporter);
+		IImportPipelineBuilder UseImporter(IArchiveFileImporter fileImporter);
+		IImportPipelineBuilder UseProcessor(IImportProcessor importProcessor);
 	}
 }

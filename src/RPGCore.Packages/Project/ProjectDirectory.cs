@@ -6,7 +6,6 @@ namespace RPGCore.Packages
 	{
 		public string Name { get; }
 		public string FullName { get; }
-
 		public ProjectDirectoryCollection Directories { get; }
 		public ProjectResourceCollection Resources { get; }
 		public IDirectory Parent { get; }
@@ -14,14 +13,27 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectoryCollection IDirectory.Directories => Directories;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IDirectory.Resources => Resources;
 
-		internal ProjectDirectory(string name, string fullName, ProjectDirectory parent)
+		internal ProjectDirectory(ProjectDirectory parent, string name)
 		{
-			Name = name;
-			FullName = fullName;
 			Parent = parent;
+			Name = name;
+
+			FullName = MakeFullName(parent, name);
 
 			Directories = new ProjectDirectoryCollection();
 			Resources = new ProjectResourceCollection();
+		}
+
+		private static string MakeFullName(IDirectory parent, string key)
+		{
+			if (parent == null || string.IsNullOrEmpty(parent.FullName))
+			{
+				return key;
+			}
+			else
+			{
+				return $"{parent.FullName}/{key}";
+			}
 		}
 	}
 }

@@ -11,14 +11,14 @@ namespace RPGCore.Packages
 	public class ProjectResourceTags : IResourceTags
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private readonly IReadOnlyList<string> importerTags;
+		internal readonly List<string> importerTags;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count => importerTags.Count;
 
-		internal ProjectResourceTags(ProjectResourceImporter projectResourceImporter)
+		internal ProjectResourceTags()
 		{
-			importerTags = projectResourceImporter.ImporterTags.ToList();
+			importerTags = new List<string>();
 		}
 
 		public bool Contains(string tag)

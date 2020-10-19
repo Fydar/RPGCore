@@ -3,15 +3,27 @@ using System.Collections.Generic;
 
 namespace RPGCore.Packages
 {
-	public class ImportPipelineBuilder : IImportPipelineBuilder
+	internal sealed class ImportPipelineBuilder : IImportPipelineBuilder
 	{
-		public List<ImportProcessor> Processors { get; }
-		public List<ImportFilter> Filters { get; }
+		internal List<IArchiveDirectoryImporter> DirectoryImporters { get; }
+		internal List<IArchiveFileImporter> FileImporters { get; }
+		internal List<IImportProcessor> ImportProcessors { get; }
+
+		IReadOnlyList<IArchiveDirectoryImporter> IImportPipelineBuilder.DirectoryImporters => DirectoryImporters;
+		IReadOnlyList<IArchiveFileImporter> IImportPipelineBuilder.FileImporters => FileImporters;
+		IReadOnlyList<IImportProcessor> IImportPipelineBuilder.ImportProcessors => ImportProcessors;
 
 		internal ImportPipelineBuilder()
 		{
-			Processors = new List<ImportProcessor>();
-			Filters = new List<ImportFilter>();
+			DirectoryImporters = new List<IArchiveDirectoryImporter>()
+			{
+				new DefaultArchiveDirectoryImporter()
+			};
+			FileImporters = new List<IArchiveFileImporter>()
+			{
+				new DefaultArchiveFileImporter()
+			};
+			ImportProcessors = new List<IImportProcessor>();
 		}
 
 		public ImportPipeline Build()
@@ -19,15 +31,21 @@ namespace RPGCore.Packages
 			return new ImportPipeline(this);
 		}
 
-		public IImportPipelineBuilder UseProcessor(ImportProcessor importProcessor)
+		public IImportPipelineBuilder UseImporter(IArchiveDirectoryImporter archiveDirectoryImporter)
 		{
-			Processors.Add(importProcessor);
+			DirectoryImporters.Add(archiveDirectoryImporter);
 			return this;
 		}
 
-		public IImportPipelineBuilder UseFilter(ImportFilter importFilter)
+		public IImportPipelineBuilder UseImporter(IArchiveFileImporter archiveFileImporter)
 		{
-			Filters.Add(importFilter);
+			FileImporters.Add(archiveFileImporter);
+			return this;
+		}
+
+		public IImportPipelineBuilder UseProcessor(IImportProcessor importProcessor)
+		{
+			ImportProcessors.Add(importProcessor);
 			return this;
 		}
 	}

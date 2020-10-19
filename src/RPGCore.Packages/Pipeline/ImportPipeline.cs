@@ -6,37 +6,59 @@ namespace RPGCore.Packages
 {
 	public class ImportPipeline
 	{
-		private List<ImportProcessor> processors { get; }
-		private List<ImportFilter> filters { get; }
+		private List<IArchiveDirectoryImporter> directoryImporters { get; }
+		private List<IArchiveFileImporter> fileImporters { get; }
+		internal List<IImportProcessor> importProcessors { get; }
 
 		internal ImportPipeline(ImportPipelineBuilder builder)
 		{
-			processors = builder.Processors;
-			filters = builder.Filters;
+			directoryImporters = builder.DirectoryImporters;
+			fileImporters = builder.FileImporters;
+			importProcessors = builder.ImportProcessors;
 		}
 
-		public bool IsResource(IArchiveFile file)
+		internal IEnumerable<ProjectResourceUpdate> ImportDirectory(ProjectExplorer projectExplorer, IArchiveDirectory archiveDirectory)
 		{
-			foreach (var filter in filters)
+			for (int i = directoryImporters.Count - 1; i >= 0; i--)
 			{
-				if (!filter.AllowFile(file))
+				var directoryImporter = directoryImporters[i];
+
+				if (directoryImporter.CanImport(archiveDirectory))
 				{
-					return false;
+					foreach (var update in directoryImporter.ImportDirectory(
+						new ArchiveDirectoryImporterContext()
+						{
+							Explorer = projectExplorer,
+							Source = archiveDirectory
+						}, archiveDirectory))
+					{
+						yield return update;
+					}
+					break;
 				}
 			}
-			return true;
 		}
 
-		public ProjectResource ImportResource(ProjectExplorer projectExplorer, ProjectDirectory directory, IArchiveFile archiveEntry, string projectKey)
+		internal IEnumerable<ProjectResourceUpdate> ImportFile(ProjectExplorer projectExplorer, IArchiveFile archiveFile)
 		{
-			var resourceImporter = new ProjectResourceImporter(projectExplorer, directory, archiveEntry, projectKey);
-
-			foreach (var importer in processors)
+			for (int i = fileImporters.Count - 1; i >= 0; i--)
 			{
-				importer.ProcessImport(resourceImporter);
-			}
+				var fileImporter = fileImporters[i];
 
-			return resourceImporter.Import();
+				if (fileImporter.CanImport(archiveFile))
+				{
+					foreach (var update in fileImporter.ImportFile(
+						new ArchiveFileImporterContext()
+						{
+							Explorer = projectExplorer,
+							Source = archiveFile
+						}, archiveFile))
+					{
+						yield return update;
+					}
+					break;
+				}
+			}
 		}
 
 		public static IImportPipelineBuilder Create()

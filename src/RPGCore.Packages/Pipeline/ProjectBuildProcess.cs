@@ -128,7 +128,7 @@ namespace RPGCore.Packages
 							serializer.Serialize(streamWriter, metadata);
 						}
 
-						currentProgress += resource.UncompressedSize;
+						currentProgress += resource.Content.UncompressedSize;
 						Progress = currentProgress / (double)Project.UncompressedSize;
 
 						Pipeline.BuildActions.OnAfterExportResource(this, resource);

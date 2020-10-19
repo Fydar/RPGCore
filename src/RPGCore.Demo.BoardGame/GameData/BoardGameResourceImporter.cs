@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Demo.BoardGame.Models;
+using RPGCore.Packages;
+using RPGCore.Packages.Archives;
 using RPGCore.Packages.Pipeline;
 using System.Collections.Generic;
 using System.IO;
@@ -10,16 +12,24 @@ namespace RPGCore.Demo.BoardGame
 	/// <summary>
 	/// Tags appropriate resources using it's directory.
 	/// </summary>
-	public class BoardGameResourceImporter : ImportProcessor
+	public class BoardGameResourceImporter : IArchiveFileImporter
 	{
-		public override void ProcessImport(ProjectResourceImporter importer)
+		public bool CanImport(IArchiveFile archiveFile)
 		{
-			if (importer.ArchiveEntry.FullName.Contains("buildings"))
-			{
-				importer.ImporterTags.Add("type-building");
+			return archiveFile.Extension == ".json";
+		}
 
-				var loaded = Load<BuildingTemplate>(importer);
-				importer.Dependencies.Register(loaded.PackIdentifier);
+		public IEnumerable<ProjectResourceUpdate> ImportFile(ArchiveFileImporterContext context, IArchiveFile archiveFile)
+		{
+			var update = context.AuthorUpdate(archiveFile.FullName)
+				.WithContent(archiveFile);
+
+			if (archiveFile.FullName.Contains("buildings"))
+			{
+				update.ImporterTags.Add("type-building");
+
+				var loaded = Load<BuildingTemplate>(archiveFile.FullName, archiveFile);
+				update.Dependencies.Register(loaded.PackIdentifier);
 
 				if (loaded.Recipe != null)
 				{
@@ -33,25 +43,25 @@ namespace RPGCore.Demo.BoardGame
 
 						if (!alreadyRegistered.Contains(resource))
 						{
-							importer.Dependencies.Register(resource);
+							update.Dependencies.Register(resource);
 							alreadyRegistered.Add(resource);
 						}
 					}
 				}
 			}
-			else if (importer.ArchiveEntry.FullName.Contains("resources"))
+			else if (archiveFile.FullName.Contains("resources"))
 			{
-				importer.ImporterTags.Add("type-resource");
+				update.ImporterTags.Add("type-resource");
 			}
-			else if (importer.ArchiveEntry.FullName.Contains("building-packs"))
+			else if (archiveFile.FullName.Contains("building-packs"))
 			{
-				importer.ImporterTags.Add("type-buildingpack");
+				update.ImporterTags.Add("type-buildingpack");
 			}
-			else if (importer.ArchiveEntry.FullName.Contains("gamerules"))
+			else if (archiveFile.FullName.Contains("gamerules"))
 			{
-				importer.ImporterTags.Add("type-gamerules");
+				update.ImporterTags.Add("type-gamerules");
 
-				var loaded = Load<GameRulesTemplate>(importer);
+				var loaded = Load<GameRulesTemplate>(archiveFile.FullName, archiveFile);
 
 				var alreadyRegistered = new List<string>();
 				foreach (string resource in loaded.SharedCards.Concat(loaded.PlayerCards))
@@ -63,23 +73,25 @@ namespace RPGCore.Demo.BoardGame
 
 					if (!alreadyRegistered.Contains(resource))
 					{
-						importer.Dependencies.Register(resource);
+						update.Dependencies.Register(resource);
 						alreadyRegistered.Add(resource);
 					}
 				}
 			}
+
+			yield return update;
 		}
 
-		private static TModel Load<TModel>(ProjectResourceImporter importer)
+		private static TModel Load<TModel>(string identifier, IArchiveFile importer)
 			where TModel : IResourceModel
 		{
 			var serializer = new JsonSerializer();
-			using var file = importer.ArchiveEntry.OpenRead();
+			using var file = importer.OpenRead();
 			using var sr = new StreamReader(file);
 			using var reader = new JsonTextReader(sr);
 
 			var model = serializer.Deserialize<TModel>(reader);
-			model.Identifier = importer.ProjectKey;
+			model.Identifier = identifier;
 			return model;
 		}
 	}

@@ -2,7 +2,7 @@
 
 namespace RPGCore.Packages.Pipeline
 {
-	public class ProjectResourceImporterDependency
+	public class ProjectResourceUpdateDependency
 	{
 		public string Resource { get; set; }
 		public DependencyFlags DependencyFlags { get; set; }

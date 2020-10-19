@@ -1,9 +1,12 @@
 using RPGCore.Packages.Archives;
+using RPGCore.Packages.Pipeline;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RPGCore.Packages
@@ -16,6 +19,8 @@ namespace RPGCore.Packages
 	/// </remarks>
 	public sealed class ProjectExplorer : IExplorer
 	{
+		public ImportPipeline ImportPipeline { get; private set; }
+
 		/// <summary>
 		/// <para>The source for this project explorer.</para>
 		/// </summary>
@@ -93,48 +98,89 @@ namespace RPGCore.Packages
 				}
 			}
 
-			var archive = new FileSystemArchive(new DirectoryInfo(projectPath));
+			var sourceArchive = new FileSystemArchive(new DirectoryInfo(projectPath));
 
 			var resources = new Dictionary<string, ProjectResource>();
 
-			var rootDirectiory = new ProjectDirectory("", "", null);
+			var rootDirectiory = new ProjectDirectory(null, null);
 
 			var projectExplorer = new ProjectExplorer
 			{
-				Archive = archive,
+				Archive = sourceArchive,
 				Definition = ProjectDefinition.Load(bprojPath),
 				Resources = new ProjectResourceCollection(resources),
-				RootDirectory = rootDirectiory
+				RootDirectory = rootDirectiory,
+				ImportPipeline = importPipeline
 			};
 
-			void ImportDirectory(IArchiveDirectory directory, ProjectDirectory projectDirectory)
-			{
-				foreach (var childDirectory in directory.Directories)
-				{
-					var childProjectDirectory = new ProjectDirectory(childDirectory.Name, childDirectory.FullName, projectDirectory);
-					projectDirectory.Directories.Add(childProjectDirectory);
+			// Organised temporary directory
+			var tempDirectory = new DirectoryInfo(Path.Combine(projectPath, "temp"));
+			tempDirectory.Create();
+			var tempArchive = new FileSystemArchive(tempDirectory);
 
-					ImportDirectory(childDirectory, childProjectDirectory);
+
+			void ApplyUpdate(ProjectResourceUpdate update)
+			{
+				string[] elements = update.ProjectKey.Split(new char[] { '/' });
+
+				var placementDirectory = rootDirectiory;
+				for (int i = 0; i < elements.Length - 1; i++)
+				{
+					string element = elements[i];
+
+					var parent = placementDirectory;
+					placementDirectory = placementDirectory.Directories[element];
+
+					if (placementDirectory == null)
+					{
+						placementDirectory = new ProjectDirectory(placementDirectory, element);
+						parent.Directories.Add(placementDirectory);
+					}
 				}
 
-				foreach (var file in directory.Files)
+				string fileName = elements[elements.Length - 1];
+
+				// Locate or create resource to apply updates to.
+				if (!placementDirectory.Resources.TryGetResource(fileName, out var projectResource))
 				{
-					if (file.FullName.StartsWith("bin/")
-						|| file.FullName.EndsWith(".bproj")
-						|| !importPipeline.IsResource(file))
+					projectResource = new ProjectResource(projectExplorer, placementDirectory, update.ProjectKey);
+
+					projectExplorer.Resources.Add(projectResource.FullName, projectResource);
+					placementDirectory.Resources.Add(projectResource.Name, projectResource);
+				}
+
+				// Apply updates to resource
+				projectResource.Tags.importerTags.AddRange(update.ImporterTags);
+
+				foreach (var importerDependency in update.Dependencies)
+				{
+					projectResource.Dependencies.dependencies.Add(
+						new ProjectResourceDependency(projectExplorer, importerDependency.Resource, importerDependency.Metadata));
+				}
+
+				if (update.FileContent != null)
+				{
+					projectResource.Content = new ProjectResourceContent(update.FileContent);
+				}
+				if (update.DeferredContent != null)
+				{
+					var tempFile = tempArchive.RootDirectory.Files.GetFile(Guid.NewGuid().ToString());
+
+					using (var tempOutput = tempFile.OpenWrite())
 					{
-						continue;
+						update.DeferredContent.WriteContentAsync(tempOutput).Wait();
 					}
-
-					var resource = importPipeline.ImportResource(projectExplorer, projectDirectory, file, file.FullName);
-
-					projectExplorer.Resources.Add(resource.FullName, resource);
-					projectDirectory.Resources.Add(resource.Name, resource);
+					projectResource.Content = new ProjectResourceContent(tempFile);
 				}
 			}
 
-			ImportDirectory(archive.RootDirectory, rootDirectiory);
+			// Import resources
+			foreach (var update in importPipeline.ImportDirectory(projectExplorer, sourceArchive.RootDirectory))
+			{
+				ApplyUpdate(update);
+			}
 
+			// Attach dependencies
 			foreach (var resource in projectExplorer.Resources)
 			{
 				foreach (var dependency in resource.Dependencies)
@@ -152,11 +198,57 @@ namespace RPGCore.Packages
 				}
 			}
 
+			// Process Resoures
+			var importProcessorContext = new ImportProcessorContext()
+			{
+				Explorer = projectExplorer
+			};
+			foreach (var processor in importPipeline.importProcessors)
+			{
+				var preExistingResources = new List<ProjectResource>();
+				foreach (var resource in projectExplorer.Resources)
+				{
+					preExistingResources.Add(resource);
+				}
+
+				foreach (var resource in preExistingResources)
+				{
+					var maxThread = new SemaphoreSlim(32);
+					var tasks = new List<Task>();
+
+					if (processor.CanProcess(resource))
+					{
+						maxThread.Wait();
+						tasks.Add(Task.Factory.StartNew(() =>
+						{
+
+						}, TaskCreationOptions.LongRunning)
+						.ContinueWith((task) =>
+						{
+							tasks.Remove(task);
+							return maxThread.Release();
+						}));
+
+						var updates = processor.ProcessImport(importProcessorContext, resource);
+
+						if (updates != null)
+						{
+							foreach (var update in updates)
+							{
+								ApplyUpdate(update);
+							}
+						}
+					}
+
+					Task.WaitAll(tasks.ToArray());
+				}
+			}
+
 			// Size Calculation
 			long uncompressedSize = 0;
 			foreach (var resource in projectExplorer.Resources)
 			{
-				uncompressedSize += resource.UncompressedSize;
+				uncompressedSize += resource.Content.UncompressedSize;
 			}
 			projectExplorer.UncompressedSize = uncompressedSize;
 

@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Packages.Pipeline;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace RPGCore.Packages.Extensions.MetaFiles
 {
-	public class JsonMetaFileImportProcessor : ImportProcessor
+	public class JsonMetaFileImportProcessor : IImportProcessor
 	{
 		private readonly JsonMetaFilesOptions options;
 
@@ -14,13 +15,20 @@ namespace RPGCore.Packages.Extensions.MetaFiles
 			this.options = options;
 		}
 
-		public override void ProcessImport(ProjectResourceImporter projectResource)
+		public bool CanProcess(IResource resource)
 		{
-			string metaPath = $"{projectResource.ArchiveEntry.FullName}{options.MetaFileSuffix}";
+			return true;
+		}
+
+		public IEnumerable<ProjectResourceUpdate> ProcessImport(ImportProcessorContext context, IResource resource)
+		{
+			string metaPath = $"{resource.FullName}{options.MetaFileSuffix}";
 			var metaFile = new FileInfo(metaPath);
 
 			if (metaFile.Exists)
 			{
+				var update = resource.AuthorUpdate();
+
 				JsonMetaFileModel metaFileModel;
 
 				var serializer = new JsonSerializer();
@@ -34,13 +42,15 @@ namespace RPGCore.Packages.Extensions.MetaFiles
 				{
 					foreach (string tag in metaFileModel.Tags)
 					{
-						projectResource.ImporterTags.Add(tag);
+						update.ImporterTags.Add(tag);
 					}
 				}
+
+				yield return update;
 			}
 			else if (!options.IsMetaFilesOptional)
 			{
-				Console.WriteLine($"Missing meta file for {projectResource.ArchiveEntry.FullName}");
+				Console.WriteLine($"Missing meta file for {resource.FullName}");
 			}
 		}
 	}

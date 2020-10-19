@@ -14,6 +14,21 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count => directories.Count;
 
+		public ProjectDirectory this[string key]
+		{
+			get
+			{
+				foreach (var directory in directories)
+				{
+					if (directory.Name == key)
+					{
+						return directory;
+					}
+				}
+				return null;
+			}
+		}
+
 		public ProjectDirectory this[int key] => directories[key];
 
 		IDirectory IReadOnlyList<IDirectory>.this[int key] => this[key];

@@ -4,6 +4,7 @@ using RPGCore.Packages.Archives;
 using RPGCore.Packages.Extensions.MetaFiles;
 using RPGCore.Packages.Pipeline;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -13,49 +14,6 @@ using System.Text;
 
 namespace RPGCore.Demo.BoardGame.CommandLine
 {
-	public class PngImageImporter : ImportProcessor
-	{
-		public override void ProcessImport(ProjectResourceImporter projectResource)
-		{
-			if (projectResource.ArchiveEntry.Extension == ".png")
-			{
-				using var stream = projectResource.ArchiveEntry.OpenRead();
-				using var bitmap = new Bitmap(stream);
-				Console.WriteLine(projectResource.ArchiveEntry.Name);
-
-				foreach (var propItem in bitmap.PropertyItems)
-				{
-					string sTag = "";
-					switch (propItem.Type)
-					{
-						case 1:
-							sTag = Encoding.Unicode.GetString(propItem.Value);
-							break;
-						case 2:
-							sTag = Encoding.ASCII.GetString(propItem.Value);
-							break;
-						case 3:
-							sTag = BitConverter.ToUInt16(propItem.Value, 0).ToString();
-							break;
-						case 4:
-							sTag = BitConverter.ToUInt32(propItem.Value, 0).ToString();
-							break;
-					}
-					string sItem = sTag.Replace("\0", string.Empty);
-
-					string name = "0x" + propItem.Id.ToString("x");
-
-					Console.WriteLine(name + ", " + propItem.Type + ", " + sItem);
-				}
-
-				foreach (var property in bitmap.PropertyItems)
-				{
-					// projectResource.ImporterTags.Add(Encoding.UTF8.GetString(property.Value));
-				}
-			}
-		}
-	}
-
 	public sealed class GameRunner
 	{
 		public LobbyView GameView { get; }
@@ -147,8 +105,7 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 		{
 			// Import the project
 			var importPipeline = ImportPipeline.Create()
-				.UseProcessor(new BoardGameResourceImporter())
-				.UseProcessor(new PngImageImporter())
+				.UseImporter(new BoardGameResourceImporter())
 				.UseJsonMetaFiles(options =>
 				{
 					options.IsMetaFilesOptional = true;

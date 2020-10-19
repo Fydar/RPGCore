@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace RPGCore.Packages.Pipeline
 {
-	public class ProjectResourceImporterDependencyCollection : IEnumerable<ProjectResourceImporterDependency>
+	public class ProjectResourceUpdateDependencyCollection : IEnumerable<ProjectResourceUpdateDependency>
 	{
-		private readonly ProjectResourceImporter projectResourceImporter;
+		private readonly ProjectResourceUpdate projectResourceImporter;
 
-		private readonly List<ProjectResourceImporterDependency> dependancies;
+		private readonly List<ProjectResourceUpdateDependency> dependancies;
 
-		internal ProjectResourceImporterDependencyCollection(ProjectResourceImporter projectResourceImporter)
+		internal ProjectResourceUpdateDependencyCollection(ProjectResourceUpdate projectResourceImporter)
 		{
 			this.projectResourceImporter = projectResourceImporter;
 
-			dependancies = new List<ProjectResourceImporterDependency>();
+			dependancies = new List<ProjectResourceUpdateDependency>();
 		}
 
 		public void Register(string resource, DependencyFlags dependencyFlags = DependencyFlags.None, Dictionary<string, string> metadata = null)
@@ -28,7 +28,7 @@ namespace RPGCore.Packages.Pipeline
 				}
 			}
 
-			dependancies.Add(new ProjectResourceImporterDependency()
+			dependancies.Add(new ProjectResourceUpdateDependency()
 			{
 				Resource = resource,
 				DependencyFlags = dependencyFlags,
@@ -36,7 +36,7 @@ namespace RPGCore.Packages.Pipeline
 			});
 		}
 
-		public IEnumerator<ProjectResourceImporterDependency> GetEnumerator()
+		public IEnumerator<ProjectResourceUpdateDependency> GetEnumerator()
 		{
 			return dependancies.GetEnumerator();
 		}
