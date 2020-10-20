@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using RPGCore.Behaviour;
+using RPGCore.Traits.UnitTests.Shared;
 
 namespace RPGCore.Traits.UnitTests
 {
@@ -14,7 +15,7 @@ namespace RPGCore.Traits.UnitTests
 				Name = "Current Health",
 				MaxValue = 1000
 			};
-			var instance = template.CreateInstance(CharacterTrait.MaxMana);
+			var instance = template.CreateInstance(StaticTraits.Mana.Maximum);
 
 			var static5 = new EventField<float>(5);
 			var changeFrom5to10 = new EventField<float>(5);
@@ -44,7 +45,7 @@ namespace RPGCore.Traits.UnitTests
 				Name = "Current Health",
 				MaxValue = 1000
 			};
-			var instance = template.CreateInstance(CharacterTrait.MaxMana);
+			var instance = template.CreateInstance(StaticTraits.Mana.Maximum);
 
 			var changingModifierValue = new EventField<float>(5);
 

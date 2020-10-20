@@ -29,7 +29,7 @@ namespace RPGCore.Traits
 
 		public override string ToString()
 		{
-			return $"{nameof(StatInstance)}({Identifier.ToString()})";
+			return $"{nameof(StatInstance)}({Identifier})";
 		}
 
 		private float CalculateValue()

@@ -48,7 +48,7 @@ namespace RPGCore.DataEditor
 
 				foreach (var field in Type.Fields)
 				{
-					var propertyToken = this.json[field.Key].Parent;
+					var propertyToken = json[field.Key].Parent;
 					var property = (JProperty)propertyToken;
 
 					Fields.Add(field.Key, new EditorField(Session, field.Value, property));

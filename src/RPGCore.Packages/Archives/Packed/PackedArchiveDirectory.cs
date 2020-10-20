@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO.Compression;
 using System.Threading.Tasks;
 
 namespace RPGCore.Packages.Archives

@@ -2,9 +2,7 @@
 using RPGCore.Packages;
 using RPGCore.Packages.Archives;
 using RPGCore.Packages.Extensions.MetaFiles;
-using RPGCore.Packages.Pipeline;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;

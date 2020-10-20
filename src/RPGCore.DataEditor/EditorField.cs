@@ -34,7 +34,7 @@ namespace RPGCore.DataEditor
 			}
 			else
 			{
-				var typeName = json.Parent["Type"].ToString();
+				string typeName = json.Parent["Type"].ToString();
 				FieldType = session.Manifest.GetTypeInformation(typeName);
 				if (FieldType == null)
 				{

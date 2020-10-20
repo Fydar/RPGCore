@@ -113,7 +113,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 		{
 			if (editorValue is EditorValue editableValue)
 			{
-				var rendered = editableValue.ToString();
+				string rendered = editableValue.ToString();
 				if (string.IsNullOrEmpty(rendered))
 				{
 					TestContext.Error.WriteLine("null");

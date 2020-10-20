@@ -10,7 +10,7 @@ namespace RPGCore.Demo.Inventory
 {
 	public sealed class Simulation
 	{
-		void RenderDirectory(IReadOnlyArchiveDirectory archiveDirectory, int indent = 0)
+		private void RenderDirectory(IReadOnlyArchiveDirectory archiveDirectory, int indent = 0)
 		{
 			string indentString = new string(' ', indent * 2);
 

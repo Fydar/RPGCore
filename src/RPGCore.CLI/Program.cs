@@ -1,6 +1,5 @@
 ﻿using RPGCore.CLI.Commands;
 using System.CommandLine;
-using System.CommandLine.Invocation;
 using System.Threading.Tasks;
 
 namespace RPGCore.CLI

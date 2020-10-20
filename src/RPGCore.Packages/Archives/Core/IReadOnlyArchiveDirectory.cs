@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace RPGCore.Packages.Archives
+﻿namespace RPGCore.Packages.Archives
 {
 	public interface IReadOnlyArchiveDirectory : IReadOnlyArchiveEntry
 	{

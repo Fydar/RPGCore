@@ -15,6 +15,8 @@ namespace RPGCore.Traits
 		[JsonProperty]
 		public EventCollection<StateIdentifier, StateInstance> States;
 
+		private readonly TraitContext traitContext;
+
 		public StatInstance this[StatIdentifier identifier]
 		{
 			get
@@ -24,7 +26,13 @@ namespace RPGCore.Traits
 					return null;
 				}
 
-				return Stats[identifier];
+				if (!Stats.TryGetValue(identifier, out var instance))
+				{
+					var template = traitContext.Stats[identifier];
+					instance = template.CreateInstance(identifier);
+					Stats.Add(identifier, instance);
+				}
+				return instance;
 			}
 		}
 
@@ -37,8 +45,22 @@ namespace RPGCore.Traits
 					return null;
 				}
 
-				return States[identifier];
+				if (!States.TryGetValue(identifier, out var instance))
+				{
+					var template = traitContext.States[identifier];
+					instance = template.CreateInstance(identifier);
+					States.Add(identifier, instance);
+				}
+				return instance;
 			}
+		}
+
+		public TraitCollection(TraitContext traitContext)
+		{
+			this.traitContext = traitContext;
+
+			Stats = new EventCollection<StatIdentifier, StatInstance>();
+			States = new EventCollection<StateIdentifier, StateInstance>();
 		}
 	}
 }
