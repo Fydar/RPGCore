@@ -1,6 +1,6 @@
 ﻿namespace RPGCore.Traits.UnitTests.Shared
 {
-	public class ResourceTraitTemplate : ITraitTemplate
+	public class ResourceTraitTemplate : ITraitIdentifierStructure
 	{
 		public StatIdentifier Maximum { get; }
 		public StatIdentifier RegenDelay { get; }

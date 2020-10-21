@@ -15,27 +15,27 @@
 		/// <example>
 		/// Example 1:
 		/// My attack is 100.
-		/// I add 2 <see cref="SimpleMultiplicative"/> modifiers of +10% each.
+		/// I add 2 <see cref="SumAndMultiply"/> modifiers of +10% each.
 		/// My attack is now 120.
 		/// 
 		/// Example 2:
 		/// My attack is 100.
-		/// I add 2 <see cref="SimpleMultiplicative"/> modifiers of +100% each.
+		/// I add 2 <see cref="SumAndMultiply"/> modifiers of +100% each.
 		/// My attack is now 300.
 		/// </example>
-		SimpleMultiplicative,
+		SumAndMultiply,
 
 		/// <example>
 		/// Example 1:
 		/// My attack is 100.
-		/// I add 2 <see cref="CompoundMultiplicative"/> modifiers of +10% each.
-		/// My attack is now 144.
+		/// I add 2 <see cref="Multiplicative"/> modifiers of +10% each.
+		/// My attack is now 121.
 		/// 
 		/// Example 2:
 		/// My attack is 100.
-		/// I add 2 <see cref="CompoundMultiplicative"/> modifiers of +100% each.
+		/// I add 2 <see cref="Multiplicative"/> modifiers of +100% each.
 		/// My attack is now 400.
 		/// </example>
-		CompoundMultiplicative
+		Multiplicative
 	}
 }

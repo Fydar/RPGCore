@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using RPGCore.Behaviour;
-using RPGCore.Traits.UnitTests.Shared;
 
 namespace RPGCore.Traits.UnitTests
 {
@@ -10,12 +9,14 @@ namespace RPGCore.Traits.UnitTests
 		[Test, Parallelizable]
 		public void UpdateFromModifierChanges()
 		{
+			StatIdentifier genericStat = "generic_stat";
+
 			var template = new StatTemplate()
 			{
-				Name = "Current Health",
+				Name = "Generic Stat",
 				MaxValue = 1000
 			};
-			var instance = template.CreateInstance(StaticTraits.Mana.Maximum);
+			var instance = template.CreateInstance(genericStat);
 
 			var static5 = new EventField<float>(5);
 			var changeFrom5to10 = new EventField<float>(5);
@@ -40,12 +41,14 @@ namespace RPGCore.Traits.UnitTests
 		[Test, Parallelizable]
 		public void UnsubscribeModifierWhenRemoved()
 		{
+			StatIdentifier genericStat = "generic_stat";
+
 			var template = new StatTemplate()
 			{
-				Name = "Current Health",
+				Name = "Generic Stat",
 				MaxValue = 1000
 			};
-			var instance = template.CreateInstance(StaticTraits.Mana.Maximum);
+			var instance = template.CreateInstance(genericStat);
 
 			var changingModifierValue = new EventField<float>(5);
 

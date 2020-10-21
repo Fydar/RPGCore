@@ -10,8 +10,5 @@ namespace RPGCore.Traits.UnitTests.Shared
 		{
 			new ElementalTraitsTemplate("character_fire")
 		};
-
-		public static StatIdentifier[] AllStats = TraitIdentifiers.AllStats(typeof(StaticTraits));
-		public static StateIdentifier[] AllStates = TraitIdentifiers.AllStates(typeof(StaticTraits));
 	}
 }

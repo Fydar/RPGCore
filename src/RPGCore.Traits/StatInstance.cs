@@ -98,7 +98,7 @@ namespace RPGCore.Traits
 							BaseAdditiveModifiers.Add(modifier);
 							break;
 
-						case StatModificationType.SimpleMultiplicative:
+						case StatModificationType.SumAndMultiply:
 							if (BaseSimpleModifiers == null)
 							{
 								BaseSimpleModifiers = new List<StatModifier>();
@@ -106,7 +106,7 @@ namespace RPGCore.Traits
 							BaseSimpleModifiers.Add(modifier);
 							break;
 
-						case StatModificationType.CompoundMultiplicative:
+						case StatModificationType.Multiplicative:
 							if (BaseCompoundModifiers == null)
 							{
 								BaseCompoundModifiers = new List<StatModifier>();
@@ -130,7 +130,7 @@ namespace RPGCore.Traits
 							AdditiveModifiers.Add(modifier);
 							break;
 
-						case StatModificationType.SimpleMultiplicative:
+						case StatModificationType.SumAndMultiply:
 							if (SimpleModifiers == null)
 							{
 								SimpleModifiers = new List<StatModifier>();
@@ -138,7 +138,7 @@ namespace RPGCore.Traits
 							SimpleModifiers.Add(modifier);
 							break;
 
-						case StatModificationType.CompoundMultiplicative:
+						case StatModificationType.Multiplicative:
 							if (CompoundModifiers == null)
 							{
 								CompoundModifiers = new List<StatModifier>();
@@ -179,7 +179,7 @@ namespace RPGCore.Traits
 							result = BaseAdditiveModifiers.Remove(modifier);
 							break;
 
-						case StatModificationType.SimpleMultiplicative:
+						case StatModificationType.SumAndMultiply:
 							if (BaseSimpleModifiers == null)
 							{
 								BaseSimpleModifiers = new List<StatModifier>();
@@ -187,7 +187,7 @@ namespace RPGCore.Traits
 							result = BaseSimpleModifiers.Remove(modifier);
 							break;
 
-						case StatModificationType.CompoundMultiplicative:
+						case StatModificationType.Multiplicative:
 							if (BaseCompoundModifiers == null)
 							{
 								BaseCompoundModifiers = new List<StatModifier>();
@@ -212,7 +212,7 @@ namespace RPGCore.Traits
 							result = AdditiveModifiers.Remove(modifier);
 							break;
 
-						case StatModificationType.SimpleMultiplicative:
+						case StatModificationType.SumAndMultiply:
 							if (SimpleModifiers == null)
 							{
 								SimpleModifiers = new List<StatModifier>();
@@ -220,7 +220,7 @@ namespace RPGCore.Traits
 							result = SimpleModifiers.Remove(modifier);
 							break;
 
-						case StatModificationType.CompoundMultiplicative:
+						case StatModificationType.Multiplicative:
 							if (CompoundModifiers == null)
 							{
 								CompoundModifiers = new List<StatModifier>();

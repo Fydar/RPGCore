@@ -1,6 +1,6 @@
 ﻿namespace RPGCore.Traits.UnitTests.Shared
 {
-	public class ElementalTraitsTemplate : ITraitTemplate
+	public class ElementalTraitsTemplate : ITraitIdentifierStructure
 	{
 		public StatIdentifier Proficiency { get; }
 		public StatIdentifier Resistance { get; }
