@@ -14,16 +14,16 @@ namespace RPGCore.Packages
 		{
 			get
 			{
-				string name = GetNodeForProperty("Name")?.InnerXml;
+				string name = GetNodeForProperty("Name")?.InnerText;
 				return name ?? file.Name.Replace(".bproj", "");
 			}
-			set => GetOrCreateNodeForProperty("Name").InnerXml = value;
+			set => GetOrCreateNodeForProperty("Name").InnerText = value;
 		}
 
 		public string Version
 		{
-			get => GetNodeForProperty("Version")?.InnerXml;
-			set => GetOrCreateNodeForProperty("Version").InnerXml = value;
+			get => GetNodeForProperty("Version")?.InnerText;
+			set => GetOrCreateNodeForProperty("Version").InnerText = value;
 		}
 
 		public ProjectDefinitionProperties(FileInfo file, XmlDocument document)

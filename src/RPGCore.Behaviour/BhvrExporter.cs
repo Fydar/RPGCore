@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 using RPGCore.Packages;
-using RPGCore.Packages.Archives;
+using RPGCore.FileTree;
 using System.IO;
 
 namespace RPGCore.Behaviour

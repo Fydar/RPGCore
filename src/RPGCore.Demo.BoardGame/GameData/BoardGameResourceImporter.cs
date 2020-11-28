@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Demo.BoardGame.Models;
 using RPGCore.Packages;
-using RPGCore.Packages.Archives;
+using RPGCore.FileTree;
 using RPGCore.Packages.Pipeline;
 using System.Collections.Generic;
 using System.IO;

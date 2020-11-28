@@ -34,6 +34,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RPGCore.FileTree\RPGCore.FileTree.csproj" />
+  </ItemGroup>
+
   <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
     <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Packages.dll Assets/RPGCore/Plugins' | true" />
     <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Packages.pdb Assets/RPGCore/Plugins' | true" />

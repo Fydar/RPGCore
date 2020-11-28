@@ -1,5 +1,8 @@
 using Newtonsoft.Json;
-using RPGCore.Packages.Archives;
+using RPGCore.FileTree;
+using RPGCore.FileTree.FileSystem;
+using RPGCore.FileTree.Packed;
+using RPGCore.FileTree;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;

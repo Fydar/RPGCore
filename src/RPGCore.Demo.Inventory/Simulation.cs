@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
 using RPGCore.Packages;
-using RPGCore.Packages.Archives;
+using RPGCore.FileTree;
 using System;
 using System.IO;
 using System.Threading;

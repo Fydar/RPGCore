@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Packages;
-using RPGCore.Packages.Archives;
+using RPGCore.FileTree;
 using System.IO;
 
 namespace RPGCore.Demo.BoardGame

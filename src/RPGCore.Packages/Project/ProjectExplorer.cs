@@ -1,4 +1,6 @@
-using RPGCore.Packages.Archives;
+using RPGCore.FileTree;
+using RPGCore.FileTree.FileSystem;
+using RPGCore.FileTree.Packed;
 using RPGCore.Packages.Pipeline;
 using System;
 using System.Collections.Generic;
@@ -112,7 +114,7 @@ namespace RPGCore.Packages
 				ImportPipeline = importPipeline
 			};
 
-			// Organised temporary directory
+			// Organise temporary directory
 			var tempDirectory = new DirectoryInfo(Path.Combine(projectPath, "temp"));
 			tempDirectory.Create();
 			var tempArchive = new FileSystemArchive(tempDirectory);

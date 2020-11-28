@@ -1,6 +1,6 @@
 ﻿using RPGCore.Behaviour;
+using RPGCore.FileTree.FileSystem;
 using RPGCore.Packages;
-using RPGCore.Packages.Archives;
 using RPGCore.Packages.Extensions.MetaFiles;
 using System;
 using System.Drawing;
@@ -191,7 +191,7 @@ namespace RPGCore.Demo.BoardGame.CommandLine
 			var packageExplorer = PackageExplorer.LoadFromFileAsync("BoardGame/Temp/BoardGame.bpkg").Result;
 
 			var dest = new FileSystemArchive(new DirectoryInfo("BoardGame/Temp"));
-			packageExplorer.Source.CopyInto(dest.RootDirectory, "Fast").Wait();
+			packageExplorer.Source.CopyIntoAsync(dest.RootDirectory, "Fast").Wait();
 
 			var cottage = packageExplorer.Resources["buildings/cottage.json"];
 

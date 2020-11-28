@@ -8,7 +8,7 @@ namespace RPGCore.Traits.UnitTests
 	public class TraitContextShould
 	{
 		[Test, Parallelizable]
-		public void ValidateAgainstStaticTemplates()
+		public void ValidateAgainstStaticShortcuts()
 		{
 			var context = TraitContext.Create()
 				.UseTraits(new Dictionary<StatIdentifier, StatTemplate>()
