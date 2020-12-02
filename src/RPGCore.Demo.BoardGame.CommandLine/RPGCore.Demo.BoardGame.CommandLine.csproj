@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Demo.BoardGame\RPGCore.Demo.BoardGame.csproj" />
+    <ProjectReference Include="..\RPGCore.Projects\RPGCore.Projects.csproj" />
   </ItemGroup>
 
 </Project>

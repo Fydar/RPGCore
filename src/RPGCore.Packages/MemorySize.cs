@@ -7,7 +7,7 @@ namespace RPGCore.Packages
 	/// <summary>
 	/// A simple structure that formats for bytes.
 	/// </summary>
-	internal struct MemorySize : IEquatable<MemorySize>, IComparable<MemorySize>, IFormattable
+	public struct MemorySize : IEquatable<MemorySize>, IComparable<MemorySize>, IFormattable
 	{
 		public const ulong Denomination = 1000;
 

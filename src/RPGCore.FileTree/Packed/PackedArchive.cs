@@ -33,7 +33,7 @@ namespace RPGCore.FileTree.Packed
 					{
 						string element = elements[i];
 
-						placeDirectory = placeDirectory.Directories.GetDirectory(element);
+						placeDirectory = placeDirectory.Directories.GetOrCreateDirectory(element);
 					}
 
 					placeDirectory.Files.internalList.Add(new PackedArchiveFile(this, placeDirectory, zipEntry.Name));

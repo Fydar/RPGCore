@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
-using RPGCore.Packages;
 using RPGCore.FileTree;
+using RPGCore.Packages;
+using RPGCore.Projects;
 using System;
 using System.IO;
 using System.Threading;
@@ -14,7 +15,7 @@ namespace RPGCore.Demo.Inventory
 		{
 			string indentString = new string(' ', indent * 2);
 
-			foreach (var subdirectory in archiveDirectory.Directories)
+			foreach (var subdirectory in archiveDirectory.Directories.All)
 			{
 				Console.WriteLine($"{indentString}> {subdirectory.Name}");
 				RenderDirectory(subdirectory, indent + 1);

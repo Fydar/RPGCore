@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RPGCore.FileTree.Packed
 {
@@ -9,6 +9,12 @@ namespace RPGCore.FileTree.Packed
 		private readonly PackedArchiveDirectory owner;
 		internal readonly List<PackedArchiveDirectory> internalList;
 
+		public IEnumerable<PackedArchiveDirectory> All => internalList;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IArchiveDirectory> IArchiveDirectoryCollection.All => internalList;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IReadOnlyArchiveDirectory> IReadOnlyArchiveDirectoryCollection.All => internalList;
+
 		public PackedArchiveDirectoryCollection(PackedArchive archive, PackedArchiveDirectory owner)
 		{
 			this.archive = archive;
@@ -16,6 +22,7 @@ namespace RPGCore.FileTree.Packed
 
 			internalList = new List<PackedArchiveDirectory>();
 		}
+
 
 		public PackedArchiveDirectory GetDirectory(string key)
 		{
@@ -26,30 +33,19 @@ namespace RPGCore.FileTree.Packed
 					return directory;
 				}
 			}
-
-			var newDirectory = new PackedArchiveDirectory(archive, owner, key);
-			internalList.Add(newDirectory);
-			return newDirectory;
+			return null;
 		}
 
-		public IEnumerator<PackedArchiveDirectory> GetEnumerator()
+		public PackedArchiveDirectory GetOrCreateDirectory(string key)
 		{
-			return internalList.GetEnumerator();
-		}
+			var directory = GetDirectory(key);
 
-		IEnumerator<IReadOnlyArchiveDirectory> IEnumerable<IReadOnlyArchiveDirectory>.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-
-		IEnumerator<IArchiveDirectory> IArchiveDirectoryCollection.GetEnumerator()
-		{
-			return internalList.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
+			if (directory == null)
+			{
+				directory = new PackedArchiveDirectory(archive, owner, key);
+				internalList.Add(directory);
+			}
+			return directory;
 		}
 
 		IReadOnlyArchiveDirectory IReadOnlyArchiveDirectoryCollection.GetDirectory(string key)
@@ -60,6 +56,11 @@ namespace RPGCore.FileTree.Packed
 		IArchiveDirectory IArchiveDirectoryCollection.GetDirectory(string key)
 		{
 			return GetDirectory(key);
+		}
+
+		IArchiveDirectory IArchiveDirectoryCollection.GetOrCreateDirectory(string key)
+		{
+			return GetOrCreateDirectory(key);
 		}
 	}
 }

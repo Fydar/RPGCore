@@ -1,7 +1,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RPGCore.Packages;
 using RPGCore.FileTree;
+using RPGCore.Packages;
+using RPGCore.Projects;
 using System.IO;
 
 namespace RPGCore.Demo.BoardGame
@@ -28,7 +29,7 @@ namespace RPGCore.Demo.BoardGame
 			}
 
 
-			var entry = destination.Files.GetFile($"data/{resource.FullName}");
+			var entry = destination.Files.GetOrCreateFile($"data/{resource.FullName}");
 			using var zipStream = entry.OpenWrite();
 			using var streamWriter = new StreamWriter(zipStream);
 			serializer.Serialize(streamWriter, document);

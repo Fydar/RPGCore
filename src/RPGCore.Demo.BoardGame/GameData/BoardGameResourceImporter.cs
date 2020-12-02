@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Demo.BoardGame.Models;
-using RPGCore.Packages;
 using RPGCore.FileTree;
-using RPGCore.Packages.Pipeline;
+using RPGCore.Projects;
+using RPGCore.Projects.Pipeline;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

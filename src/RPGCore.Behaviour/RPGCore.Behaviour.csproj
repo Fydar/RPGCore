@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
+    <ProjectReference Include="..\RPGCore.Projects\RPGCore.Projects.csproj" />
   </ItemGroup>
 
   <Target Name="PostCompileTarget" AfterTargets="AfterBuild">

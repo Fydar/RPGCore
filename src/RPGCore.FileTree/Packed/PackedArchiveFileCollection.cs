@@ -17,6 +17,19 @@ namespace RPGCore.FileTree.Packed
 			internalList = new List<PackedArchiveFile>();
 		}
 
+		public PackedArchiveFile GetFile(string key)
+		{
+			foreach (var file in internalList)
+			{
+				if (file.Name == key)
+				{
+					return file;
+				}
+			}
+
+			return null;
+		}
+
 		public PackedArchiveFile GetOrCreateFile(string key)
 		{
 			foreach (var file in internalList)
@@ -54,10 +67,15 @@ namespace RPGCore.FileTree.Packed
 
 		IReadOnlyArchiveFile IReadOnlyArchiveFileCollection.GetFile(string key)
 		{
-			return GetOrCreateFile(key);
+			return GetFile(key);
 		}
 
 		IArchiveFile IArchiveFileCollection.GetFile(string key)
+		{
+			return GetFile(key);
+		}
+
+		IArchiveFile IArchiveFileCollection.GetOrCreateFile(string key)
 		{
 			return GetOrCreateFile(key);
 		}

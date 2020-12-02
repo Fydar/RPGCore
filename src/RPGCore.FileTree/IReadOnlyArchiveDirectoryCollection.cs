@@ -2,8 +2,10 @@
 
 namespace RPGCore.FileTree
 {
-	public interface IReadOnlyArchiveDirectoryCollection : IEnumerable<IReadOnlyArchiveDirectory>
+	public interface IReadOnlyArchiveDirectoryCollection
 	{
+		IEnumerable<IReadOnlyArchiveDirectory> All { get; }
+
 		IReadOnlyArchiveDirectory GetDirectory(string key);
 	}
 }

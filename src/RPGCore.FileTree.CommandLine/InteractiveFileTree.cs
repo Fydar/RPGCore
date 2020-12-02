@@ -50,7 +50,7 @@ namespace RPGCore.FileTree.CommandLine
 
 		private static void DrawTreeRecursive(IReadOnlyArchiveDirectory archiveDirectory, string linePrefix)
 		{
-			foreach (var directory in archiveDirectory.Directories.OrderBy(d => d.Name))
+			foreach (var directory in archiveDirectory.Directories.All.OrderBy(d => d.Name))
 			{
 				Console.WriteLine($"{linePrefix} |- {directory.Name}");
 

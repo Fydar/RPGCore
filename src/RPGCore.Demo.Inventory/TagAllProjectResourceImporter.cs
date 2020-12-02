@@ -1,5 +1,6 @@
 ﻿using RPGCore.Packages;
-using RPGCore.Packages.Pipeline;
+using RPGCore.Projects;
+using RPGCore.Projects.Pipeline;
 using System.Collections.Generic;
 
 namespace RPGCore.Demo.Inventory

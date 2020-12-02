@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace RPGCore.FileTree.FileSystem
@@ -9,6 +9,12 @@ namespace RPGCore.FileTree.FileSystem
 		private readonly FileSystemArchive archive;
 		private readonly FileSystemArchiveDirectory owner;
 		internal readonly List<FileSystemArchiveDirectory> internalList;
+		public IEnumerable<FileSystemArchiveDirectory> All => internalList;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IArchiveDirectory> IArchiveDirectoryCollection.All => internalList;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IReadOnlyArchiveDirectory> IReadOnlyArchiveDirectoryCollection.All => internalList;
+
 
 		public FileSystemArchiveDirectoryCollection(FileSystemArchive archive, FileSystemArchiveDirectory owner)
 		{
@@ -35,24 +41,21 @@ namespace RPGCore.FileTree.FileSystem
 			return null;
 		}
 
+		public FileSystemArchiveDirectory GetOrCreateDirectory(string key)
+		{
+			var directory = GetDirectory(key);
+
+			if (directory == null)
+			{
+				var directoryPath = new DirectoryInfo(Path.Combine(owner.directoryInfo.FullName, key));
+				directory = new FileSystemArchiveDirectory(archive, owner, directoryPath);
+			}
+			return directory;
+		}
+
 		public IEnumerator<FileSystemArchiveDirectory> GetEnumerator()
 		{
 			return internalList.GetEnumerator();
-		}
-
-		IEnumerator<IReadOnlyArchiveDirectory> IEnumerable<IReadOnlyArchiveDirectory>.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-
-		IEnumerator<IArchiveDirectory> IArchiveDirectoryCollection.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
 		}
 
 		IReadOnlyArchiveDirectory IReadOnlyArchiveDirectoryCollection.GetDirectory(string key)
@@ -63,6 +66,11 @@ namespace RPGCore.FileTree.FileSystem
 		IArchiveDirectory IArchiveDirectoryCollection.GetDirectory(string key)
 		{
 			return GetDirectory(key);
+		}
+
+		IArchiveDirectory IArchiveDirectoryCollection.GetOrCreateDirectory(string key)
+		{
+			return GetOrCreateDirectory(key);
 		}
 	}
 }

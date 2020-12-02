@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "RPGCore.Packages.UnitTests": {
+      "commandName": "Project"
+    }
+  }
+}

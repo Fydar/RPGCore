@@ -52,6 +52,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.FileTree.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.FileTree.CommandLine", "RPGCore.FileTree.CommandLine\RPGCore.FileTree.CommandLine.csproj", "{D649A300-7BA5-42A3-83C2-8BC0D6196C9F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Projects.UnitTests", "RPGCore.Projects.UnitTests\RPGCore.Projects.UnitTests.csproj", "{0A27C2F5-CFE0-423C-A07C-289CD0876008}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Projects", "RPGCore.Projects\RPGCore.Projects.csproj", "{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -235,6 +239,22 @@ Global
 		{D649A300-7BA5-42A3-83C2-8BC0D6196C9F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D649A300-7BA5-42A3-83C2-8BC0D6196C9F}.Release|x64.ActiveCfg = Release|Any CPU
 		{D649A300-7BA5-42A3-83C2-8BC0D6196C9F}.Release|x64.Build.0 = Release|Any CPU
+		{0A27C2F5-CFE0-423C-A07C-289CD0876008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A27C2F5-CFE0-423C-A07C-289CD0876008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A27C2F5-CFE0-423C-A07C-289CD0876008}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0A27C2F5-CFE0-423C-A07C-289CD0876008}.Debug|x64.Build.0 = Debug|Any CPU
+		{0A27C2F5-CFE0-423C-A07C-289CD0876008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A27C2F5-CFE0-423C-A07C-289CD0876008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A27C2F5-CFE0-423C-A07C-289CD0876008}.Release|x64.ActiveCfg = Release|Any CPU
+		{0A27C2F5-CFE0-423C-A07C-289CD0876008}.Release|x64.Build.0 = Release|Any CPU
+		{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}.Debug|x64.Build.0 = Debug|Any CPU
+		{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}.Release|x64.ActiveCfg = Release|Any CPU
+		{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

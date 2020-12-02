@@ -4,6 +4,7 @@ using RPGCore.Behaviour;
 using RPGCore.DataEditor;
 using RPGCore.DataEditor.Manifest;
 using RPGCore.Packages;
+using RPGCore.Projects;
 using System;
 using System.IO;
 using System.Threading;

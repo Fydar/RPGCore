@@ -49,7 +49,7 @@ namespace RPGCore.FileTree.Packed
 					var dest = file.OpenWrite();
 					openStream.CopyTo(dest);
 				}
-				foreach (var directory in from.Directories)
+				foreach (var directory in from.Directories.All)
 				{
 					var destDirectory = to.Directories.GetDirectory(directory.Name);
 
