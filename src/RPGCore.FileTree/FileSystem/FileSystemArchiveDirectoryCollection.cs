@@ -31,8 +31,9 @@ namespace RPGCore.FileTree.FileSystem
 
 		public FileSystemArchiveDirectory GetDirectory(string key)
 		{
-			foreach (var directory in internalList)
+			for (int i = 0; i < internalList.Count; i++)
 			{
+				var directory = internalList[i];
 				if (directory.Name == key)
 				{
 					return directory;
@@ -47,8 +48,9 @@ namespace RPGCore.FileTree.FileSystem
 
 			if (directory == null)
 			{
-				var directoryPath = new DirectoryInfo(Path.Combine(owner.directoryInfo.FullName, key));
-				directory = new FileSystemArchiveDirectory(archive, owner, directoryPath);
+				var directoryInfo = new DirectoryInfo(Path.Combine(owner.directoryInfo.FullName, key));
+				directoryInfo.Create();
+				directory = new FileSystemArchiveDirectory(archive, owner, directoryInfo);
 			}
 			return directory;
 		}

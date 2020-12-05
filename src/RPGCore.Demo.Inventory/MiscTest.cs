@@ -32,7 +32,7 @@ namespace RPGCore.Demo.Inventory
 			}
 
 			var editorTargetResource = proj.Resources["Fireball/Main.json"];
-			var editorTargetData = editorTargetResource.Content.LoadStream();
+			var editorTargetData = editorTargetResource.Content.OpenRead();
 
 			JObject editorTarget;
 
@@ -96,7 +96,7 @@ namespace RPGCore.Demo.Inventory
 			var exportedPackage = PackageExplorer.LoadFromFileAsync("Content/Temp/Core.bpkg").Result;
 
 			var fireballAsset = exportedPackage.Resources["Fireball/Main.json"];
-			var data = fireballAsset.Content.LoadStream();
+			var data = fireballAsset.Content.OpenRead();
 
 			SerializedGraph packageItem;
 

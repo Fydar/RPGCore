@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 namespace RPGCore.FileTree.Packed
 {
+	[DebuggerDisplay("Count = {Count,nq}")]
+	[DebuggerTypeProxy(typeof(PackedArchiveDirectoryDebugView))]
 	public class PackedArchiveDirectory : IArchiveDirectory
 	{
 		public string Name { get; }
@@ -11,6 +13,14 @@ namespace RPGCore.FileTree.Packed
 		public PackedArchiveDirectory Parent { get; }
 		public PackedArchiveDirectoryCollection Directories { get; }
 		public PackedArchiveFileCollection Files { get; }
+
+		private int Count
+		{
+			get
+			{
+				return Directories.internalList.Count + Files.internalList.Count;
+			}
+		}
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectoryCollection IArchiveDirectory.Directories => Directories;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveFileCollection IArchiveDirectory.Files => Files;
@@ -74,6 +84,72 @@ namespace RPGCore.FileTree.Packed
 			else
 			{
 				return $"{parent.FullName}/{key}";
+			}
+		}
+
+		public override string ToString()
+		{
+			return FullName ?? "";
+		}
+
+		private class PackedArchiveDirectoryDebugView
+		{
+			[DebuggerDisplay("{Value}", Name = "{Key}")]
+			internal struct DebuggerRow
+			{
+				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+				public string Key;
+
+				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+				public IArchiveEntry Value;
+
+				public DebuggerRow(string key, IArchiveEntry value)
+				{
+					Key = key;
+					Value = value;
+				}
+			}
+
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private readonly PackedArchiveDirectory source;
+
+			public PackedArchiveDirectoryDebugView(PackedArchiveDirectory source)
+			{
+				this.source = source;
+			}
+
+			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+			public DebuggerRow[] Keys
+			{
+				get
+				{
+					bool hasParent = source.Parent != null;
+
+					int count = source.Directories.internalList.Count
+						+ source.Files.internalList.Count
+						+ (hasParent ? 1 : 0);
+
+					var keys = new DebuggerRow[count];
+
+					int i = 0;
+
+					if (hasParent)
+					{
+						keys[i] = new DebuggerRow("..", source.Parent);
+						i++;
+					}
+					foreach (var directory in source.Directories.All)
+					{
+						keys[i] = new DebuggerRow(directory.Name, directory);
+						i++;
+					}
+					foreach (var file in source.Files)
+					{
+						keys[i] = new DebuggerRow(file.Name, file);
+						i++;
+					}
+					return keys;
+				}
 			}
 		}
 	}

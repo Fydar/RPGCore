@@ -14,5 +14,10 @@ namespace RPGCore.Packages
 		{
 			Properties = properties;
 		}
+
+		public override string ToString()
+		{
+			return $"{Properties.Name}, Version={Properties.Version}";
+		}
 	}
 }

@@ -30,12 +30,10 @@ namespace RPGCore.Packages
 			Dependencies = new PackageResourceDependencies(packageExplorer, metadataModel);
 			Tags = new PackageResourceTags();
 
-			Name = contentEntry.Name;
+			Name = metadataModel.Name;
+			FullName = metadataModel.FullName;
 
-			string withoutData = contentEntry.FullName.Substring(5);
-			FullName = withoutData;
-
-			Content = new PackageResourceContent(packageExplorer, contentEntry.FullName, contentEntry);
+			Content = new PackageResourceContent(contentEntry);
 
 			int dotIndex = contentEntry.FullName.LastIndexOf('.');
 			Extension = dotIndex != -1

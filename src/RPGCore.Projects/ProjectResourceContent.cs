@@ -38,7 +38,7 @@ namespace RPGCore.Projects
 			return result;
 		}
 
-		public Stream LoadStream()
+		public Stream OpenRead()
 		{
 			return ArchiveEntry.OpenRead();
 		}

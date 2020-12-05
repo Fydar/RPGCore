@@ -25,8 +25,9 @@ namespace RPGCore.FileTree.FileSystem
 
 		public FileSystemArchiveFile GetFile(string key)
 		{
-			foreach (var file in internalList)
+			for (int i = 0; i < internalList.Count; i++)
 			{
+				var file = internalList[i];
 				if (file.Name == key)
 				{
 					return file;
@@ -37,19 +38,17 @@ namespace RPGCore.FileTree.FileSystem
 
 		public FileSystemArchiveFile GetOrCreateFile(string key)
 		{
-			foreach (var file in internalList)
+			var file = GetFile(key);
+
+			if (file == null)
 			{
-				if (file.Name == key)
-				{
-					return file;
-				}
+				var info = new FileInfo(Path.Combine(owner.directoryInfo.FullName, key));
+				// info.Create();
+				file = new FileSystemArchiveFile(archive, owner, info);
+				internalList.Add(file);
 			}
 
-			var info = new FileInfo(Path.Combine(archive.RootDirectoryInfo.FullName, key));
-			info.Create();
-			internalList.Add(new FileSystemArchiveFile(archive, owner, info));
-
-			return null;
+			return file;
 		}
 
 		public IEnumerator<FileSystemArchiveFile> GetEnumerator()

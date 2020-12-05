@@ -34,8 +34,8 @@ namespace RPGCore.Packages
 		internal PackageResourceDependencies(PackageExplorer packageExplorer, PackageResourceMetadataModel metadataModel)
 		{
 			this.packageExplorer = packageExplorer;
-			dependencies = new List<PackageResourceDependency>();
 
+			dependencies = new List<PackageResourceDependency>();
 			if (metadataModel.Dependencies != null)
 			{
 				foreach (var importerDependency in metadataModel.Dependencies)

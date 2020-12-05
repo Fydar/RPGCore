@@ -18,7 +18,7 @@ namespace RPGCore.Behaviour
 			var serializer = new JsonSerializer();
 			SerializedGraph serializedGraph;
 
-			using (var sr = new StreamReader(resource.Content.LoadStream()))
+			using (var sr = new StreamReader(resource.Content.OpenRead()))
 			using (var reader = new JsonTextReader(sr))
 			{
 				serializedGraph = serializer.Deserialize<SerializedGraph>(reader);

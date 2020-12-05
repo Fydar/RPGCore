@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace RPGCore.FileTree.FileSystem
 {
+	[DebuggerDisplay("Count = {Count,nq}")]
+	[DebuggerTypeProxy(typeof(FileSystemArchiveDirectoryDebugView))]
 	public class FileSystemArchiveDirectory : IArchiveDirectory
 	{
 		internal readonly DirectoryInfo directoryInfo;
@@ -14,6 +16,14 @@ namespace RPGCore.FileTree.FileSystem
 		public FileSystemArchiveDirectory Parent { get; internal set; }
 		public FileSystemArchiveDirectoryCollection Directories { get; }
 		public FileSystemArchiveFileCollection Files { get; }
+
+		private int Count
+		{
+			get
+			{
+				return Directories.internalList.Count + Files.internalList.Count;
+			}
+		}
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectoryCollection IArchiveDirectory.Directories => Directories;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveFileCollection IArchiveDirectory.Files => Files;
@@ -31,14 +41,14 @@ namespace RPGCore.FileTree.FileSystem
 			Parent = parent;
 			this.directoryInfo = directoryInfo;
 
-			Directories = new FileSystemArchiveDirectoryCollection(archive, this);
-			Files = new FileSystemArchiveFileCollection(archive, this);
-
 			if (parent != null)
 			{
 				Name = directoryInfo.Name;
 				FullName = MakeFullName(parent, directoryInfo.Name);
 			}
+
+			Directories = new FileSystemArchiveDirectoryCollection(archive, this);
+			Files = new FileSystemArchiveFileCollection(archive, this);
 		}
 
 		public Task CopyIntoAsync(IArchiveDirectory destination, string name)
@@ -94,6 +104,67 @@ namespace RPGCore.FileTree.FileSystem
 		public override string ToString()
 		{
 			return FullName;
+		}
+
+		private class FileSystemArchiveDirectoryDebugView
+		{
+			[DebuggerDisplay("{Value}", Name = "{Key}")]
+			internal struct DebuggerRow
+			{
+				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+				public string Key;
+
+				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+				public IArchiveEntry Value;
+
+				public DebuggerRow(string key, IArchiveEntry value)
+				{
+					Key = key;
+					Value = value;
+				}
+			}
+
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private readonly FileSystemArchiveDirectory source;
+
+			public FileSystemArchiveDirectoryDebugView(FileSystemArchiveDirectory source)
+			{
+				this.source = source;
+			}
+
+			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+			public DebuggerRow[] Keys
+			{
+				get
+				{
+					bool hasParent = source.Parent != null;
+
+					int count = source.Directories.internalList.Count
+						+ source.Files.internalList.Count
+						+ (hasParent ? 1 : 0);
+
+					var keys = new DebuggerRow[count];
+
+					int i = 0;
+
+					if (hasParent)
+					{
+						keys[i] = new DebuggerRow("..", source.Parent);
+						i++;
+					}
+					foreach (var directory in source.Directories)
+					{
+						keys[i] = new DebuggerRow(directory.Name, directory);
+						i++;
+					}
+					foreach (var file in source.Files)
+					{
+						keys[i] = new DebuggerRow(file.Name, file);
+						i++;
+					}
+					return keys;
+				}
+			}
 		}
 	}
 }

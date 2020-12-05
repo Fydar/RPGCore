@@ -61,7 +61,7 @@ namespace RPGCore.Demo.BoardGame
 		{
 			var serializer = new JsonSerializer();
 
-			using var data = resource.Content.LoadStream();
+			using var data = resource.Content.OpenRead();
 			using var sr = new StreamReader(data);
 			using var reader = new JsonTextReader(sr);
 

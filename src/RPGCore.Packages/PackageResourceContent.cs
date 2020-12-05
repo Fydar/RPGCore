@@ -1,7 +1,6 @@
 using RPGCore.FileTree;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace RPGCore.Packages
 {
@@ -9,38 +8,18 @@ namespace RPGCore.Packages
 	public sealed class PackageResourceContent : IResourceContent
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly PackageExplorer packageExplorer;
+		private readonly IReadOnlyArchiveFile zipArchiveEntry;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly string contentKey;
+		public long UncompressedSize => zipArchiveEntry.UncompressedSize;
 
-		public long CompressedSize { get; }
-		public long UncompressedSize { get; }
-
-		internal PackageResourceContent(PackageExplorer packageExplorer, string contentKey, IReadOnlyArchiveFile zipArchiveEntry)
+		internal PackageResourceContent(IReadOnlyArchiveFile zipArchiveEntry)
 		{
-			this.packageExplorer = packageExplorer;
-			this.contentKey = contentKey;
-
-			CompressedSize = 0;
-			UncompressedSize = 0;
+			this.zipArchiveEntry = zipArchiveEntry;
 		}
 
-		public Stream LoadStream()
+		public Stream OpenRead()
 		{
-			return packageExplorer.LoadStream(contentKey);
-		}
-
-		public byte[] LoadData()
-		{
-			return packageExplorer.OpenAsset(contentKey);
-		}
-
-		public Task<byte[]> LoadDataAsync()
-		{
-			var pkg = packageExplorer;
-			string pkgKey = contentKey;
-			return Task.Run(() => pkg.OpenAsset(pkgKey));
+			return zipArchiveEntry.OpenRead();
 		}
 
 		public override string ToString()

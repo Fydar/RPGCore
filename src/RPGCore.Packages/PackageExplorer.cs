@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using RPGCore.FileTree;
 using RPGCore.FileTree.FileSystem;
 using RPGCore.FileTree.Packed;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -76,7 +77,7 @@ namespace RPGCore.Packages
 			var tagsDocument = LoadJsonDocument<IReadOnlyDictionary<string, IReadOnlyList<string>>>(tagsEntry);
 			var tags = new Dictionary<string, IResourceCollection>();
 
-			var rootDirectiory = new PackageDirectory("", "", null);
+			var rootDirectiory = new PackageDirectory("", null);
 
 			var packageExplorer = new PackageExplorer
 			{
@@ -85,49 +86,63 @@ namespace RPGCore.Packages
 				Definition = definitionDocument
 			};
 
-			void ImportDirectory(IReadOnlyArchiveDirectory directory, PackageDirectory packageDirectory)
+			var resourcesDirectory = source.Directories.GetDirectory("resources");
+			var contentsDirectory = source.Directories.GetDirectory("contents");
+
+			foreach (var resourceFile in resourcesDirectory.Files)
 			{
-				foreach (var childDirectory in directory.Directories.All)
+				var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(resourceFile);
+
+				// Directory
+				string[] elements = metadataModel.FullName
+					.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+				var parentDirectory = rootDirectiory;
+				for (int i = 0; i < elements.Length - 1; i++)
 				{
-					ImportDirectory(childDirectory,
-						new PackageDirectory(childDirectory.Name, childDirectory.FullName, packageDirectory));
+					string element = elements[i];
+
+					PackageDirectory findDirectory = null;
+					foreach (var directory in parentDirectory.Directories)
+					{
+						if (directory.Name == element)
+						{
+							findDirectory = directory;
+							break;
+						}
+					}
+					if (findDirectory == null)
+					{
+						findDirectory = new PackageDirectory(element, parentDirectory);
+						parentDirectory.Directories.Add(findDirectory);
+					}
+					parentDirectory = findDirectory;
 				}
 
-				foreach (var file in directory.Files)
+				// Resource
+				var contentFile = contentsDirectory.Files.GetFile(metadataModel.ContentId);
+				var resource = new PackageResource(packageExplorer, parentDirectory, contentFile, metadataModel);
+
+				packageExplorer.Resources.Add(resource.FullName, resource);
+				parentDirectory.Resources.Add(resource.Name, resource);
+
+				// Tags
+				foreach (var tagCategory in tagsDocument)
 				{
-					if (!file.FullName.EndsWith(".pkgmeta"))
+					if (tagCategory.Value.Contains(resource.FullName))
 					{
-						continue;
-					}
-					var contentEntry = directory.Files.GetFile(file.Name.Substring(0, file.Name.Length - 8));
-
-					var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(file);
-
-					var resource = new PackageResource(packageExplorer, packageDirectory, contentEntry, metadataModel);
-
-					packageExplorer.Resources.Add(resource.FullName, resource);
-					packageDirectory.Resources.Add(resource.Name, resource);
-
-					foreach (var tagCategory in tagsDocument)
-					{
-						if (tagCategory.Value.Contains(resource.FullName))
+						if (!tags.TryGetValue(tagCategory.Key, out var taggedResourcesCollection))
 						{
-							if (!tags.TryGetValue(tagCategory.Key, out var taggedResourcesCollection))
-							{
-								taggedResourcesCollection = new PackageResourceCollection();
-								tags[tagCategory.Key] = taggedResourcesCollection;
-							}
-
-							var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
-
-							taggedResources.Add(resource.FullName, resource);
-							resource.Tags.tags.Add(tagCategory.Key);
+							taggedResourcesCollection = new PackageResourceCollection();
+							tags[tagCategory.Key] = taggedResourcesCollection;
 						}
+
+						var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
+
+						taggedResources.Add(resource.FullName, resource);
+						resource.Tags.tags.Add(tagCategory.Key);
 					}
 				}
 			}
-
-			ImportDirectory(source, rootDirectiory);
 
 			packageExplorer.Tags = new PackageTagsCollection(tags);
 

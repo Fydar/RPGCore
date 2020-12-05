@@ -65,11 +65,6 @@ namespace RPGCore.FileTree.FileSystem
 			return FileInfo.OpenRead();
 		}
 
-		public override string ToString()
-		{
-			return FullName;
-		}
-
 		public Stream OpenWrite()
 		{
 			FileInfo.Directory.Create();
@@ -107,6 +102,11 @@ namespace RPGCore.FileTree.FileSystem
 			{
 				return $"{parent.FullName}/{key}";
 			}
+		}
+
+		public override string ToString()
+		{
+			return FullName;
 		}
 	}
 }

@@ -63,88 +63,78 @@ namespace RPGCore.Projects
 			var tasks = new List<Task>();
 			int failed = 0;
 
+			int contentCounter = 0;
+			int resourceCounter = 0;
+
 			var contentsDirectory = destination.Directories.GetOrCreateDirectory("contents");
+			var resourcesDirectory = destination.Directories.GetOrCreateDirectory("resources");
 
-			void ExportDirectory(ProjectDirectory projectDirectory, IArchiveDirectory writeDirectory)
+			foreach (var scheduleResource in Project.Resources)
 			{
-				foreach (var childDirectory in projectDirectory.Directories)
-				{
-					var childWriteDirectory = writeDirectory.Directories.GetOrCreateDirectory(childDirectory.Name);
+				var processResource = scheduleResource;
 
-					ExportDirectory(childDirectory, childWriteDirectory);
-				}
+				int contentId = contentCounter++;
+				int resourceId = resourceCounter++;
 
-				foreach (var resource in projectDirectory.Resources)
+				maxThread.Wait();
+				tasks.Add(Task.Factory.StartNew(() =>
 				{
-					maxThread.Wait();
-					tasks.Add(Task.Factory.StartNew(() =>
+					string contentIdString = contentId.ToString("X8");
+					string resourceIdString = resourceId.ToString("X8");
+
+					Pipeline.BuildActions.OnBeforeExportResource(this, processResource);
+
+					// Export Resource Metadata
+					PackageResourceMetadataDependencyModel[] dependencies = null;
+					if (processResource.Dependencies.Count > 0)
 					{
-						var exporter = Pipeline.GetExporter(resource);
-
-						string destinationContentKey = resource.Name;
-						string destinationMetadataKey = $"{resource.Name}.pkgmeta";
-
-						Pipeline.BuildActions.OnBeforeExportResource(this, resource);
-
-						if (exporter == null)
-						{
-							var destinationContent = writeDirectory.Files.GetOrCreateFile(destinationContentKey);
-
-							using var stream = resource.Content.LoadStream();
-							using var zipStream = destinationContent.OpenWrite();
-
-							stream.CopyTo(zipStream);
-						}
-						else
-						{
-							try
-							{
-								exporter.BuildResource(resource, writeDirectory);
-							}
-							catch (Exception exception)
-							{
-								Console.WriteLine($"ERROR: Failed to export {resource.FullName}: {exception}");
-								failed++;
-							}
-						}
-
-						var dependencies = new PackageResourceMetadataDependencyModel[resource.Dependencies.Count];
+						dependencies = new PackageResourceMetadataDependencyModel[processResource.Dependencies.Count];
 						for (int i = 0; i < dependencies.Length; i++)
 						{
-							var dependency = resource.Dependencies[i];
+							var dependency = processResource.Dependencies[i];
 							dependencies[i] = new PackageResourceMetadataDependencyModel()
 							{
 								Resource = dependency.Key
 							};
 						}
-						var metadata = new PackageResourceMetadataModel()
-						{
-							Dependencies = dependencies
-						};
-
-						var metadataEntry = writeDirectory.Files.GetOrCreateFile(destinationMetadataKey);
-						using (var zipStream = metadataEntry.OpenWrite())
-						using (var streamWriter = new StreamWriter(zipStream))
-						{
-							serializer.Serialize(streamWriter, metadata);
-						}
-
-						currentProgress += resource.Content.UncompressedSize;
-						Progress = currentProgress / (double)Project.UncompressedSize;
-
-						Pipeline.BuildActions.OnAfterExportResource(this, resource);
-
-					}, TaskCreationOptions.LongRunning)
-					.ContinueWith((task) =>
+					}
+					var metadata = new PackageResourceMetadataModel()
 					{
-						tasks.Remove(task);
-						return maxThread.Release();
-					}));
-				}
-			}
+						Name = processResource.Name,
+						FullName = processResource.FullName,
+						ContentId = contentIdString,
+						Dependencies = dependencies
+					};
 
-			var dataArchiveDirectory = destination.Directories.GetOrCreateDirectory("data");
-			ExportDirectory(Project.RootDirectory, dataArchiveDirectory);
+					var metadataEntry = resourcesDirectory.Files.GetOrCreateFile(resourceIdString);
+					using (var zipStream = metadataEntry.OpenWrite())
+					using (var streamWriter = new StreamWriter(zipStream))
+					{
+						serializer.Serialize(streamWriter, metadata);
+					}
+
+					// Export Resource Contents
+					var destinationContent = contentsDirectory.Files.GetOrCreateFile(contentIdString);
+
+					using (var stream = processResource.Content.OpenRead())
+					using (var zipStream = destinationContent.OpenWrite())
+					{
+						stream.CopyTo(zipStream);
+					}
+
+					// Post-build
+					currentProgress += processResource.Content.UncompressedSize;
+					Progress = currentProgress / (double)Project.UncompressedSize;
+
+					Pipeline.BuildActions.OnAfterExportResource(this, processResource);
+
+				}, TaskCreationOptions.LongRunning)
+				.ContinueWith((task) =>
+				{
+					tasks.Remove(task);
+					return maxThread.Release();
+				}));
+			}
 
 			Task.WaitAll(tasks.ToArray());
 

@@ -14,14 +14,26 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectoryCollection IDirectory.Directories => Directories;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IDirectory.Resources => Resources;
 
-		internal PackageDirectory(string name, string fullName, PackageDirectory parent)
+		internal PackageDirectory(string name, PackageDirectory parent)
 		{
 			Name = name;
-			FullName = fullName;
+			FullName = MakeFullName(parent, name);
 			Parent = parent;
 
 			Directories = new PackageDirectoryCollection();
 			Resources = new PackageResourceCollection();
+		}
+
+		private static string MakeFullName(IDirectory parent, string key)
+		{
+			if (parent == null || string.IsNullOrEmpty(parent.FullName))
+			{
+				return key;
+			}
+			else
+			{
+				return $"{parent.FullName}/{key}";
+			}
 		}
 	}
 }

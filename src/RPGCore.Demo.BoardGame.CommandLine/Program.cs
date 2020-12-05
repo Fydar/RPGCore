@@ -1,12 +1,14 @@
-﻿namespace RPGCore.Demo.BoardGame.CommandLine
+﻿using System.Threading.Tasks;
+
+namespace RPGCore.Demo.BoardGame.CommandLine
 {
 	internal sealed class Program
 	{
-		private static void Main(string[] args)
+		private static async Task Main(string[] args)
 		{
 			var gameRunner = new GameRunner();
 
-			gameRunner.Start();
+			await gameRunner.StartAsync();
 		}
 	}
 }

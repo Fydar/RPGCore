@@ -56,11 +56,6 @@ namespace RPGCore.FileTree.Packed
 			return GetOrCreateEntry().Open();
 		}
 
-		public override string ToString()
-		{
-			return FullName;
-		}
-
 		private ZipArchiveEntry GetEntry()
 		{
 			if (Archive.ZipArchive.Mode == ZipArchiveMode.Create)
@@ -96,6 +91,11 @@ namespace RPGCore.FileTree.Packed
 			{
 				return $"{parent.FullName}/{key}";
 			}
+		}
+
+		public override string ToString()
+		{
+			return FullName;
 		}
 	}
 }

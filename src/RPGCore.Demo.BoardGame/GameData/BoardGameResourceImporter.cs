@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RPGCore.Demo.BoardGame.Models;
 using RPGCore.FileTree;
 using RPGCore.Projects;
@@ -6,6 +7,7 @@ using RPGCore.Projects.Pipeline;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RPGCore.Demo.BoardGame
 {
@@ -14,6 +16,24 @@ namespace RPGCore.Demo.BoardGame
 	/// </summary>
 	public class BoardGameResourceImporter : IArchiveFileImporter
 	{
+		private class JsonContentWriter : IContentWriter
+		{
+			private readonly object content;
+
+			public JsonContentWriter(object content)
+			{
+				this.content = content;
+			}
+
+			public Task WriteContentAsync(Stream destination)
+			{
+				var serializer = new JsonSerializer();
+				using var streamWriter = new StreamWriter(destination);
+				serializer.Serialize(streamWriter, content);
+				return Task.CompletedTask;
+			}
+		}
+
 		public bool CanImport(IArchiveFile archiveFile)
 		{
 			return archiveFile.Extension == ".json";
@@ -21,8 +41,8 @@ namespace RPGCore.Demo.BoardGame
 
 		public IEnumerable<ProjectResourceUpdate> ImportFile(ArchiveFileImporterContext context, IArchiveFile archiveFile)
 		{
-			var update = context.AuthorUpdate(archiveFile.FullName)
-				.WithContent(archiveFile);
+			var update = context.AuthorUpdate(archiveFile.FullName);
+			object content;
 
 			if (archiveFile.FullName.Contains("buildings"))
 			{
@@ -48,14 +68,20 @@ namespace RPGCore.Demo.BoardGame
 						}
 					}
 				}
+
+				content = loaded;
 			}
 			else if (archiveFile.FullName.Contains("resources"))
 			{
 				update.ImporterTags.Add("type-resource");
+
+				content = LoadJObject(archiveFile);
 			}
 			else if (archiveFile.FullName.Contains("building-packs"))
 			{
 				update.ImporterTags.Add("type-buildingpack");
+
+				content = LoadJObject(archiveFile);
 			}
 			else if (archiveFile.FullName.Contains("gamerules"))
 			{
@@ -77,9 +103,29 @@ namespace RPGCore.Demo.BoardGame
 						alreadyRegistered.Add(resource);
 					}
 				}
+
+				content = loaded;
+			}
+			else
+			{
+				content = LoadJObject(archiveFile);
 			}
 
+			var jsonContentWriter = new JsonContentWriter(content);
+			update.WithContent(jsonContentWriter);
+			
 			yield return update;
+		}
+
+		private static object LoadJObject(IArchiveFile importer)
+		{
+			var serializer = new JsonSerializer();
+			using var file = importer.OpenRead();
+			using var sr = new StreamReader(file);
+			using var reader = new JsonTextReader(sr);
+
+			var model = serializer.Deserialize<JObject>(reader);
+			return model;
 		}
 
 		private static TModel Load<TModel>(string identifier, IArchiveFile importer)

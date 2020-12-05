@@ -12,6 +12,8 @@ namespace RPGCore.FileTree.FileSystem
 
 		public event Action<ArchiveEventParameters> OnEntryChanged;
 
+		private object watcherLock = new object();
+
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchive.RootDirectory => RootDirectory;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchive.RootDirectory => RootDirectory;
 
@@ -40,112 +42,118 @@ namespace RPGCore.FileTree.FileSystem
 
 		private void FileWatcherEventHandler(object sender, FileSystemEventArgs args)
 		{
-			if (args.ChangeType.HasFlag(WatcherChangeTypes.Created))
+			lock (watcherLock)
 			{
-				var attr = File.GetAttributes(args.FullPath);
-
-				var parentDirectory = ParentDirectoryForEntry(args.FullPath);
-
-				if (attr.HasFlag(FileAttributes.Directory))
+				if (args.ChangeType.HasFlag(WatcherChangeTypes.Created))
 				{
-					var newDirectory = new FileSystemArchiveDirectory(this, parentDirectory, new DirectoryInfo(args.FullPath));
-					parentDirectory.Directories.internalList.Add(newDirectory);
+					var attr = File.GetAttributes(args.FullPath);
 
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
+					var parentDirectory = ParentDirectoryForEntry(args.FullPath);
+
+					if (attr.HasFlag(FileAttributes.Directory))
 					{
-						ActionType = ArchiveActionType.Created,
-						Entry = newDirectory,
-					});
+						var newDirectory = new FileSystemArchiveDirectory(this, parentDirectory, new DirectoryInfo(args.FullPath));
+						parentDirectory.Directories.internalList.Add(newDirectory);
+
+						OnEntryChanged?.Invoke(new ArchiveEventParameters()
+						{
+							ActionType = ArchiveActionType.Created,
+							Entry = newDirectory,
+						});
+					}
+					else
+					{
+						var newFile = new FileSystemArchiveFile(this, parentDirectory, new FileInfo(args.FullPath));
+						parentDirectory.Files.internalList.Add(newFile);
+
+						OnEntryChanged?.Invoke(new ArchiveEventParameters()
+						{
+							ActionType = ArchiveActionType.Created,
+							Entry = newFile,
+						});
+					}
 				}
-				else
-				{
-					var newFile = new FileSystemArchiveFile(this, parentDirectory, new FileInfo(args.FullPath));
-					parentDirectory.Files.internalList.Add(newFile);
 
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
+				if (args.ChangeType.HasFlag(WatcherChangeTypes.Changed))
+				{
+					if (TryGetFileFromFullPath(args.FullPath, out var file))
 					{
-						ActionType = ArchiveActionType.Created,
-						Entry = newFile,
-					});
+						OnEntryChanged?.Invoke(new ArchiveEventParameters()
+						{
+							ActionType = ArchiveActionType.Changed,
+							Entry = file,
+						});
+					}
 				}
-			}
 
-			if (args.ChangeType.HasFlag(WatcherChangeTypes.Changed))
-			{
-				if (TryGetFileFromFullPath(args.FullPath, out var file))
+				if (args.ChangeType.HasFlag(WatcherChangeTypes.Deleted))
 				{
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
+					if (TryGetFileFromFullPath(args.FullPath, out var file))
 					{
-						ActionType = ArchiveActionType.Changed,
-						Entry = file,
-					});
-				}
-			}
+						file.Parent.Files.internalList.Remove(file);
 
-			if (args.ChangeType.HasFlag(WatcherChangeTypes.Deleted))
-			{
-				if (TryGetFileFromFullPath(args.FullPath, out var file))
-				{
-					file.Parent.Files.internalList.Remove(file);
-
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
+						OnEntryChanged?.Invoke(new ArchiveEventParameters()
+						{
+							ActionType = ArchiveActionType.Deleted,
+							Entry = file,
+						});
+					}
+					else if (TryGetDirectoryFromFullPath(args.FullPath, out var directory))
 					{
-						ActionType = ArchiveActionType.Deleted,
-						Entry = file,
-					});
-				}
-				else if (TryGetDirectoryFromFullPath(args.FullPath, out var directory))
-				{
-					directory.Parent.Directories.internalList.Remove(directory);
+						directory.Parent.Directories.internalList.Remove(directory);
 
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
-					{
-						ActionType = ArchiveActionType.Deleted,
-						Entry = directory,
-					});
+						OnEntryChanged?.Invoke(new ArchiveEventParameters()
+						{
+							ActionType = ArchiveActionType.Deleted,
+							Entry = directory,
+						});
+					}
 				}
 			}
 		}
 
 		private void FileWatcherRenamedEventHandlers(object sender, RenamedEventArgs args)
 		{
-			var attr = File.GetAttributes(args.FullPath);
-			if (attr.HasFlag(FileAttributes.Directory))
+			lock (watcherLock)
 			{
-				if (TryGetDirectoryFromFullPath(args.OldFullPath, out var directory))
+				var attr = File.GetAttributes(args.FullPath);
+				if (attr.HasFlag(FileAttributes.Directory))
 				{
-					var newParentDirectory = ParentDirectoryForEntry(args.FullPath);
-					var newDirectoryInfo = new DirectoryInfo(args.FullPath);
-
-					directory.Parent.Directories.internalList.Remove(directory);
-					newParentDirectory.Directories.internalList.Add(directory);
-
-					directory.Name = newDirectoryInfo.Name;
-
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
+					if (TryGetDirectoryFromFullPath(args.OldFullPath, out var directory))
 					{
-						ActionType = ArchiveActionType.Changed,
-						Entry = directory,
-					});
+						var newParentDirectory = ParentDirectoryForEntry(args.FullPath);
+						var newDirectoryInfo = new DirectoryInfo(args.FullPath);
+
+						directory.Parent.Directories.internalList.Remove(directory);
+						newParentDirectory.Directories.internalList.Add(directory);
+
+						directory.Name = newDirectoryInfo.Name;
+
+						OnEntryChanged?.Invoke(new ArchiveEventParameters()
+						{
+							ActionType = ArchiveActionType.Changed,
+							Entry = directory,
+						});
+					}
 				}
-			}
-			else
-			{
-				if (TryGetFileFromFullPath(args.OldFullPath, out var file))
+				else
 				{
-					var newParentDirectory = ParentDirectoryForEntry(args.FullPath);
-					var newFileInfo = new FileInfo(args.FullPath);
-
-					file.Parent.Files.internalList.Remove(file);
-					newParentDirectory.Files.internalList.Add(file);
-
-					file.MoveAndRename(file.Parent, newFileInfo);
-
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
+					if (TryGetFileFromFullPath(args.OldFullPath, out var file))
 					{
-						ActionType = ArchiveActionType.Changed,
-						Entry = file,
-					});
+						var newParentDirectory = ParentDirectoryForEntry(args.FullPath);
+						var newFileInfo = new FileInfo(args.FullPath);
+
+						file.Parent.Files.internalList.Remove(file);
+						newParentDirectory.Files.internalList.Add(file);
+
+						file.MoveAndRename(file.Parent, newFileInfo);
+
+						OnEntryChanged?.Invoke(new ArchiveEventParameters()
+						{
+							ActionType = ArchiveActionType.Changed,
+							Entry = file,
+						});
+					}
 				}
 			}
 		}
@@ -179,6 +187,7 @@ namespace RPGCore.FileTree.FileSystem
 			string[] elements = relativePath.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
 
 			var parentDirectory = RootDirectory;
+
 			for (int i = 0; i < elements.Length; i++)
 			{
 				parentDirectory = parentDirectory.Directories.GetDirectory(elements[i]);

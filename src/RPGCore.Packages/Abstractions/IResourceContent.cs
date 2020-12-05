@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 
 namespace RPGCore.Packages
 {
@@ -7,10 +6,6 @@ namespace RPGCore.Packages
 	{
 		long UncompressedSize { get; }
 
-		Stream LoadStream();
-
-		byte[] LoadData();
-
-		Task<byte[]> LoadDataAsync();
+		Stream OpenRead();
 	}
 }

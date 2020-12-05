@@ -16,7 +16,7 @@ namespace RPGCore.Packages
 		private const ulong gigabyteSize = megabyteSize * Denomination;
 		private const ulong terrabyteSize = gigabyteSize * Denomination;
 
-		private const string byteSuffix = "b";
+		private const string byteSuffix = "bytes";
 		private const string kilobyteSuffix = "kB";
 		private const string megabyteSuffix = "MB";
 		private const string gigabyteSuffix = "GB";

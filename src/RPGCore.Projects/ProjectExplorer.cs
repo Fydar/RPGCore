@@ -116,9 +116,9 @@ namespace RPGCore.Projects
 			};
 
 			// Organise temporary directory
-			var tempDirectory = new DirectoryInfo(Path.Combine(projectPath, "temp"));
+			var tempDirectory = new DirectoryInfo(Path.Combine(projectPath, "../temp"));
 			tempDirectory.Create();
-			var tempArchive = new FileSystemArchive(tempDirectory);
+			var tempArchive = new FileSystemArchive(tempDirectory, false);
 
 
 			void ApplyUpdate(ProjectResourceUpdate update)
@@ -166,7 +166,8 @@ namespace RPGCore.Projects
 				}
 				if (update.DeferredContent != null)
 				{
-					var tempFile = tempArchive.RootDirectory.Files.GetFile(Guid.NewGuid().ToString());
+					string tempId = Guid.NewGuid().ToString();
+					var tempFile = tempArchive.RootDirectory.Files.GetOrCreateFile(tempId);
 
 					using (var tempOutput = tempFile.OpenWrite())
 					{
@@ -303,7 +304,7 @@ namespace RPGCore.Projects
 			var buildProcess = new ProjectBuildProcess(pipeline, this, directoryInfo.FullName);
 
 			string folderPath = Path.Combine(directoryInfo.FullName, $"{Definition.Properties.Name}");
-			var archive = new FileSystemArchive(new DirectoryInfo(folderPath));
+			var archive = new FileSystemArchive(new DirectoryInfo(folderPath), false);
 			buildProcess.PerformBuild(archive.RootDirectory);
 		}
 	}
