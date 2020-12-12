@@ -79,7 +79,7 @@ namespace RPGCore.Projects
 				maxThread.Wait();
 				tasks.Add(Task.Factory.StartNew(() =>
 				{
-					string contentIdString = contentId.ToString("X8");
+					string contentIdString = contentId.ToString("X8") + processResource.Extension;
 					string resourceIdString = resourceId.ToString("X8");
 
 					Pipeline.BuildActions.OnBeforeExportResource(this, processResource);

@@ -10,7 +10,6 @@
 		public UniqueItem(ItemTemplate template)
 		{
 			Template = template;
-			Template = template;
 		}
 
 		public IItem Duplicate()

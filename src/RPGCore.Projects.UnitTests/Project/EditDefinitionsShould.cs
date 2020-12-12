@@ -5,7 +5,7 @@ using System.IO;
 
 namespace RPGCore.Projects.UnitTests.Project
 {
-	[TestFixture(TestOf = typeof(ProjectDefinitionProperties))]
+	[TestFixture(Description = "Test the functionality of the ProjectExplorer to edit definitions.", TestOf = typeof(ProjectDefinitionProperties))]
 	public class EditDefinitionsShould
 	{
 		[SetUp]
@@ -13,7 +13,7 @@ namespace RPGCore.Projects.UnitTests.Project
 		{
 		}
 
-		[Test, Parallelizable]
+		[Test(Description = "Test the functionality of the ProjectExplorer to edit the project name."), Parallelizable]
 		public void ModifyName()
 		{
 			var importPipeline = ImportPipeline.Create().Build();
@@ -42,7 +42,7 @@ namespace RPGCore.Projects.UnitTests.Project
 			}
 		}
 
-		[Test, Parallelizable]
+		[Test(Description = "Test the functionality of the ProjectExplorer to edit the project name and version."), Parallelizable]
 		public void ModifyNameAndVersion()
 		{
 			var importPipeline = ImportPipeline.Create().Build();
@@ -74,7 +74,7 @@ namespace RPGCore.Projects.UnitTests.Project
 			}
 		}
 
-		[Test, Parallelizable]
+		[Test(Description = "Test the functionality of the ProjectExplorer to edit the project version."), Parallelizable]
 		public void ModifyVersion()
 		{
 			var importPipeline = ImportPipeline.Create().Build();

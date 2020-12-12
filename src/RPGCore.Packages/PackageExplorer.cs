@@ -89,57 +89,61 @@ namespace RPGCore.Packages
 			var resourcesDirectory = source.Directories.GetDirectory("resources");
 			var contentsDirectory = source.Directories.GetDirectory("contents");
 
-			foreach (var resourceFile in resourcesDirectory.Files)
+			// Does this package contain any resources?
+			if (resourcesDirectory != null)
 			{
-				var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(resourceFile);
-
-				// Directory
-				string[] elements = metadataModel.FullName
-					.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-				var parentDirectory = rootDirectiory;
-				for (int i = 0; i < elements.Length - 1; i++)
+				foreach (var resourceFile in resourcesDirectory.Files)
 				{
-					string element = elements[i];
+					var metadataModel = LoadJsonDocument<PackageResourceMetadataModel>(resourceFile);
 
-					PackageDirectory findDirectory = null;
-					foreach (var directory in parentDirectory.Directories)
+					// Directory
+					string[] elements = metadataModel.FullName
+						.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+					var parentDirectory = rootDirectiory;
+					for (int i = 0; i < elements.Length - 1; i++)
 					{
-						if (directory.Name == element)
+						string element = elements[i];
+
+						PackageDirectory findDirectory = null;
+						foreach (var directory in parentDirectory.Directories)
 						{
-							findDirectory = directory;
-							break;
+							if (directory.Name == element)
+							{
+								findDirectory = directory;
+								break;
+							}
 						}
-					}
-					if (findDirectory == null)
-					{
-						findDirectory = new PackageDirectory(element, parentDirectory);
-						parentDirectory.Directories.Add(findDirectory);
-					}
-					parentDirectory = findDirectory;
-				}
-
-				// Resource
-				var contentFile = contentsDirectory.Files.GetFile(metadataModel.ContentId);
-				var resource = new PackageResource(packageExplorer, parentDirectory, contentFile, metadataModel);
-
-				packageExplorer.Resources.Add(resource.FullName, resource);
-				parentDirectory.Resources.Add(resource.Name, resource);
-
-				// Tags
-				foreach (var tagCategory in tagsDocument)
-				{
-					if (tagCategory.Value.Contains(resource.FullName))
-					{
-						if (!tags.TryGetValue(tagCategory.Key, out var taggedResourcesCollection))
+						if (findDirectory == null)
 						{
-							taggedResourcesCollection = new PackageResourceCollection();
-							tags[tagCategory.Key] = taggedResourcesCollection;
+							findDirectory = new PackageDirectory(element, parentDirectory);
+							parentDirectory.Directories.Add(findDirectory);
 						}
+						parentDirectory = findDirectory;
+					}
 
-						var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
+					// Resource
+					var contentFile = contentsDirectory.Files.GetFile(metadataModel.ContentId);
+					var resource = new PackageResource(packageExplorer, parentDirectory, contentFile, metadataModel);
 
-						taggedResources.Add(resource.FullName, resource);
-						resource.Tags.tags.Add(tagCategory.Key);
+					packageExplorer.Resources.Add(resource.FullName, resource);
+					parentDirectory.Resources.Add(resource.Name, resource);
+
+					// Tags
+					foreach (var tagCategory in tagsDocument)
+					{
+						if (tagCategory.Value.Contains(resource.FullName))
+						{
+							if (!tags.TryGetValue(tagCategory.Key, out var taggedResourcesCollection))
+							{
+								taggedResourcesCollection = new PackageResourceCollection();
+								tags[tagCategory.Key] = taggedResourcesCollection;
+							}
+
+							var taggedResources = (PackageResourceCollection)taggedResourcesCollection;
+
+							taggedResources.Add(resource.FullName, resource);
+							resource.Tags.tags.Add(tagCategory.Key);
+						}
 					}
 				}
 			}

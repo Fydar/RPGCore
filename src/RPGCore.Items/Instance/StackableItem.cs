@@ -14,7 +14,6 @@ namespace RPGCore.Items
 		public StackableItem(ItemTemplate template, int quantity)
 		{
 			Template = template;
-			Template = template;
 			Quantity = quantity;
 		}
 
