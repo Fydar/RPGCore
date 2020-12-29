@@ -1,6 +1,6 @@
 using System;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Events
 {
 	public sealed class EventFieldChainHandler<T, B> : IEventFieldHandler
 	{

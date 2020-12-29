@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGCore.Events;
+using System;
 using System.Diagnostics;
 
 namespace RPGCore.Behaviour

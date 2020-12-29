@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Events
 {
 	public class EventFieldHandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>
 	{

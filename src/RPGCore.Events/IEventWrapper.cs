@@ -1,4 +1,4 @@
-﻿namespace RPGCore.Behaviour
+﻿namespace RPGCore.Events
 {
 	public interface IEventWrapper
 	{

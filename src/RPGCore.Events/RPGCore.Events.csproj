@@ -35,8 +35,8 @@
   </ItemGroup>
 
   <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.FileTree.dll Assets/RPGCore/Plugins' | true" />
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.FileTree.pdb Assets/RPGCore/Plugins' | true" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Events.dll Assets/RPGCore/Plugins' | true" />
+    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Events.pdb Assets/RPGCore/Plugins' | true" />
   </Target>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Events
 {
 	public interface IEventCollection<TKey, TValue> : IEventWrapper, IEnumerable<KeyValuePair<TKey, TValue>>
 	{

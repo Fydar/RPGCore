@@ -1,6 +1,6 @@
 using System;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Events
 {
 	public interface IEventCollectionHandler<TKey, TValue> : IDisposable
 	{

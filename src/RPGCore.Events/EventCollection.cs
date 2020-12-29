@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Events
 {
 	[JsonObject]
 	public class EventCollection<TKey, TValue> : IEventCollection<TKey, TValue>

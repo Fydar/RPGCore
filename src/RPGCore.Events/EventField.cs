@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Events
 {
 	public class EventField<T> : IEventField<T>
 	{

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
+using RPGCore.Events;
 
 namespace RPGCore.Traits
 {
