@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using RPGCore.Behaviour;
 using RPGCore.Events;
 
 namespace RPGCore.Traits
@@ -11,10 +10,10 @@ namespace RPGCore.Traits
 	public class TraitCollection
 	{
 		[JsonProperty]
-		public EventCollection<StatIdentifier, StatInstance> Stats;
+		public EventDictionary<StatIdentifier, StatInstance> Stats;
 
 		[JsonProperty]
-		public EventCollection<StateIdentifier, StateInstance> States;
+		public EventDictionary<StateIdentifier, StateInstance> States;
 
 		private readonly TraitContext traitContext;
 
@@ -60,8 +59,8 @@ namespace RPGCore.Traits
 		{
 			this.traitContext = traitContext;
 
-			Stats = new EventCollection<StatIdentifier, StatInstance>();
-			States = new EventCollection<StateIdentifier, StateInstance>();
+			Stats = new EventDictionary<StatIdentifier, StatInstance>();
+			States = new EventDictionary<StateIdentifier, StateInstance>();
 		}
 	}
 }

@@ -113,7 +113,7 @@ namespace RPGCore.Demo.BoardGame
 
 			var jsonContentWriter = new JsonContentWriter(content);
 			update.WithContent(jsonContentWriter);
-			
+
 			yield return update;
 		}
 

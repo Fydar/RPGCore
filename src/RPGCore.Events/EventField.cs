@@ -1,22 +1,15 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Diagnostics;
 
 namespace RPGCore.Events
 {
-	public class EventField<T> : IEventField<T>
+	public sealed class EventField<T> : IEventField<T>
 	{
-		[JsonIgnore]
-		public EventFieldHandlerCollection Handlers { get; set; }
-
-		[JsonIgnore]
-		public Action OnBeforeChanged;
-
-		[JsonIgnore]
-		public Action OnAfterChanged;
-
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private T internalValue;
+
+		[JsonIgnore]
+		public EventFieldHandlerCollection Handlers { get; }
 
 		public T Value
 		{
@@ -24,12 +17,8 @@ namespace RPGCore.Events
 			set
 			{
 				Handlers.InvokeBeforeChanged();
-				OnBeforeChanged?.Invoke();
-
 				internalValue = value;
-
 				Handlers.InvokeAfterChanged();
-				OnAfterChanged?.Invoke();
 			}
 		}
 

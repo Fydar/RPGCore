@@ -5,18 +5,21 @@ using System.Collections.Generic;
 namespace RPGCore.Events
 {
 	[JsonObject]
-	public class EventCollection<TKey, TValue> : IEventCollection<TKey, TValue>
+	public sealed class EventDictionary<TKey, TValue> : IEventDictionary<TKey, TValue>
 	{
-		[JsonIgnore]
-		public EventCollectionHandlerCollection<TKey, TValue> Handlers { get; set; }
-
 		private readonly Dictionary<TKey, TValue> collection;
+
+		[JsonIgnore]
+		public int Count => collection.Count;
+
+		[JsonIgnore]
+		public EventDictionaryHandlerCollection<TKey, TValue> Handlers { get; }
 
 		public TValue this[TKey key] => collection[key];
 
-		public EventCollection()
+		public EventDictionary()
 		{
-			Handlers = new EventCollectionHandlerCollection<TKey, TValue>(this);
+			Handlers = new EventDictionaryHandlerCollection<TKey, TValue>(this);
 			collection = new Dictionary<TKey, TValue>();
 		}
 

@@ -4,9 +4,9 @@ namespace RPGCore.Events
 {
 	public sealed class EventFieldChainHandler<T, B> : IEventFieldHandler
 	{
-		public IReadOnlyEventField<T> SourceField;
-		public IEventField<B> TargetField;
-		public Func<T, IReadOnlyEventField<B>> Chain;
+		public IReadOnlyEventField<T> SourceField { get; }
+		public IEventField<B> TargetField { get; }
+		public Func<T, IReadOnlyEventField<B>> Chain { get; }
 
 		private IReadOnlyEventField<B> chainedField;
 

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using RPGCore.Behaviour;
+using RPGCore.Events;
 
 namespace RPGCore.Traits.UnitTests
 {

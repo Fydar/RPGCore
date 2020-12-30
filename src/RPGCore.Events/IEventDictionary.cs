@@ -2,9 +2,11 @@
 
 namespace RPGCore.Events
 {
-	public interface IEventCollection<TKey, TValue> : IEventWrapper, IEnumerable<KeyValuePair<TKey, TValue>>
+	public interface IEventDictionary<TKey, TValue> : IEventWrapper, IEnumerable<KeyValuePair<TKey, TValue>>
 	{
-		EventCollectionHandlerCollection<TKey, TValue> Handlers { get; }
+		int Count { get; }
+		EventDictionaryHandlerCollection<TKey, TValue> Handlers { get; }
+
 		TValue this[TKey key] { get; }
 
 		bool ContainsKey(TKey key);

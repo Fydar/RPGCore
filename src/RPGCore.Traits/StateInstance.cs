@@ -1,5 +1,4 @@
-﻿using RPGCore.Behaviour;
-using RPGCore.Events;
+﻿using RPGCore.Events;
 
 namespace RPGCore.Traits
 {

@@ -4,14 +4,14 @@ using System.Diagnostics;
 
 namespace RPGCore.Events
 {
-	public class EventFieldHandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>
+	public sealed class EventFieldHandlerCollection : IEnumerable<KeyValuePair<object, IEventFieldHandler>>
 	{
 		public readonly ref struct ContextWrapped
 		{
-			private readonly IEventField field;
+			private readonly IReadOnlyEventField field;
 			private readonly object context;
 
-			public ContextWrapped(IEventField field, object context)
+			public ContextWrapped(IReadOnlyEventField field, object context)
 			{
 				this.field = field;
 				this.context = context;
@@ -34,20 +34,20 @@ namespace RPGCore.Events
 		}
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly IEventField field;
+		private readonly IReadOnlyEventField field;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly List<KeyValuePair<object, IEventFieldHandler>> internalHandlers;
 
-		public EventFieldHandlerCollection(IEventField field)
-		{
-			this.field = field;
-			internalHandlers = new List<KeyValuePair<object, IEventFieldHandler>>();
-		}
-
 		public ContextWrapped this[object context]
 		{
 			get => new ContextWrapped(field, context);
+		}
+
+		public EventFieldHandlerCollection(IReadOnlyEventField field)
+		{
+			this.field = field;
+			internalHandlers = new List<KeyValuePair<object, IEventFieldHandler>>();
 		}
 
 		public void Clear(object context)
@@ -68,11 +68,6 @@ namespace RPGCore.Events
 
 		public void InvokeBeforeChanged()
 		{
-			if (internalHandlers == null)
-			{
-				return;
-			}
-
 			for (int i = 0; i < internalHandlers.Count; i++)
 			{
 				internalHandlers[i].Value.OnBeforeChanged();
@@ -81,11 +76,6 @@ namespace RPGCore.Events
 
 		public void InvokeAfterChanged()
 		{
-			if (internalHandlers == null)
-			{
-				return;
-			}
-
 			for (int i = 0; i < internalHandlers.Count; i++)
 			{
 				internalHandlers[i].Value.OnAfterChanged();
@@ -94,12 +84,12 @@ namespace RPGCore.Events
 
 		public IEnumerator<KeyValuePair<object, IEventFieldHandler>> GetEnumerator()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)internalHandlers).GetEnumerator();
+			return internalHandlers.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<KeyValuePair<object, IEventFieldHandler>>)internalHandlers).GetEnumerator();
+			return internalHandlers.GetEnumerator();
 		}
 	}
 }

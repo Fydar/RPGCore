@@ -2,8 +2,8 @@ namespace RPGCore.Events
 {
 	public sealed class EventFieldMirrorHandler<T> : IEventFieldHandler
 	{
-		public IReadOnlyEventField<T> SourceField;
-		public IEventField<T> Target;
+		public IReadOnlyEventField<T> SourceField { get; }
+		public IEventField<T> Target { get; }
 
 		public EventFieldMirrorHandler(IReadOnlyEventField<T> source, IEventField<T> target)
 		{

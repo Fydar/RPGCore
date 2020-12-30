@@ -12,7 +12,7 @@ namespace RPGCore.FileTree.FileSystem
 
 		public event Action<ArchiveEventParameters> OnEntryChanged;
 
-		private object watcherLock = new object();
+		private readonly object watcherLock = new object();
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchive.RootDirectory => RootDirectory;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchive.RootDirectory => RootDirectory;
