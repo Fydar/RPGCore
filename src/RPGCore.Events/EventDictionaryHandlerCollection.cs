@@ -27,9 +27,45 @@ namespace RPGCore.Events
 				collection.Handlers.internalHandlers.Add(new KeyValuePair<object, IEventDictionaryHandler<TKey, TValue>>(context, handler));
 			}
 
+			public void AddAndInvoke(IEventDictionaryHandler<TKey, TValue> handler)
+			{
+				Add(handler);
+				foreach (var kvp in collection)
+				{
+					handler.OnAdd(kvp.Key, kvp.Value);
+				}
+			}
+
 			public void Remove(IEventDictionaryHandler<TKey, TValue> handler)
 			{
 				collection.Handlers.internalHandlers.Remove(new KeyValuePair<object, IEventDictionaryHandler<TKey, TValue>>(context, handler));
+			}
+
+			public void InvokeAndRemove(IEventDictionaryHandler<TKey, TValue> handler)
+			{
+				foreach (var kvp in collection)
+				{
+					handler.OnRemove(kvp.Key, kvp.Value);
+				}
+				Remove(handler);
+			}
+
+			public void InvokeAndRemove()
+			{
+				for (int i = collection.Handlers.internalHandlers.Count - 1; i >= 0; i--)
+				{
+					var handler = collection.Handlers.internalHandlers[i];
+
+					if (handler.Key == context)
+					{
+						foreach (var kvp in collection)
+						{
+							handler.Value.OnRemove(kvp.Key, kvp.Value);
+						}
+
+						collection.Handlers.internalHandlers.RemoveAt(i);
+					}
+				}
 			}
 		}
 
@@ -66,7 +102,35 @@ namespace RPGCore.Events
 			internalHandlers.Clear();
 		}
 
-		public void InvokeAdd(TKey key, TValue value)
+		public void InvokeAndClear()
+		{
+			InvokeRemoved();
+			Clear();
+		}
+
+		internal void InvokeAdd()
+		{
+			foreach (var kvp in collection)
+			{
+				for (int i = 0; i < internalHandlers.Count; i++)
+				{
+					internalHandlers[i].Value.OnAdd(kvp.Key, kvp.Value);
+				}
+			}
+		}
+
+		internal void InvokeRemoved()
+		{
+			foreach (var kvp in collection)
+			{
+				for (int i = 0; i < internalHandlers.Count; i++)
+				{
+					internalHandlers[i].Value.OnRemove(kvp.Key, kvp.Value);
+				}
+			}
+		}
+
+		internal void InvokeAdd(TKey key, TValue value)
 		{
 			for (int i = 0; i < internalHandlers.Count; i++)
 			{
@@ -74,7 +138,7 @@ namespace RPGCore.Events
 			}
 		}
 
-		public void InvokeRemoved(TKey key, TValue value)
+		internal void InvokeRemoved(TKey key, TValue value)
 		{
 			for (int i = 0; i < internalHandlers.Count; i++)
 			{

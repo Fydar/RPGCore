@@ -25,11 +25,28 @@ namespace RPGCore.Events
 			public void Add(IEventFieldHandler handler)
 			{
 				field.Handlers.internalHandlers.Add(new KeyValuePair<object, IEventFieldHandler>(context, handler));
+
+				if (handler is IHandlerUsedCallback usedCallback)
+				{
+					usedCallback.OnUse(field);
+				}
+			}
+
+			public void AddAndInvoke(IEventFieldHandler handler)
+			{
+				Add(handler);
+				handler.OnAfterChanged();
 			}
 
 			public void Remove(IEventFieldHandler handler)
 			{
 				field.Handlers.internalHandlers.Remove(new KeyValuePair<object, IEventFieldHandler>(context, handler));
+			}
+
+			public void InvokeAndRemove(IEventFieldHandler handler)
+			{
+				Remove(handler);
+				handler.OnBeforeChanged();
 			}
 		}
 
@@ -56,6 +73,7 @@ namespace RPGCore.Events
 			{
 				if (internalHandlers[i].Key == context)
 				{
+					internalHandlers[i].Value.OnBeforeChanged();
 					internalHandlers.RemoveAt(i);
 				}
 			}
@@ -63,6 +81,12 @@ namespace RPGCore.Events
 
 		public void Clear()
 		{
+			internalHandlers.Clear();
+		}
+
+		public void InvokeAndClear()
+		{
+			InvokeBeforeChanged();
 			internalHandlers.Clear();
 		}
 

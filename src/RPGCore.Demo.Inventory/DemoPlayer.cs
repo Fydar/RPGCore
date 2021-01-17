@@ -1,4 +1,5 @@
 ﻿using RPGCore.Behaviour;
+using RPGCore.Events;
 using RPGCore.Traits;
 using System.Collections.Generic;
 

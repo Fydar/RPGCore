@@ -1,4 +1,5 @@
 ﻿using RPGCore.Behaviour;
+using RPGCore.Events;
 
 namespace RPGCore.Demo.Inventory.Nodes
 {
