@@ -21,7 +21,7 @@ namespace RPGCore.FileTree.FileSystem
 		{
 			get
 			{
-				return Directories.internalList.Count + Files.internalList.Count;
+				return Directories.Count + Files.Count;
 			}
 		}
 
@@ -108,7 +108,8 @@ namespace RPGCore.FileTree.FileSystem
 
 		private class FileSystemArchiveDirectoryDebugView
 		{
-			[DebuggerDisplay("{Value}", Name = "{Key}")]
+			[DebuggerDisplay("{Value}", Name = "{Key}",
+				Target = typeof(IArchiveDirectory), TargetTypeName = nameof(IArchiveDirectory), Type = "Directory")]
 			internal struct DebuggerRow
 			{
 				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -137,21 +138,22 @@ namespace RPGCore.FileTree.FileSystem
 			{
 				get
 				{
-					bool hasParent = source.Parent != null;
+					// bool hasParent = source.Parent != null;
+					bool hasParent = false;
 
-					int count = source.Directories.internalList.Count
-						+ source.Files.internalList.Count
+					int count = source.Directories.Count
+						+ source.Files.Count
 						+ (hasParent ? 1 : 0);
 
 					var keys = new DebuggerRow[count];
 
 					int i = 0;
 
-					if (hasParent)
+					/*if (hasParent)
 					{
 						keys[i] = new DebuggerRow("..", source.Parent);
 						i++;
-					}
+					}*/
 					foreach (var directory in source.Directories)
 					{
 						keys[i] = new DebuggerRow(directory.Name, directory);

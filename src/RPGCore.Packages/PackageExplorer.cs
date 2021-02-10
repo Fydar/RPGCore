@@ -157,21 +157,6 @@ namespace RPGCore.Packages
 		{
 		}
 
-		internal Stream LoadStream(string packageKey)
-		{
-			return Source.Files.GetFile(packageKey).OpenRead();
-		}
-
-		internal byte[] OpenAsset(string packageKey)
-		{
-			var entry = Source.Files.GetFile(packageKey);
-
-			byte[] buffer = new byte[entry.UncompressedSize];
-			using var zipStream = entry.OpenRead();
-			zipStream.Read(buffer, 0, (int)entry.UncompressedSize);
-			return buffer;
-		}
-
 		private static T LoadJsonDocument<T>(IReadOnlyArchiveFile entry)
 		{
 			using var zipStream = entry.OpenRead();

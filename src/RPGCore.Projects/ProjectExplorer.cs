@@ -214,34 +214,43 @@ namespace RPGCore.Projects
 					preExistingResources.Add(resource);
 				}
 
+				int maxThreads = 32;
+				var semaphore = new SemaphoreSlim(maxThreads);
+
 				foreach (var resource in preExistingResources)
 				{
-					var maxThread = new SemaphoreSlim(32);
-					var tasks = new List<Task>();
-
 					if (processor.CanProcess(resource))
 					{
-						maxThread.Wait();
-						tasks.Add(Task.Factory.StartNew(() =>
+						semaphore.Wait();
+						_ = Task.Factory.StartNew(() =>
 						{
-							var updates = processor.ProcessImport(importProcessorContext, resource);
-
-							if (updates != null)
+							try
 							{
-								foreach (var update in updates)
+								var updates = processor.ProcessImport(importProcessorContext, resource);
+
+								if (updates != null)
 								{
-									ApplyUpdate(update);
+									foreach (var update in updates)
+									{
+										ApplyUpdate(update);
+									}
 								}
 							}
-						}, TaskCreationOptions.LongRunning)
-						.ContinueWith((task) =>
-						{
-							tasks.Remove(task);
-							return maxThread.Release();
-						}));
+							catch (Exception exception)
+							{
+								Console.WriteLine(exception);
+							}
+							finally
+							{
+								semaphore.Release();
+							}
+						}, TaskCreationOptions.LongRunning);
 					}
+				}
 
-					Task.WaitAll(tasks.ToArray());
+				for (int i = 0; i < maxThreads; i++)
+				{
+					semaphore.Wait();
 				}
 			}
 
@@ -282,10 +291,13 @@ namespace RPGCore.Projects
 		public void ExportZippedToDirectory(BuildPipeline pipeline, string path)
 		{
 			var directoryInfo = new DirectoryInfo(path);
+			if (directoryInfo.Exists)
+			{
+				directoryInfo.Delete(true);
+			}
 			directoryInfo.Create();
 
 			var buildProcess = new ProjectBuildProcess(pipeline, this, directoryInfo.FullName);
-
 
 			string bpkgPath = Path.Combine(directoryInfo.FullName, $"{Definition.Properties.Name}.bpkg");
 
@@ -299,6 +311,10 @@ namespace RPGCore.Projects
 		public void ExportFoldersToDirectory(BuildPipeline pipeline, string path)
 		{
 			var directoryInfo = new DirectoryInfo(path);
+			if (directoryInfo.Exists)
+			{
+				directoryInfo.Delete(true);
+			}
 			directoryInfo.Create();
 
 			var buildProcess = new ProjectBuildProcess(pipeline, this, directoryInfo.FullName);
