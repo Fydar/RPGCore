@@ -50,32 +50,7 @@ namespace RPGCore.FileTree.FileSystem
 
 			if (args.ChangeType.HasFlag(WatcherChangeTypes.Created))
 			{
-				var attr = File.GetAttributes(args.FullPath);
-
-				var parentDirectory = ParentDirectoryForEntry(args.FullPath);
-
-				if (attr.HasFlag(FileAttributes.Directory))
-				{
-					var newDirectory = new FileSystemArchiveDirectory(this, parentDirectory, new DirectoryInfo(args.FullPath));
-					parentDirectory.Directories.TrackDirectoryInternal(newDirectory);
-
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
-					{
-						ActionType = ArchiveActionType.Created,
-						Entry = newDirectory,
-					});
-				}
-				else
-				{
-					var newFile = new FileSystemArchiveFile(this, parentDirectory, new FileInfo(args.FullPath));
-					parentDirectory.Files.TrackFileInternal(newFile);
-
-					OnEntryChanged?.Invoke(new ArchiveEventParameters()
-					{
-						ActionType = ArchiveActionType.Created,
-						Entry = newFile,
-					});
-				}
+				StartTrackingFile(args.FullPath);
 			}
 
 			if (args.ChangeType.HasFlag(WatcherChangeTypes.Changed))
@@ -87,6 +62,10 @@ namespace RPGCore.FileTree.FileSystem
 						ActionType = ArchiveActionType.Changed,
 						Entry = file,
 					});
+				}
+				else
+				{
+					StartTrackingFile(args.FullPath);
 				}
 			}
 
@@ -117,6 +96,36 @@ namespace RPGCore.FileTree.FileSystem
 			synchronize.Release();
 		}
 
+		private void StartTrackingFile(string fullPath)
+		{
+			var attr = File.GetAttributes(fullPath);
+
+			var parentDirectory = ParentDirectoryForEntry(fullPath);
+
+			if (attr.HasFlag(FileAttributes.Directory))
+			{
+				var newDirectory = new FileSystemArchiveDirectory(this, parentDirectory, new DirectoryInfo(fullPath));
+				parentDirectory.Directories.TrackDirectoryInternal(newDirectory);
+
+				OnEntryChanged?.Invoke(new ArchiveEventParameters()
+				{
+					ActionType = ArchiveActionType.Created,
+					Entry = newDirectory,
+				});
+			}
+			else
+			{
+				var newFile = new FileSystemArchiveFile(this, parentDirectory, new FileInfo(fullPath));
+				parentDirectory.Files.TrackFileInternal(newFile);
+
+				OnEntryChanged?.Invoke(new ArchiveEventParameters()
+				{
+					ActionType = ArchiveActionType.Created,
+					Entry = newFile,
+				});
+			}
+		}
+
 		private void FileWatcherRenamedEventHandlers(object sender, RenamedEventArgs args)
 		{
 			synchronize.Wait();
@@ -140,6 +149,10 @@ namespace RPGCore.FileTree.FileSystem
 						Entry = directory,
 					});
 				}
+				else
+				{
+
+				}
 			}
 			else
 			{
@@ -158,6 +171,10 @@ namespace RPGCore.FileTree.FileSystem
 						ActionType = ArchiveActionType.Changed,
 						Entry = file,
 					});
+				}
+				else
+				{
+					StartTrackingFile(args.FullPath);
 				}
 			}
 
