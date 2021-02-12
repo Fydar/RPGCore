@@ -1,14 +1,23 @@
+# Contributing
+
+Below are some guidelines for contributing to this project. They are mostly **suggestions** rather than rules.
+
+Feel free to submit pull requests, referencing any relevant issues and listing a brief overview of the changes in the pull request.
+
+## Commits
+
+Commit messages should target around a 50 character long headline, with any addition information following two line breaks. [Fork](https://git-fork.com/) and [GitHub](https://github.com/) uses this format when you are writing commit messages.
+
 ## Gitmoji
 
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.carloscuesta.me)
 
-This project follows commit guidelines specified by [Gitmoji](https://gitmoji.carloscuesta.me), with the exception of using the raw unicode character (✨) rather than a string (`:sparkles:`). This is to increase compatibility with Git clients.
-
-Commit messages should target around a 50 character long headline, with any addition information following two line breaks. [Fork](https://git-fork.com/) and [GitHub](https://github.com/) uses this format when you are writing commit messages.
-
-Feel free to submit pull requests, referencing any relevant issues and listing a brief overview of the changes in the pull request.
+This project follows commit guidelines specified by [Gitmoji](https://gitmoji.carloscuesta.me), with the exception of using the raw unicode character (✨) rather than a string (`:sparkles:`).
 
 ## Code Style
+
+[![Visual Studio](https://img.shields.io/static/v1?label=&message=Visual%20Studio&color=5C2D91&logo=visual-studio)](https://visualstudio.microsoft.com/)
+[![Visual Studio](https://img.shields.io/static/v1?label=&message=Visual%20Studio%20Code&color=007ACC&logo=visual-studio-code)](https://code.visualstudio.com/)
 
 An `.editorconfig` is included in the project that will ensure that your IDE follows the projects code style. I recommend you use an IDE that supports `.editorconfig` files such as [Visual Studio](https://visualstudio.microsoft.com/).
 
@@ -89,7 +98,7 @@ if (condition)
 
 ### Naming
 
-Use predefined type names over framework type names.
+Use **predefined type names** over **framework type names** for **data types**.
 
 ```csharp
 // Prefer:
@@ -103,7 +112,7 @@ Int32 fieldB;
 Boolean fieldC;
 ```
 
-Use predefined type names over framework names for accessing a type's static members.
+Use **predefined type names** over **framework type names** for accessing a type's **static members**.
 
 ```csharp
 // Prefer:
@@ -121,7 +130,11 @@ Int32.Parse(input);
 // Prefer:
 public interface IInterfaceName
 {
+}
 
+// Over:
+public interface InterfaceName
+{
 }
 ```
 
@@ -131,7 +144,11 @@ public interface IInterfaceName
 // Prefer:
 public class ClassName
 {
+}
 
+// Over:
+public class className
+{
 }
 ```
 
@@ -171,7 +188,7 @@ private string Field;
 
 ```csharp
 // Prefer:
-private string ConstantValue;
+private const string ConstantValue;
 
 // Over:
 private const string CONSTANT_VALUE;
