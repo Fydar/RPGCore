@@ -1,11 +1,14 @@
-# RPGCore
+<h1>
+<img src="./src/icon.png" width="54" height="54" align="left" />
+RPGCore
+</h1>
 
 [![Build Status](https://github.com/Fydar/RPGCore/workflows/Build/badge.svg)](https://github.com/Fydar/RPGCore/actions?query=workflow%3ABuild)
 [![Unit Test Status](https://github.com/Fydar/RPGCore/workflows/Unit%20Tests/badge.svg)](https://github.com/Fydar/RPGCore/actions?query=workflow%3A%22Unit+Tests%22)
 
 RPGCore is a toolkit for producing RPG games and mechanics in C#.
 
-![Rewrite Editor](./img/rpgcore_social.png)
+![RPGCore Main Demo](./img/screenshots/Main.png)
 
 ## The "Rewrite"
 
@@ -21,11 +24,9 @@ The "Rewrite" project delivers the following features:
 
 ## The "Prototype"
 
-[![Unity Version: 2018.2.3f1](https://img.shields.io/badge/Unity-2018.2.3f1-333333.svg?logo=unity)](https://unity3d.com/get-unity/download/archive) ![Status: Work-in-progress](https://img.shields.io/badge/status-released-brightgreen)
+[![Unity Version: 2019.3.0f6](https://img.shields.io/badge/Unity-2019.3.0f6-333333.svg?logo=unity)](https://unity3d.com/get-unity/download/archive) ![Status: Work-in-progress](https://img.shields.io/badge/status-released-brightgreen)
 
 > "Many screenshots of RPGCore are from the "Prototype" project. I don't recommend anyone use this project commercially unless they understand it and are willing to modify it to suit their needs. This code has no multiplayer compatibility (yet) and uses a lot of lambda expressions to accomplish the node connections."
-
-![RPGCore Main Demo](./img/screenshots/Main.png)
 
 At it's core, this project features a behaviour system that's used to create modular items and buffs. The behaviour system is setup using a visual scripting tool, shown below.
 
