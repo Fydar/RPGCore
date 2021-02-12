@@ -23,6 +23,10 @@
     <PackageProjectUrl>https://github.com/Fydar/RPGCore</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/Fydar/RPGCore/master/src/project-icon_rounded_64x64.png</PackageIconUrl>
 
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
     <!-- Compilation -->
     <LangVersion>latest</LangVersion>
     <!--<Nullable>enable</Nullable>-->
@@ -50,5 +54,9 @@
     <PackageOutputPath>$(BaseArtifactsPath)pkg/$(Configuration)/</PackageOutputPath>
 
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  </ItemGroup>
 
 </Project>
