@@ -4,8 +4,8 @@
   <PropertyGroup>
     
     <!-- Informative  -->
-    <Authors>Anthony Marmont and Contributors</Authors>
-    <Copyright>Copyright © Anthony Marmont and Contributors</Copyright>
+    <Authors>Anthony Marmont</Authors>
+    <Copyright>Copyright © Anthony Marmont</Copyright>
     <Company>RPGCore</Company>
     <Product>RPGCore</Product>
     <VersionPrefix>0.1.0</VersionPrefix>
@@ -16,16 +16,17 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageLicenseExpression>CC-BY-NC-4.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <RepositoryType>git</RepositoryType>
 
-    <PackageIcon>project-icon_rounded_64x64.png</PackageIcon>
     <RepositoryUrl>https://github.com/Fydar/RPGCore</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Fydar/RPGCore</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/Fydar/RPGCore/master/src/project-icon_rounded_64x64.png</PackageIconUrl>
+    <RepositoryType>git</RepositoryType>
 
+    <!-- Debugging -->
+    <DebugType>portable</DebugType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
     <!-- Compilation -->
     <LangVersion>latest</LangVersion>
@@ -44,7 +45,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <OverwriteReadOnlyFiles>true</OverwriteReadOnlyFiles>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-    <DebugType>embedded</DebugType>
+    <GenerateFullPaths Condition="'$(TERM_PROGRAM)' == 'vscode'">true</GenerateFullPaths>
 
     <BaseArtifactsPath>$(MSBuildThisFileDirectory)artifacts/</BaseArtifactsPath>
     <BaseArtifactsPathSuffix>$(MSBuildProjectName)</BaseArtifactsPathSuffix>
@@ -55,8 +56,18 @@
 
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  <!-- Icon  -->
+  <PropertyGroup>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/Fydar/RPGCore/master/src/icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(IsPackable)' == 'true' ">
+    <None Include="$(MSBuildThisFileDirectory)icon.png">
+      <Pack>true</Pack>
+      <PackagePath>/$(PackageIcon)</PackagePath>
+      <Visible>false</Visible>
+    </None>
   </ItemGroup>
 
 </Project>
