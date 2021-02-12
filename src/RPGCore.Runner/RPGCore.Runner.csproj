@@ -13,13 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\project-icon_rounded_64x64.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="../RPGCoreUnity/Content/**/*" Link="Content\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
