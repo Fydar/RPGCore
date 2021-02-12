@@ -5,7 +5,7 @@
 
 RPGCore is a toolkit for producing RPG games and mechanics in C#.
 
-![Rewrite Editor](./docs/img/rpgcore_social.png)
+![Rewrite Editor](./img/rpgcore_social.png)
 
 ## The "Rewrite"
 
@@ -17,7 +17,7 @@ The "Rewrite" project delivers the following features:
 - Unity-independent code-base that can run on servers
 - Intuitive **API for creating custom nodes**
 
-![Rewrite Editor](./docs/img/wip-editor.png)
+![Rewrite Editor](./img/wip-editor.png)
 
 ## The "Prototype"
 
@@ -25,7 +25,7 @@ The "Rewrite" project delivers the following features:
 
 > "Many screenshots of RPGCore are from the "Prototype" project. I don't recommend anyone use this project commercially unless they understand it and are willing to modify it to suit their needs. This code has no multiplayer compatibility (yet) and uses a lot of lambda expressions to accomplish the node connections."
 
-![RPGCore Main Demo](./docs/screenshots/Main.png)
+![RPGCore Main Demo](./img/screenshots/Main.png)
 
 At it's core, this project features a behaviour system that's used to create modular items and buffs. The behaviour system is setup using a visual scripting tool, shown below.
 
@@ -33,11 +33,11 @@ RPGCore is built around a modular behaviour system. One of the core uses for thi
 
 Below is an item called the "Fire Cape". It applies the Immolate buff to it's owner, which deals damage to nearby enemies.
 
-![Fire Cape Graph](./docs/screenshots/FireCapeGraph.png)
+![Fire Cape Graph](./img/screenshots/FireCapeGraph.png)
 
 This graph in the game is interpreted by the tooltip system, which renders the "Fire Cape" tooltip as shown below.
 
-![Fire Cape Tooltip](./docs/screenshots/FireCapeTooltip.png)
+![Fire Cape Tooltip](./img/screenshots/FireCapeTooltip.png)
 
 ## License
 
