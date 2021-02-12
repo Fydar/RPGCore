@@ -3,14 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-
     <IsPackable>false</IsPackable>
+  </PropertyGroup>
 
+  <PropertyGroup>
     <Product>RPGCore</Product>
-    <Company>Anthony Marmont</Company>
-    <Authors>Anthony Marmont</Authors>
     <Description>RPGCore is a toolkit for producing RPG games and mechanics in C#.</Description>
-
   </PropertyGroup>
 
   <ItemGroup>
