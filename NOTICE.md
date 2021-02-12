@@ -1,5 +1,3 @@
-**NOTICE File for the Apache License, Version 2.0**
-
 # RPGCore
 
 This project is public work available on GitHub (<https://github.com/Fydar/RPGCore>).

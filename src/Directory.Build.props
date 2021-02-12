@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <PropertyGroup>
+    
+    <!-- Informative  -->
+    <Authors>Anthony Marmont and Contributors</Authors>
+    <Copyright>Copyright © Anthony Marmont and Contributors</Copyright>
+    <Company>RPGCore</Company>
+    <Product>RPGCore</Product>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix>alpha</VersionSuffix>
+
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageLicenseExpression>CC-BY-NC-4.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+
+    <PackageIcon>project-icon_rounded_64x64.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Fydar/RPGCore</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Fydar/RPGCore</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Fydar/RPGCore/master/src/project-icon_rounded_64x64.png</PackageIconUrl>
+
+    <!-- Compilation -->
+    <LangVersion>latest</LangVersion>
+    <!--<Nullable>enable</Nullable>-->
+    <Features>strict</Features>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
+    <MinClientVersion>4.3</MinClientVersion>
+    <UseSharedCompilation>true</UseSharedCompilation>
+    
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)RPGCore.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorPublicKey>002400000480000094000000060200000024000052534131000400000100010069b1aca32b20fc9224832153c4e251fb3636dd77f9d895be51ef69ca781c5b0e07b17507992b1bb0466ee5297747333f71fafc250f5e4f4758993ac5d813af34234d9b2ec29ee18aee536ef291a97f77d559a0f3656eeec2cf8f1376b4ea8384b4e38cd39a8d4c856d2f07ae1fdae3bb1a07238b59386f5031b51f871fe391b0</AssemblyOriginatorPublicKey>
+    
+    <!-- Output  -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <OverwriteReadOnlyFiles>true</OverwriteReadOnlyFiles>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <DebugType>embedded</DebugType>
+
+    <BaseArtifactsPath>$(MSBuildThisFileDirectory)artifacts/</BaseArtifactsPath>
+    <BaseArtifactsPathSuffix>$(MSBuildProjectName)</BaseArtifactsPathSuffix>
+
+    <BaseOutputPath>$(BaseArtifactsPath)bin/$(BaseArtifactsPathSuffix)/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(BaseArtifactsPath)obj/$(BaseArtifactsPathSuffix)/</BaseIntermediateOutputPath>
+    <PackageOutputPath>$(BaseArtifactsPath)pkg/$(Configuration)/</PackageOutputPath>
+
+  </PropertyGroup>
+
+</Project>

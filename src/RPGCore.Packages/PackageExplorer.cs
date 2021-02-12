@@ -70,6 +70,8 @@ namespace RPGCore.Packages
 
 		public static async Task<PackageExplorer> LoadAsync(IReadOnlyArchiveDirectory source)
 		{
+			await Task.CompletedTask;
+
 			var definitionEntry = source.Files.GetFile("definition.json");
 			var definitionDocument = LoadJsonDocument<PackageDefinition>(definitionEntry);
 

@@ -30,14 +30,14 @@ namespace RPGCore.FileTree.CommandLine
 			while (true)
 			{
 				Console.Clear();
-				// Console.WriteLine();
-				// Console.WriteLine();
+				Console.WriteLine(directory.FullName);
+				Console.WriteLine();
 
 				DrawTree(archive);
 
 				while (!skipToken)
 				{
-					Thread.Sleep(10);
+					await Task.Delay(10);
 				}
 				skipToken = false;
 			}
