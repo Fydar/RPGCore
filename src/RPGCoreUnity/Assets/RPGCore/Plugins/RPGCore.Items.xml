@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.Items</name>
+    </assembly>
+    <members>
+        <member name="M:RPGCore.Items.IItem.Duplicate">
+            <summary>
+            Creates a duplicate of this item.
+            </summary>
+            <returns>A duplicate of this item.</returns>
+        </member>
+        <member name="T:RPGCore.Items.StackableItem">
+            <summary>
+            Stackable items have a quantity and all behaviours can't store data on a single item.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Items.StackableItem.Take(System.Int32)">
+            <summary>
+            Take a couple of items from this <see cref="T:RPGCore.Items.StackableItem"/> in order to split them into
+            seperate stacks.
+            </summary>
+            <param name="quantity">The quantity of items to take from this <see cref="T:RPGCore.Items.StackableItem"/>.</param>
+            <returns>A <see cref="T:RPGCore.Items.StackableItem"/> with the quantity of items taken from this item.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown when <paramref name="quantity"/> is greater than or equal to the <see cref="P:RPGCore.Items.StackableItem.Quantity"/> of this <see cref="T:RPGCore.Items.StackableItem"/>.</exception>
+        </member>
+        <member name="M:RPGCore.Items.StackableItem.Duplicate">
+            <summary>
+            Creates a duplicate of this item.
+            </summary>
+            <returns>A duplicate of this item.</returns>
+        </member>
+        <member name="T:RPGCore.Items.UniqueItem">
+            <summary>
+            Unique items can have data stored on the single instance of the item.
+            </summary>
+        </member>
+    </members>
+</doc>

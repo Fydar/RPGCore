@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.Unity</name>
+    </assembly>
+    <members>
+        <member name="T:RPGCore.Unity.Entrypoint">
+            <summary>
+            A blank class to include in the Unity project.
+            </summary>
+        </member>
+    </members>
+</doc>

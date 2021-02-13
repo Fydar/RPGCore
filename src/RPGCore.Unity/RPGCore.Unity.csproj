@@ -13,9 +13,20 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+    <ProjectReference Include="..\RPGCore.Events\RPGCore.Events.csproj" />
     <ProjectReference Include="..\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
+    <ProjectReference Include="..\RPGCore.FileTree\RPGCore.FileTree.csproj" />
+    <ProjectReference Include="..\RPGCore.Inventories\RPGCore.Inventories.csproj" />
+    <ProjectReference Include="..\RPGCore.Items\RPGCore.Items.csproj" />
+    <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
     <ProjectReference Include="..\RPGCore.Projects\RPGCore.Projects.csproj" />
+    <ProjectReference Include="..\RPGCore.Traits\RPGCore.Traits.csproj" />
     <ProjectReference Include="..\RPGCore.View\RPGCore.View.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PublishDir>../RPGCoreUnity/Assets/RPGCore/Plugins/</PublishDir>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+  </PropertyGroup>
 
 </Project>

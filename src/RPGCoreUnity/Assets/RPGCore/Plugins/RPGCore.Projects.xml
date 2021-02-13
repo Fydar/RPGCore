@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.Projects</name>
+    </assembly>
+    <members>
+        <member name="T:RPGCore.Projects.Pipeline.IContentWriter">
+            <summary>
+            Provides a mechanism for deferring the writing of content in the import pipeline.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Projects.Pipeline.IImportProcessor">
+            <summary>
+            Applies additional modifications to resources that have already been imported.
+            </summary>
+        </member>
+        <member name="F:RPGCore.Projects.Pipeline.DependencyFlags.None">
+            <summary>
+            <para>Represents no dependency flags.</para>
+            </summary>
+        </member>
+        <member name="F:RPGCore.Projects.Pipeline.DependencyFlags.AllowCircular">
+            <summary>
+            <para>Indicates that this dependency is allowed to create a circular dependency.</para>
+            </summary>
+        </member>
+        <member name="F:RPGCore.Projects.Pipeline.DependencyFlags.Optional">
+            <summary>
+            <para>Indicates that this dependency is an optional dependency.</para>
+            <para>If the dependency is missing then the dependency configuration is valid.</para>
+            </summary>
+        </member>
+        <member name="T:RPGCore.Projects.Pipeline.ProjectResourceUpdate">
+            <summary>
+            The target of the project resource importation pipeline.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Projects.ResourceExporter">
+            <summary>
+            A single resource exporter is selected to write a resource to a package. An exporter is used
+            to convert a <see cref="T:RPGCore.Projects.ProjectResource"/> into a <see cref="T:RPGCore.Packages.PackageResource"/>.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Projects.ProjectExplorer">
+            <summary>
+            <para>Used for loading the content of an uncompiled package.</para>
+            </summary>
+            <remarks>
+            <para>Can be used to analyse, but not modify the content, of a package.</para>
+            </remarks>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.Archive">
+            <summary>
+            <para>The source for this project explorer.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.UncompressedSize">
+            <summary>
+            <para>The size of all of the projects resources on disk.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.Definition">
+            <summary>
+            <para>The project definition for this project.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.Resources">
+            <summary>
+            <para>A collection of all of the resources contained in this project.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.Tags">
+            <summary>
+            <para>An index of the tags contained within this project for performing asset queries.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.RootDirectory">
+            <summary>
+            <para>A directory representing the root of the project.</para>
+            </summary>
+        </member>
+    </members>
+</doc>

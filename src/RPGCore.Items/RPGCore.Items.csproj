@@ -15,9 +15,4 @@
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
   </ItemGroup>
 
-  <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Items.dll Assets/RPGCore/Plugins' | true" />
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Items.pdb Assets/RPGCore/Plugins' | true" />
-  </Target>
-
 </Project>

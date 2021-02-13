@@ -19,9 +19,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
-  <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Events.dll Assets/RPGCore/Plugins' | true" />
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Events.pdb Assets/RPGCore/Plugins' | true" />
-  </Target>
-
 </Project>

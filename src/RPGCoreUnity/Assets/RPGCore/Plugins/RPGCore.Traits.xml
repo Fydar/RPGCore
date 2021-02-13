@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.Traits</name>
+    </assembly>
+    <members>
+        <member name="F:RPGCore.Traits.StatModificationType.Additive">
+            <example>
+            Example 1:
+            My attack is 100.
+            I add 2 <see cref="F:RPGCore.Traits.StatModificationType.Additive"/> modifiers of +20 each.
+            My attack is now 140.
+            </example>
+        </member>
+        <member name="F:RPGCore.Traits.StatModificationType.SumAndMultiply">
+            <example>
+            Example 1:
+            My attack is 100.
+            I add 2 <see cref="F:RPGCore.Traits.StatModificationType.SumAndMultiply"/> modifiers of +10% each.
+            My attack is now 120.
+            
+            Example 2:
+            My attack is 100.
+            I add 2 <see cref="F:RPGCore.Traits.StatModificationType.SumAndMultiply"/> modifiers of +100% each.
+            My attack is now 300.
+            </example>
+        </member>
+        <member name="F:RPGCore.Traits.StatModificationType.Multiplicative">
+            <example>
+            Example 1:
+            My attack is 100.
+            I add 2 <see cref="F:RPGCore.Traits.StatModificationType.Multiplicative"/> modifiers of +10% each.
+            My attack is now 121.
+            
+            Example 2:
+            My attack is 100.
+            I add 2 <see cref="F:RPGCore.Traits.StatModificationType.Multiplicative"/> modifiers of +100% each.
+            My attack is now 400.
+            </example>
+        </member>
+        <member name="T:RPGCore.Traits.TraitCollection">
+            <summary>
+            Contains a collection for all stats belonging to a player or an item.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Traits.TraitContext">
+            <summary>
+            Consolidates the definitons of traits with their templates sourced from data.
+            </summary>
+        </member>
+    </members>
+</doc>

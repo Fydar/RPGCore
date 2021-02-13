@@ -24,9 +24,4 @@
     <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
   </ItemGroup>
 
-  <Target Name="PostCompileTarget" AfterTargets="AfterBuild">
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Projects.dll Assets/RPGCore/Plugins' | true" />
-    <Exec Command="sh -c '../DistributeOutputs.sh bin/$(Configuration)/netstandard2.0/RPGCore.Projects.pdb Assets/RPGCore/Plugins' | true" />
-  </Target>
-
 </Project>
