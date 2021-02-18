@@ -70,3 +70,5 @@ release-builds
 
 GPUCache
 !chromelycef.dll
+src/RPGCoreUnity/Logs
+src/RPGCoreUnity/UserSettings
