@@ -58,6 +58,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Events.UnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.Unity", "RPGCore.Unity\RPGCore.Unity.csproj", "{0FB4825A-6C6F-4B02-89A5-E788614B183C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.World", "RPGCore.World\RPGCore.World.csproj", "{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.World.CommandLine", "RPGCore.World.CommandLine\RPGCore.World.CommandLine.csproj", "{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -265,6 +269,22 @@ Global
 		{0FB4825A-6C6F-4B02-89A5-E788614B183C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0FB4825A-6C6F-4B02-89A5-E788614B183C}.Release|x64.ActiveCfg = Release|Any CPU
 		{0FB4825A-6C6F-4B02-89A5-E788614B183C}.Release|x64.Build.0 = Release|Any CPU
+		{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}.Debug|x64.Build.0 = Debug|Any CPU
+		{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}.Release|x64.ActiveCfg = Release|Any CPU
+		{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}.Release|x64.Build.0 = Release|Any CPU
+		{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}.Debug|x64.Build.0 = Debug|Any CPU
+		{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}.Release|x64.ActiveCfg = Release|Any CPU
+		{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
