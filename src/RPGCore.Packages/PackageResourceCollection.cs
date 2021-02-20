@@ -10,6 +10,7 @@ namespace RPGCore.Packages
 	{
 		private readonly Dictionary<string, PackageResource> resources;
 
+		/// <inheritdoc/>
 		public int Count => resources.Count;
 
 		public PackageResource this[string key] => resources[key];

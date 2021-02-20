@@ -5,6 +5,7 @@ namespace RPGCore.Packages
 {
 	public sealed class PackageResource : IResource
 	{
+		/// <inheritdoc/>
 		public string Name { get; }
 		public string FullName { get; }
 		public string Extension { get; }

@@ -6,18 +6,27 @@ using System.Xml;
 
 namespace RPGCore.Projects
 {
+	/// <summary>
+	/// Represents a configuration definition for the package.
+	/// </summary>
 	public class ProjectDefinition : IDefinition
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly XmlDocument document;
 
+		/// <summary>
+		/// <para>A path to the project directory on the system.</para>
+		/// </summary>
 		public string Path { get; }
+
+		/// <summary>
+		/// General properties defined for this package.
+		/// </summary>
+		public ProjectDefinitionProperties Properties { get; }
 
 		// Work-in-progress "References" feature.
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		internal List<Reference> References { get; }
-
-		public ProjectDefinitionProperties Properties { get; }
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinitionProperties IDefinition.Properties => Properties;
 

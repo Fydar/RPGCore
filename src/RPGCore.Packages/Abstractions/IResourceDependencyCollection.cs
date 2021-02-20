@@ -2,10 +2,21 @@
 
 namespace RPGCore.Packages
 {
+	/// <summary>
+	/// Represents a collection of dependencies.
+	/// </summary>
 	public interface IResourceDependencyCollection : IEnumerable<IResourceDependency>
 	{
+		/// <summary>
+		/// The quantity of dependencies contained within the collection.
+		/// </summary>
 		int Count { get; }
 
+		/// <summary>
+		/// Retrieves a dependency from the collection by an index.
+		/// </summary>
+		/// <param name="index">The integer-index for the resource in the collection.</param>
+		/// <returns>The <see cref="IResourceDependency"/> found within the collection; otherwise returns <c>null</c>.</returns>
 		IResourceDependency this[int index] { get; }
 	}
 }

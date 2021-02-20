@@ -6,7 +6,7 @@ namespace RPGCore.View
 {
 	public class ViewCharacter : Entity
 	{
-		public TraitCollection Traits;
+		public TraitCollection? Traits;
 
 		public EventField<string> Name = new EventField<string>();
 		public EventField<EntityRef> SelectedTarget = new EventField<EntityRef>();
@@ -19,9 +19,10 @@ namespace RPGCore.View
 			};
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return $"{Name.Value}({Id}, {string.Join(", ", Traits.States)}";
+			return $"{Name.Value}({Id}, {string.Join(", ", Traits?.States)}";
 		}
 	}
 }

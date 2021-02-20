@@ -2,6 +2,6 @@
 {
 	public class PackageResourceMetadataDependencyModel
 	{
-		public string Resource { get; set; }
+		public string Resource { get; set; } = string.Empty;
 	}
 }

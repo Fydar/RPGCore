@@ -16,10 +16,13 @@ namespace RPGCore.Packages
 	/// <para>Used for loading the content of a compiled package.</para>
 	/// </summary>
 	/// <remarks>
-	/// <para>Can be used to analyse and modify the content of a project.</para>
+	/// <para>Cannot be used to modify the content of the package.</para>
 	/// </remarks>
 	public sealed class PackageExplorer : IExplorer
 	{
+		/// <summary>
+		/// <para>An archive directory that this package was loaded from.</para>
+		/// </summary>
 		public IReadOnlyArchiveDirectory Source { get; private set; }
 
 		/// <summary>
@@ -155,6 +158,7 @@ namespace RPGCore.Packages
 			return packageExplorer;
 		}
 
+		/// <inheritdoc/>
 		public void Dispose()
 		{
 		}

@@ -8,6 +8,6 @@ namespace RPGCore.Items
 		public string Description { get; set; }
 		public int Weight { get; set; }
 
-		public SerializedGraph Behaviour { get; set; }
+		public SerializedGraph? Behaviour { get; set; }
 	}
 }

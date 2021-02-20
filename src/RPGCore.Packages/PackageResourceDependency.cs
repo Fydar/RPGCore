@@ -10,13 +10,14 @@ namespace RPGCore.Packages
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly Dictionary<string, string> metdadata;
+
 		public IReadOnlyDictionary<string, string> Metadata => metdadata;
 
 		public bool IsValid => packageExplorer.Resources.Contains(Key);
 
 		public string Key { get; }
 
-		public PackageResource Resource
+		public PackageResource? Resource
 		{
 			get
 			{
@@ -31,13 +32,14 @@ namespace RPGCore.Packages
 			}
 		}
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResource IResourceDependency.Resource => Resource;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResource? IResourceDependency.Resource => Resource;
 
 		public PackageResourceDependency(PackageExplorer packageExplorer, PackageResourceMetadataDependencyModel dependencyModel)
 		{
 			this.packageExplorer = packageExplorer;
 
 			Key = dependencyModel.Resource;
+			metdadata = new Dictionary<string, string>();
 		}
 	}
 }

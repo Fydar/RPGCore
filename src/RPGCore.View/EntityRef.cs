@@ -6,6 +6,7 @@ namespace RPGCore.View
 	{
 		public LocalId EntityId;
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return EntityId.ToString();

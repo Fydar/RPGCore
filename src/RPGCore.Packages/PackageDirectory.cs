@@ -4,12 +4,17 @@ namespace RPGCore.Packages
 {
 	public class PackageDirectory : IDirectory
 	{
+		/// <inheritdoc/>
 		public string Name { get; }
+
+		/// <inheritdoc/>
 		public string FullName { get; }
+
+		/// <inheritdoc/>
+		public IDirectory Parent { get; }
 
 		public PackageDirectoryCollection Directories { get; }
 		public PackageResourceCollection Resources { get; }
-		public IDirectory Parent { get; }
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectoryCollection IDirectory.Directories => Directories;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceCollection IDirectory.Resources => Resources;

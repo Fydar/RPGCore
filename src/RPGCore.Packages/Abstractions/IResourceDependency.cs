@@ -6,7 +6,7 @@ namespace RPGCore.Packages
 	{
 		bool IsValid { get; }
 		string Key { get; }
-		IResource Resource { get; }
+		IResource? Resource { get; }
 		IReadOnlyDictionary<string, string> Metadata { get; }
 	}
 }

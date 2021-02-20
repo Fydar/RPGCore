@@ -11,6 +11,7 @@ namespace RPGCore.Packages
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly List<PackageDirectory> directories;
 
+		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count => directories.Count;
 

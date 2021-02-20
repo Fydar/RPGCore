@@ -21,7 +21,7 @@ namespace RPGCore.Inventory.Slots
 		/// <para>Represents a transaction where items where destroyed from an inventory.</para>
 		/// </summary>
 		/// <remarks>
-		/// <para>This may have been caused by consuming, crafting, or user/admin action.
+		/// <para>This may have been caused by consuming, crafting, or user/admin action.</para>
 		/// </remarks>
 		Destroy
 	}
