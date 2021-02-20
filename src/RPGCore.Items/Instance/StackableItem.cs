@@ -55,6 +55,7 @@ namespace RPGCore.Items
 			return new StackableItem(Template, Quantity);
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return $"{Quantity} x {Template}";

@@ -80,6 +80,7 @@ namespace RPGCore.Behaviour
 			return 0;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (this == None)

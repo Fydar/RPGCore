@@ -43,6 +43,7 @@ namespace RPGCore.Demo.BoardGame
 			return Resource[0];
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (IsEmpty)

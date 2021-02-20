@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace RPGCore.Packages
 {
+	/// <summary>
+	/// Represents a collection of <see cref="PackageResource"/>.
+	/// </summary>
 	[DebuggerDisplay("Count = {Count,nq}")]
 	[DebuggerTypeProxy(typeof(PackageResourceCollectionDebugView))]
 	public sealed class PackageResourceCollection : IResourceCollection
@@ -22,11 +25,6 @@ namespace RPGCore.Packages
 			resources = new Dictionary<string, PackageResource>();
 		}
 
-		internal void Add(string key, PackageResource asset)
-		{
-			resources.Add(key, asset);
-		}
-
 		public bool Contains(string key)
 		{
 			return resources.ContainsKey(key);
@@ -35,6 +33,11 @@ namespace RPGCore.Packages
 		public bool TryGetResource(string key, out PackageResource value)
 		{
 			return resources.TryGetValue(key, out value);
+		}
+
+		internal void Add(string key, PackageResource asset)
+		{
+			resources.Add(key, asset);
 		}
 
 		bool IResourceCollection.TryGetResource(string key, out IResource value)

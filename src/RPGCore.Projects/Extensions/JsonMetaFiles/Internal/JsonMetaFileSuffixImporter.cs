@@ -9,7 +9,7 @@ namespace RPGCore.Projects.Extensions.MetaFiles
 	{
 		private readonly string suffix;
 
-		public JsonMetaFileSuffixImporter(string suffix)
+		internal JsonMetaFileSuffixImporter(string suffix)
 		{
 			this.suffix = suffix;
 		}

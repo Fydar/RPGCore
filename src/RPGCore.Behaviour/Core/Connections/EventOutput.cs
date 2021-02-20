@@ -14,6 +14,7 @@ namespace RPGCore.Behaviour
 			Connection = connection;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (IsConnected)

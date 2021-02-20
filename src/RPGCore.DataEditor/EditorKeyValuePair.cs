@@ -23,6 +23,7 @@ namespace RPGCore.DataEditor
 			Value = session.CreateValue(valueType, null, json.Value);
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return $"{{{json.Name}: {json.Value}}}";

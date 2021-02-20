@@ -48,6 +48,7 @@ namespace RPGCore.DataEditor.Manifest
 			return manifest;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return JsonConvert.SerializeObject(this, Formatting.Indented);

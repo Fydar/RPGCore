@@ -21,6 +21,7 @@ namespace RPGCore.Demo.Inventory
 			};
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return "Actor";

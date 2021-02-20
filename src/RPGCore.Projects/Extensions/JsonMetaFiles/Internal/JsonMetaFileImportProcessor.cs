@@ -7,11 +7,11 @@ using System.IO;
 
 namespace RPGCore.Projects.Extensions.MetaFiles
 {
-	public class JsonMetaFileImportProcessor : IImportProcessor
+	internal class JsonMetaFileImportProcessor : IImportProcessor
 	{
 		private readonly JsonMetaFilesOptions options;
 
-		public JsonMetaFileImportProcessor(JsonMetaFilesOptions options)
+		internal JsonMetaFileImportProcessor(JsonMetaFilesOptions options)
 		{
 			this.options = options;
 		}

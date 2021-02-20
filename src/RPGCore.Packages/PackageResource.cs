@@ -7,7 +7,11 @@ namespace RPGCore.Packages
 	{
 		/// <inheritdoc/>
 		public string Name { get; }
+
+		/// <inheritdoc/>
 		public string FullName { get; }
+
+		/// <inheritdoc/>
 		public string Extension { get; }
 
 		public PackageExplorer Explorer { get; }
@@ -39,9 +43,10 @@ namespace RPGCore.Packages
 			int dotIndex = contentEntry.FullName.LastIndexOf('.');
 			Extension = dotIndex != -1
 				? contentEntry.FullName.Substring(dotIndex)
-				: null;
+				: string.Empty;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return Name;

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <Deterministic>true</Deterministic>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Internal\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

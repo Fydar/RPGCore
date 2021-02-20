@@ -2,7 +2,7 @@
 
 namespace RPGCore.Projects.Extensions.MetaFiles
 {
-	public class JsonMetaFileModel
+	internal class JsonMetaFileModel
 	{
 		public string[] Tags { get; set; }
 		public Dictionary<string, string> Metadata { get; set; }

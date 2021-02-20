@@ -18,6 +18,7 @@ namespace RPGCore.Demo.BoardGame
 			Identifier = identifier;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return Identifier;

@@ -37,6 +37,7 @@ namespace RPGCore.Projects
 			Dependants = new ProjectResourceDependencies(Explorer);
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return FullName;

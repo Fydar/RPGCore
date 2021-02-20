@@ -9,6 +9,10 @@
 			Id = id;
 		}
 
-		public override string ToString() => $"Output {Id.ToString()}";
+		/// <inheritdoc/>
+		public override string ToString()
+		{
+			return $"Output {Id.ToString()}";
+		}
 	}
 }

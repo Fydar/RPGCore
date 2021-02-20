@@ -13,6 +13,7 @@
 			Outputs = outputs;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return $"{Instance?.Template?.Id}: {Instance?.Template.GetType().Name}";

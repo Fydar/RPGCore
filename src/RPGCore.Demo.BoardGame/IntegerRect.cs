@@ -34,6 +34,7 @@ namespace RPGCore.Demo.BoardGame
 			this.height = height;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return string.Format("x: {0:0}, y: {1:0}, width: {1:0}, height: {1:0}", x, y, width, height);

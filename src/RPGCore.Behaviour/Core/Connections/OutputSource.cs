@@ -14,6 +14,7 @@ namespace RPGCore.Behaviour
 			InputInformation = outputMapping;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (Instance == null)

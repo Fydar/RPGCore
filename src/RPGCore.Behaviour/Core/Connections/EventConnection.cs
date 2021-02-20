@@ -131,6 +131,10 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public override string ToString() => $"Connection {ConnectionId}";
+		/// <inheritdoc/>
+		public override string ToString()
+		{
+			return $"Connection {ConnectionId}";
+		}
 	}
 }

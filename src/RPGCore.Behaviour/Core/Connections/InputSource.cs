@@ -13,6 +13,7 @@ namespace RPGCore.Behaviour
 			OutputInformation = outputMapping;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (Node == null)

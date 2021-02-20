@@ -45,6 +45,7 @@ namespace RPGCore.Inventory.Slots
 			return quantityCanAdd;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return $"Weight Constraint of {Weight}";

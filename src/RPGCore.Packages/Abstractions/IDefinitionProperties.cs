@@ -1,17 +1,17 @@
 ﻿namespace RPGCore.Packages
 {
 	/// <summary>
-	/// General properties for a package.
+	/// <para>General properties for a package.</para>
 	/// </summary>
 	public interface IDefinitionProperties
 	{
 		/// <summary>
-		/// The name of the package.
+		/// <para>The name of the package.</para>
 		/// </summary>
 		string Name { get; }
 
 		/// <summary>
-		/// The version of the package.
+		/// <para>The version of the package.</para>
 		/// </summary>
 		string Version { get; }
 	}

@@ -4,11 +4,14 @@ using System.Collections.Generic;
 
 namespace RPGCore.Projects
 {
+	/// <summary>
+	/// <para>A configurable and extendable pipeline for the importation of assets.</para>
+	/// </summary>
 	public class ImportPipeline
 	{
-		private List<IArchiveDirectoryImporter> directoryImporters { get; }
-		private List<IArchiveFileImporter> fileImporters { get; }
-		internal List<IImportProcessor> importProcessors { get; }
+		private readonly List<IArchiveDirectoryImporter> directoryImporters;
+		private readonly List<IArchiveFileImporter> fileImporters;
+		internal readonly List<IImportProcessor> importProcessors;
 
 		internal ImportPipeline(ImportPipelineBuilder builder)
 		{
@@ -61,6 +64,10 @@ namespace RPGCore.Projects
 			}
 		}
 
+		/// <summary>
+		/// <para>Begins the construction of a <see cref="ImportPipeline"/> via a <see cref="IImportPipelineBuilder"/>.</para>
+		/// </summary>
+		/// <returns>A builder that can be used to add features to the import pipeline.</returns>
 		public static IImportPipelineBuilder Create()
 		{
 			return new ImportPipelineBuilder();

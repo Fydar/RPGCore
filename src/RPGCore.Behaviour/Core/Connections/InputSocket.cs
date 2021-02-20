@@ -21,6 +21,10 @@ namespace RPGCore.Behaviour
 			internalConnectionId = connectionId + 1;
 		}
 
-		public override string ToString() => $"Input {ConnectionId.ToString()}";
+		/// <inheritdoc/>
+		public override string ToString()
+		{
+			return $"Input {ConnectionId.ToString()}";
+		}
 	}
 }

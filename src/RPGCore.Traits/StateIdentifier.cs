@@ -12,15 +12,18 @@ namespace RPGCore.Traits
 			Identifer = identifier;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return Identifer;
 		}
 
+		/// <inheritdoc/>
 		public override bool Equals(object obj) => obj is StateIdentifier identifier && Equals(identifier);
 
 		public bool Equals(StateIdentifier other) => Identifer == other.Identifer;
 
+		/// <inheritdoc/>
 		public override int GetHashCode() => 1924603977 + EqualityComparer<string>.Default.GetHashCode(Identifer);
 
 		public static bool operator ==(StateIdentifier left, StateIdentifier right)

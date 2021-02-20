@@ -17,6 +17,7 @@
 			};
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return $"StatTemplate({Name})";

@@ -470,6 +470,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return "ItemStorageSlot";

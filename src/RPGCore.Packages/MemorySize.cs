@@ -101,6 +101,7 @@ namespace RPGCore.Packages
 			return new MemorySize((ulong)file.Length);
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (Gigabytes >= 1.0f)
@@ -118,6 +119,7 @@ namespace RPGCore.Packages
 			return $"{Bytes} {byteSuffix}";
 		}
 
+		/// <inheritdoc/>
 		public override bool Equals(object obj) => obj is MemorySize size && Equals(size);
 
 		public bool Equals(MemorySize other) => Bytes == other.Bytes;

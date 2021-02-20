@@ -27,7 +27,7 @@ namespace RPGCore.Projects
 		public string OutputFolder { get; }
 		public double Progress { get; private set; }
 
-		public ProjectBuildProcess(BuildPipeline pipeline, ProjectExplorer project, string outputFolder)
+		internal ProjectBuildProcess(BuildPipeline pipeline, ProjectExplorer project, string outputFolder)
 		{
 			Pipeline = pipeline;
 			Project = project;

@@ -3,7 +3,7 @@
 namespace RPGCore.Packages
 {
 	/// <summary>
-	/// Represents a collection of dependencies.
+	/// Represents a collection of <see cref="IResourceDependency"/>.
 	/// </summary>
 	public interface IResourceDependencyCollection : IEnumerable<IResourceDependency>
 	{
@@ -13,7 +13,7 @@ namespace RPGCore.Packages
 		int Count { get; }
 
 		/// <summary>
-		/// Retrieves a dependency from the collection by an index.
+		/// Retrieves a <see cref="IResourceDependency"/> from the collection by an index.
 		/// </summary>
 		/// <param name="index">The integer-index for the resource in the collection.</param>
 		/// <returns>The <see cref="IResourceDependency"/> found within the collection; otherwise returns <c>null</c>.</returns>

@@ -14,6 +14,7 @@ namespace RPGCore.Behaviour
 			Callbacks = new List<Action>();
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return $"{Node?.Template?.Id}: {Node?.Template.GetType().Name}";

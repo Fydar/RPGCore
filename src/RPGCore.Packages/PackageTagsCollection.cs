@@ -11,9 +11,13 @@ namespace RPGCore.Packages
 	{
 		private readonly IReadOnlyDictionary<string, IResourceCollection> tags;
 
+		/// <inheritdoc/>
 		public IResourceCollection this[string tag] => tags[tag];
 
+		/// <inheritdoc/>
 		public int Count => tags.Count;
+
+		/// <inheritdoc/>
 		public IEnumerable<string> Keys => tags.Keys;
 
 		internal PackageTagsCollection(IReadOnlyDictionary<string, IResourceCollection> tags)
@@ -21,11 +25,13 @@ namespace RPGCore.Packages
 			this.tags = tags ?? throw new ArgumentNullException(nameof(tags));
 		}
 
+		/// <inheritdoc/>
 		public bool ContainsKey(string key)
 		{
 			return tags.ContainsKey(key);
 		}
 
+		/// <inheritdoc/>
 		public bool TryGetValue(string key, out IResourceCollection value)
 		{
 			return tags.TryGetValue(key, out value);

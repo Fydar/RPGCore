@@ -38,6 +38,7 @@ namespace RPGCore.Behaviour
 			Connection.StopMirroring();
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (IsConnected)

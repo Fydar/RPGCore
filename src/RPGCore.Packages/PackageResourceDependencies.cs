@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace RPGCore.Packages
 {
+	/// <summary>
+	/// Represents a collection of <see cref="PackageResourceDependency"/>.
+	/// </summary>
 	[DebuggerDisplay("Count = {Count,nq}")]
 	[DebuggerTypeProxy(typeof(PackageResourceDependenciesDebugView))]
 	public class PackageResourceDependencies : IResourceDependencyCollection
@@ -13,6 +16,7 @@ namespace RPGCore.Packages
 
 		private readonly List<PackageResourceDependency> dependencies;
 
+		/// <inheritdoc/>
 		public int Count
 		{
 			get
@@ -21,6 +25,11 @@ namespace RPGCore.Packages
 			}
 		}
 
+		/// <summary>
+		/// Retrieves a <see cref="PackageResourceDependency"/> from the collection by an index.
+		/// </summary>
+		/// <param name="index">The integer-index for the resource in the collection.</param>
+		/// <returns>The <see cref="PackageResourceDependency"/> found within the collection; otherwise returns <c>null</c>.</returns>
 		public PackageResourceDependency this[int index]
 		{
 			get

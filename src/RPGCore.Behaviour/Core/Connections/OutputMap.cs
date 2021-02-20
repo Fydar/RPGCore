@@ -13,6 +13,7 @@ namespace RPGCore.Behaviour
 			ConnectionId = source.Id;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (ConnectionId == -1)

@@ -93,6 +93,7 @@ namespace RPGCore.FileTree.Packed
 			}
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return FullName;

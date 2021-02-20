@@ -67,6 +67,7 @@ namespace RPGCore.Inventory.Slots
 			return hashCode;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			var sb = new StringBuilder();

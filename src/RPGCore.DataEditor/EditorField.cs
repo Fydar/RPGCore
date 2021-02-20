@@ -76,6 +76,7 @@ namespace RPGCore.DataEditor
 			return feature;
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return $"{Field.Type}";

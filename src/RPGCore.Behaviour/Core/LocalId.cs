@@ -55,6 +55,7 @@ namespace RPGCore.Behaviour
 			return 2108858624 + id.GetHashCode();
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return "0x" + id.ToString("x8");

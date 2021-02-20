@@ -8,10 +8,10 @@ namespace RPGCore.Packages
 	public class PackageDefinitionProperties : IDefinitionProperties
 	{
 		/// <inheritdoc/>
-		public string Name { get; internal set; }
+		public string Name { get; internal set; } = string.Empty;
 
 		/// <inheritdoc/>
-		public string Version { get; internal set; }
+		public string Version { get; internal set; } = string.Empty;
 
 		/// <summary>
 		/// Initialises a new instance of a <see cref="PackageDefinitionProperties"/>.

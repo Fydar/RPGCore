@@ -108,6 +108,7 @@ namespace RPGCore.DataEditor
 			Session.InvokeOnChanged();
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return json.ToString();

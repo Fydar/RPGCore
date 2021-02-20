@@ -45,6 +45,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			if (FromInventory == null)

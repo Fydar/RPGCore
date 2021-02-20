@@ -101,7 +101,11 @@ namespace RPGCore.Behaviour
 			Mirroring = null;
 		}
 
-		public override string ToString() => $"Connection {ConnectionId}, Value = {valueInternal}";
+		/// <inheritdoc/>
+		public override string ToString()
+		{
+			return $"Connection {ConnectionId}, Value = {valueInternal}";
+		}
 
 		public object GetValue()
 		{

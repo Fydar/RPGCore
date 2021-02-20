@@ -109,7 +109,7 @@ namespace RPGCore.Packages
 					{
 						string element = elements[i];
 
-						PackageDirectory findDirectory = null;
+						PackageDirectory? findDirectory = null;
 						foreach (var directory in parentDirectory.Directories)
 						{
 							if (directory.Name == element)

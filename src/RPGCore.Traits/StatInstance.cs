@@ -27,6 +27,7 @@ namespace RPGCore.Traits
 			Handlers = new EventFieldHandlerCollection(this);
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return $"{nameof(StatInstance)}({Identifier})";

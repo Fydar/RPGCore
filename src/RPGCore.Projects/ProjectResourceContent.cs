@@ -48,6 +48,7 @@ namespace RPGCore.Projects
 			return ArchiveEntry.OpenWrite();
 		}
 
+		/// <inheritdoc/>
 		public override string ToString()
 		{
 			return new MemorySize(UncompressedSize).ToString();

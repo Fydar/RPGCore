@@ -3,24 +3,24 @@ using System.Collections.Generic;
 namespace RPGCore.Packages
 {
 	/// <summary>
-	/// Represents a collection of resources.
+	/// <para>Represents a collection of <see cref="IResource"/>.</para>
 	/// </summary>
 	public interface IResourceCollection : IEnumerable<IResource>
 	{
 		/// <summary>
-		/// The quantity of resource contained within the collection.
+		/// <para>The quantity of resource contained within the collection.</para>
 		/// </summary>
 		int Count { get; }
 
 		/// <summary>
-		/// Retrieves a resource from the collection by a string-key.
+		/// <para>Retrieves a resource from the collection by a string-key.</para>
 		/// </summary>
 		/// <param name="key">The string-key for the resource in the collection.</param>
 		/// <returns>The <see cref="IResource"/> found within the collection; otherwise returns <c>null</c>.</returns>
 		IResource? this[string key] { get; }
 
 		/// <summary>
-		/// Determines whether a resource with the key is contained within the collection.
+		/// <para>Determines whether a resource with the key is contained within the collection.</para>
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns>Returns <c>true</c> if a resource with the specified key is contained within the collection;
