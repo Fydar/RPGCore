@@ -3,17 +3,29 @@ using System.IO;
 
 namespace RPGCore.Documentation
 {
-	class Program
+	internal class Program
 	{
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
 			Console.WriteLine("Hello World!");
 
+			Console.WriteLine("----------");
+
+			string sample = GetSample("AddNodeSample.cs", "default");
+			Console.WriteLine(sample);
+		}
+
+		public static string GetSample(string file, string section)
+		{
 			var directory = FindSourceDirectory();
 
 			Console.WriteLine(directory.FullName);
-		}
 
+			string sampleFile = Path.Combine(directory.FullName, "src/RPGCore.Documentation/Samples", file);
+			var sampleFileInfo = new FileInfo(sampleFile);
+
+			return "";
+		}
 
 		private static DirectoryInfo FindSourceDirectory()
 		{

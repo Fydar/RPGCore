@@ -13,7 +13,7 @@ namespace RPGCore.Packages
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly Dictionary<string, string> metdadata;
-		
+
 		/// <summary>
 		/// The resource referenced by this dependency.
 		/// </summary>
