@@ -9,13 +9,14 @@ namespace RPGCore.FileTree.Packed
 		private readonly PackedArchiveDirectory owner;
 		internal readonly List<PackedArchiveDirectory> internalList;
 
+		/// <inheritdoc/>
 		public IEnumerable<PackedArchiveDirectory> All => internalList;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IArchiveDirectory> IArchiveDirectoryCollection.All => internalList;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IReadOnlyArchiveDirectory> IReadOnlyArchiveDirectoryCollection.All => internalList;
 
-		public PackedArchiveDirectoryCollection(PackedArchive archive, PackedArchiveDirectory owner)
+		internal PackedArchiveDirectoryCollection(PackedArchive archive, PackedArchiveDirectory owner)
 		{
 			this.archive = archive;
 			this.owner = owner;
@@ -23,7 +24,7 @@ namespace RPGCore.FileTree.Packed
 			internalList = new List<PackedArchiveDirectory>();
 		}
 
-
+		/// <inheritdoc/>
 		public PackedArchiveDirectory GetDirectory(string key)
 		{
 			foreach (var directory in internalList)
@@ -36,6 +37,7 @@ namespace RPGCore.FileTree.Packed
 			return null;
 		}
 
+		/// <inheritdoc/>
 		public PackedArchiveDirectory GetOrCreateDirectory(string key)
 		{
 			var directory = GetDirectory(key);

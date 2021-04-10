@@ -6,6 +6,7 @@ namespace RPGCore.Inventory.Slots
 {
 	public class ExpandableInventory : IInventory
 	{
+		/// <inheritdoc/>
 		public IInventory Parent { get; }
 
 		public ExpandableInventory(IInventory parent)
@@ -13,6 +14,7 @@ namespace RPGCore.Inventory.Slots
 			Parent = parent ?? throw new ArgumentNullException(nameof(parent));
 		}
 
+		/// <inheritdoc/>
 		public IEnumerable<IItem> Items
 		{
 			get
@@ -21,6 +23,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
+		/// <inheritdoc/>
 		public InventoryTransaction AddItem(IItem item)
 		{
 			return InventoryTransaction.None;

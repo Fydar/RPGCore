@@ -9,7 +9,7 @@ namespace RPGCore.FileTree.Packed
 		private readonly PackedArchiveDirectory owner;
 		internal readonly List<PackedArchiveFile> internalList;
 
-		public PackedArchiveFileCollection(PackedArchive archive, PackedArchiveDirectory owner)
+		internal PackedArchiveFileCollection(PackedArchive archive, PackedArchiveDirectory owner)
 		{
 			this.archive = archive;
 			this.owner = owner;
@@ -17,6 +17,7 @@ namespace RPGCore.FileTree.Packed
 			internalList = new List<PackedArchiveFile>();
 		}
 
+		/// <inheritdoc/>
 		public PackedArchiveFile GetFile(string key)
 		{
 			foreach (var file in internalList)
@@ -30,6 +31,7 @@ namespace RPGCore.FileTree.Packed
 			return null;
 		}
 
+		/// <inheritdoc/>
 		public PackedArchiveFile GetOrCreateFile(string key)
 		{
 			foreach (var file in internalList)

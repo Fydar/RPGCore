@@ -12,9 +12,12 @@ namespace RPGCore.FileTree.FileSystem
 
 		public DirectoryInfo RootDirectoryInfo { get; }
 		public FileSystemArchiveDirectory RootDirectory { get; }
+
+		/// <inheritdoc/>
 		public int MaximumWriteThreads => 6;
 
-		public event Action<ArchiveEventParameters> OnEntryChanged;
+		/// <inheritdoc/>
+		public event Action<ArchiveEventParameters>? OnEntryChanged;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchive.RootDirectory => RootDirectory;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchive.RootDirectory => RootDirectory;

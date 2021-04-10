@@ -34,11 +34,13 @@ namespace RPGCore.Demo.BoardGame
 			}
 		}
 
+		/// <inheritdoc/>
 		public bool CanImport(IArchiveFile archiveFile)
 		{
 			return archiveFile.Extension == ".json";
 		}
 
+		/// <inheritdoc/>
 		public IEnumerable<ProjectResourceUpdate> ImportFile(ArchiveFileImporterContext context, IArchiveFile archiveFile)
 		{
 			var update = context.AuthorUpdate(archiveFile.FullName);

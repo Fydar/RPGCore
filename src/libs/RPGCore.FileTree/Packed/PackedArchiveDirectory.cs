@@ -7,8 +7,12 @@ namespace RPGCore.FileTree.Packed
 	[DebuggerTypeProxy(typeof(PackedArchiveDirectoryDebugView))]
 	public class PackedArchiveDirectory : IArchiveDirectory
 	{
+		/// <inheritdoc/>
 		public string Name { get; }
+
+		/// <inheritdoc/>
 		public string FullName { get; }
+
 		public PackedArchive Archive { get; }
 		public PackedArchiveDirectory Parent { get; }
 		public PackedArchiveDirectoryCollection Directories { get; }
@@ -47,6 +51,7 @@ namespace RPGCore.FileTree.Packed
 			}
 		}
 
+		/// <inheritdoc/>
 		public Task CopyIntoAsync(IArchiveDirectory destination, string name)
 		{
 			static void CopyIntoRecursive(PackedArchiveDirectory from, IArchiveDirectory to, string rename)
@@ -70,6 +75,7 @@ namespace RPGCore.FileTree.Packed
 			return Task.CompletedTask;
 		}
 
+		/// <inheritdoc/>
 		public Task MoveInto(IArchiveDirectory destination, string name)
 		{
 			throw new System.NotImplementedException();

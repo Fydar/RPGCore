@@ -10,8 +10,12 @@ namespace RPGCore.FileTree.FileSystem
 	{
 		internal readonly DirectoryInfo directoryInfo;
 
+		/// <inheritdoc/>
 		public string Name { get; internal set; }
+
+		/// <inheritdoc/>
 		public string FullName { get; internal set; }
+
 		public FileSystemArchive Archive { get; }
 		public FileSystemArchiveDirectory Parent { get; internal set; }
 		public FileSystemArchiveDirectoryCollection Directories { get; }
@@ -51,6 +55,7 @@ namespace RPGCore.FileTree.FileSystem
 			Files = new FileSystemArchiveFileCollection(archive, this);
 		}
 
+		/// <inheritdoc/>
 		public Task CopyIntoAsync(IArchiveDirectory destination, string name)
 		{
 			static void CopyIntoRecursive(FileSystemArchiveDirectory from, IArchiveDirectory to, string rename)
@@ -84,6 +89,7 @@ namespace RPGCore.FileTree.FileSystem
 			return Task.CompletedTask;
 		}
 
+		/// <inheritdoc/>
 		public Task MoveInto(IArchiveDirectory destination, string name)
 		{
 			throw new System.NotImplementedException();

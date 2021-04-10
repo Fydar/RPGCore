@@ -170,7 +170,13 @@ namespace RPGCore.Packages
 			using var reader = new JsonTextReader(sr);
 
 			var serializer = new JsonSerializer();
-			return serializer.Deserialize<T>(reader);
+			var result = serializer.Deserialize<T>(reader);
+
+			if (result == null)
+			{
+				throw new InvalidOperationException("Unable to deserialize file.");
+			}
+			return result;
 		}
 	}
 }

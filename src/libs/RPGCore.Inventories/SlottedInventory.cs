@@ -11,8 +11,11 @@ namespace RPGCore.Inventory.Slots
 
 		public int Capacity { get; set; }
 		public IItemSlotFactory ItemSlotFactory { get; }
+
+		/// <inheritdoc/>
 		public IInventory Parent { get; }
 
+		/// <inheritdoc/>
 		public IEnumerable<IItem> Items => slots.Select(slot => slot.CurrentItem);
 
 		public SlottedInventory(int capacity, IItemSlotFactory itemSlotFactory, IInventory parent = null)
@@ -30,6 +33,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
+		/// <inheritdoc/>
 		public InventoryTransaction AddItem(IItem item)
 		{
 			foreach (var slot in slots)

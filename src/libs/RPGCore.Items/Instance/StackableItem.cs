@@ -7,7 +7,9 @@ namespace RPGCore.Items
 	/// </summary>
 	public class StackableItem : IItem
 	{
+		/// <inheritdoc/>
 		public ItemTemplate Template { get; }
+
 		public int Quantity { get; set; }
 		public int MaxStackSize { get; set; } = 64;
 

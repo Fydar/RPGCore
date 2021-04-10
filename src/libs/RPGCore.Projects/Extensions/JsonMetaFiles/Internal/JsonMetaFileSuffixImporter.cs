@@ -14,11 +14,13 @@ namespace RPGCore.Projects.Extensions.MetaFiles
 			this.suffix = suffix;
 		}
 
+		/// <inheritdoc/>
 		public bool CanImport(IArchiveFile archiveFile)
 		{
 			return archiveFile.Extension == suffix;
 		}
 
+		/// <inheritdoc/>
 		public IEnumerable<ProjectResourceUpdate> ImportFile(ArchiveFileImporterContext context, IArchiveFile archiveFile)
 		{
 			return Enumerable.Empty<ProjectResourceUpdate>();

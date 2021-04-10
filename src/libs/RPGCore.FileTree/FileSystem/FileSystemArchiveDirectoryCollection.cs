@@ -17,6 +17,7 @@ namespace RPGCore.FileTree.FileSystem
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly SemaphoreSlim synchronize;
 
+		/// <inheritdoc/>
 		public IEnumerable<FileSystemArchiveDirectory> All => internalList;
 
 		internal int Count
@@ -31,7 +32,7 @@ namespace RPGCore.FileTree.FileSystem
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IReadOnlyArchiveDirectory> IReadOnlyArchiveDirectoryCollection.All => internalList;
 
-		public FileSystemArchiveDirectoryCollection(FileSystemArchive archive, FileSystemArchiveDirectory owner)
+		internal FileSystemArchiveDirectoryCollection(FileSystemArchive archive, FileSystemArchiveDirectory owner)
 		{
 			this.archive = archive;
 			this.owner = owner;
@@ -45,6 +46,7 @@ namespace RPGCore.FileTree.FileSystem
 			}
 		}
 
+		/// <inheritdoc/>
 		public FileSystemArchiveDirectory GetDirectory(string key)
 		{
 			synchronize.Wait();
@@ -53,6 +55,7 @@ namespace RPGCore.FileTree.FileSystem
 			return result;
 		}
 
+		/// <inheritdoc/>
 		public FileSystemArchiveDirectory GetOrCreateDirectory(string key)
 		{
 			synchronize.Wait();

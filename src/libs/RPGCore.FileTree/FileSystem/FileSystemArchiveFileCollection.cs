@@ -25,7 +25,7 @@ namespace RPGCore.FileTree.FileSystem
 			}
 		}
 
-		public FileSystemArchiveFileCollection(FileSystemArchive archive, FileSystemArchiveDirectory owner)
+		internal FileSystemArchiveFileCollection(FileSystemArchive archive, FileSystemArchiveDirectory owner)
 		{
 			this.archive = archive;
 			this.owner = owner;
@@ -40,6 +40,7 @@ namespace RPGCore.FileTree.FileSystem
 			}
 		}
 
+		/// <inheritdoc/>
 		public FileSystemArchiveFile GetFile(string key)
 		{
 			synchronize.Wait();
@@ -49,6 +50,7 @@ namespace RPGCore.FileTree.FileSystem
 			return result;
 		}
 
+		/// <inheritdoc/>
 		public FileSystemArchiveFile GetOrCreateFile(string key)
 		{
 			synchronize.Wait();

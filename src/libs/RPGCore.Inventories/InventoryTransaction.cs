@@ -28,6 +28,7 @@ namespace RPGCore.Inventory.Slots
 			Items = items;
 		}
 
+		/// <inheritdoc/>
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as InventoryTransaction);
@@ -59,6 +60,7 @@ namespace RPGCore.Inventory.Slots
 			return true;
 		}
 
+		/// <inheritdoc/>
 		public override int GetHashCode()
 		{
 			int hashCode = 2143614870;

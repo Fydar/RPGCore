@@ -26,6 +26,7 @@ namespace RPGCore.Projects
 			DrawBar(ProgressBarLeft, ProgressBarTop, 0, ProgressBarLength);
 		}
 
+		/// <inheritdoc/>
 		public override void OnAfterExportResource(ProjectBuildProcess process, ProjectResource resource)
 		{
 			DrawBar(ProgressBarLeft, ProgressBarTop, process.Progress, ProgressBarLength, process.Project.Definition.Properties.Name);

@@ -61,6 +61,7 @@ namespace RPGCore.Inventory.Slots
 			Behaviours = behaviours;
 		}
 
+		/// <inheritdoc/>
 		public InventoryTransaction AddItem(IItem item)
 		{
 			if (item is null)
@@ -232,6 +233,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
+		/// <inheritdoc/>
 		public InventoryTransaction DestroyItem()
 		{
 			if (storedItem is StackableItem stackableItem)
@@ -278,6 +280,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
+		/// <inheritdoc/>
 		public InventoryTransaction DragInto(IInventory other)
 		{
 			if (other is null)
@@ -349,6 +352,7 @@ namespace RPGCore.Inventory.Slots
 			}
 		}
 
+		/// <inheritdoc/>
 		public InventoryTransaction MoveInto(IInventory other)
 		{
 			if (other is null)
@@ -371,6 +375,7 @@ namespace RPGCore.Inventory.Slots
 			return result;
 		}
 
+		/// <inheritdoc/>
 		public InventoryTransaction SetItem(IItem item)
 		{
 			if (item is null)
@@ -420,6 +425,7 @@ namespace RPGCore.Inventory.Slots
 			return result.Build(TransactionStatus.Complete);
 		}
 
+		/// <inheritdoc/>
 		public InventoryTransaction Swap(IItemSlot other)
 		{
 			if (other is null)

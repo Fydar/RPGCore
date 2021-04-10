@@ -11,11 +11,19 @@ namespace RPGCore.FileTree.Packed
 
 		public PackedArchive Archive { get; }
 
+		/// <inheritdoc/>
 		public string Name { get; }
+
+		/// <inheritdoc/>
 		public string FullName { get; }
+
+		/// <inheritdoc/>
 		public string Extension { get; }
 
+		/// <inheritdoc/>
 		public long CompressedSize => GetEntry().CompressedLength;
+
+		/// <inheritdoc/>
 		public long UncompressedSize => GetEntry().Length;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchive IArchiveEntry.Archive => Archive;
@@ -27,7 +35,7 @@ namespace RPGCore.FileTree.Packed
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] string IReadOnlyArchiveEntry.Name => Name;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] string IReadOnlyArchiveEntry.FullName => FullName;
 
-		public PackedArchiveFile(PackedArchive archive, PackedArchiveDirectory parent, string name)
+		internal PackedArchiveFile(PackedArchive archive, PackedArchiveDirectory parent, string name)
 		{
 			Archive = archive;
 			Parent = parent;
@@ -41,19 +49,34 @@ namespace RPGCore.FileTree.Packed
 				: "";
 		}
 
+		/// <inheritdoc/>
 		public Task DeleteAsync()
 		{
 			return Task.Run(() => GetEntry()?.Delete());
 		}
 
+		/// <inheritdoc/>
 		public Stream OpenRead()
 		{
 			return GetEntry().Open();
 		}
 
+		/// <inheritdoc/>
 		public Stream OpenWrite()
 		{
 			return GetOrCreateEntry().Open();
+		}
+
+		/// <inheritdoc/>
+		public Task MoveInto(IArchiveDirectory destination, string name)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		/// <inheritdoc/>
+		public Task CopyIntoAsync(IArchiveDirectory destination, string name)
+		{
+			throw new System.NotImplementedException();
 		}
 
 		private ZipArchiveEntry GetEntry()
@@ -69,16 +92,6 @@ namespace RPGCore.FileTree.Packed
 		private ZipArchiveEntry GetOrCreateEntry()
 		{
 			return GetEntry() ?? Archive.ZipArchive.CreateEntry(FullName);
-		}
-
-		public Task MoveInto(IArchiveDirectory destination, string name)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public Task CopyIntoAsync(IArchiveDirectory destination, string name)
-		{
-			throw new System.NotImplementedException();
 		}
 
 		private static string MakeFullName(IArchiveDirectory parent, string key)

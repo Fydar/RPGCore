@@ -18,6 +18,7 @@ namespace RPGCore.Projects
 			this.buildActions = buildActions ?? throw new ArgumentNullException(nameof(buildActions));
 		}
 
+		/// <inheritdoc/>
 		public override void OnBeforeExportResource(ProjectBuildProcess process, ProjectResource resource)
 		{
 			foreach (var buildAction in buildActions)
@@ -26,6 +27,7 @@ namespace RPGCore.Projects
 			}
 		}
 
+		/// <inheritdoc/>
 		public override void OnAfterExportResource(ProjectBuildProcess process, ProjectResource resource)
 		{
 			foreach (var buildAction in buildActions)

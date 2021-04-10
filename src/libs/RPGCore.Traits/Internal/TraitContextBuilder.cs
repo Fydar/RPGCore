@@ -17,6 +17,7 @@ namespace RPGCore.Traits.Internal
 			stateMapping = new Dictionary<StateIdentifier, StateTemplate>();
 		}
 
+		/// <inheritdoc/>
 		public TraitContext Build()
 		{
 			return new TraitContext(
@@ -25,6 +26,7 @@ namespace RPGCore.Traits.Internal
 			);
 		}
 
+		/// <inheritdoc/>
 		public ITraitContextBuilder UseTraits(IReadOnlyDictionary<StatIdentifier, StatTemplate> map)
 		{
 			foreach (var mapping in map)
@@ -34,6 +36,7 @@ namespace RPGCore.Traits.Internal
 			return this;
 		}
 
+		/// <inheritdoc/>
 		public ITraitContextBuilder UseTraits(IReadOnlyDictionary<StateIdentifier, StateTemplate> map)
 		{
 			foreach (var mapping in map)
@@ -43,6 +46,7 @@ namespace RPGCore.Traits.Internal
 			return this;
 		}
 
+		/// <inheritdoc/>
 		public ITraitContextBuilder UseTrait(StatIdentifier statIdentifier, StatTemplate statTemplate)
 		{
 			statIdentifiers.Add(statIdentifier);
@@ -50,6 +54,7 @@ namespace RPGCore.Traits.Internal
 			return this;
 		}
 
+		/// <inheritdoc/>
 		public ITraitContextBuilder UseTrait(StateIdentifier stateIdentifier, StateTemplate stateTemplate)
 		{
 			stateIdentifiers.Add(stateIdentifier);

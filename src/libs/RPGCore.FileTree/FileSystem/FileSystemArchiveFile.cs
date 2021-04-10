@@ -11,11 +11,19 @@ namespace RPGCore.FileTree.FileSystem
 		public FileSystemArchive Archive { get; }
 		public FileInfo FileInfo { get; internal set; }
 
+		/// <inheritdoc/>
 		public string Name { get; internal set; }
+
+		/// <inheritdoc/>
 		public string FullName { get; internal set; }
+
+		/// <inheritdoc/>
 		public string Extension { get; internal set; }
 
+		/// <inheritdoc/>
 		public long CompressedSize => FileInfo.Length;
+
+		/// <inheritdoc/>
 		public long UncompressedSize => FileInfo.Length;
 
 		public FileSystemArchiveDirectory Parent { get; private set; }
@@ -26,7 +34,7 @@ namespace RPGCore.FileTree.FileSystem
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchive IArchiveEntry.Archive => Archive;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchiveEntry.Parent => Parent;
 
-		public FileSystemArchiveFile(FileSystemArchive archive, FileSystemArchiveDirectory parent, FileInfo fileInfo)
+		internal FileSystemArchiveFile(FileSystemArchive archive, FileSystemArchiveDirectory parent, FileInfo fileInfo)
 		{
 			Archive = archive;
 			Parent = parent;
@@ -50,27 +58,32 @@ namespace RPGCore.FileTree.FileSystem
 			throw new System.NotImplementedException();
 		}
 
+		/// <inheritdoc/>
 		public Task DeleteAsync()
 		{
 			return Task.Run(() => FileInfo.Delete());
 		}
 
+		/// <inheritdoc/>
 		public Task RenameAsync(string destination)
 		{
 			return Task.Run(() => FileInfo.MoveTo(destination));
 		}
 
+		/// <inheritdoc/>
 		public Stream OpenRead()
 		{
 			return FileInfo.OpenRead();
 		}
 
+		/// <inheritdoc/>
 		public Stream OpenWrite()
 		{
 			FileInfo.Directory.Create();
 			return FileInfo.Open(FileMode.Create, FileAccess.Write);
 		}
 
+		/// <inheritdoc/>
 		public async Task CopyIntoAsync(IArchiveDirectory destination, string name)
 		{
 			var toFile = destination.Files.GetFile(Name);
