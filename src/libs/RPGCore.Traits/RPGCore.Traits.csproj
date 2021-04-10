@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+    <ProjectType>library</ProjectType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Product>RPGCore</Product>
+    <Description>RPGCore is a toolkit for producing RPG games and mechanics in C#.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+  </ItemGroup>
+
+</Project>

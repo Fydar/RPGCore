@@ -3,68 +3,68 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Runner", "RPGCore.Runner\RPGCore.Runner.csproj", "{5EC6394B-AAB5-488A-A3A9-86181E5A578A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Behaviour", "RPGCore.Behaviour\RPGCore.Behaviour.csproj", "{4A600118-AA98-46C2-9234-40F6ABBE8FAD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Behaviour.UnitTests", "RPGCore.Behaviour.UnitTests\RPGCore.Behaviour.UnitTests.csproj", "{B823B7EA-D10E-4E2B-AE46-16CDA1D7C5B1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Packages", "RPGCore.Packages\RPGCore.Packages.csproj", "{A74F918B-D16F-4EE9-B988-2981A38FD72A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F12F88D8-C148-4DA1-9953-CA2C29A25E2A}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Inventories", "RPGCore.Inventories\RPGCore.Inventories.csproj", "{602BF71D-5B05-4A75-8AFA-0C35613F8482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Behaviour", "libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj", "{4A600118-AA98-46C2-9234-40F6ABBE8FAD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Items", "RPGCore.Items\RPGCore.Items.csproj", "{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Behaviour.UnitTests", "tests\RPGCore.Behaviour.UnitTests\RPGCore.Behaviour.UnitTests.csproj", "{B823B7EA-D10E-4E2B-AE46-16CDA1D7C5B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Items.UnitTests", "RPGCore.Items.UnitTests\RPGCore.Items.UnitTests.csproj", "{F617BD9F-554E-4ED9-AAB1-E383F6615716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor", "libs\RPGCore.DataEditor\RPGCore.DataEditor.csproj", "{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Inventories.UnitTests", "RPGCore.Inventories.UnitTests\RPGCore.Inventories.UnitTests.csproj", "{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor.UnitTests", "tests\RPGCore.DataEditor.UnitTests\RPGCore.DataEditor.UnitTests.csproj", "{69377F21-B40F-4A90-9839-3CC21F59D9F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Packages.UnitTests", "RPGCore.Packages.UnitTests\RPGCore.Packages.UnitTests.csproj", "{129CC906-B8B6-42EC-B120-95AEC668F22B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame", "libs\RPGCore.Demo.BoardGame\RPGCore.Demo.BoardGame.csproj", "{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits", "RPGCore.Traits\RPGCore.Traits.csproj", "{B7A620C9-C4B8-4DDD-A68D-610405D9B365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame.CommandLine", "samples\RPGCore.Demo.BoardGame.CommandLine\RPGCore.Demo.BoardGame.CommandLine.csproj", "{812B4171-BA11-444C-86BA-123F4A9501B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits.UnitTests", "RPGCore.Traits.UnitTests\RPGCore.Traits.UnitTests.csproj", "{16483ACE-6A20-43A3-B164-AC89173A7AA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame.UnitTests", "tests\RPGCore.Demo.BoardGame.UnitTests\RPGCore.Demo.BoardGame.UnitTests.csproj", "{AC5A14C4-6B21-4D04-9D47-D7A67478B763}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.Inventory", "RPGCore.Demo.Inventory\RPGCore.Demo.Inventory.csproj", "{3886077F-F28A-485A-9F16-CD105DC075A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.Inventory", "libs\RPGCore.Demo.Inventory\RPGCore.Demo.Inventory.csproj", "{3886077F-F28A-485A-9F16-CD105DC075A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.View", "RPGCore.View\RPGCore.View.csproj", "{F4BA2F8E-FCAF-4C35-B226-592751170BFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Documentation", "libs\RPGCore.Documentation\RPGCore.Documentation.csproj", "{F792AFE7-7EE1-40BC-8CEA-F2A35E7934B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame", "RPGCore.Demo.BoardGame\RPGCore.Demo.BoardGame.csproj", "{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Events", "libs\RPGCore.Events\RPGCore.Events.csproj", "{76EF1BD5-001A-400B-9E3A-5C03C1F04ACC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame.UnitTests", "RPGCore.Demo.BoardGame.UnitTests\RPGCore.Demo.BoardGame.UnitTests.csproj", "{AC5A14C4-6B21-4D04-9D47-D7A67478B763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Events.UnitTests", "tests\RPGCore.Events.UnitTests\RPGCore.Events.UnitTests.csproj", "{06B16C88-D310-4C85-81F4-4F26683A4D37}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame.CommandLine", "RPGCore.Demo.BoardGame.CommandLine\RPGCore.Demo.BoardGame.CommandLine.csproj", "{812B4171-BA11-444C-86BA-123F4A9501B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.FileTree", "libs\RPGCore.FileTree\RPGCore.FileTree.csproj", "{643B2F42-BD79-4B78-B481-F2E959B705BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor", "RPGCore.DataEditor\RPGCore.DataEditor.csproj", "{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.FileTree.CommandLine", "samples\RPGCore.FileTree.CommandLine\RPGCore.FileTree.CommandLine.csproj", "{D649A300-7BA5-42A3-83C2-8BC0D6196C9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.FileTree", "RPGCore.FileTree\RPGCore.FileTree.csproj", "{643B2F42-BD79-4B78-B481-F2E959B705BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.FileTree.UnitTests", "tests\RPGCore.FileTree.UnitTests\RPGCore.FileTree.UnitTests.csproj", "{504C7076-5E14-4162-8CD3-5F5E93A97B9B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.FileTree.UnitTests", "RPGCore.FileTree.UnitTests\RPGCore.FileTree.UnitTests.csproj", "{504C7076-5E14-4162-8CD3-5F5E93A97B9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Inventories", "libs\RPGCore.Inventories\RPGCore.Inventories.csproj", "{602BF71D-5B05-4A75-8AFA-0C35613F8482}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.FileTree.CommandLine", "RPGCore.FileTree.CommandLine\RPGCore.FileTree.CommandLine.csproj", "{D649A300-7BA5-42A3-83C2-8BC0D6196C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Inventories.UnitTests", "tests\RPGCore.Inventories.UnitTests\RPGCore.Inventories.UnitTests.csproj", "{82A44EBC-A87B-40A4-99E4-3C26BBCB8936}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Projects.UnitTests", "RPGCore.Projects.UnitTests\RPGCore.Projects.UnitTests.csproj", "{0A27C2F5-CFE0-423C-A07C-289CD0876008}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Items", "libs\RPGCore.Items\RPGCore.Items.csproj", "{25A76B73-0FD6-4E2C-BF83-17FEFAE0E23C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Projects", "RPGCore.Projects\RPGCore.Projects.csproj", "{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Items.UnitTests", "tests\RPGCore.Items.UnitTests\RPGCore.Items.UnitTests.csproj", "{F617BD9F-554E-4ED9-AAB1-E383F6615716}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Events", "RPGCore.Events\RPGCore.Events.csproj", "{76EF1BD5-001A-400B-9E3A-5C03C1F04ACC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Packages", "libs\RPGCore.Packages\RPGCore.Packages.csproj", "{A74F918B-D16F-4EE9-B988-2981A38FD72A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Events.UnitTests", "RPGCore.Events.UnitTests\RPGCore.Events.UnitTests.csproj", "{06B16C88-D310-4C85-81F4-4F26683A4D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Packages.UnitTests", "tests\RPGCore.Packages.UnitTests\RPGCore.Packages.UnitTests.csproj", "{129CC906-B8B6-42EC-B120-95AEC668F22B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Unity", "RPGCore.Unity\RPGCore.Unity.csproj", "{0FB4825A-6C6F-4B02-89A5-E788614B183C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Projects", "libs\RPGCore.Projects\RPGCore.Projects.csproj", "{DDEE9CCD-5600-4037-AA70-B13E1B6CC0D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.World", "RPGCore.World\RPGCore.World.csproj", "{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Projects.UnitTests", "tests\RPGCore.Projects.UnitTests\RPGCore.Projects.UnitTests.csproj", "{0A27C2F5-CFE0-423C-A07C-289CD0876008}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.World.CommandLine", "RPGCore.World.CommandLine\RPGCore.World.CommandLine.csproj", "{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Runner", "libs\RPGCore.Runner\RPGCore.Runner.csproj", "{5EC6394B-AAB5-488A-A3A9-86181E5A578A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Documentation", "RPGCore.Documentation\RPGCore.Documentation.csproj", "{F792AFE7-7EE1-40BC-8CEA-F2A35E7934B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits", "libs\RPGCore.Traits\RPGCore.Traits.csproj", "{B7A620C9-C4B8-4DDD-A68D-610405D9B365}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor.UnitTests", "RPGCore.DataEditor.UnitTests\RPGCore.DataEditor.UnitTests.csproj", "{69377F21-B40F-4A90-9839-3CC21F59D9F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Traits.UnitTests", "tests\RPGCore.Traits.UnitTests\RPGCore.Traits.UnitTests.csproj", "{16483ACE-6A20-43A3-B164-AC89173A7AA9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Unity", "libs\RPGCore.Unity\RPGCore.Unity.csproj", "{0FB4825A-6C6F-4B02-89A5-E788614B183C}"
+EndProjectlibs\
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.View", "libs\RPGCore.View\RPGCore.View.csproj", "{F4BA2F8E-FCAF-4C35-B226-592751170BFB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.World", "libs\RPGCore.World\RPGCore.World.csproj", "{6D8E4AA2-44C1-479A-BC84-6B7697182FD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.World.CommandLine", "samples\RPGCore.World.CommandLine\RPGCore.World.CommandLine.csproj", "{B4C0DCA2-D59F-48DA-84E2-FDB2F3108112}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

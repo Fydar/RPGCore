@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Product>RPGCore</Product>
+    <Description>RPGCore is a toolkit for producing RPG games and mechanics in C#.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\RPGCore.FileTree\RPGCore.FileTree.csproj" />
+  </ItemGroup>
+
+</Project>
