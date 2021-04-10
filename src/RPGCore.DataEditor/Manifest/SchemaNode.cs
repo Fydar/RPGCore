@@ -1,19 +1,17 @@
-﻿using RPGCore.Behaviour;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace RPGCore.DataEditor.Manifest
 {
-	public sealed class NodeInformation : TypeInformation
+	public sealed class SchemaNode : SchemaType
 	{
-		public Dictionary<string, SocketInformation> Inputs;
-		public Dictionary<string, SocketInformation> Outputs;
+		public Dictionary<string, SocketInformation>? Inputs { get; set; }
+		public Dictionary<string, SocketInformation>? Outputs { get; set; }
 
-		public static NodeInformation Construct(Type nodeType)
+		public static SchemaNode Construct(Type nodeType)
 		{
-			var nodeInformation = new NodeInformation();
-
+			var nodeInformation = new SchemaNode();
+			/*
 			var nodeTemplate = (NodeTemplate)Activator.CreateInstance(nodeType);
 			var metadataInstance = (NodeInstanceBase)nodeTemplate.CreateInstance();
 
@@ -25,7 +23,8 @@ namespace RPGCore.DataEditor.Manifest
 			int outputId = 0;
 			var inputSocketFields = new List<FieldInfo>();
 			var outputSocketFields = new List<FieldInfo>();
-			var fieldInfos = new Dictionary<string, FieldInformation>();
+
+			var fieldInfos = new List<SchemaField>();
 			foreach (var field in nodeType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
 				if (field.FieldType == typeof(OutputSocket))
@@ -34,15 +33,17 @@ namespace RPGCore.DataEditor.Manifest
 					outputId++;
 					outputSocketFields.Add(field);
 				}
+				else if (field.FieldType == typeof(InputSocket))
+				{
+					field.SetValue(nodeTemplate, new InputSocket(inputId));
+					inputId++;
+					inputSocketFields.Add(field);
+
+					fieldInfos.Add(BuiltInTypes.ConstructFieldInformation(field));
+				}
 				else
 				{
-					if (field.FieldType == typeof(InputSocket))
-					{
-						field.SetValue(nodeTemplate, new InputSocket(inputId));
-						inputId++;
-						inputSocketFields.Add(field);
-					}
-					fieldInfos.Add(field.Name, FieldInformation.ConstructFieldInformation(field, nodeTemplate));
+					fieldInfos.Add(BuiltInTypes.ConstructFieldInformation(field));
 				}
 			}
 			nodeInformation.Fields = fieldInfos;
@@ -87,6 +88,7 @@ namespace RPGCore.DataEditor.Manifest
 				nodeInformation.Outputs = null;
 			}
 
+			*/
 			return nodeInformation;
 		}
 	}

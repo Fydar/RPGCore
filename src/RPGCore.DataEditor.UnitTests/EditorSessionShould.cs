@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿/*using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RPGCore.DataEditor;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace RPGCore.Behaviour.Editor.UnitTests
 {
-	[TestFixture(TestOf = typeof(EditorSession))]
+	[TestFixture(TestOf = typeof(EditorFile))]
 	public class EditorSessionShould
 	{
 		[EditorType]
@@ -39,7 +39,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 		[Test, Parallelizable]
 		public void WorkWithGenerics()
 		{
-			var manifest = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
+			var manifest = ProjectManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
 
 			var generic = new GenericModel()
 			{
@@ -55,7 +55,7 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 		[Test, Parallelizable]
 		public void Work()
 		{
-			var manifest = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
+			var manifest = ProjectManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
 
 			Console.Write(manifest.ToString());
 
@@ -148,3 +148,4 @@ namespace RPGCore.Behaviour.Editor.UnitTests
 		}
 	}
 }
+*/

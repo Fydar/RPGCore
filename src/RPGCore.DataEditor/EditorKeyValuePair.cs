@@ -1,32 +1,37 @@
-using Newtonsoft.Json.Linq;
-using RPGCore.DataEditor.Manifest;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
 {
-	public class EditorKeyValuePair
+	/// <summary>
+	/// An editable hard-typed key-value pair belonging to a dictionary.
+	/// </summary>
+	public class EditorKeyValuePair : IEditorValue
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] public EditorSession Session { get; }
-		public TypeInformation ValueType { get; }
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public EditorSession Session => Parent.Session;
 
+		/// <summary>
+		/// The <see cref="EditorDictionary"/> that this <see cref="EditorKeyValuePair"/> belongs to.
+		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public EditorDictionary Parent { get; }
+
+		/// <summary>
+		/// Gets the key in the key/value pair.
+		/// </summary>
+		public IEditorValue Key { get; }
+
+		/// <summary>
+		/// Gets the value in the key/value pair.
+		/// </summary>
 		public IEditorValue Value { get; }
 
-		private readonly JProperty json;
-
-		public EditorKeyValuePair(EditorSession session, TypeInformation valueType, JProperty json)
+		internal EditorKeyValuePair(EditorDictionary parent, IEditorValue key, IEditorValue value)
 		{
-			Session = session;
-			ValueType = valueType;
-
-			this.json = json;
-
-			Value = session.CreateValue(valueType, null, json.Value);
-		}
-
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"{{{json.Name}: {json.Value}}}";
+			Parent = parent;
+			Key = key;
+			Value = value;
 		}
 	}
 }

@@ -38,6 +38,8 @@ src/RPGCoreUnity/*.sln
 src/RPGCoreUnity/*.csproj
 src/RPGCoreUnity/[Ll]ibrary/
 src/RPGCoreUnity/Assets/AssetStoreTools*
+src/RPGCoreUnity/Logs
+src/RPGCoreUnity/UserSettings
 
 !src/RPGCoreUnity/Assets/**/*.dll
 !src/RPGCoreUnity/Assets/**/*.pdb
@@ -64,11 +66,3 @@ Corridor/Library/ShaderCache/
 Corridor/Library/metadata/
 Project/Library/EditorInstance.json
 *.stamp
-
-node_modules
-release-builds
-
-GPUCache
-!chromelycef.dll
-src/RPGCoreUnity/Logs
-src/RPGCoreUnity/UserSettings

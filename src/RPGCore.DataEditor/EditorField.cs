@@ -1,54 +1,71 @@
-using Newtonsoft.Json.Linq;
 using RPGCore.DataEditor.Manifest;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
 {
+	/// <summary>
+	/// An editable hard-typed container for a value.
+	/// </summary>
 	public class EditorField
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] public EditorSession Session { get; }
-
-		public FieldInformation Field { get; }
-		public TypeInformation FieldType { get; }
-
-		private readonly JProperty json;
 		private readonly List<object> features;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IEditorValue valueInternal;
 
-		public IEditorValue Value => valueInternal;
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public EditorSession Session => Parent.Session;
 
-		public EditorField(EditorSession session, FieldInformation field, JProperty json)
+		/// <summary>
+		/// The <see cref="EditorObject"/> that this <see cref="EditorField"/> belongs to.
+		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public EditorObject Parent { get; }
+
+		/// <summary>
+		/// A <see cref="SchemaField"/> used to drive the behaviour of this <see cref="EditorField"/>.
+		/// </summary>
+		public SchemaField? Schema
 		{
-			Session = session;
-			Field = field;
-
-			if (field.Type != "JObject")
+			get
 			{
-				FieldType = session.Manifest.GetTypeInformation(field.Type);
-				if (FieldType == null)
-				{
-					throw new InvalidOperationException($"Failed to find type for {field.Type}");
-				}
-			}
-			else
-			{
-				string typeName = json.Parent["Type"].ToString();
-				FieldType = session.Manifest.GetTypeInformation(typeName);
-				if (FieldType == null)
-				{
-					throw new InvalidOperationException($"Failed to find type for {typeName}");
-				}
-			}
+				var parentType = Session.ResolveType(Parent.Type);
 
-			this.json = json;
-			features = new List<object>();
+				if (parentType.Fields == null)
+				{
+					return null;
+				}
 
-			valueInternal = session.CreateValue(FieldType, field.Wrapper, json.Value);
+				foreach (var field in parentType.Fields)
+				{
+					if (field.Name == Name)
+					{
+						return field;
+					}
+				}
+				return null;
+			}
 		}
 
-		public T GetFeature<T>()
+		/// <summary>
+		/// The value contained within this <see cref="EditorField"/>.
+		/// </summary>
+		public IEditorValue Value { get; set; }
+
+		/// <summary>
+		/// The name of this field.
+		/// </summary>
+		public string Name { get; } = string.Empty;
+
+		internal EditorField(EditorObject parent, string name)
+		{
+			Parent = parent;
+			Name = name;
+
+			features = new List<object>();
+			Value = new EditorNull(Session);
+		}
+
+		public T? GetFeature<T>()
 			where T : class
 		{
 			var getFeatureType = typeof(T);
@@ -79,7 +96,30 @@ namespace RPGCore.DataEditor
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return $"{Field.Type}";
+			if (Schema == null)
+			{
+				return "unknown";
+			}
+			else if (Value is EditorNull)
+			{
+				return $"{Schema.Type} {Schema.Name} = null";
+			}
+			else if (Value is EditorScalarValue editorScalarValue)
+			{
+				return $"{Schema.Type} {Schema.Name} = {editorScalarValue.Value}";
+			}
+			else if (Value is EditorDictionary)
+			{
+				return $"{Schema.Type} {Schema.Name} = {{ ... }}";
+			}
+			else if (Value is EditorList editorList)
+			{
+				return $"{Schema.Type} {Schema.Name} = [{editorList.Elements.Count}]";
+			}
+			else
+			{
+				return $"{Schema.Type} {Schema.Name}";
+			}
 		}
 	}
 }

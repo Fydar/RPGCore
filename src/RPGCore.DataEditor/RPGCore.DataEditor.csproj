@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,11 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1-beta1" />
+    <PackageReference Include="System.Text.Json" Version="5.0.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
-  </ItemGroup>
-
+  
 </Project>

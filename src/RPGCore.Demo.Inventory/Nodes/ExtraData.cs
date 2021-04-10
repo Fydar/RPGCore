@@ -1,4 +1,5 @@
 ﻿using RPGCore.Behaviour;
+using RPGCore.DataEditor.CSharp;
 
 namespace RPGCore.Demo.Inventory.Nodes
 {

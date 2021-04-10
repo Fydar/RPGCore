@@ -1,83 +1,58 @@
-using Newtonsoft.Json.Linq;
 using RPGCore.DataEditor.Manifest;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
 {
+	/// <summary>
+	/// An editable data structure that utilises a collection of key-value pairs.
+	/// </summary>
 	public class EditorDictionary : IEditorValue
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] public EditorSession Session { get; }
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public EditorSession Session { get; }
 
-		public Dictionary<string, EditorKeyValuePair> KeyValuePairs { get; }
-		public TypeInformation ValueType { get; }
+		/// <summary>
+		/// The type of the dictionary keys.
+		/// </summary>
+		public SchemaQualifiedType KeyType { get; }
 
-		private JToken json;
+		/// <summary>
+		/// the type of the dictionary values.
+		/// </summary>
+		public SchemaQualifiedType ValueType { get; }
 
-		public EditorDictionary(EditorSession session, TypeInformation valueType, JToken json)
+		/// <summary>
+		/// All key-value pairs contained within this dictionary.
+		/// </summary>
+		public List<EditorKeyValuePair> KeyValuePairs { get; }
+
+		internal EditorDictionary(EditorSession session, SchemaQualifiedType keyType, SchemaQualifiedType valueType)
 		{
 			Session = session;
+			KeyType = keyType;
 			ValueType = valueType;
-
-			this.json = json;
-
-			KeyValuePairs = new Dictionary<string, EditorKeyValuePair>();
-
-			if (json.Type != JTokenType.Null)
-			{
-				var jsonObject = (JObject)json;
-				foreach (var kvp in jsonObject.Properties())
-				{
-					var value = new EditorKeyValuePair(Session, ValueType, kvp);
-					KeyValuePairs.Add(kvp.Name, value);
-				}
-			}
+			KeyValuePairs = new List<EditorKeyValuePair>();
 		}
 
-		public bool Remove(string key)
+		/// <summary>
+		/// Removes a value from the <see cref="EditorDictionary"/>.
+		/// </summary>
+		public bool Remove(EditorKeyValuePair kvp)
 		{
-			if (json.Type == JTokenType.Null)
-			{
-				return false;
-			}
-
-			var jsonObject = (JObject)json;
-			bool removed = jsonObject.Remove(key);
-
-			if (!removed)
-			{
-				return false;
-			}
-
-			KeyValuePairs.Remove(key);
-
-			return true;
+			return KeyValuePairs.Remove(kvp);
 		}
 
-		public void Add(string key)
+		/// <summary>
+		/// Adds a new value to the <see cref="EditorDictionary"/>.
+		/// </summary>
+		public void Add()
 		{
-			var duplicate = ValueType.DefaultValue?.DeepClone() ?? JValue.CreateNull();
-
-			JObject jsonObject;
-			if (json.Type == JTokenType.Null)
-			{
-				jsonObject = new JObject();
-				json.Replace(jsonObject);
-				json = jsonObject;
-			}
-			else
-			{
-				jsonObject = (JObject)json;
-			}
-
-			jsonObject.Add(key, duplicate);
-
-			if (!KeyValuePairs.TryGetValue(key, out var field))
-			{
-				field = new EditorKeyValuePair(Session, ValueType, (JProperty)jsonObject[key]);
-			}
-			KeyValuePairs.Add(key, field);
-			Session.InvokeOnChanged();
+			KeyValuePairs.Add(new EditorKeyValuePair(
+				this,
+				Session.CreateDefaultValue(KeyType),
+				Session.CreateDefaultValue(ValueType)));
 		}
 	}
 }

@@ -1,13 +1,10 @@
-﻿using RPGCore.Behaviour;
-using System.Reflection;
-
-namespace RPGCore.DataEditor.Manifest
+﻿namespace RPGCore.DataEditor.Manifest
 {
 	public struct SocketInformation
 	{
-		public string Description;
-		public string Type;
-
+		public string Description { get; set; }
+		public string Type { get; set; }
+		/*
 		public static SocketInformation Construct(FieldInfo field, InputMap socket)
 		{
 			var socketInformation = new SocketInformation
@@ -26,6 +23,6 @@ namespace RPGCore.DataEditor.Manifest
 			};
 
 			return socketInformation;
-		}
+		}*/
 	}
 }

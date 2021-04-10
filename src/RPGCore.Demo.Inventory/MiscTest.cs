@@ -15,10 +15,6 @@ namespace RPGCore.Demo.Inventory
 	{
 		public static void Run()
 		{
-			var manifest = BehaviourManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
-
-			File.WriteAllText("Content/RPGCoreMath.bmfst", manifest.ToString());
-
 			Console.WriteLine("Importing Graph...");
 
 			var importPipeline = ImportPipeline.Create().Build();
@@ -44,6 +40,11 @@ namespace RPGCore.Demo.Inventory
 				editorTarget = JObject.Load(reader);
 			}
 
+			/*
+			var manifest = ProjectManifest.CreateFromAppDomain(AppDomain.CurrentDomain);
+
+			File.WriteAllText("Content/RPGCoreMath.bmfst", manifest.ToString());
+
 			var editor = new EditorSession(manifest, editorTarget, "SerializedGraph", serializer);
 
 			foreach (var node in (editor.Root.Fields["Nodes"].Value as EditorObject).Fields.Values)
@@ -52,7 +53,7 @@ namespace RPGCore.Demo.Inventory
 
 				foreach (var field in (nodeData.Value as EditorObject).Fields.Values)
 				{
-					var editableValue = field.Value as EditorValue;
+					var editableValue = field.Value as EditorScalarValue;
 
 					Console.WriteLine($"{field}");
 					if (field.Field.Name == "MaxValue")
@@ -70,6 +71,7 @@ namespace RPGCore.Demo.Inventory
 					}
 				}
 			}
+			*/
 
 			using (var file = editorTargetResource.Content.OpenWrite())
 			using (var sr = new StreamWriter(file))

@@ -1,3 +1,5 @@
+using RPGCore.DataEditor.CSharp;
+
 namespace RPGCore.Behaviour
 {
 	[EditorType]

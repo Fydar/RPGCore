@@ -1,117 +1,92 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using RPGCore.DataEditor.Manifest;
+﻿using RPGCore.DataEditor.Manifest;
 using System;
-using System.Collections.Generic;
+using System.Text;
 
 namespace RPGCore.DataEditor
 {
+	/// <summary>
+	/// Provides configuration for data editing.
+	/// </summary>
 	public class EditorSession
 	{
-		public BehaviourManifest Manifest;
-		public EditorObject Root;
-		public JObject Instance;
-		public JsonSerializer JsonSerializer;
+		/// <summary>
+		/// The manifest used for configuring the data editor.
+		/// </summary>
+		public ProjectManifest Manifest { get; }
 
-		public Action OnChanged;
+		/// <summary>
+		/// The serializer used to load and save values.
+		/// </summary>
+		public IEditorSerializer Serializer { get; }
 
-		private readonly List<object> features;
-
-		public EditorSession(BehaviourManifest manifest, object instance, JsonSerializer jsonSerializer)
+		/// <summary>
+		/// Creates a new instance of the <see cref="EditorSession"/> object.
+		/// </summary>
+		/// <param name="manifest">A manifest used to drive data behaviour.</param>
+		/// <param name="serializer">The serializer used to serialize values.</param>
+		public EditorSession(ProjectManifest manifest, IEditorSerializer serializer)
 		{
 			Manifest = manifest;
-			JsonSerializer = jsonSerializer;
-			features = new List<object>();
-
-			var rootJson = JObject.FromObject(instance, JsonSerializer);
-			string type = instance.GetType().Name;
-			var typeInformation = Manifest.GetTypeInformation(type);
-			if (typeInformation == null)
-			{
-				throw new InvalidOperationException($"Failed to find type for {type}");
-			}
-
-			Instance = rootJson;
-			Root = new EditorObject(this, typeInformation, rootJson);
+			Serializer = serializer;
 		}
 
-		public EditorSession(BehaviourManifest manifest, JObject instance, string type, JsonSerializer jsonSerializer)
+		/// <summary>
+		/// Starts editing a file using configuration provided by this <see cref="EditorSession"/>.
+		/// </summary>
+		/// <returns>A new <see cref="EditorFile"/> used for editing.</returns>
+		public EditorFile EditFile(SchemaQualifiedType schema)
 		{
-			Manifest = manifest;
-			JsonSerializer = jsonSerializer;
-			Instance = instance;
-			features = new List<object>();
-
-			var typeInformation = Manifest.GetTypeInformation(type);
-			if (typeInformation == null)
-			{
-				throw new InvalidOperationException($"Failed to find type for {type}");
-			}
-
-			Root = new EditorObject(this, typeInformation, instance);
+			return new EditorFile(this, schema);
 		}
 
-		internal IEditorValue CreateValue(TypeInformation typeInformation, FieldWrapper currentWrapper, JToken token)
+		/// <summary>
+		/// Gets the underlying type information from a qualified type.
+		/// </summary>
+		/// <param name="schemaQualifiedType"></param>
+		/// <returns></returns>
+		public SchemaType ResolveType(SchemaQualifiedType schemaQualifiedType)
 		{
-			if (currentWrapper == null)
+			var type = Manifest.GetTypeInformation(schemaQualifiedType.Identifier);
+
+			return type;
+		}
+
+		internal IEditorValue CreateDefaultValue(SchemaQualifiedType qualifiedType)
+		{
+			return qualifiedType.IsNullable
+				? new EditorNull(this)
+				: CreateInstatedValue(qualifiedType);
+		}
+
+		internal IEditorValue CreateInstatedValue(SchemaQualifiedType qualifiedType)
+		{
+			if (qualifiedType.Identifier == "[Dictionary]")
 			{
-				if ((typeInformation.Fields?.Count ?? 0) == 0)
-				{
-					return new EditorValue(this, typeInformation, token);
-				}
-				else
-				{
-					return new EditorObject(this, typeInformation, token);
-				}
+				return new EditorDictionary(this, qualifiedType.TemplateTypes[0], qualifiedType.TemplateTypes[1]);
+			}
+			else if (qualifiedType.Identifier == "[Array]")
+			{
+				return new EditorList(this, qualifiedType.TemplateTypes[0]);
 			}
 			else
 			{
-				if (currentWrapper.Type == FieldWrapperType.Dictionary)
+				var typeInfo = Manifest.GetTypeInformation(qualifiedType.Identifier);
+				if (typeInfo == null)
 				{
-					return new EditorDictionary(this, typeInformation, token);
+					throw new InvalidOperationException($"Cannot create an instance of an object of type \"{typeInfo}\".");
 				}
-				else if (currentWrapper.Type == FieldWrapperType.List)
+
+				if (string.IsNullOrEmpty(typeInfo.InstatedValue))
 				{
-					return new EditorList(this, typeInformation, token);
+					return new EditorNull(this);
 				}
 				else
 				{
-					throw new InvalidOperationException("Unsupported wrapper type");
+					byte[]? data = Encoding.UTF8.GetBytes(typeInfo.InstatedValue);
+					var scalarInnerValue = Serializer.DeserializeValue(this, qualifiedType, data);
+					return scalarInnerValue;
 				}
 			}
-		}
-
-		public T GetFeature<T>()
-			where T : class
-		{
-			var getFeatureType = typeof(T);
-			foreach (object feature in features)
-			{
-				var featureType = feature.GetType();
-				if (getFeatureType.IsAssignableFrom(featureType))
-				{
-					return (T)feature;
-				}
-			}
-			return null;
-		}
-
-		public T GetOrCreateFeature<T>()
-			where T : class, new()
-		{
-			var feature = GetFeature<T>();
-
-			if (feature == null)
-			{
-				feature = new T();
-				features.Add(feature);
-			}
-			return feature;
-		}
-
-		internal void InvokeOnChanged()
-		{
-			OnChanged?.Invoke();
 		}
 	}
 }

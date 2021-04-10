@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.DataEditor.CSharp
 {
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
 	public class EditorTypeAttribute : Attribute

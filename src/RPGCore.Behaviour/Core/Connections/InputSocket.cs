@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using RPGCore.DataEditor.CSharp;
+using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {

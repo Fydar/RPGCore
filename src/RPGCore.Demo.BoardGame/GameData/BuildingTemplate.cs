@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
 using System.Collections.Generic;
+using RPGCore.DataEditor.CSharp;
 
 namespace RPGCore.Demo.BoardGame.Models
 {

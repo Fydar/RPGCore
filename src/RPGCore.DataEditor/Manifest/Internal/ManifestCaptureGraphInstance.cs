@@ -1,8 +1,8 @@
-﻿using RPGCore.Behaviour;
+﻿/*using RPGCore.Behaviour;
 
 namespace RPGCore.DataEditor.Manifest
 {
-	public sealed class ManifestCaptureGraphInstance : IConnectionCallback
+	internal sealed class ManifestCaptureGraphInstance : IConnectionCallback
 	{
 		private readonly NodeTemplate node;
 		private readonly INodeInstance instance;
@@ -38,3 +38,4 @@ namespace RPGCore.DataEditor.Manifest
 		}
 	}
 }
+*/

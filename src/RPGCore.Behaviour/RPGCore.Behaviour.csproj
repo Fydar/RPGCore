@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
     <ProjectReference Include="..\RPGCore.Events\RPGCore.Events.csproj" />
     <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
     <ProjectReference Include="..\RPGCore.Projects\RPGCore.Projects.csproj" />

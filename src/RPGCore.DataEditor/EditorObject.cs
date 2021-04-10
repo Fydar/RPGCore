@@ -1,81 +1,67 @@
-﻿using Newtonsoft.Json.Linq;
-using RPGCore.DataEditor.Manifest;
+﻿using RPGCore.DataEditor.Manifest;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace RPGCore.DataEditor
 {
+	/// <summary>
+	/// An editable data structure that uses hard-typed fields.
+	/// </summary>
 	public class EditorObject : IEditorValue
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] public EditorSession Session { get; }
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public EditorSession Session { get; }
 
-		public TypeInformation Type { get; }
-		public Dictionary<string, EditorField> Fields { get; }
+		/// <summary>
+		/// The type of the current instance of the <see cref="EditorObject"/>.
+		/// </summary>
+		public SchemaQualifiedType Type { get; }
 
-		private JToken json;
+		/// <summary>
+		/// All <see cref="EditorField"/> contained within this object.
+		/// </summary>
+		public List<EditorField> Fields { get; }
 
-		public EditorObject(EditorSession session, TypeInformation type, JToken json)
+		internal EditorObject(EditorSession session, SchemaQualifiedType type)
 		{
 			Session = session;
 			Type = type;
-			this.json = json;
 
-			Fields = new Dictionary<string, EditorField>();
+			Fields = new List<EditorField>();
 
-			UpdateFields();
+			AddMissingFields();
 		}
 
-		public void PopulateObject(object obj)
+		private void AddMissingFields()
 		{
-			var newValue = obj == null
-				? JValue.CreateNull()
-				: (JToken)JObject.FromObject(obj);
-
-			json.Replace(newValue);
-			json = newValue;
-
-			UpdateFields();
-			Session.InvokeOnChanged();
-		}
-
-		private void UpdateFields()
-		{
-			Fields.Clear();
-			if (json != null && json.Type == JTokenType.Object)
+			bool ContainsField(string field)
 			{
-				PopulateMissing((JObject)json, Type);
-
-				foreach (var field in Type.Fields)
+				foreach (var otherField in Fields)
 				{
-					var propertyToken = json[field.Key].Parent;
-					var property = (JProperty)propertyToken;
-
-					Fields.Add(field.Key, new EditorField(Session, field.Value, property));
-				}
-			}
-		}
-
-		private static void PopulateMissing(JObject serialized, TypeInformation information)
-		{
-			// Remove any additional fields.
-			foreach (var item in serialized.Children<JProperty>().ToList())
-			{
-				if (!information.Fields.ContainsKey(item.Name))
-				{
-					item.Remove();
-				}
-			}
-
-			// Populate missing fields with default values.
-			if (information.Fields != null)
-			{
-				foreach (var field in information.Fields)
-				{
-					if (!serialized.ContainsKey(field.Key))
+					if (otherField.Name == field)
 					{
-						serialized.Add(field.Key, field.Value.DefaultValue);
+						return true;
 					}
+				}
+				return false;
+			}
+
+			var type = Session.Manifest.GetTypeInformation(Type.Identifier);
+
+			if (type.Fields == null)
+			{
+				throw new InvalidOperationException($"Cannot use \"{Type}\" for an object as it doesn't have any fields.");
+			}
+			foreach (var field in type.Fields)
+			{
+				if (!ContainsField(field.Name))
+				{
+					Fields.Add(new EditorField(this, field.Name)
+					{
+						Value = Session.CreateDefaultValue(field.Type)
+					});
 				}
 			}
 		}

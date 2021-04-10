@@ -1,62 +1,43 @@
-﻿using Newtonsoft.Json.Linq;
-using RPGCore.DataEditor.Manifest;
+﻿using RPGCore.DataEditor.Manifest;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
 {
+	/// <summary>
+	/// An editable data structure with indexed elements.
+	/// </summary>
 	public class EditorList : IEditorValue
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] public EditorSession Session { get; }
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		public EditorSession Session { get; }
 
-		public TypeInformation ElementType { get; }
+		public SchemaQualifiedType ElementType { get; }
 		public List<IEditorValue> Elements { get; }
 
-		private JToken json;
-
-		public EditorList(EditorSession session, TypeInformation elementType, JToken json)
+		internal EditorList(EditorSession session, SchemaQualifiedType elementType)
 		{
 			Session = session;
 			ElementType = elementType;
-			this.json = json;
 
 			Elements = new List<IEditorValue>();
-
-			foreach (var element in json)
-			{
-				Elements.Add(Session.CreateValue(elementType, null, element));
-			}
 		}
 
+		/// <summary>
+		/// Sets the size of the array; creates new array elements to match the new size of the array.
+		/// </summary>
+		/// <param name="size"></param>
 		public void SetArraySize(int size)
 		{
-			JArray jsonArray;
-			if (json.Type == JTokenType.Null)
+			while (Elements.Count > size)
 			{
-				jsonArray = new JArray();
-				json.Replace(jsonArray);
-				json = jsonArray;
+				Elements.RemoveAt(Elements.Count - 1);
 			}
-			else
+			while (Elements.Count < size)
 			{
-				jsonArray = (JArray)json;
+				Elements.Add(Session.CreateDefaultValue(ElementType));
 			}
-
-			while (jsonArray.Count > size)
-			{
-				int removeIndex = jsonArray.Count - 1;
-
-				jsonArray.RemoveAt(removeIndex);
-				Elements.RemoveAt(removeIndex);
-			}
-
-			while (jsonArray.Count < size)
-			{
-				var duplicate = ElementType.DefaultValue?.DeepClone() ?? JValue.CreateNull();
-				jsonArray.Add(duplicate);
-				Elements.Add(new EditorValue(Session, ElementType, duplicate));
-			}
-			Session.InvokeOnChanged();
 		}
 	}
 }
