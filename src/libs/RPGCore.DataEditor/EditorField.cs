@@ -7,8 +7,14 @@ namespace RPGCore.DataEditor
 	/// <summary>
 	/// An editable hard-typed container for a value.
 	/// </summary>
-	public class EditorField
+	public class EditorField : IEditorToken
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private readonly List<string> comments;
+
+		/// <inheritdoc/>
+		public IList<string> Comments => comments;
+
 		private readonly List<object> features;
 
 		/// <inheritdoc/>
@@ -61,8 +67,9 @@ namespace RPGCore.DataEditor
 			Parent = parent;
 			Name = name;
 
-			features = new List<object>();
 			Value = new EditorNull(Session);
+			features = new List<object>();
+			comments = new List<string>();
 		}
 
 		public T? GetFeature<T>()

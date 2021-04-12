@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
@@ -5,8 +6,14 @@ namespace RPGCore.DataEditor
 	/// <summary>
 	/// An editable hard-typed key-value pair belonging to a dictionary.
 	/// </summary>
-	public class EditorKeyValuePair : IEditorValue
+	public class EditorKeyValuePair : IEditorToken
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private readonly List<string> comments;
+
+		/// <inheritdoc/>
+		public IList<string> Comments => comments;
+
 		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session => Parent.Session;
@@ -32,6 +39,8 @@ namespace RPGCore.DataEditor
 			Parent = parent;
 			Key = key;
 			Value = value;
+
+			comments = new List<string>();
 		}
 	}
 }

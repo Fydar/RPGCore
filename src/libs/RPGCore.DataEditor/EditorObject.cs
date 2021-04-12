@@ -10,6 +10,12 @@ namespace RPGCore.DataEditor
 	/// </summary>
 	public class EditorObject : IEditorValue
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private readonly List<string> comments;
+
+		/// <inheritdoc/>
+		public IList<string> Comments => comments;
+
 		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session { get; }
@@ -30,6 +36,8 @@ namespace RPGCore.DataEditor
 			Type = type;
 
 			Fields = new List<EditorField>();
+
+			comments = new List<string>();
 
 			AddMissingFields();
 		}

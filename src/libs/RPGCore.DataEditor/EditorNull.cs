@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RPGCore.DataEditor
 {
@@ -7,6 +8,12 @@ namespace RPGCore.DataEditor
 	/// </summary>
 	public class EditorNull : IEditorValue
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private readonly List<string> comments;
+
+		/// <inheritdoc/>
+		public IList<string> Comments => comments;
+
 		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session { get; }
@@ -14,6 +21,7 @@ namespace RPGCore.DataEditor
 		internal EditorNull(EditorSession session)
 		{
 			Session = session;
+			comments = new List<string>();
 		}
 	}
 }

@@ -3,11 +3,7 @@
 	/// <summary>
 	/// Represents and editable value.
 	/// </summary>
-	public interface IEditorValue
+	public interface IEditorValue : IEditorToken
 	{
-		/// <summary>
-		/// The <see cref="EditorSession"/> that this <see cref="IEditorValue"/> is belongs to.
-		/// </summary>
-		EditorSession Session { get; }
 	}
 }

@@ -20,7 +20,7 @@ namespace RPGCore.DataEditor
 		/// <summary>
 		/// An <see cref="IEditorValue"/> representing the root of the <see cref="EditorField"/>.
 		/// </summary>
-		public IEditorValue Root { get; }
+		public IEditorValue Root { get; set; }
 
 		internal EditorFile(EditorSession session, SchemaQualifiedType type)
 		{

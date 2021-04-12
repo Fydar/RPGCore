@@ -9,6 +9,12 @@ namespace RPGCore.DataEditor
 	/// </summary>
 	public class EditorList : IEditorValue
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private readonly List<string> comments;
+
+		/// <inheritdoc/>
+		public IList<string> Comments => comments;
+
 		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session { get; }
@@ -22,6 +28,7 @@ namespace RPGCore.DataEditor
 			ElementType = elementType;
 
 			Elements = new List<IEditorValue>();
+			comments = new List<string>();
 		}
 
 		/// <summary>

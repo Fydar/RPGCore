@@ -9,9 +9,15 @@ namespace RPGCore.DataEditor
 	/// </summary>
 	public class EditorDictionary : IEditorValue
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private readonly List<string> comments;
+
 		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session { get; }
+
+		/// <inheritdoc/>
+		public IList<string> Comments => comments;
 
 		/// <summary>
 		/// The type of the dictionary keys.
@@ -33,7 +39,9 @@ namespace RPGCore.DataEditor
 			Session = session;
 			KeyType = keyType;
 			ValueType = valueType;
+
 			KeyValuePairs = new List<EditorKeyValuePair>();
+			comments = new List<string>();
 		}
 
 		/// <summary>
