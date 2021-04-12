@@ -1,5 +1,4 @@
-﻿using RPGCore.Behaviour;
-using RPGCore.DataEditor.CSharp;
+﻿using RPGCore.DataEditor.CSharp;
 
 namespace RPGCore.Items
 {

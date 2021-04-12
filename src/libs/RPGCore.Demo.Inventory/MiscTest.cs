@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RPGCore.Behaviour;
-using RPGCore.DataEditor;
-using RPGCore.DataEditor.Manifest;
 using RPGCore.Packages;
 using RPGCore.Projects;
 using System;
