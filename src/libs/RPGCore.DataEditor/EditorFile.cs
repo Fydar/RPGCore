@@ -1,4 +1,5 @@
 ﻿using RPGCore.DataEditor.Manifest;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -22,15 +23,56 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public IEditorValue Root { get; set; }
 
-		internal EditorFile(EditorSession session, SchemaQualifiedType type)
+		private readonly IFileLoader? fileLoader;
+		private readonly IFileSaver? fileSaver;
+		private readonly TypeName type;
+
+		internal EditorFile(EditorSession session, IFileLoader? fileLoader, IFileSaver? fileSaver, TypeName type)
 		{
 			Session = session;
+			this.fileLoader = fileLoader;
+			this.fileSaver = fileSaver;
+			this.type = type;
 			features = new List<object>();
 
-			Root = Session.CreateInstatedValue(type);
+			if (fileLoader == null)
+			{
+				if (type.IsUnknown)
+				{
+					throw new InvalidOperationException("Cannot use an unknown type when no loader is supplied.");
+				}
+				else
+				{
+					Root = session.CreateInstatedValue(type);
+				}
+			}
+			else
+			{
+				Root = fileLoader.Load(Session, type);
+			}
 		}
 
-		public T GetFeature<T>()
+		public void Save()
+		{
+			if (fileSaver == null)
+			{
+				throw new InvalidOperationException("Cannot save file as it has no destination to save to.");
+			}
+
+			fileSaver.Save(Session, Root);
+		}
+
+		public void Reload()
+		{
+			if (fileLoader == null)
+			{
+				throw new InvalidOperationException("Cannot reload file as it has no source to load from.");
+			}
+
+			Root = fileLoader.Load(Session, type);
+		}
+
+		public T? GetFeature<T>()
 			where T : class
 		{
 			var getFeatureType = typeof(T);

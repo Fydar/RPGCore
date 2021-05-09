@@ -25,7 +25,7 @@ namespace RPGCore.Behaviour
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return $"Input {ConnectionId.ToString()}";
+			return $"Input {ConnectionId}";
 		}
 	}
 }

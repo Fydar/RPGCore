@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RPGCore.FileTree.FileSystem
 {
@@ -184,7 +185,7 @@ namespace RPGCore.FileTree.FileSystem
 			synchronize.Release();
 		}
 
-		private bool TryGetFileFromFullPath(string fullPath, out FileSystemArchiveFile value)
+		private bool TryGetFileFromFullPath(string fullPath, out FileSystemArchiveFile? value)
 		{
 			string relativePath = fullPath.Substring(RootDirectoryInfo.FullName.Length + 1);
 			string[] elements = relativePath.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
@@ -207,7 +208,7 @@ namespace RPGCore.FileTree.FileSystem
 			return false;
 		}
 
-		private bool TryGetDirectoryFromFullPath(string fullPath, out FileSystemArchiveDirectory value)
+		private bool TryGetDirectoryFromFullPath(string fullPath, out FileSystemArchiveDirectory? value)
 		{
 			string relativePath = fullPath.Substring(RootDirectoryInfo.FullName.Length + 1);
 			string[] elements = relativePath.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);

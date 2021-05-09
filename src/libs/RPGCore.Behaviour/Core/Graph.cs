@@ -24,14 +24,14 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public Graph(NodeTemplate[] nodes, int connectionCount, Dictionary<string, Graph> subGraphs)
+		public Graph(NodeTemplate[] nodes, int connectionCount, Dictionary<string, Graph>? subGraphs)
 		{
 			Nodes = nodes;
 			ConnectionsCount = connectionCount;
 			SubGraphs = subGraphs;
 		}
 
-		public GraphInstance Create(IDictionary<LocalId, JObject> data = null)
+		public GraphInstance Create(IDictionary<LocalId, JObject>? data = null)
 		{
 			return new GraphInstance(this, data);
 		}

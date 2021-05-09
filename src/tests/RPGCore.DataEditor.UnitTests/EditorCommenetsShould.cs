@@ -1,10 +1,8 @@
 ﻿using NUnit.Framework;
 using RPGCore.DataEditor.CSharp;
 using RPGCore.DataEditor.Manifest;
+using RPGCore.DataEditor.UnitTests.Utility;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace RPGCore.DataEditor.UnitTests
 {
@@ -12,37 +10,69 @@ namespace RPGCore.DataEditor.UnitTests
 	public class EditorCommenetsShould
 	{
 		[EditorType]
-		public class TestObjectWithComments
+		private class TestObjectWithComments
 		{
 			public string ChildFieldA { get; set; } = "Child Value A";
 			public string ChildFieldB { get; set; } = "Child Value B";
 		}
 
-		[Test, Parallelizable]
-		public void Serialize()
+		private readonly ProjectManifest schema;
+		private readonly EditorSession session;
+
+		public EditorCommenetsShould()
 		{
-			var schemaBuilder = ProjectManifestBuilder.Create()
+			schema = ProjectManifestBuilder.Create()
 				.UseFrameworkTypes()
-				.UseAllTypesFromAppDomain(AppDomain.CurrentDomain, typeof(BuiltInTypesShould).Assembly);
+				.UseType(typeof(TestObjectWithComments))
+				.Build();
 
-			var schema = schemaBuilder.Build();
+			session = new EditorSession(schema, new JsonEditorSerializer());
+		}
 
-			var session = new EditorSession(schema, new JsonEditorSerializer());
+		[Test, Parallelizable]
+		public void LoadCommentsFromJson()
+		{
+			string testData =
+				"/* This is a file comment */\n" +
+				"{\n" +
+				"    /* This is a comment, please keep. */\n" +
+				"    /* There's another comment here too. */\n" +
+				"    \"ChildFieldA\": /* this is a value comment */ \"This is a value\",\n" +
+				"    /* Another field comment here too. */\n" +
+				"    \"ChildFieldB\": /* this is a value comment */ \"This is a value\"\n" +
+				"}";
 
-			var file = session.EditFile(new SchemaQualifiedType("TestObjectWithComments"));
+			Console.WriteLine("Original");
+			Console.WriteLine();
+			Console.WriteLine(testData);
+			Console.WriteLine();
 
-			string testData = "/* This is a file comment */{/* This is a comment, please keep. */ /* There's another comment here too. */ \"ChildFieldA\": /* this is a value comment */\"This is a value\"}";
-			
-			file.Root = session.Serializer.DeserializeValue(session, new SchemaQualifiedType("TestObjectWithComments"), Encoding.UTF8.GetBytes(testData));
+			var saver = new ConsoleLogSaver();
 
-			using var memoryStream = new MemoryStream();
-			session.Serializer.SerializeValue(file.Root, memoryStream);
+			var file = session.EditFile()
+				.WithType(new TypeName("TestObjectWithComments"))
+				.LoadFrom(new StringContentLoader(testData))
+				.SaveTo(saver)
+				.Build();
 
-			memoryStream.Seek(0, SeekOrigin.Begin);
-			using var reader = new StreamReader(memoryStream);
+			file.Save();
 
-			string result = reader.ReadToEnd();
-			Console.WriteLine(result);
+			Console.WriteLine();
+
+			file = session.EditFile()
+				.WithType(new TypeName("TestObjectWithComments"))
+				.LoadFrom(new StringContentLoader(saver.SaveHistory[0]))
+				.SaveTo(saver)
+				.Build();
+
+			file.Save();
+
+			Console.WriteLine();
+
+			AssertUtility.AssertThatTypeIsEqualTo(file.Root, out EditorObject rootObject);
+
+			Assert.That(rootObject.Comments, Has.Count.EqualTo(1));
+			Assert.That(rootObject.Comments[0], Is.EqualTo(" This is a file comment "));
 		}
 	}
 }

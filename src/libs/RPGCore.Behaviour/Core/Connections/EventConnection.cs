@@ -42,7 +42,7 @@ namespace RPGCore.Behaviour
 				Converters = new List<IConnectionTypeConverter>();
 			}
 
-			IConnectionTypeConverter converter = null;
+			IConnectionTypeConverter? converter = null;
 			foreach (var existingConverter in Converters)
 			{
 				if (existingConverter.GetType() == converterType)

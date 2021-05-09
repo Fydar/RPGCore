@@ -49,7 +49,7 @@ namespace RPGCore.Behaviour
 				SerializedNode.UnpackOutputs(connectionIds, node);
 			}
 
-			Dictionary<string, Graph> templateSubgraphs = null;
+			Dictionary<string, Graph>? templateSubgraphs = null;
 			if (SubGraphs != null && SubGraphs.Count > 0)
 			{
 				templateSubgraphs = new Dictionary<string, Graph>();
@@ -65,7 +65,7 @@ namespace RPGCore.Behaviour
 
 		private static Type GetType(string name)
 		{
-			Type nodeType = null;
+			Type? nodeType = null;
 			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
 				nodeType = assembly.GetType(name);

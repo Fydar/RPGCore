@@ -33,7 +33,7 @@ namespace RPGCore.Behaviour
 			}
 		}
 
-		public GraphInstance(Graph template, IDictionary<LocalId, JObject> data = null)
+		public GraphInstance(Graph template, IDictionary<LocalId, JObject>? data = null)
 		{
 			Template = template;
 
@@ -319,14 +319,14 @@ namespace RPGCore.Behaviour
 			return new InputMap(socket, typeof(T));
 		}
 
-		private IConnection GetConnection(int id)
+		private IConnection? GetConnection(int id)
 		{
 			return id < 0
 				? null
 				: connections[id];
 		}
 
-		private OutputConnection<T> GetOrCreateOutputConnection<T>(int id)
+		private OutputConnection<T>? GetOrCreateOutputConnection<T>(int id)
 		{
 			if (id < 0)
 			{

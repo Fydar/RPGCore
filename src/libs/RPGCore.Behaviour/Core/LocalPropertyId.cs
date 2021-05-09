@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour
 	public readonly struct LocalPropertyId : IEquatable<LocalPropertyId>
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public static readonly LocalPropertyId None = new LocalPropertyId(LocalId.None, (string[])null);
+		public static readonly LocalPropertyId None = new(LocalId.None, Array.Empty<string>());
 
 		public readonly LocalId TargetIdentifier;
 		public readonly string[] PropertyPath;

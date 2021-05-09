@@ -22,19 +22,19 @@ namespace RPGCore.DataEditor
 		/// <summary>
 		/// The type of the dictionary keys.
 		/// </summary>
-		public SchemaQualifiedType KeyType { get; }
+		public TypeName KeyType { get; }
 
 		/// <summary>
 		/// the type of the dictionary values.
 		/// </summary>
-		public SchemaQualifiedType ValueType { get; }
+		public TypeName ValueType { get; }
 
 		/// <summary>
 		/// All key-value pairs contained within this dictionary.
 		/// </summary>
 		public List<EditorKeyValuePair> KeyValuePairs { get; }
 
-		internal EditorDictionary(EditorSession session, SchemaQualifiedType keyType, SchemaQualifiedType valueType)
+		internal EditorDictionary(EditorSession session, TypeName keyType, TypeName valueType)
 		{
 			Session = session;
 			KeyType = keyType;

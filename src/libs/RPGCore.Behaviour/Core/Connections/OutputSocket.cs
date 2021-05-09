@@ -12,7 +12,7 @@
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return $"Output {Id.ToString()}";
+			return $"Output {Id}";
 		}
 	}
 }

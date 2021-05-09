@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -38,7 +39,7 @@ namespace RPGCore.DataEditor.CSharp
 			return information;
 		}
 
-		public static SchemaQualifiedType DescribeType(Type type)
+		public static TypeName DescribeType(Type type)
 		{
 			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
 			{
@@ -50,38 +51,28 @@ namespace RPGCore.DataEditor.CSharp
 			else if (type.IsArray)
 			{
 				var elementType = type.GetElementType();
-				var parameterTypes = new SchemaQualifiedType[]
-				{
-					DescribeType(elementType)
-				};
-				return new SchemaQualifiedType("[Array]", parameterTypes);
+				return TypeName.ForArray(DescribeType(elementType));
 			}
 			else if (type.IsGenericType
 				&& !type.IsGenericTypeDefinition
 				&& type.GetGenericTypeDefinition() == typeof(List<>))
 			{
 				var elementType = type.GenericTypeArguments[0];
-				var parameterTypes = new SchemaQualifiedType[]
-				{
-					DescribeType(elementType)
-				};
-				return new SchemaQualifiedType("[Array]", parameterTypes);
+				return TypeName.ForArray(DescribeType(elementType));
 			}
 			else if (type.IsGenericType
 				&& !type.IsGenericTypeDefinition
 				&& type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
 			{
 				var genericArguments = type.GetGenericArguments();
-				var parameterTypes = new SchemaQualifiedType[]
-				{
+				return TypeName.ForDictionary(
 					DescribeType(genericArguments[0]),
 					DescribeType(genericArguments[1])
-				};
-				return new SchemaQualifiedType("[Dictionary]", parameterTypes);
+				);
 			}
 			else
 			{
-				return new SchemaQualifiedType(ToIdentifier(type));
+				return new TypeName(ToIdentifier(type));
 			}
 		}
 
@@ -204,14 +195,18 @@ namespace RPGCore.DataEditor.CSharp
 			{
 				return $"\"{instancedObject}\"";
 			}
-			if (type != typeof(object) && frameworkTypes.Contains(type))
+			else if (type == typeof(bool))
+			{
+				return (bool)instancedObject ? "true" : "false";
+			}
+			else if (type != typeof(object) && frameworkTypes.Contains(type))
 			{
 				return instancedObject.ToString();
 			}
-
-			string? serializedValue = JsonSerializer.Serialize(instancedObject);
-
-			return serializedValue;
+			else
+			{
+				return JsonSerializer.Serialize(instancedObject);
+			}
 		}
 
 		private static SchemaField ConstructFieldInformation(Type containerType, FieldInfo field, object? instancedObject)
@@ -288,14 +283,14 @@ namespace RPGCore.DataEditor.CSharp
 
 		private static SchemaField ConstructFieldInformation(Type containerType, IModelMember member, object? instancedObject)
 		{
-			var type = DescribeType(member.ValueType);
+			var typeName = DescribeType(member.ValueType);
 
-			if (!type.IsNullable)
+			if (!typeName.IsNullable)
 			{
-				type.IsNullable = member.IsNullable;
+				typeName.IsNullable = member.IsNullable;
 			}
 
-			string? result = null;
+			string? serializedInstatedValue = null;
 			if (instancedObject == null)
 			{
 				instancedObject = CreateInstance(containerType);
@@ -309,10 +304,27 @@ namespace RPGCore.DataEditor.CSharp
 					fieldValue = CreateInstance(member.ValueType);
 				}
 
-				result = Serialize(fieldValue);
+				if (fieldValue != null)
+				{
+					serializedInstatedValue = Serialize(fieldValue);
+				}
 			}
 
-			return new SchemaField(member.Name, "", type, result);
+			string name = member.Name;
+			string description = "";
+			foreach (object attribute in member.GetCustomAttributes(true))
+			{
+				if (attribute is JsonPropertyNameAttribute nameAttribute)
+				{
+					name = nameAttribute.Name;
+				}
+				else if (attribute is DescriptionAttribute descriptionAttribute)
+				{
+					description = descriptionAttribute.Description;
+				}
+			}
+
+			return new SchemaField(name, description, typeName, serializedInstatedValue);
 		}
 
 		private static string ToIdentifier(Type type)
@@ -410,16 +422,20 @@ namespace RPGCore.DataEditor.CSharp
 				}
 			}
 
-			for (var type = declaringType; type != null; type = type.DeclaringType)
+			var type = declaringType;
+			while (type != null)
 			{
 				var context = type.CustomAttributes
 					.FirstOrDefault(x => x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
-				if (context != null &&
-					context.ConstructorArguments.Count == 1 &&
-					context.ConstructorArguments[0].ArgumentType == typeof(byte))
+
+				if (context != null
+					&& context.ConstructorArguments.Count == 1
+					&& context.ConstructorArguments[0].ArgumentType == typeof(byte))
 				{
 					return (byte)context.ConstructorArguments[0].Value! == 2;
 				}
+
+				type = type.DeclaringType;
 			}
 
 			// Couldn't find a suitable attribute

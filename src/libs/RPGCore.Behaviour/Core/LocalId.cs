@@ -13,10 +13,10 @@ namespace RPGCore.Behaviour
 	public readonly struct LocalId : IEquatable<LocalId>
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private static readonly Random random = new Random();
+		private static readonly Random random = new();
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public static readonly LocalId None = new LocalId(0);
+		public static readonly LocalId None = new(0);
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ulong id;
@@ -47,6 +47,7 @@ namespace RPGCore.Behaviour
 			this.id = id;
 		}
 
+		/// <inheritdoc/>
 		public override bool Equals(object obj)
 		{
 			return obj is LocalId id && Equals(id);
@@ -56,6 +57,7 @@ namespace RPGCore.Behaviour
 		{
 			return id == other.id;
 		}
+		/// <inheritdoc/>
 
 		public override int GetHashCode()
 		{

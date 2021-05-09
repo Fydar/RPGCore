@@ -10,12 +10,12 @@ namespace RPGCore.DataEditor
 	public interface IEditorSerializer
 	{
 		/// <summary>
-		/// Reads an <see cref="IEditorValue"/> from a <see cref="Stream"/>.
+		/// Reads an <see cref="IEditorValue"/> of the specified <paramref name="type"/> from the <paramref name="input"/>.
 		/// </summary>
 		/// <param name="session">The <see cref="EditorFile"/> to read into.</param>
 		/// <param name="type">The type of the object to deserialize into.</param>
-		/// <param name="input">The <see cref="Stream"/> to read the <see cref="IEditorValue"/> from.</param>
-		IEditorValue DeserializeValue(EditorSession session, SchemaQualifiedType type, ReadOnlySpan<byte> input);
+		/// <param name="input">The data to read from.</param>
+		IEditorValue DeserializeValue(EditorSession session, TypeName type, ReadOnlySpan<byte> input);
 
 		/// <summary>
 		/// Writes an <see cref="IEditorValue"/> to a <see cref="Stream"/>.

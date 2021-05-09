@@ -22,14 +22,14 @@ namespace RPGCore.DataEditor
 		/// <summary>
 		/// The type of this <see cref="EditorScalarValue"/>.
 		/// </summary>
-		public SchemaQualifiedType Type { get; }
+		public TypeName Type { get; }
 
 		/// <summary>
 		/// An <see cref="object"/> representing the value of this <see cref="EditorScalarValue"/>.
 		/// </summary>
 		public object? Value { get; set; }
 
-		internal EditorScalarValue(EditorSession session, SchemaQualifiedType type)
+		internal EditorScalarValue(EditorSession session, TypeName type)
 		{
 			Session = session;
 			comments = new List<string>();
@@ -37,7 +37,7 @@ namespace RPGCore.DataEditor
 			Type = type;
 		}
 
-		internal EditorScalarValue(EditorSession session, SchemaQualifiedType type, object? value)
+		internal EditorScalarValue(EditorSession session, TypeName type, object? value)
 			: this(session, type)
 		{
 			Value = value;

@@ -13,7 +13,7 @@ namespace RPGCore.DataEditor
 		EditorSession Session { get; }
 
 		/// <summary>
-		/// All comments associated with this editor token.
+		/// All <see cref="string"/> comments associated with this <see cref="IEditorToken"/>.
 		/// </summary>
 		IList<string> Comments { get; }
 	}

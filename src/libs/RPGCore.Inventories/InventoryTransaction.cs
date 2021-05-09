@@ -13,10 +13,10 @@ namespace RPGCore.Inventory.Slots
 	/// </remarks>
 	public class InventoryTransaction : IEquatable<InventoryTransaction>
 	{
-		public static readonly InventoryTransaction None = new InventoryTransaction(TransactionStatus.None, new ItemTransaction[0]);
+		public static readonly InventoryTransaction None = new(TransactionStatus.None, Array.Empty<ItemTransaction>());
 
-		public TransactionStatus Status;
-		public IReadOnlyList<ItemTransaction> Items;
+		public TransactionStatus Status { get; set; }
+		public IReadOnlyList<ItemTransaction> Items { get; set; }
 
 		public InventoryTransaction()
 		{

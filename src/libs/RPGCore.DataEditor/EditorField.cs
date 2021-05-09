@@ -36,7 +36,7 @@ namespace RPGCore.DataEditor
 			{
 				var parentType = Session.ResolveType(Parent.Type);
 
-				if (parentType.Fields == null)
+				if (parentType?.Fields == null)
 				{
 					return null;
 				}

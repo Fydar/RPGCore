@@ -39,17 +39,23 @@ namespace RPGCore.DataEditor.Manifest
 						continue;
 					}
 
-					var typeAttributes = type.GetCustomAttribute(typeof(EditorTypeAttribute));
-					if (typeAttributes != null)
-					{
-						builder.AddType(BuiltInTypes.Construct(type));
-					}
-					/*else if (typeof(NodeTemplate).IsAssignableFrom(type))
-					{
-						builder.AddNodeType(SchemaNode.Construct(type));
-					}*/
+					builder.UseType(type);
 				}
 			}
+			return builder;
+		}
+
+		public static ProjectManifestBuilder UseType(this ProjectManifestBuilder builder, Type type)
+		{
+			var typeAttributes = type.GetCustomAttribute(typeof(EditorTypeAttribute));
+			if (typeAttributes != null)
+			{
+				builder.AddType(BuiltInTypes.Construct(type));
+			}
+			/*else if (typeof(NodeTemplate).IsAssignableFrom(type))
+			{
+				builder.AddNodeType(SchemaNode.Construct(type));
+			}*/
 			return builder;
 		}
 

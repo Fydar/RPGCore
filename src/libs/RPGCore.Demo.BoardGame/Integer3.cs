@@ -5,15 +5,15 @@ namespace RPGCore.Demo.BoardGame
 	[Serializable]
 	public readonly struct Integer3 : IEquatable<Integer3>
 	{
-		public static readonly Integer3 zero = new Integer3(0, 0, 0);
-		public static readonly Integer3 one = new Integer3(1, 1, 1);
+		public static readonly Integer3 zero = new(0, 0, 0);
+		public static readonly Integer3 one = new(1, 1, 1);
 
-		public static readonly Integer3 up = new Integer3(0, 1, 0);
-		public static readonly Integer3 down = new Integer3(0, -1, 0);
-		public static readonly Integer3 left = new Integer3(-1, 0, 0);
-		public static readonly Integer3 right = new Integer3(1, 0, 0);
-		public static readonly Integer3 forward = new Integer3(0, 0, 1);
-		public static readonly Integer3 back = new Integer3(0, 0, -1);
+		public static readonly Integer3 up = new(0, 1, 0);
+		public static readonly Integer3 down = new(0, -1, 0);
+		public static readonly Integer3 left = new(-1, 0, 0);
+		public static readonly Integer3 right = new(1, 0, 0);
+		public static readonly Integer3 forward = new(0, 0, 1);
+		public static readonly Integer3 back = new(0, 0, -1);
 
 		public readonly int x;
 		public readonly int y;
@@ -26,6 +26,7 @@ namespace RPGCore.Demo.BoardGame
 			this.z = z;
 		}
 
+		/// <inheritdoc/>
 		public override bool Equals(object obj)
 		{
 			return obj is Integer3 integer3 && Equals(integer3);
@@ -38,6 +39,7 @@ namespace RPGCore.Demo.BoardGame
 				   z == other.z;
 		}
 
+		/// <inheritdoc/>
 		public override int GetHashCode()
 		{
 			int hashCode = 373119288;

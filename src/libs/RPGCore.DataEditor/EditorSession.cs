@@ -34,9 +34,9 @@ namespace RPGCore.DataEditor
 		/// Starts editing a file using configuration provided by this <see cref="EditorSession"/>.
 		/// </summary>
 		/// <returns>A new <see cref="EditorFile"/> used for editing.</returns>
-		public EditorFile EditFile(SchemaQualifiedType schema)
+		public EditorFileBuilder EditFile()
 		{
-			return new EditorFile(this, schema);
+			return new EditorFileBuilder(this);
 		}
 
 		/// <summary>
@@ -44,33 +44,33 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		/// <param name="schemaQualifiedType"></param>
 		/// <returns></returns>
-		public SchemaType? ResolveType(SchemaQualifiedType schemaQualifiedType)
+		public SchemaType? ResolveType(TypeName schemaQualifiedType)
 		{
 			var type = Manifest.GetTypeInformation(schemaQualifiedType.Identifier);
 
 			return type;
 		}
 
-		internal IEditorValue CreateDefaultValue(SchemaQualifiedType qualifiedType)
+		internal IEditorValue CreateDefaultValue(TypeName type)
 		{
-			return qualifiedType.IsNullable
+			return type.IsNullable
 				? new EditorNull(this)
-				: CreateInstatedValue(qualifiedType);
+				: CreateInstatedValue(type);
 		}
 
-		internal IEditorValue CreateInstatedValue(SchemaQualifiedType qualifiedType)
+		internal IEditorValue CreateInstatedValue(TypeName type)
 		{
-			if (qualifiedType.Identifier == "[Dictionary]")
+			if (type.IsDictionary)
 			{
-				return new EditorDictionary(this, qualifiedType.TemplateTypes[0], qualifiedType.TemplateTypes[1]);
+				return new EditorDictionary(this, type.TemplateTypes[0], type.TemplateTypes[1]);
 			}
-			else if (qualifiedType.Identifier == "[Array]")
+			else if (type.IsArray)
 			{
-				return new EditorList(this, qualifiedType.TemplateTypes[0]);
+				return new EditorList(this, type.TemplateTypes[0]);
 			}
 			else
 			{
-				var typeInfo = Manifest.GetTypeInformation(qualifiedType.Identifier);
+				var typeInfo = Manifest.GetTypeInformation(type.Identifier);
 				if (typeInfo == null)
 				{
 					throw new InvalidOperationException($"Cannot create an instance of an object of type \"{typeInfo}\".");
@@ -83,8 +83,66 @@ namespace RPGCore.DataEditor
 				else
 				{
 					byte[]? data = Encoding.UTF8.GetBytes(typeInfo.InstatedValue);
-					var scalarInnerValue = Serializer.DeserializeValue(this, qualifiedType, data);
+					var scalarInnerValue = Serializer.DeserializeValue(this, type, new ArraySegment<byte>(data));
 					return scalarInnerValue;
+				}
+			}
+		}
+		internal bool IsTypeSubtypeOf(TypeName subType, TypeName baseType)
+		{
+			return true;
+		}
+
+		internal bool IsValueOfType(IEditorValue value, TypeName type)
+		{
+			if (type.IsDictionary)
+			{
+				if (value is EditorDictionary editorDictionary)
+				{
+					bool isKeyMatch = editorDictionary.KeyType == type.TemplateTypes[0];
+					bool isValueMatch = editorDictionary.ValueType == type.TemplateTypes[1];
+
+					return isKeyMatch && isValueMatch;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else if (type.IsArray)
+			{
+				if (value is EditorList editorList)
+				{
+					return editorList.ElementType == type.TemplateTypes[0];
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				var typeInfo = Manifest.GetTypeInformation(type.Identifier);
+				if (typeInfo == null)
+				{
+					throw new InvalidOperationException($"Cannot create an instance of an object of type \"{typeInfo}\".");
+				}
+
+				if (value is EditorNull)
+				{
+					return type.IsNullable;
+				}
+				else if (value is EditorScalarValue scalarValue)
+				{
+					return scalarValue.Type == type;
+				}
+				else if (value is EditorObject editorObject)
+				{
+					return editorObject.Type == type;
+				}
+				else
+				{
+					return false;
 				}
 			}
 		}

@@ -8,8 +8,8 @@ namespace RPGCore.View
 	{
 		public TraitCollection? Traits;
 
-		public EventField<string> Name = new EventField<string>();
-		public EventField<EntityRef> SelectedTarget = new EventField<EntityRef>();
+		public EventField<string> Name = new();
+		public EventField<EntityRef> SelectedTarget = new();
 
 		public ViewCharacter()
 		{

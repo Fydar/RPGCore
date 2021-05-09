@@ -17,7 +17,7 @@ namespace RPGCore.FileTree.FileSystem
 		public string FullName { get; internal set; }
 
 		public FileSystemArchive Archive { get; }
-		public FileSystemArchiveDirectory Parent { get; internal set; }
+		public FileSystemArchiveDirectory? Parent { get; internal set; }
 		public FileSystemArchiveDirectoryCollection Directories { get; }
 		public FileSystemArchiveFileCollection Files { get; }
 
@@ -39,7 +39,7 @@ namespace RPGCore.FileTree.FileSystem
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchiveEntry.Parent => Parent;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchive IReadOnlyArchiveEntry.Archive => Archive;
 
-		internal FileSystemArchiveDirectory(FileSystemArchive archive, FileSystemArchiveDirectory parent, DirectoryInfo directoryInfo)
+		internal FileSystemArchiveDirectory(FileSystemArchive archive, FileSystemArchiveDirectory? parent, DirectoryInfo directoryInfo)
 		{
 			Archive = archive;
 			Parent = parent;

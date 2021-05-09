@@ -3,17 +3,30 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 
 namespace RPGCore.DataEditor
 {
-	/// <inheritdoc/>
+	/// <summary>
+	/// A serializer for reading and writing <see cref="IEditorValue"/>.
+	/// </summary>
 	public class JsonEditorSerializer : IEditorSerializer
 	{
-		/// <inheritdoc/>
-		public IEditorValue DeserializeValue(EditorSession session, SchemaQualifiedType type, ReadOnlySpan<byte> output)
+		private readonly DictionaryKeyEditorSerializer dictionaryKeySerializer;
+
+		/// <summary>
+		/// Initialises a new instance of the <see cref="JsonEditorSerializer"/> class.
+		/// </summary>
+		public JsonEditorSerializer()
 		{
-			var reader = new Utf8JsonReader(output, true, new JsonReaderState(new JsonReaderOptions()
+			dictionaryKeySerializer = new DictionaryKeyEditorSerializer();
+		}
+
+		/// <inheritdoc/>
+		public IEditorValue DeserializeValue(EditorSession session, TypeName type, ReadOnlySpan<byte> data)
+		{
+			var reader = new Utf8JsonReader(data, true, new JsonReaderState(new JsonReaderOptions()
 			{
 				CommentHandling = JsonCommentHandling.Allow,
 				AllowTrailingCommas = true,
@@ -21,10 +34,10 @@ namespace RPGCore.DataEditor
 
 			if (!reader.Read())
 			{
-				throw new InvalidOperationException("Unable to read value as the data is empty.");
+				throw new InvalidDataException("Unable to read value as the input data is empty.");
 			}
 
-			return ReadValue(session, type, ref reader);
+			return ReadValueWithComments(session, type, ref reader);
 		}
 
 		/// <inheritdoc/>
@@ -32,7 +45,8 @@ namespace RPGCore.DataEditor
 		{
 			using var writer = new Utf8JsonWriter(output, new JsonWriterOptions()
 			{
-				Indented = true
+				Indented = true,
+				SkipValidation = false
 			});
 			SerializeValue(value, writer);
 		}
@@ -142,7 +156,7 @@ namespace RPGCore.DataEditor
 						}
 						default:
 						{
-							throw new InvalidOperationException($"unknown type {editorScalar?.Value?.GetType().Name ?? "null"}");
+							throw new InvalidDataException($"Unable to load type {editorScalar?.Value?.GetType().Name ?? "null"}");
 						}
 					}
 					break;
@@ -176,10 +190,18 @@ namespace RPGCore.DataEditor
 							writer.WriteCommentValue(comment);
 						}
 
-						var editorScalar = kvp.Key as EditorScalarValue;
+						string keyString;
 
-						string? key = editorScalar?.Value as string;
-						writer.WritePropertyName(key!);
+						using (var memoryStream = new MemoryStream())
+						{
+							dictionaryKeySerializer.SerializeValue(kvp.Key, memoryStream);
+
+							memoryStream.Seek(0, SeekOrigin.Begin);
+							var streamReader = new StreamReader(memoryStream);
+							keyString = streamReader.ReadToEnd();
+						}
+
+						writer.WritePropertyName(keyString);
 						SerializeValue(kvp.Value, writer);
 					}
 
@@ -215,15 +237,39 @@ namespace RPGCore.DataEditor
 			}
 		}
 
-		private IEditorValue ReadValue(EditorSession session, SchemaQualifiedType type, ref Utf8JsonReader reader)
+		private IEditorValue ReadValueWithComments(EditorSession session, TypeName type, ref Utf8JsonReader reader)
 		{
-			if (type.Identifier == "[Array]")
+			var comments = ReadComments(ref reader);
+
+			var value = ReadValue(session, type, ref reader);
+
+			foreach (string comment in comments)
+			{
+				value.Comments.Add(comment);
+			}
+
+			return value;
+		}
+
+		private IEditorValue ReadValue(EditorSession session, TypeName type, ref Utf8JsonReader reader)
+		{
+			if (reader.TokenType == JsonTokenType.Null)
+			{
+				return type.IsNullable
+					? new EditorNull(session)
+					: throw new InvalidDataException($"Cannot assign null value to non-nullable type \"{type}\".");
+			}
+			else if (type.IsArray)
 			{
 				return ReadArray(session, type, ref reader);
 			}
-			else if (type.Identifier == "[Dictionary]")
+			else if (type.IsDictionary)
 			{
 				return ReadDictionary(session, type, ref reader);
+			}
+			else if (type.IsUnknown)
+			{
+				return ReadObject(session, TypeName.Unknown, ref reader);
 			}
 			else
 			{
@@ -231,7 +277,7 @@ namespace RPGCore.DataEditor
 
 				if (typeInfo == null)
 				{
-					throw new InvalidOperationException($"Unable to resolve type information for \"{type}\".");
+					throw new InvalidDataException($"Unable to resolve type information for \"{type}\".");
 				}
 
 				if (typeInfo.Fields != null && typeInfo.Fields.Count > 0)
@@ -245,26 +291,14 @@ namespace RPGCore.DataEditor
 			}
 		}
 
-		private IEditorValue ReadObject(EditorSession session, SchemaQualifiedType type, ref Utf8JsonReader reader)
+		private IEditorValue ReadObject(EditorSession session, TypeName type, ref Utf8JsonReader reader)
 		{
-			var comments = ReadComments(ref reader);
-
-			var tokenType = reader.TokenType;
-			if (tokenType == JsonTokenType.Null)
+			if (reader.TokenType != JsonTokenType.StartObject)
 			{
-				return new EditorNull(session);
-			}
-			else if (tokenType != JsonTokenType.StartObject)
-			{
-				throw new InvalidDataException("Unexpected token.");
+				throw new InvalidDataException($"Unexpected token \"{reader.TokenType}\" whilst trying to read an object (expected \"{JsonTokenType.StartObject}\").");
 			}
 
-			var editorObject = new EditorObject(session, type);
-
-			foreach (string comment in comments)
-			{
-				editorObject.Comments.Add(comment);
-			}
+			EditorObject? editorObject = null;
 
 			while (reader.Read())
 			{
@@ -272,19 +306,53 @@ namespace RPGCore.DataEditor
 
 				switch (reader.TokenType)
 				{
-					case JsonTokenType.EndObject:
-						return editorObject;
-
 					case JsonTokenType.PropertyName:
+					{
 						string? propertyName = reader.GetString();
+
+						// Create an EditorObject the first time we need it.
+						if (editorObject == null)
+						{
+							if (string.Equals(propertyName, "$type", StringComparison.OrdinalIgnoreCase))
+							{
+								reader.Read();
+								string? typeNameValue = reader.GetString();
+
+								var explicitType = TypeName.FromString(typeNameValue.AsSpan());
+
+								// Check to make sure that an explicit type inherits from the expected type.
+								if (!type.IsUnknown && !session.IsTypeSubtypeOf(explicitType, type))
+								{
+									throw new InvalidDataException($"Cannot assign \"{explicitType}\" to \"{type}\".");
+								}
+
+								editorObject = new EditorObject(session, explicitType);
+								continue;
+							}
+							else
+							{
+								if (type.IsUnknown)
+								{
+									throw new InvalidDataException($"Unknown type requires the first property to be \"$type\" to determine the final type of the object.");
+								}
+
+								editorObject = new EditorObject(session, type);
+							}
+						}
+
+						if (string.Equals(propertyName, "$type", StringComparison.OrdinalIgnoreCase))
+						{
+							throw new InvalidDataException($"Type \"$type\" property must be supplied as the first property.");
+						}
+
 						var field = editorObject.Fields.FirstOrDefault(f => f.Name == propertyName);
 
 						if (!reader.Read())
 						{
-							throw new InvalidOperationException("Unable to read value as the data is empty.");
+							throw new InvalidDataException("Unexpected end of file.");
 						}
 
-						var fieldValue = ReadValue(session, field.Schema.Type, ref reader);
+						var fieldValue = ReadValueWithComments(session, field.Schema.Type, ref reader);
 						field.Value = fieldValue;
 
 						foreach (string comment in fieldComments)
@@ -292,40 +360,30 @@ namespace RPGCore.DataEditor
 							field.Comments.Add(comment);
 						}
 						break;
-
-					case JsonTokenType.Comment:
-
-						break;
-
-					default:
-						throw new ArgumentException();
+					}
+					case JsonTokenType.EndObject:
+					{
+						if (editorObject == null)
+						{
+							editorObject = new EditorObject(session, type);
+						}
+						return editorObject;
+					}
 				}
 			}
 
 			return new EditorNull(session);
 		}
 
-		private IEditorValue ReadArray(EditorSession session, SchemaQualifiedType type, ref Utf8JsonReader reader)
+		private IEditorValue ReadArray(EditorSession session, TypeName type, ref Utf8JsonReader reader)
 		{
-			var comments = ReadComments(ref reader);
-
-			var tokenType = reader.TokenType;
-			if (tokenType == JsonTokenType.Null)
+			if (reader.TokenType != JsonTokenType.StartArray)
 			{
-				return new EditorNull(session);
-			}
-			else if (tokenType != JsonTokenType.StartArray)
-			{
-				throw new InvalidDataException($"Unexpected token {tokenType}.");
+				throw new InvalidDataException($"Unexpected token \"{reader.TokenType}\" whilst trying to read an array (expected \"{JsonTokenType.StartArray}\").");
 			}
 
 			var elementType = type.TemplateTypes[0];
 			var editorList = new EditorList(session, type);
-
-			foreach (string comment in comments)
-			{
-				editorList.Comments.Add(comment);
-			}
 
 			while (reader.Read())
 			{
@@ -333,14 +391,9 @@ namespace RPGCore.DataEditor
 
 				switch (reader.TokenType)
 				{
-					case JsonTokenType.EndArray:
-						return editorList;
-
-					case JsonTokenType.Comment:
-						break;
-
 					default:
-						var elementValue = ReadValue(session, elementType, ref reader);
+					{
+						var elementValue = ReadValueWithComments(session, elementType, ref reader);
 
 						foreach (string comment in elementComments)
 						{
@@ -349,34 +402,32 @@ namespace RPGCore.DataEditor
 
 						editorList.Elements.Add(elementValue);
 						break;
+					}
+					case JsonTokenType.EndArray:
+					{
+						return editorList;
+					}
+					case JsonTokenType.EndObject:
+					case JsonTokenType.PropertyName:
+					{
+						throw new InvalidDataException($"Unexpected token \"{reader.TokenType}\" whilst trying to read an array.");
+					}
 				}
 			}
 
-			throw new InvalidOperationException("Invalid syntax");
+			throw new InvalidDataException($"Unexpected token \"{reader.TokenType}\" whilst trying to read an array.");
 		}
 
-		private IEditorValue ReadDictionary(EditorSession session, SchemaQualifiedType type, ref Utf8JsonReader reader)
+		private IEditorValue ReadDictionary(EditorSession session, TypeName type, ref Utf8JsonReader reader)
 		{
-			var comments = ReadComments(ref reader);
-
-			var tokenType = reader.TokenType;
-			if (tokenType == JsonTokenType.Null)
+			if (reader.TokenType != JsonTokenType.StartObject)
 			{
-				return new EditorNull(session);
-			}
-			else if (tokenType != JsonTokenType.StartObject)
-			{
-				throw new InvalidDataException($"Unexpected token {tokenType}.");
+				throw new InvalidDataException($"Unexpected token \"{reader.TokenType}\" whilst trying to read a dictionary (expected \"{JsonTokenType.StartObject}\").");
 			}
 
 			var keyType = type.TemplateTypes[0];
 			var valueType = type.TemplateTypes[1];
 			var editorDictionary = new EditorDictionary(session, keyType, valueType);
-
-			foreach (string comment in comments)
-			{
-				editorDictionary.Comments.Add(comment);
-			}
 
 			while (reader.Read())
 			{
@@ -384,21 +435,16 @@ namespace RPGCore.DataEditor
 
 				switch (reader.TokenType)
 				{
-					case JsonTokenType.EndObject:
-						return editorDictionary;
-
-					case JsonTokenType.Comment:
-						break;
-
 					case JsonTokenType.PropertyName:
-						var keyValue = ReadScalarValue(session, keyType, ref reader);
+					{
+						var keyValue = ReadDictionaryKey(session, keyType, ref reader);
 
 						if (!reader.Read())
 						{
-							throw new InvalidOperationException("Unable to read value as the data is empty.");
+							throw new InvalidDataException("Unexpected end of file.");
 						}
 
-						var elementValue = ReadValue(session, valueType, ref reader);
+						var elementValue = ReadValueWithComments(session, valueType, ref reader);
 
 						var kvp = new EditorKeyValuePair(editorDictionary, keyValue, elementValue);
 
@@ -409,31 +455,33 @@ namespace RPGCore.DataEditor
 
 						editorDictionary.KeyValuePairs.Add(kvp);
 						break;
-
+					}
+					case JsonTokenType.EndObject:
+					{
+						return editorDictionary;
+					}
 					default:
-						throw new InvalidOperationException("Invalid syntax");
+					{
+						throw new InvalidDataException($"Unexpected token \"{reader.TokenType}\" whilst trying to read an array.");
+					}
 				}
 			}
 
-			throw new InvalidOperationException("Invalid syntax");
+			throw new InvalidDataException($"Unexpected token \"{reader.TokenType}\" whilst trying to read a dictionary.");
 		}
 
-		private IEditorValue ReadScalarValue(EditorSession session, SchemaQualifiedType type, ref Utf8JsonReader reader)
+		private IEditorValue ReadDictionaryKey(EditorSession session, TypeName type, ref Utf8JsonReader reader)
 		{
-			var comments = ReadComments(ref reader);
+			string dictionaryKeyString = reader.GetString() ?? "";
+			byte[] dictionaryKeyData = Encoding.UTF8.GetBytes(dictionaryKeyString);
 
-			if (reader.TokenType == JsonTokenType.Null)
-			{
-				if (type.IsNullable)
-				{
-					return new EditorNull(session);
-				}
-				else
-				{
-					throw new InvalidOperationException($"Unable to assign null value to type {type}.");
-				}
-			}
+			var value = dictionaryKeySerializer.DeserializeValue(session, type, dictionaryKeyData);
 
+			return value;
+		}
+
+		private IEditorValue ReadScalarValue(EditorSession session, TypeName type, ref Utf8JsonReader reader)
+		{
 			var editorScalarValue = type.Identifier switch
 			{
 				"string" => new EditorScalarValue(session, type, reader.GetString()),
@@ -450,17 +498,13 @@ namespace RPGCore.DataEditor
 				"float" => new EditorScalarValue(session, type, reader.GetSingle()),
 				"double" => new EditorScalarValue(session, type, reader.GetDouble()),
 				"decimal" => new EditorScalarValue(session, type, reader.GetDecimal()),
-				_ => throw new InvalidOperationException($"unknown type {type.Identifier}"),
+				_ => throw new InvalidDataException($"Type \"{type.Identifier}\" is not readable as a scalar value."),
 			};
-
-			foreach (string comment in comments)
-			{
-				editorScalarValue.Comments.Add(comment);
-			}
 
 			return editorScalarValue;
 		}
-		private IList<string> ReadComments(ref Utf8JsonReader reader)
+
+		private static IList<string> ReadComments(ref Utf8JsonReader reader)
 		{
 			if (reader.TokenType != JsonTokenType.Comment)
 			{
@@ -468,11 +512,13 @@ namespace RPGCore.DataEditor
 			}
 
 			var comments = new List<string>();
-			while (reader.TokenType == JsonTokenType.Comment)
+			do
 			{
 				comments.Add(reader.GetComment());
 				reader.Read();
 			}
+			while (reader.TokenType == JsonTokenType.Comment);
+
 			return comments;
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Behaviour;
 using RPGCore.DataEditor.CSharp;
+using System;
 using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame.Models
@@ -9,13 +10,13 @@ namespace RPGCore.Demo.BoardGame.Models
 	public class BuildingTemplate : IResourceModel
 	{
 		[JsonIgnore]
-		public string Identifier { get; set; }
+		public string Identifier { get; set; } = string.Empty;
 
-		public string DisplayName { get; set; }
-		public string BodyText { get; set; }
-		public string PackIdentifier { get; set; }
+		public string DisplayName { get; set; } = string.Empty;
+		public string BodyText { get; set; } = string.Empty;
+		public string PackIdentifier { get; set; } = string.Empty;
 
-		public string[,] Recipe { get; set; }
+		public string[,]? Recipe { get; set; }
 
 		public SerializedGraph LocalEffectGraph { get; set; }
 		public SerializedGraph BoardEffectGraph { get; set; }
