@@ -21,7 +21,8 @@ namespace RPGCore.DataEditor
 		/// Writes an <see cref="IEditorValue"/> to a <see cref="Stream"/>.
 		/// </summary>
 		/// <param name="value">The <see cref="IEditorValue"/> to write to the <see cref="Stream"/>.</param>
+		/// <param name="type">The <see cref="TypeName"/> that represents the default type for the context.</param>
 		/// <param name="output">The <see cref="Stream"/> to write the <see cref="IEditorValue"/> to.</param>
-		void SerializeValue(IEditorValue value, Stream output);
+		void SerializeValue(IEditorValue value, TypeName type, Stream output);
 	}
 }

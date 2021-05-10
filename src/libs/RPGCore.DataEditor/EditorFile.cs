@@ -59,7 +59,7 @@ namespace RPGCore.DataEditor
 				throw new InvalidOperationException("Cannot save file as it has no destination to save to.");
 			}
 
-			fileSaver.Save(Session, Root);
+			fileSaver.Save(Session, type, Root);
 		}
 
 		public void Reload()

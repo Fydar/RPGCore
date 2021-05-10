@@ -54,8 +54,10 @@ namespace RPGCore.DataEditor.UnitTests
 		}
 
 		[Test, Parallelizable]
-		public void LoadWithAbstractBaseTypes()
+		public void SaveWithAbstractBaseTypes()
 		{
+			var output = new ConsoleLogSaver();
+
 			var file = session.EditFile()
 				.WithType(new TypeName("SerializerBaseObject"))
 				.LoadFrom(new StringContentLoader(@"
@@ -64,15 +66,17 @@ namespace RPGCore.DataEditor.UnitTests
 					""ChildFieldA"": ""Loaded 1"",
 					""ChildFieldB"": ""Loaded 2""
 				}"))
-				.SaveTo(new ConsoleLogSaver())
+				.SaveTo(output)
 				.Build();
 
 			file.Save();
 		}
 
 		[Test, Parallelizable]
-		public void LoadWithUnknownBaseTypes()
+		public void SaveWithUnknownBaseTypes()
 		{
+			var output = new ConsoleLogSaver();
+
 			var file = session.EditFile()
 				.WithType(TypeName.Unknown)
 				.LoadFrom(new StringContentLoader(@"
@@ -81,7 +85,7 @@ namespace RPGCore.DataEditor.UnitTests
 					""ChildFieldA"": ""Loaded 1"",
 					""ChildFieldB"": ""Loaded 2""
 				}"))
-				.SaveTo(new ConsoleLogSaver())
+				.SaveTo(output)
 				.Build();
 
 			file.Save();

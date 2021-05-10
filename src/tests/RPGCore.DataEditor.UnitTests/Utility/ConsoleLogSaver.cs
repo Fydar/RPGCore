@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGCore.DataEditor.Manifest;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -14,10 +15,10 @@ namespace RPGCore.DataEditor.UnitTests.Utility
 		}
 
 		/// <inheritdoc/>
-		public void Save(EditorSession editorSession, IEditorValue save)
+		public void Save(EditorSession editorSession, TypeName type, IEditorValue save)
 		{
 			using var memoryStream = new MemoryStream();
-			editorSession.Serializer.SerializeValue(save, memoryStream);
+			editorSession.Serializer.SerializeValue(save, type, memoryStream);
 
 			memoryStream.Seek(0, SeekOrigin.Begin);
 			using var reader = new StreamReader(memoryStream);

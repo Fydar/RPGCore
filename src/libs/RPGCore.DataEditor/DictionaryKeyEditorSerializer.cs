@@ -74,7 +74,7 @@ namespace RPGCore.DataEditor
 		}
 
 		/// <inheritdoc/>
-		public void SerializeValue(IEditorValue value, Stream output)
+		public void SerializeValue(IEditorValue value, TypeName type, Stream output)
 		{
 			var writer = new StreamWriter(output);
 

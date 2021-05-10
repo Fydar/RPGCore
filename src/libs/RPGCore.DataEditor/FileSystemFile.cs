@@ -20,11 +20,11 @@ namespace RPGCore.DataEditor
 		}
 
 		/// <inheritdoc/>
-		public void Save(EditorSession editorSession, IEditorValue save)
+		public void Save(EditorSession editorSession, TypeName type, IEditorValue save)
 		{
 			using var stream = file.OpenWrite();
 
-			editorSession.Serializer.SerializeValue(save, stream);
+			editorSession.Serializer.SerializeValue(save, type, stream);
 		}
 	}
 }

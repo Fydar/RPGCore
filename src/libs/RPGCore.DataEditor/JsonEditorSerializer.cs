@@ -41,17 +41,17 @@ namespace RPGCore.DataEditor
 		}
 
 		/// <inheritdoc/>
-		public void SerializeValue(IEditorValue value, Stream output)
+		public void SerializeValue(IEditorValue value, TypeName type, Stream output)
 		{
 			using var writer = new Utf8JsonWriter(output, new JsonWriterOptions()
 			{
 				Indented = true,
 				SkipValidation = false
 			});
-			SerializeValue(value, writer);
+			SerializeValue(value, type, writer);
 		}
 
-		private void SerializeValue(IEditorValue value, Utf8JsonWriter writer)
+		private void SerializeValue(IEditorValue value, TypeName type, Utf8JsonWriter writer)
 		{
 			foreach (string comment in value.Comments)
 			{
@@ -165,6 +165,12 @@ namespace RPGCore.DataEditor
 				{
 					writer.WriteStartObject();
 
+					if (editorObject.Type != type)
+					{
+						writer.WritePropertyName("$type");
+						writer.WriteStringValue(editorObject.Type.ToString());
+					}
+
 					foreach (var field in editorObject.Fields)
 					{
 						foreach (string comment in field.Comments)
@@ -173,7 +179,7 @@ namespace RPGCore.DataEditor
 						}
 
 						writer.WritePropertyName(field.Name);
-						SerializeValue(field.Value, writer);
+						SerializeValue(field.Value, field.Schema.Type, writer);
 					}
 
 					writer.WriteEndObject();
@@ -194,7 +200,7 @@ namespace RPGCore.DataEditor
 
 						using (var memoryStream = new MemoryStream())
 						{
-							dictionaryKeySerializer.SerializeValue(kvp.Key, memoryStream);
+							dictionaryKeySerializer.SerializeValue(kvp.Key, editorDictionary.KeyType, memoryStream);
 
 							memoryStream.Seek(0, SeekOrigin.Begin);
 							var streamReader = new StreamReader(memoryStream);
@@ -202,7 +208,7 @@ namespace RPGCore.DataEditor
 						}
 
 						writer.WritePropertyName(keyString);
-						SerializeValue(kvp.Value, writer);
+						SerializeValue(kvp.Value, editorDictionary.ValueType, writer);
 					}
 
 					writer.WriteEndObject();
@@ -219,7 +225,7 @@ namespace RPGCore.DataEditor
 							writer.WriteCommentValue(comment);
 						}
 
-						SerializeValue(element, writer);
+						SerializeValue(element, editorList.ElementType, writer);
 					}
 
 					writer.WriteEndArray();
