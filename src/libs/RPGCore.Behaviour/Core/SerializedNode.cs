@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RPGCore.DataEditor.CSharp;
+using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -10,9 +10,9 @@ namespace RPGCore.Behaviour
 	[EditorType]
 	public sealed class SerializedNode
 	{
-		public string Type;
-		public JObject Data;
-		public PackageNodeEditor Editor;
+		public string Type { get; set; }
+		public JObject Data { get; set; }
+		public PackageNodeEditor Editor { get; set; }
 
 		public NodeTemplate UnpackNodeAndInputs(Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
 		{

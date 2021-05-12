@@ -1,7 +1,7 @@
 ﻿using RPGCore.DataEditor.Manifest;
 using System.IO;
 
-namespace RPGCore.DataEditor
+namespace RPGCore.DataEditor.Files
 {
 	public class FileSystemFile : IFileLoader, IFileSaver
 	{

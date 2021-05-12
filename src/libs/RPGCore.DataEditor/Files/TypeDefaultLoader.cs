@@ -1,6 +1,6 @@
 ﻿using RPGCore.DataEditor.Manifest;
 
-namespace RPGCore.DataEditor
+namespace RPGCore.DataEditor.Files
 {
 	public class TypeDefaultLoader : IFileLoader
 	{

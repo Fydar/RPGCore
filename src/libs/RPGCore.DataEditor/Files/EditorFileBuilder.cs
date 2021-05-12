@@ -1,6 +1,6 @@
 ﻿using RPGCore.DataEditor.Manifest;
 
-namespace RPGCore.DataEditor
+namespace RPGCore.DataEditor.Files
 {
 	/// <summary>
 	/// A builder for <see cref="EditorFile"/>.

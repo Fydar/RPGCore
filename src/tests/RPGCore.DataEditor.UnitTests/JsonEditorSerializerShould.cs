@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
-using RPGCore.DataEditor.CSharp;
 using RPGCore.DataEditor.Manifest;
+using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
+using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
 using RPGCore.DataEditor.UnitTests.Utility;
+using System.Text.Json;
 
 namespace RPGCore.DataEditor.UnitTests
 {
@@ -25,10 +27,15 @@ namespace RPGCore.DataEditor.UnitTests
 
 		public JsonEditorSerializerShould()
 		{
+			var serializer = new JsonSerializerOptions();
+
 			schema = ProjectManifestBuilder.Create()
-				.UseFrameworkTypes()
-				.UseType(typeof(SerializerBaseObject))
-				.UseType(typeof(SerializerChildObject))
+				.UseTypesFromJsonSerializer(serializer, options =>
+				{
+					options.UseFrameworkTypes();
+					options.UseType(typeof(SerializerBaseObject));
+					options.UseType(typeof(SerializerChildObject));
+				})
 				.Build();
 
 			session = new EditorSession(schema, new JsonEditorSerializer());

@@ -1,3 +1,4 @@
+using RPGCore.DataEditor.Manifest.Internal;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace RPGCore.DataEditor.Manifest
 
 			JsonSerializer.Serialize(jsonWriter, this, new JsonSerializerOptions()
 			{
+				
 			});
 		}
 

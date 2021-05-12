@@ -1,4 +1,4 @@
-using RPGCore.DataEditor.CSharp;
+using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -11,7 +11,7 @@ namespace RPGCore.Behaviour
 		public Dictionary<LocalId, SerializedNode> Nodes { get; set; }
 		public Dictionary<string, SerializedGraph> SubGraphs { get; set; }
 
-		public Graph Unpack()
+		public Graph? Unpack()
 		{
 			if (Nodes == null || Nodes.Count == 0)
 			{

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace RPGCore.DataEditor
+namespace RPGCore.DataEditor.Files
 {
 	/// <summary>
 	/// A root data structure for data editing.

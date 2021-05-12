@@ -1,4 +1,5 @@
-﻿using RPGCore.DataEditor.Manifest;
+﻿using RPGCore.DataEditor.Files;
+using RPGCore.DataEditor.Manifest;
 using System;
 using System.Text;
 

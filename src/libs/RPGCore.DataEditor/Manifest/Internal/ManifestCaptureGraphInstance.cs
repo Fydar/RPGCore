@@ -1,6 +1,6 @@
 ﻿/*using RPGCore.Behaviour;
 
-namespace RPGCore.DataEditor.Manifest
+namespace RPGCore.DataEditor.Manifest.Internal
 {
 	internal sealed class ManifestCaptureGraphInstance : IConnectionCallback
 	{

@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RPGCore.DataEditor.CSharp;
+using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
 using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame.Models

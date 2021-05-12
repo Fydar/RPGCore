@@ -1,4 +1,4 @@
-﻿using RPGCore.DataEditor.CSharp;
+﻿using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
 
 namespace RPGCore.Demo.BoardGame.Models
 {

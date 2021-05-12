@@ -1,13 +1,15 @@
 ﻿using NUnit.Framework;
-using RPGCore.DataEditor.CSharp;
 using RPGCore.DataEditor.Manifest;
+using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
 using RPGCore.DataEditor.UnitTests.Utility;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace RPGCore.DataEditor.UnitTests
 {
-	[TestFixture(TestOf = typeof(BuiltInTypes))]
+	[TestFixture(TestOf = typeof(IRuntimeTypeConverter))]
 	public class BuiltInTypesShouldCreateSchema
 	{
 		[EditorType]
@@ -71,10 +73,14 @@ namespace RPGCore.DataEditor.UnitTests
 		[Test, Parallelizable]
 		public void Serialize()
 		{
+			var serializer = new JsonSerializerOptions();
 			var schema = ProjectManifestBuilder.Create()
-				.UseFrameworkTypes()
-				.UseType(typeof(TestRootObject))
-				.UseType(typeof(TestChildObject))
+				.UseTypesFromJsonSerializer(serializer, options =>
+				{
+					options.UseFrameworkTypes();
+					options.UseType(typeof(TestRootObject));
+					options.UseType(typeof(TestChildObject));
+				})
 				.Build();
 
 			var session = new EditorSession(schema, new JsonEditorSerializer());

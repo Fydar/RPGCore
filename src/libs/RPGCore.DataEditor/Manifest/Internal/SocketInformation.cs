@@ -1,4 +1,4 @@
-﻿namespace RPGCore.DataEditor.Manifest
+﻿namespace RPGCore.DataEditor.Manifest.Internal
 {
 	public struct SocketInformation
 	{

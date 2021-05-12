@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RPGCore.DataEditor.Manifest
+namespace RPGCore.DataEditor.Manifest.Internal
 {
 	public sealed class SchemaNode : SchemaType
 	{

@@ -118,7 +118,7 @@ namespace RPGCore.DataEditor
 						case double:
 						case float:
 						{
-							writer.Write(value.ToString());
+							writer.Write(editorScalar.Value.ToString());
 							break;
 						}
 						case null:
@@ -152,6 +152,7 @@ namespace RPGCore.DataEditor
 				default:
 					throw new ArgumentException($"Cannot serialize editor value of type \"{value.GetType().Name}\".");
 			}
+			writer.Flush();
 		}
 	}
 }
