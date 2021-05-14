@@ -1,9 +1,9 @@
-﻿using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+﻿using RPGCore.Data;
 using System.Diagnostics;
 
 namespace RPGCore.Behaviour
 {
-	[EditorType]
+	[EditableType]
 	public readonly struct InputSocket
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]

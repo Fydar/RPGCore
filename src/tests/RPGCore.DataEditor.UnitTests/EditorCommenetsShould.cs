@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using RPGCore.DataEditor.Manifest;
 using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
-using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+using RPGCore.Data;
 using RPGCore.DataEditor.UnitTests.Utility;
 using System;
 using System.Text.Json;
@@ -11,7 +11,7 @@ namespace RPGCore.DataEditor.UnitTests
 	[TestFixture(TestOf = typeof(EditorSession))]
 	public class EditorCommenetsShould
 	{
-		[EditorType]
+		[EditableType]
 		private class TestObjectWithComments
 		{
 			public string ChildFieldA { get; set; } = "Child Value A";

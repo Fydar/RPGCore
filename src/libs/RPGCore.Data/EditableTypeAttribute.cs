@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RPGCore.DataEditor.Manifest.Source.RuntimeSource
+namespace RPGCore.Data
 {
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
 	public class EditableTypeAttribute : Attribute

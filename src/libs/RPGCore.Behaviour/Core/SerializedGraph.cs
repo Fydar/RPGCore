@@ -1,11 +1,11 @@
-using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+using RPGCore.Data;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace RPGCore.Behaviour
 {
-	[EditorType]
+	[EditableType]
 	public class SerializedGraph
 	{
 		public Dictionary<LocalId, SerializedNode> Nodes { get; set; }

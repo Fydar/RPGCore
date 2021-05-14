@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+using RPGCore.Data;
 
 namespace RPGCore.Demo.BoardGame.Models
 {
-	[EditorType]
+	[EditableType]
 	public class BuildingPackTemplate : IResourceModel
 	{
 		[JsonIgnore]

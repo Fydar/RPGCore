@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using RPGCore.DataEditor.Manifest;
 using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
-using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+using RPGCore.Data;
 using RPGCore.DataEditor.UnitTests.Utility;
 using System.Text.Json;
 
@@ -10,13 +10,13 @@ namespace RPGCore.DataEditor.UnitTests
 	[TestFixture(TestOf = typeof(JsonEditorSerializer))]
 	public class JsonEditorSerializerShould
 	{
-		[EditorType]
+		[EditableType]
 		private class SerializerBaseObject
 		{
 			public string ChildFieldA { get; set; } = "Child Value A";
 		}
 
-		[EditorType]
+		[EditableType]
 		private class SerializerChildObject : SerializerBaseObject
 		{
 			public string ChildFieldB { get; set; } = "Child Value B";

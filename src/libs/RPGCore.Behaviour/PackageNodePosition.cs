@@ -1,8 +1,8 @@
-using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+using RPGCore.Data;
 
 namespace RPGCore.Behaviour
 {
-	[EditorType]
+	[EditableType]
 	public struct PackageNodePosition
 	{
 		public int x { get; set; }

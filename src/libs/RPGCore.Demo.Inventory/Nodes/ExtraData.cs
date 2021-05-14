@@ -1,8 +1,8 @@
-﻿using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+﻿using RPGCore.Data;
 
 namespace RPGCore.Demo.Inventory.Nodes
 {
-	[EditorType]
+	[EditableType]
 	public struct ExtraData
 	{
 		public int Hi { get; set; }

@@ -1,8 +1,8 @@
-﻿using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+﻿using RPGCore.Data;
 
 namespace RPGCore.Items
 {
-	[EditorType]
+	[EditableType]
 	public class BespokeItemTemplate : ItemTemplate
 	{
 		/// <inheritdoc/>

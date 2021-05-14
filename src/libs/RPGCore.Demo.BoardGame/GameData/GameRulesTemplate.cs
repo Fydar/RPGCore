@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+using RPGCore.Data;
 using System.Collections.Generic;
 
 namespace RPGCore.Demo.BoardGame.Models
 {
-	[EditorType]
+	[EditableType]
 	public class GameRulesTemplate : IResourceModel
 	{
 		[JsonIgnore]

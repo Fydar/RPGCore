@@ -1,8 +1,8 @@
-﻿using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
+﻿using RPGCore.Data;
 
 namespace RPGCore.Demo.BoardGame.Models
 {
-	[EditorType]
+	[EditableType]
 	public struct VoxelColour
 	{
 		public float Red { get; set; }

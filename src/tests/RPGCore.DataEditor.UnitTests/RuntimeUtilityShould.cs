@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using RPGCore.DataEditor.Manifest;
-using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
 using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
+using RPGCore.DataEditor.Manifest.Source.RuntimeSource;
 using System.Collections.Generic;
 using System.Text.Json;
 
