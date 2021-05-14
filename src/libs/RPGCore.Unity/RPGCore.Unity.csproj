@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Events\RPGCore.Events.csproj" />
+    <ProjectReference Include="..\..\libs\RPGCore.Data\RPGCore.Data.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.FileTree\RPGCore.FileTree.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Inventories\RPGCore.Inventories.csproj" />
