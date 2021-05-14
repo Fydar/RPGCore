@@ -93,7 +93,7 @@ namespace RPGCore.DataEditor.Manifest.Source.RuntimeSource
 		/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
 		public RuntimeProjectManifestBuilderOptions UseType(Type type)
 		{
-			var typeAttributes = type.GetCustomAttribute(typeof(EditorTypeAttribute));
+			var typeAttributes = type.GetCustomAttribute(typeof(EditableTypeAttribute));
 			if (typeAttributes == null)
 			{
 				throw new InvalidOperationException($"Type \"{type.FullName}\" does not contain the [EditorType] attribute.");
@@ -109,7 +109,7 @@ namespace RPGCore.DataEditor.Manifest.Source.RuntimeSource
 		{
 			foreach (var type in types)
 			{
-				var typeAttributes = type.GetCustomAttribute(typeof(EditorTypeAttribute));
+				var typeAttributes = type.GetCustomAttribute(typeof(EditableTypeAttribute));
 				if (typeAttributes != null)
 				{
 					builder.AddType(runtimeTypeConverter.Convert(type));

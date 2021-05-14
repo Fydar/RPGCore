@@ -49,7 +49,7 @@ namespace RPGCore.DataEditor.UnitTests
 			var file = session.EditFile()
 				.WithType(new TypeName("SerializerChildObject"))
 				.LoadFrom(new StringContentLoader(testData))
-				.SaveTo(new ConsoleLogSaver())
+				.SaveTo(new MockFileSink())
 				.Build();
 
 			file.Save();
@@ -63,7 +63,7 @@ namespace RPGCore.DataEditor.UnitTests
 		[Test, Parallelizable]
 		public void SaveWithAbstractBaseTypes()
 		{
-			var output = new ConsoleLogSaver();
+			var output = new MockFileSink();
 
 			var file = session.EditFile()
 				.WithType(new TypeName("SerializerBaseObject"))
@@ -82,7 +82,7 @@ namespace RPGCore.DataEditor.UnitTests
 		[Test, Parallelizable]
 		public void SaveWithUnknownBaseTypes()
 		{
-			var output = new ConsoleLogSaver();
+			var output = new MockFileSink();
 
 			var file = session.EditFile()
 				.WithType(TypeName.Unknown)

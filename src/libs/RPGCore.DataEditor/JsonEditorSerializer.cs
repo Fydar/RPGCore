@@ -389,7 +389,7 @@ namespace RPGCore.DataEditor
 			}
 
 			var elementType = type.TemplateTypes[0];
-			var editorList = new EditorList(session, type);
+			var editorList = new EditorList(session, elementType);
 
 			while (reader.Read())
 			{

@@ -54,7 +54,7 @@ namespace RPGCore.DataEditor.UnitTests
 			Console.WriteLine(testData);
 			Console.WriteLine();
 
-			var saver = new ConsoleLogSaver();
+			var saver = new MockFileSink();
 
 			var file = session.EditFile()
 				.WithType(new TypeName("TestObjectWithComments"))

@@ -6,11 +6,11 @@ using System.IO;
 
 namespace RPGCore.DataEditor.UnitTests.Utility
 {
-	public class ConsoleLogSaver : IFileSaver
+	public class MockFileSink : IFileSaver
 	{
 		public List<string> SaveHistory { get; }
 
-		public ConsoleLogSaver()
+		public MockFileSink()
 		{
 			SaveHistory = new List<string>();
 		}

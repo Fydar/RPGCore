@@ -12,62 +12,79 @@ namespace RPGCore.DataEditor.UnitTests
 	[TestFixture(TestOf = typeof(IRuntimeTypeConverter))]
 	public class BuiltInTypesShouldCreateSchema
 	{
-		[EditorType]
+		[EditableType]
 		private class TestChildObject
 		{
 			public string ChildFieldA { get; set; } = "Child Value A";
 			public string ChildFieldB { get; set; } = "Child Value B";
 		}
 
-		[EditorType]
+		[EditableType]
 		private class TestRootObject
 		{
-			public long[] TestArrayA { get; set; } = Array.Empty<long>();
-			public long[] TestArrayB { get; set; } = new long[] { 1, 2, 3, 4 };
-			public long[]? TestArrayC { get; set; } = null;
-			public long[]? TestArrayD { get; set; } = Array.Empty<long>();
-			public long[]? TestArrayE { get; set; } = new long[] { 1, 2, 3, 4 };
+			public int IntZero { get; set; } = 0;
+			public int IntValue { get; set; } = 100;
+			public int? IntNullableNull { get; set; } = null;
+			public int? IntNullableValue { get; set; } = 400;
 
-			public TestChildObject TestChildObjectA { get; set; } = new TestChildObject();
-			public TestChildObject? TestChildObjectB { get; set; } = null;
-			public TestChildObject? TestChildObjectC { get; set; } = new TestChildObject();
+			public long LongZero { get; set; } = 0;
+			public long LongValue { get; set; } = 100;
+			public long? LongNullableNull { get; set; } = null;
+			public long? LongNullableValue { get; set; } = 400;
 
-			public Dictionary<string, TestChildObject>? TestChildObjectDictionary { get; set; } = new Dictionary<string, TestChildObject>()
+			public string StringEmpty { get; set; } = string.Empty;
+			public string StringValue { get; set; } = "Test Value 1";
+			public string? StringNullableNull { get; set; } = null;
+			public string? StringNullableEmpty { get; set; } = string.Empty;
+			public string? StringNullableValue { get; set; } = "Test Value 2";
+
+			public long[] LongArrayEmpty { get; set; } = Array.Empty<long>();
+			public long[] LongArrayValue { get; set; } = new long[] { 1, 2, 3, 4 };
+			public long[]? LongArrayNullableNull { get; set; } = null;
+			public long[]? LongArrayNullableEmpty { get; set; } = Array.Empty<long>();
+			public long[]? LongArrayNullableValue { get; set; } = new long[] { 1, 2, 3, 4 };
+
+			public TestChildObject ObjectInstated { get; set; } = new TestChildObject();
+			public TestChildObject? ObjectNullableNull { get; set; } = null;
+			public TestChildObject? ObjectNullableInstated { get; set; } = new TestChildObject();
+
+			public TestChildObject[] ArrayObjectEmpty { get; set; } = Array.Empty<TestChildObject>();
+			public TestChildObject[] ArrayObjectValue { get; set; } = new TestChildObject[1]{
+				new TestChildObject()
+			};
+			public TestChildObject[]? ArrayObjectNullableNull { get; set; } = null;
+			public TestChildObject[]? ArrayObjectNullableEmpty { get; set; } = Array.Empty<TestChildObject>();
+			public TestChildObject[]? ArrayObjectNullableValue { get; set; } = new TestChildObject[1]{
+				new TestChildObject()
+			};
+
+			public Dictionary<string, string> DictionaryStringStringEmpty { get; set; } = new Dictionary<string, string>();
+			public Dictionary<string, string> DictionaryStringStringValue { get; set; } = new Dictionary<string, string>()
+			{
+				["First"] = "First Value",
+				["Second"] = "Second Value"
+			};
+			public Dictionary<string, string>? DictionaryNullableStringStringNull { get; set; } = null;
+			public Dictionary<string, string>? DictionaryNullableStringStringEmpty { get; set; } = new Dictionary<string, string>();
+			public Dictionary<string, string>? DictionaryNullableStringStringValue { get; set; } = new Dictionary<string, string>()
+			{
+				["First"] = "First Value",
+				["Second"] = "Second Value"
+			};
+
+			public Dictionary<string, TestChildObject> DictionaryStringObjectEmpty { get; set; } = new Dictionary<string, TestChildObject>();
+			public Dictionary<string, TestChildObject> DictionaryStringObjectValue { get; set; } = new Dictionary<string, TestChildObject>()
 			{
 				["First"] = new TestChildObject(),
 				["Second"] = new TestChildObject()
 			};
-			public TestChildObject[] TestChildObjectArray { get; set; } = new TestChildObject[1]{
-				new TestChildObject()
-			};
-
-			public Dictionary<string, string> TestDictionaryA { get; set; } = new Dictionary<string, string>();
-			public Dictionary<string, string> TestDictionaryB { get; set; } = new Dictionary<string, string>()
+			public Dictionary<string, TestChildObject>? DictionaryNullableStringObjectNull { get; set; } = null;
+			public Dictionary<string, TestChildObject>? DictionaryNullableStringObjectEmpty { get; set; } = new Dictionary<string, TestChildObject>();
+			public Dictionary<string, TestChildObject>? DictionaryNullableStringObjectValue { get; set; } = new Dictionary<string, TestChildObject>()
 			{
-				["First"] = "First Value",
-				["Second"] = "Second Value"
+				["First"] = new TestChildObject(),
+				["Second"] = new TestChildObject()
 			};
-			public Dictionary<string, string>? TestDictionaryC { get; set; } = null;
-			public Dictionary<string, string>? TestDictionaryD { get; set; } = new Dictionary<string, string>();
-			public Dictionary<string, string>? TestDictionaryE { get; set; } = new Dictionary<string, string>()
-			{
-				["First"] = "First Value",
-				["Second"] = "Second Value"
-			};
-
-			public int TestIntegerA { get; set; } = 0;
-			public int TestIntegerB { get; set; } = 100;
-			public int? TestIntegerC { get; set; } = null;
-			public int? TestIntegerD { get; set; } = 400;
-			public long TestLongA { get; set; } = 0;
-			public long TestLongB { get; set; } = 100;
-			public long? TestLongC { get; set; } = null;
-			public long? TestLongD { get; set; } = 400;
-			public string TestStringA { get; set; } = string.Empty;
-			public string TestStringB { get; set; } = "Test Value 1";
-			public string? TestStringC { get; set; } = null;
-			public string? TestStringD { get; set; } = string.Empty;
-			public string? TestStringE { get; set; } = "Test Value 2";
 		}
 
 		[Test, Parallelizable]
@@ -87,7 +104,7 @@ namespace RPGCore.DataEditor.UnitTests
 
 			var file = session.EditFile()
 				.WithType(new TypeName("TestRootObject"))
-				.SaveTo(new ConsoleLogSaver())
+				.SaveTo(new MockFileSink())
 				.Build();
 
 			file.Save();

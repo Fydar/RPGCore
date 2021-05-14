@@ -11,7 +11,7 @@ namespace RPGCore.DataEditor.UnitTests
 	[TestFixture(TestOf = typeof(EditorSession))]
 	public class EditorShouldEditScalarValues
 	{
-		[EditorType]
+		[EditableType]
 		private class KitchenSinkContainer
 		{
 			public string StringValue { get; set; } = "Placeholder";
@@ -44,7 +44,7 @@ namespace RPGCore.DataEditor.UnitTests
 			var file = session.EditFile()
 				.WithType(new TypeName("KitchenSinkContainer"))
 				.LoadFrom(new TypeDefaultLoader())
-				.SaveTo(new ConsoleLogSaver())
+				.SaveTo(new MockFileSink())
 				.Build();
 
 			file.Save();
