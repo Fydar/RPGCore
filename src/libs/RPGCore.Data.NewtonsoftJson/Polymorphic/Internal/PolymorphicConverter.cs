@@ -80,7 +80,7 @@ namespace JsonKnownTypes.Polymorphic.Internal
 			var baseTypeInfo = GetPolymorphicBaseTypeInfoForType(polymorphicBaseType);
 
 			var jsonObject = JObject.Load(reader);
-			var jsonTypeProperty = jsonObject["$type"];
+			var jsonTypeProperty = jsonObject[options.DescriminatorName];
 
 			string? typeName = jsonTypeProperty?.Value<string>();
 			if (typeName == null)
@@ -129,7 +129,7 @@ namespace JsonKnownTypes.Polymorphic.Internal
 			var polymorphicBaseTypeInfo = GetPolymorphicBaseTypeInfoForType(polymorphicBaseType);
 			var typeInfo = polymorphicBaseTypeInfo.GetSubTypeInformation(value.GetType());
 
-			var writerProxy = new JsonWriterWithObjectType("$type", typeInfo?.Name, writer);
+			var writerProxy = new JsonWriterWithObjectType(options.DescriminatorName, typeInfo?.Name, writer);
 
 			try
 			{
@@ -172,7 +172,7 @@ namespace JsonKnownTypes.Polymorphic.Internal
 		private JsonException CreateInvalidTypeException(PolymorphicBaseTypeInformation baseCache, string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"$type\" value of \"{typeName}\" is invalid.\nValid options for \"{baseCache.BaseType.FullName}\" are:");
+			sb.Append($"\"{options.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseCache.BaseType.FullName}\" are:");
 
 			foreach (var validOption in baseCache.SubTypes)
 			{

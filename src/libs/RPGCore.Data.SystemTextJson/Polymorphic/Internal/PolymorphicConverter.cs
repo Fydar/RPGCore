@@ -1,7 +1,6 @@
 ﻿using RPGCore.Data.Polymorphic;
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,12 +10,12 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 	/// <inheritdoc/>
 	internal class PolymorphicConverter : JsonConverter<object>
 	{
-		private readonly PolymorphicOptions options;
+		private readonly PolymorphicOptions polymorphicOptions;
 		private readonly PolymorphicBaseTypeInformation baseTypeInformation;
 
 		internal PolymorphicConverter(PolymorphicOptions options, Type converterType)
 		{
-			this.options = options;
+			polymorphicOptions = options;
 			baseTypeInformation = new PolymorphicBaseTypeInformation(options, converterType);
 		}
 
@@ -40,15 +39,15 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 
 			if (!peek.Read()
 				|| peek.TokenType != JsonTokenType.PropertyName
-				|| peek.GetString() != "$type")
+				|| peek.GetString() != polymorphicOptions.DescriminatorName)
 			{
-				throw new JsonException("Property \"$type\" not found.");
+				throw new JsonException($"Property \"{polymorphicOptions.DescriminatorName}\" not found.");
 			}
 
 			if (!peek.Read()
 				|| peek.TokenType != JsonTokenType.String)
 			{
-				throw new JsonException("Value at \"$type\" is invalid.");
+				throw new JsonException($"Value at \"{polymorphicOptions.DescriminatorName}\" is invalid.");
 			}
 
 			string? typeName = peek.GetString();
@@ -61,7 +60,7 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 			Type? type = null;
 			foreach (var option in baseTypeInformation.SubTypes)
 			{
-				if (option.DoesNameMatch(typeName, this.options.CaseInsensitive))
+				if (option.DoesNameMatch(typeName, polymorphicOptions.CaseInsensitive))
 				{
 					type = option.Type;
 				}
@@ -87,7 +86,7 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 				throw new InvalidOperationException($"Cannot serialize value of type '{valueType.FullName}' as it's not one of the allowed types.");
 			}
 
-			writer.WriteString("$type", typeInformation.Name);
+			writer.WriteString(polymorphicOptions.DescriminatorName, typeInformation.Name);
 
 			var buffer = new MemoryStream();
 			using (var bufferWriter = new Utf8JsonWriter(buffer, new JsonWriterOptions()
@@ -132,7 +131,7 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 		private JsonException CreateInvalidTypeException(string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"$type\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeInformation.BaseType.FullName}\" are:");
+			sb.Append($"\"{polymorphicOptions.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeInformation.BaseType.FullName}\" are:");
 
 			foreach (var validOption in baseTypeInformation.SubTypes)
 			{
