@@ -14,8 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\libs\RPGCore.Data.NewtonsoftJson\RPGCore.Data.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\..\libs\RPGCore.Data.SystemTextJson\RPGCore.Data.SystemTextJson.csproj" />
-    <ProjectReference Include="..\..\libs\RPGCore.Data\RPGCore.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

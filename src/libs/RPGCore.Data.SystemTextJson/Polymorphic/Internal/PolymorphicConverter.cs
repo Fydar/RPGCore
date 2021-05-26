@@ -1,28 +1,23 @@
-﻿using System;
+﻿using RPGCore.Data.Polymorphic;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace RPGCore.Data.Polymorphic.Internal
+namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 {
 	/// <inheritdoc/>
 	internal class PolymorphicConverter : JsonConverter<object>
 	{
-		private readonly PolymorphicConverterFactoryOptions polymorphicConverterFactoryOptions;
-		private readonly Type converterType;
-		private readonly TypeNameInformation[] validTypes;
+		private readonly PolymorphicOptions options;
+		private readonly PolymorphicBaseTypeInformation baseTypeInformation;
 
-		internal PolymorphicConverter(PolymorphicConverterFactoryOptions polymorphicConverterFactoryOptions, Type converterType)
+		internal PolymorphicConverter(PolymorphicOptions options, Type converterType)
 		{
-			this.polymorphicConverterFactoryOptions = polymorphicConverterFactoryOptions;
-			this.converterType = converterType;
-			validTypes = TypeNameInformation
-				.GetUserDefinedOptions(converterType,
-					polymorphicConverterFactoryOptions.DefaultNamingConvention,
-					polymorphicConverterFactoryOptions.DefaultAliasConventions)
-				.ToArray();
+			this.options = options;
+			baseTypeInformation = new PolymorphicBaseTypeInformation(options, converterType);
 		}
 
 		/// <inheritdoc/>
@@ -64,9 +59,9 @@ namespace RPGCore.Data.Polymorphic.Internal
 			}
 
 			Type? type = null;
-			foreach (var option in validTypes)
+			foreach (var option in baseTypeInformation.SubTypes)
 			{
-				if (option.DoesNameMatch(typeName, polymorphicConverterFactoryOptions.CaseInsensitive))
+				if (option.DoesNameMatch(typeName, this.options.CaseInsensitive))
 				{
 					type = option.Type;
 				}
@@ -121,10 +116,10 @@ namespace RPGCore.Data.Polymorphic.Internal
 			writer.WriteEndObject();
 		}
 
-		private TypeNameInformation? GetTypeInformation(Type valueType)
+		private PolymorphicSubTypeInformation? GetTypeInformation(Type valueType)
 		{
-			TypeNameInformation? typeInformation = null;
-			foreach (var polymorphicType in validTypes)
+			PolymorphicSubTypeInformation? typeInformation = null;
+			foreach (var polymorphicType in baseTypeInformation.SubTypes)
 			{
 				if (polymorphicType.Type == valueType)
 				{
@@ -137,9 +132,9 @@ namespace RPGCore.Data.Polymorphic.Internal
 		private JsonException CreateInvalidTypeException(string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"$type\" value of \"{typeName}\" is invalid.\nValid options for \"{converterType.FullName}\" are:");
+			sb.Append($"\"$type\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeInformation.BaseType.FullName}\" are:");
 
-			foreach (var validOption in validTypes)
+			foreach (var validOption in baseTypeInformation.SubTypes)
 			{
 				sb.Append("\n- '");
 				sb.Append(validOption.Name);

@@ -5,13 +5,13 @@ using System.Reflection;
 
 namespace RPGCore.Data.Polymorphic
 {
-	public class TypeNameInformation
+	public class PolymorphicSubTypeInformation
 	{
 		public Type Type { get; set; }
 		public string Name { get; set; }
 		public string[] Aliases { get; set; }
 
-		public TypeNameInformation(Type type)
+		public PolymorphicSubTypeInformation(Type type)
 		{
 			Type = type;
 			Name = type.FullName;
@@ -37,9 +37,9 @@ namespace RPGCore.Data.Polymorphic
 			return false;
 		}
 
-		public static IReadOnlyList<TypeNameInformation> GetUserDefinedOptions(Type baseType, TypeName defaultNamingConvention, TypeName defaultAliasConvention)
+		public static IReadOnlyList<PolymorphicSubTypeInformation> GetUserDefinedOptions(Type baseType, TypeName defaultNamingConvention, TypeName defaultAliasConvention)
 		{
-			static TypeNameInformation GetOrCreateForType(List<TypeNameInformation> collection, Type type)
+			static PolymorphicSubTypeInformation GetOrCreateForType(List<PolymorphicSubTypeInformation> collection, Type type)
 			{
 				foreach (var typeInfo in collection)
 				{
@@ -48,12 +48,12 @@ namespace RPGCore.Data.Polymorphic
 						return typeInfo;
 					}
 				}
-				var newTypeInfo = new TypeNameInformation(type);
+				var newTypeInfo = new PolymorphicSubTypeInformation(type);
 				collection.Add(newTypeInfo);
 				return newTypeInfo;
 			}
 
-			var userDefinedTypeNames = new List<TypeNameInformation>();
+			var userDefinedTypeNames = new List<PolymorphicSubTypeInformation>();
 
 			object[] attributes = baseType.GetCustomAttributes(typeof(SerializeTypeAttribute), false);
 
@@ -126,7 +126,7 @@ namespace RPGCore.Data.Polymorphic
 					.Contains(sourceAssembly.FullName);
 		}
 
-		private static void AddAliasesFromAttribute(TypeNameInformation typeInfo, SerializeTypeAttribute attribute, TypeName defaultNamingConvention, TypeName defaultAliasConvention)
+		private static void AddAliasesFromAttribute(PolymorphicSubTypeInformation typeInfo, SerializeTypeAttribute attribute, TypeName defaultNamingConvention, TypeName defaultAliasConvention)
 		{
 			string? explicitTypeName = attribute.TypeName;
 			if (string.IsNullOrEmpty(explicitTypeName))
@@ -144,7 +144,7 @@ namespace RPGCore.Data.Polymorphic
 			}
 			else
 			{
-				typeInfo.Name = explicitTypeName;
+				typeInfo.Name = explicitTypeName!;
 			}
 
 			var aliases = new List<string>();
@@ -170,7 +170,7 @@ namespace RPGCore.Data.Polymorphic
 			typeInfo.Aliases = aliases.ToArray();
 		}
 
-		private static IEnumerable<string> GetAliasesFromConvention(TypeNameInformation typeInfo, TypeName aliasConventions)
+		private static IEnumerable<string> GetAliasesFromConvention(PolymorphicSubTypeInformation typeInfo, TypeName aliasConventions)
 		{
 			if (aliasConventions.HasFlag(TypeName.FullName))
 			{
@@ -182,7 +182,8 @@ namespace RPGCore.Data.Polymorphic
 			}
 			if (aliasConventions.HasFlag(TypeName.AssemblyQualifiedName))
 			{
-				yield return typeInfo.Type.AssemblyQualifiedName;
+				var assemblyName = typeInfo.Type.Assembly.GetName();
+				yield return $"{typeInfo.Type.FullName}, {assemblyName.Name}";
 			}
 			if (aliasConventions.HasFlag(TypeName.GUID)
 				&& typeInfo.Type.GUID != new Guid())

@@ -22,21 +22,16 @@ namespace RPGCore.Behaviour
 		private readonly ulong id;
 
 		public LocalId(string? id)
-			: this((id ?? "").AsSpan())
 		{
-		}
-
-		public LocalId(ReadOnlySpan<char> id)
-		{
-			if (id.IsWhiteSpace())
+			if (string.IsNullOrWhiteSpace(id))
 			{
 				this.id = 0;
 			}
 			else
 			{
-				if (id.StartsWith("0x".AsSpan(), StringComparison.OrdinalIgnoreCase))
+				if (id.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
 				{
-					id = id.Slice(2);
+					id = id.Substring(2);
 				}
 				this.id = ulong.Parse(id.ToString(), NumberStyles.HexNumber);
 			}

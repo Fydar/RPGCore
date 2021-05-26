@@ -12,5 +12,13 @@
     <Product>RPGCore</Product>
     <Description>RPGCore is a toolkit for producing RPG games and mechanics in C#.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RPGCore.Data\RPGCore.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
   
 </Project>

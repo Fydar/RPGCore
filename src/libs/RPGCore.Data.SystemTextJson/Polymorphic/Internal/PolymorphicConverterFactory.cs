@@ -1,16 +1,16 @@
-﻿using RPGCore.Data.Polymorphic.Internal;
+﻿using RPGCore.Data.Polymorphic;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace RPGCore.Data.Polymorphic
+namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 {
 	/// <inheritdoc/>
 	internal class PolymorphicConverterFactory : JsonConverterFactory
 	{
-		private readonly PolymorphicConverterFactoryOptions polymorphicConverterFactoryOptions;
+		private readonly PolymorphicOptions polymorphicConverterFactoryOptions;
 
-		internal PolymorphicConverterFactory(PolymorphicConverterFactoryOptions polymorphicConverterFactoryOptions)
+		internal PolymorphicConverterFactory(PolymorphicOptions polymorphicConverterFactoryOptions)
 		{
 			this.polymorphicConverterFactoryOptions = polymorphicConverterFactoryOptions;
 		}

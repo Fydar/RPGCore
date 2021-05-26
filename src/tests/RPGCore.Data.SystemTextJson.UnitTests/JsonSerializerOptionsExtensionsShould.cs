@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using RPGCore.Data.Polymorphic;
+using RPGCore.Data.SystemTextJson.Polymorphic;
 using RPGCore.Data.UnitTests.Utility;
 using System;
 using System.Text.Json;
@@ -7,7 +8,7 @@ using System.Text.Json;
 namespace RPGCore.Data.UnitTests
 {
 	[TestFixture(TestOf = typeof(JsonSerializerOptionsExtensions))]
-	public class PolymorphicConverterFactoryShould
+	public class JsonSerializerOptionsExtensionsShould
 	{
 		public class Container
 		{
@@ -38,7 +39,7 @@ namespace RPGCore.Data.UnitTests
 
 
 		[Test, Parallelizable]
-		public void ShouldSerializedPolymorphicTypeAtRoot()
+		public void SerializeInterfaceAtRoot()
 		{
 			var options = new JsonSerializerOptions()
 			{
@@ -63,7 +64,7 @@ namespace RPGCore.Data.UnitTests
 
 
 		[Test, Parallelizable]
-		public void ShouldSerializedPolymorphicTypeInObject()
+		public void SerializeInterfaceInObject()
 		{
 			var options = new JsonSerializerOptions()
 			{
