@@ -60,7 +60,7 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 			Type? type = null;
 			foreach (var option in baseTypeInformation.SubTypes)
 			{
-				if (option.DoesNameMatch(typeName, polymorphicOptions.CaseInsensitive))
+				if (option.DoesDescriminatorIndicate(typeName, polymorphicOptions.CaseInsensitive))
 				{
 					type = option.Type;
 				}

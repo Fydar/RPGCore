@@ -1,4 +1,7 @@
-﻿namespace RPGCore.Data.Polymorphic
+﻿using System;
+using System.Collections.Generic;
+
+namespace RPGCore.Data.Polymorphic
 {
 	public class PolymorphicOptions
 	{
@@ -8,24 +11,39 @@
 		public string DescriminatorName { get; set; } = "$type";
 
 		/// <summary>
-		/// Determines the default type name to use when none is supplied in <see cref="SerializeTypeAttribute.NamingConvention"/>.
-		/// <para>This property has a default value of <see cref="TypeName.FullName"/>.</para>
-		/// </summary>
-		public TypeName DefaultNamingConvention { get; set; } = TypeName.FullName;
-
-		/// <summary>
-		/// Determines the default type alias convention to use when none is supplied in <see cref="SerializeTypeAttribute.AliasConventions"/>.
-		/// <para>This property has a default value of <see cref="TypeName.None"/>.</para>
-		/// </summary>
-		public TypeName DefaultAliasConventions { get; set; } = TypeName.None;
-
-		/// <summary>
 		/// Determines whether type names should be case-insensitive.
 		/// </summary>
 		public bool CaseInsensitive { get; set; } = true;
 
+		internal Dictionary<Type, PolymorphicBaseTypeInfo> knownBaseTypes = new();
+		internal Dictionary<Type, PolymorphicSubTypeInfo> knownSubTypes = new();
+
 		public PolymorphicOptions()
 		{
+		}
+
+		public PolymorphicOptions UseKnownBaseType(Type knownBaseType, Action<PolymorphicBaseTypeInfo> options)
+		{
+			if (!knownBaseTypes.TryGetValue(knownBaseType, out var typeInfo))
+			{
+				typeInfo = new PolymorphicBaseTypeInfo(knownBaseType);
+				knownBaseTypes.Add(knownBaseType, typeInfo);
+			}
+
+			options.Invoke(typeInfo);
+			return this;
+		}
+
+		public PolymorphicOptions UseKnownSubType(Type knownSubType, Action<PolymorphicSubTypeInfo> options)
+		{
+			if (!knownSubTypes.TryGetValue(knownSubType, out var typeInfo))
+			{
+				typeInfo = new PolymorphicSubTypeInfo(knownSubType);
+				knownSubTypes.Add(knownSubType, typeInfo);
+			}
+
+			options.Invoke(typeInfo);
+			return this;
 		}
 	}
 }

@@ -3,6 +3,12 @@ using System.Linq;
 
 namespace RPGCore.Data.Polymorphic
 {
+
+	public class PolymorphicConfiguration
+	{
+
+	}
+
 	public class PolymorphicBaseTypeInformation
 	{
 		public PolymorphicOptions Options { get; }
@@ -38,7 +44,7 @@ namespace RPGCore.Data.Polymorphic
 			Type? type = null;
 			foreach (var option in SubTypes)
 			{
-				if (option.DoesNameMatch(typeName, Options.CaseInsensitive))
+				if (option.DoesDescriminatorIndicate(typeName, Options.CaseInsensitive))
 				{
 					type = option.Type;
 				}
