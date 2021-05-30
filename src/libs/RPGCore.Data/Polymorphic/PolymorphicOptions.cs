@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RPGCore.Data.Polymorphic.Configuration;
+using RPGCore.Data.Polymorphic.Naming;
+using System;
 using System.Collections.Generic;
 
 namespace RPGCore.Data.Polymorphic
@@ -15,18 +17,31 @@ namespace RPGCore.Data.Polymorphic
 		/// </summary>
 		public bool CaseInsensitive { get; set; } = true;
 
-		internal Dictionary<Type, PolymorphicBaseTypeInfo> knownBaseTypes = new();
-		internal Dictionary<Type, PolymorphicSubTypeInfo> knownSubTypes = new();
+		/// <summary>
+		/// Determines the default type name to use when none is supplied.
+		/// <para>This property by default uses an instance of <see cref="TypeFullnameNamingConvention"/>.</para>
+		/// </summary>
+		public ITypeNamingConvention DefaultNamingConvention { get; set; }
+
+		/// <summary>
+		/// Determines the default type alias conventions to use when none is supplied.
+		/// <para>This property has a default value of <c>null</c>.</para>
+		/// </summary>
+		public ITypeNamingConvention[]? DefaultAliasConventions { get; set; } = null;
+
+		internal Dictionary<Type, PolymorphicOptionsBaseType> knownBaseTypes = new();
+		internal Dictionary<Type, PolymorphicOptionsSubType> knownSubTypes = new();
 
 		public PolymorphicOptions()
 		{
+			DefaultNamingConvention = TypeFullnameNamingConvention.Instance;
 		}
 
-		public PolymorphicOptions UseKnownBaseType(Type knownBaseType, Action<PolymorphicBaseTypeInfo> options)
+		public PolymorphicOptions UseKnownBaseType(Type knownBaseType, Action<PolymorphicOptionsBaseType> options)
 		{
 			if (!knownBaseTypes.TryGetValue(knownBaseType, out var typeInfo))
 			{
-				typeInfo = new PolymorphicBaseTypeInfo(knownBaseType);
+				typeInfo = new PolymorphicOptionsBaseType(knownBaseType);
 				knownBaseTypes.Add(knownBaseType, typeInfo);
 			}
 
@@ -34,16 +49,21 @@ namespace RPGCore.Data.Polymorphic
 			return this;
 		}
 
-		public PolymorphicOptions UseKnownSubType(Type knownSubType, Action<PolymorphicSubTypeInfo> options)
+		public PolymorphicOptions UseKnownSubType(Type knownSubType, Action<PolymorphicOptionsSubType> options)
 		{
 			if (!knownSubTypes.TryGetValue(knownSubType, out var typeInfo))
 			{
-				typeInfo = new PolymorphicSubTypeInfo(knownSubType);
+				typeInfo = new PolymorphicOptionsSubType(knownSubType);
 				knownSubTypes.Add(knownSubType, typeInfo);
 			}
 
 			options.Invoke(typeInfo);
 			return this;
+		}
+
+		public PolymorphicConfiguration Build()
+		{
+			return new PolymorphicConfiguration(this);
 		}
 	}
 }

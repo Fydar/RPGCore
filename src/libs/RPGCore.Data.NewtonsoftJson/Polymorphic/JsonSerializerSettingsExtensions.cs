@@ -1,5 +1,5 @@
-﻿using JsonKnownTypes.Polymorphic.Internal;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using RPGCore.Data.NewtonsoftJson.Polymorphic.Internal;
 using RPGCore.Data.Polymorphic;
 using System;
 
@@ -10,7 +10,7 @@ namespace RPGCore.Data.NewtonsoftJson.Polymorphic
 		public static JsonSerializerSettings UsePolymorphicSerialization(this JsonSerializerSettings jsonSerializerOptions)
 		{
 			var options = new PolymorphicOptions();
-			jsonSerializerOptions.Converters.Add(new PolymorphicConverter(options));
+			jsonSerializerOptions.Converters.Add(new PolymorphicConverter(options.Build()));
 			return jsonSerializerOptions;
 		}
 
@@ -18,7 +18,7 @@ namespace RPGCore.Data.NewtonsoftJson.Polymorphic
 		{
 			var optionsResult = new PolymorphicOptions();
 			options.Invoke(optionsResult);
-			jsonSerializerOptions.Converters.Add(new PolymorphicConverter(optionsResult));
+			jsonSerializerOptions.Converters.Add(new PolymorphicConverter(optionsResult.Build()));
 			return jsonSerializerOptions;
 		}
 	}

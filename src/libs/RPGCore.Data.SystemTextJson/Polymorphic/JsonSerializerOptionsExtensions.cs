@@ -10,7 +10,7 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic
 		public static JsonSerializerOptions UsePolymorphicSerialization(this JsonSerializerOptions jsonSerializerOptions)
 		{
 			var options = new PolymorphicOptions();
-			jsonSerializerOptions.Converters.Add(new PolymorphicConverterFactory(options));
+			jsonSerializerOptions.Converters.Add(new PolymorphicConverterFactory(options.Build()));
 			return jsonSerializerOptions;
 		}
 
@@ -18,7 +18,7 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic
 		{
 			var optionsResult = new PolymorphicOptions();
 			options.Invoke(optionsResult);
-			jsonSerializerOptions.Converters.Add(new PolymorphicConverterFactory(optionsResult));
+			jsonSerializerOptions.Converters.Add(new PolymorphicConverterFactory(optionsResult.Build()));
 			return jsonSerializerOptions;
 		}
 	}

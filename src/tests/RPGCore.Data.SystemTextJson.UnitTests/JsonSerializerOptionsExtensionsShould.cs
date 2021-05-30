@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
-using RPGCore.Data.Polymorphic;
+using RPGCore.Data.Polymorphic.Inline;
 using RPGCore.Data.SystemTextJson.Polymorphic;
-using RPGCore.Data.UnitTests.Utility;
+using RPGCore.Data.SystemTextJson.UnitTests.Utility;
 using System;
 using System.Text.Json;
 
-namespace RPGCore.Data.UnitTests
+namespace RPGCore.Data.SystemTextJson.UnitTests
 {
 	[TestFixture(TestOf = typeof(JsonSerializerOptionsExtensions))]
 	public class JsonSerializerOptionsExtensionsShould
@@ -46,7 +46,10 @@ namespace RPGCore.Data.UnitTests
 				WriteIndented = true,
 			};
 
-			options.UsePolymorphicSerialization();
+			options.UsePolymorphicSerialization(options =>
+			{
+				options.UseInline();
+			});
 
 			IProcedure original = new SomethingProcedure();
 
@@ -70,7 +73,11 @@ namespace RPGCore.Data.UnitTests
 			{
 				WriteIndented = true,
 			};
-			options.UsePolymorphicSerialization();
+
+			options.UsePolymorphicSerialization(options =>
+			{
+				options.UseInline();
+			});
 
 			var original = new Container()
 			{

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
+using RPGCore.Data;
 using RPGCore.DataEditor.Manifest;
 using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
-using RPGCore.Data;
 using RPGCore.DataEditor.UnitTests.Utility;
 using System;
 using System.Text.Json;

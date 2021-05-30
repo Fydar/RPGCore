@@ -1,4 +1,4 @@
-﻿using RPGCore.Data.Polymorphic;
+﻿using RPGCore.Data.Polymorphic.Configuration;
 using System;
 using System.IO;
 using System.Text;
@@ -10,13 +10,15 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 	/// <inheritdoc/>
 	internal class PolymorphicConverter : JsonConverter<object>
 	{
-		private readonly PolymorphicOptions polymorphicOptions;
-		private readonly PolymorphicBaseTypeInformation baseTypeInformation;
+		private readonly PolymorphicConfiguration configuration;
+		private readonly PolymorphicConfigurationBaseType baseTypeInformation;
 
-		internal PolymorphicConverter(PolymorphicOptions options, Type converterType)
+		internal PolymorphicConverter(
+			PolymorphicConfiguration configuration,
+			Type converterType)
 		{
-			polymorphicOptions = options;
-			baseTypeInformation = new PolymorphicBaseTypeInformation(options, converterType);
+			this.configuration = configuration;
+			configuration.TryGetBaseType(converterType, out baseTypeInformation);
 		}
 
 		/// <inheritdoc/>
@@ -39,15 +41,15 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 
 			if (!peek.Read()
 				|| peek.TokenType != JsonTokenType.PropertyName
-				|| peek.GetString() != polymorphicOptions.DescriminatorName)
+				|| peek.GetString() != configuration.DescriminatorName)
 			{
-				throw new JsonException($"Property \"{polymorphicOptions.DescriminatorName}\" not found.");
+				throw new JsonException($"Property \"{configuration.DescriminatorName}\" not found.");
 			}
 
 			if (!peek.Read()
 				|| peek.TokenType != JsonTokenType.String)
 			{
-				throw new JsonException($"Value at \"{polymorphicOptions.DescriminatorName}\" is invalid.");
+				throw new JsonException($"Value at \"{configuration.DescriminatorName}\" is invalid.");
 			}
 
 			string? typeName = peek.GetString();
@@ -57,14 +59,7 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 				throw CreateInvalidTypeException(typeName);
 			}
 
-			Type? type = null;
-			foreach (var option in baseTypeInformation.SubTypes)
-			{
-				if (option.DoesDescriminatorIndicate(typeName, polymorphicOptions.CaseInsensitive))
-				{
-					type = option.Type;
-				}
-			}
+			var type = baseTypeInformation.GetTypeForDescriminatorValue(typeName);
 			if (type == null)
 			{
 				throw CreateInvalidTypeException(typeName);
@@ -79,14 +74,14 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 			writer.WriteStartObject();
 
 			var valueType = value.GetType();
-			var typeInformation = GetTypeInformation(valueType);
+			var typeInformation = baseTypeInformation.GetSubTypeInformation(valueType);
 
 			if (typeInformation == null)
 			{
 				throw new InvalidOperationException($"Cannot serialize value of type '{valueType.FullName}' as it's not one of the allowed types.");
 			}
 
-			writer.WriteString(polymorphicOptions.DescriminatorName, typeInformation.Name);
+			writer.WriteString(configuration.DescriminatorName, typeInformation.Name);
 
 			var buffer = new MemoryStream();
 			using (var bufferWriter = new Utf8JsonWriter(buffer, new JsonWriterOptions()
@@ -115,36 +110,26 @@ namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
 			writer.WriteEndObject();
 		}
 
-		private PolymorphicSubTypeInformation? GetTypeInformation(Type valueType)
-		{
-			PolymorphicSubTypeInformation? typeInformation = null;
-			foreach (var polymorphicType in baseTypeInformation.SubTypes)
-			{
-				if (polymorphicType.Type == valueType)
-				{
-					typeInformation = polymorphicType;
-				}
-			}
-			return typeInformation;
-		}
-
 		private JsonException CreateInvalidTypeException(string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"{polymorphicOptions.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeInformation.BaseType.FullName}\" are:");
+			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeInformation.BaseType.FullName}\" are:");
 
-			foreach (var validOption in baseTypeInformation.SubTypes)
+			foreach (var validOption in baseTypeInformation.SubTypes.Values)
 			{
 				sb.Append("\n- '");
 				sb.Append(validOption.Name);
-				sb.Append("'");
+				sb.Append('\'');
 
 				if (validOption.Aliases != null)
 				{
-					sb.Append(", also known as '");
-					sb.Append(string.Join("', '", validOption.Aliases));
+					foreach (string alias in validOption.Aliases)
+					{
+						sb.Append("\n  - '");
+						sb.Append(alias);
+						sb.Append('\'');
+					}
 				}
-				sb.Append("'");
 			}
 
 			return new JsonException(sb.ToString());

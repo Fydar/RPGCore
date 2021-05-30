@@ -1,18 +1,22 @@
 ﻿using System;
 
-namespace RPGCore.Data.Polymorphic
+namespace RPGCore.Data.Polymorphic.Configuration
 {
-	public class PolymorphicSubTypeInformation
+	public class PolymorphicConfigurationSubType
 	{
-		public Type Type { get; set; }
+		public PolymorphicConfiguration Configuration { get; }
+		public Type Type { get; }
+		public PolymorphicConfigurationBaseType BaseType { get; }
 		public string Name { get; set; }
 		public string[] Aliases { get; set; }
 
-		public PolymorphicSubTypeInformation(Type type)
+		public PolymorphicConfigurationSubType(PolymorphicConfiguration configuration, Type type, PolymorphicConfigurationBaseType baseType)
 		{
+			Configuration = configuration;
 			Type = type;
 			Name = type.FullName;
 			Aliases = Array.Empty<string>();
+			BaseType = baseType;
 		}
 
 		public bool DoesDescriminatorIndicate(string descriminator, bool caseInsentitive)
@@ -34,6 +38,11 @@ namespace RPGCore.Data.Polymorphic
 				}
 			}
 			return false;
+		}
+
+		public override string ToString()
+		{
+			return Name;
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RPGCore.Data.Polymorphic
+namespace RPGCore.Data.Polymorphic.Inline
 {
 	[Flags]
 	public enum TypeName

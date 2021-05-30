@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RPGCore.Data.Polymorphic
+namespace RPGCore.Data.Polymorphic.Inline
 {
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = false)]
 	public class SerializeTypeAttribute : Attribute

@@ -39,7 +39,7 @@ namespace RPGCore.DataEditor.Manifest
 
 			JsonSerializer.Serialize(jsonWriter, this, new JsonSerializerOptions()
 			{
-				
+
 			});
 		}
 

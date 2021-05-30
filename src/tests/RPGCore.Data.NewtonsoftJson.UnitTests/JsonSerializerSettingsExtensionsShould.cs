@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using RPGCore.Data.NewtonsoftJson.Polymorphic;
-using RPGCore.Data.Polymorphic;
-using RPGCore.Data.UnitTests.Utility;
+using RPGCore.Data.NewtonsoftJson.UnitTests.Utility;
+using RPGCore.Data.Polymorphic.Inline;
 using System;
 
-namespace RPGCore.Data.UnitTests
+namespace RPGCore.Data.NewtonsoftJson.UnitTests
 {
 	[TestFixture(TestOf = typeof(JsonSerializerSettingsExtensions))]
 	public class JsonSerializerSettingsExtensionsShould
@@ -43,7 +43,10 @@ namespace RPGCore.Data.UnitTests
 		{
 			var options = new JsonSerializerSettings();
 
-			options.UsePolymorphicSerialization();
+			options.UsePolymorphicSerialization(options =>
+			{
+				options.UseInline();
+			});
 
 			IProcedure original = new SomethingProcedure();
 			string serialized = JsonConvert.SerializeObject(original, typeof(IProcedure), Formatting.Indented, options);
@@ -66,7 +69,10 @@ namespace RPGCore.Data.UnitTests
 		{
 			var options = new JsonSerializerSettings();
 
-			options.UsePolymorphicSerialization();
+			options.UsePolymorphicSerialization(options =>
+			{
+				options.UseInline();
+			});
 
 			var original = new Container()
 			{

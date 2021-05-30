@@ -1,17 +1,16 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RPGCore.Data.Polymorphic;
+using RPGCore.Data.Polymorphic.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace JsonKnownTypes.Polymorphic.Internal
+namespace RPGCore.Data.NewtonsoftJson.Polymorphic.Internal
 {
 	public class PolymorphicConverter : JsonConverter
 	{
-		private readonly PolymorphicOptions options;
-		private readonly Dictionary<Type, PolymorphicBaseTypeInformation> polymorphicBaseCache;
+		private readonly PolymorphicConfiguration configuration;
 
 		private readonly ThreadLocal<bool> isInRead = new();
 		private readonly ThreadLocal<bool> isInWrite = new();
@@ -44,18 +43,15 @@ namespace JsonKnownTypes.Polymorphic.Internal
 			}
 		}
 
-		internal PolymorphicConverter(PolymorphicOptions options)
+		internal PolymorphicConverter(PolymorphicConfiguration configuration)
 		{
-			this.options = options;
-			polymorphicBaseCache = new Dictionary<Type, PolymorphicBaseTypeInformation>();
+			this.configuration = configuration;
 		}
 
 		/// <inheritdoc/>
 		public override bool CanConvert(Type objectType)
 		{
-			var typeInfo = GetPolymorphicBaseType(objectType);
-
-			return typeInfo != null;
+			return configuration.TryGetSubType(objectType, out _) || configuration.TryGetBaseType(objectType, out _);
 		}
 
 		/// <inheritdoc/>
@@ -73,25 +69,20 @@ namespace JsonKnownTypes.Polymorphic.Internal
 			}
 
 			var polymorphicBaseType = GetPolymorphicBaseType(objectType);
-			if (polymorphicBaseType == null)
-			{
-				throw new InvalidOperationException();
-			}
-			var baseTypeInfo = GetPolymorphicBaseTypeInfoForType(polymorphicBaseType);
 
 			var jsonObject = JObject.Load(reader);
-			var jsonTypeProperty = jsonObject[options.DescriminatorName];
+			var jsonTypeProperty = jsonObject[configuration.DescriminatorName];
 
 			string? typeName = jsonTypeProperty?.Value<string>();
 			if (typeName == null)
 			{
-				throw CreateInvalidTypeException(baseTypeInfo, typeName);
+				throw CreateInvalidTypeException(polymorphicBaseType, typeName);
 			}
 
-			var type = baseTypeInfo.GetTypeForDescriminatorValue(typeName);
+			var type = polymorphicBaseType.GetTypeForDescriminatorValue(typeName);
 			if (type == null)
 			{
-				throw CreateInvalidTypeException(baseTypeInfo, typeName);
+				throw CreateInvalidTypeException(polymorphicBaseType, typeName);
 			}
 
 			try
@@ -120,16 +111,17 @@ namespace JsonKnownTypes.Polymorphic.Internal
 				return;
 			}
 
-			var polymorphicBaseType = GetPolymorphicBaseType(value.GetType());
+			var valueType = value.GetType();
+
+			var polymorphicBaseType = GetPolymorphicBaseType(valueType);
 			if (polymorphicBaseType == null)
 			{
 				throw new InvalidOperationException();
 			}
 
-			var polymorphicBaseTypeInfo = GetPolymorphicBaseTypeInfoForType(polymorphicBaseType);
-			var typeInfo = polymorphicBaseTypeInfo.GetSubTypeInformation(value.GetType());
+			var typeInfo = polymorphicBaseType.GetSubTypeInformation(valueType);
 
-			var writerProxy = new JsonWriterWithObjectType(options.DescriminatorName, typeInfo?.Name, writer);
+			var writerProxy = new JsonWriterWithObjectType(configuration.DescriminatorName, typeInfo?.Name, writer);
 
 			try
 			{
@@ -142,50 +134,63 @@ namespace JsonKnownTypes.Polymorphic.Internal
 			}
 		}
 
-		private PolymorphicBaseTypeInformation GetPolymorphicBaseTypeInfoForType(Type type)
+		private PolymorphicConfigurationBaseType GetPolymorphicBaseType(Type objectType)
 		{
-			if (!polymorphicBaseCache.TryGetValue(type, out var cached))
+			if (configuration.TryGetBaseType(objectType, out var baseTypeInfo))
 			{
-				cached = new PolymorphicBaseTypeInformation(options, type);
-			}
-			return cached;
-		}
-
-		/// <remarks>
-		/// Since Netwonsoft.Json provides us with the actual type (and not the base type) we need to extrapolate a bit.
-		/// </remarks>
-		private Type? GetPolymorphicBaseType(Type type)
-		{
-			foreach (var typeInterface in type.GetInterfaces())
-			{
-				object[] interfaceAttributes = typeInterface.GetCustomAttributes(typeof(SerializeTypeAttribute), true);
-				if (interfaceAttributes.Length != 0)
-				{
-					return typeInterface;
-				}
+				return baseTypeInfo;
 			}
 
-			object[] attributes = type.GetCustomAttributes(typeof(SerializeTypeAttribute), true);
-			return attributes.Length == 0 ? null : type;
+			if (!configuration.TryGetSubType(objectType, out var subTypeInfo))
+			{
+				throw new JsonException($"Cannot determine a base type for '{objectType.FullName}'.");
+			}
+
+			if (subTypeInfo.Count == 1)
+			{
+				return subTypeInfo[0].BaseType;
+			}
+			else
+			{
+				throw CreateAmbigiousBaseTypeException(objectType, subTypeInfo);
+			}
 		}
 
-		private JsonException CreateInvalidTypeException(PolymorphicBaseTypeInformation baseCache, string? typeName)
+		private JsonException CreateInvalidTypeException(PolymorphicConfigurationBaseType baseCache, string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"{options.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseCache.BaseType.FullName}\" are:");
+			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseCache.BaseType.FullName}\" are:");
 
-			foreach (var validOption in baseCache.SubTypes)
+			foreach (var validOption in baseCache.SubTypes.Values)
 			{
 				sb.Append("\n- '");
 				sb.Append(validOption.Name);
-				sb.Append("'");
+				sb.Append('\'');
 
 				if (validOption.Aliases != null)
 				{
-					sb.Append(", also known as '");
-					sb.Append(string.Join("', '", validOption.Aliases));
+					foreach (string alias in validOption.Aliases)
+					{
+						sb.Append("\n  - '");
+						sb.Append(alias);
+						sb.Append('\'');
+					}
 				}
-				sb.Append("'");
+			}
+
+			return new JsonException(sb.ToString());
+		}
+
+		private JsonException CreateAmbigiousBaseTypeException(Type subType, List<PolymorphicConfigurationSubType> subTypeInfos)
+		{
+			var sb = new StringBuilder();
+			sb.Append($"The sub type '{subType.FullName}' has multiple base types.\nCannot select a base type between:");
+
+			foreach (var basetype in subTypeInfos)
+			{
+				sb.Append("\n- '");
+				sb.Append(basetype.BaseType.BaseType.FullName);
+				sb.Append('\'');
 			}
 
 			return new JsonException(sb.ToString());
