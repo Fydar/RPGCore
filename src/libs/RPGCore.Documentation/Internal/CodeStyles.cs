@@ -173,7 +173,7 @@ namespace RPGCore.Documentation.Internal
 				[SyntaxKind.CommaToken] = null,
 			};
 		}
-		
+
 		public string GetStyleForTypeSymbol(ITypeSymbol typeSymbol)
 		{
 			var namedTypeSymbol = typeSymbol as INamedTypeSymbol;

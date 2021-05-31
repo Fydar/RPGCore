@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
-	  <ProjectReference Include="..\..\libs\RPGCore.World\RPGCore.World.csproj" />
-	  <ProjectReference Include="..\RPGCore.Data.SystemTextJson\RPGCore.Data.SystemTextJson.csproj" />
+    <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+    <ProjectReference Include="..\..\libs\RPGCore.World\RPGCore.World.csproj" />
+    <ProjectReference Include="..\RPGCore.Data.SystemTextJson\RPGCore.Data.SystemTextJson.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -23,7 +24,6 @@
 
   <ItemGroup>
     <Content Include="Samples\**\*.*">
-      <Link>Samples\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

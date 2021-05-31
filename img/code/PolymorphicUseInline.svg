@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1012183" width="1012" height="183" xmlns ="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1200 183" width="1200" height="183" xmlns ="http://www.w3.org/2000/svg">
 
 	<defs>
 		<clipPath id="round-left-corners">
@@ -7,8 +7,8 @@
 	</defs>
 	<style>
 		.code { font: 17px Consolas; fill: rgba(220, 220, 220, 255); }
-		.code-background { fill: rgba(30, 30, 30, 255); }
-		.code-background-linenumber { fill: rgba(26, 26, 26, 255) }
+		.code-background { fill: #161b22; }
+		.code-background-linenumber { fill: #111418; }
 		.c-ln { font: 17px Consolas; fill: #2b90af; text-anchor: end; pointer-events: none; user-select: none; }
 		.c-keyword { fill: rgba(86, 156, 214, 255); }
 		.c-control { fill: rgba(216, 160, 223, 255); }

@@ -17,27 +17,12 @@ namespace RPGCore.Documentation
 			var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
 			toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path))));
 
-
-			ExportHtmlSample("AddNodeSample");
-			ExportSvgSample("AddNodeSample");
-
-			ExportHtmlSample("EntityComponentSystemSample");
-			ExportSvgSample("EntityComponentSystemSample");
-
-			ExportHtmlSample("RPGCore.Data/PolymorphicInlineSample1");
-			ExportSvgSample("RPGCore.Data/PolymorphicInlineSample1");
-
-			ExportHtmlSample("RPGCore.Data/PolymorphicInlineSample2");
-			ExportSvgSample("RPGCore.Data/PolymorphicInlineSample2");
-
-			ExportHtmlSample("RPGCore.Data/PolymorphicInlineSample3");
-			ExportSvgSample("RPGCore.Data/PolymorphicInlineSample3");
-
-			ExportHtmlSample("RPGCore.Data/PolymorphicInlineSample4");
-			ExportSvgSample("RPGCore.Data/PolymorphicInlineSample4");
-
-			ExportHtmlSample("RPGCore.Data/PolymorphicInlineSample5");
-			ExportSvgSample("RPGCore.Data/PolymorphicInlineSample5");
+			var directory = FindSourceDirectory();
+			string basePath = Path.Combine(directory.FullName, "src/libs/RPGCore.Documentation/Samples");
+			foreach (string file in Directory.GetFiles(basePath, "*", SearchOption.AllDirectories))
+			{
+				ExportSvgSample(basePath, file);
+			}
 		}
 
 		private static void ExportHtmlSample(string filename)
@@ -52,7 +37,7 @@ namespace RPGCore.Documentation
 					? GetDestinationFile($"{filename}.html")
 					: GetDestinationFile($"{filename}.{builder.Name}.html");
 
-				destination.Directory.Create();
+				destination.Directory?.Create();
 				destination.Delete();
 
 				using var fs = destination.OpenWrite();
@@ -106,19 +91,27 @@ namespace RPGCore.Documentation
 			output.WriteLine("</table>");
 		}
 
-		private static void ExportSvgSample(string filename)
+		private static void ExportSvgSample(string basePath, string filePath)
 		{
-			var sampleFile = GetSampleFile($"{filename}.cs");
+			var sampleFile = new FileInfo(filePath);
+
+			string localPath = filePath[(basePath.Length + 1)..];
+			string localName = localPath.Replace(sampleFile.Extension, "");
 
 			string sampleContent = File.ReadAllText(sampleFile.FullName);
 
 			foreach (var builder in SampleParser.HtmlHighlight(sampleContent))
 			{
-				var destination = builder.Name == ""
-					? GetDestinationFile($"{filename}.svg")
-					: GetDestinationFile($"{filename}.{builder.Name}.svg");
+				if (builder.Name == "")
+				{
+					continue;
+				}
 
-				destination.Directory.Create();
+				var destination = builder.Name == ""
+					? GetDestinationFile($"{localName}.svg")
+					: GetDestinationFile($"{localName}.{builder.Name}.svg");
+
+				destination.Directory?.Create();
 				destination.Delete();
 
 				using var fs = destination.OpenWrite();
@@ -136,9 +129,9 @@ namespace RPGCore.Documentation
 
 			double totalHeight = (region.Lines.Length * lineHeight) + (verticalPadding * 1.5);
 
-			output.Write(@"<svg viewBox=""0 0 1012");
+			output.Write(@"<svg viewBox=""0 0 1200 ");
 			output.Write(totalHeight);
-			output.Write(@""" width=""1012"" height=""");
+			output.Write(@""" width=""1200"" height=""");
 			output.Write(totalHeight);
 			output.Write(@""" xmlns =""http://www.w3.org/2000/svg"">
 
@@ -148,10 +141,10 @@ namespace RPGCore.Documentation
 		</clipPath>
 	</defs>
 	<style>
-		.code { font: 17px Consolas; fill: rgba(220, 220, 220, 255); }
-		.code-background { fill: rgba(30, 30, 30, 255); }
-		.code-background-linenumber { fill: rgba(26, 26, 26, 255) }
-		.c-ln { font: 17px Consolas; fill: #2b90af; text-anchor: end; pointer-events: none; user-select: none; }
+		.code { font: 17px Consolas; fill: rgba(220, 220, 220, 255); dominant-baseline: hanging; }
+		.code-background { fill: #161b22; }
+		.code-background-linenumber { fill: #111418; }
+		.c-ln { font: 17px Consolas; fill: #2b90af; text-anchor: end; pointer-events: none; user-select: none; dominant-baseline: hanging; }
 		.c-keyword { fill: rgba(86, 156, 214, 255); }
 		.c-control { fill: rgba(216, 160, 223, 255); }
 		.c-string { fill: rgba(214, 157, 133, 255); }
@@ -170,17 +163,16 @@ namespace RPGCore.Documentation
 
 			for (int i = 0; i < region.Lines.Length; i++)
 			{
-				double yOffset = (i * lineHeight) + 12 + verticalPadding;
+				double yOffset = (i * lineHeight) + verticalPadding;
 				output.Write($"\t<text x=\"38\" y=\"{yOffset}\" class=\"c-ln\">{i + 1}</text>\n");
-
 			}
-			
+
 			for (int i = 0; i < region.Lines.Length; i++)
 			{
 				var line = region.Lines[i];
 
-				double yOffset = (i * lineHeight) + 12 + verticalPadding;
-				double indent = 60.0;
+				double yOffset = (i * lineHeight) + verticalPadding;
+				double indent = 64.0;
 				bool wroteStart = false;
 				for (int y = 0; y < line.Length; y++)
 				{

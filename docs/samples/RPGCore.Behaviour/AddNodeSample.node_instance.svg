@@ -1,0 +1,91 @@
+<svg viewBox="0 0 1200 750" width="1200" height="750" xmlns ="http://www.w3.org/2000/svg">
+
+	<defs>
+		<clipPath id="round-left-corners">
+			<rect x="0" y="0" width="100" height="100%" rx="8" ry="8"/>
+		</clipPath>
+	</defs>
+	<style>
+		.code { font: 17px Consolas; fill: rgba(220, 220, 220, 255); dominant-baseline: hanging; }
+		.code-background { fill: #161b22; }
+		.code-background-linenumber { fill: #111418; }
+		.c-ln { font: 17px Consolas; fill: #2b90af; text-anchor: end; pointer-events: none; user-select: none; dominant-baseline: hanging; }
+		.c-keyword { fill: rgba(86, 156, 214, 255); }
+		.c-control { fill: rgba(216, 160, 223, 255); }
+		.c-string { fill: rgba(214, 157, 133, 255); }
+		.c-numeric { fill: rgba(181, 207, 168, 255); }
+		.c-comment { fill: rgba(87, 166, 74, 255); }
+		.c-class { fill: rgba(78, 201, 176, 255); }
+		.c-interface { fill: rgba(184, 215, 163, 255); }
+		.c-enum { fill: rgba(184, 215, 163, 255); }
+		.c-structure { fill: rgba(134, 198, 145, 255); }
+		.c-method { fill: rgba(220, 220, 170, 255); }
+		.c-parameter { fill: rgba(156, 220, 254, 255); }
+		.c-local { fill: rgba(156, 220, 254, 255); }
+	</style>
+	<rect x="0" y="0" width="100%" height="100%" rx="8" ry="8" class="code-background" />
+	<rect x="0" y="0" width="46" height="100%" class="code-background-linenumber" clip-path="url(#round-left-corners)" />	<text x="38" y="10" class="c-ln">1</text>
+	<text x="38" y="31" class="c-ln">2</text>
+	<text x="38" y="52" class="c-ln">3</text>
+	<text x="38" y="73" class="c-ln">4</text>
+	<text x="38" y="94" class="c-ln">5</text>
+	<text x="38" y="115" class="c-ln">6</text>
+	<text x="38" y="136" class="c-ln">7</text>
+	<text x="38" y="157" class="c-ln">8</text>
+	<text x="38" y="178" class="c-ln">9</text>
+	<text x="38" y="199" class="c-ln">10</text>
+	<text x="38" y="220" class="c-ln">11</text>
+	<text x="38" y="241" class="c-ln">12</text>
+	<text x="38" y="262" class="c-ln">13</text>
+	<text x="38" y="283" class="c-ln">14</text>
+	<text x="38" y="304" class="c-ln">15</text>
+	<text x="38" y="325" class="c-ln">16</text>
+	<text x="38" y="346" class="c-ln">17</text>
+	<text x="38" y="367" class="c-ln">18</text>
+	<text x="38" y="388" class="c-ln">19</text>
+	<text x="38" y="409" class="c-ln">20</text>
+	<text x="38" y="430" class="c-ln">21</text>
+	<text x="38" y="451" class="c-ln">22</text>
+	<text x="38" y="472" class="c-ln">23</text>
+	<text x="38" y="493" class="c-ln">24</text>
+	<text x="38" y="514" class="c-ln">25</text>
+	<text x="38" y="535" class="c-ln">26</text>
+	<text x="38" y="556" class="c-ln">27</text>
+	<text x="38" y="577" class="c-ln">28</text>
+	<text x="38" y="598" class="c-ln">29</text>
+	<text x="38" y="619" class="c-ln">30</text>
+	<text x="38" y="640" class="c-ln">31</text>
+	<text x="38" y="661" class="c-ln">32</text>
+	<text x="38" y="682" class="c-ln">33</text>
+	<text x="38" y="703" class="c-ln">34</text>
+	<text x="38" y="724" class="c-ln">35</text>
+	<text x="64" y="10" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">AddInstance</tspan> : <tspan class="c-class">Instance</tspan></text>
+	<text x="64" y="31" class="code">{</text>
+	<text x="101.44" y="52" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueA</tspan>;</text>
+	<text x="101.44" y="73" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueB</tspan>;</text>
+	<text x="101.44" y="115" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">Output</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">Output</tspan>;</text>
+	<text x="101.44" y="157" class="code"><tspan class="c-comment">// Socket to Connector Mapping</tspan></text>
+	<text x="101.44" y="178" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-class">InputMap</tspan>[] <tspan class="c-method">Inputs</tspan>(<tspan class="c-class">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
+	<text x="101.44" y="199" class="code">{</text>
+	<text x="138.88" y="220" class="code"><tspan class="c-parameter">connections</tspan>.Connect(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueA</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueA</tspan>),</text>
+	<text x="138.88" y="241" class="code"><tspan class="c-parameter">connections</tspan>.Connect(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueB</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueB</tspan>)</text>
+	<text x="101.44" y="262" class="code">};</text>
+	<text x="101.44" y="304" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-class">OutputMap</tspan>[] <tspan class="c-method">Outputs</tspan>(<tspan class="c-class">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
+	<text x="101.44" y="325" class="code">{</text>
+	<text x="138.88" y="346" class="code"><tspan class="c-parameter">connections</tspan>.Connect(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">Output</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">Output</tspan>)</text>
+	<text x="101.44" y="367" class="code">};</text>
+	<text x="101.44" y="409" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">Setup</tspan>()</text>
+	<text x="101.44" y="430" class="code">{</text>
+	<text x="138.88" y="451" class="code"><tspan class="c-comment">// Subscribe to events, setup variables...</tspan></text>
+	<text x="101.44" y="472" class="code">}</text>
+	<text x="101.44" y="514" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">OnInputChanged</tspan>()</text>
+	<text x="101.44" y="535" class="code">{</text>
+	<text x="138.88" y="556" class="code"><tspan class="c-comment">// Fires when an input value changes.</tspan></text>
+	<text x="138.88" y="577" class="code"><tspan class="c-field">Output</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-field">ValueA</tspan>.<tspan class="c-property">Value</tspan> + <tspan class="c-field">ValueB</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="101.44" y="598" class="code">}</text>
+	<text x="101.44" y="640" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">Remove</tspan>()</text>
+	<text x="101.44" y="661" class="code">{</text>
+	<text x="138.88" y="682" class="code"><tspan class="c-comment">// Unsubscribe from events, dispose members...</tspan></text>
+	<text x="101.44" y="703" class="code">}</text>
+	<text x="64" y="724" class="code">}</text>
+</svg>
