@@ -7,46 +7,42 @@
 	<link rel="stylesheet" asp-append-version="true" href="../patio.min.css" />
 </head>
 <body>
-	<div class="container">
-		<table class="code-table">
-			<tr>
-				<th>1</th>
-				<td><span class="c-keyword">var</span> <span class="c-local">worldEngine</span> = <span class="c-keyword">new</span> <span class="c-class">WorldEngineFactory</span>()</td>
-			</tr>
-			<tr>
-				<th>2</th>
-				<td>    .<span class="c-method">UseEntity</span>(<span class="c-string">"unit"</span>, <span class="c-parameter">options</span> <span class="c-method">=&gt;</span></td>
-			</tr>
-			<tr>
-				<th>3</th>
-				<td>    {</td>
-			</tr>
-			<tr>
-				<th>4</th>
-				<td>        <span class="c-parameter">options</span>.<span class="c-method">AddComponent</span>&lt;<span class="c-structure">TransformComponent</span>&gt;();</td>
-			</tr>
-			<tr>
-				<th>5</th>
-				<td>        <span class="c-parameter">options</span>.<span class="c-method">AddComponent</span>&lt;<span class="c-structure">UnitComponent</span>&gt;();</td>
-			</tr>
-			<tr>
-				<th>6</th>
-				<td>    })</td>
-			</tr>
-			<tr>
-				<th>7</th>
-				<td>    .<span class="c-method">Build</span>();</td>
-			</tr>
-			<tr>
-				<th>8</th>
-				<td></td>
-			</tr>
-			<tr>
-				<th>9</th>
-				<td><span class="c-keyword">var</span> <span class="c-local">world</span> = <span class="c-local">worldEngine</span>.<span class="c-method">ConstructWorld</span>();</td>
-			</tr>
-
-		</table>
-	</div>
-</body>
-</html>
+	<div class="container"><table class="code-table">
+	<tr>
+		<th>1</th>
+		<td><span class="c-keyword">var</span> <span class="c-local">worldEngine</span> = <span class="c-keyword">new</span> <span class="c-class">WorldEngineFactory</span>()</td>
+	</tr>
+	<tr>
+		<th>2</th>
+		<td>    .UseEntity(<span class="c-string">"unit"</span>, <span class="c-parameter">options</span> <span class="c-method">=&gt;</span></td>
+	</tr>
+	<tr>
+		<th>3</th>
+		<td>    {</td>
+	</tr>
+	<tr>
+		<th>4</th>
+		<td>        <span class="c-parameter">options</span>.AddComponent&lt;<span class="c-structure">TransformComponent</span>&gt;();</td>
+	</tr>
+	<tr>
+		<th>5</th>
+		<td>        <span class="c-parameter">options</span>.AddComponent&lt;<span class="c-structure">UnitComponent</span>&gt;();</td>
+	</tr>
+	<tr>
+		<th>6</th>
+		<td>    })</td>
+	</tr>
+	<tr>
+		<th>7</th>
+		<td>    .<span class="c-method">Build</span>();</td>
+	</tr>
+	<tr>
+		<th>8</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>9</th>
+		<td><span class="c-keyword">var</span> <span class="c-local">world</span> = <span class="c-local">worldEngine</span>.<span class="c-method">ConstructWorld</span>();</td>
+	</tr>
+</table>
+</div></body></html>

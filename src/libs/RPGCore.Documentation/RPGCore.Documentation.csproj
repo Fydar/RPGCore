@@ -14,6 +14,7 @@
   <ItemGroup>
 	  <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
 	  <ProjectReference Include="..\..\libs\RPGCore.World\RPGCore.World.csproj" />
+	  <ProjectReference Include="..\RPGCore.Data.SystemTextJson\RPGCore.Data.SystemTextJson.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

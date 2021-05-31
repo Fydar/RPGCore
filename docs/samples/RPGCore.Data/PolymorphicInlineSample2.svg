@@ -1,0 +1,99 @@
+<svg viewBox="0 0 1012834" width="1012" height="834" xmlns ="http://www.w3.org/2000/svg">
+
+	<defs>
+		<clipPath id="round-left-corners">
+			<rect x="0" y="0" width="100" height="100%" rx="8" ry="8"/>
+		</clipPath>
+	</defs>
+	<style>
+		.code { font: 17px Consolas; fill: rgba(220, 220, 220, 255); }
+		.code-background { fill: rgba(30, 30, 30, 255); }
+		.code-background-linenumber { fill: rgba(26, 26, 26, 255) }
+		.c-ln { font: 17px Consolas; fill: #2b90af; text-anchor: end; pointer-events: none; user-select: none; }
+		.c-keyword { fill: rgba(86, 156, 214, 255); }
+		.c-control { fill: rgba(216, 160, 223, 255); }
+		.c-string { fill: rgba(214, 157, 133, 255); }
+		.c-numeric { fill: rgba(181, 207, 168, 255); }
+		.c-comment { fill: rgba(87, 166, 74, 255); }
+		.c-class { fill: rgba(78, 201, 176, 255); }
+		.c-interface { fill: rgba(184, 215, 163, 255); }
+		.c-enum { fill: rgba(184, 215, 163, 255); }
+		.c-structure { fill: rgba(134, 198, 145, 255); }
+		.c-method { fill: rgba(220, 220, 170, 255); }
+		.c-parameter { fill: rgba(156, 220, 254, 255); }
+		.c-local { fill: rgba(156, 220, 254, 255); }
+	</style>
+	<rect x="0" y="0" width="100%" height="100%" rx="8" ry="8" class="code-background" />
+	<rect x="0" y="0" width="46" height="100%" class="code-background-linenumber" clip-path="url(#round-left-corners)" />	<text x="38" y="22" class="c-ln">1</text>
+	<text x="38" y="43" class="c-ln">2</text>
+	<text x="38" y="64" class="c-ln">3</text>
+	<text x="38" y="85" class="c-ln">4</text>
+	<text x="38" y="106" class="c-ln">5</text>
+	<text x="38" y="127" class="c-ln">6</text>
+	<text x="38" y="148" class="c-ln">7</text>
+	<text x="38" y="169" class="c-ln">8</text>
+	<text x="38" y="190" class="c-ln">9</text>
+	<text x="38" y="211" class="c-ln">10</text>
+	<text x="38" y="232" class="c-ln">11</text>
+	<text x="38" y="253" class="c-ln">12</text>
+	<text x="38" y="274" class="c-ln">13</text>
+	<text x="38" y="295" class="c-ln">14</text>
+	<text x="38" y="316" class="c-ln">15</text>
+	<text x="38" y="337" class="c-ln">16</text>
+	<text x="38" y="358" class="c-ln">17</text>
+	<text x="38" y="379" class="c-ln">18</text>
+	<text x="38" y="400" class="c-ln">19</text>
+	<text x="38" y="421" class="c-ln">20</text>
+	<text x="38" y="442" class="c-ln">21</text>
+	<text x="38" y="463" class="c-ln">22</text>
+	<text x="38" y="484" class="c-ln">23</text>
+	<text x="38" y="505" class="c-ln">24</text>
+	<text x="38" y="526" class="c-ln">25</text>
+	<text x="38" y="547" class="c-ln">26</text>
+	<text x="38" y="568" class="c-ln">27</text>
+	<text x="38" y="589" class="c-ln">28</text>
+	<text x="38" y="610" class="c-ln">29</text>
+	<text x="38" y="631" class="c-ln">30</text>
+	<text x="38" y="652" class="c-ln">31</text>
+	<text x="38" y="673" class="c-ln">32</text>
+	<text x="38" y="694" class="c-ln">33</text>
+	<text x="38" y="715" class="c-ln">34</text>
+	<text x="38" y="736" class="c-ln">35</text>
+	<text x="38" y="757" class="c-ln">36</text>
+	<text x="38" y="778" class="c-ln">37</text>
+	<text x="38" y="799" class="c-ln">38</text>
+	<text x="38" y="820" class="c-ln">39</text>
+	<text x="60" y="22" class="code"><tspan class="c-keyword">using</tspan> RPGCore.Data.Polymorphic.Inline;</text>
+	<text x="60" y="43" class="code"><tspan class="c-keyword">using</tspan> RPGCore.Data.SystemTextJson.Polymorphic;</text>
+	<text x="60" y="64" class="code"><tspan class="c-keyword">using</tspan> System.Text.Json;</text>
+	<text x="60" y="106" class="code"><tspan class="c-keyword">namespace</tspan> RPGCore.Documentation.Samples.RPGCore.Data</text>
+	<text x="60" y="127" class="code">{</text>
+	<text x="97.44" y="148" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">PolymorphicInlineSample2</tspan></text>
+	<text x="97.44" y="169" class="code">{</text>
+	<text x="134.88" y="190" class="code">[<tspan class="c-class">SerializeType</tspan>(<tspan class="c-enum">TypeName</tspan>.<tspan class="c-field">Name</tspan>)]</text>
+	<text x="134.88" y="211" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">interface</tspan> <tspan class="c-interface">IProcedure</tspan></text>
+	<text x="134.88" y="232" class="code">{</text>
+	<text x="134.88" y="253" class="code">}</text>
+	<text x="134.88" y="295" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">CreateProcedure</tspan> : <tspan class="c-interface">IProcedure</tspan></text>
+	<text x="134.88" y="316" class="code">{</text>
+	<text x="134.88" y="337" class="code">}</text>
+	<text x="134.88" y="379" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">UpdateProcedure</tspan> : <tspan class="c-interface">IProcedure</tspan></text>
+	<text x="134.88" y="400" class="code">{</text>
+	<text x="134.88" y="421" class="code">}</text>
+	<text x="134.88" y="463" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">RemoveProcedure</tspan> : <tspan class="c-interface">IProcedure</tspan></text>
+	<text x="134.88" y="484" class="code">{</text>
+	<text x="134.88" y="505" class="code">}</text>
+	<text x="134.88" y="547" class="code">[<tspan class="c-class">DocumentationMethod</tspan>(<tspan class="c-string">"serialize"</tspan>)]</text>
+	<text x="134.88" y="568" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">static</tspan> <tspan class="c-keyword">string</tspan> <tspan class="c-method">Result</tspan>()</text>
+	<text x="134.88" y="589" class="code">{</text>
+	<text x="172.32" y="610" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">options</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonSerializerOptions</tspan>()</text>
+	<text x="209.76" y="631" class="code">.UsePolymorphicSerialization(<tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="209.76" y="652" class="code">{</text>
+	<text x="247.2" y="673" class="code"><tspan class="c-parameter">options</tspan>.UseInline();</text>
+	<text x="209.76" y="694" class="code">});</text>
+	<text x="172.32" y="736" class="code"><tspan class="c-interface">IProcedure</tspan> <tspan class="c-local">procedure</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">CreateProcedure</tspan>();</text>
+	<text x="172.32" y="757" class="code"><tspan class="c-control">return</tspan> <tspan class="c-class">JsonSerializer</tspan>.<tspan class="c-method">Serialize</tspan>(<tspan class="c-local">procedure</tspan>, <tspan class="c-local">options</tspan>);</text>
+	<text x="134.88" y="778" class="code">}</text>
+	<text x="97.44" y="799" class="code">}</text>
+	<text x="60" y="820" class="code">}</text>
+</svg>

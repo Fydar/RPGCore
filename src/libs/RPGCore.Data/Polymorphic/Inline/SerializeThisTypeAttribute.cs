@@ -26,6 +26,37 @@ namespace RPGCore.Data.Polymorphic.Inline
 			AliasConventions = aliasConventions;
 		}
 
+		public SerializeThisTypeAttribute(TypeName namingConvention, TypeName aliasConventions, params string[] additionalAliases)
+		{
+			NamingConvention = namingConvention;
+			AliasConventions = aliasConventions;
+			TypeAliases = additionalAliases;
+		}
+
+		public SerializeThisTypeAttribute(string name)
+		{
+			TypeName = name;
+		}
+
+		public SerializeThisTypeAttribute(string name, params string[] additionalAliases)
+		{
+			TypeName = name;
+			TypeAliases = additionalAliases;
+		}
+
+		public SerializeThisTypeAttribute(string name, TypeName aliasConventions)
+		{
+			TypeName = name;
+			AliasConventions = aliasConventions;
+		}
+
+		public SerializeThisTypeAttribute(string name, TypeName aliasConventions, params string[] additionalAliases)
+		{
+			TypeName = name;
+			AliasConventions = aliasConventions;
+			TypeAliases = additionalAliases;
+		}
+
 		public SerializeThisTypeAttribute(Type type)
 		{
 			ExplicitBaseType = type;

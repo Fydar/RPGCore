@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RPGCore.Data/PolymorphicInlineSample2 </title>
+	<link rel="stylesheet" asp-append-version="true" href="../patio.min.css" />
+</head>
+<body>
+	<div class="container"><table class="code-table">
+	<tr>
+		<th>1</th>
+		<td><span class="c-keyword">using</span> RPGCore.Data.Polymorphic.Inline;</td>
+	</tr>
+	<tr>
+		<th>2</th>
+		<td><span class="c-keyword">using</span> RPGCore.Data.SystemTextJson.Polymorphic;</td>
+	</tr>
+	<tr>
+		<th>3</th>
+		<td><span class="c-keyword">using</span> System.Text.Json;</td>
+	</tr>
+	<tr>
+		<th>4</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>5</th>
+		<td><span class="c-keyword">namespace</span> RPGCore.Documentation.Samples.RPGCore.Data</td>
+	</tr>
+	<tr>
+		<th>6</th>
+		<td>{</td>
+	</tr>
+	<tr>
+		<th>7</th>
+		<td>    <span class="c-keyword">public</span> <span class="c-keyword">class</span> <span class="c-class">PolymorphicInlineSample2</span></td>
+	</tr>
+	<tr>
+		<th>8</th>
+		<td>    {</td>
+	</tr>
+	<tr>
+		<th>9</th>
+		<td>        [<span class="c-class">SerializeType</span>(<span class="c-enum">TypeName</span>.<span class="c-field">Name</span>)]</td>
+	</tr>
+	<tr>
+		<th>10</th>
+		<td>        <span class="c-keyword">public</span> <span class="c-keyword">interface</span> <span class="c-interface">IProcedure</span></td>
+	</tr>
+	<tr>
+		<th>11</th>
+		<td>        {</td>
+	</tr>
+	<tr>
+		<th>12</th>
+		<td>        }</td>
+	</tr>
+	<tr>
+		<th>13</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>14</th>
+		<td>        <span class="c-keyword">public</span> <span class="c-keyword">class</span> <span class="c-class">CreateProcedure</span> : <span class="c-interface">IProcedure</span></td>
+	</tr>
+	<tr>
+		<th>15</th>
+		<td>        {</td>
+	</tr>
+	<tr>
+		<th>16</th>
+		<td>        }</td>
+	</tr>
+	<tr>
+		<th>17</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>18</th>
+		<td>        <span class="c-keyword">public</span> <span class="c-keyword">class</span> <span class="c-class">UpdateProcedure</span> : <span class="c-interface">IProcedure</span></td>
+	</tr>
+	<tr>
+		<th>19</th>
+		<td>        {</td>
+	</tr>
+	<tr>
+		<th>20</th>
+		<td>        }</td>
+	</tr>
+	<tr>
+		<th>21</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>22</th>
+		<td>        <span class="c-keyword">public</span> <span class="c-keyword">class</span> <span class="c-class">RemoveProcedure</span> : <span class="c-interface">IProcedure</span></td>
+	</tr>
+	<tr>
+		<th>23</th>
+		<td>        {</td>
+	</tr>
+	<tr>
+		<th>24</th>
+		<td>        }</td>
+	</tr>
+	<tr>
+		<th>25</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>26</th>
+		<td>        [<span class="c-class">DocumentationMethod</span>(<span class="c-string">"serialize"</span>)]</td>
+	</tr>
+	<tr>
+		<th>27</th>
+		<td>        <span class="c-keyword">public</span> <span class="c-keyword">static</span> <span class="c-keyword">string</span> <span class="c-method">Result</span>()</td>
+	</tr>
+	<tr>
+		<th>28</th>
+		<td>        {</td>
+	</tr>
+	<tr>
+		<th>29</th>
+		<td>            <span class="c-keyword">var</span> <span class="c-local">options</span> = <span class="c-keyword">new</span> <span class="c-class">JsonSerializerOptions</span>()</td>
+	</tr>
+	<tr>
+		<th>30</th>
+		<td>                .UsePolymorphicSerialization(<span class="c-parameter">options</span> <span class="c-method">=&gt;</span></td>
+	</tr>
+	<tr>
+		<th>31</th>
+		<td>                {</td>
+	</tr>
+	<tr>
+		<th>32</th>
+		<td>                    <span class="c-parameter">options</span>.UseInline();</td>
+	</tr>
+	<tr>
+		<th>33</th>
+		<td>                });</td>
+	</tr>
+	<tr>
+		<th>34</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>35</th>
+		<td>            <span class="c-interface">IProcedure</span> <span class="c-local">procedure</span> = <span class="c-keyword">new</span> <span class="c-class">CreateProcedure</span>();</td>
+	</tr>
+	<tr>
+		<th>36</th>
+		<td>            <span class="c-control">return</span> <span class="c-class">JsonSerializer</span>.<span class="c-method">Serialize</span>(<span class="c-local">procedure</span>, <span class="c-local">options</span>);</td>
+	</tr>
+	<tr>
+		<th>37</th>
+		<td>        }</td>
+	</tr>
+	<tr>
+		<th>38</th>
+		<td>    }</td>
+	</tr>
+	<tr>
+		<th>39</th>
+		<td>}</td>
+	</tr>
+</table>
+</div></body></html>

@@ -3,9 +3,9 @@
 	internal class SampleRegion
 	{
 		public string Name { get; }
-		public string[] Lines { get; }
+		public CodeSpan[][] Lines { get; }
 
-		public SampleRegion(string name, string[] lines)
+		public SampleRegion(string name, CodeSpan[][] lines)
 		{
 			Name = name;
 			Lines = lines;

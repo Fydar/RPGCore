@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RPGCore.Data/PolymorphicInlineSample3 serialize</title>
+	<link rel="stylesheet" asp-append-version="true" href="../patio.min.css" />
+</head>
+<body>
+	<div class="container"><table class="code-table">
+	<tr>
+		<th>1</th>
+		<td><span class="c-keyword">var</span> <span class="c-local">options</span> = <span class="c-keyword">new</span> <span class="c-class">JsonSerializerOptions</span>()</td>
+	</tr>
+	<tr>
+		<th>2</th>
+		<td>    .UsePolymorphicSerialization(<span class="c-parameter">options</span> <span class="c-method">=&gt;</span></td>
+	</tr>
+	<tr>
+		<th>3</th>
+		<td>    {</td>
+	</tr>
+	<tr>
+		<th>4</th>
+		<td>        <span class="c-parameter">options</span>.UseInline();</td>
+	</tr>
+	<tr>
+		<th>5</th>
+		<td>    });</td>
+	</tr>
+	<tr>
+		<th>6</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>7</th>
+		<td><span class="c-interface">IProcedure</span> <span class="c-local">procedure</span> = <span class="c-keyword">new</span> <span class="c-class">CreateProcedure</span>();</td>
+	</tr>
+	<tr>
+		<th>8</th>
+		<td><span class="c-control">return</span> <span class="c-class">JsonSerializer</span>.<span class="c-method">Serialize</span>(<span class="c-local">procedure</span>, <span class="c-local">options</span>);</td>
+	</tr>
+</table>
+</div></body></html>

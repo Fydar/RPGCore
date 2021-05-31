@@ -1,45 +1,78 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using RPGCore.Documentation.Samples.AddNodeSample;
-using RPGCore.Documentation.Samples.EntityComponentSystemSample;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 
 namespace RPGCore.Documentation.Internal
 {
+	public readonly struct CodeSpan
+	{
+		public string Content { get; }
+		public string? Style { get; }
+		public string? LinkURL { get; }
+
+		public CodeSpan(string content)
+		{
+			Content = content;
+			Style = null;
+			LinkURL = null;
+		}
+
+		public CodeSpan(string content, string style)
+		{
+			Content = content;
+			Style = style;
+			LinkURL = null;
+		}
+
+		public CodeSpan(string content, string style, string linkUrl)
+		{
+			Content = content;
+			Style = style;
+			LinkURL = linkUrl;
+		}
+	}
+
 	internal static class SampleParser
 	{
 		private class RegionBuilder
 		{
-			private readonly StringBuilder content;
-			private readonly List<string> lines;
+			private readonly List<CodeSpan> currentLine;
+			private readonly List<CodeSpan[]> lines;
 
 			public int Indent { get; }
 			public string Name { get; }
 
 			public RegionBuilder(int indent)
 			{
-				content = new StringBuilder();
-				lines = new List<string>();
+				currentLine = new List<CodeSpan>();
+				lines = new List<CodeSpan[]>();
 				Name = "";
 				Indent = indent;
 			}
 
 			public RegionBuilder(string name, int indent)
 			{
-				content = new StringBuilder();
-				lines = new List<string>();
+				currentLine = new List<CodeSpan>();
+				lines = new List<CodeSpan[]>();
 				Name = name;
 				Indent = indent;
 			}
 
 			public SampleRegion Build()
 			{
-				if (content.Length > 0)
+				if (currentLine.Count > 0)
 				{
-					lines.Add(content.ToString());
+					bool empty = true;
+					foreach (var span in currentLine)
+					{
+						empty &= string.IsNullOrWhiteSpace(span.Content);
+					}
+					if (!empty)
+					{
+						lines.Add(currentLine.ToArray());
+					}
 				}
 
 				return new SampleRegion(Name, lines.ToArray());
@@ -52,18 +85,28 @@ namespace RPGCore.Documentation.Internal
 
 			public void Write(ReadOnlySpan<char> value)
 			{
-				content.Append(value);
+				currentLine.Add(new CodeSpan(value.ToString()));
+			}
+
+			public void Write(ReadOnlySpan<char> value, string style)
+			{
+				currentLine.Add(new CodeSpan(value.ToString(), style));
+			}
+
+			public void Write(ReadOnlySpan<char> value, string style, string linkUrl)
+			{
+				currentLine.Add(new CodeSpan(value.ToString(), style, linkUrl));
 			}
 
 			public void RestartLine()
 			{
-				content.Clear();
+				currentLine.Clear();
 			}
 
 			public void WriteNewline()
 			{
-				string addLine = content.ToString();
-				content.Clear();
+				var addLine = currentLine.ToArray();
+				currentLine.Clear();
 
 				lines.Add(addLine);
 			}
@@ -141,13 +184,11 @@ namespace RPGCore.Documentation.Internal
 
 						if (style == null)
 						{
-							WriteEscaped(span);
+							Write(span);
 						}
 						else
 						{
-							WriteString($"<span class=\"{style}\">");
-							WriteEscaped(span);
-							WriteString($"</span>");
+							WriteStyled(span, style);
 						}
 
 						RenderTrivia(nodeOrToken.GetTrailingTrivia());
@@ -168,9 +209,7 @@ namespace RPGCore.Documentation.Internal
 
 						if (span.ToString() == "var")
 						{
-							WriteString($"<span class=\"{styles.Keyword}\">");
-							WriteEscaped(span);
-							WriteString($"</span>");
+							WriteStyled(span, styles.Keyword);
 						}
 						else
 						{
@@ -191,14 +230,11 @@ namespace RPGCore.Documentation.Internal
 									var typeInfo = semanticModel.GetTypeInfo(rootNode);
 									if (typeInfo.Type != null)
 									{
-										// string typeStyle = styles.GetStyleForTypeSymbol(typeInfo.Type as INamedTypeSymbol);
-										// WriteString($"<span class=\"{typeStyle}\">");
-										WriteEscaped(span);
-										// WriteString($"</span>");
+										WriteSymbol(typeInfo.Type, span);
 									}
 									else
 									{
-										WriteEscaped(span);
+										Write(span);
 									}
 								}
 							}
@@ -218,9 +254,7 @@ namespace RPGCore.Documentation.Internal
 					{
 						string style = styles.GetStyleForTypeSymbol(symbol as ITypeSymbol);
 
-						WriteString($"<span class=\"{style}\">");
-						WriteEscaped(span);
-						WriteString($"</span>");
+						WriteStyled(span, style);
 						break;
 					}
 					case SymbolKind.Method:
@@ -233,54 +267,42 @@ namespace RPGCore.Documentation.Internal
 							style = styles.GetStyleForTypeSymbol(typeSymbol);
 						}
 
-						WriteString($"<span class=\"{style}\">");
-						WriteEscaped(span);
-						WriteString($"</span>");
+						WriteStyled(span, style);
 						break;
 					}
 					case SymbolKind.Parameter:
 					{
-						WriteString($"<span class=\"{styles.Parameter}\">");
-						WriteEscaped(span);
-						WriteString($"</span>");
+						WriteStyled(span, styles.Parameter);
 						break;
 					}
 					case SymbolKind.Local:
 					{
-						WriteString($"<span class=\"{styles.Local}\">");
-						WriteEscaped(span);
-						WriteString($"</span>");
+						WriteStyled(span, styles.Local);
 						break;
 					}
 					case SymbolKind.Field:
 					{
-						WriteString($"<span class=\"{styles.Field}\">");
-						WriteEscaped(span);
-						WriteString($"</span>");
+						WriteStyled(span, styles.Field);
 						break;
 					}
 					case SymbolKind.Property:
 					{
-						WriteString($"<span class=\"{styles.Property}\">");
-						WriteEscaped(span);
-						WriteString($"</span>");
+						WriteStyled(span, styles.Property);
 						break;
 					}
 					case SymbolKind.TypeParameter:
 					{
-						WriteString($"<span class=\"{styles.TypeGeneric}\">");
-						WriteEscaped(span);
-						WriteString($"</span>");
+						WriteStyled(span, styles.TypeGeneric);
 						break;
 					}
 					case SymbolKind.Namespace:
 					{
-						WriteEscaped(span);
+						Write(span);
 						break;
 					}
 					default:
 					{
-						WriteEscaped(span);
+						Write(span);
 						break;
 					}
 				}
@@ -344,7 +366,7 @@ namespace RPGCore.Documentation.Internal
 							else
 							{
 								string indentString = new(' ', indent);
-								WriteString(indentString);
+								Write(indentString);
 							}
 							isFollowingNewline = false;
 							break;
@@ -399,18 +421,16 @@ namespace RPGCore.Documentation.Internal
 							{
 								if (style == null)
 								{
-									WriteEscaped(triviaSpan);
+									Write(triviaSpan);
 								}
 								else
 								{
-									WriteString($"<span class=\"{style}\">");
-									WriteEscaped(triviaSpan);
-									WriteString($"</span>");
+									WriteStyled(triviaSpan, style);
 								}
 							}
 							else
 							{
-								WriteEscaped(triviaSpan);
+								Write(triviaSpan);
 							}
 							break;
 						}
@@ -418,28 +438,27 @@ namespace RPGCore.Documentation.Internal
 				}
 			}
 
-			string XmlEscape(string unescaped)
+			void Write(ReadOnlySpan<char> value)
 			{
-				var doc = new XmlDocument();
-				var node = doc.CreateElement("root");
-				node.InnerText = unescaped;
-				return node.InnerXml;
-			}
-
-			void WriteEscaped(ReadOnlySpan<char> content)
-			{
-				string escaped = XmlEscape(content.ToString());
 				foreach (var builder in builders)
 				{
-					builder.Write(escaped);
+					builder.Write(value);
 				}
 			}
 
-			void WriteString(ReadOnlySpan<char> content)
+			void WriteStyled(ReadOnlySpan<char> value, string style)
 			{
 				foreach (var builder in builders)
 				{
-					builder.Write(content);
+					builder.Write(value, style);
+				}
+			}
+
+			void WriteStyledLink(ReadOnlySpan<char> value, string style, string linkUrl)
+			{
+				foreach (var builder in builders)
+				{
+					builder.Write(value, style, linkUrl);
 				}
 			}
 

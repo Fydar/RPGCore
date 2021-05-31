@@ -3,23 +3,18 @@
 namespace RPGCore.Documentation.Samples.AddNodeSample
 {
 	#region default
-	// Node Template Definition
 	public class AddNode : NodeTemplate<AddNode>
 	{
-		// Node Sockets
 		public InputSocket ValueA;
 		public InputSocket ValueB;
 
 		public OutputSocket Output;
 
-		// Boilerplate Create Method
 		public override Instance Create() => new AddInstance();
 
 		#region node_instance
-		// Node Instance Definition
 		public class AddInstance : Instance
 		{
-			// Node Instance Connectors
 			public Input<float> ValueA;
 			public Input<float> ValueB;
 
@@ -37,7 +32,6 @@ namespace RPGCore.Documentation.Samples.AddNodeSample
 				connections.Connect(ref Template.Output, ref Output)
 			};
 
-			// Node Logic
 			public override void Setup()
 			{
 				// Subscribe to events, setup variables...

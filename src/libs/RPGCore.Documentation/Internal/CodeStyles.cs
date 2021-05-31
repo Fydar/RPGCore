@@ -92,6 +92,7 @@ namespace RPGCore.Documentation.Internal
 				[SyntaxKind.VirtualKeyword] = Keyword,
 				[SyntaxKind.SealedKeyword] = Keyword,
 				[SyntaxKind.OverrideKeyword] = Keyword,
+				[SyntaxKind.BaseKeyword] = Keyword,
 
 				[SyntaxKind.RefKeyword] = Keyword,
 				[SyntaxKind.OutKeyword] = Keyword,
@@ -105,6 +106,9 @@ namespace RPGCore.Documentation.Internal
 
 				[SyntaxKind.NamespaceKeyword] = Keyword,
 				[SyntaxKind.ClassKeyword] = Keyword,
+				[SyntaxKind.InterfaceKeyword] = Keyword,
+				[SyntaxKind.RecordKeyword] = Keyword,
+				[SyntaxKind.DelegateKeyword] = Keyword,
 				[SyntaxKind.StructKeyword] = Keyword,
 				[SyntaxKind.EnumKeyword] = Keyword,
 
@@ -178,6 +182,11 @@ namespace RPGCore.Documentation.Internal
 				typeSymbol = namedTypeSymbol.TypeArguments[0];
 			}
 
+			if (typeSymbol.BaseType?.Name == "Enum")
+			{
+				return TypeEnum;
+			}
+
 			switch (typeSymbol.TypeKind)
 			{
 				case TypeKind.Enum:
@@ -192,11 +201,13 @@ namespace RPGCore.Documentation.Internal
 				case TypeKind.TypeParameter:
 					return TypeGeneric;
 
-				default:
 				case TypeKind.Delegate:
 				case TypeKind.Class:
 				case TypeKind.Dynamic:
 					return TypeClass;
+
+				default:
+					throw new InvalidOperationException($"Unrecognised type kind {typeSymbol.TypeKind}.");
 			}
 		}
 
