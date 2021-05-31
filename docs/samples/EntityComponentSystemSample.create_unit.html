@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EntityComponentSystemSample create_unit</title>
+	<link rel="stylesheet" asp-append-version="true" href="../patio.min.css" />
+</head>
+<body>
+	<div class="container">
+		<table class="code-table">
+			<tr>
+				<th>1</th>
+				<td><span class="c-keyword">var</span> <span class="c-local">units</span> = <span class="c-local">world</span>.<span class="c-method">GetEntityPool</span>(<span class="c-string">"unit"</span>);</td>
+			</tr>
+			<tr>
+				<th>2</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>3</th>
+				<td><span class="c-keyword">int</span> <span class="c-local">newUnitId</span> = <span class="c-local">units</span>.<span class="c-method">New</span>();</td>
+			</tr>
+			<tr>
+				<th>4</th>
+				<td><span class="c-keyword">ref</span> <span class="c-keyword">var</span> <span class="c-local">newUnitTransform</span> = <span class="c-keyword">ref</span> <span class="c-local">units</span>.<span class="c-method">GetComponent</span>&lt;<span class="c-structure">TransformComponent</span>&gt;(<span class="c-local">newUnitId</span>);</td>
+			</tr>
+			<tr>
+				<th>5</th>
+				<td><span class="c-local">newUnitTransform</span>.<span class="c-field">X</span> <span class="c-method">+=</span> <span class="c-numeric">1</span>;</td>
+			</tr>
+			<tr>
+				<th>6</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>7</th>
+				<td><span class="c-local">units</span>.<span class="c-method">Recycle</span>(<span class="c-local">newUnitId</span>);</td>
+			</tr>
+
+		</table>
+	</div>
+</body>
+</html>

@@ -102,7 +102,7 @@ namespace RPGCore.World
 		/// <param name="index">An identifier for the entity in the pool.</param>
 		/// <returns>A reference to the component in the pool.</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public ref T GetItem<T>(int index)
+		public ref T GetComponent<T>(int index)
 			where T : struct
 		{
 			var pool = GetPool<T>();

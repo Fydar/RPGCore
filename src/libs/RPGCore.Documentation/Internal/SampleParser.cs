@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using RPGCore.Documentation.Samples.AddNodeSample;
+using RPGCore.Documentation.Samples.EntityComponentSystemSample;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -79,7 +80,8 @@ namespace RPGCore.Documentation.Internal
 		{
 			var references = new List<MetadataReference>();
 
-			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+			var domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+			foreach (var assembly in domainAssemblies)
 			{
 				if (assembly.IsDynamic)
 				{
@@ -93,8 +95,6 @@ namespace RPGCore.Documentation.Internal
 				{
 				}
 			}
-
-			var loadType = typeof(AddNode);
 
 			// using var workspace = new AdhocWorkspace();
 			// var solution = workspace.CurrentSolution;
@@ -166,33 +166,43 @@ namespace RPGCore.Documentation.Internal
 
 						var span = script.AsSpan(nodeOrToken.Span.Start, nodeOrToken.Span.Length);
 
-						var declaredSymbol = semanticModel.GetDeclaredSymbol(rootNode);
-						if (declaredSymbol != null)
+						if (span.ToString() == "var")
 						{
-							WriteSymbol(declaredSymbol, span);
+							WriteString($"<span class=\"{styles.Keyword}\">");
+							WriteEscaped(span);
+							WriteString($"</span>");
 						}
 						else
 						{
-							var info = semanticModel.GetSymbolInfo(rootNode);
-							if (info.Symbol != null)
+							var declaredSymbol = semanticModel.GetDeclaredSymbol(rootNode);
+							if (declaredSymbol != null)
 							{
-								WriteSymbol(info.Symbol, span);
+								WriteSymbol(declaredSymbol, span);
 							}
 							else
 							{
-								var typeInfo = semanticModel.GetTypeInfo(rootNode);
-								if (typeInfo.Type != null)
+								var info = semanticModel.GetSymbolInfo(rootNode);
+								if (info.Symbol != null)
 								{
-									// string typeStyle = styles.GetStyleForTypeSymbol(typeInfo.Type as INamedTypeSymbol);
-									// WriteString($"<span class=\"{typeStyle}\">");
-									WriteEscaped(span);
-									// WriteString($"</span>");
+									WriteSymbol(info.Symbol, span);
 								}
 								else
 								{
-									WriteEscaped(span);
+									var typeInfo = semanticModel.GetTypeInfo(rootNode);
+									if (typeInfo.Type != null)
+									{
+										// string typeStyle = styles.GetStyleForTypeSymbol(typeInfo.Type as INamedTypeSymbol);
+										// WriteString($"<span class=\"{typeStyle}\">");
+										WriteEscaped(span);
+										// WriteString($"</span>");
+									}
+									else
+									{
+										WriteEscaped(span);
+									}
 								}
 							}
+
 						}
 
 						RenderTrivia(token.TrailingTrivia);

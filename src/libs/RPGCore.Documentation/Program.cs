@@ -1,4 +1,6 @@
 ﻿using RPGCore.Documentation.Internal;
+using RPGCore.Documentation.Samples.AddNodeSample;
+using RPGCore.Documentation.Samples.EntityComponentSystemSample;
 using System;
 using System.IO;
 
@@ -8,7 +10,12 @@ namespace RPGCore.Documentation
 	{
 		private static void Main(string[] args)
 		{
+			var loadType = typeof(AddNode);
+			loadType = typeof(EntityComponentSystemSample);
+			EntityComponentSystemSample.Run();
+
 			ExportSamples("AddNodeSample");
+			ExportSamples("EntityComponentSystemSample");
 		}
 		private static void ExportSamples(string filename)
 		{

@@ -2,7 +2,7 @@ using NUnit.Framework;
 using RPGCore.Events;
 using System.Collections.Generic;
 
-namespace RPGCore.Behaviour.UnitTests
+namespace RPGCore.Events.UnitTests
 {
 	[TestFixture(TestOf = typeof(EventField<>))]
 	public class EventFieldShould

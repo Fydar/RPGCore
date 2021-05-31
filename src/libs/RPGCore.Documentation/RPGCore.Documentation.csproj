@@ -12,7 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+	  <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
+	  <ProjectReference Include="..\..\libs\RPGCore.World\RPGCore.World.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
