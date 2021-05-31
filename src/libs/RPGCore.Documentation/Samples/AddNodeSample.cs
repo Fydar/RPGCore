@@ -15,6 +15,7 @@ namespace RPGCore.Documentation.Samples.AddNodeSample
 		// Boilerplate Create Method
 		public override Instance Create() => new AddInstance();
 
+		#region node_instance
 		// Node Instance Definition
 		public class AddInstance : Instance
 		{
@@ -53,6 +54,7 @@ namespace RPGCore.Documentation.Samples.AddNodeSample
 				// Unsubscribe from events, dispose members...
 			}
 		}
+		#endregion node_instance
 	}
 	#endregion default
 }

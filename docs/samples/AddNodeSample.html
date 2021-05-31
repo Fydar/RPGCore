@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AddNodeSample </title>
+	<link rel="stylesheet" asp-append-version="true" href="../patio.min.css" />
+</head>
+<body>
+	<div class="container">
+		<table class="code-table">
+			<tr>
+				<th>1</th>
+				<td><span class="c-keyword">using</span> RPGCore.Behaviour;</td>
+			</tr>
+			<tr>
+				<th>2</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>3</th>
+				<td><span class="c-keyword">namespace</span> RPGCore.Documentation.Samples.AddNodeSample</td>
+			</tr>
+			<tr>
+				<th>4</th>
+				<td>{</td>
+			</tr>
+			<tr>
+				<th>5</th>
+				<td>    <span class="c-comment">// Node Template Definition</span></td>
+			</tr>
+			<tr>
+				<th>6</th>
+				<td>    <span class="c-keyword">public</span> <span class="c-keyword">class</span> <span class="c-class">AddNode</span> : <span class="c-class">NodeTemplate</span>&lt;<span class="c-class">AddNode</span>&gt;</td>
+			</tr>
+			<tr>
+				<th>7</th>
+				<td>    {</td>
+			</tr>
+			<tr>
+				<th>8</th>
+				<td>        <span class="c-comment">// Node Sockets</span></td>
+			</tr>
+			<tr>
+				<th>9</th>
+				<td>        <span class="c-keyword">public</span> <span class="c-structure">InputSocket</span> <span class="c-field">ValueA</span>;</td>
+			</tr>
+			<tr>
+				<th>10</th>
+				<td>        <span class="c-keyword">public</span> <span class="c-structure">InputSocket</span> <span class="c-field">ValueB</span>;</td>
+			</tr>
+			<tr>
+				<th>11</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>12</th>
+				<td>        <span class="c-keyword">public</span> <span class="c-structure">OutputSocket</span> <span class="c-field">Output</span>;</td>
+			</tr>
+			<tr>
+				<th>13</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>14</th>
+				<td>        <span class="c-comment">// Boilerplate Create Method</span></td>
+			</tr>
+			<tr>
+				<th>15</th>
+				<td>        <span class="c-keyword">public</span> <span class="c-keyword">override</span> <span class="c-class">Instance</span> <span class="c-method">Create</span>() =&gt; <span class="c-keyword">new</span> <span class="c-class">AddInstance</span>();</td>
+			</tr>
+			<tr>
+				<th>16</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>17</th>
+				<td>        <span class="c-comment">// Node Instance Definition</span></td>
+			</tr>
+			<tr>
+				<th>18</th>
+				<td>        <span class="c-keyword">public</span> <span class="c-keyword">class</span> <span class="c-class">AddInstance</span> : <span class="c-class">Instance</span></td>
+			</tr>
+			<tr>
+				<th>19</th>
+				<td>        {</td>
+			</tr>
+			<tr>
+				<th>20</th>
+				<td>            <span class="c-comment">// Node Instance Connectors</span></td>
+			</tr>
+			<tr>
+				<th>21</th>
+				<td>            <span class="c-keyword">public</span> <span class="c-structure">Input</span>&lt;<span class="c-keyword">float</span>&gt; <span class="c-field">ValueA</span>;</td>
+			</tr>
+			<tr>
+				<th>22</th>
+				<td>            <span class="c-keyword">public</span> <span class="c-structure">Input</span>&lt;<span class="c-keyword">float</span>&gt; <span class="c-field">ValueB</span>;</td>
+			</tr>
+			<tr>
+				<th>23</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>24</th>
+				<td>            <span class="c-keyword">public</span> <span class="c-structure">Output</span>&lt;<span class="c-keyword">float</span>&gt; <span class="c-field">Output</span>;</td>
+			</tr>
+			<tr>
+				<th>25</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>26</th>
+				<td>            <span class="c-comment">// Socket to Connector Mapping</span></td>
+			</tr>
+			<tr>
+				<th>27</th>
+				<td>            <span class="c-keyword">public</span> <span class="c-keyword">override</span> <span class="c-structure">InputMap</span>[] <span class="c-method">Inputs</span>(<span class="c-structure">ConnectionMapper</span> <span class="c-parameter">connections</span>) =&gt; <span class="c-keyword">new</span>[]</td>
+			</tr>
+			<tr>
+				<th>28</th>
+				<td>            {</td>
+			</tr>
+			<tr>
+				<th>29</th>
+				<td>                <span class="c-parameter">connections</span>.<span class="c-method">Connect</span>(<span class="c-keyword">ref</span> <span class="c-property">Template</span>.<span class="c-field">ValueA</span>, <span class="c-keyword">ref</span> <span class="c-field">ValueA</span>),</td>
+			</tr>
+			<tr>
+				<th>30</th>
+				<td>                <span class="c-parameter">connections</span>.<span class="c-method">Connect</span>(<span class="c-keyword">ref</span> <span class="c-property">Template</span>.<span class="c-field">ValueB</span>, <span class="c-keyword">ref</span> <span class="c-field">ValueB</span>)</td>
+			</tr>
+			<tr>
+				<th>31</th>
+				<td>            };</td>
+			</tr>
+			<tr>
+				<th>32</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>33</th>
+				<td>            <span class="c-keyword">public</span> <span class="c-keyword">override</span> <span class="c-structure">OutputMap</span>[] <span class="c-method">Outputs</span>(<span class="c-structure">ConnectionMapper</span> <span class="c-parameter">connections</span>) =&gt; <span class="c-keyword">new</span>[]</td>
+			</tr>
+			<tr>
+				<th>34</th>
+				<td>            {</td>
+			</tr>
+			<tr>
+				<th>35</th>
+				<td>                <span class="c-parameter">connections</span>.<span class="c-method">Connect</span>(<span class="c-keyword">ref</span> <span class="c-property">Template</span>.<span class="c-field">Output</span>, <span class="c-keyword">ref</span> <span class="c-field">Output</span>)</td>
+			</tr>
+			<tr>
+				<th>36</th>
+				<td>            };</td>
+			</tr>
+			<tr>
+				<th>37</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>38</th>
+				<td>            <span class="c-comment">// Node Logic</span></td>
+			</tr>
+			<tr>
+				<th>39</th>
+				<td>            <span class="c-keyword">public</span> <span class="c-keyword">override</span> <span class="c-keyword">void</span> <span class="c-method">Setup</span>()</td>
+			</tr>
+			<tr>
+				<th>40</th>
+				<td>            {</td>
+			</tr>
+			<tr>
+				<th>41</th>
+				<td>                <span class="c-comment">// Subscribe to events, setup variables...</span></td>
+			</tr>
+			<tr>
+				<th>42</th>
+				<td>            }</td>
+			</tr>
+			<tr>
+				<th>43</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>44</th>
+				<td>            <span class="c-keyword">public</span> <span class="c-keyword">override</span> <span class="c-keyword">void</span> <span class="c-method">OnInputChanged</span>()</td>
+			</tr>
+			<tr>
+				<th>45</th>
+				<td>            {</td>
+			</tr>
+			<tr>
+				<th>46</th>
+				<td>                <span class="c-comment">// Fires when an input value changes.</span></td>
+			</tr>
+			<tr>
+				<th>47</th>
+				<td>                <span class="c-field">Output</span>.<span class="c-property">Value</span> = <span class="c-field">ValueA</span>.<span class="c-property">Value</span> + <span class="c-field">ValueB</span>.<span class="c-property">Value</span>;</td>
+			</tr>
+			<tr>
+				<th>48</th>
+				<td>            }</td>
+			</tr>
+			<tr>
+				<th>49</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>50</th>
+				<td>            <span class="c-keyword">public</span> <span class="c-keyword">override</span> <span class="c-keyword">void</span> <span class="c-method">Remove</span>()</td>
+			</tr>
+			<tr>
+				<th>51</th>
+				<td>            {</td>
+			</tr>
+			<tr>
+				<th>52</th>
+				<td>                <span class="c-comment">// Unsubscribe from events, dispose members...</span></td>
+			</tr>
+			<tr>
+				<th>53</th>
+				<td>            }</td>
+			</tr>
+			<tr>
+				<th>54</th>
+				<td>        }</td>
+			</tr>
+			<tr>
+				<th>55</th>
+				<td>    }</td>
+			</tr>
+			<tr>
+				<th>56</th>
+				<td>}</td>
+			</tr>
+
+		</table>
+	</div>
+</body>
+</html>

@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using System.Diagnostics.CodeAnalysis;
 
 namespace RPGCore.FileTree.FileSystem
 {

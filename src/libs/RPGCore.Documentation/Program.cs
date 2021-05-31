@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGCore.Documentation.Internal;
+using System;
 using System.IO;
 
 namespace RPGCore.Documentation
@@ -7,24 +8,76 @@ namespace RPGCore.Documentation
 	{
 		private static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
+			ExportSamples("AddNodeSample");
+		}
+		private static void ExportSamples(string filename)
+		{
+			var sampleFile = GetSampleFile($"{filename}.cs");
 
-			Console.WriteLine("----------");
+			string sampleContent = File.ReadAllText(sampleFile.FullName);
 
-			string sample = GetSample("AddNodeSample.cs", "default");
-			Console.WriteLine(sample);
+			foreach (var builder in SampleParser.HtmlHighlight(sampleContent))
+			{
+				Console.WriteLine();
+				Console.WriteLine($"-[{builder.Name}]-");
+				Console.WriteLine();
+
+				FileInfo destination;
+				if (builder.Name == "")
+				{
+					destination = GetDestinationFile($"{filename}.html");
+				}
+				else
+				{
+					destination = GetDestinationFile($"{filename}.{builder.Name}.html");
+				}
+				destination.Directory.Create();
+
+				destination.Delete();
+				using var fs = destination.OpenWrite();
+				using var sw = new StreamWriter(fs);
+
+				sw.WriteLine($@"<!DOCTYPE html>
+<html lang=""en"">
+<head>
+	<meta charset=""UTF-8"">
+	<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+	<title>{filename} {builder.Name }</title>
+	<link rel=""stylesheet"" asp-append-version=""true"" href=""../patio.min.css"" />
+</head>
+<body>
+	<div class=""container"">
+		<table class=""code-table"">");
+
+				for (int i = 0; i < builder.Lines.Length; i++)
+				{
+					string line = builder.Lines[i];
+					sw.Write("\t\t\t<tr>\n\t\t\t\t<th>");
+					sw.Write(i + 1);
+					sw.Write("</th>\n\t\t\t\t<td>");
+					sw.Write(line);
+					sw.Write("</td>\n\t\t\t</tr>\n");
+				}
+				sw.WriteLine(@"
+		</table>
+	</div>
+</body>
+</html>");
+			}
 		}
 
-		public static string GetSample(string file, string section)
+		public static FileInfo GetSampleFile(string file)
 		{
 			var directory = FindSourceDirectory();
+			string sampleFile = Path.Combine(directory.FullName, "src/libs/RPGCore.Documentation/Samples", file);
+			return new FileInfo(sampleFile);
+		}
 
-			Console.WriteLine(directory.FullName);
-
-			string sampleFile = Path.Combine(directory.FullName, "src/RPGCore.Documentation/Samples", file);
-			var sampleFileInfo = new FileInfo(sampleFile);
-
-			return "";
+		public static FileInfo GetDestinationFile(string file)
+		{
+			var directory = FindSourceDirectory();
+			string sampleFile = Path.Combine(directory.FullName, "docs/samples", file);
+			return new FileInfo(sampleFile);
 		}
 
 		private static DirectoryInfo FindSourceDirectory()
