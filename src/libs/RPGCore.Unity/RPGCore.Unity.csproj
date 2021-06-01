@@ -23,7 +23,6 @@
     <ProjectReference Include="..\..\libs\RPGCore.Packages\RPGCore.Packages.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Projects\RPGCore.Projects.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Traits\RPGCore.Traits.csproj" />
-    <ProjectReference Include="..\..\libs\RPGCore.View\RPGCore.View.csproj" />
   </ItemGroup>
 
   <!-- Publish files directly to the Unity project. -->

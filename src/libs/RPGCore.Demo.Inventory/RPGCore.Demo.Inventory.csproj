@@ -16,7 +16,6 @@
     <ProjectReference Include="..\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
     <ProjectReference Include="..\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
     <ProjectReference Include="..\RPGCore.Projects\RPGCore.Projects.csproj" />
-    <ProjectReference Include="..\RPGCore.View\RPGCore.View.csproj" />
   </ItemGroup>
 
 </Project>
