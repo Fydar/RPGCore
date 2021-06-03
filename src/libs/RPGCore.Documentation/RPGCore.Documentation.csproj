@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Product>RPGCore</Product>
     <Description>RPGCore is a toolkit for producing RPG games and mechanics in C#.</Description>
   </PropertyGroup>
@@ -16,6 +20,7 @@
     <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.World\RPGCore.World.csproj" />
     <ProjectReference Include="..\RPGCore.Data.SystemTextJson\RPGCore.Data.SystemTextJson.csproj" />
+    <ProjectReference Include="..\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -30,6 +35,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.9.0" />
+    <PackageReference Include="Basic.Reference.Assemblies" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

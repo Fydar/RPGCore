@@ -33,7 +33,7 @@
 	<text x="38" y="136" class="c-ln">7</text>
 	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">units</tspan> = <tspan class="c-local">world</tspan>.<tspan class="c-method">GetEntityPool</tspan>(<tspan class="c-string">"unit"</tspan>);</text>
 	<text x="64" y="52" class="code"><tspan class="c-keyword">int</tspan> <tspan class="c-local">newUnitId</tspan> = <tspan class="c-local">units</tspan>.<tspan class="c-method">New</tspan>();</text>
-	<text x="64" y="73" class="code"><tspan class="c-keyword">ref</tspan> <tspan class="c-keyword">var</tspan> <tspan class="c-local">newUnitTransform</tspan> = <tspan class="c-keyword">ref</tspan> <tspan class="c-local">units</tspan>.GetComponent&lt;<tspan class="c-structure">TransformComponent</tspan>&gt;(<tspan class="c-local">newUnitId</tspan>);</text>
+	<text x="64" y="73" class="code"><tspan class="c-keyword">ref</tspan> <tspan class="c-keyword">var</tspan> <tspan class="c-local">newUnitTransform</tspan> = <tspan class="c-keyword">ref</tspan> <tspan class="c-local">units</tspan>.<tspan class="c-method">GetComponent</tspan>&lt;<tspan class="c-structure">TransformComponent</tspan>&gt;(<tspan class="c-local">newUnitId</tspan>);</text>
 	<text x="64" y="94" class="code"><tspan class="c-local">newUnitTransform</tspan>.<tspan class="c-field">X</tspan> <tspan class="c-method">+=</tspan> <tspan class="c-numeric">1</tspan>;</text>
 	<text x="64" y="136" class="code"><tspan class="c-local">units</tspan>.<tspan class="c-method">Recycle</tspan>(<tspan class="c-local">newUnitId</tspan>);</text>
 </svg>

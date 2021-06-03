@@ -71,24 +71,24 @@
 	<text x="38" y="934" class="c-ln">45</text>
 	<text x="64" y="10" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">AddNode</tspan> : <tspan class="c-class">NodeTemplate</tspan>&lt;<tspan class="c-class">AddNode</tspan>&gt;</text>
 	<text x="64" y="31" class="code">{</text>
-	<text x="101.44" y="52" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">InputSocket</tspan> <tspan class="c-field">ValueA</tspan>;</text>
-	<text x="101.44" y="73" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">InputSocket</tspan> <tspan class="c-field">ValueB</tspan>;</text>
-	<text x="101.44" y="115" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">OutputSocket</tspan> <tspan class="c-field">Output</tspan>;</text>
+	<text x="101.44" y="52" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-structure">InputSocket</tspan> <tspan class="c-field">ValueA</tspan>;</text>
+	<text x="101.44" y="73" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-structure">InputSocket</tspan> <tspan class="c-field">ValueB</tspan>;</text>
+	<text x="101.44" y="115" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-structure">OutputSocket</tspan> <tspan class="c-field">Output</tspan>;</text>
 	<text x="101.44" y="157" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-class">Instance</tspan> <tspan class="c-method">Create</tspan>() =&gt; <tspan class="c-keyword">new</tspan> <tspan class="c-class">AddInstance</tspan>();</text>
 	<text x="101.44" y="199" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">AddInstance</tspan> : <tspan class="c-class">Instance</tspan></text>
 	<text x="101.44" y="220" class="code">{</text>
-	<text x="138.88" y="241" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueA</tspan>;</text>
-	<text x="138.88" y="262" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueB</tspan>;</text>
-	<text x="138.88" y="304" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-class">Output</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">Output</tspan>;</text>
+	<text x="138.88" y="241" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-structure">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueA</tspan>;</text>
+	<text x="138.88" y="262" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-structure">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueB</tspan>;</text>
+	<text x="138.88" y="304" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-structure">Output</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">Output</tspan>;</text>
 	<text x="138.88" y="346" class="code"><tspan class="c-comment">// Socket to Connector Mapping</tspan></text>
-	<text x="138.88" y="367" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-class">InputMap</tspan>[] <tspan class="c-method">Inputs</tspan>(<tspan class="c-class">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
+	<text x="138.88" y="367" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-structure">InputMap</tspan>[] <tspan class="c-method">Inputs</tspan>(<tspan class="c-structure">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
 	<text x="138.88" y="388" class="code">{</text>
-	<text x="176.32" y="409" class="code"><tspan class="c-parameter">connections</tspan>.Connect(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueA</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueA</tspan>),</text>
-	<text x="176.32" y="430" class="code"><tspan class="c-parameter">connections</tspan>.Connect(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueB</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueB</tspan>)</text>
+	<text x="176.32" y="409" class="code"><tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueA</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueA</tspan>),</text>
+	<text x="176.32" y="430" class="code"><tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueB</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueB</tspan>)</text>
 	<text x="138.88" y="451" class="code">};</text>
-	<text x="138.88" y="493" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-class">OutputMap</tspan>[] <tspan class="c-method">Outputs</tspan>(<tspan class="c-class">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
+	<text x="138.88" y="493" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-structure">OutputMap</tspan>[] <tspan class="c-method">Outputs</tspan>(<tspan class="c-structure">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
 	<text x="138.88" y="514" class="code">{</text>
-	<text x="176.32" y="535" class="code"><tspan class="c-parameter">connections</tspan>.Connect(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">Output</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">Output</tspan>)</text>
+	<text x="176.32" y="535" class="code"><tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">Output</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">Output</tspan>)</text>
 	<text x="138.88" y="556" class="code">};</text>
 	<text x="138.88" y="598" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">Setup</tspan>()</text>
 	<text x="138.88" y="619" class="code">{</text>

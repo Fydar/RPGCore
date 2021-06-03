@@ -33,9 +33,9 @@
 	<text x="38" y="136" class="c-ln">7</text>
 	<text x="38" y="157" class="c-ln">8</text>
 	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">options</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonSerializerOptions</tspan>()</text>
-	<text x="101.44" y="31" class="code">.UsePolymorphicSerialization(<tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="101.44" y="31" class="code">.<tspan class="c-method">UsePolymorphicSerialization</tspan>(<tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
 	<text x="101.44" y="52" class="code">{</text>
-	<text x="138.88" y="73" class="code"><tspan class="c-parameter">options</tspan>.UseInline();</text>
+	<text x="138.88" y="73" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseInline</tspan>();</text>
 	<text x="101.44" y="94" class="code">});</text>
 	<text x="64" y="136" class="code"><tspan class="c-interface">IProcedure</tspan> <tspan class="c-local">procedure</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">CreateProcedure</tspan>();</text>
 	<text x="64" y="157" class="code"><tspan class="c-control">return</tspan> <tspan class="c-class">JsonSerializer</tspan>.<tspan class="c-method">Serialize</tspan>(<tspan class="c-local">procedure</tspan>, <tspan class="c-local">options</tspan>);</text>

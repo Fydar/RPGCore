@@ -46,21 +46,21 @@
 	<text x="38" y="409" class="c-ln">20</text>
 	<text x="38" y="430" class="c-ln">21</text>
 	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">options</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonSerializerOptions</tspan>()</text>
-	<text x="101.44" y="31" class="code">.UsePolymorphicSerialization(<tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="101.44" y="31" class="code">.<tspan class="c-method">UsePolymorphicSerialization</tspan>(<tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
 	<text x="101.44" y="52" class="code">{</text>
-	<text x="138.88" y="73" class="code"><tspan class="c-parameter">options</tspan>.UseKnownBaseType(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-interface">IProcedure</tspan>), <tspan class="c-parameter">baseType</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="138.88" y="73" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseKnownBaseType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-interface">IProcedure</tspan>), <tspan class="c-parameter">baseType</tspan> <tspan class="c-method">=&gt;</tspan></text>
 	<text x="138.88" y="94" class="code">{</text>
-	<text x="176.32" y="115" class="code"><tspan class="c-parameter">baseType</tspan>.UseSubType(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">CreateProcedure</tspan>), <tspan class="c-parameter">subType</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="176.32" y="115" class="code"><tspan class="c-parameter">baseType</tspan>.<tspan class="c-method">UseSubType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">CreateProcedure</tspan>), <tspan class="c-parameter">subType</tspan> <tspan class="c-method">=&gt;</tspan></text>
 	<text x="176.32" y="136" class="code">{</text>
-	<text x="213.76" y="157" class="code"><tspan class="c-parameter">subType</tspan>.Descriminator = <tspan class="c-string">"create"</tspan>;</text>
+	<text x="213.76" y="157" class="code"><tspan class="c-parameter">subType</tspan>.<tspan class="c-property">Descriminator</tspan> = <tspan class="c-string">"create"</tspan>;</text>
 	<text x="176.32" y="178" class="code">});</text>
-	<text x="176.32" y="220" class="code"><tspan class="c-parameter">baseType</tspan>.UseSubType(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">UpdateProcedure</tspan>), <tspan class="c-parameter">subType</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="176.32" y="220" class="code"><tspan class="c-parameter">baseType</tspan>.<tspan class="c-method">UseSubType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">UpdateProcedure</tspan>), <tspan class="c-parameter">subType</tspan> <tspan class="c-method">=&gt;</tspan></text>
 	<text x="176.32" y="241" class="code">{</text>
-	<text x="213.76" y="262" class="code"><tspan class="c-parameter">subType</tspan>.Descriminator = <tspan class="c-string">"update"</tspan>;</text>
+	<text x="213.76" y="262" class="code"><tspan class="c-parameter">subType</tspan>.<tspan class="c-property">Descriminator</tspan> = <tspan class="c-string">"update"</tspan>;</text>
 	<text x="176.32" y="283" class="code">});</text>
-	<text x="176.32" y="325" class="code"><tspan class="c-parameter">baseType</tspan>.UseSubType(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">RemoveProcedure</tspan>), <tspan class="c-parameter">subType</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="176.32" y="325" class="code"><tspan class="c-parameter">baseType</tspan>.<tspan class="c-method">UseSubType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">RemoveProcedure</tspan>), <tspan class="c-parameter">subType</tspan> <tspan class="c-method">=&gt;</tspan></text>
 	<text x="176.32" y="346" class="code">{</text>
-	<text x="213.76" y="367" class="code"><tspan class="c-parameter">subType</tspan>.Descriminator = <tspan class="c-string">"remove"</tspan>;</text>
+	<text x="213.76" y="367" class="code"><tspan class="c-parameter">subType</tspan>.<tspan class="c-property">Descriminator</tspan> = <tspan class="c-string">"remove"</tspan>;</text>
 	<text x="176.32" y="388" class="code">});</text>
 	<text x="138.88" y="409" class="code">});</text>
 	<text x="101.44" y="430" class="code">});</text>

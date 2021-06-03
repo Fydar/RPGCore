@@ -1,7 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace RPGCore.Documentation.Internal
 {
@@ -94,21 +97,12 @@ namespace RPGCore.Documentation.Internal
 		{
 			var references = new List<MetadataReference>();
 
-			var domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+			var domainAssemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies();
 			foreach (var assembly in domainAssemblies)
 			{
-				if (assembly.IsDynamic)
-				{
-					continue;
-				}
-				try
-				{
-					references.Add(MetadataReference.CreateFromFile(assembly.Location));
-				}
-				catch
-				{
-				}
+				references.Add(MetadataReference.CreateFromFile(Assembly.Load(assembly).Location));
 			}
+			references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
 
 			// using var workspace = new AdhocWorkspace();
 			// var solution = workspace.CurrentSolution;
@@ -117,13 +111,21 @@ namespace RPGCore.Documentation.Internal
 			// 	.AddMetadataReferences(references);
 			// var root = scriptTree.GetCompilationUnitRoot();
 
-			var scriptTree = CSharpSyntaxTree.ParseText(script);
+			MetadataReference[] _ref =
+				DependencyContext.Default.CompileLibraries
+				.SelectMany(cl => cl.ResolveReferencePaths())
+				.Select(asm => MetadataReference.CreateFromFile(asm))
+				.ToArray();
 
+			var scriptTree = CSharpSyntaxTree.ParseText(script);
 			var compilation = CSharpCompilation.Create("ExampleCode")
+				.AddReferences(_ref)
 				.AddReferences(references)
 				.AddSyntaxTrees(scriptTree);
 
 			var semanticModel = compilation.GetSemanticModel(scriptTree);
+
+			var diagnostics = semanticModel.GetDiagnostics();
 
 			var builders = new List<RegionBuilder>
 			{
