@@ -19,7 +19,7 @@ namespace RPGCore.DataEditor.Files
 		public EditorSession Session { get; }
 
 		/// <summary>
-		/// An <see cref="IEditorValue"/> representing the root of the <see cref="EditorField"/>.
+		/// An <see cref="IEditorValue"/> representing the root of the <see cref="EditorFile"/>.
 		/// </summary>
 		public IEditorValue Root { get; set; }
 

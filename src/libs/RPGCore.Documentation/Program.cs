@@ -1,4 +1,5 @@
 ﻿using RPGCore.Documentation.Internal;
+using RPGCore.Documentation.Samples.EntityComponentSystemSample;
 using System;
 using System.IO;
 using System.Linq;
@@ -33,6 +34,8 @@ namespace RPGCore.Documentation
 			{
 				ExportSvgSample(basePath, file);
 			}
+
+			CreateManifest.Run();
 		}
 
 		private static void ExportHtmlSample(string filename)

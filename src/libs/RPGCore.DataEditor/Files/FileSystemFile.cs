@@ -22,6 +22,7 @@ namespace RPGCore.DataEditor.Files
 		/// <inheritdoc/>
 		public void Save(EditorSession editorSession, TypeName type, IEditorValue save)
 		{
+			file.Delete();
 			using var stream = file.OpenWrite();
 
 			editorSession.Serializer.SerializeValue(save, type, stream);
