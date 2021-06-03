@@ -39,11 +39,11 @@ namespace RPGCore.DataEditor.Manifest.Source.RuntimeSource
 		/// Iterates each <see cref="Assembly"/> in the <see cref="AppDomain"/> that is dependenat on another assembly and adds all editable types to the <see cref="ProjectManifestBuilder"/>.
 		/// </summary>
 		/// <param name="appDomain">The <see cref="AppDomain"/> that will be iterated.</param>
-		/// <param name="dependantAssembly">An <see cref="Assembly"/> that will be used to filter out unnessesary assemblies.</param>
 		/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
-		public RuntimeProjectManifestBuilderOptions UseAllTypesFromAppDomain(AppDomain appDomain, Assembly dependantAssembly)
+		public RuntimeProjectManifestBuilderOptions UseAllTypesFromAppDomain(AppDomain appDomain)
 		{
-			foreach (var assembly in GetDependentAssemblies(appDomain, dependantAssembly))
+			var baseAssembly = typeof(EditableTypeAttribute).Assembly;
+			foreach (var assembly in GetDependentAssemblies(appDomain, baseAssembly))
 			{
 				Type[] types;
 				try

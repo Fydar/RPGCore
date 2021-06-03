@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace RPGCore.DataEditor.Manifest
 {
@@ -53,22 +54,31 @@ namespace RPGCore.DataEditor.Manifest
 		/// <summary>
 		/// Determines whether the type is nullable.
 		/// </summary>
+		[JsonIgnore]
 		public bool IsNullable { get; set; }
 
 		/// <summary>
 		/// Determines whether this type represents a dictionary.
 		/// </summary>
+		[JsonIgnore]
 		public bool IsDictionary => Identifier == "[Dictionary]";
 
 		/// <summary>
 		/// Determines whether this type represents a dictionary.
 		/// </summary>
+		[JsonIgnore]
 		public bool IsArray => Identifier == "[Array]";
 
 		/// <summary>
 		/// Determines whether this type is unknown.
 		/// </summary>
+		[JsonIgnore]
 		public bool IsUnknown => this == Unknown;
+
+		public TypeName()
+		{
+			Identifier = "[Unknown]";
+		}
 
 		/// <summary>
 		/// Initialises a new instance of <see cref="TypeName"/>.

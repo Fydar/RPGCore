@@ -37,7 +37,21 @@ namespace RPGCore.DataEditor.Manifest
 				Indented = true
 			});
 
-			JsonSerializer.Serialize(jsonWriter, this, new JsonSerializerOptions()
+			var builder = new ProjectManifestBuilder();
+			foreach (var objectType in objectTypes)
+			{
+				builder.AddType(objectType.Value);
+			}
+			foreach (var nodeType in nodeTypes)
+			{
+				builder.AddNodeType(nodeType.Value);
+			}
+			foreach (var typeConversion in typeConversions)
+			{
+				builder.AddConversion(typeConversion.Value);
+			}
+
+			JsonSerializer.Serialize(jsonWriter, builder, new JsonSerializerOptions()
 			{
 
 			});

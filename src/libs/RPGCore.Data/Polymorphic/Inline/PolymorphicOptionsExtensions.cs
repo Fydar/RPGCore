@@ -47,7 +47,10 @@ namespace RPGCore.Data.Polymorphic.Inline
 
 										if (attribute.AliasConventions == TypeName.None)
 										{
-											resolveOptions.TypeAliasing.AddRange(options.DefaultAliasConventions);
+											if (options.DefaultAliasConventions != null)
+											{
+												resolveOptions.TypeAliasing.AddRange(options.DefaultAliasConventions);
+											}
 										}
 										else
 										{

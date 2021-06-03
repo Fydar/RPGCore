@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RPGCore.DataEditor.Manifest
 {
@@ -11,11 +12,11 @@ namespace RPGCore.DataEditor.Manifest
 	/// </summary>
 	public sealed class ProjectManifestBuilder
 	{
-		private List<SchemaType> ObjectTypes { get; set; }
-		private List<SchemaNode> NodeTypes { get; set; }
-		private List<SchemaTypeConversion> TypeConversions { get; set; }
+		public List<SchemaType> ObjectTypes { get; set; }
+		public List<SchemaNode> NodeTypes { get; set; }
+		public List<SchemaTypeConversion> TypeConversions { get; set; }
 
-		internal ProjectManifestBuilder()
+		public ProjectManifestBuilder()
 		{
 			ObjectTypes = new List<SchemaType>();
 			NodeTypes = new List<SchemaNode>();
