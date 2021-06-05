@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace RPGCore.Documentation.Internal
+namespace RPGCore.Documentation.SyntaxHighlighting.CSharp
 {
-	internal class CodeStyles
+	internal class CSharpCodeStyles
 	{
 		public string TypeClass = "c-class";
 		public string TypeDelegate = "c-class";
@@ -36,9 +36,9 @@ namespace RPGCore.Documentation.Internal
 			return tokenStyles.TryGetValue(token, out tokenStyle);
 		}
 
-		public CodeStyles()
+		public CSharpCodeStyles()
 		{
-			tokenStyles = new Dictionary<SyntaxKind, string>
+			tokenStyles = new Dictionary<SyntaxKind, string?>
 			{
 				[SyntaxKind.NewKeyword] = Keyword,
 				[SyntaxKind.VarKeyword] = Keyword,
@@ -176,8 +176,7 @@ namespace RPGCore.Documentation.Internal
 
 		public string GetStyleForTypeSymbol(ITypeSymbol typeSymbol)
 		{
-			var namedTypeSymbol = typeSymbol as INamedTypeSymbol;
-			if (typeSymbol.TypeKind == TypeKind.Array)
+			if (typeSymbol is INamedTypeSymbol namedTypeSymbol && namedTypeSymbol.TypeKind == TypeKind.Array)
 			{
 				typeSymbol = namedTypeSymbol.TypeArguments[0];
 			}
@@ -250,7 +249,7 @@ namespace RPGCore.Documentation.Internal
 			}
 			else
 			{
-				throw new InvalidOperationException($"{memberInfo} is not a supported type.");
+				throw new InvalidOperationException($"'{memberInfo}' is not a supported type.");
 			}
 		}
 	}

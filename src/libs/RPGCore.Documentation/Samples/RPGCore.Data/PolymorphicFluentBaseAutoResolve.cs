@@ -17,14 +17,17 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 
 		public class UpdateProcedure : IProcedure
 		{
+			public int Identifier { get; set; }
 		}
 
-		public class RemoveProcedure : IProcedure
+		public class RemoveProcedure : UpdateProcedure
 		{
+			public float Delay { get; set; }
 		}
 		#endregion types
 
-		public static void Result()
+		[PresentOutput(OutputFormat.Json, "output")]
+		public static string Result()
 		{
 			#region configure
 			var options = new JsonSerializerOptions()
@@ -39,6 +42,15 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 					});
 				});
 			#endregion configure
+
+			#region serialize
+			IProcedure procedure = new RemoveProcedure()
+			{
+				Delay = 0.5f,
+				Identifier = 4
+			};
+			return JsonSerializer.Serialize(procedure, options);
+			#endregion serialize
 		}
 	}
 }

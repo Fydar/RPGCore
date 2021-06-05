@@ -22,6 +22,10 @@
 		.c-method { fill: rgba(220, 220, 170, 255); }
 		.c-parameter { fill: rgba(156, 220, 254, 255); }
 		.c-local { fill: rgba(156, 220, 254, 255); }
+		.c-pn { fill: rgba(215, 186, 125, 255); }
+		.c-kw { fill: rgba(86, 156, 214, 255); }
+		.c-s { fill: rgba(214, 157, 133, 255); }
+		.c-n { fill: rgba(181, 206, 168, 255); }
 	</style>
 	<rect x="0" y="0" width="100%" height="100%" rx="8" ry="8" class="code-background" />
 	<rect x="0" y="0" width="46" height="100%" class="code-background-linenumber" clip-path="url(#round-left-corners)" />	<text x="38" y="10" class="c-ln">1</text>
@@ -33,7 +37,7 @@
 	<text x="38" y="136" class="c-ln">7</text>
 	<text x="38" y="157" class="c-ln">8</text>
 	<text x="64" y="10" class="code">[<tspan class="c-class">EditableType</tspan>]</text>
-	<text x="64" y="31" class="code"><tspan class="c-keyword">private</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">Weapon</tspan></text>
+	<text x="64" y="31" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">Weapon</tspan></text>
 	<text x="64" y="52" class="code">{</text>
 	<text x="101.44" y="73" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">string</tspan> <tspan class="c-property">Name</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-string">"Longsword"</tspan>;</text>
 	<text x="101.44" y="94" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">int</tspan> <tspan class="c-property">Damage</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-numeric">20</tspan>;</text>

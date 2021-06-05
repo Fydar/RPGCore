@@ -1,14 +1,11 @@
 ﻿using RPGCore.Behaviour;
 using RPGCore.Events;
-using RPGCore.Traits;
 using System.Collections.Generic;
 
 namespace RPGCore.Demo.Inventory
 {
 	public class DemoPlayer
 	{
-		public TraitCollection Traits;
-
 		public List<INodeInstance> behaviours;
 		public EventField<int> Health;
 

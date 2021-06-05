@@ -6,94 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace RPGCore.Documentation.Internal
+namespace RPGCore.Documentation.SyntaxHighlighting.CSharp
 {
-	internal static class SampleParser
+	public static class CSharpSyntax
 	{
-		private class RegionBuilder
+		private static readonly CSharpCodeStyles styles;
+
+		static CSharpSyntax()
 		{
-			private readonly List<CodeSpan> currentLine;
-			private readonly List<CodeSpan[]> lines;
-
-			public int Indent { get; }
-			public string Name { get; }
-
-			public RegionBuilder(int indent)
-			{
-				currentLine = new List<CodeSpan>();
-				lines = new List<CodeSpan[]>();
-				Name = "";
-				Indent = indent;
-			}
-
-			public RegionBuilder(string name, int indent)
-			{
-				currentLine = new List<CodeSpan>();
-				lines = new List<CodeSpan[]>();
-				Name = name;
-				Indent = indent;
-			}
-
-			public SampleRegion Build()
-			{
-				if (currentLine.Count > 0)
-				{
-					bool empty = true;
-					foreach (var span in currentLine)
-					{
-						empty &= string.IsNullOrWhiteSpace(span.Content);
-					}
-					if (!empty)
-					{
-						lines.Add(currentLine.ToArray());
-					}
-				}
-
-				return new SampleRegion(Name, lines.ToArray());
-			}
-
-			public override string ToString()
-			{
-				return Name;
-			}
-
-			public void Write(ReadOnlySpan<char> value)
-			{
-				currentLine.Add(new CodeSpan(value.ToString()));
-			}
-
-			public void Write(ReadOnlySpan<char> value, string style)
-			{
-				currentLine.Add(new CodeSpan(value.ToString(), style));
-			}
-
-			public void Write(ReadOnlySpan<char> value, string style, string linkUrl)
-			{
-				currentLine.Add(new CodeSpan(value.ToString(), style, linkUrl));
-			}
-
-			public void RestartLine()
-			{
-				currentLine.Clear();
-			}
-
-			public void WriteNewline()
-			{
-				var addLine = currentLine.ToArray();
-				currentLine.Clear();
-
-				lines.Add(addLine);
-			}
+			styles = new CSharpCodeStyles();
 		}
 
-		private static readonly CodeStyles styles;
-
-		static SampleParser()
-		{
-			styles = new CodeStyles();
-		}
-
-		public static List<SampleRegion> HtmlHighlight(string script)
+		public static List<CodeBlock> ToCodeBlocks(string script)
 		{
 			var references = new List<MetadataReference>();
 
@@ -104,14 +28,7 @@ namespace RPGCore.Documentation.Internal
 			}
 			references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
 
-			// using var workspace = new AdhocWorkspace();
-			// var solution = workspace.CurrentSolution;
-			// var project = solution
-			// 	.AddProject("projectName", "assemblyName", LanguageNames.CSharp)
-			// 	.AddMetadataReferences(references);
-			// var root = scriptTree.GetCompilationUnitRoot();
-
-			MetadataReference[] _ref =
+			var thisApplicationReferences =
 				DependencyContext.Default.CompileLibraries
 				.SelectMany(cl => cl.ResolveReferencePaths())
 				.Select(asm => MetadataReference.CreateFromFile(asm))
@@ -119,7 +36,7 @@ namespace RPGCore.Documentation.Internal
 
 			var scriptTree = CSharpSyntaxTree.ParseText(script);
 			var compilation = CSharpCompilation.Create("ExampleCode")
-				.AddReferences(_ref)
+				.AddReferences(thisApplicationReferences)
 				.AddReferences(references)
 				.AddSyntaxTrees(scriptTree);
 
@@ -127,12 +44,12 @@ namespace RPGCore.Documentation.Internal
 
 			var diagnostics = semanticModel.GetDiagnostics();
 
-			var builders = new List<RegionBuilder>
+			var builders = new List<CodeBlockBuilder>
 			{
-				new RegionBuilder(0)
+				new CodeBlockBuilder(0)
 			};
 
-			var output = new List<SampleRegion>();
+			var output = new List<CodeBlock>();
 
 			var root = scriptTree.GetRoot();
 			bool isFollowingNewline = false;
@@ -323,7 +240,7 @@ namespace RPGCore.Documentation.Internal
 								regionSpan = regionSpan.TrimStart("#region");
 								regionSpan = regionSpan.Trim();
 
-								builders.Add(new RegionBuilder(regionSpan.ToString(), Indent(triviaSpan)));
+								builders.Add(new CodeBlockBuilder(regionSpan.ToString(), Indent(triviaSpan)));
 								regionDirectiveStart = null;
 							}
 

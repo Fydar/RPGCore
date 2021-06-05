@@ -1,4 +1,4 @@
-﻿namespace RPGCore.Documentation.Internal
+﻿namespace RPGCore.Documentation.SyntaxHighlighting
 {
 	public readonly struct CodeSpan
 	{
@@ -13,14 +13,14 @@
 			LinkURL = null;
 		}
 
-		public CodeSpan(string content, string style)
+		public CodeSpan(string content, string? style)
 		{
 			Content = content;
 			Style = style;
 			LinkURL = null;
 		}
 
-		public CodeSpan(string content, string style, string linkUrl)
+		public CodeSpan(string content, string? style, string? linkUrl)
 		{
 			Content = content;
 			Style = style;

@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1200 162" width="1200" height="162" xmlns ="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1200 141" width="1200" height="141" xmlns ="http://www.w3.org/2000/svg">
 
 	<defs>
 		<clipPath id="round-left-corners">
@@ -34,10 +34,10 @@
 	<text x="38" y="73" class="c-ln">4</text>
 	<text x="38" y="94" class="c-ln">5</text>
 	<text x="38" y="115" class="c-ln">6</text>
-	<text x="38" y="136" class="c-ln">7</text>
-	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">units</tspan> = <tspan class="c-local">world</tspan>.<tspan class="c-method">GetEntityPool</tspan>(<tspan class="c-string">"unit"</tspan>);</text>
-	<text x="64" y="52" class="code"><tspan class="c-keyword">int</tspan> <tspan class="c-local">newUnitId</tspan> = <tspan class="c-local">units</tspan>.<tspan class="c-method">New</tspan>();</text>
-	<text x="64" y="73" class="code"><tspan class="c-keyword">ref</tspan> <tspan class="c-keyword">var</tspan> <tspan class="c-local">newUnitTransform</tspan> = <tspan class="c-keyword">ref</tspan> <tspan class="c-local">units</tspan>.<tspan class="c-method">GetComponent</tspan>&lt;<tspan class="c-structure">TransformComponent</tspan>&gt;(<tspan class="c-local">newUnitId</tspan>);</text>
-	<text x="64" y="94" class="code"><tspan class="c-local">newUnitTransform</tspan>.<tspan class="c-field">X</tspan> <tspan class="c-method">+=</tspan> <tspan class="c-numeric">1</tspan>;</text>
-	<text x="64" y="136" class="code"><tspan class="c-local">units</tspan>.<tspan class="c-method">Recycle</tspan>(<tspan class="c-local">newUnitId</tspan>);</text>
+	<text x="64" y="10" class="code"><tspan class="c-interface">IProcedure</tspan> <tspan class="c-local">procedure</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">RemoveProcedure</tspan>()</text>
+	<text x="64" y="31" class="code">{</text>
+	<text x="101.44" y="52" class="code"><tspan class="c-property">Delay</tspan> = <tspan class="c-numeric">0.5f</tspan>,</text>
+	<text x="101.44" y="73" class="code"><tspan class="c-property">Identifier</tspan> = <tspan class="c-numeric">4</tspan></text>
+	<text x="64" y="94" class="code">};</text>
+	<text x="64" y="115" class="code"><tspan class="c-control">return</tspan> <tspan class="c-class">JsonSerializer</tspan>.<tspan class="c-method">Serialize</tspan>(<tspan class="c-local">procedure</tspan>, <tspan class="c-local">options</tspan>);</text>
 </svg>

@@ -16,7 +16,11 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 					options.UseInline();
 				});
 
-			IProcedure procedure = new CreateProcedure();
+			IProcedure procedure = new RemoveProcedure()
+			{
+				Delay = 0.5f,
+				Identifier = 4
+			};
 			return JsonSerializer.Serialize(procedure, options);
 			#endregion serialize
 		}
