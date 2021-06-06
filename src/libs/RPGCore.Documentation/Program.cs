@@ -13,6 +13,9 @@ namespace RPGCore.Documentation
 		{
 			ForceLoadDependencies();
 
+			// Delete pre-existing samples
+			SampleRenderer.GetDestinationDirectory().Delete(true);
+
 			var directory = SampleRenderer.FindRepositoryDirectory();
 			string basePath = Path.Combine(directory.FullName, "src/libs/RPGCore.Documentation/Samples");
 			foreach (string file in Directory.GetFiles(basePath, "*", SearchOption.AllDirectories))
@@ -35,7 +38,11 @@ namespace RPGCore.Documentation
 							{
 								if (result is string stringResult)
 								{
-									SampleRenderer.ExportSvgSample(JsonSyntax.ToCodeBlocks(stringResult), $"{type.Name}.{attribute.Name}");
+									string folderName = type.FullName?.Replace("RPGCore.Documentation.Samples.", "") ?? "";
+
+									folderName = folderName.Substring(0, folderName.LastIndexOf('.'));
+
+									SampleRenderer.ExportSvgSample(JsonSyntax.ToCodeBlocks(stringResult), $"{folderName}/{type.Name}.{attribute.Name}");
 								}
 							}
 						}

@@ -1,0 +1,234 @@
+<svg viewBox="0 0 1200 2136" width="1200" height="2136" xmlns ="http://www.w3.org/2000/svg">
+
+	<defs>
+		<clipPath id="round-left-corners">
+			<rect x="0" y="0" width="100" height="100%" rx="8" ry="8"/>
+		</clipPath>
+	</defs>
+	<style>
+		.code { font: 17px Consolas; fill: rgba(220, 220, 220, 255); dominant-baseline: hanging; }
+		.code-background { fill: #161b22; }
+		.code-background-linenumber { fill: #111418; }
+		.c-ln { font: 17px Consolas; fill: #2b90af; text-anchor: end; pointer-events: none; user-select: none; dominant-baseline: hanging; }
+		.c-keyword { fill: rgba(86, 156, 214, 255); }
+		.c-control { fill: rgba(216, 160, 223, 255); }
+		.c-string { fill: rgba(214, 157, 133, 255); }
+		.c-numeric { fill: rgba(181, 207, 168, 255); }
+		.c-comment { fill: rgba(87, 166, 74, 255); }
+		.c-class { fill: rgba(78, 201, 176, 255); }
+		.c-interface { fill: rgba(184, 215, 163, 255); }
+		.c-enum { fill: rgba(184, 215, 163, 255); }
+		.c-structure { fill: rgba(134, 198, 145, 255); }
+		.c-method { fill: rgba(220, 220, 170, 255); }
+		.c-parameter { fill: rgba(156, 220, 254, 255); }
+		.c-local { fill: rgba(156, 220, 254, 255); }
+		.c-pn { fill: rgba(215, 186, 125, 255); }
+		.c-kw { fill: rgba(86, 156, 214, 255); }
+		.c-s { fill: rgba(214, 157, 133, 255); }
+		.c-n { fill: rgba(181, 206, 168, 255); }
+		.c-c { fill: rgba(87, 166, 74, 255); }
+	</style>
+	<rect x="0" y="0" width="100%" height="100%" rx="8" ry="8" class="code-background" />
+	<rect x="0" y="0" width="46" height="100%" class="code-background-linenumber" clip-path="url(#round-left-corners)" />	<text x="38" y="10" class="c-ln">1</text>
+	<text x="38" y="31" class="c-ln">2</text>
+	<text x="38" y="52" class="c-ln">3</text>
+	<text x="38" y="73" class="c-ln">4</text>
+	<text x="38" y="94" class="c-ln">5</text>
+	<text x="38" y="115" class="c-ln">6</text>
+	<text x="38" y="136" class="c-ln">7</text>
+	<text x="38" y="157" class="c-ln">8</text>
+	<text x="38" y="178" class="c-ln">9</text>
+	<text x="38" y="199" class="c-ln">10</text>
+	<text x="38" y="220" class="c-ln">11</text>
+	<text x="38" y="241" class="c-ln">12</text>
+	<text x="38" y="262" class="c-ln">13</text>
+	<text x="38" y="283" class="c-ln">14</text>
+	<text x="38" y="304" class="c-ln">15</text>
+	<text x="38" y="325" class="c-ln">16</text>
+	<text x="38" y="346" class="c-ln">17</text>
+	<text x="38" y="367" class="c-ln">18</text>
+	<text x="38" y="388" class="c-ln">19</text>
+	<text x="38" y="409" class="c-ln">20</text>
+	<text x="38" y="430" class="c-ln">21</text>
+	<text x="38" y="451" class="c-ln">22</text>
+	<text x="38" y="472" class="c-ln">23</text>
+	<text x="38" y="493" class="c-ln">24</text>
+	<text x="38" y="514" class="c-ln">25</text>
+	<text x="38" y="535" class="c-ln">26</text>
+	<text x="38" y="556" class="c-ln">27</text>
+	<text x="38" y="577" class="c-ln">28</text>
+	<text x="38" y="598" class="c-ln">29</text>
+	<text x="38" y="619" class="c-ln">30</text>
+	<text x="38" y="640" class="c-ln">31</text>
+	<text x="38" y="661" class="c-ln">32</text>
+	<text x="38" y="682" class="c-ln">33</text>
+	<text x="38" y="703" class="c-ln">34</text>
+	<text x="38" y="724" class="c-ln">35</text>
+	<text x="38" y="745" class="c-ln">36</text>
+	<text x="38" y="766" class="c-ln">37</text>
+	<text x="38" y="787" class="c-ln">38</text>
+	<text x="38" y="808" class="c-ln">39</text>
+	<text x="38" y="829" class="c-ln">40</text>
+	<text x="38" y="850" class="c-ln">41</text>
+	<text x="38" y="871" class="c-ln">42</text>
+	<text x="38" y="892" class="c-ln">43</text>
+	<text x="38" y="913" class="c-ln">44</text>
+	<text x="38" y="934" class="c-ln">45</text>
+	<text x="38" y="955" class="c-ln">46</text>
+	<text x="38" y="976" class="c-ln">47</text>
+	<text x="38" y="997" class="c-ln">48</text>
+	<text x="38" y="1018" class="c-ln">49</text>
+	<text x="38" y="1039" class="c-ln">50</text>
+	<text x="38" y="1060" class="c-ln">51</text>
+	<text x="38" y="1081" class="c-ln">52</text>
+	<text x="38" y="1102" class="c-ln">53</text>
+	<text x="38" y="1123" class="c-ln">54</text>
+	<text x="38" y="1144" class="c-ln">55</text>
+	<text x="38" y="1165" class="c-ln">56</text>
+	<text x="38" y="1186" class="c-ln">57</text>
+	<text x="38" y="1207" class="c-ln">58</text>
+	<text x="38" y="1228" class="c-ln">59</text>
+	<text x="38" y="1249" class="c-ln">60</text>
+	<text x="38" y="1270" class="c-ln">61</text>
+	<text x="38" y="1291" class="c-ln">62</text>
+	<text x="38" y="1312" class="c-ln">63</text>
+	<text x="38" y="1333" class="c-ln">64</text>
+	<text x="38" y="1354" class="c-ln">65</text>
+	<text x="38" y="1375" class="c-ln">66</text>
+	<text x="38" y="1396" class="c-ln">67</text>
+	<text x="38" y="1417" class="c-ln">68</text>
+	<text x="38" y="1438" class="c-ln">69</text>
+	<text x="38" y="1459" class="c-ln">70</text>
+	<text x="38" y="1480" class="c-ln">71</text>
+	<text x="38" y="1501" class="c-ln">72</text>
+	<text x="38" y="1522" class="c-ln">73</text>
+	<text x="38" y="1543" class="c-ln">74</text>
+	<text x="38" y="1564" class="c-ln">75</text>
+	<text x="38" y="1585" class="c-ln">76</text>
+	<text x="38" y="1606" class="c-ln">77</text>
+	<text x="38" y="1627" class="c-ln">78</text>
+	<text x="38" y="1648" class="c-ln">79</text>
+	<text x="38" y="1669" class="c-ln">80</text>
+	<text x="38" y="1690" class="c-ln">81</text>
+	<text x="38" y="1711" class="c-ln">82</text>
+	<text x="38" y="1732" class="c-ln">83</text>
+	<text x="38" y="1753" class="c-ln">84</text>
+	<text x="38" y="1774" class="c-ln">85</text>
+	<text x="38" y="1795" class="c-ln">86</text>
+	<text x="38" y="1816" class="c-ln">87</text>
+	<text x="38" y="1837" class="c-ln">88</text>
+	<text x="38" y="1858" class="c-ln">89</text>
+	<text x="38" y="1879" class="c-ln">90</text>
+	<text x="38" y="1900" class="c-ln">91</text>
+	<text x="38" y="1921" class="c-ln">92</text>
+	<text x="38" y="1942" class="c-ln">93</text>
+	<text x="38" y="1963" class="c-ln">94</text>
+	<text x="38" y="1984" class="c-ln">95</text>
+	<text x="38" y="2005" class="c-ln">96</text>
+	<text x="38" y="2026" class="c-ln">97</text>
+	<text x="38" y="2047" class="c-ln">98</text>
+	<text x="38" y="2068" class="c-ln">99</text>
+	<text x="38" y="2089" class="c-ln">100</text>
+	<text x="38" y="2110" class="c-ln">101</text>
+	<text x="64" y="10" class="code">{</text>
+	<text x="82.72" y="31" class="code"><tspan class="c-pn">"ObjectTypes"</tspan>: [</text>
+	<text x="101.44" y="52" class="code">{</text>
+	<text x="120.16" y="73" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
+	<text x="120.16" y="94" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"\""</tspan></text>
+	<text x="101.44" y="115" class="code">},</text>
+	<text x="101.44" y="136" class="code">{</text>
+	<text x="120.16" y="157" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"bool"</tspan>,</text>
+	<text x="120.16" y="178" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"false"</tspan></text>
+	<text x="101.44" y="199" class="code">},</text>
+	<text x="101.44" y="220" class="code">{</text>
+	<text x="120.16" y="241" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"int"</tspan>,</text>
+	<text x="120.16" y="262" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="283" class="code">},</text>
+	<text x="101.44" y="304" class="code">{</text>
+	<text x="120.16" y="325" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"byte"</tspan>,</text>
+	<text x="120.16" y="346" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="367" class="code">},</text>
+	<text x="101.44" y="388" class="code">{</text>
+	<text x="120.16" y="409" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"long"</tspan>,</text>
+	<text x="120.16" y="430" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="451" class="code">},</text>
+	<text x="101.44" y="472" class="code">{</text>
+	<text x="120.16" y="493" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"short"</tspan>,</text>
+	<text x="120.16" y="514" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="535" class="code">},</text>
+	<text x="101.44" y="556" class="code">{</text>
+	<text x="120.16" y="577" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"uint"</tspan>,</text>
+	<text x="120.16" y="598" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="619" class="code">},</text>
+	<text x="101.44" y="640" class="code">{</text>
+	<text x="120.16" y="661" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ulong"</tspan>,</text>
+	<text x="120.16" y="682" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="703" class="code">},</text>
+	<text x="101.44" y="724" class="code">{</text>
+	<text x="120.16" y="745" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ushort"</tspan>,</text>
+	<text x="120.16" y="766" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="787" class="code">},</text>
+	<text x="101.44" y="808" class="code">{</text>
+	<text x="120.16" y="829" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"sbyte"</tspan>,</text>
+	<text x="120.16" y="850" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="871" class="code">},</text>
+	<text x="101.44" y="892" class="code">{</text>
+	<text x="120.16" y="913" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"char"</tspan>,</text>
+	<text x="120.16" y="934" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"\u0000\""</tspan></text>
+	<text x="101.44" y="955" class="code">},</text>
+	<text x="101.44" y="976" class="code">{</text>
+	<text x="120.16" y="997" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"float"</tspan>,</text>
+	<text x="120.16" y="1018" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="1039" class="code">},</text>
+	<text x="101.44" y="1060" class="code">{</text>
+	<text x="120.16" y="1081" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"double"</tspan>,</text>
+	<text x="120.16" y="1102" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="1123" class="code">},</text>
+	<text x="101.44" y="1144" class="code">{</text>
+	<text x="120.16" y="1165" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"decimal"</tspan>,</text>
+	<text x="120.16" y="1186" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"0"</tspan></text>
+	<text x="101.44" y="1207" class="code">},</text>
+	<text x="101.44" y="1228" class="code">{</text>
+	<text x="120.16" y="1249" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"SerializerBaseObject"</tspan>,</text>
+	<text x="120.16" y="1270" class="code"><tspan class="c-pn">"Fields"</tspan>: [</text>
+	<text x="138.88" y="1291" class="code">{</text>
+	<text x="157.6" y="1312" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ChildFieldA"</tspan>,</text>
+	<text x="157.6" y="1333" class="code"><tspan class="c-pn">"Description"</tspan>: <tspan class="c-s">""</tspan>,</text>
+	<text x="157.6" y="1354" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
+	<text x="176.32" y="1375" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
+	<text x="176.32" y="1396" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
+	<text x="157.60000000000002" y="1417" class="code">},</text>
+	<text x="157.6" y="1438" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value A\""</tspan></text>
+	<text x="138.88" y="1459" class="code">}</text>
+	<text x="120.16" y="1480" class="code">],</text>
+	<text x="120.16" y="1501" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"{\"ChildFieldA\":\"Child Value A\"}"</tspan></text>
+	<text x="101.44" y="1522" class="code">},</text>
+	<text x="101.44" y="1543" class="code">{</text>
+	<text x="120.16" y="1564" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"SerializerChildObject"</tspan>,</text>
+	<text x="120.16" y="1585" class="code"><tspan class="c-pn">"Fields"</tspan>: [</text>
+	<text x="138.88" y="1606" class="code">{</text>
+	<text x="157.6" y="1627" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ChildFieldB"</tspan>,</text>
+	<text x="157.6" y="1648" class="code"><tspan class="c-pn">"Description"</tspan>: <tspan class="c-s">""</tspan>,</text>
+	<text x="157.6" y="1669" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
+	<text x="176.32" y="1690" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
+	<text x="176.32" y="1711" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
+	<text x="157.60000000000002" y="1732" class="code">},</text>
+	<text x="157.6" y="1753" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value B\""</tspan></text>
+	<text x="138.88" y="1774" class="code">},</text>
+	<text x="138.88" y="1795" class="code">{</text>
+	<text x="157.6" y="1816" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ChildFieldA"</tspan>,</text>
+	<text x="157.6" y="1837" class="code"><tspan class="c-pn">"Description"</tspan>: <tspan class="c-s">""</tspan>,</text>
+	<text x="157.6" y="1858" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
+	<text x="176.32" y="1879" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
+	<text x="176.32" y="1900" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
+	<text x="157.60000000000002" y="1921" class="code">},</text>
+	<text x="157.6" y="1942" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value A\""</tspan></text>
+	<text x="138.88" y="1963" class="code">}</text>
+	<text x="120.16" y="1984" class="code">],</text>
+	<text x="120.16" y="2005" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"{\"ChildFieldB\":\"Child Value B\",\"ChildFieldA\":\"Child Value A\"}"</tspan></text>
+	<text x="101.44" y="2026" class="code">}</text>
+	<text x="82.72" y="2047" class="code">],</text>
+	<text x="82.72" y="2068" class="code"><tspan class="c-pn">"NodeTypes"</tspan>: [],</text>
+	<text x="82.72" y="2089" class="code"><tspan class="c-pn">"TypeConversions"</tspan>: []</text>
+	<text x="64" y="2110" class="code">}</text>
+</svg>

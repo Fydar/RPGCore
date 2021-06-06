@@ -13,7 +13,7 @@ namespace RPGCore.Demo.Inventory
 	{
 		private void RenderDirectory(IReadOnlyArchiveDirectory archiveDirectory, int indent = 0)
 		{
-			string indentString = new string(' ', indent * 2);
+			string indentString = new(' ', indent * 2);
 
 			foreach (var subdirectory in archiveDirectory.Directories.All)
 			{

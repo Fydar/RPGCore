@@ -26,6 +26,7 @@
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
+		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
 	<rect x="0" y="0" width="100%" height="100%" rx="8" ry="8" class="code-background" />
 	<rect x="0" y="0" width="46" height="100%" class="code-background-linenumber" clip-path="url(#round-left-corners)" />	<text x="38" y="10" class="c-ln">1</text>

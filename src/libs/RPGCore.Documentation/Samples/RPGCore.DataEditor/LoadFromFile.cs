@@ -6,7 +6,7 @@ using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
 using System.IO;
 using System.Text.Json;
 
-namespace RPGCore.Documentation.Samples.EntityComponentSystemSample
+namespace RPGCore.Documentation.Samples.RPGCore.DataEditor
 {
 	public class LoadFromFile
 	{
@@ -21,7 +21,8 @@ namespace RPGCore.Documentation.Samples.EntityComponentSystemSample
 		}
 		#endregion data_type
 
-		public static void Run()
+		[PresentOutput(OutputFormat.Json, "output")]
+		public static string DefaultWeapon()
 		{
 			#region full
 			var serializer = new JsonSerializerOptions();
@@ -47,15 +48,57 @@ namespace RPGCore.Documentation.Samples.EntityComponentSystemSample
 
 			var rootObject = (EditorObject)file.Root;
 
+			file.Save();
+			#endregion editing
+			#endregion full
+
+			return File.ReadAllText(new FileInfo("data.json").FullName);
+		}
+
+		[PresentOutput(OutputFormat.Json, "output")]
+		public static string Run()
+		{
+			#region full
+			var serializer = new JsonSerializerOptions();
+
+			var schema = ProjectManifestBuilder.Create()
+				.UseTypesFromJsonSerializer(serializer, options =>
+				{
+					options.UseFrameworkTypes();
+					options.UseType(typeof(Weapon));
+				})
+				.Build();
+
+			#region editing
+			#region configure
+			var session = new EditorSession(schema, new JsonEditorSerializer());
+
+			var file = session.EditFile()
+				.WithType(new TypeName("Weapon"))
+				.LoadFrom(new TypeDefaultLoader())
+				.SaveTo(new FileSystemFile(new FileInfo("data.json")))
+				.Build();
+			#endregion configure
+
+			var rootObject = (EditorObject)file.Root;
+
+			rootObject.Comments.Add(" important comments ");
+
 			var nameValue = (EditorScalarValue)rootObject.Fields["Name"]!.Value;
 			var damageValue = (EditorScalarValue)rootObject.Fields["Damage"]!.Value;
+			var durabilityValue = (EditorScalarValue)rootObject.Fields["Durability"]!.Value;
+			var isEnchantableValue = (EditorScalarValue)rootObject.Fields["IsEnchantable"]!.Value;
 
 			nameValue.Value = "Excalibur";
 			damageValue.Value = 50;
+			durabilityValue.Value = 800;
+			isEnchantableValue.Value = true;
 
 			file.Save();
 			#endregion editing
 			#endregion full
+
+			return File.ReadAllText(new FileInfo("data.json").FullName);
 		}
 	}
 }

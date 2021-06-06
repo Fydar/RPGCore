@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1200 792" width="1200" height="792" xmlns ="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1200 414" width="1200" height="414" xmlns ="http://www.w3.org/2000/svg">
 
 	<defs>
 		<clipPath id="round-left-corners">
@@ -48,24 +48,6 @@
 	<text x="38" y="346" class="c-ln">17</text>
 	<text x="38" y="367" class="c-ln">18</text>
 	<text x="38" y="388" class="c-ln">19</text>
-	<text x="38" y="409" class="c-ln">20</text>
-	<text x="38" y="430" class="c-ln">21</text>
-	<text x="38" y="451" class="c-ln">22</text>
-	<text x="38" y="472" class="c-ln">23</text>
-	<text x="38" y="493" class="c-ln">24</text>
-	<text x="38" y="514" class="c-ln">25</text>
-	<text x="38" y="535" class="c-ln">26</text>
-	<text x="38" y="556" class="c-ln">27</text>
-	<text x="38" y="577" class="c-ln">28</text>
-	<text x="38" y="598" class="c-ln">29</text>
-	<text x="38" y="619" class="c-ln">30</text>
-	<text x="38" y="640" class="c-ln">31</text>
-	<text x="38" y="661" class="c-ln">32</text>
-	<text x="38" y="682" class="c-ln">33</text>
-	<text x="38" y="703" class="c-ln">34</text>
-	<text x="38" y="724" class="c-ln">35</text>
-	<text x="38" y="745" class="c-ln">36</text>
-	<text x="38" y="766" class="c-ln">37</text>
 	<text x="64" y="10" class="code"><tspan class="c-comment">// Tell the data editor what serializer we are going to be using.</tspan></text>
 	<text x="64" y="31" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">serializer</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonSerializerOptions</tspan>()</text>
 	<text x="101.44" y="52" class="code">.<tspan class="c-method">UsePolymorphicSerialization</tspan>(<tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
@@ -81,20 +63,6 @@
 	<text x="138.88" y="304" class="code"><tspan class="c-comment">// Explicitly add types</tspan></text>
 	<text x="138.88" y="325" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">SerializerBaseObject</tspan>));</text>
 	<text x="138.88" y="346" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">SerializerChildObject</tspan>));</text>
-	<text x="138.88" y="388" class="code"><tspan class="c-comment">// Can also automatically add types</tspan></text>
-	<text x="138.88" y="409" class="code"><tspan class="c-comment">// options.UseAllTypesFromAppDomain(AppDomain.CurrentDomain);</tspan></text>
-	<text x="138.88" y="430" class="code"><tspan class="c-comment">// options.UseAllTypesFromAssembly(typeof(SerializerBaseObject).Assembly);</tspan></text>
-	<text x="101.44" y="451" class="code">})</text>
-	<text x="101.44" y="472" class="code">.<tspan class="c-method">Build</tspan>();</text>
-	<text x="64" y="514" class="code"><tspan class="c-comment">// You can save/load schemas from/to files</tspan></text>
-	<text x="64" y="535" class="code"><tspan class="c-comment">// This allows your data editor to be completely seperate from your game code.</tspan></text>
-	<text x="64" y="556" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">schemaFile</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">FileInfo</tspan>(<tspan class="c-string">"schema.sch"</tspan>);</text>
-	<text x="64" y="577" class="code"><tspan class="c-local">schemaFile</tspan>.<tspan class="c-method">Delete</tspan>();</text>
-	<text x="64" y="598" class="code"><tspan class="c-keyword">using</tspan> (<tspan class="c-keyword">var</tspan> <tspan class="c-local">stream</tspan> = <tspan class="c-local">schemaFile</tspan>.<tspan class="c-method">OpenWrite</tspan>())</text>
-	<text x="64" y="619" class="code">{</text>
-	<text x="101.44" y="640" class="code"><tspan class="c-local">schema</tspan>.<tspan class="c-method">WriteTo</tspan>(<tspan class="c-local">stream</tspan>);</text>
-	<text x="64" y="661" class="code">}</text>
-	<text x="64" y="703" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">loadedSchema</tspan> = <tspan class="c-class">ProjectManifestBuilder</tspan>.<tspan class="c-method">Load</tspan>(<tspan class="c-class">File</tspan>.<tspan class="c-method">ReadAllBytes</tspan>(<tspan class="c-local">schemaFile</tspan>.<tspan class="c-property">FullName</tspan>))</text>
-	<text x="101.44" y="724" class="code">.<tspan class="c-method">Build</tspan>();</text>
-	<text x="64" y="766" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">session</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">EditorSession</tspan>(<tspan class="c-local">loadedSchema</tspan>, <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonEditorSerializer</tspan>());</text>
+	<text x="101.44" y="367" class="code">})</text>
+	<text x="101.44" y="388" class="code">.<tspan class="c-method">Build</tspan>();</text>
 </svg>

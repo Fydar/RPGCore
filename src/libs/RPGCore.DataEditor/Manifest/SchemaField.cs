@@ -13,7 +13,7 @@
 		/// <summary>
 		/// A description of this fields usage.
 		/// </summary>
-		public string Description { get; set; }
+		public string? Description { get; set; }
 
 		/// <summary>
 		/// The type of the value contained within the field.
@@ -28,10 +28,9 @@
 		public SchemaField()
 		{
 			Name = string.Empty;
-			Description = string.Empty;
 		}
 
-		internal SchemaField(string name, string description, TypeName type, string? instatedValue)
+		internal SchemaField(string name, string? description, TypeName type, string? instatedValue)
 		{
 			Name = name;
 			Description = description;

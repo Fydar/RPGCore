@@ -1,15 +1,15 @@
 ﻿using RPGCore.Data;
 using RPGCore.Data.Polymorphic.Inline;
 using RPGCore.Data.SystemTextJson.Polymorphic;
-using RPGCore.DataEditor;
 using RPGCore.DataEditor.Manifest;
 using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
 using System.IO;
+using System.Text;
 using System.Text.Json;
 
 namespace RPGCore.Documentation.Samples.RPGCore.DataEditor
 {
-	public class CreateManifest
+	public class AddTypesToManifest
 	{
 		[EditableType]
 		private class SerializerBaseObject
@@ -23,10 +23,10 @@ namespace RPGCore.Documentation.Samples.RPGCore.DataEditor
 			public string ChildFieldB { get; set; } = "Child Value B";
 		}
 
-		public static void Run()
+		[PresentOutput(OutputFormat.Json, "manifest")]
+		public static string Run()
 		{
-			#region full
-			#region create_from_dotnet
+			#region addtype
 			// Tell the data editor what serializer we are going to be using.
 			var serializer = new JsonSerializerOptions()
 				.UsePolymorphicSerialization(options =>
@@ -44,30 +44,14 @@ namespace RPGCore.Documentation.Samples.RPGCore.DataEditor
 					// Explicitly add types
 					options.UseType(typeof(SerializerBaseObject));
 					options.UseType(typeof(SerializerChildObject));
-
-					// Can also automatically add types
-					// options.UseAllTypesFromAppDomain(AppDomain.CurrentDomain);
-					// options.UseAllTypesFromAssembly(typeof(SerializerBaseObject).Assembly);
 				})
 				.Build();
-			#endregion create_from_dotnet
+			#endregion addtype
 
-			#region save_and_load
-			// You can save/load schemas from/to files
-			// This allows your data editor to be completely seperate from your game code.
-			var schemaFile = new FileInfo("schema.sch");
-			schemaFile.Delete();
-			using (var stream = schemaFile.OpenWrite())
-			{
-				schema.WriteTo(stream);
-			}
+			using var stream = new MemoryStream();
+			schema.WriteTo(stream);
 
-			var loadedSchema = ProjectManifestBuilder.Load(File.ReadAllBytes(schemaFile.FullName))
-				.Build();
-
-			var session = new EditorSession(loadedSchema, new JsonEditorSerializer());
-			#endregion save_and_load
-			#endregion full
+			return Encoding.UTF8.GetString(stream.ToArray());
 		}
 	}
 }

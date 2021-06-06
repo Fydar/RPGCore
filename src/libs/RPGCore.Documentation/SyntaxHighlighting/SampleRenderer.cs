@@ -170,6 +170,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
+		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
 	<rect x=""0"" y=""0"" width=""100%"" height=""100%"" rx=""8"" ry=""8"" class=""code-background"" />
 	<rect x=""0"" y=""0"" width=""46"" height=""100%"" class=""code-background-linenumber"" clip-path=""url(#round-left-corners)"" />");
@@ -191,10 +192,30 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 				{
 					var span = line[y];
 
-					if (string.IsNullOrWhiteSpace(span.Content) && y == 0)
+					string spanContent = span.Content;
+					if (y == 0)
 					{
-						indent += span.Content.Length * characterWidth;
-						continue;
+						if (string.IsNullOrWhiteSpace(spanContent))
+						{
+							indent += spanContent.Length * characterWidth;
+							continue;
+						}
+						foreach (char c in spanContent)
+						{
+							if (c == ' ')
+							{
+								indent += characterWidth;
+							}
+							else if (c == '\t')
+							{
+								indent += characterWidth * 4;
+							}
+							else
+							{
+								break;
+							}
+						}
+						spanContent = spanContent.TrimStart();
 					}
 
 					if (!wroteStart)
@@ -205,14 +226,14 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 
 					if (span.Style == null)
 					{
-						output.Write(XmlEscape(span.Content));
+						output.Write(XmlEscape(spanContent));
 					}
 					else
 					{
 						output.Write("<tspan class=\"");
 						output.Write(span.Style);
 						output.Write("\">");
-						output.Write(XmlEscape(span.Content));
+						output.Write(XmlEscape(spanContent));
 						output.Write("</tspan>");
 					}
 				}
@@ -239,10 +260,17 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 			return new FileInfo(sampleFile);
 		}
 
-		public static FileInfo GetDestinationFile(string file)
+		public static DirectoryInfo GetDestinationDirectory()
 		{
 			var directory = FindRepositoryDirectory();
-			string sampleFile = Path.Combine(directory.FullName, "docs/samples", file);
+			string sampleFile = Path.Combine(directory.FullName, "docs/samples");
+			return new DirectoryInfo(sampleFile);
+		}
+
+		public static FileInfo GetDestinationFile(string file)
+		{
+			var directory = GetDestinationDirectory();
+			string sampleFile = Path.Combine(directory.FullName, file);
 			return new FileInfo(sampleFile);
 		}
 

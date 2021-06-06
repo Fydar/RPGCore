@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1200 120" width="1200" height="120" xmlns ="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1200 141" width="1200" height="141" xmlns ="http://www.w3.org/2000/svg">
 
 	<defs>
 		<clipPath id="round-left-corners">
@@ -26,6 +26,7 @@
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
+		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
 	<rect x="0" y="0" width="100%" height="100%" rx="8" ry="8" class="code-background" />
 	<rect x="0" y="0" width="46" height="100%" class="code-background-linenumber" clip-path="url(#round-left-corners)" />	<text x="38" y="10" class="c-ln">1</text>
@@ -33,9 +34,11 @@
 	<text x="38" y="52" class="c-ln">3</text>
 	<text x="38" y="73" class="c-ln">4</text>
 	<text x="38" y="94" class="c-ln">5</text>
-	<text x="64" y="10" class="code">{</text>
-	<text x="82.72" y="31" class="code"><tspan class="c-pn">"$type"</tspan>: <tspan class="c-s">"remove"</tspan>,</text>
-	<text x="82.72" y="52" class="code"><tspan class="c-pn">"Delay"</tspan>: <tspan class="c-n">0.5</tspan>,</text>
-	<text x="82.72" y="73" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-n">4</tspan></text>
-	<text x="64" y="94" class="code">}</text>
+	<text x="38" y="115" class="c-ln">6</text>
+	<text x="64" y="10" class="code"><tspan class="c-c">/* important comments */</tspan>{</text>
+	<text x="82.72" y="31" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"Excalibur"</tspan>,</text>
+	<text x="82.72" y="52" class="code"><tspan class="c-pn">"Damage"</tspan>: <tspan class="c-n">50</tspan>,</text>
+	<text x="82.72" y="73" class="code"><tspan class="c-pn">"Durability"</tspan>: <tspan class="c-n">800</tspan>,</text>
+	<text x="82.72" y="94" class="code"><tspan class="c-pn">"IsEnchantable"</tspan>: <tspan class="c-kw">true</tspan></text>
+	<text x="64" y="115" class="code">}</text>
 </svg>

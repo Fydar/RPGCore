@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace RPGCore.Documentation.SyntaxHighlighting.Json
@@ -11,6 +12,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting.Json
 		public const string StyleKeyword = "c-kw";
 		public const string StyleString = "c-s";
 		public const string StyleNumber = "c-n";
+		public const string StyleComment = "c-c";
 
 		public static CodeBlock ToCodeBlocks(string script)
 		{
@@ -19,20 +21,73 @@ namespace RPGCore.Documentation.SyntaxHighlighting.Json
 			byte[]? data = Encoding.UTF8.GetBytes(script);
 
 			// Format the json
-			var parsed = JsonDocument.Parse(data);
-			using (var ms = new MemoryStream())
+			using var formatted = new MemoryStream();
+			var formatReader = new Utf8JsonReader(data, new JsonReaderOptions()
 			{
-				using (var jw = new Utf8JsonWriter(ms, new JsonWriterOptions()
+				CommentHandling = JsonCommentHandling.Allow
+			});
+			using (var formatWriter = new Utf8JsonWriter(formatted, new JsonWriterOptions()
+			{
+				Indented = true,
+				Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+			}))
+			{
+				while (formatReader.Read())
 				{
-					Indented = true
-				}))
-				{
-					parsed.WriteTo(jw);
+					switch (formatReader.TokenType)
+					{
+						case JsonTokenType.None:
+						case JsonTokenType.Null:
+							formatWriter.WriteNullValue();
+							break;
+						case JsonTokenType.StartObject:
+							formatWriter.WriteStartObject();
+							break;
+						case JsonTokenType.EndObject:
+							formatWriter.WriteEndObject();
+							break;
+						case JsonTokenType.StartArray:
+							formatWriter.WriteStartArray();
+							break;
+						case JsonTokenType.EndArray:
+							formatWriter.WriteEndArray();
+							break;
+						case JsonTokenType.PropertyName:
+							formatWriter.WritePropertyName(formatReader.GetString() ?? "");
+							break;
+						case JsonTokenType.Comment:
+							formatWriter.WriteCommentValue(formatReader.GetComment());
+							break;
+						case JsonTokenType.String:
+							formatWriter.WriteStringValue(formatReader.GetString());
+							break;
+						case JsonTokenType.Number:
+							formatWriter.WriteStringValue("");
+							formatWriter.Flush();
+
+							formatted.Position -= 2;
+
+							for (int i = 0; i < formatReader.ValueSpan.Length; i++)
+							{
+								byte val = formatReader.ValueSpan[i];
+								formatted.WriteByte(val);
+							}
+							formatted.Flush();
+							break;
+
+						case JsonTokenType.True:
+						case JsonTokenType.False:
+							formatWriter.WriteBooleanValue(formatReader.GetBoolean());
+							break;
+					}
 				}
-				data = ms.ToArray();
 			}
 
-			var reader = new Utf8JsonReader(data);
+			data = formatted.ToArray();
+			var reader = new Utf8JsonReader(data, new JsonReaderOptions()
+			{
+				CommentHandling = JsonCommentHandling.Allow
+			});
 
 			int lastEndIndex = 0;
 			while (reader.Read())
@@ -71,6 +126,14 @@ namespace RPGCore.Documentation.SyntaxHighlighting.Json
 
 						output.Write(Encoding.UTF8.GetString(reader.ValueSpan), StyleNumber);
 						lastEndIndex = (int)reader.TokenStartIndex + reader.ValueSpan.Length;
+						break;
+					}
+					case JsonTokenType.Comment:
+					{
+						InsertUnstyledText(output, data, reader.TokenStartIndex, lastEndIndex);
+
+						output.Write("/*" + Encoding.UTF8.GetString(reader.ValueSpan) + "*/", StyleComment);
+						lastEndIndex = (int)reader.TokenStartIndex + reader.ValueSpan.Length + 4;
 						break;
 					}
 				}

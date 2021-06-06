@@ -2,7 +2,9 @@ using RPGCore.DataEditor.Manifest.Internal;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RPGCore.DataEditor.Manifest
 {
@@ -53,7 +55,9 @@ namespace RPGCore.DataEditor.Manifest
 
 			JsonSerializer.Serialize(jsonWriter, builder, new JsonSerializerOptions()
 			{
-
+				WriteIndented = true,
+				DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+				Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
 			});
 		}
 
