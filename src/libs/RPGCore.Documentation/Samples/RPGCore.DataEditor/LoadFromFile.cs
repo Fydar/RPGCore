@@ -69,7 +69,6 @@ namespace RPGCore.Documentation.Samples.RPGCore.DataEditor
 				})
 				.Build();
 
-			#region editing
 			#region configure
 			var session = new EditorSession(schema, new JsonEditorSerializer());
 
@@ -80,6 +79,7 @@ namespace RPGCore.Documentation.Samples.RPGCore.DataEditor
 				.Build();
 			#endregion configure
 
+			#region editing
 			var rootObject = (EditorObject)file.Root;
 
 			rootObject.Comments.Add(" important comments ");

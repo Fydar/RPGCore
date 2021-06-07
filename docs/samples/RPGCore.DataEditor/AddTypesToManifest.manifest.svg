@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1200 2136" width="1200" height="2136" xmlns ="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1200 2073" width="1200" height="2073" xmlns ="http://www.w3.org/2000/svg">
 
 	<defs>
 		<clipPath id="round-left-corners">
@@ -127,9 +127,6 @@
 	<text x="38" y="2005" class="c-ln">96</text>
 	<text x="38" y="2026" class="c-ln">97</text>
 	<text x="38" y="2047" class="c-ln">98</text>
-	<text x="38" y="2068" class="c-ln">99</text>
-	<text x="38" y="2089" class="c-ln">100</text>
-	<text x="38" y="2110" class="c-ln">101</text>
 	<text x="64" y="10" class="code">{</text>
 	<text x="82.72" y="31" class="code"><tspan class="c-pn">"ObjectTypes"</tspan>: [</text>
 	<text x="101.44" y="52" class="code">{</text>
@@ -193,42 +190,39 @@
 	<text x="120.16" y="1270" class="code"><tspan class="c-pn">"Fields"</tspan>: [</text>
 	<text x="138.88" y="1291" class="code">{</text>
 	<text x="157.6" y="1312" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ChildFieldA"</tspan>,</text>
-	<text x="157.6" y="1333" class="code"><tspan class="c-pn">"Description"</tspan>: <tspan class="c-s">""</tspan>,</text>
-	<text x="157.6" y="1354" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
-	<text x="176.32" y="1375" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
-	<text x="176.32" y="1396" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
-	<text x="157.60000000000002" y="1417" class="code">},</text>
-	<text x="157.6" y="1438" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value A\""</tspan></text>
-	<text x="138.88" y="1459" class="code">}</text>
-	<text x="120.16" y="1480" class="code">],</text>
-	<text x="120.16" y="1501" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"{\"ChildFieldA\":\"Child Value A\"}"</tspan></text>
-	<text x="101.44" y="1522" class="code">},</text>
-	<text x="101.44" y="1543" class="code">{</text>
-	<text x="120.16" y="1564" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"SerializerChildObject"</tspan>,</text>
-	<text x="120.16" y="1585" class="code"><tspan class="c-pn">"Fields"</tspan>: [</text>
-	<text x="138.88" y="1606" class="code">{</text>
-	<text x="157.6" y="1627" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ChildFieldB"</tspan>,</text>
-	<text x="157.6" y="1648" class="code"><tspan class="c-pn">"Description"</tspan>: <tspan class="c-s">""</tspan>,</text>
-	<text x="157.6" y="1669" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
-	<text x="176.32" y="1690" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
-	<text x="176.32" y="1711" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
-	<text x="157.60000000000002" y="1732" class="code">},</text>
-	<text x="157.6" y="1753" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value B\""</tspan></text>
-	<text x="138.88" y="1774" class="code">},</text>
-	<text x="138.88" y="1795" class="code">{</text>
-	<text x="157.6" y="1816" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ChildFieldA"</tspan>,</text>
-	<text x="157.6" y="1837" class="code"><tspan class="c-pn">"Description"</tspan>: <tspan class="c-s">""</tspan>,</text>
-	<text x="157.6" y="1858" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
-	<text x="176.32" y="1879" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
-	<text x="176.32" y="1900" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
-	<text x="157.60000000000002" y="1921" class="code">},</text>
-	<text x="157.6" y="1942" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value A\""</tspan></text>
-	<text x="138.88" y="1963" class="code">}</text>
-	<text x="120.16" y="1984" class="code">],</text>
-	<text x="120.16" y="2005" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"{\"ChildFieldB\":\"Child Value B\",\"ChildFieldA\":\"Child Value A\"}"</tspan></text>
-	<text x="101.44" y="2026" class="code">}</text>
-	<text x="82.72" y="2047" class="code">],</text>
-	<text x="82.72" y="2068" class="code"><tspan class="c-pn">"NodeTypes"</tspan>: [],</text>
-	<text x="82.72" y="2089" class="code"><tspan class="c-pn">"TypeConversions"</tspan>: []</text>
-	<text x="64" y="2110" class="code">}</text>
+	<text x="157.6" y="1333" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
+	<text x="176.32" y="1354" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
+	<text x="176.32" y="1375" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
+	<text x="157.60000000000002" y="1396" class="code">},</text>
+	<text x="157.6" y="1417" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value A\""</tspan></text>
+	<text x="138.88" y="1438" class="code">}</text>
+	<text x="120.16" y="1459" class="code">],</text>
+	<text x="120.16" y="1480" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"{\"ChildFieldA\":\"Child Value A\"}"</tspan></text>
+	<text x="101.44" y="1501" class="code">},</text>
+	<text x="101.44" y="1522" class="code">{</text>
+	<text x="120.16" y="1543" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"SerializerChildObject"</tspan>,</text>
+	<text x="120.16" y="1564" class="code"><tspan class="c-pn">"Fields"</tspan>: [</text>
+	<text x="138.88" y="1585" class="code">{</text>
+	<text x="157.6" y="1606" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ChildFieldB"</tspan>,</text>
+	<text x="157.6" y="1627" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
+	<text x="176.32" y="1648" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
+	<text x="176.32" y="1669" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
+	<text x="157.60000000000002" y="1690" class="code">},</text>
+	<text x="157.6" y="1711" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value B\""</tspan></text>
+	<text x="138.88" y="1732" class="code">},</text>
+	<text x="138.88" y="1753" class="code">{</text>
+	<text x="157.6" y="1774" class="code"><tspan class="c-pn">"Name"</tspan>: <tspan class="c-s">"ChildFieldA"</tspan>,</text>
+	<text x="157.6" y="1795" class="code"><tspan class="c-pn">"Type"</tspan>: {</text>
+	<text x="176.32" y="1816" class="code"><tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-s">"string"</tspan>,</text>
+	<text x="176.32" y="1837" class="code"><tspan class="c-pn">"TemplateTypes"</tspan>: []</text>
+	<text x="157.60000000000002" y="1858" class="code">},</text>
+	<text x="157.6" y="1879" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"\"Child Value A\""</tspan></text>
+	<text x="138.88" y="1900" class="code">}</text>
+	<text x="120.16" y="1921" class="code">],</text>
+	<text x="120.16" y="1942" class="code"><tspan class="c-pn">"InstatedValue"</tspan>: <tspan class="c-s">"{\"ChildFieldB\":\"Child Value B\",\"ChildFieldA\":\"Child Value A\"}"</tspan></text>
+	<text x="101.44" y="1963" class="code">}</text>
+	<text x="82.72" y="1984" class="code">],</text>
+	<text x="82.72" y="2005" class="code"><tspan class="c-pn">"NodeTypes"</tspan>: [],</text>
+	<text x="82.72" y="2026" class="code"><tspan class="c-pn">"TypeConversions"</tspan>: []</text>
+	<text x="64" y="2047" class="code">}</text>
 </svg>

@@ -11,19 +11,23 @@ A file provides the data editor with a mechanism for saving and loading data int
 
 The `EditorSession` needs to be configured before it can be used. To configure an `EditorSession`, you require a schema. Schemas tell the `EditorSession` about what sort of data structures are involved and what types are valid for this data.
 
-![Usage](../../../docs/samples/RPGCore.DataEditor/CreateManifest.full.svg)
-
 The easiest way to create a schema is by using your types defined in .NET classes. This is done using the `UseTypesFromJsonSerializer` extension method. This method takes the configuration from a serializer and uses it to add types to the schema.
 
-![Usage](../../../docs/samples/RPGCore.DataEditor/CreateManifest.create_from_dotnet.svg)
 
+![Usage](../../../docs/samples/RPGCore.DataEditor/CreateManifest.create_from_dotnet.svg)
 You can also create a schema for types that don't exist as .NET classes. This can allow you editor arbitrary Json.
+
+## Saving Manifests for later usage
 
 Once you have created your schema, you can export it to a file. This allows you to ship new versions of the schema (and thus also the data structures) to an arbitrary data editor without having to rebuild your editor.
 
 This also has the advantage of making your data editor independant of your gameplay code (requiring no dependencies).
 
 ![Usage](../../../docs/samples/RPGCore.DataEditor/CreateManifest.save_and_load.svg)
+
+A above code will create the following manifest.
+
+![Usage](../../../docs/samples/RPGCore.DataEditor/AddTypesToManifest.manifest.svg)
 
 ## Using a Manifest to Edit a File
 
@@ -43,3 +47,10 @@ Now that we have a file, we can begin to edit it using the data editor APIs.
 
 ![Usage](../../../docs/samples/RPGCore.DataEditor/LoadFromFile.editing.svg)
 
+When the file is saved; the following Json is outputted.
+
+![Usage](../../../docs/samples/RPGCore.DataEditor/LoadFromFile.output.svg)
+
+> ⚠ _The current Json writer is built ontop of `System.Text.Json`, which doesn't support writing well-formatted comments. See [https://github.com/dotnet/runtime/issues/52408](https://github.com/dotnet/runtime/issues/52408) for more._
+>
+> _I'm considering creating a custom Json writer that has better support for writing comments._

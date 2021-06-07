@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1200 498" width="1200" height="498" xmlns ="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1200 330" width="1200" height="330" xmlns ="http://www.w3.org/2000/svg">
 
 	<defs>
 		<clipPath id="round-left-corners">
@@ -44,29 +44,15 @@
 	<text x="38" y="262" class="c-ln">13</text>
 	<text x="38" y="283" class="c-ln">14</text>
 	<text x="38" y="304" class="c-ln">15</text>
-	<text x="38" y="325" class="c-ln">16</text>
-	<text x="38" y="346" class="c-ln">17</text>
-	<text x="38" y="367" class="c-ln">18</text>
-	<text x="38" y="388" class="c-ln">19</text>
-	<text x="38" y="409" class="c-ln">20</text>
-	<text x="38" y="430" class="c-ln">21</text>
-	<text x="38" y="451" class="c-ln">22</text>
-	<text x="38" y="472" class="c-ln">23</text>
-	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">session</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">EditorSession</tspan>(<tspan class="c-local">schema</tspan>, <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonEditorSerializer</tspan>());</text>
-	<text x="64" y="52" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">file</tspan> = <tspan class="c-local">session</tspan>.<tspan class="c-method">EditFile</tspan>()</text>
-	<text x="101.44" y="73" class="code">.<tspan class="c-method">WithType</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">TypeName</tspan>(<tspan class="c-string">"Weapon"</tspan>))</text>
-	<text x="101.44" y="94" class="code">.<tspan class="c-method">LoadFrom</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">TypeDefaultLoader</tspan>())</text>
-	<text x="101.44" y="115" class="code">.<tspan class="c-method">SaveTo</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">FileSystemFile</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">FileInfo</tspan>(<tspan class="c-string">"data.json"</tspan>)))</text>
-	<text x="101.44" y="136" class="code">.<tspan class="c-method">Build</tspan>();</text>
-	<text x="64" y="178" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">rootObject</tspan> = (<tspan class="c-class">EditorObject</tspan>)<tspan class="c-local">file</tspan>.<tspan class="c-property">Root</tspan>;</text>
-	<text x="64" y="220" class="code"><tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Comments</tspan>.<tspan class="c-method">Add</tspan>(<tspan class="c-string">" important comments "</tspan>);</text>
-	<text x="64" y="262" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">nameValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Name"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="283" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">damageValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Damage"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="304" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">durabilityValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Durability"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="325" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">isEnchantableValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"IsEnchantable"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="367" class="code"><tspan class="c-local">nameValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-string">"Excalibur"</tspan>;</text>
-	<text x="64" y="388" class="code"><tspan class="c-local">damageValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-numeric">50</tspan>;</text>
-	<text x="64" y="409" class="code"><tspan class="c-local">durabilityValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-numeric">800</tspan>;</text>
-	<text x="64" y="430" class="code"><tspan class="c-local">isEnchantableValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-keyword">true</tspan>;</text>
-	<text x="64" y="472" class="code"><tspan class="c-local">file</tspan>.<tspan class="c-method">Save</tspan>();</text>
+	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">rootObject</tspan> = (<tspan class="c-class">EditorObject</tspan>)<tspan class="c-local">file</tspan>.<tspan class="c-property">Root</tspan>;</text>
+	<text x="64" y="52" class="code"><tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Comments</tspan>.<tspan class="c-method">Add</tspan>(<tspan class="c-string">" important comments "</tspan>);</text>
+	<text x="64" y="94" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">nameValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Name"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="115" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">damageValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Damage"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="136" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">durabilityValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Durability"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="157" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">isEnchantableValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"IsEnchantable"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="199" class="code"><tspan class="c-local">nameValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-string">"Excalibur"</tspan>;</text>
+	<text x="64" y="220" class="code"><tspan class="c-local">damageValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-numeric">50</tspan>;</text>
+	<text x="64" y="241" class="code"><tspan class="c-local">durabilityValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-numeric">800</tspan>;</text>
+	<text x="64" y="262" class="code"><tspan class="c-local">isEnchantableValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-keyword">true</tspan>;</text>
+	<text x="64" y="304" class="code"><tspan class="c-local">file</tspan>.<tspan class="c-method">Save</tspan>();</text>
 </svg>

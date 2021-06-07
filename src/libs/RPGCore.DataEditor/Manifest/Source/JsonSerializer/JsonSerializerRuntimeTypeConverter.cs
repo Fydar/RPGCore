@@ -256,7 +256,7 @@ namespace RPGCore.DataEditor.Manifest.Source.JsonSerializer
 			}
 
 			string name = member.Name;
-			string description = "";
+			string? description = null;
 			foreach (object attribute in member.GetCustomAttributes(true))
 			{
 				if (attribute is JsonPropertyNameAttribute nameAttribute)
