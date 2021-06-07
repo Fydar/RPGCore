@@ -21,7 +21,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting.CSharp
 		{
 			var references = new List<MetadataReference>();
 
-			var domainAssemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies();
+			var domainAssemblies = Assembly.GetEntryAssembly()!.GetReferencedAssemblies();
 			foreach (var assembly in domainAssemblies)
 			{
 				references.Add(MetadataReference.CreateFromFile(Assembly.Load(assembly).Location));
@@ -66,7 +66,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting.CSharp
 			{
 				foreach (var nodeOrToken in rootNode.ChildNodesAndTokens())
 				{
-					if (styles.TryGetSyntaxStyle(nodeOrToken.Kind(), out string style))
+					if (styles.TryGetSyntaxStyle(nodeOrToken.Kind(), out string? style))
 					{
 						var span = script.AsSpan(nodeOrToken.Span.Start, nodeOrToken.Span.Length);
 
@@ -87,7 +87,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting.CSharp
 					{
 						var node = nodeOrToken.AsNode();
 
-						WriteRecursive(node);
+						WriteRecursive(node!);
 					}
 					else if (nodeOrToken.IsToken)
 					{
@@ -307,7 +307,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting.CSharp
 						default:
 						{
 							isFollowingNewline = false;
-							if (styles.TryGetSyntaxStyle(triviaKind, out string style))
+							if (styles.TryGetSyntaxStyle(triviaKind, out string? style))
 							{
 								if (style == null)
 								{
