@@ -5,6 +5,7 @@ using RPGCore.DataEditor.Manifest;
 using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
 using System.IO;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace RPGCore.Documentation.Samples.RPGCore.DataEditor

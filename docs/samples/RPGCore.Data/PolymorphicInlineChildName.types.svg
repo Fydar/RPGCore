@@ -25,6 +25,7 @@
 		.c-pn { fill: rgba(215, 186, 125, 255); }
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
+		.c-es { fill: rgba(255, 214, 143, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
 		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
@@ -49,21 +50,21 @@
 	<text x="38" y="367" class="c-ln">18</text>
 	<text x="38" y="388" class="c-ln">19</text>
 	<text x="38" y="409" class="c-ln">20</text>
-	<text x="64" y="10" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">interface</tspan> <tspan class="c-interface">IProcedure</tspan></text>
+	<text x="64" y="10" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">interface</tspan> <tspan class="c-interface">IProcedure</tspan></text>
 	<text x="64" y="31" class="code">{</text>
 	<text x="64" y="52" class="code">}</text>
 	<text x="64" y="94" class="code">[<tspan class="c-class">SerializeThisType</tspan>(<tspan class="c-string">"create"</tspan>)]</text>
-	<text x="64" y="115" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">CreateProcedure</tspan> : <tspan class="c-interface">IProcedure</tspan></text>
+	<text x="64" y="115" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">CreateProcedure</tspan> : <tspan class="c-interface">IProcedure</tspan></text>
 	<text x="64" y="136" class="code">{</text>
 	<text x="64" y="157" class="code">}</text>
 	<text x="64" y="199" class="code">[<tspan class="c-class">SerializeThisType</tspan>(<tspan class="c-string">"update"</tspan>)]</text>
-	<text x="64" y="220" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">UpdateProcedure</tspan> : <tspan class="c-interface">IProcedure</tspan></text>
+	<text x="64" y="220" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">UpdateProcedure</tspan> : <tspan class="c-interface">IProcedure</tspan></text>
 	<text x="64" y="241" class="code">{</text>
-	<text x="101.44" y="262" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">int</tspan> <tspan class="c-property">Identifier</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; }</text>
+	<text x="64" y="262" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">int</tspan> <tspan class="c-property">Identifier</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; }</text>
 	<text x="64" y="283" class="code">}</text>
 	<text x="64" y="325" class="code">[<tspan class="c-class">SerializeThisType</tspan>(<tspan class="c-string">"remove"</tspan>)]</text>
-	<text x="64" y="346" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">RemoveProcedure</tspan> : <tspan class="c-class">UpdateProcedure</tspan></text>
+	<text x="64" y="346" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">RemoveProcedure</tspan> : <tspan class="c-class">UpdateProcedure</tspan></text>
 	<text x="64" y="367" class="code">{</text>
-	<text x="101.44" y="388" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">float</tspan> <tspan class="c-property">Delay</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; }</text>
+	<text x="64" y="388" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">float</tspan> <tspan class="c-property">Delay</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; }</text>
 	<text x="64" y="409" class="code">}</text>
 </svg>

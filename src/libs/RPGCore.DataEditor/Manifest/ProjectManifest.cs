@@ -36,7 +36,8 @@ namespace RPGCore.DataEditor.Manifest
 		{
 			using var jsonWriter = new Utf8JsonWriter(stream, new JsonWriterOptions()
 			{
-				Indented = true
+				Indented = true,
+				Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
 			});
 
 			var builder = new ProjectManifestBuilder();

@@ -133,7 +133,6 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 		public static void RenderToSvgGraphic(StreamWriter output, CodeBlock region)
 		{
 			double verticalPadding = 10.0;
-			double characterWidth = 9.36;
 			double lineHeight = 21.0;
 
 			double totalHeight = (region.Lines.Length * lineHeight) + (verticalPadding * 1.5);
@@ -169,6 +168,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 		.c-pn { fill: rgba(215, 186, 125, 255); }
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
+		.c-es { fill: rgba(255, 214, 143, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
 		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
@@ -186,41 +186,17 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 				var line = region.Lines[i];
 
 				double yOffset = (i * lineHeight) + verticalPadding;
-				double indent = 64.0;
 				bool wroteStart = false;
 				for (int y = 0; y < line.Length; y++)
 				{
 					var span = line[y];
 
 					string spanContent = span.Content;
-					if (y == 0)
-					{
-						if (string.IsNullOrWhiteSpace(spanContent))
-						{
-							indent += spanContent.Length * characterWidth;
-							continue;
-						}
-						foreach (char c in spanContent)
-						{
-							if (c == ' ')
-							{
-								indent += characterWidth;
-							}
-							else if (c == '\t')
-							{
-								indent += characterWidth * 4;
-							}
-							else
-							{
-								break;
-							}
-						}
-						spanContent = spanContent.TrimStart();
-					}
+					spanContent = spanContent.Replace(' ', '\u00A0');
 
 					if (!wroteStart)
 					{
-						output.Write($"\t<text x=\"{indent}\" y=\"{yOffset}\" class=\"code\">");
+						output.Write($"\t<text x=\"64\" y=\"{yOffset}\" class=\"code\">");
 						wroteStart = true;
 					}
 

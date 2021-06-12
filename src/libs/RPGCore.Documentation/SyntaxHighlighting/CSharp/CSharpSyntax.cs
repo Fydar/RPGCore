@@ -44,11 +44,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting.CSharp
 
 			var diagnostics = semanticModel.GetDiagnostics();
 
-			var builders = new List<CodeBlockBuilder>
-			{
-				new CodeBlockBuilder(0)
-			};
-
+			var builders = new List<CodeBlockBuilder>();
 			var output = new List<CodeBlock>();
 
 			var root = scriptTree.GetRoot();
@@ -128,7 +124,6 @@ namespace RPGCore.Documentation.SyntaxHighlighting.CSharp
 									}
 								}
 							}
-
 						}
 
 						RenderTrivia(token.TrailingTrivia);

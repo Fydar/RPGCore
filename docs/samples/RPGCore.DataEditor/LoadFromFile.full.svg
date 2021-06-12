@@ -25,6 +25,7 @@
 		.c-pn { fill: rgba(215, 186, 125, 255); }
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
+		.c-es { fill: rgba(255, 214, 143, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
 		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
@@ -62,29 +63,29 @@
 	<text x="38" y="640" class="c-ln">31</text>
 	<text x="38" y="661" class="c-ln">32</text>
 	<text x="38" y="682" class="c-ln">33</text>
-	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">serializer</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonSerializerOptions</tspan>();</text>
-	<text x="64" y="52" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">schema</tspan> = <tspan class="c-class">ProjectManifestBuilder</tspan>.<tspan class="c-method">Create</tspan>()</text>
-	<text x="101.44" y="73" class="code">.<tspan class="c-method">UseTypesFromJsonSerializer</tspan>(<tspan class="c-local">serializer</tspan>, <tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
-	<text x="101.44" y="94" class="code">{</text>
-	<text x="138.88" y="115" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseFrameworkTypes</tspan>();</text>
-	<text x="138.88" y="136" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">Weapon</tspan>));</text>
-	<text x="101.44" y="157" class="code">})</text>
-	<text x="101.44" y="178" class="code">.<tspan class="c-method">Build</tspan>();</text>
-	<text x="64" y="220" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">session</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">EditorSession</tspan>(<tspan class="c-local">schema</tspan>, <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonEditorSerializer</tspan>());</text>
-	<text x="64" y="262" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">file</tspan> = <tspan class="c-local">session</tspan>.<tspan class="c-method">EditFile</tspan>()</text>
-	<text x="101.44" y="283" class="code">.<tspan class="c-method">WithType</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">TypeName</tspan>(<tspan class="c-string">"Weapon"</tspan>))</text>
-	<text x="101.44" y="304" class="code">.<tspan class="c-method">LoadFrom</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">TypeDefaultLoader</tspan>())</text>
-	<text x="101.44" y="325" class="code">.<tspan class="c-method">SaveTo</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">FileSystemFile</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">FileInfo</tspan>(<tspan class="c-string">"data.json"</tspan>)))</text>
-	<text x="101.44" y="346" class="code">.<tspan class="c-method">Build</tspan>();</text>
-	<text x="64" y="388" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">rootObject</tspan> = (<tspan class="c-class">EditorObject</tspan>)<tspan class="c-local">file</tspan>.<tspan class="c-property">Root</tspan>;</text>
-	<text x="64" y="430" class="code"><tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Comments</tspan>.<tspan class="c-method">Add</tspan>(<tspan class="c-string">" important comments "</tspan>);</text>
-	<text x="64" y="472" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">nameValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Name"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="493" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">damageValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Damage"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="514" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">durabilityValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Durability"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="535" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">isEnchantableValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"IsEnchantable"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="577" class="code"><tspan class="c-local">nameValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-string">"Excalibur"</tspan>;</text>
-	<text x="64" y="598" class="code"><tspan class="c-local">damageValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-numeric">50</tspan>;</text>
-	<text x="64" y="619" class="code"><tspan class="c-local">durabilityValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-numeric">800</tspan>;</text>
-	<text x="64" y="640" class="code"><tspan class="c-local">isEnchantableValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-keyword">true</tspan>;</text>
+	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">serializer</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonSerializerOptions</tspan>();</text>
+	<text x="64" y="52" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">schema</tspan> = <tspan class="c-class">ProjectManifestBuilder</tspan>.<tspan class="c-method">Create</tspan>()</text>
+	<text x="64" y="73" class="code">    .<tspan class="c-method">UseTypesFromJsonSerializer</tspan>(<tspan class="c-local">serializer</tspan>, <tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="64" y="94" class="code">    {</text>
+	<text x="64" y="115" class="code">        <tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseFrameworkTypes</tspan>();</text>
+	<text x="64" y="136" class="code">        <tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-class">Weapon</tspan>));</text>
+	<text x="64" y="157" class="code">    })</text>
+	<text x="64" y="178" class="code">    .<tspan class="c-method">Build</tspan>();</text>
+	<text x="64" y="220" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">session</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">EditorSession</tspan>(<tspan class="c-local">schema</tspan>, <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonEditorSerializer</tspan>());</text>
+	<text x="64" y="262" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">file</tspan> = <tspan class="c-local">session</tspan>.<tspan class="c-method">EditFile</tspan>()</text>
+	<text x="64" y="283" class="code">    .<tspan class="c-method">WithType</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">TypeName</tspan>(<tspan class="c-string">"Weapon"</tspan>))</text>
+	<text x="64" y="304" class="code">    .<tspan class="c-method">LoadFrom</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">TypeDefaultLoader</tspan>())</text>
+	<text x="64" y="325" class="code">    .<tspan class="c-method">SaveTo</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">FileSystemFile</tspan>(<tspan class="c-keyword">new</tspan> <tspan class="c-class">FileInfo</tspan>(<tspan class="c-string">"data.json"</tspan>)))</text>
+	<text x="64" y="346" class="code">    .<tspan class="c-method">Build</tspan>();</text>
+	<text x="64" y="388" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">rootObject</tspan> = (<tspan class="c-class">EditorObject</tspan>)<tspan class="c-local">file</tspan>.<tspan class="c-property">Root</tspan>;</text>
+	<text x="64" y="430" class="code"><tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Comments</tspan>.<tspan class="c-method">Add</tspan>(<tspan class="c-string">" important comments "</tspan>);</text>
+	<text x="64" y="472" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">nameValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Name"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="493" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">damageValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Damage"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="514" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">durabilityValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"Durability"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="535" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">isEnchantableValue</tspan> = (<tspan class="c-class">EditorScalarValue</tspan>)<tspan class="c-local">rootObject</tspan>.<tspan class="c-property">Fields</tspan>[<tspan class="c-string">"IsEnchantable"</tspan>]<tspan class="c-property">!</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="577" class="code"><tspan class="c-local">nameValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-string">"Excalibur"</tspan>;</text>
+	<text x="64" y="598" class="code"><tspan class="c-local">damageValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-numeric">50</tspan>;</text>
+	<text x="64" y="619" class="code"><tspan class="c-local">durabilityValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-numeric">800</tspan>;</text>
+	<text x="64" y="640" class="code"><tspan class="c-local">isEnchantableValue</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-keyword">true</tspan>;</text>
 	<text x="64" y="682" class="code"><tspan class="c-local">file</tspan>.<tspan class="c-method">Save</tspan>();</text>
 </svg>

@@ -25,6 +25,7 @@
 		.c-pn { fill: rgba(215, 186, 125, 255); }
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
+		.c-es { fill: rgba(255, 214, 143, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
 		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
@@ -38,12 +39,12 @@
 	<text x="38" y="136" class="c-ln">7</text>
 	<text x="38" y="157" class="c-ln">8</text>
 	<text x="38" y="178" class="c-ln">9</text>
-	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">worldEngine</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">WorldEngineFactory</tspan>()</text>
-	<text x="101.44" y="31" class="code">.<tspan class="c-method">UseEntity</tspan>(<tspan class="c-string">"unit"</tspan>, <tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
-	<text x="101.44" y="52" class="code">{</text>
-	<text x="138.88" y="73" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">AddComponent</tspan>&lt;<tspan class="c-structure">TransformComponent</tspan>&gt;();</text>
-	<text x="138.88" y="94" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">AddComponent</tspan>&lt;<tspan class="c-structure">UnitComponent</tspan>&gt;();</text>
-	<text x="101.44" y="115" class="code">})</text>
-	<text x="101.44" y="136" class="code">.<tspan class="c-method">Build</tspan>();</text>
-	<text x="64" y="178" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">world</tspan> = <tspan class="c-local">worldEngine</tspan>.<tspan class="c-method">ConstructWorld</tspan>();</text>
+	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">worldEngine</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">WorldEngineFactory</tspan>()</text>
+	<text x="64" y="31" class="code">    .<tspan class="c-method">UseEntity</tspan>(<tspan class="c-string">"unit"</tspan>, <tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="64" y="52" class="code">    {</text>
+	<text x="64" y="73" class="code">        <tspan class="c-parameter">options</tspan>.<tspan class="c-method">AddComponent</tspan>&lt;<tspan class="c-structure">TransformComponent</tspan>&gt;();</text>
+	<text x="64" y="94" class="code">        <tspan class="c-parameter">options</tspan>.<tspan class="c-method">AddComponent</tspan>&lt;<tspan class="c-structure">UnitComponent</tspan>&gt;();</text>
+	<text x="64" y="115" class="code">    })</text>
+	<text x="64" y="136" class="code">    .<tspan class="c-method">Build</tspan>();</text>
+	<text x="64" y="178" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">world</tspan> = <tspan class="c-local">worldEngine</tspan>.<tspan class="c-method">ConstructWorld</tspan>();</text>
 </svg>

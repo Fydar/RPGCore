@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace RPGCore.DataEditor.Manifest
@@ -96,7 +97,7 @@ namespace RPGCore.DataEditor.Manifest
 		{
 			var result = JsonSerializer.Deserialize<ProjectManifestBuilder>(data, new JsonSerializerOptions()
 			{
-
+				Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
 			});
 
 			return result ?? throw new InvalidDataException($"Failed to load {nameof(ProjectManifestBuilder)} from stream.");

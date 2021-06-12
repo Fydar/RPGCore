@@ -36,6 +36,8 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 					options.UseInline();
 				});
 
+			options.WriteIndented = true;
+
 			IProcedure procedure = new RemoveProcedure()
 			{
 				Delay = 0.5f,

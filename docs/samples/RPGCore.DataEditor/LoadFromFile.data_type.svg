@@ -25,6 +25,7 @@
 		.c-pn { fill: rgba(215, 186, 125, 255); }
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
+		.c-es { fill: rgba(255, 214, 143, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
 		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
@@ -38,11 +39,11 @@
 	<text x="38" y="136" class="c-ln">7</text>
 	<text x="38" y="157" class="c-ln">8</text>
 	<text x="64" y="10" class="code">[<tspan class="c-class">EditableType</tspan>]</text>
-	<text x="64" y="31" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">Weapon</tspan></text>
+	<text x="64" y="31" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">Weapon</tspan></text>
 	<text x="64" y="52" class="code">{</text>
-	<text x="101.44" y="73" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">string</tspan> <tspan class="c-property">Name</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-string">"Longsword"</tspan>;</text>
-	<text x="101.44" y="94" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">int</tspan> <tspan class="c-property">Damage</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-numeric">20</tspan>;</text>
-	<text x="101.44" y="115" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">long</tspan> <tspan class="c-property">Durability</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-numeric">100</tspan>;</text>
-	<text x="101.44" y="136" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">bool</tspan> <tspan class="c-property">IsEnchantable</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-keyword">true</tspan>;</text>
+	<text x="64" y="73" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">string</tspan> <tspan class="c-property">Name</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-string">"Longsword"</tspan>;</text>
+	<text x="64" y="94" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">int</tspan> <tspan class="c-property">Damage</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-numeric">20</tspan>;</text>
+	<text x="64" y="115" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">long</tspan> <tspan class="c-property">Durability</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-numeric">100</tspan>;</text>
+	<text x="64" y="136" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">bool</tspan> <tspan class="c-property">IsEnchantable</tspan> { <tspan class="c-keyword">get</tspan>; <tspan class="c-keyword">set</tspan>; } = <tspan class="c-keyword">true</tspan>;</text>
 	<text x="64" y="157" class="code">}</text>
 </svg>

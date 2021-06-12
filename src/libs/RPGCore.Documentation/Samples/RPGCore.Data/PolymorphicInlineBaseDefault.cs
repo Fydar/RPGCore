@@ -35,6 +35,7 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 				{
 					options.UseInline();
 				});
+			options.WriteIndented = true;
 
 			IProcedure procedure = new RemoveProcedure()
 			{

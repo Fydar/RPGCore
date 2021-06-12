@@ -52,6 +52,8 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 				});
 			#endregion configure
 
+			options.WriteIndented = true;
+
 			#region serialize
 			IProcedure procedure = new RemoveProcedure()
 			{

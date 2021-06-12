@@ -39,6 +39,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 				if (!empty)
 				{
 					lines.Add(currentLine.ToArray());
+					currentLine.Clear();
 				}
 			}
 
@@ -64,7 +65,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 		{
 			while (true)
 			{
-				int index = value.IndexOf('\n');
+				int index = value.IndexOf(Environment.NewLine);
 				if (index == -1)
 				{
 					break;
@@ -72,7 +73,7 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 				var sliced = value[..index];
 				currentLine.Add(new CodeSpan(sliced.ToString(), style, linkUrl));
 				WriteNewline();
-				value = value[(index + 1)..];
+				value = value[(index + Environment.NewLine.Length)..];
 			}
 			currentLine.Add(new CodeSpan(value.ToString(), style, linkUrl));
 		}

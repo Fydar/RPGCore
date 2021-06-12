@@ -25,6 +25,7 @@
 		.c-pn { fill: rgba(215, 186, 125, 255); }
 		.c-kw { fill: rgba(86, 156, 214, 255); }
 		.c-s { fill: rgba(214, 157, 133, 255); }
+		.c-es { fill: rgba(255, 214, 143, 255); }
 		.c-n { fill: rgba(181, 206, 168, 255); }
 		.c-c { fill: rgba(87, 166, 74, 255); }
 	</style>
@@ -40,15 +41,15 @@
 	<text x="38" y="178" class="c-ln">9</text>
 	<text x="38" y="199" class="c-ln">10</text>
 	<text x="38" y="220" class="c-ln">11</text>
-	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">options</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonSerializerOptions</tspan>()</text>
-	<text x="101.44" y="31" class="code">.<tspan class="c-method">UsePolymorphicSerialization</tspan>(<tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
-	<text x="101.44" y="52" class="code">{</text>
-	<text x="138.88" y="73" class="code"><tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseKnownBaseType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-interface">IProcedure</tspan>), <tspan class="c-parameter">baseType</tspan> <tspan class="c-method">=&gt;</tspan></text>
-	<text x="138.88" y="94" class="code">{</text>
-	<text x="176.32" y="115" class="code"><tspan class="c-parameter">baseType</tspan>.<tspan class="c-method">ResolveSubTypesAutomatically</tspan>(<tspan class="c-parameter">resolve</tspan> <tspan class="c-method">=&gt;</tspan></text>
-	<text x="176.32" y="136" class="code">{</text>
-	<text x="213.76" y="157" class="code"><tspan class="c-parameter">resolve</tspan>.<tspan class="c-property">TypeNaming</tspan> = <tspan class="c-class">TypeNameNamingConvention</tspan>.<tspan class="c-property">Instance</tspan>;</text>
-	<text x="176.32" y="178" class="code">});</text>
-	<text x="138.88" y="199" class="code">});</text>
-	<text x="101.44" y="220" class="code">});</text>
+	<text x="64" y="10" class="code"><tspan class="c-keyword">var</tspan> <tspan class="c-local">options</tspan> = <tspan class="c-keyword">new</tspan> <tspan class="c-class">JsonSerializerOptions</tspan>()</text>
+	<text x="64" y="31" class="code">    .<tspan class="c-method">UsePolymorphicSerialization</tspan>(<tspan class="c-parameter">options</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="64" y="52" class="code">    {</text>
+	<text x="64" y="73" class="code">        <tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseKnownBaseType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-interface">IProcedure</tspan>), <tspan class="c-parameter">baseType</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="64" y="94" class="code">        {</text>
+	<text x="64" y="115" class="code">            <tspan class="c-parameter">baseType</tspan>.<tspan class="c-method">ResolveSubTypesAutomatically</tspan>(<tspan class="c-parameter">resolve</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="64" y="136" class="code">            {</text>
+	<text x="64" y="157" class="code">                <tspan class="c-parameter">resolve</tspan>.<tspan class="c-property">TypeNaming</tspan> = <tspan class="c-class">TypeNameNamingConvention</tspan>.<tspan class="c-property">Instance</tspan>;</text>
+	<text x="64" y="178" class="code">            });</text>
+	<text x="64" y="199" class="code">        });</text>
+	<text x="64" y="220" class="code">    });</text>
 </svg>
