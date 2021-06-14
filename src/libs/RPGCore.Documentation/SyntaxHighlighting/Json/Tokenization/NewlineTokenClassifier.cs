@@ -1,5 +1,4 @@
 ﻿using RPGCore.Documentation.SyntaxHighlighting.Internal;
-using RPGCore.Documentation.SyntaxHighlighting.Internal;
 
 namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization
 {
