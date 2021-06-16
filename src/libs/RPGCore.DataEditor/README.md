@@ -13,7 +13,6 @@ The `EditorSession` needs to be configured before it can be used. To configure a
 
 The easiest way to create a schema is by using your types defined in .NET classes. This is done using the `UseTypesFromJsonSerializer` extension method. This method takes the configuration from a serializer and uses it to add types to the schema.
 
-
 ![Usage](../../../docs/samples/RPGCore.DataEditor/CreateManifest.create_from_dotnet.svg)
 You can also create a schema for types that don't exist as .NET classes. This can allow you editor arbitrary Json.
 
@@ -43,13 +42,17 @@ A file can source it's data from the file system (using a pre-built implementati
 
 ![Usage](../../../docs/samples/RPGCore.DataEditor/LoadFromFile.configure.svg)
 
+This will load a default value for the _'Weapon'_ type, which will look something like this.
+
+![Before editing the file](../../../docs/samples/RPGCore.DataEditor/LoadFromFile.before.svg)
+
 Now that we have a file, we can begin to edit it using the data editor APIs.
 
-![Usage](../../../docs/samples/RPGCore.DataEditor/LoadFromFile.editing.svg)
+![Editing the file](../../../docs/samples/RPGCore.DataEditor/LoadFromFile.editing.svg)
 
 When the file is saved; the following Json is outputted.
 
-![Usage](../../../docs/samples/RPGCore.DataEditor/LoadFromFile.output.svg)
+![After editing the file](../../../docs/samples/RPGCore.DataEditor/LoadFromFile.output.svg)
 
 > ⚠ _The current Json writer is built ontop of `System.Text.Json`, which doesn't support writing well-formatted comments. See [https://github.com/dotnet/runtime/issues/52408](https://github.com/dotnet/runtime/issues/52408) for more._
 >

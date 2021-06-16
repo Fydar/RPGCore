@@ -21,7 +21,7 @@ namespace RPGCore.Documentation.Samples.RPGCore.DataEditor
 		}
 		#endregion data_type
 
-		[PresentOutput(OutputFormat.Json, "output")]
+		[PresentOutput(OutputFormat.Json, "before")]
 		public static string DefaultWeapon()
 		{
 			#region full
