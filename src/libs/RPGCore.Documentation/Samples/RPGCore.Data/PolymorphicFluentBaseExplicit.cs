@@ -1,4 +1,4 @@
-using RPGCore.Data.SystemTextJson.Polymorphic;
+using RPGCore.Data.Polymorphic.SystemTextJson;
 using System.Text.Json;
 
 namespace RPGCore.Documentation.Samples.RPGCore.Data

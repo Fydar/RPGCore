@@ -14,7 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RPGCore.Data\RPGCore.Data.csproj" />
     <ProjectReference Include="..\RPGCore.Data.Polymorphic\RPGCore.Data.Polymorphic.csproj" />
   </ItemGroup>
 

@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RPGCore.Data.NewtonsoftJson.Polymorphic.Internal
+namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 {
 	internal class JsonWriterWithObjectType : JsonWriter
 	{

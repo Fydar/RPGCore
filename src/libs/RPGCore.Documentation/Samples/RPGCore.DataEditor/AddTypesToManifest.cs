@@ -1,6 +1,6 @@
 ﻿using RPGCore.Data;
 using RPGCore.Data.Polymorphic.Inline;
-using RPGCore.Data.SystemTextJson.Polymorphic;
+using RPGCore.Data.Polymorphic.SystemTextJson;
 using RPGCore.DataEditor.Manifest;
 using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
 using System.IO;

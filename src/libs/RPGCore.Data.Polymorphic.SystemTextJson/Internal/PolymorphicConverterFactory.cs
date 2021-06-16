@@ -3,7 +3,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace RPGCore.Data.SystemTextJson.Polymorphic.Internal
+namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 {
 	/// <inheritdoc/>
 	internal class PolymorphicConverterFactory : JsonConverterFactory

@@ -1,5 +1,5 @@
 using RPGCore.Data.Polymorphic.Inline;
-using RPGCore.Data.SystemTextJson.Polymorphic;
+using RPGCore.Data.Polymorphic.SystemTextJson;
 using System.Text.Json;
 using static RPGCore.Documentation.Samples.RPGCore.Data.PolymorphicInlineBaseDefault;
 

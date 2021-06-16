@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace RPGCore.Data.NewtonsoftJson.Polymorphic.Internal
+namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 {
 	public class PolymorphicConverter : JsonConverter
 	{

@@ -1,9 +1,8 @@
-﻿using RPGCore.Data.Polymorphic;
-using RPGCore.Data.SystemTextJson.Polymorphic.Internal;
+﻿using RPGCore.Data.Polymorphic.SystemTextJson.Internal;
 using System;
 using System.Text.Json;
 
-namespace RPGCore.Data.SystemTextJson.Polymorphic
+namespace RPGCore.Data.Polymorphic.SystemTextJson
 {
 	public static class JsonSerializerOptionsExtensions
 	{

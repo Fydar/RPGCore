@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using RPGCore.Data.NewtonsoftJson.Polymorphic.Internal;
-using RPGCore.Data.Polymorphic;
+using RPGCore.Data.Polymorphic.NewtonsoftJson.Internal;
 using System;
 
-namespace RPGCore.Data.NewtonsoftJson.Polymorphic
+namespace RPGCore.Data.Polymorphic.NewtonsoftJson
 {
 	public static class JsonSerializerSettingsExtensions
 	{

@@ -15,7 +15,7 @@ RPGCore
 
 ## 📦 Libraries
 
-> <sub>[![RPGCore.Data](https://img.shields.io/badge/📦%20RPGCore-Data-333333.svg)](./src/libs/RPGCore.Data) ![Status: Viable](https://img.shields.io/badge/✔-2b83e0)</sub>\
+> <sub>[![RPGCore.Data.Polymorphic](https://img.shields.io/badge/📦%20RPGCore-Data.Polymorphic-333333.svg)](./src/libs/RPGCore.Data.Polymorphic) ![Status: Viable](https://img.shields.io/badge/✔-2b83e0)</sub>\
 > <sup>_Polymorphic data serialization._</sup>
 
 > <sub>[![RPGCore.DataEditor](https://img.shields.io/badge/📦%20RPGCore-DataEditor-333333.svg)](./src/libs/RPGCore.DataEditor) ![Status: Viable](https://img.shields.io/badge/✔-2b83e0)</sub>\
