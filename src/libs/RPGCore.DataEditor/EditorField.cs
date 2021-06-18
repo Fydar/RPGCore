@@ -1,5 +1,6 @@
 using RPGCore.DataEditor.Manifest;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
@@ -62,6 +63,9 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public string Name { get; } = string.Empty;
 
+		/// <inheritdoc/>
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		internal EditorField(EditorObject parent, string name)
 		{
 			Parent = parent;
@@ -70,6 +74,8 @@ namespace RPGCore.DataEditor
 			Value = new EditorNull(Session);
 			features = new List<object>();
 			comments = new List<string>();
+
+			PropertyChanged = delegate { };
 		}
 
 		public T? GetFeature<T>()

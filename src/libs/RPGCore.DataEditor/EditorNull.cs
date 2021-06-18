@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
@@ -18,10 +19,15 @@ namespace RPGCore.DataEditor
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session { get; }
 
+		/// <inheritdoc/>
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		internal EditorNull(EditorSession session)
 		{
 			Session = session;
 			comments = new List<string>();
+
+			PropertyChanged = delegate { };
 		}
 	}
 }

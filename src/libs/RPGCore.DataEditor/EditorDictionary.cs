@@ -1,5 +1,7 @@
 using RPGCore.DataEditor.Manifest;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
@@ -34,6 +36,24 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public List<EditorKeyValuePair> KeyValuePairs { get; }
 
+		/// <summary>
+		/// The length of this <see cref="EditorDictionary"/>.
+		/// </summary>
+		public int Length
+		{
+			get
+			{
+				return KeyValuePairs.Count;
+			}
+			set
+			{
+				SetLength(value);
+			}
+		}
+
+		/// <inheritdoc/>
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		internal EditorDictionary(EditorSession session, TypeName keyType, TypeName valueType)
 		{
 			Session = session;
@@ -42,6 +62,51 @@ namespace RPGCore.DataEditor
 
 			KeyValuePairs = new List<EditorKeyValuePair>();
 			comments = new List<string>();
+
+			PropertyChanged = delegate { };
+		}
+
+		/// <summary>
+		/// Sets the size of the dictionary; creates new key-value pairs to match the new size.
+		/// </summary>
+		/// <param name="size">The new size of this <see cref="EditorList"/>.</param>
+		/// <param name="insertNulls">If the <see cref="ValueType"/> of this <see cref="EditorDictionary"/> allows <c>null</c> values, insert nulls in new key-value pairs.</param>
+		public void SetLength(int size, bool insertNulls = true)
+		{
+			if (size < 0)
+			{
+				throw new ArgumentOutOfRangeException("Cannot set dictionary size to a value that is smaller than 0.", nameof(size));
+			}
+
+			bool modified = false;
+			while (KeyValuePairs.Count > size)
+			{
+				KeyValuePairs.RemoveAt(KeyValuePairs.Count - 1);
+				modified = true;
+			}
+			while (KeyValuePairs.Count < size)
+			{
+				if (insertNulls)
+				{
+					KeyValuePairs.Add(new EditorKeyValuePair(
+						this,
+						Session.CreateDefaultValue(KeyType),
+						Session.CreateDefaultValue(ValueType)));
+				}
+				else
+				{
+					KeyValuePairs.Add(new EditorKeyValuePair(
+						this,
+						Session.CreateDefaultValue(KeyType),
+						Session.CreateInstatedValue(ValueType)));
+				}
+
+				modified = true;
+			}
+			if (modified)
+			{
+				InvokeOnSizeChanged();
+			}
 		}
 
 		/// <summary>
@@ -61,6 +126,14 @@ namespace RPGCore.DataEditor
 				this,
 				Session.CreateDefaultValue(KeyType),
 				Session.CreateDefaultValue(ValueType)));
+
+			InvokeOnSizeChanged();
+		}
+
+		private void InvokeOnSizeChanged()
+		{
+			PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(KeyValuePairs)));
+			PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
 		}
 	}
 }

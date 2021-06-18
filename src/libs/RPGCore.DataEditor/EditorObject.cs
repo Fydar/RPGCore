@@ -1,5 +1,6 @@
 ﻿using RPGCore.DataEditor.Manifest;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
@@ -29,12 +30,17 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public EditorFieldCollection Fields { get; }
 
+		/// <inheritdoc/>
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		internal EditorObject(EditorSession session, TypeName type)
 		{
 			Session = session;
 			Type = type;
 			comments = new List<string>();
 			Fields = new EditorFieldCollection(this);
+
+			PropertyChanged = delegate { };
 		}
 	}
 }

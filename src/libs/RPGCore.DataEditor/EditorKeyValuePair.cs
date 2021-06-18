@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
@@ -34,6 +35,9 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public IEditorValue Value { get; }
 
+		/// <inheritdoc/>
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		internal EditorKeyValuePair(EditorDictionary parent, IEditorValue key, IEditorValue value)
 		{
 			Parent = parent;
@@ -41,6 +45,8 @@ namespace RPGCore.DataEditor
 			Value = value;
 
 			comments = new List<string>();
+
+			PropertyChanged = delegate { };
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using RPGCore.DataEditor.Manifest;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
@@ -30,6 +31,24 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public List<IEditorValue> Elements { get; }
 
+		/// <summary>
+		/// The length of this <see cref="EditorList"/>.
+		/// </summary>
+		public int Length
+		{
+			get
+			{
+				return Elements.Count;
+			}
+			set
+			{
+				SetArraySize(value);
+			}
+		}
+
+		/// <inheritdoc/>
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		internal EditorList(EditorSession session, TypeName elementType)
 		{
 			Session = session;
@@ -37,23 +56,27 @@ namespace RPGCore.DataEditor
 
 			Elements = new List<IEditorValue>();
 			comments = new List<string>();
+
+			PropertyChanged = delegate { };
 		}
 
 		/// <summary>
 		/// Sets the size of the array; creates new array elements to match the new size of the array.
 		/// </summary>
-		/// <param name="size"></param>
-		/// <param name="insertNulls"></param>
+		/// <param name="size">The new size of this <see cref="EditorList"/>.</param>
+		/// <param name="insertNulls">If the <see cref="ElementType"/> of this <see cref="EditorList"/> allows <c>null</c> values, insert nulls in new elements.</param>
 		public void SetArraySize(int size, bool insertNulls = true)
 		{
 			if (size < 0)
 			{
-				throw new IndexOutOfRangeException("Cannot set array size to a value that is smaller than 0.");
+				throw new ArgumentOutOfRangeException("Cannot set array size to a value that is smaller than 0.", nameof(size));
 			}
 
+			bool modified = false;
 			while (Elements.Count > size)
 			{
 				Elements.RemoveAt(Elements.Count - 1);
+				modified = true;
 			}
 			while (Elements.Count < size)
 			{
@@ -65,27 +88,35 @@ namespace RPGCore.DataEditor
 				{
 					Elements.Add(Session.CreateInstatedValue(ElementType));
 				}
+
+				modified = true;
+			}
+			if (modified)
+			{
+				InvokeOnSizeChanged();
 			}
 		}
 
 		/// <summary>
 		/// Removes an element from the array.
 		/// </summary>
-		/// <param name="index"></param>
+		/// <param name="index">The index of the element to remove.</param>
 		public void RemoveAt(int index)
 		{
 			if (index < 0)
 			{
-				throw new IndexOutOfRangeException("Cannot remove an array element at index less than 0.");
+				throw new ArgumentOutOfRangeException("Cannot remove an array element at index less than 0.", nameof(index));
 			}
 
 			Elements.RemoveAt(index);
+
+			InvokeOnSizeChanged();
 		}
 
 		/// <summary>
 		/// Adds a default element to the end of the array.
 		/// </summary>
-		/// <param name="insertNulls"></param>
+		/// <param name="insertNulls">If the <see cref="ElementType"/> of this <see cref="EditorList"/> allows <c>null</c> values, insert nulls in new elements.</param>
 		public void Add(bool insertNulls = true)
 		{
 			if (insertNulls)
@@ -96,6 +127,8 @@ namespace RPGCore.DataEditor
 			{
 				Elements.Add(Session.CreateInstatedValue(ElementType));
 			}
+
+			InvokeOnSizeChanged();
 		}
 
 		/// <summary>
@@ -110,6 +143,8 @@ namespace RPGCore.DataEditor
 			}
 
 			Elements.Add(value);
+
+			InvokeOnSizeChanged();
 		}
 
 		/// <summary>
@@ -121,7 +156,7 @@ namespace RPGCore.DataEditor
 		{
 			if (index < 0)
 			{
-				throw new IndexOutOfRangeException("Cannot remove an array element at index less than 0.");
+				throw new ArgumentOutOfRangeException("Cannot remove an array element at index less than 0.", nameof(index));
 			}
 
 			if (!Session.IsValueOfType(value, ElementType))
@@ -130,6 +165,14 @@ namespace RPGCore.DataEditor
 			}
 
 			Elements.Insert(index, value);
+
+			InvokeOnSizeChanged();
+		}
+
+		private void InvokeOnSizeChanged()
+		{
+			PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(Elements)));
+			PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
 		}
 	}
 }

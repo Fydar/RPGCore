@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace RPGCore.DataEditor
 {
 	/// <summary>
 	/// Represents a token in an editable hierarchy.
 	/// </summary>
-	public interface IEditorToken
+	public interface IEditorToken : INotifyPropertyChanged
 	{
 		/// <summary>
 		/// The <see cref="EditorSession"/> that this <see cref="IEditorToken"/> is belongs to.

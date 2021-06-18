@@ -1,5 +1,6 @@
 ﻿using RPGCore.DataEditor.Manifest;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
@@ -9,6 +10,9 @@ namespace RPGCore.DataEditor
 	/// </summary>
 	public class EditorScalarValue : IEditorValue
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private object? internalValue;
+
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly List<string> comments;
 
@@ -27,7 +31,22 @@ namespace RPGCore.DataEditor
 		/// <summary>
 		/// An <see cref="object"/> representing the value of this <see cref="EditorScalarValue"/>.
 		/// </summary>
-		public object? Value { get; set; }
+		public object? Value
+		{
+			get
+			{
+				return internalValue;
+			}
+			set
+			{
+				internalValue = value;
+
+				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+			}
+		}
+
+		/// <inheritdoc/>
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		internal EditorScalarValue(EditorSession session, TypeName type)
 		{
@@ -35,6 +54,8 @@ namespace RPGCore.DataEditor
 			comments = new List<string>();
 
 			Type = type;
+
+			PropertyChanged = delegate { };
 		}
 
 		internal EditorScalarValue(EditorSession session, TypeName type, object? value)
