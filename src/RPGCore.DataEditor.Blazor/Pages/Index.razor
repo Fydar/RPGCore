@@ -1,0 +1,61 @@
+﻿@using RPGCore.DataEditor;
+@using RPGCore.DataEditor.Files;
+@using RPGCore.DataEditor.Manifest;
+@using RPGCore.DataEditor.Manifest.Source.JsonSerializer;
+@using System.IO;
+@using System.Text.Json;
+
+@page "/"
+
+<h1>Hello, world!</h1>
+
+<p>Welcome to your new app.</p>
+
+<DataEditorPanel Value="root" />
+
+<p>Welcome to your new app.</p>
+
+@code {
+	private IEditorValue? root;
+
+	protected override Task OnInitializedAsync()
+	{
+		var serializer = new JsonSerializerOptions();
+
+		var schema = ProjectManifestBuilder.Create()
+			.UseTypesFromJsonSerializer(serializer, options =>
+			{
+				options.UseFrameworkTypes();
+				options.UseType(typeof(Weapon));
+				options.UseType(typeof(WeaponSlot));
+			})
+			.Build();
+
+		var session = new EditorSession(schema, new JsonEditorSerializer());
+
+		var file = session.EditFile()
+			.WithType(new TypeName("Weapon"))
+			.LoadFrom(new TypeDefaultLoader())
+			.SaveTo(new FileSystemFile(new FileInfo("data.json")))
+			.Build();
+
+		root = file.Root;
+
+		var rootObject = (EditorObject)file.Root;
+
+		rootObject.Comments.Add(" important comments ");
+
+		var nameValue = (EditorScalarValue)rootObject.Fields["Name"]!.Value;
+		var damageValue = (EditorScalarValue)rootObject.Fields["Damage"]!.Value;
+		var durabilityValue = (EditorScalarValue)rootObject.Fields["Durability"]!.Value;
+		var isEnchantableValue = (EditorScalarValue)rootObject.Fields["IsEnchantable"]!.Value;
+
+		nameValue.Value = "Excalibur";
+		damageValue.Value = 50;
+		durabilityValue.Value = 800L;
+		isEnchantableValue.Value = true;
+
+
+		return Task.CompletedTask;
+	}
+}
