@@ -179,6 +179,12 @@ namespace RPGCore.DataEditor
 						}
 
 						writer.WritePropertyName(field.Name);
+
+						if (field.Schema == null)
+						{
+							throw new InvalidOperationException($"Unable to determine the type of the field '{field.Name}'.");
+						}
+
 						SerializeValue(field.Value, field.Schema.Type, writer);
 					}
 
@@ -358,6 +364,11 @@ namespace RPGCore.DataEditor
 							throw new InvalidDataException("Unexpected end of file.");
 						}
 
+						if (field.Schema == null)
+						{
+							throw new InvalidOperationException($"Unable to determine the type of the field '{field.Name}'.");
+						}
+
 						var fieldValue = ReadValueWithComments(session, field.Schema.Type, ref reader);
 						field.Value = fieldValue;
 
@@ -488,22 +499,22 @@ namespace RPGCore.DataEditor
 
 		private IEditorValue ReadScalarValue(EditorSession session, TypeName type, ref Utf8JsonReader reader)
 		{
-			var editorScalarValue = type.Identifier switch
+			EditorScalarValue editorScalarValue = type.Identifier switch
 			{
-				"string" => new EditorScalarValue(session, type, reader.GetString()),
-				"char" => new EditorScalarValue(session, type, reader.GetString()![0]),
-				"bool" => new EditorScalarValue(session, type, reader.GetBoolean()),
-				"byte" => new EditorScalarValue(session, type, reader.GetByte()),
-				"sbyte" => new EditorScalarValue(session, type, reader.GetSByte()),
-				"short" => new EditorScalarValue(session, type, reader.GetInt16()),
-				"ushort" => new EditorScalarValue(session, type, reader.GetUInt16()),
-				"int" => new EditorScalarValue(session, type, reader.GetInt32()),
-				"uint" => new EditorScalarValue(session, type, reader.GetUInt32()),
-				"long" => new EditorScalarValue(session, type, reader.GetInt64()),
-				"ulong" => new EditorScalarValue(session, type, reader.GetUInt64()),
-				"float" => new EditorScalarValue(session, type, reader.GetSingle()),
-				"double" => new EditorScalarValue(session, type, reader.GetDouble()),
-				"decimal" => new EditorScalarValue(session, type, reader.GetDecimal()),
+				"string" => new EditorScalarValue<string>(session, type, reader.GetString()),
+				"char" => new EditorScalarValue<char>(session, type, reader.GetString()![0]),
+				"bool" => new EditorScalarValue<bool>(session, type, reader.GetBoolean()),
+				"byte" => new EditorScalarValue<byte>(session, type, reader.GetByte()),
+				"sbyte" => new EditorScalarValue<sbyte>(session, type, reader.GetSByte()),
+				"short" => new EditorScalarValue<short>(session, type, reader.GetInt16()),
+				"ushort" => new EditorScalarValue<ushort>(session, type, reader.GetUInt16()),
+				"int" => new EditorScalarValue<int>(session, type, reader.GetInt32()),
+				"uint" => new EditorScalarValue<uint>(session, type, reader.GetUInt32()),
+				"long" => new EditorScalarValue<long>(session, type, reader.GetInt64()),
+				"ulong" => new EditorScalarValue<ulong>(session, type, reader.GetUInt64()),
+				"float" => new EditorScalarValue<float>(session, type, reader.GetSingle()),
+				"double" => new EditorScalarValue<double>(session, type, reader.GetDouble()),
+				"decimal" => new EditorScalarValue<decimal>(session, type, reader.GetDecimal()),
 				_ => throw new InvalidDataException($"Type \"{type.Identifier}\" is not readable as a scalar value."),
 			};
 

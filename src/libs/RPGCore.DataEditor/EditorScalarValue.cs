@@ -1,10 +1,40 @@
 ﻿using RPGCore.DataEditor.Manifest;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor
 {
+	/// <summary>
+	/// An editable value.
+	/// </summary>
+	public class EditorScalarValue<T> : EditorScalarValue
+	{
+		/// <summary>
+		/// A <typeparamref name="T"/> representing the value of this <see cref="EditorScalarValue"/>.
+		/// </summary>
+		public new T? Value
+		{
+			get
+			{
+				return base.Value == null ? default : (T)base.Value;
+			}
+			set
+			{
+				base.Value = value;
+			}
+		}
+
+		internal EditorScalarValue(EditorSession session, TypeName type) : base(session, type, default(T))
+		{
+		}
+
+		internal EditorScalarValue(EditorSession session, TypeName type, T? value) : base(session, type, value)
+		{
+		}
+	}
+
 	/// <summary>
 	/// An editable value.
 	/// </summary>
