@@ -72,7 +72,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Data.Polymorphic.Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Data.Polymorphic.SystemTextJson", "libs\RPGCore.Data.Polymorphic.SystemTextJson\RPGCore.Data.Polymorphic.SystemTextJson.csproj", "{EB4891B7-0417-43AD-9F39-AC649E929ED0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGCore.DataEditor.Blazor", "RPGCore.DataEditor.Blazor\RPGCore.DataEditor.Blazor.csproj", "{7D0ED2F3-0E4C-42DF-A44A-431826C310D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor.Blazor", "RPGCore.DataEditor.Blazor\RPGCore.DataEditor.Blazor.csproj", "{7D0ED2F3-0E4C-42DF-A44A-431826C310D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests", "tests\RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests\RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests.csproj", "{1042B32D-AF2B-4F5D-A310-44127209B3B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Data.Polymorphic.SystemTextJson.UnitTests", "tests\RPGCore.Data.Polymorphic.SystemTextJson.UnitTests\RPGCore.Data.Polymorphic.SystemTextJson.UnitTests.csproj", "{8163CED0-B21C-4C12-91A3-2E49FE10834E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -345,6 +349,22 @@ Global
 		{7D0ED2F3-0E4C-42DF-A44A-431826C310D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7D0ED2F3-0E4C-42DF-A44A-431826C310D7}.Release|x64.ActiveCfg = Release|Any CPU
 		{7D0ED2F3-0E4C-42DF-A44A-431826C310D7}.Release|x64.Build.0 = Release|Any CPU
+		{1042B32D-AF2B-4F5D-A310-44127209B3B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1042B32D-AF2B-4F5D-A310-44127209B3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1042B32D-AF2B-4F5D-A310-44127209B3B3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1042B32D-AF2B-4F5D-A310-44127209B3B3}.Debug|x64.Build.0 = Debug|Any CPU
+		{1042B32D-AF2B-4F5D-A310-44127209B3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1042B32D-AF2B-4F5D-A310-44127209B3B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1042B32D-AF2B-4F5D-A310-44127209B3B3}.Release|x64.ActiveCfg = Release|Any CPU
+		{1042B32D-AF2B-4F5D-A310-44127209B3B3}.Release|x64.Build.0 = Release|Any CPU
+		{8163CED0-B21C-4C12-91A3-2E49FE10834E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8163CED0-B21C-4C12-91A3-2E49FE10834E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8163CED0-B21C-4C12-91A3-2E49FE10834E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8163CED0-B21C-4C12-91A3-2E49FE10834E}.Debug|x64.Build.0 = Debug|Any CPU
+		{8163CED0-B21C-4C12-91A3-2E49FE10834E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8163CED0-B21C-4C12-91A3-2E49FE10834E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8163CED0-B21C-4C12-91A3-2E49FE10834E}.Release|x64.ActiveCfg = Release|Any CPU
+		{8163CED0-B21C-4C12-91A3-2E49FE10834E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

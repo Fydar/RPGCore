@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.World\RPGCore.World.csproj" />
+    <ProjectReference Include="..\RPGCore.Data.Polymorphic.NewtonsoftJson\RPGCore.Data.Polymorphic.NewtonsoftJson.csproj" />
     <ProjectReference Include="..\RPGCore.Data.Polymorphic.SystemTextJson\RPGCore.Data.Polymorphic.SystemTextJson.csproj" />
     <ProjectReference Include="..\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
   </ItemGroup>

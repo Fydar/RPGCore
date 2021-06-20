@@ -1,13 +1,9 @@
 <h1>
 <img src="../../icon.png" width="54" height="54" align="left" />
-RPGCore.Data
+RPGCore.Data.Polymorphic
 </h1>
 
-Serialization standards and support for RPGCore.
-
-## RPGCore.Data.Polymorphic
-
-Serialization supports polymorphic types for serialized objects.
+Serialization standards and polymorphic type support for serialized objects.
 
 ![Usage](../../../docs/samples/RPGCore.Data/PolymorphicInlineOptions.serialize.svg)
 

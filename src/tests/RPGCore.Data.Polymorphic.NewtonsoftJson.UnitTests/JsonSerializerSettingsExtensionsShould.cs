@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
-using RPGCore.Data.NewtonsoftJson.Polymorphic;
-using RPGCore.Data.NewtonsoftJson.UnitTests.Utility;
 using RPGCore.Data.Polymorphic.Inline;
+using RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests.Utility;
 using System;
 
-namespace RPGCore.Data.NewtonsoftJson.UnitTests
+namespace RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests
 {
 	[TestFixture(TestOf = typeof(JsonSerializerSettingsExtensions))]
 	public class JsonSerializerSettingsExtensionsShould

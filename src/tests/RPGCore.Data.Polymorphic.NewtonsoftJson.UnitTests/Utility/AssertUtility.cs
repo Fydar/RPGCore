@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace RPGCore.Data.NewtonsoftJson.UnitTests.Utility
+namespace RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests.Utility
 {
 	public static class AssertUtility
 	{

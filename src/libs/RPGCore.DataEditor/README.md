@@ -14,6 +14,7 @@ The `EditorSession` needs to be configured before it can be used. To configure a
 The easiest way to create a schema is by using your types defined in .NET classes. This is done using the `UseTypesFromJsonSerializer` extension method. This method takes the configuration from a serializer and uses it to add types to the schema.
 
 ![Usage](../../../docs/samples/RPGCore.DataEditor/CreateManifest.create_from_dotnet.svg)
+
 You can also create a schema for types that don't exist as .NET classes. This can allow you editor arbitrary Json.
 
 ## Saving Manifests for later usage
