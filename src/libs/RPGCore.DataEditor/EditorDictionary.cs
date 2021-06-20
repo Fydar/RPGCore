@@ -37,6 +37,15 @@ namespace RPGCore.DataEditor
 		public List<EditorKeyValuePair> KeyValuePairs { get; }
 
 		/// <summary>
+		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorDictionary"/>.
+		/// </summary>
+		public FeatureCollection<EditorDictionary> Features { get; }
+
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		FeatureCollection IEditorToken.Features => Features;
+
+		/// <summary>
 		/// The length of this <see cref="EditorDictionary"/>.
 		/// </summary>
 		public int Length
@@ -59,6 +68,7 @@ namespace RPGCore.DataEditor
 			Session = session;
 			KeyType = keyType;
 			ValueType = valueType;
+			Features = new FeatureCollection<EditorDictionary>(this);
 
 			KeyValuePairs = new List<EditorKeyValuePair>();
 			comments = new List<string>();

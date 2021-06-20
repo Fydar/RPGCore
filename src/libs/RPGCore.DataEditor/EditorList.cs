@@ -32,6 +32,15 @@ namespace RPGCore.DataEditor
 		public List<IEditorValue> Elements { get; }
 
 		/// <summary>
+		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorList"/>.
+		/// </summary>
+		public FeatureCollection<EditorList> Features { get; }
+
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		FeatureCollection IEditorToken.Features => Features;
+
+		/// <summary>
 		/// The length of this <see cref="EditorList"/>.
 		/// </summary>
 		public int Length
@@ -53,6 +62,7 @@ namespace RPGCore.DataEditor
 		{
 			Session = session;
 			ElementType = elementType;
+			Features = new FeatureCollection<EditorList>(this);
 
 			Elements = new List<IEditorValue>();
 			comments = new List<string>();

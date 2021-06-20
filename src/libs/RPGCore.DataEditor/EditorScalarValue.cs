@@ -45,6 +45,15 @@ namespace RPGCore.DataEditor
 			}
 		}
 
+		/// <summary>
+		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorScalarValue"/>.
+		/// </summary>
+		public FeatureCollection<EditorScalarValue> Features { get; }
+
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		FeatureCollection IEditorToken.Features => Features;
+
 		/// <inheritdoc/>
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -52,6 +61,7 @@ namespace RPGCore.DataEditor
 		{
 			Session = session;
 			comments = new List<string>();
+			Features = new FeatureCollection<EditorScalarValue>(this);
 
 			Type = type;
 

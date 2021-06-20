@@ -35,6 +35,15 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public IEditorValue Value { get; }
 
+		/// <summary>
+		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorKeyValuePair"/>.
+		/// </summary>
+		public FeatureCollection<EditorKeyValuePair> Features { get; }
+
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		FeatureCollection IEditorToken.Features => Features;
+
 		/// <inheritdoc/>
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -43,6 +52,7 @@ namespace RPGCore.DataEditor
 			Parent = parent;
 			Key = key;
 			Value = value;
+			Features = new FeatureCollection<EditorKeyValuePair>(this);
 
 			comments = new List<string>();
 

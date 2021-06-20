@@ -17,5 +17,10 @@ namespace RPGCore.DataEditor
 		/// All <see cref="string"/> comments associated with this <see cref="IEditorToken"/>.
 		/// </summary>
 		IList<string> Comments { get; }
+
+		/// <summary>
+		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="IEditorToken"/>.
+		/// </summary>
+		FeatureCollection Features { get; }
 	}
 }

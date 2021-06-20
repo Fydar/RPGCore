@@ -19,6 +19,15 @@ namespace RPGCore.DataEditor
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session { get; }
 
+		/// <summary>
+		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorNull"/>.
+		/// </summary>
+		public FeatureCollection<EditorNull> Features { get; }
+
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		FeatureCollection IEditorToken.Features => Features;
+
 		/// <inheritdoc/>
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,6 +35,7 @@ namespace RPGCore.DataEditor
 		{
 			Session = session;
 			comments = new List<string>();
+			Features = new FeatureCollection<EditorNull>(this);
 
 			PropertyChanged = delegate { };
 		}

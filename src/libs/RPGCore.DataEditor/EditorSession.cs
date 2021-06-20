@@ -74,7 +74,7 @@ namespace RPGCore.DataEditor
 				var typeInfo = Manifest.GetTypeInformation(type.Identifier);
 				if (typeInfo == null)
 				{
-					throw new InvalidOperationException($"Cannot create an instance of an object of type \"{typeInfo}\".");
+					throw new InvalidOperationException($"Cannot create an instance of an object of type \"{type.Identifier}\".");
 				}
 
 				if (string.IsNullOrEmpty(typeInfo.InstatedValue))

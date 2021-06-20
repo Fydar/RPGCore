@@ -1,6 +1,5 @@
 ﻿using RPGCore.DataEditor.Manifest;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace RPGCore.DataEditor.Files
@@ -10,8 +9,6 @@ namespace RPGCore.DataEditor.Files
 	/// </summary>
 	public class EditorFile
 	{
-		private readonly List<object> features;
-
 		/// <summary>
 		/// An <see cref="Session"/> that provides editor configuration and state.
 		/// </summary>
@@ -33,7 +30,6 @@ namespace RPGCore.DataEditor.Files
 			this.fileLoader = fileLoader;
 			this.fileSaver = fileSaver;
 			this.type = type;
-			features = new List<object>();
 
 			if (fileLoader == null)
 			{
@@ -70,34 +66,6 @@ namespace RPGCore.DataEditor.Files
 			}
 
 			Root = fileLoader.Load(Session, type);
-		}
-
-		public T? GetFeature<T>()
-			where T : class
-		{
-			var getFeatureType = typeof(T);
-			foreach (object feature in features)
-			{
-				var featureType = feature.GetType();
-				if (getFeatureType.IsAssignableFrom(featureType))
-				{
-					return (T)feature;
-				}
-			}
-			return null;
-		}
-
-		public T GetOrCreateFeature<T>()
-			where T : class, new()
-		{
-			var feature = GetFeature<T>();
-
-			if (feature == null)
-			{
-				feature = new T();
-				features.Add(feature);
-			}
-			return feature;
 		}
 	}
 }

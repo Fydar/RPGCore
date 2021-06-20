@@ -16,8 +16,6 @@ namespace RPGCore.DataEditor
 		/// <inheritdoc/>
 		public IList<string> Comments => comments;
 
-		private readonly List<object> features;
-
 		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session => Parent.Session;
@@ -63,6 +61,15 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public string Name { get; } = string.Empty;
 
+		/// <summary>
+		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorField"/>.
+		/// </summary>
+		public FeatureCollection<EditorField> Features { get; }
+
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		FeatureCollection IEditorToken.Features => Features;
+
 		/// <inheritdoc/>
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -72,38 +79,10 @@ namespace RPGCore.DataEditor
 			Name = name;
 
 			Value = new EditorNull(Session);
-			features = new List<object>();
+			Features = new FeatureCollection<EditorField>(this);
 			comments = new List<string>();
 
 			PropertyChanged = delegate { };
-		}
-
-		public T? GetFeature<T>()
-			where T : class
-		{
-			var getFeatureType = typeof(T);
-			foreach (object feature in features)
-			{
-				var featureType = feature.GetType();
-				if (getFeatureType.IsAssignableFrom(featureType))
-				{
-					return (T)feature;
-				}
-			}
-			return null;
-		}
-
-		public T GetOrCreateFeature<T>()
-			where T : class, new()
-		{
-			var feature = GetFeature<T>();
-
-			if (feature == null)
-			{
-				feature = new T();
-				features.Add(feature);
-			}
-			return feature;
 		}
 
 		/// <inheritdoc/>
@@ -113,26 +92,14 @@ namespace RPGCore.DataEditor
 			{
 				return "unknown";
 			}
-			else if (Value is EditorNull)
+			return Value switch
 			{
-				return $"{Schema.Type} {Schema.Name} = null";
-			}
-			else if (Value is EditorScalarValue editorScalarValue)
-			{
-				return $"{Schema.Type} {Schema.Name} = {editorScalarValue.Value}";
-			}
-			else if (Value is EditorDictionary)
-			{
-				return $"{Schema.Type} {Schema.Name} = {{ ... }}";
-			}
-			else if (Value is EditorList editorList)
-			{
-				return $"{Schema.Type} {Schema.Name} = [{editorList.Elements.Count}]";
-			}
-			else
-			{
-				return $"{Schema.Type} {Schema.Name}";
-			}
+				EditorNull => $"{Schema.Type} {Schema.Name} = null",
+				EditorScalarValue editorScalarValue => $"{Schema.Type} {Schema.Name} = {editorScalarValue.Value}",
+				EditorDictionary => $"{Schema.Type} {Schema.Name} = {{ ... }}",
+				EditorList editorList => $"{Schema.Type} {Schema.Name} = [{editorList.Elements.Count}]",
+				_ => $"{Schema.Type} {Schema.Name}",
+			};
 		}
 	}
 }
