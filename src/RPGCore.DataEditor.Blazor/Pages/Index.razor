@@ -13,8 +13,14 @@
 	<DataEditorPanel Value="root" />
 </div>
 
+<button @onclick="UpdateOutput">Output</button>
+
+<pre>@output</pre>
+
 @code {
+	private string output = "";
 	private IEditorValue? root;
+	private EditorFile? file;
 
 	protected override Task OnInitializedAsync()
 	{
@@ -31,7 +37,7 @@
 
 		var session = new EditorSession(schema, new JsonEditorSerializer());
 
-		var file = session.EditFile()
+		file = session.EditFile()
 			.WithType(new TypeName("Weapon"))
 			.LoadFrom(new TypeDefaultLoader())
 			.SaveTo(new FileSystemFile(new FileInfo("data.json")))
@@ -54,5 +60,24 @@
 		isEnchantableValue.Value = true;
 
 		return Task.CompletedTask;
+	}
+
+	private void UpdateOutput()
+	{
+		if (file == null)
+		{
+			return;
+		}
+
+		var serializer = new JsonEditorSerializer();
+
+		using var data = new MemoryStream();
+
+		serializer.SerializeValue(file.Root, new TypeName("Weapon"), data);
+
+		data.Seek(0, SeekOrigin.Begin);
+
+		using var sr = new StreamReader(data);
+		output = sr.ReadToEnd();
 	}
 }
