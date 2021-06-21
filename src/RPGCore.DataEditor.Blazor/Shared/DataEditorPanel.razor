@@ -1,94 +1,13 @@
 ﻿
-@if (Value != null)
-{
-	if (Value is EditorObject editorObject)
+<div class="editor-panel">
+	@if (Value is EditorObject editorObject)
 	{
-		var uiFeature = editorObject.Features.GetOrCreateFeature<EditorUIFeature>();
-
-		<input type="checkbox" @bind="uiFeature.IsExpanded" />
-
-		if (uiFeature.IsExpanded)
+		foreach (var field in editorObject.Fields)
 		{
-			foreach (var field in editorObject.Fields)
-			{
-				<div class="form-group">
-
-					<label>@field.Name</label>
-
-					<DataEditorPanel Value="field.Value" />
-
-				</div>
-			}
+			<DataEditorRow KeyToken="field" Name="@field.Name" Value="field.Value" />
 		}
 	}
-	else if (Value is EditorList editorList)
-	{
-		var uiFeature = editorList.Features.GetOrCreateFeature<EditorUIFeature>();
-
-		<input type="checkbox" @bind="uiFeature.IsExpanded" />
-
-		if (uiFeature.IsExpanded)
-		{
-			<label>Length</label>
-			<input type="number" @bind="editorList.Length" />
-
-			int index = 0;
-			foreach (var element in editorList.Elements)
-			{
-				<div class="form-group">
-
-					<label>[@index]</label>
-
-					<DataEditorPanel Value="element" />
-
-				</div>
-
-				index++;
-			}
-		}
-	}
-	else if (Value is EditorDictionary editorDictionary)
-	{
-		foreach (var kvp in editorDictionary.KeyValuePairs)
-		{
-			<div class="form-group">
-
-				<label>@kvp.Key</label>
-
-				<DataEditorPanel Value="kvp.Value" />
-
-			</div>
-		}
-	}
-	else if (Value is EditorScalarValue<bool> boolValue)
-	{
-		<input type="checkbox" @bind="boolValue.Value" />
-		<span>@boolValue.Value</span>
-	}
-	else if (Value is EditorScalarValue<string> stringValue)
-	{
-		<input type="text" @bind="@stringValue.Value" />
-		<span>@stringValue.Value</span>
-	}
-	else if (Value is EditorScalarValue<int> intValue)
-	{
-		<input type="number" @bind="@intValue.Value" />
-		<span>@intValue.Value</span>
-	}
-	else if (Value is EditorScalarValue<long> longValue)
-	{
-		<input type="number" @bind="@longValue.Value" />
-		<span>@longValue.Value</span>
-	}
-	else
-	{
-		<p>Unknown Type @Value</p>
-	}
-}
-else
-{
-	<code>null</code>
-}
+</div>
 
 @code {
 	[Parameter]

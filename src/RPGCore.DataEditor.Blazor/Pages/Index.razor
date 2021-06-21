@@ -7,13 +7,11 @@
 
 @page "/"
 
-<h1>Hello, world!</h1>
+<h1>Data Editor</h1>
 
-<p>Welcome to your new app.</p>
-
-<DataEditorPanel Value="root" />
-
-<p>Welcome to your new app.</p>
+<div style="background-color: #eee; padding: 2em; margin: 1em;">
+	<DataEditorPanel Value="root" />
+</div>
 
 @code {
 	private IEditorValue? root;
@@ -54,7 +52,6 @@
 		damageValue.Value = 50;
 		durabilityValue.Value = 800L;
 		isEnchantableValue.Value = true;
-
 
 		return Task.CompletedTask;
 	}

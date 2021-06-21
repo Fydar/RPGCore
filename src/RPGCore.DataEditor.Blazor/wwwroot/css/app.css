@@ -48,3 +48,13 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.editor-panel {
+}
+
+.editor-row {
+}
+
+.editor-expand {
+    padding-left: 1.5em;
+}

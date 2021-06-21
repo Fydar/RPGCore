@@ -6,8 +6,11 @@ namespace RPGCore.DataEditor
 	{
 		internal readonly List<IEditorFeature> features;
 
-		internal FeatureCollection()
+		private readonly IEditorToken token;
+
+		internal FeatureCollection(IEditorToken token)
 		{
+			this.token = token;
 			features = new List<IEditorFeature>();
 		}
 
@@ -25,17 +28,6 @@ namespace RPGCore.DataEditor
 			}
 			return null;
 		}
-	}
-
-	public class FeatureCollection<TToken> : FeatureCollection
-		where TToken : IEditorToken
-	{
-		private readonly TToken token;
-
-		internal FeatureCollection(TToken token)
-		{
-			this.token = token;
-		}
 
 		public T GetOrCreateFeature<T>()
 			where T : class, IEditorFeature, new()
@@ -49,6 +41,14 @@ namespace RPGCore.DataEditor
 				features.Add(feature);
 			}
 			return feature;
+		}
+	}
+
+	public class FeatureCollection<TToken> : FeatureCollection
+		where TToken : IEditorToken
+	{
+		public FeatureCollection(IEditorToken token) : base(token)
+		{
 		}
 	}
 }
