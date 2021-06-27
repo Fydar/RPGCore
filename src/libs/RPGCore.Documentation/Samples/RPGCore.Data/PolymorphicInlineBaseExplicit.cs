@@ -7,9 +7,9 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 	public class PolymorphicInlineBaseExplicit
 	{
 		#region types
-		[SerializeType(typeof(CreateProcedure), "create")]
-		[SerializeType(typeof(UpdateProcedure), "update")]
-		[SerializeType(typeof(RemoveProcedure), "remove")]
+		[SerializeBaseType(typeof(CreateProcedure), "create")]
+		[SerializeBaseType(typeof(UpdateProcedure), "update")]
+		[SerializeBaseType(typeof(RemoveProcedure), "remove")]
 		public interface IProcedure
 		{
 		}

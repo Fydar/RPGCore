@@ -14,9 +14,9 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.UnitTests
 			public IProcedure? RunOnStart { get; set; }
 		}
 
-		[SerializeType(typeof(CreateProcedure), TypeName.Name)]
-		[SerializeType(typeof(UpdateProcedure), TypeName.Name)]
-		[SerializeType(typeof(SomethingProcedure), TypeName.Name)]
+		[SerializeBaseType(typeof(CreateProcedure), TypeName.Name)]
+		[SerializeBaseType(typeof(UpdateProcedure), TypeName.Name)]
+		[SerializeBaseType(typeof(SomethingProcedure), TypeName.Name)]
 		public interface IProcedure
 		{
 		}

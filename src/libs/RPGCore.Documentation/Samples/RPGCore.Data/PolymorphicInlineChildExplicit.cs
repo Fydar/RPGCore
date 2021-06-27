@@ -11,18 +11,18 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 		{
 		}
 
-		[SerializeThisType(typeof(IProcedure), "create")]
+		[SerializeSubType(typeof(IProcedure), "create")]
 		public class CreateProcedure : IProcedure
 		{
 		}
 
-		[SerializeThisType(typeof(IProcedure), "update")]
+		[SerializeSubType(typeof(IProcedure), "update")]
 		public class UpdateProcedure : IProcedure
 		{
 			public int Identifier { get; set; }
 		}
 
-		[SerializeThisType(typeof(IProcedure), "remove")]
+		[SerializeSubType(typeof(IProcedure), "remove")]
 		public class RemoveProcedure : UpdateProcedure
 		{
 			public float Delay { get; set; }

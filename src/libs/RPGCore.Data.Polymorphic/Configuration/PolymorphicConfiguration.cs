@@ -6,17 +6,20 @@ using System.Reflection;
 
 namespace RPGCore.Data.Polymorphic.Configuration
 {
+	/// <summary>
+	/// A queryable configuration build from <see cref="PolymorphicOptions"/>.
+	/// </summary>
 	public class PolymorphicConfiguration
 	{
 		/// <summary>
 		/// Determines the name of the field that is used to determine polymorphic types.
 		/// </summary>
-		public string DescriminatorName { get; set; } = "$type";
+		public string DescriminatorName { get; internal set; } = "$type";
 
 		/// <summary>
 		/// Determines whether type names should be case-insensitive.
 		/// </summary>
-		public bool CaseInsensitive { get; set; } = true;
+		public bool CaseInsensitive { get; internal set; } = true;
 
 		internal Dictionary<Type, PolymorphicConfigurationBaseType> baseTypes = new();
 		internal Dictionary<Type, List<PolymorphicConfigurationSubType>> subTypes = new();
@@ -40,7 +43,9 @@ namespace RPGCore.Data.Polymorphic.Configuration
 					{
 						var subType = GetOrCreateSubTypeInBase(foundSubType, baseType);
 
-						subType.Name = knownBaseType.resolveSubTypeOptions.TypeNaming.GetNameForType(foundSubType);
+						var typeNaming = knownBaseType.resolveSubTypeOptions.TypeNaming ?? options.DefaultNamingConvention;
+
+						subType.Name = typeNaming.GetNameForType(foundSubType);
 						subType.Aliases = GetAllNames(foundSubType, knownBaseType.resolveSubTypeOptions.TypeAliasing);
 					}
 				}
@@ -54,7 +59,7 @@ namespace RPGCore.Data.Polymorphic.Configuration
 					foreach (var foundBaseType in FindAllBaseTypes(knownSubType.SubType, knownSubType.resolveBaseTypeOptions.TypeFilter))
 					{
 						var baseType = GetOrCreateBaseType(foundBaseType);
-						var subType = GetOrCreateSubTypeInBase(knownSubType.SubType, baseType);
+						GetOrCreateSubTypeInBase(knownSubType.SubType, baseType);
 					}
 				}
 			}
@@ -67,14 +72,8 @@ namespace RPGCore.Data.Polymorphic.Configuration
 					var baseType = GetOrCreateBaseType(knownBaseType.BaseType);
 					var subType = GetOrCreateSubTypeInBase(knownSubType.SubType, baseType);
 
-					if (knownSubType.Descriminator != null)
-					{
-						subType.Name = knownSubType.Descriminator;
-					}
-					else
-					{
-						subType.Name = options.DefaultNamingConvention.GetNameForType(knownSubType.SubType);
-					}
+					subType.Name = knownSubType.Descriminator
+						?? options.DefaultNamingConvention.GetNameForType(knownSubType.SubType);
 				}
 			}
 
@@ -88,22 +87,29 @@ namespace RPGCore.Data.Polymorphic.Configuration
 				{
 					var subType = GetOrCreateSubTypeInBase(knownSubType.SubType, baseType);
 
-					if (knownSubType.Descriminator != null)
-					{
-						subType.Name = knownSubType.Descriminator;
-					}
-					else
-					{
-						subType.Name = options.DefaultNamingConvention.GetNameForType(knownSubType.SubType);
-					}
+					subType.Name = knownSubType.Descriminator
+						?? options.DefaultNamingConvention.GetNameForType(knownSubType.SubType);
 				}
 			}
 		}
+
+		/// <summary>
+		/// Retrieves configuration assoociated with the <see cref="Type"/> as a base-type.
+		/// </summary>
+		/// <param name="key">The type to be used as a base-type.</param>
+		/// <param name="value">Configuration associated with the <paramref name="key"/>.</param>
+		/// <returns><c>true</c> if the <paramref name="key"/> is a valid base-type; otherwise <c>false</c>.</returns>
 		public bool TryGetBaseType(Type key, out PolymorphicConfigurationBaseType value)
 		{
 			return baseTypes.TryGetValue(key, out value);
 		}
 
+		/// <summary>
+		/// Retrieves configuration assoociated with the <see cref="Type"/> as a sub-type.
+		/// </summary>
+		/// <param name="key">The type to be used as a sub-type.</param>
+		/// <param name="value">Configuration associated with the <paramref name="key"/>.</param>
+		/// <returns><c>true</c> if the <paramref name="key"/> is a valid sub-type; otherwise <c>false</c>.</returns>
 		public bool TryGetSubType(Type key, out List<PolymorphicConfigurationSubType> value)
 		{
 			return subTypes.TryGetValue(key, out value);
@@ -187,10 +193,10 @@ namespace RPGCore.Data.Polymorphic.Configuration
 
 		private PolymorphicConfigurationSubType GetOrCreateSubTypeInBase(Type key, PolymorphicConfigurationBaseType baseType)
 		{
-			if (!baseType.SubTypes.TryGetValue(key, out var value))
+			if (!baseType.subTypes.TryGetValue(key, out var value))
 			{
-				value = new PolymorphicConfigurationSubType(this, key, baseType);
-				baseType.SubTypes.Add(key, value);
+				value = new PolymorphicConfigurationSubType(baseType, key);
+				baseType.subTypes.Add(key, value);
 
 				var subTypeCollection = GetOrCreateSubTypeCollection(key);
 				subTypeCollection.Add(value);

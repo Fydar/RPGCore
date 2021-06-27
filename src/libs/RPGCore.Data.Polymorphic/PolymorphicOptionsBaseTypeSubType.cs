@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace RPGCore.Data.Polymorphic
 {
+	/// <summary>
+	/// Options for configuring how a sub-type is identified in a base-type.
+	/// </summary>
 	public class PolymorphicOptionsBaseTypeSubType
 	{
 		/// <summary>
@@ -20,7 +23,7 @@ namespace RPGCore.Data.Polymorphic
 		/// </summary>
 		public List<string> Aliases { get; set; }
 
-		public PolymorphicOptionsBaseTypeSubType(Type subType)
+		internal PolymorphicOptionsBaseTypeSubType(Type subType)
 		{
 			SubType = subType;
 			Aliases = new List<string>();

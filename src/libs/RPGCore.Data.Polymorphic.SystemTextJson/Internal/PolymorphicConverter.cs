@@ -11,14 +11,14 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 	internal class PolymorphicConverter : JsonConverter<object>
 	{
 		private readonly PolymorphicConfiguration configuration;
-		private readonly PolymorphicConfigurationBaseType baseTypeInformation;
+		private readonly PolymorphicConfigurationBaseType baseTypeConfiguration;
 
 		internal PolymorphicConverter(
 			PolymorphicConfiguration configuration,
 			Type converterType)
 		{
 			this.configuration = configuration;
-			configuration.TryGetBaseType(converterType, out baseTypeInformation);
+			configuration.TryGetBaseType(converterType, out baseTypeConfiguration);
 		}
 
 		/// <inheritdoc/>
@@ -59,13 +59,13 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 				throw CreateInvalidTypeException(typeName);
 			}
 
-			var type = baseTypeInformation.GetTypeForDescriminatorValue(typeName);
-			if (type == null)
+			var subTypeConfiguration = baseTypeConfiguration.GetSubTypeForDescriminator(typeName);
+			if (subTypeConfiguration == null)
 			{
 				throw CreateInvalidTypeException(typeName);
 			}
 
-			return JsonSerializer.Deserialize(ref reader, type, options);
+			return JsonSerializer.Deserialize(ref reader, subTypeConfiguration.Type, options);
 		}
 
 		/// <inheritdoc/>
@@ -74,14 +74,14 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 			writer.WriteStartObject();
 
 			var valueType = value.GetType();
-			var typeInformation = baseTypeInformation.GetSubTypeInformation(valueType);
 
-			if (typeInformation == null)
+			var subTypeConfiguration = baseTypeConfiguration.GetSubTypeForType(valueType);
+			if (subTypeConfiguration == null)
 			{
 				throw new InvalidOperationException($"Cannot serialize value of type '{valueType.FullName}' as it's not one of the allowed types.");
 			}
 
-			writer.WriteString(configuration.DescriminatorName, typeInformation.Name);
+			writer.WriteString(configuration.DescriminatorName, subTypeConfiguration.Name);
 
 			var buffer = new MemoryStream();
 			using (var bufferWriter = new Utf8JsonWriter(buffer, new JsonWriterOptions()
@@ -113,9 +113,9 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 		private JsonException CreateInvalidTypeException(string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeInformation.BaseType.FullName}\" are:");
+			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeConfiguration.BaseType.FullName}\" are:");
 
-			foreach (var validOption in baseTypeInformation.SubTypes.Values)
+			foreach (var validOption in baseTypeConfiguration.SubTypes.Values)
 			{
 				sb.Append("\n- '");
 				sb.Append(validOption.Name);

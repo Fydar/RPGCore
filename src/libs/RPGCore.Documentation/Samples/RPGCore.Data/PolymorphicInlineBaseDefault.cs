@@ -7,7 +7,7 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 	public class PolymorphicInlineBaseDefault
 	{
 		#region types
-		[SerializeType]
+		[SerializeBaseType]
 		public interface IProcedure
 		{
 		}

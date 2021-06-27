@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace RPGCore.Data.Polymorphic
 {
+	/// <summary>
+	/// Options for how a sub-type should be identified in serialization.
+	/// </summary>
 	public class PolymorphicOptionsSubType
 	{
 		internal PolymorphicOptionsResolveBaseType? resolveBaseTypeOptions;
@@ -23,7 +26,7 @@ namespace RPGCore.Data.Polymorphic
 		public List<string> Aliases { get; set; }
 
 		/// <summary>
-		/// A collection of base types that are explicitly declared as usable by this sub-type.
+		/// A collection of base-types that are explicitly declared as usable by this sub-type.
 		/// </summary>
 		internal Dictionary<Type, PolymorphicOptionsSubTypeBaseType> knownBaseTypes;
 
@@ -35,7 +38,7 @@ namespace RPGCore.Data.Polymorphic
 		}
 
 		/// <summary>
-		/// Directs the serializer to locate additional base types automatically.
+		/// Directs the serializer to locate additional base-types automatically.
 		/// </summary>
 		public void ResolveBaseTypesAutomatically()
 		{
@@ -46,7 +49,7 @@ namespace RPGCore.Data.Polymorphic
 		}
 
 		/// <summary>
-		/// Directs the serializer to locate additional base types automatically.
+		/// Directs the serializer to locate additional base-types automatically.
 		/// </summary>
 		public void ResolveBaseTypesAutomatically(Action<PolymorphicOptionsResolveBaseType> options)
 		{
@@ -58,16 +61,28 @@ namespace RPGCore.Data.Polymorphic
 			options?.Invoke(resolveBaseTypeOptions);
 		}
 
+		/// <summary>
+		/// Adds a base-type to a <see cref="SubType"/> list of valid base-types.
+		/// </summary>
+		/// <param name="baseType">The base-type to allow for this <see cref="SubType"/>.</param>
 		public void UseBaseType(Type baseType)
 		{
-			if (!knownBaseTypes.ContainsKey(baseType))
-			{
-				var typeInfo = new PolymorphicOptionsSubTypeBaseType(baseType);
-				knownBaseTypes[baseType] = typeInfo;
-			}
+			AddBaseTypeToThisSubType(baseType);
 		}
 
+		/// <summary>
+		/// Adds a base-type to a <see cref="SubType"/> list of valid base-types.
+		/// </summary>
+		/// <param name="baseType">The base-type to allow for this <see cref="SubType"/>.</param>
+		/// <param name="options">Options used to configure how the base-type behaves when used by this <see cref="SubType"/>.</param>
 		public void UseBaseType(Type baseType, Action<PolymorphicOptionsSubTypeBaseType> options)
+		{
+			var typeInfo = AddBaseTypeToThisSubType(baseType);
+
+			options.Invoke(typeInfo);
+		}
+
+		private PolymorphicOptionsSubTypeBaseType AddBaseTypeToThisSubType(Type baseType)
 		{
 			if (!knownBaseTypes.TryGetValue(baseType, out var typeInfo))
 			{
@@ -75,7 +90,7 @@ namespace RPGCore.Data.Polymorphic
 				knownBaseTypes[baseType] = typeInfo;
 			}
 
-			options.Invoke(typeInfo);
+			return typeInfo;
 		}
 	}
 }

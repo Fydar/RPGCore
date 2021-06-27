@@ -12,11 +12,8 @@
 			foreach (var field in editorObject.Fields)
 			{
 				<div class="editor-row">
-
 					<label>@field.Name</label>
-
 					<DataEditorValue Value="field.Value" />
-
 				</div>
 			}
 		}
@@ -38,11 +35,8 @@
 			foreach (var element in editorList.Elements)
 			{
 				<div class="editor-row">
-
 					<label>[@index]</label>
-
 					<DataEditorValue Value="element" />
-
 				</div>
 
 				index++;
@@ -54,11 +48,8 @@
 		foreach (var kvp in editorDictionary.KeyValuePairs)
 		{
 			<div class="editor-row">
-
 				<label>@kvp.Key</label>
-
 				<DataEditorValue Value="kvp.Value" />
-
 			</div>
 		}
 	}

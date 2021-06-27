@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace RPGCore.Data.Polymorphic
 {
+	/// <summary>
+	/// Options used to configure polymorphic serialization.
+	/// </summary>
 	public class PolymorphicOptions
 	{
 		/// <summary>
@@ -19,7 +22,7 @@ namespace RPGCore.Data.Polymorphic
 
 		/// <summary>
 		/// Determines the default type name to use when none is supplied.
-		/// <para>This property by default uses an instance of <see cref="TypeFullnameNamingConvention"/>.</para>
+		/// <para>This property by default uses an instance of <see cref="TypeFullNameNamingConvention"/>.</para>
 		/// </summary>
 		public ITypeNamingConvention DefaultNamingConvention { get; set; }
 
@@ -32,11 +35,20 @@ namespace RPGCore.Data.Polymorphic
 		internal Dictionary<Type, PolymorphicOptionsBaseType> knownBaseTypes = new();
 		internal Dictionary<Type, PolymorphicOptionsSubType> knownSubTypes = new();
 
+		/// <summary>
+		/// Creates a new instance of this <see cref="PolymorphicOptions"/> class.
+		/// </summary>
 		public PolymorphicOptions()
 		{
-			DefaultNamingConvention = TypeFullnameNamingConvention.Instance;
+			DefaultNamingConvention = TypeFullNameNamingConvention.Instance;
 		}
 
+		/// <summary>
+		/// Registers a known base-type to this <see cref="PolymorphicOptions"/>.
+		/// </summary>
+		/// <param name="knownBaseType">The known base-type to add.</param>
+		/// <param name="options">Options assoociated with this known base-type.</param>
+		/// <returns>This <see cref="PolymorphicOptions"/> for continued configuration.</returns>
 		public PolymorphicOptions UseKnownBaseType(Type knownBaseType, Action<PolymorphicOptionsBaseType> options)
 		{
 			if (!knownBaseTypes.TryGetValue(knownBaseType, out var typeInfo))
@@ -49,6 +61,12 @@ namespace RPGCore.Data.Polymorphic
 			return this;
 		}
 
+		/// <summary>
+		/// Registers a known sub-type to this <see cref="PolymorphicOptions"/>.
+		/// </summary>
+		/// <param name="knownSubType">The known sub-type to add.</param>
+		/// <param name="options">Options assoociated with this known sub-type.</param>
+		/// <returns>This <see cref="PolymorphicOptions"/> for continued configuration.</returns>
 		public PolymorphicOptions UseKnownSubType(Type knownSubType, Action<PolymorphicOptionsSubType> options)
 		{
 			if (!knownSubTypes.TryGetValue(knownSubType, out var typeInfo))
@@ -61,6 +79,10 @@ namespace RPGCore.Data.Polymorphic
 			return this;
 		}
 
+		/// <summary>
+		/// Constructs a new <see cref="PolymorphicConfiguration"/> from the current state of this <see cref="PolymorphicOptions"/>.
+		/// </summary>
+		/// <returns>A <see cref="PolymorphicConfiguration"/> from the current state of the this <see cref="PolymorphicOptions"/>.</returns>
 		public PolymorphicConfiguration Build()
 		{
 			return new PolymorphicConfiguration(this);

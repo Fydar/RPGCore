@@ -3,8 +3,14 @@ using System.Collections.Generic;
 
 namespace RPGCore.Data.Polymorphic
 {
+	/// <summary>
+	/// Options for how a sub-type scoped to a base-type should be identified in serialization.
+	/// </summary>
 	public class PolymorphicOptionsSubTypeBaseType
 	{
+		/// <summary>
+		/// The base-type these options are associated with.
+		/// </summary>
 		public Type BaseType { get; }
 
 		/// <summary>

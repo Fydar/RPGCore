@@ -8,7 +8,10 @@ using System.Threading;
 
 namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 {
-	public class PolymorphicConverter : JsonConverter
+	/// <summary>
+	/// Converts and polymorphic object type to and from JSON.
+	/// </summary>
+	internal class PolymorphicConverter : JsonConverter
 	{
 		private readonly PolymorphicConfiguration configuration;
 
@@ -68,7 +71,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 				return null;
 			}
 
-			var polymorphicBaseType = GetPolymorphicBaseType(objectType);
+			var baseTypeConfiguration = GetPolymorphicBaseType(objectType);
 
 			var jsonObject = JObject.Load(reader);
 			var jsonTypeProperty = jsonObject[configuration.DescriminatorName];
@@ -76,25 +79,25 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 			string? typeName = jsonTypeProperty?.Value<string>();
 			if (typeName == null)
 			{
-				throw CreateInvalidTypeException(polymorphicBaseType, typeName);
+				throw CreateInvalidTypeException(baseTypeConfiguration, typeName);
 			}
 
-			var type = polymorphicBaseType.GetTypeForDescriminatorValue(typeName);
-			if (type == null)
+			var subTypeConfiguration = baseTypeConfiguration.GetSubTypeForDescriminator(typeName);
+			if (subTypeConfiguration == null)
 			{
-				throw CreateInvalidTypeException(polymorphicBaseType, typeName);
+				throw CreateInvalidTypeException(baseTypeConfiguration, typeName);
 			}
 
 			try
 			{
 				// Prevent recursive serialization when the types match.
-				if (objectType == type)
+				if (objectType == subTypeConfiguration.Type)
 				{
 					isInRead.Value = true;
 				}
 
 				var jsonReader = jsonObject.CreateReader();
-				return serializer.Deserialize(jsonReader, type);
+				return serializer.Deserialize(jsonReader, subTypeConfiguration.Type);
 			}
 			finally
 			{
@@ -113,15 +116,19 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 
 			var valueType = value.GetType();
 
-			var polymorphicBaseType = GetPolymorphicBaseType(valueType);
-			if (polymorphicBaseType == null)
+			var baseTypeConfiguration = GetPolymorphicBaseType(valueType);
+			if (baseTypeConfiguration == null)
 			{
 				throw new InvalidOperationException();
 			}
 
-			var typeInfo = polymorphicBaseType.GetSubTypeInformation(valueType);
+			var subTypeConfiguration = baseTypeConfiguration.GetSubTypeForType(valueType);
+			if (subTypeConfiguration == null)
+			{
+				throw new InvalidOperationException();
+			}
 
-			var writerProxy = new JsonWriterWithObjectType(configuration.DescriminatorName, typeInfo?.Name, writer);
+			var writerProxy = new JsonWriterWithObjectType(configuration.DescriminatorName, subTypeConfiguration.Name, writer);
 
 			try
 			{
@@ -143,7 +150,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 
 			if (!configuration.TryGetSubType(objectType, out var subTypeInfo))
 			{
-				throw new JsonException($"Cannot determine a base type for '{objectType.FullName}'.");
+				throw new JsonException($"Cannot determine a base-type for '{objectType.FullName}'.");
 			}
 
 			if (subTypeInfo.Count == 1)
@@ -184,7 +191,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 		private JsonException CreateAmbigiousBaseTypeException(Type subType, List<PolymorphicConfigurationSubType> subTypeInfos)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"The sub type '{subType.FullName}' has multiple base types.\nCannot select a base type between:");
+			sb.Append($"The sub-type '{subType.FullName}' has multiple base-types.\nCannot select a base-type between:");
 
 			foreach (var basetype in subTypeInfos)
 			{
