@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\libs\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
+    <ProjectReference Include="..\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
   </ItemGroup>
 
 </Project>

@@ -72,7 +72,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Data.Polymorphic.Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Data.Polymorphic.SystemTextJson", "libs\RPGCore.Data.Polymorphic.SystemTextJson\RPGCore.Data.Polymorphic.SystemTextJson.csproj", "{EB4891B7-0417-43AD-9F39-AC649E929ED0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor.Blazor", "RPGCore.DataEditor.Blazor\RPGCore.DataEditor.Blazor.csproj", "{7D0ED2F3-0E4C-42DF-A44A-431826C310D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor.Blazor", "libs\RPGCore.DataEditor.Blazor\RPGCore.DataEditor.Blazor.csproj", "{7D0ED2F3-0E4C-42DF-A44A-431826C310D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests", "tests\RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests\RPGCore.Data.Polymorphic.NewtonsoftJson.UnitTests.csproj", "{1042B32D-AF2B-4F5D-A310-44127209B3B3}"
 EndProject
