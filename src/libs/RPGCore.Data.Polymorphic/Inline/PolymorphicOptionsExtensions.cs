@@ -38,8 +38,8 @@ namespace RPGCore.Data.Polymorphic.Inline
 								{
 									baseTypeOptions.UseSubType(attribute.Type, subTypeOptions =>
 									{
-										subTypeOptions.Descriminator = GetDescriminatorForType(options, type, attribute.TypeName, attribute.NamingConvention);
-										AddAliases(options, subTypeOptions.Aliases, attribute.TypeAliases, type, attribute.AliasConventions);
+										subTypeOptions.Descriminator = GetDescriminatorForType(options, attribute.Type, attribute.TypeName, attribute.NamingConvention);
+										AddAliases(options, subTypeOptions.Aliases, attribute.TypeAliases, attribute.Type, attribute.AliasConventions);
 									});
 								}
 								else
