@@ -3,8 +3,7 @@
 RPGCore
 </h1>
 
-[![Build Status](https://github.com/Fydar/RPGCore/workflows/Build/badge.svg)](https://github.com/Fydar/RPGCore/actions?query=workflow%3ABuild)
-[![Unit Test Status](https://github.com/Fydar/RPGCore/workflows/Unit%20Tests/badge.svg)](https://github.com/Fydar/RPGCore/actions?query=workflow%3A%22Unit+Tests%22)
+[![Build and test](https://github.com/Fydar/RPGCore/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/Fydar/RPGCore/actions/workflows/build-and-test.yml)
 
 **RPGCore** is a toolkit for producing games and mechanics in **C#**.
 
@@ -21,13 +20,13 @@ RPGCore
 > <sub>[![RPGCore.DataEditor](https://img.shields.io/badge/📦%20RPGCore-DataEditor-333333.svg)](./src/libs/RPGCore.DataEditor) ![Status: Viable](https://img.shields.io/badge/✔-2b83e0)</sub>\
 > <sup>_Data file editing API._</sup>
 
-> <sub>[![RPGCore.Events](https://img.shields.io/badge/📦%20RPGCore-Events-333333.svg)](./src/libs/RPGCore.Events) ![Status: Viable](https://img.shields.io/badge/✔-2b83e0)</sub>\
+> <sub>[![RPGCore.Events](https://img.shields.io/badge/📦%20RPGCore-Events-333333.svg)](./src/libs/RPGCore.Events) ![Status: Work-in-progress](https://img.shields.io/badge/🚧-ffc62b)</sub>\
 > <sup>_Value wrappers and collections with events._</sup>
 
-> <sub>[![RPGCore.Packages](https://img.shields.io/badge/📦%20RPGCore-Packages-333333.svg)](./src/libs/RPGCore.Packages) ![Status: Viable](https://img.shields.io/badge/✔-2b83e0)</sub>\
+> <sub>[![RPGCore.Packages](https://img.shields.io/badge/📦%20RPGCore-Packages-333333.svg)](./src/libs/RPGCore.Packages) ![Status: Work-in-progress](https://img.shields.io/badge/🚧-ffc62b)</sub>\
 > <sup>_Loading pre-packaged content._</sup>
 
-> <sub>[![RPGCore.Projects](https://img.shields.io/badge/📦%20RPGCore-Projects-333333.svg)](./src/libs/RPGCore.Projects) ![Status: Viable](https://img.shields.io/badge/✔-2b83e0)</sub>\
+> <sub>[![RPGCore.Projects](https://img.shields.io/badge/📦%20RPGCore-Projects-333333.svg)](./src/libs/RPGCore.Projects) ![Status: Work-in-progress](https://img.shields.io/badge/🚧-ffc62b)</sub>\
 > <sup>_Authoring pre-packaged content and build pipelines._</sup>
 
 > <sub>[![RPGCore.FileTree](https://img.shields.io/badge/📦%20RPGCore-FileTree-333333.svg)](./src/libs/RPGCore.FileTree) ![Status: Work-in-progress](https://img.shields.io/badge/🚧-ffc62b)</sub>\
