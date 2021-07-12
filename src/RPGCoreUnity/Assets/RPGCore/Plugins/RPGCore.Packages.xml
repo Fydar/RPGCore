@@ -4,18 +4,325 @@
         <name>RPGCore.Packages</name>
     </assembly>
     <members>
+        <member name="T:RPGCore.Packages.IDefinition">
+            <summary>
+            Represents a configuration definition for the package.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IDefinition.Properties">
+            <summary>
+            General properties defined for this package.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Packages.IDefinitionProperties">
+            <summary>
+            <para>General properties for a package.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IDefinitionProperties.Name">
+            <summary>
+            <para>The name of the package.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IDefinitionProperties.Version">
+            <summary>
+            <para>The version of the package.</para>
+            </summary>
+        </member>
+        <member name="T:RPGCore.Packages.IDirectory">
+            <summary>
+            <para>Represents a <see cref="T:RPGCore.Packages.IDirectory"/> loaded from an <see cref="T:RPGCore.Packages.IExplorer"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IDirectory.Name">
+            <summary>
+            <para>The short name of the resource.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IDirectory.FullName">
+            <summary>
+            <para>The full name of the <see cref="T:RPGCore.Packages.IDirectory"/> within the <see cref="T:RPGCore.Packages.IExplorer"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IDirectory.Parent">
+            <summary>
+            <para>The <see cref="T:RPGCore.Packages.IDirectory"/> that this <see cref="T:RPGCore.Packages.IDirectory"/> is within.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IDirectory.Directories">
+            <summary>
+            <para>The <see cref="T:RPGCore.Packages.IDirectory"/>s contained within this <see cref="T:RPGCore.Packages.IDirectory"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IDirectory.Resources">
+            <summary>
+            <para>The <see cref="T:RPGCore.Packages.IResource"/>s contained within this <see cref="T:RPGCore.Packages.IDirectory"/>.</para>
+            </summary>
+        </member>
+        <member name="T:RPGCore.Packages.IDirectoryCollection">
+            <summary>
+            <para>A collection of <see cref="T:RPGCore.Packages.IDirectory"/>s.</para>
+            </summary>
+        </member>
+        <member name="T:RPGCore.Packages.IExplorer">
+            <summary>
+            <para>Used for exploring the content of a package.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IExplorer.Definition">
+            <summary>
+            <para>The project definition for this package.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IExplorer.Resources">
+            <summary>
+            <para>A collection of all of the resources contained in this package.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IExplorer.Tags">
+            <summary>
+            <para>An index of the tags contained within this package for performing asset queries.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IExplorer.RootDirectory">
+            <summary>
+            <para>A directory representing the root of the package.</para>
+            </summary>
+        </member>
+        <member name="T:RPGCore.Packages.IResource">
+            <summary>
+            <para>Represents a resource loaded from an <see cref="T:RPGCore.Packages.IExplorer"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.Name">
+            <summary>
+            <para>The short name of the resource.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.FullName">
+            <summary>
+            <para>The full name of the resource within the <see cref="T:RPGCore.Packages.IExplorer"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.Extension">
+            <summary>
+            <para>The file extension that the resource name ends with.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.Tags">
+            <summary>
+            <para>All of the tags associated with this <see cref="T:RPGCore.Packages.IResource"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.Directory">
+            <summary>
+            <para>The <see cref="T:RPGCore.Packages.IDirectory"/> that this <see cref="T:RPGCore.Packages.IResource"/> is within.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.Dependencies">
+            <summary>
+            <para>A collection representing all of the dependencies this <see cref="T:RPGCore.Packages.IResource"/> has on other <see cref="T:RPGCore.Packages.IResource"/>s.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.Dependants">
+            <summary>
+            <para>A collection representing all dependant <see cref="T:RPGCore.Packages.IResource"/>s.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.Explorer">
+            <summary>
+            <para>The <see cref="T:RPGCore.Packages.IExplorer"/> that this <see cref="T:RPGCore.Packages.IResource"/> was loaded from.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResource.Content">
+            <summary>
+            <para>The <see cref="T:RPGCore.Packages.IResourceContent"/> of this <see cref="T:RPGCore.Packages.IResource"/>.</para>
+            </summary>
+        </member>
+        <member name="T:RPGCore.Packages.IResourceCollection">
+            <summary>
+            <para>Represents a collection of <see cref="T:RPGCore.Packages.IResource"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceCollection.Count">
+            <summary>
+            <para>The quantity of resource contained within the collection.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceCollection.Item(System.String)">
+            <summary>
+            <para>Retrieves a resource from the collection by a string-key.</para>
+            </summary>
+            <param name="key">The string-key for the resource in the collection.</param>
+            <returns>The <see cref="T:RPGCore.Packages.IResource"/> found within the collection; otherwise returns <c>null</c>.</returns>
+        </member>
+        <member name="M:RPGCore.Packages.IResourceCollection.Contains(System.String)">
+            <summary>
+            <para>Determines whether a resource with the key is contained within the collection.</para>
+            </summary>
+            <param name="key"></param>
+            <returns>Returns <c>true</c> if a resource with the specified key is contained within the collection;
+            otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="M:RPGCore.Packages.IResourceCollection.TryGetResource(System.String,RPGCore.Packages.IResource@)">
+            <summary>
+            <para>Attempts to find a resource with a string key.</para>
+            </summary>
+            <param name="key">The string-key for the resource in the collection.</param>
+            <param name="value">The found resource from the collection.</param>
+            <returns>Returns <c>true</c> if a resource with the specified key is contained within the collection;
+            otherwise returns <c>false</c>.</returns>
+        </member>
+        <member name="T:RPGCore.Packages.IResourceContent">
+            <summary>
+            Represents the content of a resource in a package.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceContent.UncompressedSize">
+            <summary>
+            The uncompressed size of the resource.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Packages.IResourceContent.OpenRead">
+            <summary>
+            Opens the resource for reading.
+            </summary>
+            <returns>A <see cref="T:System.IO.Stream"/> representing the content of the resource.</returns>
+        </member>
+        <member name="T:RPGCore.Packages.IResourceDependency">
+            <summary>
+            <para>A dependency of one <see cref="T:RPGCore.Packages.IResource"/> on another <see cref="T:RPGCore.Packages.IResource"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceDependency.IsValid">
+            <summary>
+            <para>Determines the validity of this dependency relationship.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceDependency.Key">
+            <summary>
+            <para>A key used to identify this dependency.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceDependency.Resource">
+            <summary>
+            <para>The resource referenced by this dependency.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceDependency.Metadata">
+            <summary>
+            <para>The resource referenced by this dependency.</para>
+            </summary>
+        </member>
+        <member name="T:RPGCore.Packages.IResourceDependencyCollection">
+            <summary>
+            Represents a collection of <see cref="T:RPGCore.Packages.IResourceDependency"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceDependencyCollection.Count">
+            <summary>
+            The quantity of dependencies contained within the collection.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.IResourceDependencyCollection.Item(System.Int32)">
+            <summary>
+            Retrieves a <see cref="T:RPGCore.Packages.IResourceDependency"/> from the collection by an index.
+            </summary>
+            <param name="index">The integer-index for the resource in the collection.</param>
+            <returns>The <see cref="T:RPGCore.Packages.IResourceDependency"/> found within the collection; otherwise returns <c>null</c>.</returns>
+        </member>
         <member name="T:RPGCore.Packages.MemorySize">
             <summary>
             A simple structure that formats for bytes.
             </summary>
+        </member>
+        <member name="M:RPGCore.Packages.MemorySize.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Packages.MemorySize.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Packages.PackageDefinition">
+            <summary>
+            Represents a configuration definition for the package.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDefinition.Properties">
+            <summary>
+            General properties defined for this package.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Packages.PackageDefinition.#ctor(RPGCore.Packages.PackageDefinitionProperties)">
+            <summary>
+            Initialises a new instance of a <see cref="T:RPGCore.Packages.PackageDefinition"/>.
+            </summary>
+            <param name="properties">Properties usedd by the definition.</param>
+        </member>
+        <member name="M:RPGCore.Packages.PackageDefinition.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Packages.PackageDefinitionProperties">
+            <summary>
+            General properties for a package.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDefinitionProperties.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDefinitionProperties.Version">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Packages.PackageDefinitionProperties.#ctor">
+            <summary>
+            Initialises a new instance of a <see cref="T:RPGCore.Packages.PackageDefinitionProperties"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Packages.PackageDefinitionProperties.#ctor(System.String,System.String)">
+            <summary>
+            Initialises a new instance of a <see cref="T:RPGCore.Packages.PackageDefinitionProperties"/>.
+            </summary>
+            <param name="name">A name for the package.</param>
+            <param name="version">A version for the package.</param>
+        </member>
+        <member name="T:RPGCore.Packages.PackageDirectory">
+            <summary>
+            <para>Represents a <see cref="T:RPGCore.Packages.PackageDirectory"/> loaded from an <see cref="T:RPGCore.Packages.PackageExplorer"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDirectory.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDirectory.FullName">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDirectory.Parent">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDirectory.Directories">
+            <summary>
+            <para>The <see cref="T:RPGCore.Packages.PackageDirectory"/>s contained within this <see cref="T:RPGCore.Packages.PackageDirectory"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDirectory.Resources">
+            <summary>
+            <para>The <see cref="T:RPGCore.Packages.PackageResource"/>s contained within this <see cref="T:RPGCore.Packages.PackageResource"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageDirectoryCollection.Count">
+            <inheritdoc/>
         </member>
         <member name="T:RPGCore.Packages.PackageExplorer">
             <summary>
             <para>Used for loading the content of a compiled package.</para>
             </summary>
             <remarks>
-            <para>Can be used to analyse and modify the content of a project.</para>
+            <para>Cannot be used to modify the content of the package.</para>
             </remarks>
+        </member>
+        <member name="P:RPGCore.Packages.PackageExplorer.Source">
+            <summary>
+            <para>An archive directory that this package was loaded from.</para>
+            </summary>
         </member>
         <member name="P:RPGCore.Packages.PackageExplorer.Definition">
             <summary>
@@ -36,6 +343,98 @@
             <summary>
             <para>A directory representing the root of the package.</para>
             </summary>
+        </member>
+        <member name="M:RPGCore.Packages.PackageExplorer.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResource.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResource.FullName">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResource.Extension">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Packages.PackageResource.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Packages.PackageResourceCollection">
+            <summary>
+            Represents a collection of <see cref="T:RPGCore.Packages.PackageResource"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResourceCollection.Count">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Packages.PackageResourceContent">
+            <summary>
+            Represents the content of a resource in a package.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResourceContent.UncompressedSize">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Packages.PackageResourceContent.OpenRead">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Packages.PackageResourceContent.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Packages.PackageResourceDependencies">
+            <summary>
+            Represents a collection of <see cref="T:RPGCore.Packages.PackageResourceDependency"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResourceDependencies.Count">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResourceDependencies.Item(System.Int32)">
+            <summary>
+            Retrieves a <see cref="T:RPGCore.Packages.PackageResourceDependency"/> from the collection by an index.
+            </summary>
+            <param name="index">The integer-index for the resource in the collection.</param>
+            <returns>The <see cref="T:RPGCore.Packages.PackageResourceDependency"/> found within the collection; otherwise returns <c>null</c>.</returns>
+        </member>
+        <member name="T:RPGCore.Packages.PackageResourceDependency">
+            <summary>
+            Represents a dependency on a <see cref="T:RPGCore.Packages.PackageResource"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResourceDependency.Metadata">
+            <summary>
+            The resource referenced by this dependency.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResourceDependency.IsValid">
+            <summary>
+            Determines the validity of this dependency relationship.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResourceDependency.Key">
+            <summary>
+            A key used to identify this dependency.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageResourceDependency.Resource">
+            <summary>
+            The resource referenced by this dependency.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Packages.PackageTagsCollection.Item(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageTagsCollection.Count">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Packages.PackageTagsCollection.Keys">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Packages.PackageTagsCollection.ContainsKey(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Packages.PackageTagsCollection.TryGetValue(System.String,RPGCore.Packages.IResourceCollection@)">
+            <inheritdoc/>
         </member>
     </members>
 </doc>

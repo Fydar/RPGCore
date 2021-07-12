@@ -30,6 +30,30 @@
             <para>Constraints can also allow only a type of item into a slot.</para>
             </example>
         </member>
+        <member name="M:RPGCore.Inventory.Slots.WeightedInventoryConstraint.QuantityCanAdd(RPGCore.Inventory.Slots.IInventory,RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.WeightedInventoryConstraint.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.CustomInventory.Parent">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.CustomInventory.Items">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.CustomInventory.AddItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.ExpandableInventory.Parent">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.ExpandableInventory.Items">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ExpandableInventory.AddItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
         <member name="T:RPGCore.Inventory.Slots.IInventory">
             <summary>
             <para>An inventory that contains <see cref="T:RPGCore.Items.IItem"/>s.</para>
@@ -61,6 +85,15 @@
             <para>A transaction can consist of adding, removing, moving or destroying items.</para>
             </remarks>
         </member>
+        <member name="M:RPGCore.Inventory.Slots.InventoryTransaction.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.InventoryTransaction.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.InventoryTransaction.ToString">
+            <inheritdoc/>
+        </member>
         <member name="T:RPGCore.Inventory.Slots.InventoryTransactionBuilder">
             <summary>
             <para>Represents a tranfer of items between inventories.</para>
@@ -69,6 +102,15 @@
             <para>When a game client wants to move items from one inventory to another, they construct their desired transaction.</para>
             <para>A transaction can consist of adding, removing, moving or destroying items.</para>
             </remarks>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemTransaction.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemTransaction.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemTransaction.GetHashCode">
+            <inheritdoc/>
         </member>
         <member name="F:RPGCore.Inventory.Slots.ItemTransactionType.None">
             <summary>
@@ -149,6 +191,36 @@
             <para>Used to determine the limit for <see cref="T:RPGCore.Items.StackableItem"/> quantities within this slot.</para>
             </summary>
             <exception cref="T:System.InvalidOperationException">Thrown when setting <c>value</c> to be less than or equal to 0.</exception>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.AddItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.DestroyItem">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.DragInto(RPGCore.Inventory.Slots.IInventory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.MoveInto(RPGCore.Inventory.Slots.IInventory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.SetItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.Swap(RPGCore.Inventory.Slots.IItemSlot)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.SlottedInventory.Parent">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.SlottedInventory.Items">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.SlottedInventory.AddItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
         </member>
     </members>
 </doc>

@@ -4,6 +4,45 @@
         <name>RPGCore.Traits</name>
     </assembly>
     <members>
+        <member name="M:RPGCore.Traits.Internal.TraitContextBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.Internal.TraitContextBuilder.UseTraits(System.Collections.Generic.IReadOnlyDictionary{RPGCore.Traits.StatIdentifier,RPGCore.Traits.StatTemplate})">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.Internal.TraitContextBuilder.UseTraits(System.Collections.Generic.IReadOnlyDictionary{RPGCore.Traits.StateIdentifier,RPGCore.Traits.StateTemplate})">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.Internal.TraitContextBuilder.UseTrait(RPGCore.Traits.StatIdentifier,RPGCore.Traits.StatTemplate)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.Internal.TraitContextBuilder.UseTrait(RPGCore.Traits.StateIdentifier,RPGCore.Traits.StateTemplate)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.StateIdentifier.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.StateIdentifier.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.StateIdentifier.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.StateTemplate.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.StatIdentifier.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.StatIdentifier.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.StatIdentifier.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Traits.StatInstance.ToString">
+            <inheritdoc/>
+        </member>
         <member name="F:RPGCore.Traits.StatModificationType.Additive">
             <example>
             Example 1:
@@ -37,6 +76,9 @@
             I add 2 <see cref="F:RPGCore.Traits.StatModificationType.Multiplicative"/> modifiers of +100% each.
             My attack is now 400.
             </example>
+        </member>
+        <member name="M:RPGCore.Traits.StatTemplate.ToString">
+            <inheritdoc/>
         </member>
         <member name="T:RPGCore.Traits.TraitCollection">
             <summary>

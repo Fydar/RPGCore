@@ -4,5 +4,59 @@
         <name>RPGCore.Behaviour</name>
     </assembly>
     <members>
+        <member name="M:RPGCore.Behaviour.ConnectionSubscription.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.EventConnection.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.EventInput.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.EventOutput.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.Input`1.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.InputMap.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.InputSocket.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.InputSource.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.Output`1.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.OutputConnection`1.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.OutputMap.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.OutputSocket.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.OutputSource.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.GraphInstanceNode.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.LocalId.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.LocalId.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.LocalId.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Behaviour.LocalPropertyId.ToString">
+            <inheritdoc/>
+        </member>
     </members>
 </doc>

@@ -15,6 +15,9 @@
             Stackable items have a quantity and all behaviours can't store data on a single item.
             </summary>
         </member>
+        <member name="P:RPGCore.Items.StackableItem.Template">
+            <inheritdoc/>
+        </member>
         <member name="M:RPGCore.Items.StackableItem.Take(System.Int32)">
             <summary>
             Take a couple of items from this <see cref="T:RPGCore.Items.StackableItem"/> in order to split them into
@@ -30,10 +33,25 @@
             </summary>
             <returns>A duplicate of this item.</returns>
         </member>
+        <member name="M:RPGCore.Items.StackableItem.ToString">
+            <inheritdoc/>
+        </member>
         <member name="T:RPGCore.Items.UniqueItem">
             <summary>
             Unique items can have data stored on the single instance of the item.
             </summary>
+        </member>
+        <member name="P:RPGCore.Items.UniqueItem.Template">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Items.UniqueItem.Duplicate">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Items.BespokeItemTemplate.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Items.ProceduralItemTemplate.ToString">
+            <inheritdoc/>
         </member>
     </members>
 </doc>

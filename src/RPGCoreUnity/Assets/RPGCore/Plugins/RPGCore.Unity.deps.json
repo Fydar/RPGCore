@@ -12,6 +12,7 @@
           "Microsoft.SourceLink.GitHub": "1.0.0",
           "NETStandard.Library": "2.0.3",
           "RPGCore.Behaviour": "0.1.0-alpha",
+          "RPGCore.Data": "0.1.0-alpha",
           "RPGCore.DataEditor": "0.1.0-alpha",
           "RPGCore.Events": "0.1.0-alpha",
           "RPGCore.FileTree": "0.1.0-alpha",
@@ -19,11 +20,21 @@
           "RPGCore.Items": "0.1.0-alpha",
           "RPGCore.Packages": "0.1.0-alpha",
           "RPGCore.Projects": "0.1.0-alpha",
-          "RPGCore.Traits": "0.1.0-alpha",
-          "RPGCore.View": "0.1.0-alpha"
+          "RPGCore.Traits": "0.1.0-alpha"
         },
         "runtime": {
           "RPGCore.Unity.dll": {}
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+        "dependencies": {
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
         }
       },
       "Microsoft.Build.Tasks.Git/1.0.0": {},
@@ -40,17 +51,95 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "Newtonsoft.Json/12.0.1": {
+      "Newtonsoft.Json/13.0.1": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.1.22727"
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
+      },
+      "System.Buffers/4.5.1": {
+        "runtime": {
+          "lib/netstandard2.0/System.Buffers.dll": {
+            "assemblyVersion": "4.0.3.0",
+            "fileVersion": "4.6.28619.1"
+          }
+        }
+      },
+      "System.Memory/4.5.4": {
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Numerics.Vectors": "4.5.0",
+          "System.Runtime.CompilerServices.Unsafe": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Memory.dll": {
+            "assemblyVersion": "4.0.1.1",
+            "fileVersion": "4.6.28619.1"
+          }
+        }
+      },
+      "System.Numerics.Vectors/4.5.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.Numerics.Vectors.dll": {
+            "assemblyVersion": "4.1.4.0",
+            "fileVersion": "4.6.26515.6"
+          }
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/5.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        }
+      },
+      "System.Text.Encodings.Web/5.0.1": {
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Text.Encodings.Web.dll": {
+            "assemblyVersion": "5.0.0.1",
+            "fileVersion": "5.0.421.11614"
+          }
+        }
+      },
+      "System.Text.Json/5.0.2": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "5.0.0",
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.4",
+          "System.Numerics.Vectors": "4.5.0",
+          "System.Runtime.CompilerServices.Unsafe": "5.0.0",
+          "System.Text.Encodings.Web": "5.0.1",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Text.Json.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.521.16609"
+          }
+        }
+      },
+      "System.Threading.Tasks.Extensions/4.5.4": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Threading.Tasks.Extensions.dll": {
+            "assemblyVersion": "4.2.0.1",
+            "fileVersion": "4.6.28619.1"
           }
         }
       },
       "RPGCore.Behaviour/0.1.0-alpha": {
         "dependencies": {
-          "Newtonsoft.Json": "12.0.1",
+          "Newtonsoft.Json": "13.0.1",
+          "RPGCore.Data": "0.1.0-alpha",
           "RPGCore.Events": "0.1.0-alpha",
           "RPGCore.Packages": "0.1.0-alpha",
           "RPGCore.Projects": "0.1.0-alpha"
@@ -59,10 +148,21 @@
           "RPGCore.Behaviour.dll": {}
         }
       },
+      "RPGCore.Data/0.1.0-alpha": {
+        "runtime": {
+          "RPGCore.Data.dll": {}
+        }
+      },
+      "RPGCore.Data.Polymorphic/0.1.0-alpha": {
+        "runtime": {
+          "RPGCore.Data.Polymorphic.dll": {}
+        }
+      },
       "RPGCore.DataEditor/0.1.0-alpha": {
         "dependencies": {
-          "Newtonsoft.Json": "12.0.1",
-          "RPGCore.Behaviour": "0.1.0-alpha"
+          "RPGCore.Data": "0.1.0-alpha",
+          "RPGCore.Data.Polymorphic": "0.1.0-alpha",
+          "System.Text.Json": "5.0.2"
         },
         "runtime": {
           "RPGCore.DataEditor.dll": {}
@@ -70,7 +170,7 @@
       },
       "RPGCore.Events/0.1.0-alpha": {
         "dependencies": {
-          "Newtonsoft.Json": "12.0.1"
+          "Newtonsoft.Json": "13.0.1"
         },
         "runtime": {
           "RPGCore.Events.dll": {}
@@ -78,7 +178,7 @@
       },
       "RPGCore.FileTree/0.1.0-alpha": {
         "dependencies": {
-          "Newtonsoft.Json": "12.0.1"
+          "Newtonsoft.Json": "13.0.1"
         },
         "runtime": {
           "RPGCore.FileTree.dll": {}
@@ -102,7 +202,7 @@
       },
       "RPGCore.Packages/0.1.0-alpha": {
         "dependencies": {
-          "Newtonsoft.Json": "12.0.1",
+          "Newtonsoft.Json": "13.0.1",
           "RPGCore.FileTree": "0.1.0-alpha"
         },
         "runtime": {
@@ -111,7 +211,7 @@
       },
       "RPGCore.Projects/0.1.0-alpha": {
         "dependencies": {
-          "Newtonsoft.Json": "12.0.1",
+          "Newtonsoft.Json": "13.0.1",
           "RPGCore.FileTree": "0.1.0-alpha",
           "RPGCore.Packages": "0.1.0-alpha"
         },
@@ -126,14 +226,6 @@
         "runtime": {
           "RPGCore.Traits.dll": {}
         }
-      },
-      "RPGCore.View/0.1.0-alpha": {
-        "dependencies": {
-          "RPGCore.Traits": "0.1.0-alpha"
-        },
-        "runtime": {
-          "RPGCore.View.dll": {}
-        }
       }
     }
   },
@@ -142,6 +234,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-W8DPQjkMScOMTtJbPwmPyj9c3zYSFGawDW3jwlBOOsnY+EzZFLgNQ/UMkK35JmkNOVPdCyPr2Tw7Vv9N+KA3ZQ==",
+      "path": "microsoft.bcl.asyncinterfaces/5.0.0",
+      "hashPath": "microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512"
     },
     "Microsoft.Build.Tasks.Git/1.0.0": {
       "type": "package",
@@ -153,7 +252,7 @@
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-a/iSwnRZb+LHFk49hQOyThh/ZNC3vsbZsF65XwQIb863qF6msmhdQtxGXFL28Ob2NsCz/drEj28BJd/YPpLRBg==",
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
       "path": "microsoft.netcore.platforms/1.1.0",
       "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
     },
@@ -178,14 +277,73 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
-    "Newtonsoft.Json/12.0.1": {
+    "Newtonsoft.Json/13.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-jmVyoEyk0In8r+AObYQyFKVFm7uSRzE0XSHSbEtBJcZDMV6DqJoyB4FLcHwprPVhAh826so0db3DIKXVnpGoPA==",
-      "path": "newtonsoft.json/12.0.1",
-      "hashPath": "newtonsoft.json.12.0.1.nupkg.sha512"
+      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "path": "newtonsoft.json/13.0.1",
+      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
+    },
+    "System.Buffers/4.5.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Rw7ijyl1qqRS0YQD/WycNst8hUUMgrMH4FCn1nNm27M4VxchZ1js3fVjQaANHO5f3sN4isvP4a+Met9Y4YomAg==",
+      "path": "system.buffers/4.5.1",
+      "hashPath": "system.buffers.4.5.1.nupkg.sha512"
+    },
+    "System.Memory/4.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
+      "path": "system.memory/4.5.4",
+      "hashPath": "system.memory.4.5.4.nupkg.sha512"
+    },
+    "System.Numerics.Vectors/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QQTlPTl06J/iiDbJCiepZ4H//BVraReU4O4EoRw1U02H5TLUIT7xn3GnDp9AXPSlJUDyFs4uWjWafNX6WrAojQ==",
+      "path": "system.numerics.vectors/4.5.0",
+      "hashPath": "system.numerics.vectors.4.5.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZD9TMpsmYJLrxbbmdvhwt9YEgG5WntEnZ/d1eH8JBX9LBp+Ju8BSBhUGbZMNVHHomWo2KVImJhTDl2hIgw/6MA==",
+      "path": "system.runtime.compilerservices.unsafe/5.0.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+    },
+    "System.Text.Encodings.Web/5.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KmJ+CJXizDofbq6mpqDoRRLcxgOd2z9X3XoFNULSbvbqVRZkFX3istvr+MUjL6Zw1RT+RNdoI4GYidIINtgvqQ==",
+      "path": "system.text.encodings.web/5.0.1",
+      "hashPath": "system.text.encodings.web.5.0.1.nupkg.sha512"
+    },
+    "System.Text.Json/5.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I47dVIGiV6SfAyppphxqupertT/5oZkYLDCX6vC3HpOI4ZLjyoKAreUoem2ie6G0RbRuFrlqz/PcTQjfb2DOfQ==",
+      "path": "system.text.json/5.0.2",
+      "hashPath": "system.text.json.5.0.2.nupkg.sha512"
+    },
+    "System.Threading.Tasks.Extensions/4.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg==",
+      "path": "system.threading.tasks.extensions/4.5.4",
+      "hashPath": "system.threading.tasks.extensions.4.5.4.nupkg.sha512"
     },
     "RPGCore.Behaviour/0.1.0-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RPGCore.Data/0.1.0-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RPGCore.Data.Polymorphic/0.1.0-alpha": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -226,11 +384,6 @@
       "sha512": ""
     },
     "RPGCore.Traits/0.1.0-alpha": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "RPGCore.View/0.1.0-alpha": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

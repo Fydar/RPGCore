@@ -14,14 +14,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RPGCore.Data\RPGCore.Data.csproj" />
-    <ProjectReference Include="..\RPGCore.Events\RPGCore.Events.csproj" />
-    <ProjectReference Include="..\RPGCore.Packages\RPGCore.Packages.csproj" />
-    <ProjectReference Include="..\RPGCore.Projects\RPGCore.Projects.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <ProjectReference Include="..\RPGCore.Data\RPGCore.Data.csproj" />
+    <ProjectReference Include="..\RPGCore.Events\RPGCore.Events.csproj" />
   </ItemGroup>
 
 </Project>

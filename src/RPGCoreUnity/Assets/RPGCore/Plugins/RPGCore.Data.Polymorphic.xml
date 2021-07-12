@@ -1,0 +1,971 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.Data.Polymorphic</name>
+    </assembly>
+    <members>
+        <member name="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration">
+            <summary>
+            A queryable configuration build from <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration.DescriminatorName">
+            <summary>
+            Determines the name of the field that is used to determine polymorphic types.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration.CaseInsensitive">
+            <summary>
+            Determines whether type names should be case-insensitive.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration.TryGetBaseType(System.Type,RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType@)">
+            <summary>
+            Retrieves configuration assoociated with the <see cref="T:System.Type"/> as a base-type.
+            </summary>
+            <param name="key">The type to be used as a base-type.</param>
+            <param name="value">Configuration associated with the <paramref name="key"/>.</param>
+            <returns><c>true</c> if the <paramref name="key"/> is a valid base-type; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration.TryGetSubType(System.Type,System.Collections.Generic.List{RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType}@)">
+            <summary>
+            Retrieves configuration assoociated with the <see cref="T:System.Type"/> as a sub-type.
+            </summary>
+            <param name="key">The type to be used as a sub-type.</param>
+            <param name="value">Configuration associated with the <paramref name="key"/>.</param>
+            <returns><c>true</c> if the <paramref name="key"/> is a valid sub-type; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType">
+            <summary>
+            Options for configuring how a base-type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType.Configuration">
+            <summary>
+            The <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration"/> this base-type configuration belongs to.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType.BaseType">
+            <summary>
+            The base-type that this <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType"/> describes.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType.SubTypes">
+            <summary>
+            Configuration about all of the sub-types associated with this base-type.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType.GetSubTypeForType(System.Type)">
+            <summary>
+            Retrieves a sub-type from <see cref="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType.SubTypes"/>.
+            </summary>
+            <param name="subType">The sub-type get get configuration for.</param>
+            <returns>If the <paramref name="subType"/> has configuration associated with it, returns the <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/> associated with the <paramref name="subType"/>; otherwise <c>null</c>.</returns>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType.GetSubTypeForDescriminator(System.String)">
+            <summary>
+            Retrieves a sub-type from <see cref="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType.SubTypes"/> by a descriminator <see cref="T:System.String"/>.
+            </summary>
+            <param name="descriminator">A descriminator used to locate <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/>.</param>
+            <returns>If the <paramref name="descriminator"/> could be associated with a <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/>, returns the <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/> associated with the <paramref name="descriminator"/>; otherwise <c>null</c>.</returns>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType"/>.
+            </summary>
+            <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType"/>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType">
+            <summary>
+            Information about the sub-type scoped to a base-type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.BaseType">
+            <summary>
+            The <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationBaseType"/> this sub-type configuration is scoped to.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.Type">
+            <summary>
+            The type that is associated with this <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.Name">
+            <summary>
+            A <see cref="T:System.String"/> identifier associated with the <see cref="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.Type"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.Aliases">
+            <summary>
+            A collection of <see cref="T:System.String"/> aliases associated with the <see cref="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.Type"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.Configuration">
+            <summary>
+            The <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration"/> this sub-type configuration belongs to.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.DoesDescriminatorIndicate(System.String,System.Boolean)">
+            <summary>
+            Determines whether this <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/> matches the <paramref name="descriminator"/>.
+            </summary>
+            <param name="descriminator">A descriminator to test against this <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/>.</param>
+            <param name="caseInsentitive">Whether case-insensitive string-comparison should be used.</param>
+            <returns><c>true</c> if the <paramref name="descriminator"/> matches this <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/>.</returns>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/>.
+            </summary>
+            <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfigurationSubType"/>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Inline.PolymorphicOptionsExtensions">
+            <summary>
+            Options for configuring polymorphic serialization.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.PolymorphicOptionsExtensions.UseInline(RPGCore.Data.Polymorphic.PolymorphicOptions)">
+            <summary>
+            Registers types from reflected attributes to the <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/>.
+            </summary>
+            <param name="options">Options used to configure how inline attributes are used.</param>
+            <returns>The current instance of this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute">
+            <summary>
+            Denotes that a type should be considered a valid base-type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.Type">
+            <summary>
+            An explicit sub-type this attribute is scoped to.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.NamingConvention">
+            <summary>
+            Identifies a singular <see cref="T:RPGCore.Data.Polymorphic.Naming.ITypeNamingConvention"/> to use.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.AliasConventions">
+            <summary>
+            Identifies one or more <see cref="T:RPGCore.Data.Polymorphic.Naming.ITypeNamingConvention"/> to use.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.TypeName">
+            <summary>
+            An explicit type name for the <see cref="P:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.Type"/> specified.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.TypeAliases">
+            <summary>
+            An explicit collection of type aliases for the <see cref="P:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.Type"/> specified.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type with automatically resolved sub-types.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>As no naming convention is provided; all sub-types name will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultNamingConvention"/>.</item>
+            <item>As no alias conventions are provided; all sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type with automatically resolved sub-types.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>As no alias conventions are provided; all sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="namingConvention">The naming convention used to source the name for resolved sub-types.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(RPGCore.Data.Polymorphic.Inline.TypeName,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type with automatically resolved sub-types.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="namingConvention">The naming convention used to source the name for resolved sub-types.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for resolved sub-types.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>As no naming convention is provided; all sub-types name will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultNamingConvention"/>.</item>
+            <item>As no alias conventions are provided; all sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>As no alias conventions are provided; all sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+            <param name="namingConvention">The naming convention used to source the name for resolved sub-types.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type,RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>As no alias conventions are provided; all sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+            <param name="namingConvention">The naming convention used to source the name for resolved sub-types.</param>
+            <param name="typeAliases">The additional aliases for explicit sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type,RPGCore.Data.Polymorphic.Inline.TypeName,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+            <param name="namingConvention">The naming convention used to source the name for resolved sub-types.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for resolved sub-types.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type,RPGCore.Data.Polymorphic.Inline.TypeName,RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+            <param name="namingConvention">The naming convention used to source the name for resolved sub-types.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for resolved sub-types.</param>
+            <param name="typeAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type,System.String)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The name of the sub-type will be <paramref name="typeName"/>.</item>
+            <item>As no alias conventions are provided; all sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+            <param name="typeName">A <see cref="T:System.String"/> identifier used to identity the sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type,System.String,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The name of the sub-type will be <paramref name="typeName"/>.</item>
+            <item>As no alias conventions are provided; all sub-types aliases will be resolved the <paramref name="additionalAliases"/></item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+            <param name="typeName">A <see cref="T:System.String"/> identifier used to identity the sub-type.</param>
+            <param name="additionalAliases">The additional aliases for explicit sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type,System.String,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The name of the sub-type will be <paramref name="typeName"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+            <param name="typeName">A <see cref="T:System.String"/> identifier used to identity the sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for resolved sub-types.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeBaseTypeAttribute.#ctor(System.Type,System.String,RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a base-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit sub-type is provided; the sub-types for this base-type will be resolved <b>automatically</b>.</item>
+            <item>The name of the sub-type will be <paramref name="typeName"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/> and the <paramref name="additionalAliases"/>.</item>
+            </list>
+            </remarks>
+            <param name="subType">The sub-type this base-type is associated with.</param>
+            <param name="typeName">A <see cref="T:System.String"/> identifier used to identity the sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for resolved sub-types.</param>
+            <param name="additionalAliases">The additional aliases for explicit sub-type.</param>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute">
+            <summary>
+            Denotes that a type should be considered a valid sub-type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.ExplicitBaseType">
+            <summary>
+            An explicit base-type this attribute is scoped to.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.NamingConvention">
+            <summary>
+            Identifies a singular <see cref="T:RPGCore.Data.Polymorphic.Naming.ITypeNamingConvention"/> to use.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.AliasConventions">
+            <summary>
+            Identifies one or more <see cref="T:RPGCore.Data.Polymorphic.Naming.ITypeNamingConvention"/> to use.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.TypeName">
+            <summary>
+            An explicit type name for the <see cref="P:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.ExplicitBaseType"/> specified.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.TypeAliases">
+            <summary>
+            An explicit collection of type aliases for the <see cref="P:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.ExplicitBaseType"/> specified.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>As naming convention is provided; the sub-types name will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultNamingConvention"/>.</item>
+            <item>As alias conventions are provided; the sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>As no alias conventions are provided; the sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be source from <paramref name="additionalAliases"/>.</item>
+            </list>
+            </remarks>
+            <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
+            <param name="additionalAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(RPGCore.Data.Polymorphic.Inline.TypeName,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(RPGCore.Data.Polymorphic.Inline.TypeName,RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/> and the <paramref name="additionalAliases"/> provided.</item>
+            </list>
+            </remarks>
+            <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for this sub-type.</param>
+            <param name="additionalAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.String)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>The name of the type will source from <paramref name="name"/>.</item>
+            <item>As no alias or alias conventions are provided; the sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="name">The name of the sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.String,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>The name of the type will source from <paramref name="name"/>.</item>
+            <item>The sub-types aliases will be source from <paramref name="additionalAliases"/>.</item>
+            </list>
+            </remarks>
+            <param name="name">The name of the this sub-type.</param>
+            <param name="additionalAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.String,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>The name of the type will source from <paramref name="name"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="name">The name of the this sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.String,RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
+            <item>The name of the type will source from <paramref name="name"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/> and the <paramref name="additionalAliases"/> provided.</item>
+            </list>
+            </remarks>
+            <param name="name">The name of the this sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for this sub-type.</param>
+            <param name="additionalAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>As no name or naming convention is provided; the sub-types name will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultNamingConvention"/>.</item>
+            <item>As no alias or alias conventions are provided; the sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>As no alias or alias conventions are provided; the sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+            <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type,RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be source from <paramref name="additionalAliases"/>.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+            <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
+            <param name="additionalAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type,RPGCore.Data.Polymorphic.Inline.TypeName,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+            <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type,RPGCore.Data.Polymorphic.Inline.TypeName,RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/> and the <paramref name="additionalAliases"/> provided.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+            <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for this sub-type.</param>
+            <param name="additionalAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type,System.String)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>The name of the type will source from <paramref name="name"/>.</item>
+            <item>As no alias or alias conventions are provided; the sub-types aliases will be resolved using <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+            <param name="name">The name of the sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type,System.String,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>The name of the type will source from <paramref name="name"/>.</item>
+            <item>The sub-types aliases will be source from <paramref name="additionalAliases"/>.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+            <param name="name">The name of the this sub-type.</param>
+            <param name="additionalAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type,System.String,RPGCore.Data.Polymorphic.Inline.TypeName)">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>The name of the type will source from <paramref name="name"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/>.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+            <param name="name">The name of the this sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for this sub-type.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Inline.SerializeSubTypeAttribute.#ctor(System.Type,System.String,RPGCore.Data.Polymorphic.Inline.TypeName,System.String[])">
+            <summary>
+            Indicates that the type this attribute is placed on should be considered a sub-type.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
+            <item>The name of the type will source from <paramref name="name"/>.</item>
+            <item>The sub-types aliases will be resolved using the alias conventions identified by <paramref name="aliasConventions"/> and the <paramref name="additionalAliases"/> provided.</item>
+            </list>
+            </remarks>
+            <param name="baseType">The base-type this sub-type is associated with.</param>
+            <param name="name">The name of the this sub-type.</param>
+            <param name="aliasConventions">The alias conventions used to source the aliases for this sub-type.</param>
+            <param name="additionalAliases">The additional aliases for this sub-type.</param>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Inline.TypeName">
+            <summary>
+            Identifies a type naming source.
+            </summary>
+        </member>
+        <member name="F:RPGCore.Data.Polymorphic.Inline.TypeName.None">
+            <summary>
+            Indicates that no type names should be used.
+            </summary>
+        </member>
+        <member name="F:RPGCore.Data.Polymorphic.Inline.TypeName.FullName">
+            <summary>
+            Identifies type naming that is sourced from <see cref="P:System.Type.FullName"/>.
+            </summary>
+            <remarks>
+            Equivilant to supplying <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeFullNameNamingConvention"/>.
+            </remarks>
+        </member>
+        <member name="F:RPGCore.Data.Polymorphic.Inline.TypeName.Name">
+             <summary>
+            Identifies type naming that is sourced from <see cref="P:System.Reflection.MemberInfo.Name"/>.
+             </summary>
+             <remarks>
+             Equivilant to supplying <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeNameNamingConvention"/>.
+             </remarks>
+        </member>
+        <member name="F:RPGCore.Data.Polymorphic.Inline.TypeName.AssemblyQualifiedName">
+            <summary>
+            Identifies type naming that is sourced from <see cref="P:System.Type.AssemblyQualifiedName"/>.
+            </summary>
+            <remarks>
+            Equivilant to supplying <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeAssemblyQualifiedNameNamingConvention"/>.
+            </remarks>
+        </member>
+        <member name="F:RPGCore.Data.Polymorphic.Inline.TypeName.GUID">
+            <summary>
+            Identifies type naming that is sourced from <see cref="P:System.Type.GUID"/>.
+            </summary>
+            <remarks>
+            Equivilant to supplying <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeGuidNamingConvention"/>.
+            </remarks>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.ITypeFilter">
+            <summary>
+            Evaluates a <see cref="T:System.Type"/> to determine whether it meets specified conditions.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.ITypeFilter.ShouldInclude(System.Type)">
+            <summary>
+            Determines whether the <paramref name="type"/> should be included in the set.
+            </summary>
+            <param name="type">The type to evaluate.</param>
+            <returns><c>true</c> if the <paramref name="type"/> satifies the conditions of this <see cref="T:RPGCore.Data.Polymorphic.ITypeFilter"/>; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Naming.ITypeNamingConvention">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <see cref="T:System.Type"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Naming.ITypeNamingConvention.GetNameForType(System.Type)">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <paramref name="type"/>.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> to generate a name for.</param>
+            <returns>A <see cref="T:System.String"/> name for the supplied <paramref name="type"/>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Naming.TypeAssemblyQualifiedNameNamingConvention">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <see cref="T:System.Type"/> in the format of the types assembly qualified name.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Naming.TypeAssemblyQualifiedNameNamingConvention.Instance">
+            <summary>
+            An instance of the <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeAssemblyQualifiedNameNamingConvention"/> naming convention.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Naming.TypeAssemblyQualifiedNameNamingConvention.GetNameForType(System.Type)">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <paramref name="type"/> in the format of the types assembly qualified name.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> to generate a name for.</param>
+            <returns>A <see cref="T:System.String"/> in the format of the <paramref name="type"/> assembly qualified name.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Naming.TypeFullNameNamingConvention">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <see cref="T:System.Type"/> in the format of the types <see cref="P:System.Type.FullName"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Naming.TypeFullNameNamingConvention.Instance">
+            <summary>
+            An instance of the <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeFullNameNamingConvention"/> naming convention.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Naming.TypeFullNameNamingConvention.GetNameForType(System.Type)">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <paramref name="type"/> in the format of the types <see cref="P:System.Type.FullName"/>.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> to generate a name for.</param>
+            <returns>A <see cref="T:System.String"/> in the format of the <paramref name="type"/> <see cref="P:System.Type.FullName"/>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Naming.TypeGuidNamingConvention">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <see cref="T:System.Type"/> in the format of the types <see cref="P:System.Type.GUID"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Naming.TypeGuidNamingConvention.Instance">
+            <summary>
+            An instance of the <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeAssemblyQualifiedNameNamingConvention"/> naming convention.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Naming.TypeGuidNamingConvention.GetNameForType(System.Type)">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <paramref name="type"/> in the format of the types <see cref="P:System.Type.GUID"/>.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> to generate a name for.</param>
+            <returns>A <see cref="T:System.String"/> in the format of the <paramref name="type"/> <see cref="P:System.Type.GUID"/>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.Naming.TypeNameNamingConvention">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <see cref="T:System.Type"/> in the format of the types <see cref="P:System.Reflection.MemberInfo.Name"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.Naming.TypeNameNamingConvention.Instance">
+            <summary>
+            An instance of the <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeAssemblyQualifiedNameNamingConvention"/> naming convention.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.Naming.TypeNameNamingConvention.GetNameForType(System.Type)">
+            <summary>
+            Generates a <see cref="T:System.String"/> name for a <paramref name="type"/> in the format of the types <see cref="P:System.Reflection.MemberInfo.Name"/>.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> to generate a name for.</param>
+            <returns>A <see cref="T:System.String"/> in the format of the <paramref name="type"/> <see cref="P:System.Reflection.MemberInfo.Name"/>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.PolymorphicOptions">
+            <summary>
+            Options used to configure polymorphic serialization.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DescriminatorName">
+            <summary>
+            Determines the name of the field that is used to determine polymorphic types.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptions.CaseInsensitive">
+            <summary>
+            Determines whether type names should be case-insensitive.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultNamingConvention">
+            <summary>
+            Determines the default type name to use when none is supplied.
+            <para>This property by default uses an instance of <see cref="T:RPGCore.Data.Polymorphic.Naming.TypeFullNameNamingConvention"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultAliasConventions">
+            <summary>
+            Determines the default type alias conventions to use when none is supplied.
+            <para>This property has a default value of <c>null</c>.</para>
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptions.#ctor">
+            <summary>
+            Creates a new instance of this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/> class.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptions.UseKnownBaseType(System.Type,System.Action{RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType})">
+            <summary>
+            Registers a known base-type to this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/>.
+            </summary>
+            <param name="knownBaseType">The known base-type to add.</param>
+            <param name="options">Options assoociated with this known base-type.</param>
+            <returns>This <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/> for continued configuration.</returns>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptions.UseKnownSubType(System.Type,System.Action{RPGCore.Data.Polymorphic.PolymorphicOptionsSubType})">
+            <summary>
+            Registers a known sub-type to this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/>.
+            </summary>
+            <param name="knownSubType">The known sub-type to add.</param>
+            <param name="options">Options assoociated with this known sub-type.</param>
+            <returns>This <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/> for continued configuration.</returns>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptions.Build">
+            <summary>
+            Constructs a new <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration"/> from the current state of this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/>.
+            </summary>
+            <returns>A <see cref="T:RPGCore.Data.Polymorphic.Configuration.PolymorphicConfiguration"/> from the current state of the this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptions"/>.</returns>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType">
+            <summary>
+            Options for configuring the polymorphic types available to the serializer.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.BaseType">
+            <summary>
+            The type that this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType"/> represents.
+            </summary>
+        </member>
+        <member name="F:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.knownSubTypes">
+            <summary>
+            A collection of sub-types that are explicitly declared as suitable for this base-type.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.ResolveSubTypesAutomatically">
+            <summary>
+            Directs the serializer to locate additional sub-types automatically.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.ResolveSubTypesAutomatically(System.Action{RPGCore.Data.Polymorphic.PolymorphicOptionsResolveSubType})">
+            <summary>
+            Directs the serializer to locate additional sub-types automatically.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.UseSubType(System.Type)">
+            <summary>
+            Adds a sub-type to a <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.BaseType"/> list of valid sub-types.
+            </summary>
+            <param name="subType">The sub-type to allow for this <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.BaseType"/>.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.UseSubType(System.Type,System.Action{RPGCore.Data.Polymorphic.PolymorphicOptionsBaseTypeSubType})">
+            <summary>
+            Adds a sub-type to a <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.BaseType"/> list of valid sub-types.
+            </summary>
+            <param name="subType">The sub-type to allow for this <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.BaseType"/>.</param>
+            <param name="options">Options used to configure how the sub-type behaves when used by this <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseType.BaseType"/>.</param>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseTypeSubType">
+            <summary>
+            Options for configuring how a sub-type is identified in a base-type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseTypeSubType.SubType">
+            <summary>
+            The type that this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseTypeSubType"/> represents.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseTypeSubType.Descriminator">
+            <summary>
+            The primary alias for this subtype that is used to identify this sub-type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsBaseTypeSubType.Aliases">
+            <summary>
+            Aliases for this subtype that as are also acceptable to indicate this sub-type.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.PolymorphicOptionsResolveBaseType">
+            <summary>
+            Options for how base-types should be automatically resolved.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsResolveBaseType.TypeFilter">
+            <summary>
+            A filter used to exclude types from being considered valid base-type.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.PolymorphicOptionsResolveSubType">
+            <summary>
+            Options for how sub-types should be automatically resolved.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsResolveSubType.TypeFilter">
+            <summary>
+            A type filter used to limit the scope of resolved sub-types.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsResolveSubType.TypeNaming">
+            <summary>
+            A <see cref="T:RPGCore.Data.Polymorphic.Naming.ITypeNamingConvention"/> used to determine the identifier for the resolved sub-types.
+            </summary>
+            <remarks>
+            If no value for this property is assigned then <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptions.DefaultNamingConvention"/> is used.
+            </remarks>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsResolveSubType.TypeAliasing">
+            <summary>
+            A collection of <see cref="T:RPGCore.Data.Polymorphic.Naming.ITypeNamingConvention"/> used to determine aliases for the resolved sub-types.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType">
+            <summary>
+            Options for how a sub-type should be identified in serialization.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.SubType">
+            <summary>
+            The type that this <see cref="T:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType"/> represents.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.Descriminator">
+            <summary>
+            The primary alias for this subtype that is used to identify this sub-type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.Aliases">
+            <summary>
+            Aliases for this subtype that as are also acceptable to indicate this sub-type.
+            </summary>
+        </member>
+        <member name="F:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.knownBaseTypes">
+            <summary>
+            A collection of base-types that are explicitly declared as usable by this sub-type.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.ResolveBaseTypesAutomatically">
+            <summary>
+            Directs the serializer to locate additional base-types automatically.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.ResolveBaseTypesAutomatically(System.Action{RPGCore.Data.Polymorphic.PolymorphicOptionsResolveBaseType})">
+            <summary>
+            Directs the serializer to locate additional base-types automatically.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.UseBaseType(System.Type)">
+            <summary>
+            Adds a base-type to a <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.SubType"/> list of valid base-types.
+            </summary>
+            <param name="baseType">The base-type to allow for this <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.SubType"/>.</param>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.UseBaseType(System.Type,System.Action{RPGCore.Data.Polymorphic.PolymorphicOptionsSubTypeBaseType})">
+            <summary>
+            Adds a base-type to a <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.SubType"/> list of valid base-types.
+            </summary>
+            <param name="baseType">The base-type to allow for this <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.SubType"/>.</param>
+            <param name="options">Options used to configure how the base-type behaves when used by this <see cref="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubType.SubType"/>.</param>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.PolymorphicOptionsSubTypeBaseType">
+            <summary>
+            Options for how a sub-type scoped to a base-type should be identified in serialization.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubTypeBaseType.BaseType">
+            <summary>
+            The base-type these options are associated with.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubTypeBaseType.Descriminator">
+            <summary>
+            The primary alias for this subtype that is used to identify this sub-type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.PolymorphicOptionsSubTypeBaseType.Aliases">
+            <summary>
+            Aliases for this subtype that as are also acceptable to indicate this sub-type.
+            </summary>
+        </member>
+    </members>
+</doc>
