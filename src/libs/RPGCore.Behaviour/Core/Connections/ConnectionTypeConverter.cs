@@ -34,19 +34,29 @@ namespace RPGCore.Behaviour
 			Source = (IConnection<TInput>)source;
 		}
 
-		public void Subscribe(INodeInstance node, Action callback) =>
+		public void Subscribe(INodeInstance node, Action callback)
+		{
 			Source.Subscribe(node, callback);
+		}
 
-		public void Unsubscribe(INodeInstance node, Action callback) =>
+		public void Unsubscribe(INodeInstance node, Action callback)
+		{
 			Source.Unsubscribe(node, callback);
+		}
 
 		public void SetSource(IConnection source)
 		{
 			Source = (IConnection<TInput>)source;
 		}
 
-		public void RegisterInput(INodeInstance node) => Source.RegisterInput(node);
+		public void RegisterInput(INodeInstance node)
+		{
+			Source.RegisterInput(node);
+		}
 
-		public IConnectionTypeConverter UseConverter(Type converterType) => Source.UseConverter(converterType);
+		public IConnectionTypeConverter UseConverter(Type converterType)
+		{
+			return Source.UseConverter(converterType);
+		}
 	}
 }

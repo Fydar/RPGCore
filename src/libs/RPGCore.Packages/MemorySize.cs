@@ -25,50 +25,26 @@ namespace RPGCore.Packages
 
 		public double Kilobytes
 		{
-			get
-			{
-				return ((double)Bytes) / kilobyteSize;
-			}
-			set
-			{
-				Bytes = (ulong)(value * kilobyteSize);
-			}
+			get => ((double)Bytes) / kilobyteSize;
+			set => Bytes = (ulong)(value * kilobyteSize);
 		}
 
 		public double Megabytes
 		{
-			get
-			{
-				return ((double)Bytes) / megabyteSize;
-			}
-			set
-			{
-				Bytes = (ulong)(value * megabyteSize);
-			}
+			get => ((double)Bytes) / megabyteSize;
+			set => Bytes = (ulong)(value * megabyteSize);
 		}
 
 		public double Gigabytes
 		{
-			get
-			{
-				return ((double)Bytes) / gigabyteSize;
-			}
-			set
-			{
-				Bytes = (ulong)(value * gigabyteSize);
-			}
+			get => ((double)Bytes) / gigabyteSize;
+			set => Bytes = (ulong)(value * gigabyteSize);
 		}
 
 		public double Terrabytes
 		{
-			get
-			{
-				return ((double)Bytes) / terrabyteSize;
-			}
-			set
-			{
-				Bytes = (ulong)(value * terrabyteSize);
-			}
+			get => ((double)Bytes) / terrabyteSize;
+			set => Bytes = (ulong)(value * terrabyteSize);
 		}
 
 		public MemorySize(long bytes)
@@ -120,13 +96,25 @@ namespace RPGCore.Packages
 		}
 
 		/// <inheritdoc/>
-		public override bool Equals(object obj) => obj is MemorySize size && Equals(size);
+		public override bool Equals(object obj)
+		{
+			return obj is MemorySize size && Equals(size);
+		}
 
-		public bool Equals(MemorySize other) => Bytes == other.Bytes;
+		public bool Equals(MemorySize other)
+		{
+			return Bytes == other.Bytes;
+		}
 
-		public override int GetHashCode() => 1182642244 + Bytes.GetHashCode();
+		public override int GetHashCode()
+		{
+			return 1182642244 + Bytes.GetHashCode();
+		}
 
-		public int CompareTo(MemorySize other) => Bytes.CompareTo(other.Bytes);
+		public int CompareTo(MemorySize other)
+		{
+			return Bytes.CompareTo(other.Bytes);
+		}
 
 		public string ToString(string format, IFormatProvider formatProvider)
 		{

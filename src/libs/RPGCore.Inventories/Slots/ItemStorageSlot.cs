@@ -32,10 +32,7 @@ namespace RPGCore.Inventory.Slots
 		/// <exception cref="InvalidOperationException">Thrown when setting <c>value</c> to be less than or equal to 0.</exception>
 		public int? MaxStackSize
 		{
-			get
-			{
-				return maxStackSize;
-			}
+			get => maxStackSize;
 			set
 			{
 				if (value.HasValue)

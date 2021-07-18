@@ -9,7 +9,10 @@ namespace RPGCore.Demo.Inventory.Nodes
 
 		public OutputSocket Output;
 
-		public override Instance Create() => new GetStatInstance();
+		public override Instance Create()
+		{
+			return new GetStatInstance();
+		}
 
 		public class GetStatInstance : Instance
 		{

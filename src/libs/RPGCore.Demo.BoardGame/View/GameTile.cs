@@ -20,14 +20,8 @@ namespace RPGCore.Demo.BoardGame
 			set => HierachyHelper.Set(this, ref building, value);
 		}
 
-		public bool IsEmpty
-		{
-			get
-			{
-				return Building == null
+		public bool IsEmpty => Building == null
 					&& Resource == null;
-			}
-		}
 
 		public char ToChar()
 		{

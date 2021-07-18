@@ -8,10 +8,7 @@ namespace RPGCore.DataEditor
 
 		public bool IsExpanded
 		{
-			get
-			{
-				return isExpanded;
-			}
+			get => isExpanded;
 			set
 			{
 				if (IsExpanded != value)

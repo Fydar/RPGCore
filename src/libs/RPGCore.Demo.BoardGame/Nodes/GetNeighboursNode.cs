@@ -8,7 +8,10 @@ namespace RPGCore.Demo.BoardGame
 		public OutputSocket Neighbours;
 		public bool IncludeDiagonal;
 
-		public override Instance Create() => new GetNeighboursNodeInstance();
+		public override Instance Create()
+		{
+			return new GetNeighboursNodeInstance();
+		}
 
 		public class GetNeighboursNodeInstance : Instance
 		{

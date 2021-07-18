@@ -9,7 +9,10 @@ namespace RPGCore.Demo.Inventory.Nodes
 		public int MinValue = 2;
 		public int MaxValue = 12;
 
-		public override Instance Create() => new RollInstance();
+		public override Instance Create()
+		{
+			return new RollInstance();
+		}
 
 		public sealed class RollInstance : Instance
 		{

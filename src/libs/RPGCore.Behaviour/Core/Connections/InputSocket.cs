@@ -9,13 +9,7 @@ namespace RPGCore.Behaviour
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly int internalConnectionId;
 
-		public int ConnectionId
-		{
-			get
-			{
-				return internalConnectionId - 1;
-			}
-		}
+		public int ConnectionId => internalConnectionId - 1;
 
 		public InputSocket(int connectionId)
 		{

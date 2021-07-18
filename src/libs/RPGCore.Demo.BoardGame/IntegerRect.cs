@@ -10,21 +10,9 @@ namespace RPGCore.Demo.BoardGame
 		public readonly int width;
 		public readonly int height;
 
-		public int xMax
-		{
-			get
-			{
-				return x + width;
-			}
-		}
+		public int xMax => x + width;
 
-		public int yMax
-		{
-			get
-			{
-				return y + height;
-			}
-		}
+		public int yMax => y + height;
 
 		public IntegerRect(int x, int y, int width, int height)
 		{

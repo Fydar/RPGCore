@@ -25,10 +25,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public GameBoard Board
 		{
-			get
-			{
-				return board;
-			}
+			get => board;
 			set
 			{
 				if (value == null)

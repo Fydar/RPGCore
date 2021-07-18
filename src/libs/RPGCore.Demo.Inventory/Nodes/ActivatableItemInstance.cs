@@ -6,7 +6,10 @@ namespace RPGCore.Demo.Inventory.Nodes
 	{
 		public OutputSocket Output = new OutputSocket();
 
-		public override Instance Create() => new ActivatableItemInstance();
+		public override Instance Create()
+		{
+			return new ActivatableItemInstance();
+		}
 
 		public sealed class ActivatableItemInstance : Instance
 		{

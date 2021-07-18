@@ -15,14 +15,8 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public new T? Value
 		{
-			get
-			{
-				return base.Value == null ? default : (T)base.Value;
-			}
-			set
-			{
-				base.Value = value;
-			}
+			get => base.Value == null ? default : (T)base.Value;
+			set => base.Value = value;
 		}
 
 		internal EditorScalarValue(EditorSession session, TypeName type) : base(session, type, default(T))
@@ -62,10 +56,7 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public object? Value
 		{
-			get
-			{
-				return internalValue;
-			}
+			get => internalValue;
 			set
 			{
 				internalValue = value;

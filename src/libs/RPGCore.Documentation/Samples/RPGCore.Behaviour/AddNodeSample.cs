@@ -10,7 +10,10 @@ namespace RPGCore.Documentation.Samples.RPGCore.Behaviour
 
 		public OutputSocket Output;
 
-		public override Instance Create() => new AddInstance();
+		public override Instance Create()
+		{
+			return new AddInstance();
+		}
 
 		#region node_instance
 		public class AddInstance : Instance

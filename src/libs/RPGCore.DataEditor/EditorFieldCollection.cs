@@ -55,13 +55,7 @@ namespace RPGCore.DataEditor
 		/// <param name="index">The zero-based index of the <see cref="EditorField"/> to get.</param>
 		/// <returns>The <see cref="EditorField"/> at the specified <paramref name="index"/>.</returns>
 		/// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than 0. -or- <paramref name="index"/> is equal to or greater than <see cref="Count"/>.</exception>
-		public EditorField this[int index]
-		{
-			get
-			{
-				return internalCollection[index];
-			}
-		}
+		public EditorField this[int index] => internalCollection[index];
 
 		/// <summary>
 		/// Gets an <see cref="EditorField"/> with the specified <paramref name="name"/>.

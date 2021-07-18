@@ -2,6 +2,9 @@
 {
 	public class IntToFloatConverter : ConnectionTypeConverter<int, float>
 	{
-		protected override float Convert(int original) => original;
+		protected override float Convert(int original)
+		{
+			return original;
+		}
 	}
 }

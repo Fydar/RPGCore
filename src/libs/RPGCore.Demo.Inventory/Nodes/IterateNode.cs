@@ -9,7 +9,10 @@ namespace RPGCore.Demo.Inventory.Nodes
 		public InputSocket Repetitions;
 		public string SubgraphId;
 
-		public override Instance Create() => new IterateInstance();
+		public override Instance Create()
+		{
+			return new IterateInstance();
+		}
 
 		public class IterateInstance : Instance
 		{

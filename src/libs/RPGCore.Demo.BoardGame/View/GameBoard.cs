@@ -16,10 +16,7 @@ namespace RPGCore.Demo.BoardGame
 
 		public GameTile[,] Tiles
 		{
-			get
-			{
-				return tiles;
-			}
+			get => tiles;
 			set
 			{
 				foreach (var tile in value)
@@ -44,29 +41,11 @@ namespace RPGCore.Demo.BoardGame
 			}
 		}
 
-		public int Width
-		{
-			get
-			{
-				return tiles.GetLength(0);
-			}
-		}
+		public int Width => tiles.GetLength(0);
 
-		public int Height
-		{
-			get
-			{
-				return tiles.GetLength(1);
-			}
-		}
+		public int Height => tiles.GetLength(1);
 
-		public GameTile this[int x, int y]
-		{
-			get
-			{
-				return this[new Integer2(x, y)];
-			}
-		}
+		public GameTile this[int x, int y] => this[new Integer2(x, y)];
 
 		public GameTile this[Integer2 position]
 		{

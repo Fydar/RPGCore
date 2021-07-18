@@ -17,26 +17,14 @@ namespace RPGCore.Packages
 		private readonly List<PackageResourceDependency> dependencies;
 
 		/// <inheritdoc/>
-		public int Count
-		{
-			get
-			{
-				return dependencies.Count;
-			}
-		}
+		public int Count => dependencies.Count;
 
 		/// <summary>
 		/// Retrieves a <see cref="PackageResourceDependency"/> from the collection by an index.
 		/// </summary>
 		/// <param name="index">The integer-index for the resource in the collection.</param>
 		/// <returns>The <see cref="PackageResourceDependency"/> found within the collection; otherwise returns <c>null</c>.</returns>
-		public PackageResourceDependency this[int index]
-		{
-			get
-			{
-				return dependencies[index];
-			}
-		}
+		public PackageResourceDependency this[int index] => dependencies[index];
 
 		IResourceDependency IResourceDependencyCollection.this[int index] => this[index];
 

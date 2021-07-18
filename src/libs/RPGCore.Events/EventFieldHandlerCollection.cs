@@ -56,10 +56,7 @@ namespace RPGCore.Events
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly List<KeyValuePair<object, IEventFieldHandler>> internalHandlers;
 
-		public ContextWrapped this[object context]
-		{
-			get => new ContextWrapped(field, context);
-		}
+		public ContextWrapped this[object context] => new ContextWrapped(field, context);
 
 		public EventFieldHandlerCollection(IReadOnlyEventField field)
 		{

@@ -7,7 +7,10 @@ namespace RPGCore.Demo.BoardGame
 		public InputSocket Tile;
 		public OutputSocket Building;
 
-		public override Instance Create() => new GetTileBuildingInstance();
+		public override Instance Create()
+		{
+			return new GetTileBuildingInstance();
+		}
 
 		public class GetTileBuildingInstance : Instance
 		{

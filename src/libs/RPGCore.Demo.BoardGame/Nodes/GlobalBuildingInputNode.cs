@@ -7,7 +7,10 @@ namespace RPGCore.Demo.BoardGame
 		public OutputSocket Players;
 		public OutputSocket Building;
 
-		public override Instance Create() => new GlobalBuildingInputInstance();
+		public override Instance Create()
+		{
+			return new GlobalBuildingInputInstance();
+		}
 
 		public class GlobalBuildingInputInstance : Instance
 		{

@@ -31,7 +31,10 @@ namespace RPGCore.Behaviour
 
 		public abstract Instance Create();
 
-		public sealed override INodeInstance CreateInstance() => Create();
+		public sealed override INodeInstance CreateInstance()
+		{
+			return Create();
+		}
 
 		public sealed override InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance)
 		{

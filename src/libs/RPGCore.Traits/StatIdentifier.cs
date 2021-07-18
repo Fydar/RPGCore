@@ -19,12 +19,21 @@ namespace RPGCore.Traits
 		}
 
 		/// <inheritdoc/>
-		public override bool Equals(object obj) => obj is StatIdentifier identifier && Equals(identifier);
+		public override bool Equals(object obj)
+		{
+			return obj is StatIdentifier identifier && Equals(identifier);
+		}
 
-		public bool Equals(StatIdentifier other) => Identifer == other.Identifer;
+		public bool Equals(StatIdentifier other)
+		{
+			return Identifer == other.Identifer;
+		}
 
 		/// <inheritdoc/>
-		public override int GetHashCode() => 1924603977 + EqualityComparer<string>.Default.GetHashCode(Identifer);
+		public override int GetHashCode()
+		{
+			return 1924603977 + EqualityComparer<string>.Default.GetHashCode(Identifer);
+		}
 
 		public static bool operator ==(StatIdentifier left, StatIdentifier right)
 		{

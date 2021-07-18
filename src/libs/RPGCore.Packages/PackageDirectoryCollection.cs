@@ -34,8 +34,15 @@ namespace RPGCore.Packages
 			return directories.GetEnumerator();
 		}
 
-		IEnumerator<IDirectory> IEnumerable<IDirectory>.GetEnumerator() => GetEnumerator();
-		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+		IEnumerator<IDirectory> IEnumerable<IDirectory>.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
 
 		private class PackageDirectoryCollectionDebugView
 		{

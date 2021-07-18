@@ -15,13 +15,7 @@ namespace RPGCore.Inventory.Slots
 		}
 
 		/// <inheritdoc/>
-		public IEnumerable<IItem> Items
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+		public IEnumerable<IItem> Items => throw new NotImplementedException();
 
 		/// <inheritdoc/>
 		public InventoryTransaction AddItem(IItem item)

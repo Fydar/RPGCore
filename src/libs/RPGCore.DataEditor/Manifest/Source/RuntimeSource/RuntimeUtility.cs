@@ -160,11 +160,15 @@ namespace RPGCore.DataEditor.Manifest.Source.RuntimeSource
 			return typeIdentifier;
 		}
 
-		public static bool IsNullable(PropertyInfo property) =>
-			IsNullableHelper(property.PropertyType, property.DeclaringType, property.CustomAttributes);
+		public static bool IsNullable(PropertyInfo property)
+		{
+			return IsNullableHelper(property.PropertyType, property.DeclaringType, property.CustomAttributes);
+		}
 
-		public static bool IsNullable(FieldInfo field) =>
-			IsNullableHelper(field.FieldType, field.DeclaringType, field.CustomAttributes);
+		public static bool IsNullable(FieldInfo field)
+		{
+			return IsNullableHelper(field.FieldType, field.DeclaringType, field.CustomAttributes);
+		}
 
 		private static bool IsNullableHelper(Type memberType, MemberInfo? declaringType, IEnumerable<CustomAttributeData> customAttributes)
 		{

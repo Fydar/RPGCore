@@ -7,7 +7,10 @@ namespace RPGCore.Demo.Inventory.Nodes
 	{
 		public InputSocket Value;
 
-		public override Instance Create() => new OutputValueInstance();
+		public override Instance Create()
+		{
+			return new OutputValueInstance();
+		}
 
 		public class OutputValueInstance : Instance
 		{

@@ -12,26 +12,14 @@ namespace RPGCore.Projects
 
 		public string IncludePath
 		{
-			get
-			{
-				return Element.Attributes["Include"].Value;
-			}
-			set
-			{
-				Element.Attributes["Include"].Value = value;
-			}
+			get => Element.Attributes["Include"].Value;
+			set => Element.Attributes["Include"].Value = value;
 		}
 
 		public string Name
 		{
-			get
-			{
-				return Element.Attributes["Name"].Value;
-			}
-			set
-			{
-				Element.Attributes["Name"].Value = value;
-			}
+			get => Element.Attributes["Name"].Value;
+			set => Element.Attributes["Name"].Value = value;
 		}
 
 		public ResourceReference(ProjectDefinition file, XmlElement element)

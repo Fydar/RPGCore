@@ -29,8 +29,14 @@ namespace RPGCore.Inventory.Slots
 			return new InventoryTransaction(status, items);
 		}
 
-		public IEnumerator<ItemTransaction> GetEnumerator() => items.GetEnumerator();
+		public IEnumerator<ItemTransaction> GetEnumerator()
+		{
+			return items.GetEnumerator();
+		}
 
-		IEnumerator IEnumerable.GetEnumerator() => items.GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return items.GetEnumerator();
+		}
 	}
 }

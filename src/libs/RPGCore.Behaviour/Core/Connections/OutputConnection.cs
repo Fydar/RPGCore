@@ -39,10 +39,7 @@ namespace RPGCore.Behaviour
 		[JsonIgnore]
 		public override bool BufferEvents
 		{
-			get
-			{
-				return bufferEvents;
-			}
+			get => bufferEvents;
 			set
 			{
 				if (bufferEvents && !value)

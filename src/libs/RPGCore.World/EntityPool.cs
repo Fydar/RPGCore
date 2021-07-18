@@ -33,13 +33,7 @@ namespace RPGCore.World
 		/// <summary>
 		/// The amount of entities that are currently active from the pool.
 		/// </summary>
-		public int Count
-		{
-			get
-			{
-				return itemsCount - reservedItemsCount;
-			}
-		}
+		public int Count => itemsCount - reservedItemsCount;
 
 		internal EntityPool(IReadOnlyList<WorldEngineEntityComponentPoolFactory> components)
 		{

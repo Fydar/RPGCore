@@ -50,14 +50,8 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public int Length
 		{
-			get
-			{
-				return KeyValuePairs.Count;
-			}
-			set
-			{
-				SetLength(value);
-			}
+			get => KeyValuePairs.Count;
+			set => SetLength(value);
 		}
 
 		/// <inheritdoc/>

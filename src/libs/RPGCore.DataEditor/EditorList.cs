@@ -45,14 +45,8 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public int Length
 		{
-			get
-			{
-				return Elements.Count;
-			}
-			set
-			{
-				SetArraySize(value);
-			}
+			get => Elements.Count;
+			set => SetArraySize(value);
 		}
 
 		/// <inheritdoc/>

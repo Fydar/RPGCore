@@ -9,7 +9,10 @@ namespace RPGCore.Demo.Inventory.Nodes
 
 		public OutputSocket Output;
 
-		public override Instance Create() => new AddInstance();
+		public override Instance Create()
+		{
+			return new AddInstance();
+		}
 
 		public class AddInstance : Instance
 		{

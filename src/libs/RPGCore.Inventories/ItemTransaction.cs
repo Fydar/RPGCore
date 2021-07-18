@@ -11,13 +11,7 @@ namespace RPGCore.Inventory.Slots
 		public IInventory ToInventory;
 		public int Quantity;
 
-		public ItemTransactionType Type
-		{
-			get
-			{
-				return CalculateType(FromInventory, ToInventory);
-			}
-		}
+		public ItemTransactionType Type => CalculateType(FromInventory, ToInventory);
 
 		private static ItemTransactionType CalculateType(IInventory from, IInventory to)
 		{
