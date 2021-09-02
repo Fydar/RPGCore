@@ -192,7 +192,7 @@ namespace RPGCore.Projects
 
 					if (dependencyResource == null)
 					{
-						Console.WriteLine($"ERROR: Unable to resolve dependency for \"{dependency.Key}\"");
+						Console.WriteLine($"ERROR: Unable to resolve dependency for '{dependency.Key}'");
 					}
 					else
 					{
@@ -288,7 +288,7 @@ namespace RPGCore.Projects
 		{
 		}
 
-		public void ExportZippedToDirectory(BuildPipeline pipeline, string path)
+		public FileInfo ExportZippedToDirectory(BuildPipeline pipeline, string path)
 		{
 			var directoryInfo = new DirectoryInfo(path);
 			if (directoryInfo.Exists)
@@ -299,16 +299,19 @@ namespace RPGCore.Projects
 
 			var buildProcess = new ProjectBuildProcess(pipeline, this, directoryInfo.FullName);
 
-			string bpkgPath = Path.Combine(directoryInfo.FullName, $"{Definition.Properties.Name}.bpkg");
+			string packageFile = Path.Combine(directoryInfo.FullName, $"{Definition.Properties.Name}.bpkg");
+			var packageFileInfo = new FileInfo(packageFile);
 
-			using var fileStream = new FileStream(bpkgPath, FileMode.Create, FileAccess.Write);
+			using var fileStream = new FileStream(packageFile, FileMode.Create, FileAccess.Write);
 			using var zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Create, false);
 
 			var archive = new PackedArchive(zipArchive);
 			buildProcess.PerformBuild(archive.RootDirectory);
+
+			return packageFileInfo;
 		}
 
-		public void ExportFoldersToDirectory(BuildPipeline pipeline, string path)
+		public DirectoryInfo ExportFoldersToDirectory(BuildPipeline pipeline, string path)
 		{
 			var directoryInfo = new DirectoryInfo(path);
 			if (directoryInfo.Exists)
@@ -320,8 +323,11 @@ namespace RPGCore.Projects
 			var buildProcess = new ProjectBuildProcess(pipeline, this, directoryInfo.FullName);
 
 			string folderPath = Path.Combine(directoryInfo.FullName, $"{Definition.Properties.Name}");
-			var archive = new FileSystemArchive(new DirectoryInfo(folderPath), false);
+			var folderInfo = new DirectoryInfo(folderPath);
+			var archive = new FileSystemArchive(folderInfo, false);
 			buildProcess.PerformBuild(archive.RootDirectory);
+
+			return folderInfo;
 		}
 	}
 }
