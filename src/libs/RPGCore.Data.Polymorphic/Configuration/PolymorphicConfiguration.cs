@@ -1,6 +1,7 @@
 ﻿using RPGCore.Data.Polymorphic.Naming;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -11,6 +12,11 @@ namespace RPGCore.Data.Polymorphic.Configuration
 	/// </summary>
 	public class PolymorphicConfiguration
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		internal Dictionary<Type, PolymorphicConfigurationBaseType> baseTypes = new();
+
+		internal Dictionary<Type, List<PolymorphicConfigurationSubType>> subTypes = new();
+
 		/// <summary>
 		/// Determines the name of the field that is used to determine polymorphic types.
 		/// </summary>
@@ -21,8 +27,10 @@ namespace RPGCore.Data.Polymorphic.Configuration
 		/// </summary>
 		public bool CaseInsensitive { get; internal set; } = true;
 
-		internal Dictionary<Type, PolymorphicConfigurationBaseType> baseTypes = new();
-		internal Dictionary<Type, List<PolymorphicConfigurationSubType>> subTypes = new();
+		/// <summary>
+		/// All base types recognised by this configuration.
+		/// </summary>
+		public IReadOnlyCollection<PolymorphicConfigurationBaseType> BaseTypes => baseTypes.Values;
 
 		internal PolymorphicConfiguration(PolymorphicOptions options)
 		{
@@ -35,18 +43,20 @@ namespace RPGCore.Data.Polymorphic.Configuration
 			// Use the names from the automatically resolved sub-types.
 			foreach (var knownBaseType in options.knownBaseTypes.Values)
 			{
-				if (knownBaseType.resolveSubTypeOptions != null)
+				foreach (var resolveSubTypeOptions in knownBaseType.resolveSubTypeOptions)
 				{
 					var baseType = GetOrCreateBaseType(knownBaseType.BaseType);
 
-					foreach (var foundSubType in FindAllSubTypes(searchScope, knownBaseType.BaseType, knownBaseType.resolveSubTypeOptions.TypeFilter))
+					foreach (var foundSubType in FindAllSubTypes(searchScope, knownBaseType.BaseType, resolveSubTypeOptions.TypeFilter))
 					{
 						var subType = GetOrCreateSubTypeInBase(foundSubType, baseType);
 
-						var typeNaming = knownBaseType.resolveSubTypeOptions.TypeNaming ?? options.DefaultNamingConvention;
+						var typeNaming = resolveSubTypeOptions.TypeNaming ?? options.DefaultNamingConvention;
+
+						string overwritingSubTypeName = subType.Name;
 
 						subType.Name = typeNaming.GetNameForType(foundSubType);
-						subType.Aliases = GetAllNames(foundSubType, knownBaseType.resolveSubTypeOptions.TypeAliasing);
+						subType.Aliases = GetAllNames(subType.Aliases, foundSubType, resolveSubTypeOptions.TypeAliasing, overwritingSubTypeName);
 					}
 				}
 			}
@@ -54,12 +64,22 @@ namespace RPGCore.Data.Polymorphic.Configuration
 			// Use resolved names defined on the sub-type.
 			foreach (var knownSubType in options.knownSubTypes.Values)
 			{
-				if (knownSubType.resolveBaseTypeOptions != null)
+				foreach (var resolveBaseTypeOptions in knownSubType.resolveBaseTypeOptions)
 				{
-					foreach (var foundBaseType in FindAllBaseTypes(knownSubType.SubType, knownSubType.resolveBaseTypeOptions.TypeFilter))
+					foreach (var foundBaseType in FindAllBaseTypes(knownSubType.SubType, resolveBaseTypeOptions.TypeFilter))
 					{
+						if (!resolveBaseTypeOptions.IncludeSystemObject && foundBaseType == typeof(object))
+						{
+							continue;
+						}
+
 						var baseType = GetOrCreateBaseType(foundBaseType);
-						GetOrCreateSubTypeInBase(knownSubType.SubType, baseType);
+						var subType = GetOrCreateSubTypeInBase(knownSubType.SubType, baseType);
+
+						subType.Name = knownSubType.Descriminator
+							?? options.DefaultNamingConvention.GetNameForType(knownSubType.SubType);
+
+						subType.Aliases = knownSubType.Aliases.ToArray();
 					}
 				}
 			}
@@ -74,6 +94,8 @@ namespace RPGCore.Data.Polymorphic.Configuration
 
 					subType.Name = knownSubType.Descriminator
 						?? options.DefaultNamingConvention.GetNameForType(knownSubType.SubType);
+
+					subType.Aliases = knownSubType.Aliases.ToArray();
 				}
 			}
 
@@ -115,17 +137,37 @@ namespace RPGCore.Data.Polymorphic.Configuration
 			return subTypes.TryGetValue(key, out value);
 		}
 
-		private static string[] GetAllNames(Type type, IReadOnlyList<ITypeNamingConvention> conventions)
+		private static string[] GetAllNames(string[] baseValues, Type type, IReadOnlyList<ITypeNamingConvention> conventions)
 		{
 			if (conventions.Count == 0)
 			{
 				return Array.Empty<string>();
 			}
 
-			string[] names = new string[conventions.Count];
+			string[] names = new string[conventions.Count + baseValues.Length];
 			for (int i = 0; i < conventions.Count; i++)
 			{
-				names[i] = conventions[i].GetNameForType(type);
+				names[baseValues.Length + i] = conventions[i].GetNameForType(type);
+			}
+			return names;
+		}
+
+		private static string[] GetAllNames(string[] baseValues, Type type, IReadOnlyList<ITypeNamingConvention> conventions, string additionalAlias)
+		{
+			if (string.IsNullOrEmpty(additionalAlias))
+			{
+				return GetAllNames(baseValues, type, conventions);
+			}
+			if (conventions.Count == 0)
+			{
+				return new string[] { additionalAlias };
+			}
+
+			string[] names = new string[conventions.Count + baseValues.Length + 1];
+			names[0] = additionalAlias;
+			for (int i = 0; i < conventions.Count; i++)
+			{
+				names[baseValues.Length + i + 1] = conventions[i].GetNameForType(type);
 			}
 			return names;
 		}
@@ -140,6 +182,7 @@ namespace RPGCore.Data.Polymorphic.Configuration
 				foreach (var type in types)
 				{
 					if (baseType.IsAssignableFrom(type)
+						&& baseType != type
 						&& (filter == null
 							|| filter.ShouldInclude(type)))
 					{

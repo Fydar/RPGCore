@@ -23,7 +23,7 @@ namespace RPGCore.Data.Polymorphic.Configuration
 		/// <summary>
 		/// Configuration about all of the sub-types associated with this base-type.
 		/// </summary>
-		public IReadOnlyDictionary<Type, PolymorphicConfigurationSubType> SubTypes => subTypes;
+		public IReadOnlyCollection<PolymorphicConfigurationSubType> SubTypes => subTypes.Values;
 
 		internal PolymorphicConfigurationBaseType(PolymorphicConfiguration configuration, Type baseType)
 		{

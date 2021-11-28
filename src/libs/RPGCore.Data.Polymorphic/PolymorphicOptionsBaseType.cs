@@ -8,22 +8,23 @@ namespace RPGCore.Data.Polymorphic
 	/// </summary>
 	public class PolymorphicOptionsBaseType
 	{
-		internal PolymorphicOptionsResolveSubType? resolveSubTypeOptions;
+		/// <summary>
+		/// A collection of sub-types that are explicitly declared as suitable for this base-type.
+		/// </summary>
+		internal readonly Dictionary<Type, PolymorphicOptionsBaseTypeSubType> knownSubTypes;
+
+		internal readonly List<PolymorphicOptionsResolveSubType> resolveSubTypeOptions;
 
 		/// <summary>
 		/// The type that this <see cref="PolymorphicOptionsBaseType"/> represents.
 		/// </summary>
 		public Type BaseType { get; }
 
-		/// <summary>
-		/// A collection of sub-types that are explicitly declared as suitable for this base-type.
-		/// </summary>
-		internal readonly Dictionary<Type, PolymorphicOptionsBaseTypeSubType> knownSubTypes;
-
 		internal PolymorphicOptionsBaseType(Type baseType)
 		{
 			BaseType = baseType;
 			knownSubTypes = new Dictionary<Type, PolymorphicOptionsBaseTypeSubType>();
+			resolveSubTypeOptions = new List<PolymorphicOptionsResolveSubType>();
 		}
 
 		/// <summary>
@@ -31,10 +32,7 @@ namespace RPGCore.Data.Polymorphic
 		/// </summary>
 		public void ResolveSubTypesAutomatically()
 		{
-			if (resolveSubTypeOptions == null)
-			{
-				resolveSubTypeOptions = new PolymorphicOptionsResolveSubType();
-			}
+			resolveSubTypeOptions.Add(new PolymorphicOptionsResolveSubType());
 		}
 
 		/// <summary>
@@ -42,12 +40,11 @@ namespace RPGCore.Data.Polymorphic
 		/// </summary>
 		public void ResolveSubTypesAutomatically(Action<PolymorphicOptionsResolveSubType> options)
 		{
-			if (resolveSubTypeOptions == null)
-			{
-				resolveSubTypeOptions = new PolymorphicOptionsResolveSubType();
-			}
+			var optionsResult = new PolymorphicOptionsResolveSubType();
 
-			options?.Invoke(resolveSubTypeOptions);
+			options?.Invoke(optionsResult);
+
+			resolveSubTypeOptions.Add(optionsResult);
 		}
 
 		/// <summary>
@@ -67,7 +64,17 @@ namespace RPGCore.Data.Polymorphic
 		public void UseSubType(Type subType, Action<PolymorphicOptionsBaseTypeSubType> options)
 		{
 			var typeInfo = AddSubTypeToThisBaseType(subType);
+			options.Invoke(typeInfo);
+		}
 
+		/// <summary>
+		/// Adds a sub-type to a <see cref="BaseType"/> list of valid sub-types.
+		/// </summary>
+		/// <typeparam name="TSubType">The sub-type to allow for this <see cref="BaseType"/>.</typeparam>
+		/// <param name="options">Options used to configure how the sub-type behaves when used by this <see cref="BaseType"/>.</param>
+		public void UseSubType<TSubType>(Action<PolymorphicOptionsBaseTypeSubType> options)
+		{
+			var typeInfo = AddSubTypeToThisBaseType(typeof(TSubType));
 			options.Invoke(typeInfo);
 		}
 

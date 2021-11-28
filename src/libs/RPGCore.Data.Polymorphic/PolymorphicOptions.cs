@@ -10,6 +10,9 @@ namespace RPGCore.Data.Polymorphic
 	/// </summary>
 	public class PolymorphicOptions
 	{
+		internal Dictionary<Type, PolymorphicOptionsBaseType> knownBaseTypes = new();
+		internal Dictionary<Type, PolymorphicOptionsSubType> knownSubTypes = new();
+
 		/// <summary>
 		/// Determines the name of the field that is used to determine polymorphic types.
 		/// </summary>
@@ -31,9 +34,6 @@ namespace RPGCore.Data.Polymorphic
 		/// <para>This property has a default value of <c>null</c>.</para>
 		/// </summary>
 		public ITypeNamingConvention[]? DefaultAliasConventions { get; set; } = null;
-
-		internal Dictionary<Type, PolymorphicOptionsBaseType> knownBaseTypes = new();
-		internal Dictionary<Type, PolymorphicOptionsSubType> knownSubTypes = new();
 
 		/// <summary>
 		/// Creates a new instance of this <see cref="PolymorphicOptions"/> class.

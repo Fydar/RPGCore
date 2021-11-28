@@ -115,7 +115,7 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 			var sb = new StringBuilder();
 			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeConfiguration.BaseType.FullName}\" are:");
 
-			foreach (var validOption in baseTypeConfiguration.SubTypes.Values)
+			foreach (var validOption in baseTypeConfiguration.SubTypes)
 			{
 				sb.Append("\n- '");
 				sb.Append(validOption.Name);

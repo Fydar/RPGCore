@@ -1,15 +1,16 @@
 ﻿using NUnit.Framework;
 using RPGCore.Data.Polymorphic;
 using RPGCore.Data.Polymorphic.Inline;
+using RPGCore.Data.UnitTests.Utility;
 
 namespace RPGCore.Data.UnitTests.Polymorphic.Inline
 {
 	[TestFixture(TestOf = typeof(PolymorphicOptionsExtensions))]
 	public class PolymorphicOptionsExtensionsShould
 	{
-		[SerializeType(typeof(CreateProcedure), TypeName.Name)]
-		[SerializeType(typeof(UpdateProcedure), TypeName.Name)]
-		[SerializeType(typeof(SomethingProcedure), TypeName.Name)]
+		[SerializeBaseType(typeof(CreateProcedure), TypeName.Name)]
+		[SerializeBaseType(typeof(UpdateProcedure), TypeName.Name)]
+		[SerializeBaseType(typeof(SomethingProcedure), TypeName.Name)]
 		public interface IProcedure
 		{
 		}
@@ -19,7 +20,7 @@ namespace RPGCore.Data.UnitTests.Polymorphic.Inline
 			public string CreateString { get; set; } = "";
 		}
 
-		[SerializeThisType(typeof(IProcedure))]
+		[SerializeSubType(typeof(IProcedure))]
 		public class DestroyProcedure : IProcedure
 		{
 			public string DestroyString { get; set; } = "";
@@ -47,6 +48,8 @@ namespace RPGCore.Data.UnitTests.Polymorphic.Inline
 			options.UseInline();
 
 			var configuration = options.Build();
+
+			RenderingUtility.RenderConfiguration(TestContext.Out, configuration);
 		}
 	}
 }

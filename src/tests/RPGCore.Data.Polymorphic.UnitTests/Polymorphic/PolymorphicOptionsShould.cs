@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using RPGCore.Data.Polymorphic;
 using RPGCore.Data.Polymorphic.Naming;
+using RPGCore.Data.UnitTests.Utility;
 
 namespace RPGCore.Data.UnitTests.Polymorphic
 {
@@ -26,8 +27,6 @@ namespace RPGCore.Data.UnitTests.Polymorphic
 			public string SomethingString { get; set; } = "";
 		}
 
-
-
 		[Test, Parallelizable]
 		public void AllowConfigurationOfComplexRelationships()
 		{
@@ -42,19 +41,20 @@ namespace RPGCore.Data.UnitTests.Polymorphic
 				baseType.ResolveSubTypesAutomatically(resolveOptions =>
 				{
 					resolveOptions.TypeNaming = TypeNameNamingConvention.Instance;
+					resolveOptions.TypeAliasing.Add(TypeGuidNamingConvention.Instance);
 				});
 
 				baseType.UseSubType(typeof(SomethingProcedure), subType =>
 				{
 					subType.Descriminator = "something";
-					subType.Aliases.Add("SomethingProcedure");
+					subType.Aliases.Add("UseSomething");
 				});
 			});
 
 			options.UseKnownSubType(typeof(UpdateProcedure), subType =>
 			{
 				subType.Descriminator = "update";
-				subType.Aliases.Add("UpdateProcedure");
+				subType.Aliases.Add("doUpdate");
 
 				subType.UseBaseType(typeof(IProcedure));
 
@@ -62,6 +62,8 @@ namespace RPGCore.Data.UnitTests.Polymorphic
 			});
 
 			var configuration = options.Build();
+
+			RenderingUtility.RenderConfiguration(TestContext.Out, configuration);
 		}
 	}
 }

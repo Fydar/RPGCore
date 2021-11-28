@@ -38,7 +38,7 @@ namespace RPGCore.Data.Polymorphic.Configuration
 		{
 			BaseType = baseType;
 			Type = type;
-			Name = type.FullName;
+			Name = string.Empty;
 			Aliases = Array.Empty<string>();
 		}
 
