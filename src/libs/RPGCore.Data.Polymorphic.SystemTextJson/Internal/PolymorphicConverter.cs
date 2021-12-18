@@ -1,4 +1,4 @@
-﻿using RPGCore.Data.Polymorphic.Configuration;
+﻿using RPGCore.Data.Polymorphic;
 using System;
 using System.IO;
 using System.Text;
@@ -10,15 +10,15 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 	/// <inheritdoc/>
 	internal class PolymorphicConverter : JsonConverter<object>
 	{
-		private readonly PolymorphicConfiguration configuration;
-		private readonly PolymorphicConfigurationBaseType baseTypeConfiguration;
+		private readonly PolymorphicOptions configuration;
+		private readonly PolymorphicOptionsBaseType baseTypeOptions;
 
 		internal PolymorphicConverter(
-			PolymorphicConfiguration configuration,
+			PolymorphicOptions configuration,
 			Type converterType)
 		{
 			this.configuration = configuration;
-			configuration.TryGetBaseType(converterType, out baseTypeConfiguration);
+			configuration.TryGetBaseType(converterType, out baseTypeOptions);
 		}
 
 		/// <inheritdoc/>
@@ -59,7 +59,7 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 				throw CreateInvalidTypeException(typeName);
 			}
 
-			var subTypeConfiguration = baseTypeConfiguration.GetSubTypeForDescriminator(typeName);
+			var subTypeConfiguration = baseTypeOptions.GetSubTypeForDescriminator(typeName);
 			if (subTypeConfiguration == null)
 			{
 				throw CreateInvalidTypeException(typeName);
@@ -75,7 +75,7 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 
 			var valueType = value.GetType();
 
-			var subTypeConfiguration = baseTypeConfiguration.GetSubTypeForType(valueType);
+			var subTypeConfiguration = baseTypeOptions.GetSubTypeForType(valueType);
 			if (subTypeConfiguration == null)
 			{
 				throw new InvalidOperationException($"Cannot serialize value of type '{valueType.FullName}' as it's not one of the allowed types.");
@@ -113,9 +113,9 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 		private JsonException CreateInvalidTypeException(string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeConfiguration.BaseType.FullName}\" are:");
+			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeOptions.BaseType.FullName}\" are:");
 
-			foreach (var validOption in baseTypeConfiguration.SubTypes)
+			foreach (var validOption in baseTypeOptions.SubTypes)
 			{
 				sb.Append("\n- '");
 				sb.Append(validOption.Name);

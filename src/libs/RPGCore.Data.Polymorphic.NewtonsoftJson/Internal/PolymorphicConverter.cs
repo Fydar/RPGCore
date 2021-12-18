@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RPGCore.Data.Polymorphic.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +12,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 	/// </summary>
 	internal class PolymorphicConverter : JsonConverter
 	{
-		private readonly PolymorphicConfiguration configuration;
+		private readonly PolymorphicOptions configuration;
 
 		private readonly ThreadLocal<bool> isInRead = new();
 		private readonly ThreadLocal<bool> isInWrite = new();
@@ -46,7 +45,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 			}
 		}
 
-		internal PolymorphicConverter(PolymorphicConfiguration configuration)
+		internal PolymorphicConverter(PolymorphicOptions configuration)
 		{
 			this.configuration = configuration;
 		}
@@ -116,13 +115,13 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 
 			var valueType = value.GetType();
 
-			var baseTypeConfiguration = GetPolymorphicBaseType(valueType);
-			if (baseTypeConfiguration == null)
+			var baseTypeOptions = GetPolymorphicBaseType(valueType);
+			if (baseTypeOptions == null)
 			{
 				throw new InvalidOperationException();
 			}
 
-			var subTypeConfiguration = baseTypeConfiguration.GetSubTypeForType(valueType);
+			var subTypeConfiguration = baseTypeOptions.GetSubTypeForType(valueType);
 			if (subTypeConfiguration == null)
 			{
 				throw new InvalidOperationException();
@@ -141,7 +140,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 			}
 		}
 
-		private PolymorphicConfigurationBaseType GetPolymorphicBaseType(Type objectType)
+		private PolymorphicOptionsBaseType GetPolymorphicBaseType(Type objectType)
 		{
 			if (configuration.TryGetBaseType(objectType, out var baseTypeInfo))
 			{
@@ -163,12 +162,12 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 			}
 		}
 
-		private JsonException CreateInvalidTypeException(PolymorphicConfigurationBaseType baseCache, string? typeName)
+		private JsonException CreateInvalidTypeException(PolymorphicOptionsBaseType baseCache, string? typeName)
 		{
 			var sb = new StringBuilder();
 			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseCache.BaseType.FullName}\" are:");
 
-			foreach (var validOption in baseCache.SubTypes.Values)
+			foreach (var validOption in baseCache.SubTypes)
 			{
 				sb.Append("\n- '");
 				sb.Append(validOption.Name);
@@ -188,7 +187,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 			return new JsonException(sb.ToString());
 		}
 
-		private JsonException CreateAmbigiousBaseTypeException(Type subType, List<PolymorphicConfigurationSubType> subTypeInfos)
+		private JsonException CreateAmbigiousBaseTypeException(Type subType, List<PolymorphicOptionsSubType> subTypeInfos)
 		{
 			var sb = new StringBuilder();
 			sb.Append($"The sub-type '{subType.FullName}' has multiple base-types.\nCannot select a base-type between:");

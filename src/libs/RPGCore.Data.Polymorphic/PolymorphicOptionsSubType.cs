@@ -1,103 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RPGCore.Data.Polymorphic
 {
 	/// <summary>
-	/// Options for how a sub-type should be identified in serialization.
+	/// Information about the sub-type scoped to a base-type.
 	/// </summary>
-	public class PolymorphicOptionsSubType
+	public sealed class PolymorphicOptionsSubType
 	{
-		internal readonly List<PolymorphicOptionsResolveBaseType> resolveBaseTypeOptions;
+		/// <summary>
+		/// The <see cref="PolymorphicOptionsBaseType"/> these sub-type options is scoped to.
+		/// </summary>
+		public PolymorphicOptionsBaseType BaseType { get; }
 
 		/// <summary>
-		/// A collection of base-types that are explicitly declared as usable by this sub-type.
+		/// The type that is associated with this <see cref="PolymorphicOptionsSubType"/>.
 		/// </summary>
-		internal readonly Dictionary<Type, PolymorphicOptionsSubTypeBaseType> knownBaseTypes;
+		public Type Type { get; }
 
 		/// <summary>
-		/// The type that this <see cref="PolymorphicOptionsSubType"/> represents.
+		/// A <see cref="string"/> identifier associated with the <see cref="Type"/>.
 		/// </summary>
-		public Type SubType { get; }
+		public string Name { get; internal set; }
 
 		/// <summary>
-		/// The primary alias for this subtype that is used to identify this sub-type.
+		/// A collection of <see cref="string"/> aliases associated with the <see cref="Type"/>.
 		/// </summary>
-		public string? Descriminator { get; set; }
+		public string[] Aliases { get; internal set; }
 
 		/// <summary>
-		/// Aliases for this subtype that as are also acceptable to indicate this sub-type.
+		/// The <see cref="PolymorphicOptions"/> these sub-type options belongs to.
 		/// </summary>
-		public List<string> Aliases { get; set; }
+		public PolymorphicOptions Options => BaseType.Options;
 
-		internal PolymorphicOptionsSubType(Type subType)
+		internal PolymorphicOptionsSubType(
+			PolymorphicOptionsBaseType baseType,
+			Type type)
 		{
-			SubType = subType;
-			Aliases = new List<string>();
-			knownBaseTypes = new Dictionary<Type, PolymorphicOptionsSubTypeBaseType>();
-			resolveBaseTypeOptions = new List<PolymorphicOptionsResolveBaseType>();
+			BaseType = baseType;
+			Type = type;
+			Name = string.Empty;
+			Aliases = Array.Empty<string>();
 		}
 
 		/// <summary>
-		/// Directs the serializer to locate additional base-types automatically.
+		/// Determines whether this <see cref="PolymorphicOptionsSubType"/> matches the <paramref name="descriminator"/>.
 		/// </summary>
-		public void ResolveBaseTypesAutomatically()
+		/// <param name="descriminator">A descriminator to test against this <see cref="PolymorphicOptionsSubType"/>.</param>
+		/// <param name="caseInsentitive">Whether case-insensitive string-comparison should be used.</param>
+		/// <returns><c>true</c> if the <paramref name="descriminator"/> matches this <see cref="PolymorphicOptionsSubType"/>.</returns>
+		public bool DoesDescriminatorIndicate(string descriminator, bool caseInsentitive)
 		{
-			resolveBaseTypeOptions.Add(new PolymorphicOptionsResolveBaseType());
-		}
+			var comparison = caseInsentitive
+				? StringComparison.OrdinalIgnoreCase
+				: StringComparison.Ordinal;
 
-		/// <summary>
-		/// Directs the serializer to locate additional base-types automatically.
-		/// </summary>
-		public void ResolveBaseTypesAutomatically(Action<PolymorphicOptionsResolveBaseType> options)
-		{
-			var optionsResult = new PolymorphicOptionsResolveBaseType();
-
-			options?.Invoke(optionsResult);
-
-			resolveBaseTypeOptions.Add(optionsResult);
-		}
-
-		/// <summary>
-		/// Adds a base-type to a <see cref="SubType"/> list of valid base-types.
-		/// </summary>
-		/// <param name="baseType">The base-type to allow for this <see cref="SubType"/>.</param>
-		public void UseBaseType(Type baseType)
-		{
-			AddBaseTypeToThisSubType(baseType);
-		}
-
-		/// <summary>
-		/// Adds a base-type to a <see cref="SubType"/> list of valid base-types.
-		/// </summary>
-		/// <param name="baseType">The base-type to allow for this <see cref="SubType"/>.</param>
-		/// <param name="options">Options used to configure how the base-type behaves when used by this <see cref="SubType"/>.</param>
-		public void UseBaseType(Type baseType, Action<PolymorphicOptionsSubTypeBaseType> options)
-		{
-			var typeInfo = AddBaseTypeToThisSubType(baseType);
-
-			options.Invoke(typeInfo);
-		}
-
-		/// <summary>
-		/// Adds a base-type to a <see cref="SubType"/> list of valid base-types.
-		/// </summary>
-		/// <typeparam name="TBaseType">The base-type to allow for this <see cref="SubType"/>.</typeparam>
-		/// <param name="options">Options used to configure how the base-type behaves when used by this <see cref="SubType"/>.</param>
-		public void UseBaseType<TBaseType>(Action<PolymorphicOptionsSubTypeBaseType> options)
-		{
-			UseBaseType(typeof(TBaseType), options);
-		}
-
-		private PolymorphicOptionsSubTypeBaseType AddBaseTypeToThisSubType(Type baseType)
-		{
-			if (!knownBaseTypes.TryGetValue(baseType, out var typeInfo))
+			if (string.Equals(Name, descriminator, comparison))
 			{
-				typeInfo = new PolymorphicOptionsSubTypeBaseType(baseType);
-				knownBaseTypes[baseType] = typeInfo;
+				return true;
 			}
 
-			return typeInfo;
+			foreach (string alias in Aliases)
+			{
+				if (string.Equals(alias, descriminator, comparison))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Returns a <see cref="string"/> that represents the current <see cref="PolymorphicOptionsSubType"/>.
+		/// </summary>
+		/// <returns>A <see cref="string"/> that represents the current <see cref="PolymorphicOptionsSubType"/>.</returns>
+		public override string ToString()
+		{
+			return Name;
 		}
 	}
 }

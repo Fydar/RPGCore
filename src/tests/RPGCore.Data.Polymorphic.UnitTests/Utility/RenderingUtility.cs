@@ -1,12 +1,12 @@
 ﻿using NUnit.Framework;
-using RPGCore.Data.Polymorphic.Configuration;
+using RPGCore.Data.Polymorphic;
 using System.IO;
 
 namespace RPGCore.Data.UnitTests.Utility
 {
 	public static class RenderingUtility
 	{
-		public static void RenderConfiguration(TextWriter output, PolymorphicConfiguration polymorphicConfiguration)
+		public static void RenderConfiguration(TextWriter output, PolymorphicOptions polymorphicConfiguration)
 		{
 			output.WriteLine($"Descriminator: {polymorphicConfiguration.DescriminatorName}");
 			output.WriteLine($"Case Insensitive: {polymorphicConfiguration.CaseInsensitive}");

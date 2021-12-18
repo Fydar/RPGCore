@@ -16,7 +16,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson
 		/// <returns>The current instance of the <see cref="JsonSerializerSettings"/>.</returns>
 		public static JsonSerializerSettings UsePolymorphicSerialization(this JsonSerializerSettings jsonSerializerSettings)
 		{
-			var options = new PolymorphicOptions();
+			var options = new PolymorphicOptionsBuilder();
 			jsonSerializerSettings.Converters.Add(new PolymorphicConverter(options.Build()));
 			return jsonSerializerSettings;
 		}
@@ -27,9 +27,9 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson
 		/// <param name="jsonSerializerSettings">The serializer settings to configure.</param>
 		/// <param name="options">Options used to configure RPGCore.Data.Polymorphic.</param>
 		/// <returns>The current instance of the <see cref="JsonSerializerSettings"/>.</returns>
-		public static JsonSerializerSettings UsePolymorphicSerialization(this JsonSerializerSettings jsonSerializerSettings, Action<PolymorphicOptions> options)
+		public static JsonSerializerSettings UsePolymorphicSerialization(this JsonSerializerSettings jsonSerializerSettings, Action<PolymorphicOptionsBuilder> options)
 		{
-			var optionsResult = new PolymorphicOptions();
+			var optionsResult = new PolymorphicOptionsBuilder();
 			options.Invoke(optionsResult);
 			jsonSerializerSettings.Converters.Add(new PolymorphicConverter(optionsResult.Build()));
 			return jsonSerializerSettings;

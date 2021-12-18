@@ -39,7 +39,7 @@ namespace RPGCore.Data.UnitTests.Polymorphic.Inline
 		[Test, Parallelizable]
 		public void AllowConfigurationViaAttributes()
 		{
-			var options = new PolymorphicOptions
+			var options = new PolymorphicOptionsBuilder
 			{
 				CaseInsensitive = true,
 				DescriminatorName = "$type"

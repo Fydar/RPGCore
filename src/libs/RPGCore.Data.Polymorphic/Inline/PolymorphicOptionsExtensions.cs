@@ -12,11 +12,11 @@ namespace RPGCore.Data.Polymorphic.Inline
 	public static class PolymorphicOptionsExtensions
 	{
 		/// <summary>
-		/// Registers types from reflected attributes to the <see cref="PolymorphicOptions"/>.
+		/// Registers types from reflected attributes to the <see cref="PolymorphicOptionsBuilder"/>.
 		/// </summary>
 		/// <param name="options">Options used to configure how inline attributes are used.</param>
-		/// <returns>The current instance of this <see cref="PolymorphicOptions"/>.</returns>
-		public static PolymorphicOptions UseInline(this PolymorphicOptions options)
+		/// <returns>The current instance of this <see cref="PolymorphicOptionsBuilder"/>.</returns>
+		public static PolymorphicOptionsBuilder UseInline(this PolymorphicOptionsBuilder options)
 		{
 			var assemblies = GetDependentAssemblies(AppDomain.CurrentDomain, typeof(SerializeBaseTypeAttribute).Assembly).ToList();
 
@@ -39,12 +39,12 @@ namespace RPGCore.Data.Polymorphic.Inline
 									baseTypeOptions.UseSubType(attribute.Type, subTypeOptions =>
 									{
 										subTypeOptions.Descriminator = GetDescriminatorForType(options, attribute.Type, attribute.TypeName, attribute.NamingConvention);
-										AddAliases(options, subTypeOptions.Aliases, attribute.TypeAliases, attribute.Type, attribute.AliasConventions);
+										AddAliases(subTypeOptions.Aliases, attribute.TypeAliases, attribute.Type, attribute.AliasConventions);
 									});
 								}
 								else
 								{
-									baseTypeOptions.ResolveSubTypesAutomatically(resolveOptions =>
+									baseTypeOptions.UseResolvedSubTypes(resolveOptions =>
 									{
 										var namingConvention = GetNamingConvention(attribute.NamingConvention);
 										if (namingConvention == null)
@@ -53,14 +53,7 @@ namespace RPGCore.Data.Polymorphic.Inline
 										}
 										resolveOptions.TypeNaming = namingConvention;
 
-										if (attribute.AliasConventions == TypeName.None)
-										{
-											if (options.DefaultAliasConventions != null)
-											{
-												resolveOptions.TypeAliasing.AddRange(options.DefaultAliasConventions);
-											}
-										}
-										else
+										if (attribute.AliasConventions != TypeName.None)
 										{
 											resolveOptions.TypeAliasing.AddRange(GetNamingConventions(attribute.AliasConventions));
 										}
@@ -81,12 +74,12 @@ namespace RPGCore.Data.Polymorphic.Inline
 									subTypeOptions.UseBaseType(attribute.ExplicitBaseType, baseTypeOptions =>
 									{
 										baseTypeOptions.Descriminator = GetDescriminatorForType(options, type, attribute.TypeName, attribute.NamingConvention);
-										AddAliases(options, baseTypeOptions.Aliases, attribute.TypeAliases, type, attribute.AliasConventions);
+										AddAliases(baseTypeOptions.Aliases, attribute.TypeAliases, type, attribute.AliasConventions);
 									});
 								}
 								else
 								{
-									subTypeOptions.ResolveBaseTypesAutomatically();
+									subTypeOptions.UseResolvedBaseTypes();
 								}
 							}
 						});
@@ -96,7 +89,7 @@ namespace RPGCore.Data.Polymorphic.Inline
 			return options;
 		}
 
-		private static string GetDescriminatorForType(PolymorphicOptions options, Type type, string? attributeTypeName, TypeName attributeTypeNameConvention)
+		private static string GetDescriminatorForType(PolymorphicOptionsBuilder options, Type type, string? attributeTypeName, TypeName attributeTypeNameConvention)
 		{
 			string? descriminator = attributeTypeName;
 			if (descriminator == null)
@@ -111,16 +104,14 @@ namespace RPGCore.Data.Polymorphic.Inline
 			return descriminator;
 		}
 
-		private static void AddAliases(PolymorphicOptions options, List<string> destination, string[]? explicitAliases, Type type, TypeName aliasNames)
+		private static void AddAliases(List<string> destination, string[]? explicitAliases, Type type, TypeName aliasNames)
 		{
 			if (explicitAliases == null)
 			{
-				var aliasConventions = aliasNames != TypeName.None
-					? GetNamingConventions(aliasNames)
-					: options.DefaultAliasConventions;
-
-				if (aliasConventions != null)
+				if (aliasNames != TypeName.None)
 				{
+					var aliasConventions = GetNamingConventions(aliasNames);
+
 					foreach (var convention in aliasConventions)
 					{
 						destination.Add(convention.GetNameForType(type));

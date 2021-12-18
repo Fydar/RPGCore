@@ -30,7 +30,7 @@ namespace RPGCore.Data.UnitTests.Polymorphic
 		[Test, Parallelizable]
 		public void AllowConfigurationOfComplexRelationships()
 		{
-			var options = new PolymorphicOptions
+			var options = new PolymorphicOptionsBuilder
 			{
 				CaseInsensitive = true,
 				DescriminatorName = "$type"
@@ -38,10 +38,9 @@ namespace RPGCore.Data.UnitTests.Polymorphic
 
 			options.UseKnownBaseType(typeof(IProcedure), baseType =>
 			{
-				baseType.ResolveSubTypesAutomatically(resolveOptions =>
+				baseType.UseResolvedSubTypes(resolveOptions =>
 				{
 					resolveOptions.TypeNaming = TypeNameNamingConvention.Instance;
-					resolveOptions.TypeAliasing.Add(TypeGuidNamingConvention.Instance);
 				});
 
 				baseType.UseSubType(typeof(SomethingProcedure), subType =>
@@ -53,12 +52,27 @@ namespace RPGCore.Data.UnitTests.Polymorphic
 
 			options.UseKnownSubType(typeof(UpdateProcedure), subType =>
 			{
-				subType.Descriminator = "update";
-				subType.Aliases.Add("doUpdate");
+				subType.UseBaseType(typeof(IProcedure), options =>
+				{
+					options.Descriminator = "update";
+					options.Aliases.Add("doUpdate");
+				});
 
-				subType.UseBaseType(typeof(IProcedure));
+				subType.UseResolvedBaseTypes(options =>
+				{
+					options.IdentifyWith(identity =>
+					{
+						identity.Aliases.Add(identity.BaseType.Name + "-update");
+					});
+				});
+			});
 
-				subType.ResolveBaseTypesAutomatically();
+			options.UseKnownBaseType(typeof(IProcedure), baseType =>
+			{
+				baseType.UseResolvedSubTypes(resolveOptions =>
+				{
+					resolveOptions.TypeAliasing.Add(TypeGuidNamingConvention.Instance);
+				});
 			});
 
 			var configuration = options.Build();

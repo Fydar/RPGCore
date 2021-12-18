@@ -35,7 +35,7 @@ namespace RPGCore.Documentation.Samples.RPGCore.Data
 				{
 					options.UseKnownBaseType(typeof(IProcedure), baseType =>
 					{
-						baseType.ResolveSubTypesAutomatically(resolve =>
+						baseType.UseResolvedSubTypes(resolve =>
 						{
 							resolve.TypeNaming = TypeNameNamingConvention.Instance;
 						});

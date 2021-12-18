@@ -1,5 +1,4 @@
-﻿using RPGCore.Data.Polymorphic.Configuration;
-using System;
+﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -8,23 +7,23 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 	/// <inheritdoc/>
 	internal class PolymorphicConverterFactory : JsonConverterFactory
 	{
-		private readonly PolymorphicConfiguration configuration;
+		private readonly PolymorphicOptions options;
 
-		internal PolymorphicConverterFactory(PolymorphicConfiguration configuration)
+		internal PolymorphicConverterFactory(PolymorphicOptions options)
 		{
-			this.configuration = configuration;
+			this.options = options;
 		}
 
 		/// <inheritdoc/>
 		public override bool CanConvert(Type typeToConvert)
 		{
-			return configuration.TryGetBaseType(typeToConvert, out _);
+			return options.TryGetBaseType(typeToConvert, out _);
 		}
 
 		/// <inheritdoc/>
 		public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
 		{
-			return new PolymorphicConverter(configuration, typeToConvert);
+			return new PolymorphicConverter(this.options, typeToConvert);
 		}
 	}
 }
