@@ -51,16 +51,16 @@ namespace RPGCore.DataEditor.UnitTests
 
 			AssertUtility.AssertThatTypeIsEqualTo(file.Root, out EditorObject rootObject);
 
-			AssertUtility.AssertThatTypeIsEqualTo(rootObject.Fields["StringValue"]?.Value, out EditorScalarValue stringValue);
+			AssertUtility.AssertThatTypeIsEqualTo(rootObject.Fields["StringValue"]?.Value.Value, out EditorScalarValue stringValue);
 			stringValue.Value = "Set to a value...";
 
-			AssertUtility.AssertThatTypeIsEqualTo(rootObject.Fields["IntValue"]?.Value, out EditorScalarValue intValue);
+			AssertUtility.AssertThatTypeIsEqualTo(rootObject.Fields["IntValue"]?.Value.Value, out EditorScalarValue intValue);
 			intValue.Value = 64;
 
-			AssertUtility.AssertThatTypeIsEqualTo(rootObject.Fields["LongValue"]?.Value, out EditorScalarValue longValue);
+			AssertUtility.AssertThatTypeIsEqualTo(rootObject.Fields["LongValue"]?.Value.Value, out EditorScalarValue longValue);
 			longValue.Value = 512;
 
-			AssertUtility.AssertThatTypeIsEqualTo(rootObject.Fields["BoolValue"]?.Value, out EditorScalarValue boolValue);
+			AssertUtility.AssertThatTypeIsEqualTo(rootObject.Fields["BoolValue"]?.Value.Value, out EditorScalarValue boolValue);
 			boolValue.Value = true;
 
 			file.Save();

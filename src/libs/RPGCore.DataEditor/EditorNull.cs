@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RPGCore.DataEditor.Manifest;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -29,6 +30,9 @@ namespace RPGCore.DataEditor
 		FeatureCollection IEditorToken.Features => Features;
 
 		/// <inheritdoc/>
+		public TypeName? Type => null;
+
+		/// <inheritdoc/>
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		internal EditorNull(EditorSession session)
@@ -38,6 +42,12 @@ namespace RPGCore.DataEditor
 			Features = new FeatureCollection<EditorNull>(this);
 
 			PropertyChanged = delegate { };
+		}
+
+		/// <inheritdoc/>
+		public IEditorValue Duplicate()
+		{
+			return new EditorNull(Session);
 		}
 	}
 }

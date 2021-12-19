@@ -84,10 +84,10 @@ namespace RPGCore.Documentation.Samples.RPGCore.DataEditor
 
 			rootObject.Comments.Add(" important comments ");
 
-			var nameValue = (EditorScalarValue)rootObject.Fields["Name"]!.Value;
-			var damageValue = (EditorScalarValue)rootObject.Fields["Damage"]!.Value;
-			var durabilityValue = (EditorScalarValue)rootObject.Fields["Durability"]!.Value;
-			var isEnchantableValue = (EditorScalarValue)rootObject.Fields["IsEnchantable"]!.Value;
+			var nameValue = (EditorScalarValue)rootObject.Fields["Name"]!.Value.Value;
+			var damageValue = (EditorScalarValue)rootObject.Fields["Damage"]!.Value.Value;
+			var durabilityValue = (EditorScalarValue)rootObject.Fields["Durability"]!.Value.Value;
+			var isEnchantableValue = (EditorScalarValue)rootObject.Fields["IsEnchantable"]!.Value.Value;
 
 			nameValue.Value = "Excalibur";
 			damageValue.Value = 50;

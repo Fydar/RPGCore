@@ -28,12 +28,12 @@ namespace RPGCore.DataEditor
 		/// <summary>
 		/// Gets the key in the key/value pair.
 		/// </summary>
-		public IEditorValue Key { get; }
+		public EditorReplaceable Key { get; }
 
 		/// <summary>
 		/// Gets the value in the key/value pair.
 		/// </summary>
-		public IEditorValue Value { get; }
+		public EditorReplaceable Value { get; }
 
 		/// <summary>
 		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorKeyValuePair"/>.
@@ -50,8 +50,8 @@ namespace RPGCore.DataEditor
 		internal EditorKeyValuePair(EditorDictionary parent, IEditorValue key, IEditorValue value)
 		{
 			Parent = parent;
-			Key = key;
-			Value = value;
+			Key = new EditorReplaceable(parent.Session, parent.KeyType, key);
+			Value = new EditorReplaceable(parent.Session, parent.ValueType, value);
 			Features = new FeatureCollection<EditorKeyValuePair>(this);
 
 			comments = new List<string>();

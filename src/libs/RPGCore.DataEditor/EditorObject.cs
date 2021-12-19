@@ -52,5 +52,18 @@ namespace RPGCore.DataEditor
 
 			PropertyChanged = delegate { };
 		}
+
+		/// <inheritdoc/>
+		public IEditorValue Duplicate()
+		{
+			var editorObject = new EditorObject(Session, Type);
+
+			foreach (var field in Fields)
+			{
+				editorObject.Fields[field.Name]!.Value.Value = field.Value.Value.Duplicate();
+			}
+
+			return editorObject;
+		}
 	}
 }

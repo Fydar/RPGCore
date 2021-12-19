@@ -18,27 +18,21 @@ namespace RPGCore.DataEditor
 		public IList<string> Comments => comments;
 
 		/// <inheritdoc/>
+		public TypeName Type { get; }
+
+		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public EditorSession Session { get; }
 
 		/// <summary>
-		/// The type of all elements contained within this <see cref="EditorList"/>.
-		/// </summary>
-		public TypeName ElementType { get; }
-
-		/// <summary>
 		/// All elements contained within this <see cref="EditorList"/>.
 		/// </summary>
-		public List<IEditorValue> Elements { get; }
+		public List<EditorReplaceable> Elements { get; }
 
 		/// <summary>
 		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorList"/>.
 		/// </summary>
 		public FeatureCollection<EditorList> Features { get; }
-
-		/// <inheritdoc/>
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		FeatureCollection IEditorToken.Features => Features;
 
 		/// <summary>
 		/// The length of this <see cref="EditorList"/>.
@@ -49,16 +43,25 @@ namespace RPGCore.DataEditor
 			set => SetArraySize(value);
 		}
 
+		/// <summary>
+		/// The type of all elements contained within this <see cref="EditorList"/>.
+		/// </summary>
+		public TypeName ElementType => Type.TemplateTypes[0];
+
 		/// <inheritdoc/>
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		internal EditorList(EditorSession session, TypeName elementType)
+		/// <inheritdoc/>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		FeatureCollection IEditorToken.Features => Features;
+
+		internal EditorList(EditorSession session, TypeName type)
 		{
 			Session = session;
-			ElementType = elementType;
+			Type = type;
 			Features = new FeatureCollection<EditorList>(this);
 
-			Elements = new List<IEditorValue>();
+			Elements = new List<EditorReplaceable>();
 			comments = new List<string>();
 
 			PropertyChanged = delegate { };
@@ -86,11 +89,11 @@ namespace RPGCore.DataEditor
 			{
 				if (insertNulls)
 				{
-					Elements.Add(Session.CreateDefaultValue(ElementType));
+					Elements.Add(new EditorReplaceable(Session, ElementType, Session.CreateDefaultValue(ElementType)));
 				}
 				else
 				{
-					Elements.Add(Session.CreateInstatedValue(ElementType));
+					Elements.Add(new EditorReplaceable(Session, ElementType, Session.CreateInstatedValue(ElementType)));
 				}
 
 				modified = true;
@@ -125,11 +128,11 @@ namespace RPGCore.DataEditor
 		{
 			if (insertNulls)
 			{
-				Elements.Add(Session.CreateDefaultValue(ElementType));
+				Elements.Add(new EditorReplaceable(Session, ElementType, Session.CreateDefaultValue(ElementType)));
 			}
 			else
 			{
-				Elements.Add(Session.CreateInstatedValue(ElementType));
+				Elements.Add(new EditorReplaceable(Session, ElementType, Session.CreateInstatedValue(ElementType))) ;
 			}
 
 			InvokeOnSizeChanged();
@@ -146,7 +149,7 @@ namespace RPGCore.DataEditor
 				throw new InvalidOperationException($"Cannot add {value} to {nameof(EditorList)} because it cannot be assigned to the element type \"{ElementType}\".");
 			}
 
-			Elements.Add(value);
+			Elements.Add(new EditorReplaceable(Session, ElementType, value));
 
 			InvokeOnSizeChanged();
 		}
@@ -168,9 +171,22 @@ namespace RPGCore.DataEditor
 				throw new InvalidOperationException($"Cannot insert {value} at index {index} to {nameof(EditorList)} because it cannot be assigned to the element type \"{ElementType}\".");
 			}
 
-			Elements.Insert(index, value);
+			Elements.Insert(index, new EditorReplaceable(Session, ElementType, value));
 
 			InvokeOnSizeChanged();
+		}
+
+		/// <inheritdoc/>
+		public IEditorValue Duplicate()
+		{
+			var editorList = new EditorList(Session, Type);
+
+			foreach (var element in Elements)
+			{
+				editorList.Add(element.Value.Duplicate());
+			}
+
+			return editorList;
 		}
 
 		private void InvokeOnSizeChanged()

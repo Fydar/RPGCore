@@ -1,7 +1,7 @@
 ﻿
 @if (Value != null)
 {
-	if (Value is EditorObject editorObject)
+	if (Value.Value is EditorObject editorObject)
 	{
 		var uiFeature = editorObject.Features.GetOrCreateFeature<EditorUIFeature>();
 
@@ -18,7 +18,7 @@
 			}
 		}
 	}
-	else if (Value is EditorList editorList)
+	else if (Value.Value is EditorList editorList)
 	{
 		var uiFeature = editorList.Features.GetOrCreateFeature<EditorUIFeature>();
 		
@@ -43,7 +43,7 @@
 			}
 		}
 	}
-	else if (Value is EditorDictionary editorDictionary)
+	else if (Value.Value is EditorDictionary editorDictionary)
 	{
 		foreach (var kvp in editorDictionary.KeyValuePairs)
 		{
@@ -53,22 +53,22 @@
 			</div>
 		}
 	}
-	else if (Value is EditorScalarValue<bool> boolValue)
+	else if (Value.Value is EditorScalarValue<bool> boolValue)
 	{
 		<input type="checkbox" @bind="boolValue.Value" />
 		<span>@boolValue.Value</span>
 	}
-	else if (Value is EditorScalarValue<string> stringValue)
+	else if (Value.Value is EditorScalarValue<string> stringValue)
 	{
 		<input type="text" @bind="@stringValue.Value" />
 		<span>@stringValue.Value</span>
 	}
-	else if (Value is EditorScalarValue<int> intValue)
+	else if (Value.Value is EditorScalarValue<int> intValue)
 	{
 		<input type="number" @bind="@intValue.Value" />
 		<span>@intValue.Value</span>
 	}
-	else if (Value is EditorScalarValue<long> longValue)
+	else if (Value.Value is EditorScalarValue<long> longValue)
 	{
 		<input type="number" @bind="@longValue.Value" />
 		<span>@longValue.Value</span>
@@ -85,5 +85,5 @@ else
 
 @code {
 	[Parameter]
-	public IEditorValue? Value { get; set; }
+	public EditorReplaceable? Value { get; set; }
 }

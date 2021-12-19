@@ -21,15 +21,8 @@ namespace RPGCore.DataEditor
 		/// <inheritdoc/>
 		public IList<string> Comments => comments;
 
-		/// <summary>
-		/// The type of the dictionary keys.
-		/// </summary>
-		public TypeName KeyType { get; }
-
-		/// <summary>
-		/// the type of the dictionary values.
-		/// </summary>
-		public TypeName ValueType { get; }
+		/// <inheritdoc/>
+		public TypeName Type { get; }
 
 		/// <summary>
 		/// All key-value pairs contained within this dictionary.
@@ -40,6 +33,16 @@ namespace RPGCore.DataEditor
 		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorDictionary"/>.
 		/// </summary>
 		public FeatureCollection<EditorDictionary> Features { get; }
+
+		/// <summary>
+		/// The type of the dictionary keys.
+		/// </summary>
+		public TypeName KeyType => Type.TemplateTypes[0];
+
+		/// <summary>
+		/// the type of the dictionary values.
+		/// </summary>
+		public TypeName ValueType => Type.TemplateTypes[1];
 
 		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -57,11 +60,10 @@ namespace RPGCore.DataEditor
 		/// <inheritdoc/>
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		internal EditorDictionary(EditorSession session, TypeName keyType, TypeName valueType)
+		internal EditorDictionary(EditorSession session, TypeName type)
 		{
 			Session = session;
-			KeyType = keyType;
-			ValueType = valueType;
+			Type = type;
 			Features = new FeatureCollection<EditorDictionary>(this);
 
 			KeyValuePairs = new List<EditorKeyValuePair>();
@@ -124,14 +126,42 @@ namespace RPGCore.DataEditor
 		/// <summary>
 		/// Adds a new value to the <see cref="EditorDictionary"/>.
 		/// </summary>
-		public void Add()
+		public void Add(bool insertNulls = false)
 		{
 			KeyValuePairs.Add(new EditorKeyValuePair(
 				this,
 				Session.CreateDefaultValue(KeyType),
-				Session.CreateDefaultValue(ValueType)));
+				insertNulls ? Session.CreateDefaultValue(ValueType) : Session.CreateInstatedValue(ValueType)));
 
 			InvokeOnSizeChanged();
+		}
+
+		/// <summary>
+		/// Adds a new value to the <see cref="EditorDictionary"/>.
+		/// </summary>
+		public void Add(IEditorValue key, IEditorValue value)
+		{
+			KeyValuePairs.Add(new EditorKeyValuePair(
+				this,
+				key,
+				value));
+
+			InvokeOnSizeChanged();
+		}
+
+		/// <inheritdoc/>
+		public IEditorValue Duplicate()
+		{
+			var editorDictionary = new EditorDictionary(Session, Type);
+
+			foreach (var keyValuePair in KeyValuePairs)
+			{
+				editorDictionary.Add(
+					keyValuePair.Key.Value.Duplicate(),
+					keyValuePair.Value.Value.Duplicate());
+			}
+
+			return editorDictionary;
 		}
 
 		private void InvokeOnSizeChanged()

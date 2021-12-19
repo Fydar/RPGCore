@@ -63,11 +63,11 @@ namespace RPGCore.DataEditor
 		{
 			if (type.IsDictionary)
 			{
-				return new EditorDictionary(this, type.TemplateTypes[0], type.TemplateTypes[1]);
+				return new EditorDictionary(this, type);
 			}
 			else if (type.IsArray)
 			{
-				return new EditorList(this, type.TemplateTypes[0]);
+				return new EditorList(this, type);
 			}
 			else
 			{
@@ -89,6 +89,7 @@ namespace RPGCore.DataEditor
 				}
 			}
 		}
+
 		internal bool IsTypeSubtypeOf(TypeName subType, TypeName baseType)
 		{
 			return true;

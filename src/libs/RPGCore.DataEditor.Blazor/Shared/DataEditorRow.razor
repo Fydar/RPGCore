@@ -1,6 +1,6 @@
 ﻿@if (KeyToken != null)
 {
-	if (Value is EditorObject editorObject)
+	if (Replaceable.Value is EditorObject editorObject)
 	{
 		var uiFeature = KeyToken.Features.GetOrCreateFeature<EditorUIFeature>();
 
@@ -22,7 +22,7 @@
 			</div>
 		}
 	}
-	else if (Value is EditorList editorList)
+	else if (Replaceable.Value is EditorList editorList)
 	{
 		var uiFeature = KeyToken.Features.GetOrCreateFeature<EditorUIFeature>();
 
@@ -53,7 +53,7 @@
 			</div>
 		}
 	}
-	else if (Value is EditorDictionary editorDictionary)
+	else if (Replaceable.Value is EditorDictionary editorDictionary)
 	{
 		foreach (var kvp in editorDictionary.KeyValuePairs)
 		{
@@ -63,28 +63,28 @@
 			</div>
 		}
 	}
-	else if (Value is EditorScalarValue<bool> boolValue)
+	else if (Replaceable.Value is EditorScalarValue<bool> boolValue)
 	{
 		<div class="row editor-row">
 			<label class="col-6">@Name</label>
 			<input class="col-6" type="checkbox" @bind="boolValue.Value" />
 		</div>
 	}
-	else if (Value is EditorScalarValue<string> stringValue)
+	else if (Replaceable.Value is EditorScalarValue<string> stringValue)
 	{
 		<div class="row editor-row">
 			<label class="col-6">@Name</label>
 			<input class="col-6" type="text" @bind="@stringValue.Value" />
 		</div>
 	}
-	else if (Value is EditorScalarValue<int> intValue)
+	else if (Replaceable.Value is EditorScalarValue<int> intValue)
 	{
 		<div class="row editor-row">
 			<label class="col-6">@Name</label>
 			<input class="col-6" type="number" @bind="@intValue.Value" />
 		</div>
 	}
-	else if (Value is EditorScalarValue<long> longValue)
+	else if (Replaceable.Value is EditorScalarValue<long> longValue)
 	{
 		<div class="row editor-row">
 			<label class="col-6">@Name</label>
@@ -95,7 +95,7 @@
 	{
 		<div class="row editor-row">
 			<label class="col-6">@Name</label>
-			<div class="col-6">Unknown Type @Value</div>
+			<div class="col-6">Unknown Type @Replaceable</div>
 		</div>
 	}
 }
@@ -109,5 +109,5 @@
 	public IEditorToken? KeyToken { get; set; }
 
 	[Parameter]
-	public IEditorValue? Value { get; set; }
+	public EditorReplaceable? Replaceable { get; set; }
 }

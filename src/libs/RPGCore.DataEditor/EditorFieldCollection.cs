@@ -120,10 +120,10 @@ namespace RPGCore.DataEditor
 			{
 				if (!ContainsField(field.Name))
 				{
-					internalCollection.Add(new EditorField(owner, field.Name)
-					{
-						Value = owner.Session.CreateDefaultValue(field.Type)
-					});
+					var newField = new EditorField(owner, field.Name);
+
+					newField.Value.Value = owner.Session.CreateDefaultValue(field.Type);
+					internalCollection.Add(newField);
 				}
 			}
 		}

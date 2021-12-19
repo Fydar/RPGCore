@@ -93,5 +93,11 @@ namespace RPGCore.DataEditor
 		{
 			Value = value;
 		}
+
+		/// <inheritdoc/>
+		public IEditorValue Duplicate()
+		{
+			return new EditorScalarValue(Session, Type, Value);
+		}
 	}
 }

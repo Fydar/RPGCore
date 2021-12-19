@@ -27,6 +27,21 @@ namespace RPGCore.DataEditor
 		public EditorObject Parent { get; }
 
 		/// <summary>
+		/// The name of this field.
+		/// </summary>
+		public string Name { get; } = string.Empty;
+
+		/// <summary>
+		/// The value contained within this <see cref="EditorField"/>.
+		/// </summary>
+		public EditorReplaceable Value { get; }
+
+		/// <summary>
+		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorField"/>.
+		/// </summary>
+		public FeatureCollection<EditorField> Features { get; }
+
+		/// <summary>
 		/// A <see cref="SchemaField"/> used to drive the behaviour of this <see cref="EditorField"/>.
 		/// </summary>
 		public SchemaField? Schema
@@ -51,21 +66,6 @@ namespace RPGCore.DataEditor
 			}
 		}
 
-		/// <summary>
-		/// The value contained within this <see cref="EditorField"/>.
-		/// </summary>
-		public IEditorValue Value { get; set; }
-
-		/// <summary>
-		/// The name of this field.
-		/// </summary>
-		public string Name { get; } = string.Empty;
-
-		/// <summary>
-		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorField"/>.
-		/// </summary>
-		public FeatureCollection<EditorField> Features { get; }
-
 		/// <inheritdoc/>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		FeatureCollection IEditorToken.Features => Features;
@@ -78,7 +78,7 @@ namespace RPGCore.DataEditor
 			Parent = parent;
 			Name = name;
 
-			Value = new EditorNull(Session);
+			Value = new EditorReplaceable(parent.Session, Schema.Type, parent.Session.CreateDefaultValue(Schema.Type));
 			Features = new FeatureCollection<EditorField>(this);
 			comments = new List<string>();
 
@@ -90,9 +90,9 @@ namespace RPGCore.DataEditor
 		{
 			if (Schema == null)
 			{
-				return "unknown";
+				return $"unknown {Name}";
 			}
-			return Value switch
+			return Value.Value switch
 			{
 				EditorNull => $"{Schema.Type} {Schema.Name} = null",
 				EditorScalarValue editorScalarValue => $"{Schema.Type} {Schema.Name} = {editorScalarValue.Value}",
