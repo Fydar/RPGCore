@@ -1,0 +1,40 @@
+﻿
+@if (KeyValuePair != null)
+{
+	var uiFeature = KeyValuePair.Features.GetOrCreateFeature<EditorUIFeature>();
+
+	bool expandable = KeyValuePair.Value.Value is EditorObject
+		|| KeyValuePair.Value.Value is EditorList
+		|| KeyValuePair.Value.Value is EditorDictionary;
+
+	<div class="row editor-row">
+		<div class="col-1">
+			@if (expandable)
+			{
+				<input type="checkbox" @bind="uiFeature.IsExpanded" />
+			}
+		</div>
+		<label class="col-5"><DataEditorInlineValue Replaceable="KeyValuePair.Key" /></label>
+		<label class="col-6"><DataEditorInlineValue Replaceable="KeyValuePair.Value" /></label>
+	</div>
+
+	@if (expandable && uiFeature.IsExpanded)
+	{
+		<div class="row editor-expand">
+			<div>
+			</div>
+			<div class="col-12">
+				<DataEditorMultilineValue Replaceable="KeyValuePair.Value" />
+			</div>
+		</div>
+	}
+}
+
+@code {
+	[Parameter]
+	public EditorDictionary? ParentDictionary { get; set; }
+
+	[Parameter]
+	public EditorKeyValuePair? KeyValuePair { get; set; }
+}
+

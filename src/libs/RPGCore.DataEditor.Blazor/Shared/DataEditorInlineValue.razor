@@ -1,0 +1,29 @@
+﻿
+@if (Replaceable != null)
+{
+	if (Replaceable.Value is EditorScalarValue<bool> boolValue)
+	{
+		<input type="checkbox" @bind="boolValue.Value" />
+	}
+	else if (Replaceable.Value is EditorScalarValue<string> stringValue)
+	{
+		<input type="text" @bind="@stringValue.Value" />
+	}
+	else if (Replaceable.Value is EditorScalarValue<int> intValue)
+	{
+		<input type="number" @bind="@intValue.Value" />
+	}
+	else if (Replaceable.Value is EditorScalarValue<long> longValue)
+	{
+		<input type="number" @bind="@longValue.Value" />
+	}
+}
+else
+{
+	<div><code>null</code></div>
+}
+
+@code {
+	[Parameter]
+	public EditorReplaceable? Replaceable { get; set; }
+}

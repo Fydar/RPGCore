@@ -1,0 +1,37 @@
+﻿
+@if (Field != null)
+{
+	var uiFeature = Field.Features.GetOrCreateFeature<EditorUIFeature>();
+
+	bool expandable = Field.Value.Value is EditorObject
+		|| Field.Value.Value is EditorList
+		|| Field.Value.Value is EditorDictionary;
+
+	<div class="row editor-row">
+		<div class="col-1">
+			@if (expandable)
+			{
+				<input type="checkbox" @bind="uiFeature.IsExpanded" />
+			}
+		</div>
+		<label class="col-5">@Field.Name</label>
+		<label class="col-6"><DataEditorInlineValue Replaceable="Field.Value" /></label>
+	</div>
+
+	@if (expandable && uiFeature.IsExpanded)
+	{
+		<div class="row editor-expand">
+			<div>
+			</div>
+			<div class="col-12">
+				<DataEditorMultilineValue Replaceable="Field.Value" />
+			</div>
+		</div>
+	}
+}
+
+@code {
+	[Parameter]
+	public EditorField? Field { get; set; }
+}
+

@@ -1,0 +1,46 @@
+﻿
+@if (Replaceable != null)
+{
+	if (Replaceable.Value is EditorObject editorObject)
+	{
+		foreach (var field in editorObject.Fields)
+		{
+				<DataEditorRowField Field="field" />
+		}
+	}
+	else if (Replaceable.Value is EditorList editorList)
+	{
+		<div class="row editor-row">
+			<div class="col-1"></div>
+			<label class="col-5">Length</label>
+			<label class="col-6"><input type="number" @bind="editorList.Length" /></label>
+		</div>
+
+		foreach (var element in editorList.Elements)
+		{
+				<DataEditorRowElement ParentList="editorList" Element="element" />
+		}
+	}
+	else if (Replaceable.Value is EditorDictionary editorDictionary)
+	{
+		<div class="row editor-row">
+			<div class="col-1"></div>
+			<label class="col-5">Length</label>
+			<label class="col-6"><input type="number" @bind="editorDictionary.Length" /></label>
+		</div>
+
+		foreach (var keyValuePair in editorDictionary.KeyValuePairs)
+		{
+				<DataEditorRowKeyValuePair ParentDictionary="editorDictionary" KeyValuePair="keyValuePair" />
+		}
+	}
+}
+else
+{
+	<code>null</code>
+}
+
+@code {
+	[Parameter]
+	public EditorReplaceable? Replaceable { get; set; }
+}
