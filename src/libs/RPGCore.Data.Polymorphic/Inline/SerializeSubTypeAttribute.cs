@@ -41,7 +41,6 @@ namespace RPGCore.Data.Polymorphic.Inline
 		/// <list type="bullet">
 		/// <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
 		/// <item>As naming convention is provided; the sub-types name will be resolved using <see cref="PolymorphicOptionsBuilder.DefaultNamingConvention"/>.</item>
-		/// <item>As alias conventions are provided; the sub-types aliases will be resolved using <see cref="PolymorphicOptionsBuilder.DefaultAliasConventions"/>.</item>
 		/// </list>
 		/// </remarks>
 		public SerializeSubTypeAttribute()
@@ -55,7 +54,6 @@ namespace RPGCore.Data.Polymorphic.Inline
 		/// <list type="bullet">
 		/// <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
 		/// <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
-		/// <item>As no alias conventions are provided; the sub-types aliases will be resolved using <see cref="PolymorphicOptionsBuilder.DefaultAliasConventions"/>.</item>
 		/// </list>
 		/// </remarks>
 		/// <param name="namingConvention">The naming convention used to source the name for this sub-type.</param>
@@ -127,7 +125,6 @@ namespace RPGCore.Data.Polymorphic.Inline
 		/// <list type="bullet">
 		/// <item>As no explicit base-type is provided; the base-types for this sub-type will be resolved <b>automatically</b>.</item>
 		/// <item>The name of the type will source from <paramref name="name"/>.</item>
-		/// <item>As no alias or alias conventions are provided; the sub-types aliases will be resolved using <see cref="PolymorphicOptionsBuilder.DefaultAliasConventions"/>.</item>
 		/// </list>
 		/// </remarks>
 		/// <param name="name">The name of the sub-type.</param>
@@ -200,7 +197,6 @@ namespace RPGCore.Data.Polymorphic.Inline
 		/// <list type="bullet">
 		/// <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
 		/// <item>As no name or naming convention is provided; the sub-types name will be resolved using <see cref="PolymorphicOptionsBuilder.DefaultNamingConvention"/>.</item>
-		/// <item>As no alias or alias conventions are provided; the sub-types aliases will be resolved using <see cref="PolymorphicOptionsBuilder.DefaultAliasConventions"/>.</item>
 		/// </list>
 		/// </remarks>
 		/// <param name="baseType">The base-type this sub-type is associated with.</param>
@@ -216,7 +212,6 @@ namespace RPGCore.Data.Polymorphic.Inline
 		/// <list type="bullet">
 		/// <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
 		/// <item>The sub-types name will be resolved using the naming convention identified by <paramref name="namingConvention"/>.</item>
-		/// <item>As no alias or alias conventions are provided; the sub-types aliases will be resolved using <see cref="PolymorphicOptionsBuilder.DefaultAliasConventions"/>.</item>
 		/// </list>
 		/// </remarks>
 		/// <param name="baseType">The base-type this sub-type is associated with.</param>
@@ -296,7 +291,6 @@ namespace RPGCore.Data.Polymorphic.Inline
 		/// <list type="bullet">
 		/// <item>The base-type for this sub-type will be source from <paramref name="baseType"/>.</item>
 		/// <item>The name of the type will source from <paramref name="name"/>.</item>
-		/// <item>As no alias or alias conventions are provided; the sub-types aliases will be resolved using <see cref="PolymorphicOptionsBuilder.DefaultAliasConventions"/>.</item>
 		/// </list>
 		/// </remarks>
 		/// <param name="baseType">The base-type this sub-type is associated with.</param>

@@ -2,6 +2,9 @@
 
 namespace RPGCore.Data.Polymorphic
 {
+	/// <summary>
+	/// Options used to configure the behaviour of a known base type.
+	/// </summary>
 	public interface IPolymorphicOptionsBuilderKnownBaseType
 	{
 		/// <summary>
