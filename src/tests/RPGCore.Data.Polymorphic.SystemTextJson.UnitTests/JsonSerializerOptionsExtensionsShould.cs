@@ -87,8 +87,8 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.UnitTests
 			string serialized = JsonSerializer.Serialize(original, options);
 			object? deserialized = JsonSerializer.Deserialize(serialized, typeof(IProcedure[]), options);
 
-			AssertUtility.AssertThatTypeIsEqualTo(deserialized, out IProcedure deserializedProcedure);
-			string reserialized = JsonSerializer.Serialize(deserializedProcedure, options);
+			AssertUtility.AssertThatTypeIsEqualTo(deserialized, out IProcedure[] deserializedProcedures);
+			string reserialized = JsonSerializer.Serialize(deserializedProcedures, options);
 
 			Console.WriteLine(serialized);
 			Console.WriteLine(reserialized);
