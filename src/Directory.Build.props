@@ -24,7 +24,7 @@
   <!-- Icon -->
   <PropertyGroup>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl>https://raw.githubusercontent.com/Fydar/RPGCore/master/src/icon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Fydar/RPGCore/main/src/icon.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(IsPackable)' == 'true' ">
