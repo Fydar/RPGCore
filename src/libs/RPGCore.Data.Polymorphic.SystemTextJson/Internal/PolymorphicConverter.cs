@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 {
 	/// <inheritdoc/>
-	internal class PolymorphicConverter : JsonConverter<object>
+	internal class PolymorphicConverter<TModel> : JsonConverter<TModel>
 	{
 		private readonly PolymorphicOptions configuration;
 		private readonly PolymorphicOptionsBaseType baseTypeOptions;
@@ -22,14 +22,14 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 		}
 
 		/// <inheritdoc/>
-		public override object? Read(
+		public override TModel? Read(
 			ref Utf8JsonReader reader,
 			Type typeToConvert,
 			JsonSerializerOptions options)
 		{
 			if (reader.TokenType == JsonTokenType.Null)
 			{
-				return null;
+				return default;
 			}
 
 			var peek = reader;
@@ -65,15 +65,15 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 				throw CreateInvalidTypeException(typeName);
 			}
 
-			return JsonSerializer.Deserialize(ref reader, subTypeConfiguration.Type, options);
+			return (TModel)JsonSerializer.Deserialize(ref reader, subTypeConfiguration.Type, options)!;
 		}
 
 		/// <inheritdoc/>
-		public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
+		public override void Write(Utf8JsonWriter writer, TModel value, JsonSerializerOptions options)
 		{
 			writer.WriteStartObject();
 
-			var valueType = value.GetType();
+			var valueType = value!.GetType();
 
 			var subTypeConfiguration = baseTypeOptions.GetSubTypeForType(valueType);
 			if (subTypeConfiguration == null)
