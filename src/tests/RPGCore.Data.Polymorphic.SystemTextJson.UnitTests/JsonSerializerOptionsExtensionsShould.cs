@@ -66,6 +66,38 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.UnitTests
 
 
 		[Test, Parallelizable]
+		public void SerializeInterfaceArray()
+		{
+			var options = new JsonSerializerOptions()
+			{
+				WriteIndented = true,
+			};
+
+			options.UsePolymorphicSerialization(options =>
+			{
+				options.UseInline();
+			});
+
+			var original = new IProcedure[]
+			{
+				new SomethingProcedure(),
+				new UpdateProcedure()
+			};
+
+			string serialized = JsonSerializer.Serialize(original, options);
+			object? deserialized = JsonSerializer.Deserialize(serialized, typeof(IProcedure[]), options);
+
+			AssertUtility.AssertThatTypeIsEqualTo(deserialized, out IProcedure deserializedProcedure);
+			string reserialized = JsonSerializer.Serialize(deserializedProcedure, options);
+
+			Console.WriteLine(serialized);
+			Console.WriteLine(reserialized);
+
+			Assert.That(serialized, Is.EqualTo(reserialized));
+		}
+
+
+		[Test, Parallelizable]
 		public void SerializeInterfaceInObject()
 		{
 			var options = new JsonSerializerOptions()
