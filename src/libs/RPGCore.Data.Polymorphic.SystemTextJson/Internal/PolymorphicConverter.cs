@@ -1,5 +1,4 @@
-﻿using RPGCore.Data.Polymorphic;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -10,15 +9,15 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 	/// <inheritdoc/>
 	internal class PolymorphicConverter<TModel> : JsonConverter<TModel>
 	{
-		private readonly PolymorphicOptions configuration;
+		private readonly PolymorphicOptions options;
 		private readonly PolymorphicOptionsBaseType baseTypeOptions;
 
 		internal PolymorphicConverter(
-			PolymorphicOptions configuration,
+			PolymorphicOptions options,
 			Type converterType)
 		{
-			this.configuration = configuration;
-			configuration.TryGetBaseType(converterType, out baseTypeOptions);
+			this.options = options;
+			options.TryGetBaseType(converterType, out baseTypeOptions);
 		}
 
 		/// <inheritdoc/>
@@ -41,15 +40,15 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 
 			if (!peek.Read()
 				|| peek.TokenType != JsonTokenType.PropertyName
-				|| peek.GetString() != configuration.DescriminatorName)
+				|| peek.GetString() != this.options.DescriminatorName)
 			{
-				throw new JsonException($"Property \"{configuration.DescriminatorName}\" not found.");
+				throw new JsonException($"Property \"{this.options.DescriminatorName}\" not found.");
 			}
 
 			if (!peek.Read()
 				|| peek.TokenType != JsonTokenType.String)
 			{
-				throw new JsonException($"Value at \"{configuration.DescriminatorName}\" is invalid.");
+				throw new JsonException($"Value at \"{this.options.DescriminatorName}\" is invalid.");
 			}
 
 			string? typeName = peek.GetString();
@@ -71,9 +70,15 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 		/// <inheritdoc/>
 		public override void Write(Utf8JsonWriter writer, TModel value, JsonSerializerOptions options)
 		{
+			if (value == null)
+			{
+				writer.WriteNullValue();
+				return;
+			}
+
 			writer.WriteStartObject();
 
-			var valueType = value!.GetType();
+			var valueType = value.GetType();
 
 			var subTypeConfiguration = baseTypeOptions.GetSubTypeForType(valueType);
 			if (subTypeConfiguration == null)
@@ -81,7 +86,7 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 				throw new InvalidOperationException($"Cannot serialize value of type '{valueType.FullName}' as it's not one of the allowed types.");
 			}
 
-			writer.WriteString(configuration.DescriminatorName, subTypeConfiguration.Name);
+			writer.WriteString(this.options.DescriminatorName, subTypeConfiguration.Name);
 
 			var buffer = new MemoryStream();
 			using (var bufferWriter = new Utf8JsonWriter(buffer, new JsonWriterOptions()
@@ -113,7 +118,7 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 		private JsonException CreateInvalidTypeException(string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeOptions.BaseType.FullName}\" are:");
+			sb.Append($"\"{options.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseTypeOptions.BaseType.FullName}\" are:");
 
 			foreach (var validOption in baseTypeOptions.SubTypes)
 			{

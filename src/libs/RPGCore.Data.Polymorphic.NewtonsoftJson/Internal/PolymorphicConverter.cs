@@ -12,7 +12,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 	/// </summary>
 	internal class PolymorphicConverter : JsonConverter
 	{
-		private readonly PolymorphicOptions configuration;
+		private readonly PolymorphicOptions options;
 
 		private readonly ThreadLocal<bool> isInRead = new();
 		private readonly ThreadLocal<bool> isInWrite = new();
@@ -45,15 +45,15 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 			}
 		}
 
-		internal PolymorphicConverter(PolymorphicOptions configuration)
+		internal PolymorphicConverter(PolymorphicOptions options)
 		{
-			this.configuration = configuration;
+			this.options = options;
 		}
 
 		/// <inheritdoc/>
 		public override bool CanConvert(Type objectType)
 		{
-			return configuration.TryGetSubType(objectType, out _) || configuration.TryGetBaseType(objectType, out _);
+			return options.TryGetSubType(objectType, out _) || options.TryGetBaseType(objectType, out _);
 		}
 
 		/// <inheritdoc/>
@@ -73,7 +73,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 			var baseTypeConfiguration = GetPolymorphicBaseType(objectType);
 
 			var jsonObject = JObject.Load(reader);
-			var jsonTypeProperty = jsonObject[configuration.DescriminatorName];
+			var jsonTypeProperty = jsonObject[options.DescriminatorName];
 
 			string? typeName = jsonTypeProperty?.Value<string>();
 			if (typeName == null)
@@ -127,7 +127,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 				throw new InvalidOperationException();
 			}
 
-			var writerProxy = new JsonWriterWithObjectType(configuration.DescriminatorName, subTypeConfiguration.Name, writer);
+			var writerProxy = new JsonWriterWithObjectType(options.DescriminatorName, subTypeConfiguration.Name, writer);
 
 			try
 			{
@@ -142,12 +142,12 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 
 		private PolymorphicOptionsBaseType GetPolymorphicBaseType(Type objectType)
 		{
-			if (configuration.TryGetBaseType(objectType, out var baseTypeInfo))
+			if (options.TryGetBaseType(objectType, out var baseTypeInfo))
 			{
 				return baseTypeInfo;
 			}
 
-			if (!configuration.TryGetSubType(objectType, out var subTypeInfo))
+			if (!options.TryGetSubType(objectType, out var subTypeInfo))
 			{
 				throw new JsonException($"Cannot determine a base-type for '{objectType.FullName}'.");
 			}
@@ -165,7 +165,7 @@ namespace RPGCore.Data.Polymorphic.NewtonsoftJson.Internal
 		private JsonException CreateInvalidTypeException(PolymorphicOptionsBaseType baseCache, string? typeName)
 		{
 			var sb = new StringBuilder();
-			sb.Append($"\"{configuration.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseCache.BaseType.FullName}\" are:");
+			sb.Append($"\"{options.DescriminatorName}\" value of \"{typeName}\" is invalid.\nValid options for \"{baseCache.BaseType.FullName}\" are:");
 
 			foreach (var validOption in baseCache.SubTypes)
 			{

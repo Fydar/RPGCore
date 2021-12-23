@@ -1,5 +1,4 @@
-﻿using RPGCore.Data.Polymorphic.Configuration;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
@@ -10,17 +9,17 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 	/// <inheritdoc/>
 	internal class PolymorphicConverterFactory : JsonConverterFactory
 	{
-		private readonly PolymorphicConfiguration configuration;
+		private readonly PolymorphicOptions options;
 
-		internal PolymorphicConverterFactory(PolymorphicConfiguration configuration)
+		internal PolymorphicConverterFactory(PolymorphicOptions options)
 		{
-			this.configuration = configuration;
+			this.options = options;
 		}
 
 		/// <inheritdoc/>
 		public override bool CanConvert(Type typeToConvert)
 		{
-			return configuration.TryGetBaseType(typeToConvert, out _);
+			return options.TryGetBaseType(typeToConvert, out _);
 		}
 
 		/// <inheritdoc/>
@@ -32,7 +31,7 @@ namespace RPGCore.Data.Polymorphic.SystemTextJson.Internal
 				converterType,
 				BindingFlags.Instance | BindingFlags.NonPublic,
 				null,
-				new object[] { configuration, typeToConvert },
+				new object[] { this.options, typeToConvert },
 				CultureInfo.CurrentCulture)!;
 		}
 	}
