@@ -7,7 +7,7 @@ namespace RPGCore.FileTree
 		string Name { get; }
 		string FullName { get; }
 		IReadOnlyArchive Archive { get; }
-		IReadOnlyArchiveDirectory Parent { get; }
+		IReadOnlyArchiveDirectory? Parent { get; }
 
 		Task CopyIntoAsync(IArchiveDirectory destination, string name);
 	}

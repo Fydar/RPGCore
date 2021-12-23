@@ -25,7 +25,7 @@ namespace RPGCore.FileTree.Packed
 		}
 
 		/// <inheritdoc/>
-		public PackedArchiveDirectory GetDirectory(string key)
+		public PackedArchiveDirectory? GetDirectory(string key)
 		{
 			foreach (var directory in internalList)
 			{
@@ -50,12 +50,12 @@ namespace RPGCore.FileTree.Packed
 			return directory;
 		}
 
-		IReadOnlyArchiveDirectory IReadOnlyArchiveDirectoryCollection.GetDirectory(string key)
+		IReadOnlyArchiveDirectory? IReadOnlyArchiveDirectoryCollection.GetDirectory(string key)
 		{
 			return GetDirectory(key);
 		}
 
-		IArchiveDirectory IArchiveDirectoryCollection.GetDirectory(string key)
+		IArchiveDirectory? IArchiveDirectoryCollection.GetDirectory(string key)
 		{
 			return GetDirectory(key);
 		}

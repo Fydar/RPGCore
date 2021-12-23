@@ -6,6 +6,6 @@ namespace RPGCore.FileTree
 	{
 		IEnumerable<IReadOnlyArchiveDirectory> All { get; }
 
-		IReadOnlyArchiveDirectory GetDirectory(string key);
+		IReadOnlyArchiveDirectory? GetDirectory(string key);
 	}
 }

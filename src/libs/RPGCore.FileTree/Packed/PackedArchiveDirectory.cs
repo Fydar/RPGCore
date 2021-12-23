@@ -14,7 +14,7 @@ namespace RPGCore.FileTree.Packed
 		public string FullName { get; }
 
 		public PackedArchive Archive { get; }
-		public PackedArchiveDirectory Parent { get; }
+		public PackedArchiveDirectory? Parent { get; }
 		public PackedArchiveDirectoryCollection Directories { get; }
 		public PackedArchiveFileCollection Files { get; }
 
@@ -28,7 +28,7 @@ namespace RPGCore.FileTree.Packed
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectoryCollection IArchiveDirectory.Directories => Directories;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveFileCollection IArchiveDirectory.Files => Files;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchiveEntry.Parent => Parent;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory? IArchiveEntry.Parent => Parent;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchive IArchiveEntry.Archive => Archive;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectoryCollection IReadOnlyArchiveDirectory.Directories => Directories;
@@ -36,7 +36,7 @@ namespace RPGCore.FileTree.Packed
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchiveEntry.Parent => Parent;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchive IReadOnlyArchiveEntry.Archive => Archive;
 
-		internal PackedArchiveDirectory(PackedArchive archive, PackedArchiveDirectory parent, string name)
+		internal PackedArchiveDirectory(PackedArchive archive, PackedArchiveDirectory? parent, string name)
 		{
 			Archive = archive;
 			Parent = parent;
