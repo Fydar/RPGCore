@@ -13,6 +13,7 @@
           "NETStandard.Library": "2.0.3",
           "RPGCore.Behaviour": "0.1.0-alpha",
           "RPGCore.Data": "0.1.0-alpha",
+          "RPGCore.Data.Polymorphic.NewtonsoftJson": "0.1.0-alpha",
           "RPGCore.DataEditor": "0.1.0-alpha",
           "RPGCore.Events": "0.1.0-alpha",
           "RPGCore.FileTree": "0.1.0-alpha",
@@ -20,7 +21,8 @@
           "RPGCore.Items": "0.1.0-alpha",
           "RPGCore.Packages": "0.1.0-alpha",
           "RPGCore.Projects": "0.1.0-alpha",
-          "RPGCore.Traits": "0.1.0-alpha"
+          "RPGCore.Traits": "0.1.0-alpha",
+          "RPGCore.World": "0.1.0-alpha"
         },
         "runtime": {
           "RPGCore.Unity.dll": {}
@@ -140,9 +142,7 @@
         "dependencies": {
           "Newtonsoft.Json": "13.0.1",
           "RPGCore.Data": "0.1.0-alpha",
-          "RPGCore.Events": "0.1.0-alpha",
-          "RPGCore.Packages": "0.1.0-alpha",
-          "RPGCore.Projects": "0.1.0-alpha"
+          "RPGCore.Events": "0.1.0-alpha"
         },
         "runtime": {
           "RPGCore.Behaviour.dll": {}
@@ -158,6 +158,15 @@
           "RPGCore.Data.Polymorphic.dll": {}
         }
       },
+      "RPGCore.Data.Polymorphic.NewtonsoftJson/0.1.0-alpha": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1",
+          "RPGCore.Data.Polymorphic": "0.1.0-alpha"
+        },
+        "runtime": {
+          "RPGCore.Data.Polymorphic.NewtonsoftJson.dll": {}
+        }
+      },
       "RPGCore.DataEditor/0.1.0-alpha": {
         "dependencies": {
           "RPGCore.Data": "0.1.0-alpha",
@@ -169,9 +178,6 @@
         }
       },
       "RPGCore.Events/0.1.0-alpha": {
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
-        },
         "runtime": {
           "RPGCore.Events.dll": {}
         }
@@ -225,6 +231,14 @@
         },
         "runtime": {
           "RPGCore.Traits.dll": {}
+        }
+      },
+      "RPGCore.World/0.1.0-alpha": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "RPGCore.World.dll": {}
         }
       }
     }
@@ -348,6 +362,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "RPGCore.Data.Polymorphic.NewtonsoftJson/0.1.0-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "RPGCore.DataEditor/0.1.0-alpha": {
       "type": "project",
       "serviceable": false,
@@ -384,6 +403,11 @@
       "sha512": ""
     },
     "RPGCore.Traits/0.1.0-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RPGCore.World/0.1.0-alpha": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

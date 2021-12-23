@@ -26,15 +26,8 @@
         <member name="P:RPGCore.DataEditor.EditorDictionary.Comments">
             <inheritdoc/>
         </member>
-        <member name="P:RPGCore.DataEditor.EditorDictionary.KeyType">
-            <summary>
-            The type of the dictionary keys.
-            </summary>
-        </member>
-        <member name="P:RPGCore.DataEditor.EditorDictionary.ValueType">
-            <summary>
-            the type of the dictionary values.
-            </summary>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.Type">
+            <inheritdoc/>
         </member>
         <member name="P:RPGCore.DataEditor.EditorDictionary.KeyValuePairs">
             <summary>
@@ -44,6 +37,16 @@
         <member name="P:RPGCore.DataEditor.EditorDictionary.Features">
             <summary>
             A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.KeyType">
+            <summary>
+            The type of the dictionary keys.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.ValueType">
+            <summary>
+            the type of the dictionary values.
             </summary>
         </member>
         <member name="P:RPGCore.DataEditor.EditorDictionary.RPGCore#DataEditor#IEditorToken#Features">
@@ -69,10 +72,18 @@
             Removes a value from the <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
             </summary>
         </member>
-        <member name="M:RPGCore.DataEditor.EditorDictionary.Add">
+        <member name="M:RPGCore.DataEditor.EditorDictionary.Add(System.Boolean)">
             <summary>
             Adds a new value to the <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
             </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorDictionary.Add(RPGCore.DataEditor.IEditorValue,RPGCore.DataEditor.IEditorValue)">
+            <summary>
+            Adds a new value to the <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorDictionary.Duplicate">
+            <inheritdoc/>
         </member>
         <member name="T:RPGCore.DataEditor.EditorField">
             <summary>
@@ -90,9 +101,9 @@
             The <see cref="T:RPGCore.DataEditor.EditorObject"/> that this <see cref="T:RPGCore.DataEditor.EditorField"/> belongs to.
             </summary>
         </member>
-        <member name="P:RPGCore.DataEditor.EditorField.Schema">
+        <member name="P:RPGCore.DataEditor.EditorField.Name">
             <summary>
-            A <see cref="T:RPGCore.DataEditor.Manifest.SchemaField"/> used to drive the behaviour of this <see cref="T:RPGCore.DataEditor.EditorField"/>.
+            The name of this field.
             </summary>
         </member>
         <member name="P:RPGCore.DataEditor.EditorField.Value">
@@ -100,14 +111,14 @@
             The value contained within this <see cref="T:RPGCore.DataEditor.EditorField"/>.
             </summary>
         </member>
-        <member name="P:RPGCore.DataEditor.EditorField.Name">
-            <summary>
-            The name of this field.
-            </summary>
-        </member>
         <member name="P:RPGCore.DataEditor.EditorField.Features">
             <summary>
             A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorField"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.Schema">
+            <summary>
+            A <see cref="T:RPGCore.DataEditor.Manifest.SchemaField"/> used to drive the behaviour of this <see cref="T:RPGCore.DataEditor.EditorField"/>.
             </summary>
         </member>
         <member name="P:RPGCore.DataEditor.EditorField.RPGCore#DataEditor#IEditorToken#Features">
@@ -195,13 +206,11 @@
         <member name="P:RPGCore.DataEditor.EditorList.Comments">
             <inheritdoc/>
         </member>
-        <member name="P:RPGCore.DataEditor.EditorList.Session">
+        <member name="P:RPGCore.DataEditor.EditorList.Type">
             <inheritdoc/>
         </member>
-        <member name="P:RPGCore.DataEditor.EditorList.ElementType">
-            <summary>
-            The type of all elements contained within this <see cref="T:RPGCore.DataEditor.EditorList"/>.
-            </summary>
+        <member name="P:RPGCore.DataEditor.EditorList.Session">
+            <inheritdoc/>
         </member>
         <member name="P:RPGCore.DataEditor.EditorList.Elements">
             <summary>
@@ -213,15 +222,20 @@
             A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorList"/>.
             </summary>
         </member>
-        <member name="P:RPGCore.DataEditor.EditorList.RPGCore#DataEditor#IEditorToken#Features">
-            <inheritdoc/>
-        </member>
         <member name="P:RPGCore.DataEditor.EditorList.Length">
             <summary>
             The length of this <see cref="T:RPGCore.DataEditor.EditorList"/>.
             </summary>
         </member>
+        <member name="P:RPGCore.DataEditor.EditorList.ElementType">
+            <summary>
+            The type of all elements contained within this <see cref="T:RPGCore.DataEditor.EditorList"/>.
+            </summary>
+        </member>
         <member name="E:RPGCore.DataEditor.EditorList.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.RPGCore#DataEditor#IEditorToken#Features">
             <inheritdoc/>
         </member>
         <member name="M:RPGCore.DataEditor.EditorList.SetArraySize(System.Int32,System.Boolean)">
@@ -256,6 +270,9 @@
             <param name="index"></param>
             <param name="value"></param>
         </member>
+        <member name="M:RPGCore.DataEditor.EditorList.Duplicate">
+            <inheritdoc/>
+        </member>
         <member name="T:RPGCore.DataEditor.EditorNull">
             <summary>
             An editor value representing null.
@@ -275,7 +292,13 @@
         <member name="P:RPGCore.DataEditor.EditorNull.RPGCore#DataEditor#IEditorToken#Features">
             <inheritdoc/>
         </member>
+        <member name="P:RPGCore.DataEditor.EditorNull.Type">
+            <inheritdoc/>
+        </member>
         <member name="E:RPGCore.DataEditor.EditorNull.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorNull.Duplicate">
             <inheritdoc/>
         </member>
         <member name="T:RPGCore.DataEditor.EditorObject">
@@ -308,6 +331,41 @@
             <inheritdoc/>
         </member>
         <member name="E:RPGCore.DataEditor.EditorObject.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorObject.Duplicate">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorReplaceable">
+            <summary>
+            An editable data structure that allows for the type contained within it to be changed.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Value">
+            <summary>
+            The value contained within this <see cref="T:RPGCore.DataEditor.EditorReplaceable"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorReplaceable"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Type">
+            <summary>
+            The type that this value can be described with.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorReplaceable.PropertyChanged">
             <inheritdoc/>
         </member>
         <member name="T:RPGCore.DataEditor.EditorScalarValue`1">
@@ -350,6 +408,9 @@
             <inheritdoc/>
         </member>
         <member name="E:RPGCore.DataEditor.EditorScalarValue.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorScalarValue.Duplicate">
             <inheritdoc/>
         </member>
         <member name="T:RPGCore.DataEditor.EditorSession">
@@ -512,6 +573,17 @@
             <summary>
             Represents and editable value.
             </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.IEditorValue.Type">
+            <summary>
+            The type that this value can be described with.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.IEditorValue.Duplicate">
+            <summary>
+            Duplicates this <see cref="T:RPGCore.DataEditor.IEditorValue"/>.
+            </summary>
+            <returns>A duplicate of this <see cref="T:RPGCore.DataEditor.IEditorValue"/>.</returns>
         </member>
         <member name="T:RPGCore.DataEditor.JsonEditorSerializer">
             <summary>

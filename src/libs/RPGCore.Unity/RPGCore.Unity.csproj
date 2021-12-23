@@ -14,15 +14,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\libs\RPGCore.Behaviour\RPGCore.Behaviour.csproj" />
-    <ProjectReference Include="..\..\libs\RPGCore.Events\RPGCore.Events.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Data\RPGCore.Data.csproj" />
+    <ProjectReference Include="..\..\libs\RPGCore.Data.Polymorphic.NewtonsoftJson\RPGCore.Data.Polymorphic.NewtonsoftJson.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.DataEditor\RPGCore.DataEditor.csproj" />
+    <ProjectReference Include="..\..\libs\RPGCore.Events\RPGCore.Events.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.FileTree\RPGCore.FileTree.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Inventories\RPGCore.Inventories.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Items\RPGCore.Items.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Packages\RPGCore.Packages.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Projects\RPGCore.Projects.csproj" />
     <ProjectReference Include="..\..\libs\RPGCore.Traits\RPGCore.Traits.csproj" />
+    <ProjectReference Include="..\..\libs\RPGCore.World\RPGCore.World.csproj" />
   </ItemGroup>
 
   <!-- Publish files directly to the Unity project. -->
