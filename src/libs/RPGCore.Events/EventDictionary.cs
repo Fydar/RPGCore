@@ -1,19 +1,14 @@
-﻿using Newtonsoft.Json;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace RPGCore.Events
 {
-	[JsonObject]
 	public sealed class EventDictionary<TKey, TValue> : IEventDictionary<TKey, TValue>
 	{
-		[JsonProperty]
 		private Dictionary<TKey, TValue> Collection { get; set; }
 
-		[JsonIgnore]
 		public int Count => Collection.Count;
 
-		[JsonIgnore]
 		public EventDictionaryHandlerCollection<TKey, TValue> Handlers { get; }
 
 		public TValue this[TKey key] => Collection[key];

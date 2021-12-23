@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace RPGCore.Events
 {
@@ -8,7 +7,6 @@ namespace RPGCore.Events
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private T internalValue;
 
-		[JsonIgnore]
 		public EventFieldHandlerCollection Handlers { get; }
 
 		public T Value
