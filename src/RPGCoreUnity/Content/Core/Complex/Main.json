@@ -1,0 +1,87 @@
+{
+  "Behaviour": {
+    "Nodes": {
+      "0a084c2c": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
+        "Data": {
+          "MinValue": 5,
+          "MaxValue": 15
+        },
+        "Editor": {
+          "Position": {
+            "x": 12,
+            "y": 343
+          }
+        }
+      },
+      "0a53abfca": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
+        "Data": {
+          "MinValue": 5,
+          "MaxValue": 15
+        },
+        "Editor": {
+          "Position": {
+            "x": 10,
+            "y": 147
+          }
+        }
+      },
+      "472c7ba2": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
+        "Data": {
+          "MinValue": 20,
+          "MaxValue": 25
+        },
+        "Editor": {
+          "Position": {
+            "x": 289,
+            "y": 411
+          }
+        }
+      },
+      "0a4f194f": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0xa53abfca.Output",
+          "ValueB": "0x0a084c2c.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 286,
+            "y": 206
+          }
+        }
+      },
+      "0a16b3c6": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0x0a4f194f.Output",
+          "ValueB": "0x472c7ba2.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 547,
+            "y": 287
+          }
+        }
+      },
+      "0x13a941ecdc7da49c": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.OutputValueNode",
+        "Data": {
+          "Value": "0x0a16b3c6.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 848,
+            "y": 266
+          }
+        }
+      }
+    },
+    "SubGraphs": null
+  },
+  "DisplayName": "Complex",
+  "Description": "A item that demonstrates more complex uses of RPGCore.Behaviour.",
+  "Weight": 1
+}

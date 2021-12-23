@@ -1,0 +1,73 @@
+{
+  "DisplayName": "Cottage",
+  "PackIdentifier": "building-packs/cottagepack.json",
+  "BodyText": null,
+  "Recipe": null,
+  "LocalEffectGraph": {
+    "Nodes": {
+      "0x677839f0aeda242f": {
+        "Type": "RPGCore.Demo.BoardGame.LocalBuildingInputNode",
+        "Data": {
+          "ValueA": "0xa89946a43bf7cc0d.Output",
+          "ValueB": "0x5fba4abb63830943.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 31,
+            "y": 66
+          }
+        }
+      },
+      "0x67aac167888cbcb": {
+        "Type": "RPGCore.Demo.BoardGame.GetNeighboursNode",
+        "Data": {
+          "Building": "0x677839f0aeda242f.Building",
+          "IncludeDiagonal": false
+        },
+        "Editor": {
+          "Position": {
+            "x": 336,
+            "y": 124
+          }
+        }
+      }
+    },
+    "SubGraphs": null
+  },
+  "BoardEffectGraph": {
+    "Nodes": {
+      "0x7c116618c0e56359": {
+        "Type": "RPGCore.Demo.BoardGame.BoardBuildingInputNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 34,
+            "y": 61
+          }
+        }
+      }
+    },
+    "SubGraphs": null
+  },
+  "GlobalEffectGraph": {
+    "Nodes": {
+      "0x9bf27edfef78167d": {
+        "Type": "RPGCore.Demo.BoardGame.GlobalBuildingInputNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 38,
+            "y": 65
+          }
+        }
+      }
+    },
+    "SubGraphs": null
+  }
+}

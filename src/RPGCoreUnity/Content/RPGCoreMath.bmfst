@@ -1,0 +1,378 @@
+{
+  "Types": {
+    "Name": null,
+    "Version": null,
+    "JsonTypes": {
+      "Boolean": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": false
+      },
+      "String": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": null
+      },
+      "Int32": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0
+      },
+      "Byte": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0
+      },
+      "Int64": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0
+      },
+      "Int16": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0
+      },
+      "UInt32": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0
+      },
+      "UInt64": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0
+      },
+      "UInt16": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0
+      },
+      "SByte": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0
+      },
+      "Char": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": "\u0000"
+      },
+      "Single": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0.0
+      },
+      "Double": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0.0
+      },
+      "Decimal": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": 0.0
+      },
+      "InputSocket": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": {},
+        "DefaultValue": {
+          "ConnectionId": -1
+        }
+      },
+      "LocalId": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": null,
+        "DefaultValue": "0x00000000"
+      }
+    },
+    "ObjectTypes": {
+      "SerializedGraph": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": {
+          "Name": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "Description": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "Type": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "CustomData": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 2,
+            "ValueFormat": {
+              "Description": null,
+              "Type": "String",
+              "DefaultValue": null,
+              "Attributes": null,
+              "Format": 1,
+              "ValueFormat": null
+            }
+          },
+          "Nodes": {
+            "Description": null,
+            "Type": "SerializedNode",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 2,
+            "ValueFormat": {
+              "Description": null,
+              "Type": "SerializedNode",
+              "DefaultValue": null,
+              "Attributes": null,
+              "Format": 1,
+              "ValueFormat": null
+            }
+          }
+        },
+        "DefaultValue": {
+          "Name": null,
+          "Description": null,
+          "Type": null,
+          "CustomData": null,
+          "Nodes": null
+        }
+      },
+      "SerializedNode": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": {
+          "Type": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "Data": {
+            "Description": null,
+            "Type": "JObject",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "Editor": {
+            "Description": null,
+            "Type": "PackageNodeEditor",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          }
+        },
+        "DefaultValue": {
+          "Type": null,
+          "Data": null,
+          "Editor": {
+            "Position": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        }
+      },
+      "PackageNodeEditor": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": {
+          "Position": {
+            "Description": null,
+            "Type": "PackageNodePosition",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          }
+        },
+        "DefaultValue": {
+          "Position": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      },
+      "PackageNodePosition": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": {
+          "x": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "y": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          }
+        },
+        "DefaultValue": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "ExtraData": {
+        "Description": null,
+        "ImplicitConversions": {},
+        "Fields": {
+          "Hi": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "Goodbyte": {
+            "Description": null,
+            "Type": "Boolean",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          }
+        },
+        "DefaultValue": {
+          "Hi": 0,
+          "Goodbyte": false
+        }
+      }
+    }
+  },
+  "Nodes": {
+    "Name": null,
+    "Version": null,
+    "Nodes": {
+      "RPGCore.Behaviour.AddNode": {
+        "Inputs": {
+          "ValueA": {
+            "Description": null,
+            "Type": "Single"
+          },
+          "ValueB": {
+            "Description": null,
+            "Type": "Single"
+          }
+        },
+        "Outputs": {
+          "Output": {
+            "Description": null,
+            "Type": "Single"
+          }
+        },
+        "Description": null,
+        "ImplicitConversions": null,
+        "Fields": {
+          "ValueA": {
+            "Description": null,
+            "Type": "InputSocket",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 0,
+            "ValueFormat": null
+          },
+          "ValueB": {
+            "Description": null,
+            "Type": "InputSocket",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 0,
+            "ValueFormat": null
+          }
+        },
+        "DefaultValue": null
+      },
+      "RPGCore.Behaviour.RollNode": {
+        "Inputs": null,
+        "Outputs": {
+          "Output": {
+            "Description": null,
+            "Type": "Int32"
+          }
+        },
+        "Description": null,
+        "ImplicitConversions": null,
+        "Fields": {
+          "TooltipFormat": {
+            "Description": null,
+            "Type": "String",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "MinValue": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "MaxValue": {
+            "Description": null,
+            "Type": "Int32",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          },
+          "Data": {
+            "Description": null,
+            "Type": "ExtraData",
+            "DefaultValue": null,
+            "Attributes": [],
+            "Format": 1,
+            "ValueFormat": null
+          }
+        },
+        "DefaultValue": null
+      }
+    }
+  }
+}

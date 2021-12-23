@@ -1,0 +1,42 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v2
+
+      - id: setup
+        name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.400
+
+      - id: restore
+        name: Restore dependencies
+        run: dotnet restore src/ --verbosity minimal 
+
+      - id: build
+        name: Build
+        run: dotnet build src/ --configuration Release --no-restore /nowarn:CS8600 /nowarn:CS1591 /nowarn:CS8601 /nowarn:CS8602 /nowarn:CS8603 /nowarn:CS8604 /nowarn:CS8618 /nowarn:CS8619 /nowarn:CS8625 /nowarn:CS8631 /nowarn:CS8632 /nowarn:CS8634 /nowarn:CS8765 /nowarn:CS8767
+  
+      - uses: actions/upload-artifact@v2
+        name: Upload
+        with:
+          name: artefacts
+          path: src/artifacts/bin/
+          if-no-files-found: error
+
+      - id: test
+        name: Test
+        run: dotnet test src/ --configuration Release --no-build --verbosity normal --logger GitHubActions

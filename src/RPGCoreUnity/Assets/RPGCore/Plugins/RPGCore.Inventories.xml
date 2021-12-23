@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.Inventories</name>
+    </assembly>
+    <members>
+        <member name="T:RPGCore.Inventory.Slots.IInventoryConstraint">
+            <summary>
+            <para>Constraints limit the capacity of an inventory.</para>
+            </summary>
+            <example>
+            <para>Weight inventory constraints can be used to limit the players carrying capacity by the item weight.</para>
+            <para>Constraints can also allow only a type of item into a slot.</para>
+            </example>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.IInventoryConstraint.QuantityCanAdd(RPGCore.Inventory.Slots.IInventory,RPGCore.Items.IItem)">
+            <summary>
+            <para>Determins the maximum that this constraint will allow.</para>
+            </summary>
+            <param name="inventory">The inventory the item will be added to.</param>
+            <param name="item">The item to add to the <paramref name="inventory"/>.</param>
+            <returns>The quantity of items that can be added to the inventory.</returns>
+        </member>
+        <member name="T:RPGCore.Inventory.Slots.WeightedInventoryConstraint">
+            <summary>
+            <para>Constraints limit the capacity of an inventory.</para>
+            </summary>
+            <example>
+            <para>Weight inventory constraints can be used to limit the players carrying capacity by the item weight.</para>
+            <para>Constraints can also allow only a type of item into a slot.</para>
+            </example>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.WeightedInventoryConstraint.QuantityCanAdd(RPGCore.Inventory.Slots.IInventory,RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.WeightedInventoryConstraint.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.CustomInventory.Parent">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.CustomInventory.Items">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.CustomInventory.AddItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.ExpandableInventory.Parent">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.ExpandableInventory.Items">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ExpandableInventory.AddItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Inventory.Slots.IInventory">
+            <summary>
+            <para>An inventory that contains <see cref="T:RPGCore.Items.IItem"/>s.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.IInventory.Parent">
+            <summary>
+            <para>The <see cref="T:RPGCore.Inventory.Slots.IInventory"/> containing this <see cref="T:RPGCore.Inventory.Slots.IInventory"/>.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.IInventory.Items">
+            <summary>
+            <para>All items contained within this inventory.</para>
+            </summary>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.IInventory.AddItem(RPGCore.Items.IItem)">
+            <summary>
+            <para>Add an <see cref="T:RPGCore.Items.IItem"/> to the inventory.</para>
+            </summary>
+            <param name="item">The <see cref="T:RPGCore.Items.IItem"/> to add to the inventory.</param>
+            <returns>An inventory transaction representing the result of the item adding.</returns>
+        </member>
+        <member name="T:RPGCore.Inventory.Slots.InventoryTransaction">
+            <summary>
+            <para>Represents a tranfer of items between inventories.</para>
+            </summary>
+            <remarks>
+            <para>When a game client wants to move items from one inventory to another, they construct their desired transaction.</para>
+            <para>A transaction can consist of adding, removing, moving or destroying items.</para>
+            </remarks>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.InventoryTransaction.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.InventoryTransaction.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.InventoryTransaction.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Inventory.Slots.InventoryTransactionBuilder">
+            <summary>
+            <para>Represents a tranfer of items between inventories.</para>
+            </summary>
+            <remarks>
+            <para>When a game client wants to move items from one inventory to another, they construct their desired transaction.</para>
+            <para>A transaction can consist of adding, removing, moving or destroying items.</para>
+            </remarks>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemTransaction.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemTransaction.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemTransaction.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="F:RPGCore.Inventory.Slots.ItemTransactionType.None">
+            <summary>
+            <para>Represents no inventory action.</para>
+            </summary>
+        </member>
+        <member name="F:RPGCore.Inventory.Slots.ItemTransactionType.Move">
+            <summary>
+            <para>Represents a transaction where items where moved from one inventory to another.</para>
+            </summary>
+        </member>
+        <member name="F:RPGCore.Inventory.Slots.ItemTransactionType.Add">
+            <summary>
+            <para>Represents a transaction where items where added to an inventory.</para>
+            </summary>
+        </member>
+        <member name="F:RPGCore.Inventory.Slots.ItemTransactionType.Destroy">
+            <summary>
+            <para>Represents a transaction where items where destroyed from an inventory.</para>
+            </summary>
+            <remarks>
+            <para>This may have been caused by consuming, crafting, or user/admin action.</para>
+            </remarks>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.IItemSlot.CurrentItem">
+            <summary>
+            <para>The current item in the slot.</para>
+            </summary>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.IItemSlot.DestroyItem">
+            <summary>
+            <para>Destroys the item currently contained within this slot.</para>
+            </summary>
+            <returns>An <see cref="T:RPGCore.Inventory.Slots.InventoryTransaction"/> that represents the results of the destroy.</returns>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.IItemSlot.DragInto(RPGCore.Inventory.Slots.IInventory)">
+            <summary>
+            <para>Attempts to move an item from this slot into another inventory.</para>
+            <list type="bullet">
+            <item>If the target is a slot then swapping may occur.</item>
+            <item>If the target is not at capacity, then items can be transfered from this slot into the target.</item>
+            </list>
+            </summary>
+            <example>
+            <para>This is used when the player drags from one slot into another.</para>
+            </example>
+            <param name="other"></param>
+            <returns>An <see cref="T:RPGCore.Inventory.Slots.InventoryTransaction"/> that represents the results of the drag.</returns>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.IItemSlot.MoveInto(RPGCore.Inventory.Slots.IInventory)">
+            <summary>
+            <para>Attempts to move an item from the this slot into another inventory.</para>
+            </summary>
+            <param name="other">The inventory to move the contents of this slot into.</param>
+            <returns>An <see cref="T:RPGCore.Inventory.Slots.InventoryTransaction"/> that represents the results of the move.</returns>
+            <example>
+            <para>This is used when a player shift-clicks an item from one inventory and a target inventory is defined.</para>
+            </example>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.IItemSlot.SetItem(RPGCore.Items.IItem)">
+            <summary>
+            <para>Forcefully sets the item that's contained within the current slot.</para>
+            </summary>
+            <param name="item"></param>
+            <returns>An <see cref="T:RPGCore.Inventory.Slots.InventoryTransaction"/> that represents the results of the setting.</returns>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.IItemSlot.Swap(RPGCore.Inventory.Slots.IItemSlot)">
+            <summary>
+            <para>Attempts to swap the contents of this slot with another.</para>
+            <para>No partial swapping can occour.</para>
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+            <returns>An <see cref="T:RPGCore.Inventory.Slots.InventoryTransaction"/> that represents the results of the drag.</returns>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.ItemStorageSlot.MaxStackSize">
+            <summary>
+            <para>Used to determine the limit for <see cref="T:RPGCore.Items.StackableItem"/> quantities within this slot.</para>
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown when setting <c>value</c> to be less than or equal to 0.</exception>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.AddItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.DestroyItem">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.DragInto(RPGCore.Inventory.Slots.IInventory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.MoveInto(RPGCore.Inventory.Slots.IInventory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.SetItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.Swap(RPGCore.Inventory.Slots.IItemSlot)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.ItemStorageSlot.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.SlottedInventory.Parent">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Inventory.Slots.SlottedInventory.Items">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Inventory.Slots.SlottedInventory.AddItem(RPGCore.Items.IItem)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

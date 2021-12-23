@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.FileTree</name>
+    </assembly>
+    <members>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchive.MaximumWriteThreads">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.FileTree.FileSystem.FileSystemArchive.OnEntryChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchiveDirectory.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchiveDirectory.FullName">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveDirectory.CopyIntoAsync(RPGCore.FileTree.IArchiveDirectory,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveDirectory.MoveInto(RPGCore.FileTree.IArchiveDirectory,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveDirectory.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchiveDirectoryCollection.All">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveDirectoryCollection.GetDirectory(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveDirectoryCollection.GetOrCreateDirectory(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.FullName">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.Extension">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.CompressedSize">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.UncompressedSize">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.DeleteAsync">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.RenameAsync(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.OpenRead">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.OpenWrite">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.CopyIntoAsync(RPGCore.FileTree.IArchiveDirectory,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveFile.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveFileCollection.GetFile(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.FileSystem.FileSystemArchiveFileCollection.GetOrCreateFile(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchive.MaximumWriteThreads">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.FileTree.Packed.PackedArchive.OnEntryChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchiveDirectory.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchiveDirectory.FullName">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveDirectory.CopyIntoAsync(RPGCore.FileTree.IArchiveDirectory,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveDirectory.MoveInto(RPGCore.FileTree.IArchiveDirectory,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveDirectory.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchiveDirectoryCollection.All">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveDirectoryCollection.GetDirectory(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveDirectoryCollection.GetOrCreateDirectory(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchiveFile.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchiveFile.FullName">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchiveFile.Extension">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchiveFile.CompressedSize">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.FileTree.Packed.PackedArchiveFile.UncompressedSize">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveFile.DeleteAsync">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveFile.OpenRead">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveFile.OpenWrite">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveFile.MoveInto(RPGCore.FileTree.IArchiveDirectory,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveFile.CopyIntoAsync(RPGCore.FileTree.IArchiveDirectory,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveFile.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveFileCollection.GetFile(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.FileTree.Packed.PackedArchiveFileCollection.GetOrCreateFile(System.String)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

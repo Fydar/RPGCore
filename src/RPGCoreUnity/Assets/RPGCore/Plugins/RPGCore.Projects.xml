@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.Projects</name>
+    </assembly>
+    <members>
+        <member name="M:RPGCore.Projects.BuildActionCollection.OnBeforeExportResource(RPGCore.Projects.ProjectBuildProcess,RPGCore.Projects.ProjectResource)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Projects.BuildActionCollection.OnAfterExportResource(RPGCore.Projects.ProjectBuildProcess,RPGCore.Projects.ProjectResource)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Projects.BuildConsoleRenderer.OnAfterExportResource(RPGCore.Projects.ProjectBuildProcess,RPGCore.Projects.ProjectResource)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Projects.Extensions.MetaFiles.JsonMetaFileSuffixImporter.CanImport(RPGCore.FileTree.IArchiveFile)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Projects.Extensions.MetaFiles.JsonMetaFileSuffixImporter.ImportFile(RPGCore.Projects.ArchiveFileImporterContext,RPGCore.FileTree.IArchiveFile)">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Projects.Extensions.MetaFiles.JsonMetaFilesIImportPipelineBuilderExtensions">
+            <summary>
+            <para>Extensions used to add json metafiles to an import pipeline.</para>
+            </summary>
+        </member>
+        <member name="M:RPGCore.Projects.Extensions.MetaFiles.JsonMetaFilesIImportPipelineBuilderExtensions.UseJsonMetaFiles(RPGCore.Projects.IImportPipelineBuilder,System.Action{RPGCore.Projects.JsonMetaFilesOptions})">
+            <summary>
+            <para>Adds the nessessary services and filters for locating metafiles.</para>
+            </summary>
+            <param name="importPipelineBuilder">The <see cref="T:RPGCore.Projects.IImportPipelineBuilder"/> to register with.</param>
+            <param name="options">Options used to configure the feature.</param>
+            <returns>The builder object.</returns>
+        </member>
+        <member name="T:RPGCore.Projects.JsonMetaFilesOptions">
+            <summary>
+            <para>Configuration model for metafiles.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.JsonMetaFilesOptions.MetaFileSuffix">
+            <summary>
+            <para>The file extension used to locate meta files.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.JsonMetaFilesOptions.IsMetaFilesOptional">
+            <summary>
+            <para>Used to determine whether a missing meta file will result in an error.</para>
+            </summary>
+        </member>
+        <member name="M:RPGCore.Projects.DefaultArchiveFileImporter.CanImport(RPGCore.FileTree.IArchiveFile)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Projects.DefaultArchiveFileImporter.ImportFile(RPGCore.Projects.ArchiveFileImporterContext,RPGCore.FileTree.IArchiveFile)">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Projects.Pipeline.IContentWriter">
+            <summary>
+            Provides a mechanism for deferring the writing of content in the import pipeline.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Projects.Pipeline.IImportProcessor">
+            <summary>
+            <para>Applies additional modifications to resources that have already been imported.</para>
+            </summary>
+        </member>
+        <member name="M:RPGCore.Projects.Pipeline.IImportProcessor.CanProcess(RPGCore.Packages.IResource)">
+            <summary>
+            <para>Determines whether a <see cref="T:RPGCore.Packages.IResource"/> can be modified by this processor.</para>
+            </summary>
+            <param name="resource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RPGCore.Projects.Pipeline.IImportProcessor.ProcessImport(RPGCore.Projects.ImportProcessorContext,RPGCore.Packages.IResource)">
+            <summary>
+            <para>Processes a resource.</para>
+            </summary>
+            <param name="context">Context for the importation process.</param>
+            <param name="resource">The resource to process.</param>
+            <returns>A collection of updates that will be applied to the resource.</returns>
+        </member>
+        <member name="F:RPGCore.Projects.Pipeline.DependencyFlags.None">
+            <summary>
+            <para>Represents no dependency flags.</para>
+            </summary>
+        </member>
+        <member name="F:RPGCore.Projects.Pipeline.DependencyFlags.AllowCircular">
+            <summary>
+            <para>Indicates that this dependency is allowed to create a circular dependency.</para>
+            </summary>
+        </member>
+        <member name="F:RPGCore.Projects.Pipeline.DependencyFlags.Optional">
+            <summary>
+            <para>Indicates that this dependency is an optional dependency.</para>
+            <para>If the dependency is missing then the dependency configuration is valid.</para>
+            </summary>
+        </member>
+        <member name="T:RPGCore.Projects.Pipeline.ProjectResourceUpdate">
+            <summary>
+            The target of the project resource importation pipeline.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Projects.ImportPipeline">
+            <summary>
+            <para>A configurable and extendable pipeline for the importation of assets.</para>
+            </summary>
+        </member>
+        <member name="M:RPGCore.Projects.ImportPipeline.Create">
+            <summary>
+            <para>Begins the construction of a <see cref="T:RPGCore.Projects.ImportPipeline"/> via a <see cref="T:RPGCore.Projects.IImportPipelineBuilder"/>.</para>
+            </summary>
+            <returns>A builder that can be used to add features to the import pipeline.</returns>
+        </member>
+        <member name="T:RPGCore.Projects.ProjectDefinition">
+            <summary>
+            Represents a configuration definition for the package.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectDefinition.Path">
+            <summary>
+            <para>A path to the project directory on the system.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectDefinition.Properties">
+            <summary>
+            General properties defined for this package.
+            </summary>
+        </member>
+        <member name="T:RPGCore.Projects.ProjectExplorer">
+            <summary>
+            <para>Used for loading the content of an uncompiled package.</para>
+            </summary>
+            <remarks>
+            <para>Can be used to analyse, but not modify the content, of a package.</para>
+            </remarks>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.Archive">
+            <summary>
+            <para>The source for this project explorer.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.UncompressedSize">
+            <summary>
+            <para>The size of all of the projects resources on disk.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.Definition">
+            <summary>
+            <para>The project definition for this project.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.Resources">
+            <summary>
+            <para>A collection of all of the resources contained in this project.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.Tags">
+            <summary>
+            <para>An index of the tags contained within this project for performing asset queries.</para>
+            </summary>
+        </member>
+        <member name="P:RPGCore.Projects.ProjectExplorer.RootDirectory">
+            <summary>
+            <para>A directory representing the root of the project.</para>
+            </summary>
+        </member>
+        <member name="M:RPGCore.Projects.ProjectResource.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Projects.ProjectResourceContent.ToString">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

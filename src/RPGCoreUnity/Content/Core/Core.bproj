@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <Properties>
+    <Name>Core</Name>
+    <Version>0.1.0</Version>
+  </Properties>
+
+  <!-- Comments -->
+  <Builds>
+
+    <BuildTarget name="Client/Tools">
+      <Exclude filename="*.png" />
+    </BuildTarget>
+
+    <BuildTarget name="Server">
+      <Exclude filename="*.png" />
+    </BuildTarget>
+
+  </Builds>
+
+</Project>

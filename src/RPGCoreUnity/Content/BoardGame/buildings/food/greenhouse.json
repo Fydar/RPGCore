@@ -1,0 +1,111 @@
+{
+  "DisplayName": "Greenhouse",
+  "PackIdentifier": "building-packs/agriculturepack.json",
+  "Recipe": null,
+  "GlobalEffectGraph": {
+    "Nodes": {
+      "0xec8f900d0f5b2e8b": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 20,
+            "y": 178
+          }
+        }
+      },
+      "0xc77d5f3b7dd09b10": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0x44c54c91220f6a15.Output",
+          "ValueB": "0xec8f900d0f5b2e8b.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 344,
+            "y": 95
+          }
+        }
+      },
+      "0x44c54c91220f6a15": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 20,
+            "y": 51
+          }
+        }
+      },
+      "0xce7062c6bf9f8b0c": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 185,
+            "y": 275
+          }
+        }
+      },
+      "0xc0327fae1bacebf0": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0xc77d5f3b7dd09b10.Output",
+          "ValueB": "0xce7062c6bf9f8b0c.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 652,
+            "y": 161
+          }
+        }
+      }
+    },
+    "SubGraphs": null
+  },
+  "LocalEffectGraph": {
+    "Nodes": {
+      "0x9d4f3aadc6668bc0": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 3,
+            "y": 100
+          }
+        }
+      },
+      "0xcf7ac2e4b68b0853": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": null,
+          "ValueB": null
+        },
+        "Editor": {
+          "Position": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      }
+    },
+    "SubGraphs": null
+  },
+  "BodyText": null,
+  "BoardEffectGraph": {
+    "Nodes": null,
+    "SubGraphs": null
+  }
+}

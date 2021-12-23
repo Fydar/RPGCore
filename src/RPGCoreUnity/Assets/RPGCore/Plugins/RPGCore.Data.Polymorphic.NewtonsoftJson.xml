@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.Data.Polymorphic.NewtonsoftJson</name>
+    </assembly>
+    <members>
+        <member name="T:RPGCore.Data.Polymorphic.NewtonsoftJson.Internal.PolymorphicConverter">
+            <summary>
+            Converts and polymorphic object type to and from JSON.
+            </summary>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.NewtonsoftJson.Internal.PolymorphicConverter.CanRead">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.Data.Polymorphic.NewtonsoftJson.Internal.PolymorphicConverter.CanWrite">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.NewtonsoftJson.Internal.PolymorphicConverter.CanConvert(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.NewtonsoftJson.Internal.PolymorphicConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.NewtonsoftJson.Internal.PolymorphicConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.Data.Polymorphic.NewtonsoftJson.JsonSerializerSettingsExtensions">
+            <summary>
+            Extensions for enabling support for RPGCore.Data.Polymorphic with Newtonsoft.Json.
+            </summary>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.NewtonsoftJson.JsonSerializerSettingsExtensions.UsePolymorphicSerialization(Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Adds nessessary converters to <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> to enable support for RPGCore.Data.Polymorphic.
+            </summary>
+            <param name="jsonSerializerSettings">The serializer settings to configure.</param>
+            <returns>The current instance of the <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/>.</returns>
+        </member>
+        <member name="M:RPGCore.Data.Polymorphic.NewtonsoftJson.JsonSerializerSettingsExtensions.UsePolymorphicSerialization(Newtonsoft.Json.JsonSerializerSettings,System.Action{RPGCore.Data.Polymorphic.PolymorphicOptionsBuilder})">
+            <summary>
+            Adds nessessary converters to <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> to enable support for RPGCore.Data.Polymorphic.
+            </summary>
+            <param name="jsonSerializerSettings">The serializer settings to configure.</param>
+            <param name="options">Options used to configure RPGCore.Data.Polymorphic.</param>
+            <returns>The current instance of the <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/>.</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,9 @@
+{
+  "DisplayName": "Glass",
+  "Colour": {
+    "Red": 0.0,
+    "Green": 0.0,
+    "Blue": 0.0
+  },
+  "Identifier": "glass"
+}

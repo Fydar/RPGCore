@@ -1,0 +1,897 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.DataEditor</name>
+    </assembly>
+    <members>
+        <member name="T:RPGCore.DataEditor.DictionaryKeyEditorSerializer">
+            <summary>
+            A serializer for reading and writing <see cref="T:RPGCore.DataEditor.IEditorValue"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.DictionaryKeyEditorSerializer.DeserializeValue(RPGCore.DataEditor.EditorSession,RPGCore.DataEditor.Manifest.TypeName,System.ReadOnlySpan{System.Byte})">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.DictionaryKeyEditorSerializer.SerializeValue(RPGCore.DataEditor.IEditorValue,RPGCore.DataEditor.Manifest.TypeName,System.IO.Stream)">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorDictionary">
+            <summary>
+            An editable data structure that utilises a collection of key-value pairs.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.Type">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.KeyValuePairs">
+            <summary>
+            All key-value pairs contained within this dictionary.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.KeyType">
+            <summary>
+            The type of the dictionary keys.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.ValueType">
+            <summary>
+            the type of the dictionary values.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorDictionary.Length">
+            <summary>
+            The length of this <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
+            </summary>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorDictionary.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorDictionary.SetLength(System.Int32,System.Boolean)">
+            <summary>
+            Sets the size of the dictionary; creates new key-value pairs to match the new size.
+            </summary>
+            <param name="size">The new size of this <see cref="T:RPGCore.DataEditor.EditorList"/>.</param>
+            <param name="insertNulls">If the <see cref="P:RPGCore.DataEditor.EditorDictionary.ValueType"/> of this <see cref="T:RPGCore.DataEditor.EditorDictionary"/> allows <c>null</c> values, insert nulls in new key-value pairs.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorDictionary.Remove(RPGCore.DataEditor.EditorKeyValuePair)">
+            <summary>
+            Removes a value from the <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorDictionary.Add(System.Boolean)">
+            <summary>
+            Adds a new value to the <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorDictionary.Add(RPGCore.DataEditor.IEditorValue,RPGCore.DataEditor.IEditorValue)">
+            <summary>
+            Adds a new value to the <see cref="T:RPGCore.DataEditor.EditorDictionary"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorDictionary.Duplicate">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorField">
+            <summary>
+            An editable hard-typed container for a value.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.Parent">
+            <summary>
+            The <see cref="T:RPGCore.DataEditor.EditorObject"/> that this <see cref="T:RPGCore.DataEditor.EditorField"/> belongs to.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.Name">
+            <summary>
+            The name of this field.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.Value">
+            <summary>
+            The value contained within this <see cref="T:RPGCore.DataEditor.EditorField"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorField"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.Schema">
+            <summary>
+            A <see cref="T:RPGCore.DataEditor.Manifest.SchemaField"/> used to drive the behaviour of this <see cref="T:RPGCore.DataEditor.EditorField"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorField.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorField.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorField.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorFieldCollection">
+            <summary>
+            Represents a collection of <see cref="T:RPGCore.DataEditor.EditorField"/>s belonging to an <see cref="T:RPGCore.DataEditor.EditorObject"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorFieldCollection.Count">
+            <summary>
+            Gets the number of <see cref="T:RPGCore.DataEditor.EditorField"/>s contained in this <see cref="T:RPGCore.DataEditor.EditorFieldCollection"/>.
+            </summary>
+            <returns>
+            The number of <see cref="T:RPGCore.DataEditor.EditorField"/>s contained in this <see cref="T:RPGCore.DataEditor.EditorFieldCollection"/>.
+            </returns>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorFieldCollection.Item(System.Int32)">
+            <summary>
+            Gets an <see cref="T:RPGCore.DataEditor.EditorField"/> at the specified <paramref name="index"/>.
+            </summary>
+            <param name="index">The zero-based index of the <see cref="T:RPGCore.DataEditor.EditorField"/> to get.</param>
+            <returns>The <see cref="T:RPGCore.DataEditor.EditorField"/> at the specified <paramref name="index"/>.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than 0. -or- <paramref name="index"/> is equal to or greater than <see cref="P:RPGCore.DataEditor.EditorFieldCollection.Count"/>.</exception>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorFieldCollection.Item(System.String)">
+            <summary>
+            Gets an <see cref="T:RPGCore.DataEditor.EditorField"/> with the specified <paramref name="name"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:RPGCore.DataEditor.EditorField"/> to search for.</param>
+            <returns>The <see cref="T:RPGCore.DataEditor.EditorField"/> with the specified <paramref name="name"/> If an <see cref="T:RPGCore.DataEditor.EditorField"/> cannot be found; returns <c>null</c>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorFieldCollection.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorKeyValuePair">
+            <summary>
+            An editable hard-typed key-value pair belonging to a dictionary.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorKeyValuePair.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorKeyValuePair.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorKeyValuePair.Parent">
+            <summary>
+            The <see cref="T:RPGCore.DataEditor.EditorDictionary"/> that this <see cref="T:RPGCore.DataEditor.EditorKeyValuePair"/> belongs to.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorKeyValuePair.Key">
+            <summary>
+            Gets the key in the key/value pair.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorKeyValuePair.Value">
+            <summary>
+            Gets the value in the key/value pair.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorKeyValuePair.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorKeyValuePair"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorKeyValuePair.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorKeyValuePair.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorList">
+            <summary>
+            An editable data structure with indexed elements.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.Type">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.Elements">
+            <summary>
+            All elements contained within this <see cref="T:RPGCore.DataEditor.EditorList"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorList"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.Length">
+            <summary>
+            The length of this <see cref="T:RPGCore.DataEditor.EditorList"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.ElementType">
+            <summary>
+            The type of all elements contained within this <see cref="T:RPGCore.DataEditor.EditorList"/>.
+            </summary>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorList.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorList.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorList.SetArraySize(System.Int32,System.Boolean)">
+            <summary>
+            Sets the size of the array; creates new array elements to match the new size of the array.
+            </summary>
+            <param name="size">The new size of this <see cref="T:RPGCore.DataEditor.EditorList"/>.</param>
+            <param name="insertNulls">If the <see cref="P:RPGCore.DataEditor.EditorList.ElementType"/> of this <see cref="T:RPGCore.DataEditor.EditorList"/> allows <c>null</c> values, insert nulls in new elements.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorList.RemoveAt(System.Int32)">
+            <summary>
+            Removes an element from the array.
+            </summary>
+            <param name="index">The index of the element to remove.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorList.Add(System.Boolean)">
+            <summary>
+            Adds a default element to the end of the array.
+            </summary>
+            <param name="insertNulls">If the <see cref="P:RPGCore.DataEditor.EditorList.ElementType"/> of this <see cref="T:RPGCore.DataEditor.EditorList"/> allows <c>null</c> values, insert nulls in new elements.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorList.Add(RPGCore.DataEditor.IEditorValue)">
+            <summary>
+            Adds an element to the end of the array.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorList.Insert(System.Int32,RPGCore.DataEditor.IEditorValue)">
+            <summary>
+            Inserts an element to the end of the array.
+            </summary>
+            <param name="index"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorList.Duplicate">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorNull">
+            <summary>
+            An editor value representing null.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorNull.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorNull.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorNull.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorNull"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorNull.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorNull.Type">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorNull.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorNull.Duplicate">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorObject">
+            <summary>
+            An editable data structure that uses hard-typed fields.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorObject.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorObject.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorObject.Type">
+            <summary>
+            The type of the current instance of the <see cref="T:RPGCore.DataEditor.EditorObject"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorObject.Fields">
+            <summary>
+            All <see cref="T:RPGCore.DataEditor.EditorField"/> contained within this object.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorObject.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorObject"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorObject.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorObject.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorObject.Duplicate">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorReplaceable">
+            <summary>
+            An editable data structure that allows for the type contained within it to be changed.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Value">
+            <summary>
+            The value contained within this <see cref="T:RPGCore.DataEditor.EditorReplaceable"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorReplaceable"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.Type">
+            <summary>
+            The type that this value can be described with.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorReplaceable.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorReplaceable.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorScalarValue`1">
+            <summary>
+            An editable value.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorScalarValue`1.Value">
+            <summary>
+            A <typeparamref name="T"/> representing the value of this <see cref="T:RPGCore.DataEditor.EditorScalarValue"/>.
+            </summary>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorScalarValue">
+            <summary>
+            An editable value.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorScalarValue.Comments">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorScalarValue.Session">
+            <inheritdoc/>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorScalarValue.Type">
+            <summary>
+            The type of this <see cref="T:RPGCore.DataEditor.EditorScalarValue"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorScalarValue.Value">
+            <summary>
+            An <see cref="T:System.Object"/> representing the value of this <see cref="T:RPGCore.DataEditor.EditorScalarValue"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorScalarValue.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.EditorScalarValue"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorScalarValue.RPGCore#DataEditor#IEditorToken#Features">
+            <inheritdoc/>
+        </member>
+        <member name="E:RPGCore.DataEditor.EditorScalarValue.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorScalarValue.Duplicate">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.EditorSession">
+            <summary>
+            Provides configuration for data editing.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorSession.Manifest">
+            <summary>
+            The manifest used for configuring the data editor.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.EditorSession.Serializer">
+            <summary>
+            The serializer used to load and save values.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorSession.#ctor(RPGCore.DataEditor.Manifest.ProjectManifest,RPGCore.DataEditor.IEditorSerializer)">
+            <summary>
+            Creates a new instance of the <see cref="T:RPGCore.DataEditor.EditorSession"/> object.
+            </summary>
+            <param name="manifest">A manifest used to drive data behaviour.</param>
+            <param name="serializer">The serializer used to serialize values.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorSession.EditFile">
+            <summary>
+            Starts editing a file using configuration provided by this <see cref="T:RPGCore.DataEditor.EditorSession"/>.
+            </summary>
+            <returns>A new <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> used for editing.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.EditorSession.ResolveType(RPGCore.DataEditor.Manifest.TypeName)">
+            <summary>
+            Gets the underlying type information from a qualified type.
+            </summary>
+            <param name="schemaQualifiedType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RPGCore.DataEditor.Files.EditorFile">
+            <summary>
+            A root data structure for data editing.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Files.EditorFile.Session">
+            <summary>
+            An <see cref="P:RPGCore.DataEditor.Files.EditorFile.Session"/> that provides editor configuration and state.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Files.EditorFile.Root">
+            <summary>
+            An <see cref="T:RPGCore.DataEditor.IEditorValue"/> representing the root of the <see cref="T:RPGCore.DataEditor.Files.EditorFile"/>.
+            </summary>
+        </member>
+        <member name="T:RPGCore.DataEditor.Files.EditorFileBuilder">
+            <summary>
+            A builder for <see cref="T:RPGCore.DataEditor.Files.EditorFile"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Files.EditorFileBuilder.LoadFrom(RPGCore.DataEditor.Files.IFileLoader)">
+            <summary>
+            Specifies the source that the constructed <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> should load from.
+            </summary>
+            <param name="fileLoader">The <see cref="T:RPGCore.DataEditor.Files.IFileLoader"/> that the constructed <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> should load from.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Files.EditorFileBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Files.EditorFileBuilder.SaveTo(RPGCore.DataEditor.Files.IFileSaver)">
+            <summary>
+            Specifies the destination that the constructed <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> should save to.
+            </summary>
+            <param name="fileSaver">The <see cref="T:RPGCore.DataEditor.Files.IFileSaver"/> that the constructed <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> should save to.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Files.EditorFileBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Files.EditorFileBuilder.LoadFromAndSaveTo``1(``0)">
+            <summary>
+            Specifies the source and destination that the constructed <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> should load from and save to.
+            </summary>
+            <param name="loaderAndSaver">The <see cref="T:RPGCore.DataEditor.Files.IFileLoader"/> and <see cref="T:RPGCore.DataEditor.Files.IFileSaver"/> that the constructed <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> should load from and save to.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Files.EditorFileBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Files.EditorFileBuilder.WithType(RPGCore.DataEditor.Manifest.TypeName)">
+            <summary>
+            Specifies the base <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/> that the file should use.
+            </summary>
+            <param name="type">The base <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/> that the file editor should use.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Files.EditorFileBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Files.EditorFileBuilder.Build">
+            <summary>
+            Starts editing a file using configuration provided by this <see cref="T:RPGCore.DataEditor.Files.EditorFileBuilder"/>.
+            </summary>
+            <returns>A new <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> from the current state of this <see cref="T:RPGCore.DataEditor.Files.EditorFileBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Files.FileSystemFile.Load(RPGCore.DataEditor.EditorSession,RPGCore.DataEditor.Manifest.TypeName)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.Files.FileSystemFile.Save(RPGCore.DataEditor.EditorSession,RPGCore.DataEditor.Manifest.TypeName,RPGCore.DataEditor.IEditorValue)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.Files.TypeDefaultLoader.Load(RPGCore.DataEditor.EditorSession,RPGCore.DataEditor.Manifest.TypeName)">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.IEditorFeature">
+            <summary>
+            Allows for extension of an <see cref="T:RPGCore.DataEditor.IEditorToken"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.IEditorFeature.AttachToToken(RPGCore.DataEditor.IEditorToken)">
+            <summary>
+            Informs this <see cref="T:RPGCore.DataEditor.IEditorFeature"/> that it is being associated with an <see cref="T:RPGCore.DataEditor.IEditorToken"/>.
+            </summary>
+            <param name="token">The <see cref="T:RPGCore.DataEditor.IEditorToken"/> that is being associated with this <see cref="T:RPGCore.DataEditor.IEditorFeature"/>.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.IEditorFeature.RemoveFromToken(RPGCore.DataEditor.IEditorToken)">
+            <summary>
+            Informs this <see cref="T:RPGCore.DataEditor.IEditorFeature"/> that it is no longer associated with an <see cref="T:RPGCore.DataEditor.IEditorToken"/>.
+            </summary>
+            <param name="token">The <see cref="T:RPGCore.DataEditor.IEditorToken"/> that is no longer being associated with this <see cref="T:RPGCore.DataEditor.IEditorFeature"/>.</param>
+        </member>
+        <member name="T:RPGCore.DataEditor.IEditorSerializer">
+            <summary>
+            A serializer for reading and writing <see cref="T:RPGCore.DataEditor.IEditorValue"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.IEditorSerializer.DeserializeValue(RPGCore.DataEditor.EditorSession,RPGCore.DataEditor.Manifest.TypeName,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Reads an <see cref="T:RPGCore.DataEditor.IEditorValue"/> of the specified <paramref name="type"/> from the <paramref name="input"/>.
+            </summary>
+            <param name="session">The <see cref="T:RPGCore.DataEditor.Files.EditorFile"/> to read into.</param>
+            <param name="type">The type of the object to deserialize into.</param>
+            <param name="input">The data to read from.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.IEditorSerializer.SerializeValue(RPGCore.DataEditor.IEditorValue,RPGCore.DataEditor.Manifest.TypeName,System.IO.Stream)">
+            <summary>
+            Writes an <see cref="T:RPGCore.DataEditor.IEditorValue"/> to a <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="value">The <see cref="T:RPGCore.DataEditor.IEditorValue"/> to write to the <see cref="T:System.IO.Stream"/>.</param>
+            <param name="type">The <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/> that represents the default type for the context.</param>
+            <param name="output">The <see cref="T:System.IO.Stream"/> to write the <see cref="T:RPGCore.DataEditor.IEditorValue"/> to.</param>
+        </member>
+        <member name="T:RPGCore.DataEditor.IEditorToken">
+            <summary>
+            Represents a token in an editable hierarchy.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.IEditorToken.Session">
+            <summary>
+            The <see cref="T:RPGCore.DataEditor.EditorSession"/> that this <see cref="T:RPGCore.DataEditor.IEditorToken"/> is belongs to.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.IEditorToken.Comments">
+            <summary>
+            All <see cref="T:System.String"/> comments associated with this <see cref="T:RPGCore.DataEditor.IEditorToken"/>.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.IEditorToken.Features">
+            <summary>
+            A collection of <see cref="T:RPGCore.DataEditor.IEditorFeature"/>s associated with this <see cref="T:RPGCore.DataEditor.IEditorToken"/>.
+            </summary>
+        </member>
+        <member name="T:RPGCore.DataEditor.IEditorValue">
+            <summary>
+            Represents and editable value.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.IEditorValue.Type">
+            <summary>
+            The type that this value can be described with.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.IEditorValue.Duplicate">
+            <summary>
+            Duplicates this <see cref="T:RPGCore.DataEditor.IEditorValue"/>.
+            </summary>
+            <returns>A duplicate of this <see cref="T:RPGCore.DataEditor.IEditorValue"/>.</returns>
+        </member>
+        <member name="T:RPGCore.DataEditor.JsonEditorSerializer">
+            <summary>
+            A serializer for reading and writing <see cref="T:RPGCore.DataEditor.IEditorValue"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.JsonEditorSerializer.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:RPGCore.DataEditor.JsonEditorSerializer"/> class.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.JsonEditorSerializer.DeserializeValue(RPGCore.DataEditor.EditorSession,RPGCore.DataEditor.Manifest.TypeName,System.ReadOnlySpan{System.Byte})">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.JsonEditorSerializer.SerializeValue(RPGCore.DataEditor.IEditorValue,RPGCore.DataEditor.Manifest.TypeName,System.IO.Stream)">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.Manifest.ProjectManifest">
+            <summary>
+            A manifest used to configure data editing.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.ProjectManifest.WriteTo(System.IO.Stream)">
+            <summary>
+            Writes the current state of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/> to a destination <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="stream">The destination <see cref="T:System.IO.Stream"/> to write to.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder">
+            <summary>
+            A builder used for constructing <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/>s.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.ProjectManifestBuilder.AddType(RPGCore.DataEditor.Manifest.SchemaType)">
+            <summary>
+            Adds a <see cref="T:RPGCore.DataEditor.Manifest.SchemaType"/> to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/>.
+            </summary>
+            <param name="schemaType">The <see cref="T:RPGCore.DataEditor.Manifest.SchemaType"/> to add to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/>.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.ProjectManifestBuilder.AddNodeType(RPGCore.DataEditor.Manifest.Internal.SchemaNode)">
+            <summary>
+            Adds a <see cref="T:RPGCore.DataEditor.Manifest.Internal.SchemaNode"/> to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/>.
+            </summary>
+            <param name="schemaNode">The <see cref="T:RPGCore.DataEditor.Manifest.Internal.SchemaNode"/> to add to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/>.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.ProjectManifestBuilder.AddConversion(RPGCore.DataEditor.Manifest.SchemaTypeConversion)">
+            <summary>
+            Adds a <see cref="T:RPGCore.DataEditor.Manifest.SchemaTypeConversion"/> to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/>.
+            </summary>
+            <param name="typeConversion">The <see cref="T:RPGCore.DataEditor.Manifest.SchemaTypeConversion"/> to add to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/>.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.ProjectManifestBuilder.AddFrom(System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Reads the <see cref="T:System.IO.Stream"/> and adds to this <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.
+            </summary>
+            <param name="data">The source <see cref="T:System.IO.Stream"/> to read from.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.ProjectManifestBuilder.Build">
+            <summary>
+            Builds a new instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/>.
+            </summary>
+            <returns>A new <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifest"/> build from the current state of this <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.ProjectManifestBuilder.Create">
+            <summary>
+            Creates a new instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.
+            </summary>
+            <returns>A new <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.ProjectManifestBuilder.Load(System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Loads an instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.
+            </summary>
+            <returns>An instance of <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/> loaded from the <see cref="T:System.IO.Stream"/>.</returns>
+        </member>
+        <member name="T:RPGCore.DataEditor.Manifest.SchemaField">
+            <summary>
+            Information for a field.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaField.Name">
+            <summary>
+            The name of this field.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaField.Description">
+            <summary>
+            A description of this fields usage.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaField.Type">
+            <summary>
+            The type of the value contained within the field.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaField.InstatedValue">
+            <summary>
+            The default value of this field.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.SchemaField.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.Manifest.SchemaType">
+            <summary>
+            A schema representing an object type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaType.Name">
+            <summary>
+            The name of the type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaType.Description">
+            <summary>
+            A description of the type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaType.Fields">
+            <summary>
+            All fields contained within this type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaType.InstatedValue">
+            <summary>
+            The instated value for this type.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.SchemaType.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.Manifest.SchemaTypeConversion">
+            <summary>
+            A schema representing a conversion from one type to another.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaTypeConversion.FromType">
+            <summary>
+            The type to convert from.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaTypeConversion.ToType">
+            <summary>
+            The type to convert to.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.SchemaTypeConversion.Description">
+            <summary>
+            A description of how the conversion is performed.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.SchemaTypeConversion.Construct(System.Reflection.MethodInfo)">
+            <summary>
+            Constructs a new conversion from a method.
+            </summary>
+            <param name="method">The method used in the conversion.</param>
+            <returns>A new <see cref="T:RPGCore.DataEditor.Manifest.SchemaTypeConversion"/> representing the convert method.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.SchemaTypeConversion.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:RPGCore.DataEditor.Manifest.Source.JsonDefault.ProjectManifestBuilderExtensions">
+            <summary>
+            A collection of extensions for adding support for user .NET objects.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.Source.JsonDefault.ProjectManifestBuilderExtensions.UseJsonTypes(RPGCore.DataEditor.Manifest.ProjectManifestBuilder)">
+            <summary>
+            Adds a <see cref="T:System.Type"/> as a type to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.
+            </summary>
+            <param name="builder">The <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/> to add types to.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="T:RPGCore.DataEditor.Manifest.Source.JsonSerializer.ProjectManifestBuilderExtensions">
+            <summary>
+            A collection of extensions for adding support for user .NET objects.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.Source.JsonSerializer.ProjectManifestBuilderExtensions.UseTypesFromJsonSerializer(RPGCore.DataEditor.Manifest.ProjectManifestBuilder,System.Text.Json.JsonSerializerOptions,System.Action{RPGCore.DataEditor.Manifest.Source.RuntimeSource.RuntimeProjectManifestBuilderOptions})">
+            <summary>
+            Adds a <see cref="T:System.Type"/> as a type to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.
+            </summary>
+            <param name="builder">The <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/> to add types to.</param>
+            <param name="jsonSerializerOptions"></param>
+            <param name="options"></param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.Source.RuntimeSource.RuntimeProjectManifestBuilderOptions.UseAllTypesFromAppDomain(System.AppDomain)">
+            <summary>
+            Iterates each <see cref="T:System.Reflection.Assembly"/> in the <see cref="T:System.AppDomain"/> that is dependenat on another assembly and adds all editable types to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.
+            </summary>
+            <param name="appDomain">The <see cref="T:System.AppDomain"/> that will be iterated.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.Source.RuntimeSource.RuntimeProjectManifestBuilderOptions.UseAllTypesFromAssembly(System.Reflection.Assembly)">
+            <summary>
+            Iterates each <see cref="T:System.Reflection.Assembly"/> in the <see cref="T:System.AppDomain"/> that is dependenat on another assembly and adds all editable types to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.
+            </summary>
+            <param name="assembly">An <see cref="T:System.Reflection.Assembly"/> to source types from.</param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.Source.RuntimeSource.RuntimeProjectManifestBuilderOptions.UseFrameworkTypes">
+            <summary>
+            Adds types to the project manifest for all framework types.
+            </summary>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.Source.RuntimeSource.RuntimeProjectManifestBuilderOptions.UseType(System.Type)">
+            <summary>
+            Adds a <see cref="T:System.Type"/> as a type to the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.
+            </summary>
+            <param name="type"></param>
+            <returns>Returns the current instance of the <see cref="T:RPGCore.DataEditor.Manifest.ProjectManifestBuilder"/>.</returns>
+        </member>
+        <member name="T:RPGCore.DataEditor.Manifest.TypeName">
+            <summary>
+            A qualified type name, including template type identifiers.
+            </summary>
+        </member>
+        <member name="F:RPGCore.DataEditor.Manifest.TypeName.Unknown">
+            <summary>
+            Represents an unknown type.
+            </summary>
+            <remarks>
+            Unknown types are used for:
+            <list type="bullet">
+            <item>Allowing types to be determined from serialized data.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.TypeName.ForArray(RPGCore.DataEditor.Manifest.TypeName)">
+            <summary>
+            Creates a new <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/> that represents an array.
+            </summary>
+            <param name="elementType">The type of all elements in the array.</param>
+            <returns>A <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/> representing an array.</returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.TypeName.ForDictionary(RPGCore.DataEditor.Manifest.TypeName,RPGCore.DataEditor.Manifest.TypeName)">
+            <summary>
+            Creates a new <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/> that represents a dictionary.
+            </summary>
+            <param name="keyType">The type of the key in the dictionary.</param>
+            <param name="valueType">The value of the values in the dictionary.</param>
+            <returns>A <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/> representing a dictionary.</returns>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.TypeName.Identifier">
+            <summary>
+            A string identifier that is used to identifiy the type template.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.TypeName.TemplateTypes">
+            <summary>
+            Templated types that make up this type.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.TypeName.IsNullable">
+            <summary>
+            Determines whether the type is nullable.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.TypeName.IsDictionary">
+            <summary>
+            Determines whether this type represents a dictionary.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.TypeName.IsArray">
+            <summary>
+            Determines whether this type represents a dictionary.
+            </summary>
+        </member>
+        <member name="P:RPGCore.DataEditor.Manifest.TypeName.IsUnknown">
+            <summary>
+            Determines whether this type is unknown.
+            </summary>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.TypeName.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/>.
+            </summary>
+            <param name="identifier">An identifier for the type.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.TypeName.#ctor(System.String,RPGCore.DataEditor.Manifest.TypeName[])">
+            <summary>
+            Initialises a new instance of <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/>.
+            </summary>
+            <param name="identifier">An identifier for the type.</param>
+            <param name="templateTypes">Parameters that qualify the templated type.</param>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.TypeName.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.TypeName.FromString(System.ReadOnlySpan{System.Char})">
+            <summary>
+            Reads a <see cref="T:System.String"/> to a <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/>.
+            </summary>
+            <param name="type">A <see cref="T:System.String"/> representing the <see cref="T:RPGCore.DataEditor.Manifest.TypeName"/> to be read.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.TypeName.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:RPGCore.DataEditor.Manifest.TypeName.GetHashCode">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPGCore.World</name>
+    </assembly>
+    <members>
+        <member name="T:RPGCore.World.EntityComponentPool`1">
+            <summary>
+            A component pool.
+            </summary>
+            <typeparam name="T">The type of the component to pool.</typeparam>
+        </member>
+        <member name="T:RPGCore.World.EntityPool">
+            <summary>
+            Represents a collection of entities with components.
+            </summary>
+        </member>
+        <member name="P:RPGCore.World.EntityPool.Count">
+            <summary>
+            The amount of entities that are currently active from the pool.
+            </summary>
+        </member>
+        <member name="M:RPGCore.World.EntityPool.SetCapacity(System.Int32)">
+            <summary>
+            Increases the capacity of the pool.
+            </summary>
+            <param name="capacity"></param>
+        </member>
+        <member name="M:RPGCore.World.EntityPool.New">
+            <summary>
+            Allocates a new entity from the pool.
+            </summary>
+            <returns>An identifier for the new entity created.</returns>
+        </member>
+        <member name="M:RPGCore.World.EntityPool.GetComponent``1(System.Int32)">
+            <summary>
+            Grabs a reference to an entity component in a pool.
+            </summary>
+            <typeparam name="T">The type of component to get from the entity.</typeparam>
+            <param name="index">An identifier for the entity in the pool.</param>
+            <returns>A reference to the component in the pool.</returns>
+        </member>
+        <member name="M:RPGCore.World.EntityPool.Recycle(System.Int32)">
+            <summary>
+            Returns an entity to the pool.
+            </summary>
+            <param name="index">An identifier for the entity in the pool.</param>
+        </member>
+        <member name="M:RPGCore.World.EntityPool.AllIds">
+            <summary>
+            Enumerates all reserved identifiers in the pool.
+            </summary>
+            <returns>An enumerator for all in-use entities.</returns>
+        </member>
+        <member name="T:RPGCore.World.ISystem">
+            <summary>
+            A system that drives the behaviour of a <see cref="T:RPGCore.World.World"/>.
+            </summary>
+        </member>
+        <member name="T:RPGCore.World.World">
+            <summary>
+            A <see cref="T:RPGCore.World.World"/> containing entities.
+            </summary>
+        </member>
+        <member name="M:RPGCore.World.World.GetEntityPool(System.String)">
+            <summary>
+            Gets a pool of entities of a specified type.
+            </summary>
+            <param name="identifier">The identifier for the type of entities in the pool.</param>
+            <returns>The pool of entities of the specified type.</returns>
+        </member>
+        <member name="T:RPGCore.World.WorldEngine">
+            <summary>
+            A factory to be used to construct <see cref="T:RPGCore.World.World"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.World.WorldEngine.ConstructWorld">
+            <summary>
+            Constructs a new <see cref="T:RPGCore.World.World"/>.
+            </summary>
+            <returns>A new <see cref="T:RPGCore.World.World"/>.</returns>
+        </member>
+        <member name="T:RPGCore.World.WorldEngineFactory">
+            <summary>
+            A factory for constructing <see cref="T:RPGCore.World.WorldEngine"/>s.
+            </summary>
+        </member>
+        <member name="M:RPGCore.World.WorldEngineFactory.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:RPGCore.World.WorldEngineFactory"/>.
+            </summary>
+        </member>
+        <member name="M:RPGCore.World.WorldEngineFactory.UseEntity(System.String,System.Action{RPGCore.World.WorldEngineFactoryEntityOptions})">
+            <summary>
+            Adds a type of entity to the world.
+            </summary>
+            <param name="identifier">A unique identifier for the entity type.</param>
+            <param name="options">Options used to configure world entities.</param>
+            <returns>This <see cref="T:RPGCore.World.WorldEngineFactory"/> for continued construction.</returns>
+        </member>
+        <member name="M:RPGCore.World.WorldEngineFactory.Build">
+            <summary>
+            Constructs a new <see cref="T:RPGCore.World.WorldEngine"/> from the current state of the factory.
+            </summary>
+            <returns>A <see cref="T:RPGCore.World.WorldEngine"/> from the current state of the factory.</returns>
+        </member>
+        <member name="T:RPGCore.World.WorldEngineFactoryEntityOptions">
+            <summary>
+            Options used to configure world entities.
+            </summary>
+        </member>
+        <member name="M:RPGCore.World.WorldEngineFactoryEntityOptions.AddComponent``1">
+            <summary>
+            Adds a component to entities of this type.
+            </summary>
+            <typeparam name="T">The type of the component to add to the entity.</typeparam>
+        </member>
+    </members>
+</doc>

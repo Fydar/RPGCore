@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfa5a8ffd79eb7b4cb8e5e562cba5cd3, type: 3}
+  m_Name: ContentEditorResources
+  m_EditorClassIdentifier: 
+  LightThemeIcon: {fileID: 2800000, guid: f3297cc1672682e4ab0d0d9bed85582c, type: 3}
+  DarkThemeIcon: {fileID: 2800000, guid: fe8490e00015d8f44b50f6791b7f7245, type: 3}
+  WindowBackground: {fileID: 2800000, guid: 78f5abfde6bee994c8fc82003a687069, type: 3}
+  ProjectIcon: {fileID: 2800000, guid: 44b29ae61551cb24c836e5a8cfe583bb, type: 3}
+  PackageIcon: {fileID: 2800000, guid: 44b29ae61551cb24c836e5a8cfe583bb, type: 3}
+  DependanciesIcon: {fileID: 2800000, guid: f6710039ae972c84f82371b43603a351, type: 3}
+  ProjectDependancyIcon: {fileID: 2800000, guid: 44b29ae61551cb24c836e5a8cfe583bb,
+    type: 3}
+  ManifestDependancyIcon: {fileID: 2800000, guid: 98f8fe1361a06d04dbbdb205b58c9cbb,
+    type: 3}
+  FolderIcon: {fileID: 2800000, guid: a9f860f18f0c1f443a7998b4e9a3e841, type: 3}
+  DocumentIcon: {fileID: 2800000, guid: 78ad3e57c22072840ab762eee58fd091, type: 3}
+  InputIcon: {fileID: 2800000, guid: 0b83b237ec5a97c4c9c9feead15ea28f, type: 3}
+  OutputIcon: {fileID: 2800000, guid: cb6ca09d1a6a4124999b173cff20b974, type: 3}

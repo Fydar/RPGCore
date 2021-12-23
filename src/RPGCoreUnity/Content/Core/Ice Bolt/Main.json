@@ -1,0 +1,49 @@
+{
+  "Behaviour": {
+    "Nodes": {
+      "0a084c2c": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
+        "Data": {
+          "MinValue": 5,
+          "MaxValue": 15
+        },
+        "Editor": {
+          "Position": {
+            "x": 186,
+            "y": 147
+          }
+        }
+      },
+      "472c7ba2": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
+        "Data": {
+          "MinValue": 20,
+          "MaxValue": 25
+        },
+        "Editor": {
+          "Position": {
+            "x": 186,
+            "y": 360
+          }
+        }
+      },
+      "0a4f194f": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueA": "0a084c2c.Output",
+          "ValueB": "472c7ba2.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 488,
+            "y": 263
+          }
+        }
+      }
+    },
+    "SubGraphs": null
+  },
+  "DisplayName": "Ice Bolt",
+  "Description": "Fires a fast travelling bolt of ice.",
+  "Weight": 0
+}

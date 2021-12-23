@@ -1,0 +1,114 @@
+{
+  "Behaviour": {
+    "SubGraphs": {
+      "RepeatThis": {
+        "SubGraphs": null,
+        "Nodes": {
+          "0a084c2c": {
+            "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
+            "Data": {
+              "MinValue": 1,
+              "MaxValue": 99
+            },
+            "Editor": {
+              "Position": {
+                "x": 200,
+                "y": 372
+              }
+            }
+          },
+          "472a7ba2": {
+            "Type": "RPGCore.Demo.Inventory.Nodes.OutputValueNode",
+            "Data": {
+              "Value": "0a084c2c.Output"
+            },
+            "Editor": {
+              "Position": {
+                "x": 160,
+                "y": 161
+              }
+            }
+          }
+        }
+      }
+    },
+    "Nodes": {
+      "1749d7ac": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.ItemInputNode",
+        "Data": {},
+        "Editor": {
+          "Position": {
+            "x": -48,
+            "y": 219
+          }
+        }
+      },
+      "0a084c2c": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.RollNode",
+        "Data": {
+          "MinValue": 3,
+          "MaxValue": 4
+        },
+        "Editor": {
+          "Position": {
+            "x": 195,
+            "y": 368
+          }
+        }
+      },
+      "74bd14a0": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.GetStatNode",
+        "Data": {
+          "Character": "1749d7ac.Character"
+        },
+        "Editor": {
+          "Position": {
+            "x": 233,
+            "y": 223
+          }
+        }
+      },
+      "0a4f194f": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.AddNode",
+        "Data": {
+          "ValueB": "0a084c2c.Output",
+          "ValueA": "74bd14a0.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 506,
+            "y": 233
+          }
+        }
+      },
+      "472a7ba2": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.OutputValueNode",
+        "Data": {
+          "Value": "0a4f194f.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 790,
+            "y": 243
+          }
+        }
+      },
+      "9471ab3a": {
+        "Type": "RPGCore.Demo.Inventory.Nodes.IterateNode",
+        "Data": {
+          "SubgraphId": "RepeatThis",
+          "Repetitions": "0a084c2c.Output"
+        },
+        "Editor": {
+          "Position": {
+            "x": 522,
+            "y": 348
+          }
+        }
+      }
+    }
+  },
+  "DisplayName": "Fireball",
+  "Description": "Fires a ball of fire that explodes on impact.",
+  "Weight": 0
+}
