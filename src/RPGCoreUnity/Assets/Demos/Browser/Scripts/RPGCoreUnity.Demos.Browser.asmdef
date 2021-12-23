@@ -1,0 +1,18 @@
+{
+    "name": "RPGCoreUnity.Demos.Browser",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6dd730bdbc4cb7d42a36f66c83260aa4"
+    ],
+    "includePlatforms": [
+        "iOS"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace RPGCore.Unity.Editors
+namespace RPGCoreUnity.Editors
 {
 	public struct UniformScrollController : IEnumerable<ElementDrawer>, IEnumerator<ElementDrawer>
 	{

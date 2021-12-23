@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace RPGCore.Unity.Editors
+namespace RPGCoreUnity.Editors
 {
 	[CustomEditor(typeof(ProjectImport))]
 	public class ProjectImportEditor : Editor

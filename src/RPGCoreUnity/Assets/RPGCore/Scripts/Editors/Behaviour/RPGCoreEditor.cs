@@ -5,7 +5,7 @@ using RPGCore.DataEditor.Manifest;
 using UnityEditor;
 using UnityEngine;
 
-namespace RPGCore.Unity.Editors
+namespace RPGCoreUnity.Editors
 {
 	public static class RPGCoreEditor
 	{

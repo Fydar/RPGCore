@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-namespace RPGCore.Unity.Editors
+namespace RPGCoreUnity.Editors
 {
 	public class JsonTextWindowFrame : RawTextWindowFrame
 	{

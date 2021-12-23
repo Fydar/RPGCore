@@ -1,4 +1,4 @@
-﻿using RPGCore.Unity;
+﻿using RPGCoreUnity;
 using UnityEngine;
 
 namespace RPGCoreUnity.Demo.Browser

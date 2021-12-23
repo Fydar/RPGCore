@@ -3,7 +3,7 @@ using RPGCore.DataEditor;
 using UnityEditor;
 using UnityEngine;
 
-namespace RPGCore.Unity.Editors
+namespace RPGCoreUnity.Editors
 {
 	public class BehaviourEditor : EditorWindow
 	{

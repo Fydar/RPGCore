@@ -3,7 +3,7 @@ using RPGCore.DataEditor.Manifest;
 using System.Collections.Generic;
 using UnityEditor.IMGUI.Controls;
 
-namespace RPGCore.Unity.Editors
+namespace RPGCoreUnity.Editors
 {
 	internal class BehaviourManifestTreeView : TreeView
 	{

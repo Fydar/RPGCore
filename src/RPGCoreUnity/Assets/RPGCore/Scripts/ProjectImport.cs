@@ -5,7 +5,7 @@ using RPGCore.Packages.Extensions.MetaFiles;
 using System.IO;
 using UnityEngine;
 
-namespace RPGCore.Unity
+namespace RPGCoreUnity
 {
 	[CreateAssetMenu(menuName = "RPGCore/Package Import")]
 	public class ProjectImport : ScriptableObject

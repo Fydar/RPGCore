@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RPGCore.Unity
+namespace RPGCoreUnity
 {
 	public class AssetImport : ScriptableObject
 	{

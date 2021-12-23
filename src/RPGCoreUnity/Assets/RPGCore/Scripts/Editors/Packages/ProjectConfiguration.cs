@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "RPGCore/Misc/Project Configuration")]
-public class ProjectConfiguration : ScriptableObject
+namespace RPGCoreUnity.Editors
 {
-	private static ProjectConfiguration activeConfiguration;
-
-	public static ProjectConfiguration ActiveConfiguration
+	[CreateAssetMenu(menuName = "RPGCore/Misc/Project Configuration")]
+	public class ProjectConfiguration : ScriptableObject
 	{
-		get
+		private static ProjectConfiguration activeConfiguration;
+
+		public static ProjectConfiguration ActiveConfiguration
 		{
-			if (activeConfiguration == null)
+			get
 			{
-				activeConfiguration = Resources.Load<ProjectConfiguration>("ProjectConfiguration");
+				if (activeConfiguration == null)
+				{
+					activeConfiguration = Resources.Load<ProjectConfiguration>("ProjectConfiguration");
+				}
+				return activeConfiguration;
 			}
-			return activeConfiguration;
 		}
-	}
 
-	[Serializable]
-	public struct ProjectReference
-	{
-		public string RelativePath;
+		[Serializable]
+		public struct ProjectReference
+		{
+			public string RelativePath;
+		}
+		public List<ProjectReference> References;
 	}
-	public List<ProjectReference> References;
 }

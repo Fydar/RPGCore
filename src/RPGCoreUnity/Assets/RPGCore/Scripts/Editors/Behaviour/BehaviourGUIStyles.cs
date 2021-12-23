@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace RPGCore.Behaviour.Editor
+namespace RPGCoreUnity.Editors
 {
 	public class BehaviourGUIStyles
 	{

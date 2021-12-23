@@ -1,7 +1,7 @@
 ﻿using RPGCore.Packages;
 using UnityEngine;
 
-namespace RPGCore.Unity.Editors
+namespace RPGCoreUnity.Editors
 {
 	public class TextureWindowFrame : WindowFrame
 	{

@@ -2,21 +2,24 @@
 using System.IO;
 using UnityEngine;
 
-public static class ContentDatabase
+namespace RPGCoreUnity.Editors
 {
-	private static PackageExplorer primaryPackage;
-
-	public static PackageExplorer PrimaryPackage
+	public static class ContentDatabase
 	{
-		get
+		private static PackageExplorer primaryPackage;
+
+		public static PackageExplorer PrimaryPackage
 		{
-			if (primaryPackage == null)
+			get
 			{
-				string path = ProjectConfiguration.ActiveConfiguration.References[0].RelativePath;
-				Debug.Log("Loading package at path: " + new FileInfo(path).FullName);
-				primaryPackage = PackageExplorer.LoadFromFileAsync(path).Result;
+				if (primaryPackage == null)
+				{
+					string path = ProjectConfiguration.ActiveConfiguration.References[0].RelativePath;
+					Debug.Log("Loading package at path: " + new FileInfo(path).FullName);
+					primaryPackage = PackageExplorer.LoadFromFileAsync(path).Result;
+				}
+				return primaryPackage;
 			}
-			return primaryPackage;
 		}
 	}
 }
