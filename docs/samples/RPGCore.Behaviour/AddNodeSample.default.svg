@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1200 960" width="1200" height="960" xmlns ="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1200 1023" width="1200" height="1023" xmlns ="http://www.w3.org/2000/svg">
 
 	<defs>
 		<clipPath id="round-left-corners">
@@ -75,40 +75,46 @@
 	<text x="38" y="892" class="c-ln">43</text>
 	<text x="38" y="913" class="c-ln">44</text>
 	<text x="38" y="934" class="c-ln">45</text>
+	<text x="38" y="955" class="c-ln">46</text>
+	<text x="38" y="976" class="c-ln">47</text>
+	<text x="38" y="997" class="c-ln">48</text>
 	<text x="64" y="10" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">AddNode</tspan> : <tspan class="c-class">NodeTemplate</tspan>&lt;<tspan class="c-class">AddNode</tspan>&gt;</text>
 	<text x="64" y="31" class="code">{</text>
 	<text x="64" y="52" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-structure">InputSocket</tspan> <tspan class="c-field">ValueA</tspan>;</text>
 	<text x="64" y="73" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-structure">InputSocket</tspan> <tspan class="c-field">ValueB</tspan>;</text>
 	<text x="64" y="115" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-structure">OutputSocket</tspan> <tspan class="c-field">Output</tspan>;</text>
-	<text x="64" y="157" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-class">Instance</tspan> <tspan class="c-method">Create</tspan>() =&gt; <tspan class="c-keyword">new</tspan> <tspan class="c-class">AddInstance</tspan>();</text>
-	<text x="64" y="199" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">AddInstance</tspan> : <tspan class="c-class">Instance</tspan></text>
-	<text x="64" y="220" class="code">    {</text>
-	<text x="64" y="241" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-structure">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueA</tspan>;</text>
-	<text x="64" y="262" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-structure">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueB</tspan>;</text>
-	<text x="64" y="304" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-structure">Output</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">Output</tspan>;</text>
-	<text x="64" y="346" class="code">        <tspan class="c-comment">// Socket to Connector Mapping</tspan></text>
-	<text x="64" y="367" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-structure">InputMap</tspan>[] <tspan class="c-method">Inputs</tspan>(<tspan class="c-structure">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
-	<text x="64" y="388" class="code">        {</text>
-	<text x="64" y="409" class="code">            <tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueA</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueA</tspan>),</text>
-	<text x="64" y="430" class="code">            <tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueB</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueB</tspan>)</text>
-	<text x="64" y="451" class="code">        };</text>
-	<text x="64" y="493" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-structure">OutputMap</tspan>[] <tspan class="c-method">Outputs</tspan>(<tspan class="c-structure">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
-	<text x="64" y="514" class="code">        {</text>
-	<text x="64" y="535" class="code">            <tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">Output</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">Output</tspan>)</text>
-	<text x="64" y="556" class="code">        };</text>
-	<text x="64" y="598" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">Setup</tspan>()</text>
-	<text x="64" y="619" class="code">        {</text>
-	<text x="64" y="640" class="code">            <tspan class="c-comment">// Subscribe to events, setup variables...</tspan></text>
-	<text x="64" y="661" class="code">        }</text>
-	<text x="64" y="703" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">OnInputChanged</tspan>()</text>
-	<text x="64" y="724" class="code">        {</text>
-	<text x="64" y="745" class="code">            <tspan class="c-comment">// Fires when an input value changes.</tspan></text>
-	<text x="64" y="766" class="code">            <tspan class="c-field">Output</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-field">ValueA</tspan>.<tspan class="c-property">Value</tspan> + <tspan class="c-field">ValueB</tspan>.<tspan class="c-property">Value</tspan>;</text>
-	<text x="64" y="787" class="code">        }</text>
-	<text x="64" y="829" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">Remove</tspan>()</text>
-	<text x="64" y="850" class="code">        {</text>
-	<text x="64" y="871" class="code">            <tspan class="c-comment">// Unsubscribe from events, dispose members...</tspan></text>
-	<text x="64" y="892" class="code">        }</text>
-	<text x="64" y="913" class="code">    }</text>
-	<text x="64" y="934" class="code">}</text>
+	<text x="64" y="157" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-class">Instance</tspan> <tspan class="c-method">Create</tspan>()</text>
+	<text x="64" y="178" class="code">    {</text>
+	<text x="64" y="199" class="code">        <tspan class="c-control">return</tspan> <tspan class="c-keyword">new</tspan> <tspan class="c-class">AddInstance</tspan>();</text>
+	<text x="64" y="220" class="code">    }</text>
+	<text x="64" y="262" class="code">    <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">class</tspan> <tspan class="c-class">AddInstance</tspan> : <tspan class="c-class">Instance</tspan></text>
+	<text x="64" y="283" class="code">    {</text>
+	<text x="64" y="304" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-structure">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueA</tspan>;</text>
+	<text x="64" y="325" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-structure">Input</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">ValueB</tspan>;</text>
+	<text x="64" y="367" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-structure">Output</tspan>&lt;<tspan class="c-keyword">float</tspan>&gt; <tspan class="c-field">Output</tspan>;</text>
+	<text x="64" y="409" class="code">        <tspan class="c-comment">// Socket to Connector Mapping</tspan></text>
+	<text x="64" y="430" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-structure">InputMap</tspan>[] <tspan class="c-method">Inputs</tspan>(<tspan class="c-structure">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
+	<text x="64" y="451" class="code">        {</text>
+	<text x="64" y="472" class="code">            <tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueA</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueA</tspan>),</text>
+	<text x="64" y="493" class="code">            <tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">ValueB</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">ValueB</tspan>)</text>
+	<text x="64" y="514" class="code">        };</text>
+	<text x="64" y="556" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-structure">OutputMap</tspan>[] <tspan class="c-method">Outputs</tspan>(<tspan class="c-structure">ConnectionMapper</tspan> <tspan class="c-parameter">connections</tspan>) =&gt; <tspan class="c-keyword">new</tspan>[]</text>
+	<text x="64" y="577" class="code">        {</text>
+	<text x="64" y="598" class="code">            <tspan class="c-parameter">connections</tspan>.<tspan class="c-method">Connect</tspan>(<tspan class="c-keyword">ref</tspan> <tspan class="c-property">Template</tspan>.<tspan class="c-field">Output</tspan>, <tspan class="c-keyword">ref</tspan> <tspan class="c-field">Output</tspan>)</text>
+	<text x="64" y="619" class="code">        };</text>
+	<text x="64" y="661" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">Setup</tspan>()</text>
+	<text x="64" y="682" class="code">        {</text>
+	<text x="64" y="703" class="code">            <tspan class="c-comment">// Subscribe to events, setup variables...</tspan></text>
+	<text x="64" y="724" class="code">        }</text>
+	<text x="64" y="766" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">OnInputChanged</tspan>()</text>
+	<text x="64" y="787" class="code">        {</text>
+	<text x="64" y="808" class="code">            <tspan class="c-comment">// Fires when an input value changes.</tspan></text>
+	<text x="64" y="829" class="code">            <tspan class="c-field">Output</tspan>.<tspan class="c-property">Value</tspan> = <tspan class="c-field">ValueA</tspan>.<tspan class="c-property">Value</tspan> + <tspan class="c-field">ValueB</tspan>.<tspan class="c-property">Value</tspan>;</text>
+	<text x="64" y="850" class="code">        }</text>
+	<text x="64" y="892" class="code">        <tspan class="c-keyword">public</tspan> <tspan class="c-keyword">override</tspan> <tspan class="c-keyword">void</tspan> <tspan class="c-method">Remove</tspan>()</text>
+	<text x="64" y="913" class="code">        {</text>
+	<text x="64" y="934" class="code">            <tspan class="c-comment">// Unsubscribe from events, dispose members...</tspan></text>
+	<text x="64" y="955" class="code">        }</text>
+	<text x="64" y="976" class="code">    }</text>
+	<text x="64" y="997" class="code">}</text>
 </svg>

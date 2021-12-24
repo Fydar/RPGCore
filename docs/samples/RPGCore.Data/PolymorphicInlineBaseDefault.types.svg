@@ -48,7 +48,7 @@
 	<text x="38" y="325" class="c-ln">16</text>
 	<text x="38" y="346" class="c-ln">17</text>
 	<text x="38" y="367" class="c-ln">18</text>
-	<text x="64" y="10" class="code">[<tspan class="c-class">SerializeType</tspan>]</text>
+	<text x="64" y="10" class="code">[<tspan class="c-class">SerializeBaseType</tspan>]</text>
 	<text x="64" y="31" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">interface</tspan> <tspan class="c-interface">IProcedure</tspan></text>
 	<text x="64" y="52" class="code">{</text>
 	<text x="64" y="73" class="code">}</text>

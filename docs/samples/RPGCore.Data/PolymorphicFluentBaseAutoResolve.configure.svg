@@ -46,7 +46,7 @@
 	<text x="64" y="52" class="code">    {</text>
 	<text x="64" y="73" class="code">        <tspan class="c-parameter">options</tspan>.<tspan class="c-method">UseKnownBaseType</tspan>(<tspan class="c-keyword">typeof</tspan>(<tspan class="c-interface">IProcedure</tspan>), <tspan class="c-parameter">baseType</tspan> <tspan class="c-method">=&gt;</tspan></text>
 	<text x="64" y="94" class="code">        {</text>
-	<text x="64" y="115" class="code">            <tspan class="c-parameter">baseType</tspan>.<tspan class="c-method">ResolveSubTypesAutomatically</tspan>(<tspan class="c-parameter">resolve</tspan> <tspan class="c-method">=&gt;</tspan></text>
+	<text x="64" y="115" class="code">            <tspan class="c-parameter">baseType</tspan>.<tspan class="c-method">UseResolvedSubTypes</tspan>(<tspan class="c-parameter">resolve</tspan> <tspan class="c-method">=&gt;</tspan></text>
 	<text x="64" y="136" class="code">            {</text>
 	<text x="64" y="157" class="code">                <tspan class="c-parameter">resolve</tspan>.<tspan class="c-property">TypeNaming</tspan> = <tspan class="c-class">TypeNameNamingConvention</tspan>.<tspan class="c-property">Instance</tspan>;</text>
 	<text x="64" y="178" class="code">            });</text>

@@ -34,7 +34,7 @@
 	<text x="38" y="31" class="c-ln">2</text>
 	<text x="38" y="52" class="c-ln">3</text>
 	<text x="38" y="73" class="c-ln">4</text>
-	<text x="64" y="10" class="code">[<tspan class="c-class">SerializeType</tspan>(<tspan class="c-enum">TypeName</tspan>.<tspan class="c-field">Name</tspan>)]</text>
+	<text x="64" y="10" class="code">[<tspan class="c-class">SerializeBaseType</tspan>(<tspan class="c-enum">TypeName</tspan>.<tspan class="c-field">Name</tspan>)]</text>
 	<text x="64" y="31" class="code"><tspan class="c-keyword">public</tspan> <tspan class="c-keyword">interface</tspan> <tspan class="c-interface">IProcedure</tspan></text>
 	<text x="64" y="52" class="code">{</text>
 	<text x="64" y="73" class="code">}</text>

@@ -36,7 +36,7 @@
 	<text x="38" y="73" class="c-ln">4</text>
 	<text x="38" y="94" class="c-ln">5</text>
 	<text x="64" y="10" class="code">{</text>
-	<text x="64" y="31" class="code">  <tspan class="c-pn">"$type"</tspan>: <tspan class="c-s">"RPGCore.Documentation.Samples.RPGCore.Data.PolymorphicInlineChildExplicit</tspan><tspan class="c-es">\u002B</tspan><tspan class="c-s">RemoveProcedure"</tspan>,</text>
+	<text x="64" y="31" class="code">  <tspan class="c-pn">"$type"</tspan>: <tspan class="c-s">"remove"</tspan>,</text>
 	<text x="64" y="52" class="code">  <tspan class="c-pn">"Delay"</tspan>: <tspan class="c-n">0.5</tspan>,</text>
 	<text x="64" y="73" class="code">  <tspan class="c-pn">"Identifier"</tspan>: <tspan class="c-n">4</tspan></text>
 	<text x="64" y="94" class="code">}</text>
