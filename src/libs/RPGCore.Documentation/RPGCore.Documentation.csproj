@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -35,9 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.10.0" />
-    <PackageReference Include="Basic.Reference.Assemblies" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="4.0.1" />
+    <PackageReference Include="Basic.Reference.Assemblies" Version="1.2.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
