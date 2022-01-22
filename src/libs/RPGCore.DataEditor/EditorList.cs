@@ -132,7 +132,7 @@ namespace RPGCore.DataEditor
 			}
 			else
 			{
-				Elements.Add(new EditorReplaceable(Session, ElementType, Session.CreateInstatedValue(ElementType))) ;
+				Elements.Add(new EditorReplaceable(Session, ElementType, Session.CreateInstatedValue(ElementType)));
 			}
 
 			InvokeOnSizeChanged();

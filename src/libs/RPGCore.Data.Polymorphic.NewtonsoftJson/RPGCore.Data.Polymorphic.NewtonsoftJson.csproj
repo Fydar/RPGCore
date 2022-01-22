@@ -14,11 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <ProjectReference Include="..\RPGCore.Data.Polymorphic\RPGCore.Data.Polymorphic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RPGCore.Data.Polymorphic\RPGCore.Data.Polymorphic.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   
 </Project>

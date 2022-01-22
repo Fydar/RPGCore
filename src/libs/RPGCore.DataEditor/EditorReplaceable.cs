@@ -38,10 +38,7 @@ namespace RPGCore.DataEditor
 		/// </summary>
 		public TypeName Type
 		{
-			get
-			{
-				return type;
-			}
+			get => type;
 			set
 			{
 				type = value;
