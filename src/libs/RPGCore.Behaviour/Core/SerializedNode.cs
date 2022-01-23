@@ -68,12 +68,12 @@ internal sealed class InputSocketConverter : JsonConverter
 		this.mappedInputs = mappedInputs;
 	}
 
-	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+	public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
 	{
 		throw new InvalidOperationException();
 	}
 
-	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+	public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
 	{
 		if (reader.Value == null)
 		{
@@ -122,12 +122,12 @@ internal sealed class InputSocketArrayConverter : JsonConverter
 		this.mappedInputs = mappedInputs;
 	}
 
-	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+	public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
 	{
 		throw new InvalidOperationException();
 	}
 
-	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+	public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
 	{
 		var array = JArray.Load(reader);
 

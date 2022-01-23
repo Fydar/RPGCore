@@ -44,7 +44,7 @@ public sealed class SerializedGraphInstanceProxyConverter : JsonConverter
 		return typeof(IGraphInstance).IsAssignableFrom(objectType);
 	}
 
-	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+	public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
 	{
 		var jObject = JObject.Load(reader);
 		var serializedGraphInstance = jObject.ToObject<SerializedGraphInstance>(serializer);
@@ -54,7 +54,7 @@ public sealed class SerializedGraphInstanceProxyConverter : JsonConverter
 		return result;
 	}
 
-	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+	public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
 	{
 		var graphInstance = (GraphInstance)value;
 		var serializedGraphInstance = graphInstance.Pack();
@@ -66,7 +66,7 @@ public sealed class SerializedGraphInstanceProxyConverter : JsonConverter
 
 public sealed class OutputConverter : JsonConverter
 {
-	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+	public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
 	{
 		if (reader.TokenType == JsonToken.Null)
 		{
@@ -90,7 +90,7 @@ public sealed class OutputConverter : JsonConverter
 
 	public override bool CanWrite => false;
 
-	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+	public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
 	{
 		throw new NotSupportedException("JsonCreationConverter should only be used while deserializing.");
 	}

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace RPGCore.Traits.UnitTests;
 
@@ -23,5 +24,6 @@ public class TraitCollectionShould
 
 		var charStatAInstance = characterTraits[charStatA];
 
+		Console.WriteLine(charStatAInstance);
 	}
 }

@@ -75,7 +75,7 @@ public sealed class EventDictionaryHandlerCollection<TKey, TValue> : IEnumerable
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	private readonly List<KeyValuePair<object, IEventDictionaryHandler<TKey, TValue>>> internalHandlers;
 
-	public ContextWrapped this[object context] => new ContextWrapped(collection, context);
+	public ContextWrapped this[object context] => new(collection, context);
 
 	public EventDictionaryHandlerCollection(IEventDictionary<TKey, TValue> collection)
 	{

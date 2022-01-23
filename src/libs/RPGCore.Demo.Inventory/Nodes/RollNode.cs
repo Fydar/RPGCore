@@ -5,7 +5,7 @@ namespace RPGCore.Demo.Inventory.Nodes;
 
 public sealed class RollNode : NodeTemplate<RollNode>
 {
-	public OutputSocket Output = new OutputSocket();
+	public OutputSocket Output = new();
 	public int MinValue = 2;
 	public int MaxValue = 12;
 

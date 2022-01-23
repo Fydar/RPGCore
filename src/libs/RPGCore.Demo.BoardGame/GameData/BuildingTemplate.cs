@@ -15,7 +15,7 @@ public class BuildingTemplate : IResourceModel
 	public string BodyText { get; set; } = string.Empty;
 	public string PackIdentifier { get; set; } = string.Empty;
 
-	public string[,]? Recipe { get; set; }
+	public string[,] Recipe { get; set; } = new string[0,0];
 
 	public SerializedGraph LocalEffectGraph { get; set; }
 	public SerializedGraph BoardEffectGraph { get; set; }

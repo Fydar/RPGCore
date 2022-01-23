@@ -21,8 +21,6 @@ public abstract class ConnectionTypeConverter<TInput, TOutput> : IConnection<TOu
 
 	public EventFieldHandlerCollection Handlers => Source.Handlers;
 
-	public IReadOnlyEventField<TOutput> Mirroring => null;
-
 	public bool BufferEvents { get; set; }
 
 	public ConnectionTypeConverter()

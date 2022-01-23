@@ -25,7 +25,7 @@ public struct RotatedBuilding
 
 	public bool IsRotating => Template.IsRotating;
 
-	public string this[int x, int y]
+	public string? this[int x, int y]
 	{
 		get
 		{

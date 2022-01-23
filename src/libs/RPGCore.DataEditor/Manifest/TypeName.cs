@@ -75,13 +75,16 @@ public sealed class TypeName : IEquatable<TypeName?>
 	[JsonIgnore]
 	public bool IsUnknown => this == Unknown;
 
+	/// <summary>
+	/// Initialises a new instance of <see cref="TypeName"/>
+	/// </summary>
 	public TypeName()
 	{
 		Identifier = "[Unknown]";
 	}
 
 	/// <summary>
-	/// Initialises a new instance of <see cref="TypeName"/>.
+	/// Initialises a new instance of <see cref="TypeName"/> from a <see cref="string"/>.
 	/// </summary>
 	/// <param name="identifier">An identifier for the type.</param>
 	public TypeName(string identifier)
@@ -174,6 +177,7 @@ public sealed class TypeName : IEquatable<TypeName?>
 		return new TypeName(identifier.ToString(), templateTypes.ToArray());
 	}
 
+	/// <inheritdoc/>
 	public bool Equals(TypeName? other)
 	{
 		return other != null &&
@@ -189,18 +193,26 @@ public sealed class TypeName : IEquatable<TypeName?>
 	/// <inheritdoc/>
 	public override int GetHashCode()
 	{
-		int hashCode = 149811850;
-		hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Identifier);
-		hashCode = hashCode * -1521134295 + EqualityComparer<TypeName[]>.Default.GetHashCode(TemplateTypes);
-		hashCode = hashCode * -1521134295 + IsNullable.GetHashCode();
-		return hashCode;
+		return ToString().GetHashCode();
 	}
 
+	/// <summary>
+	/// Determines whether an instance of an object is equal to another object of the same type.
+	/// </summary>
+	/// <param name="left">An object to compare.</param>
+	/// <param name="right">An object to compare <paramref name="left"/> with.</param>
+	/// <returns><c>true</c> if <paramref name="left"/> is equal to <paramref name="right"/>; otherwise <c>false</c>.</returns>
 	public static bool operator ==(TypeName? left, TypeName? right)
 	{
-		return EqualityComparer<TypeName>.Default.Equals(left, right);
+		return string.Equals(left?.ToString() ?? "", right?.ToString() ?? "");
 	}
 
+	/// <summary>
+	/// Determines whether an instance of an object is <b>not</b> equal to another object of the same type.
+	/// </summary>
+	/// <param name="left">An object to compare.</param>
+	/// <param name="right">An object to compare <paramref name="left"/> with.</param>
+	/// <returns><c>true</c> if <paramref name="left"/> is <b>not</b> equal to <paramref name="right"/>; otherwise <c>false</c>.</returns>
 	public static bool operator !=(TypeName? left, TypeName? right)
 	{
 		return !(left == right);

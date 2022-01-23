@@ -28,6 +28,7 @@ public sealed class SchemaField
 	public SchemaField()
 	{
 		Name = string.Empty;
+		Type = TypeName.Unknown;
 	}
 
 	internal SchemaField(string name, string? description, TypeName type, string? instatedValue)

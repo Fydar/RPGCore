@@ -4,7 +4,7 @@ namespace RPGCore.Events;
 
 public class EventFieldHandler<TValue> : IEventFieldHandler, IHandlerUsedCallback
 {
-	private IReadOnlyEventField<TValue> eventField;
+	private IReadOnlyEventField<TValue>? eventField;
 
 	protected virtual void OnBeforeChanged(TValue oldValue)
 	{
@@ -16,12 +16,18 @@ public class EventFieldHandler<TValue> : IEventFieldHandler, IHandlerUsedCallbac
 
 	void IEventFieldHandler.OnBeforeChanged()
 	{
-		OnBeforeChanged(eventField.Value);
+		if (eventField != null)
+		{
+			OnBeforeChanged(eventField.Value);
+		}
 	}
 
 	void IEventFieldHandler.OnAfterChanged()
 	{
-		OnAfterChanged(eventField.Value);
+		if (eventField != null)
+		{
+			OnAfterChanged(eventField.Value);
+		}
 	}
 
 	void IHandlerUsedCallback.OnUse(IReadOnlyEventField field)

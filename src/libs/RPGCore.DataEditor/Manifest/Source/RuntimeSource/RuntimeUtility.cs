@@ -6,8 +6,16 @@ using System.Reflection;
 
 namespace RPGCore.DataEditor.Manifest.Source.RuntimeSource;
 
+/// <summary>
+/// Utilities to aid with the conversion from .NET types to DataEditor types.
+/// </summary>
 public static class RuntimeUtility
 {
+	/// <summary>
+	/// Gets a <see cref="TypeName"/> for a supplied <paramref name="type"/>.
+	/// </summary>
+	/// <param name="type">The type to describe.</param>
+	/// <returns>A <see cref="TypeName"/> representing the <paramref name="type"/>.</returns>
 	public static TypeName DescribeType(Type type)
 	{
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -36,8 +44,7 @@ public static class RuntimeUtility
 			var genericArguments = type.GetGenericArguments();
 			return TypeName.ForDictionary(
 				DescribeType(genericArguments[0]),
-				DescribeType(genericArguments[1])
-			);
+				DescribeType(genericArguments[1]));
 		}
 		else
 		{
@@ -53,6 +60,11 @@ public static class RuntimeUtility
 		}
 	}
 
+	/// <summary>
+	/// Forcefully activites an instance of an object.
+	/// </summary>
+	/// <param name="type">The type of object to activate.</param>
+	/// <returns>An object of the supplied <paramref name="type"/>. <c>null</c> if the type cannot be activated.</returns>
 	public static object? CreateInstance(Type type)
 	{
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -97,7 +109,73 @@ public static class RuntimeUtility
 		return instancedObject;
 	}
 
-	public static string ToIdentifier(Type type)
+	/// <summary>
+	/// Determines the nullability of a property represented by it's <see cref="PropertyInfo"/>.
+	/// </summary>
+	/// <param name="property">The property to determine the nullability of.</param>
+	/// <returns><c>true</c> is the <paramref name="property"/> is nullable; otherwise <c>false</c>.</returns>
+	public static bool IsNullable(PropertyInfo property)
+	{
+		return IsNullableHelper(property.PropertyType, property.DeclaringType, property.CustomAttributes);
+	}
+
+	/// <summary>
+	/// Determines the nullability of a field represented by it's <see cref="FieldInfo"/>.
+	/// </summary>
+	/// <param name="field">The field to determine the nullability of.</param>
+	/// <returns><c>true</c> is the <paramref name="field"/> is nullable; otherwise <c>false</c>.</returns>
+	public static bool IsNullable(FieldInfo field)
+	{
+		return IsNullableHelper(field.FieldType, field.DeclaringType, field.CustomAttributes);
+	}
+
+	private static bool IsNullableHelper(Type memberType, Type? declaringType, IEnumerable<CustomAttributeData> customAttributes)
+	{
+		if (memberType.IsValueType)
+		{
+			return Nullable.GetUnderlyingType(memberType) != null;
+		}
+
+		var nullable = customAttributes
+			.FirstOrDefault(x => x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableAttribute");
+		if (nullable != null && nullable.ConstructorArguments.Count == 1)
+		{
+			var attributeArgument = nullable.ConstructorArguments[0];
+			if (attributeArgument.ArgumentType == typeof(byte[]))
+			{
+				var args = (ReadOnlyCollection<CustomAttributeTypedArgument>)attributeArgument.Value!;
+				if (args.Count > 0 && args[0].ArgumentType == typeof(byte))
+				{
+					return (byte)args[0].Value! == 2;
+				}
+			}
+			else if (attributeArgument.ArgumentType == typeof(byte))
+			{
+				return (byte)attributeArgument.Value! == 2;
+			}
+		}
+
+		var type = declaringType;
+		while (type != null)
+		{
+			var context = type.CustomAttributes
+				.FirstOrDefault(x => x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
+
+			if (context != null
+				&& context.ConstructorArguments.Count == 1
+				&& context.ConstructorArguments[0].ArgumentType == typeof(byte))
+			{
+				return (byte)context.ConstructorArguments[0].Value! == 2;
+			}
+
+			type = type.DeclaringType;
+		}
+
+		// Couldn't find a suitable attribute
+		return false;
+	}
+
+	private static string ToIdentifier(Type type)
 	{
 		string typeIdentifier = type.Name;
 
@@ -158,61 +236,5 @@ public static class RuntimeUtility
 			typeIdentifier = "decimal";
 		}
 		return typeIdentifier;
-	}
-
-	public static bool IsNullable(PropertyInfo property)
-	{
-		return IsNullableHelper(property.PropertyType, property.DeclaringType, property.CustomAttributes);
-	}
-
-	public static bool IsNullable(FieldInfo field)
-	{
-		return IsNullableHelper(field.FieldType, field.DeclaringType, field.CustomAttributes);
-	}
-
-	private static bool IsNullableHelper(Type memberType, MemberInfo? declaringType, IEnumerable<CustomAttributeData> customAttributes)
-	{
-		if (memberType.IsValueType)
-		{
-			return Nullable.GetUnderlyingType(memberType) != null;
-		}
-
-		var nullable = customAttributes
-			.FirstOrDefault(x => x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableAttribute");
-		if (nullable != null && nullable.ConstructorArguments.Count == 1)
-		{
-			var attributeArgument = nullable.ConstructorArguments[0];
-			if (attributeArgument.ArgumentType == typeof(byte[]))
-			{
-				var args = (ReadOnlyCollection<CustomAttributeTypedArgument>)attributeArgument.Value!;
-				if (args.Count > 0 && args[0].ArgumentType == typeof(byte))
-				{
-					return (byte)args[0].Value! == 2;
-				}
-			}
-			else if (attributeArgument.ArgumentType == typeof(byte))
-			{
-				return (byte)attributeArgument.Value! == 2;
-			}
-		}
-
-		var type = declaringType;
-		while (type != null)
-		{
-			var context = type.CustomAttributes
-				.FirstOrDefault(x => x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
-
-			if (context != null
-				&& context.ConstructorArguments.Count == 1
-				&& context.ConstructorArguments[0].ArgumentType == typeof(byte))
-			{
-				return (byte)context.ConstructorArguments[0].Value! == 2;
-			}
-
-			type = type.DeclaringType;
-		}
-
-		// Couldn't find a suitable attribute
-		return false;
 	}
 }

@@ -4,7 +4,7 @@ namespace RPGCore.Demo.Inventory.Nodes;
 
 public sealed class ActivatableItemNode : NodeTemplate<ActivatableItemNode>
 {
-	public OutputSocket Output = new OutputSocket();
+	public OutputSocket Output = new();
 
 	public override Instance Create()
 	{

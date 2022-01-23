@@ -140,12 +140,12 @@ public class DictionaryKeyEditorSerializer : IEditorSerializer
 				writer.Write("null");
 				break;
 			}
-			case EditorObject editorObject:
+			case EditorObject:
 			{
 				break;
 			}
-			case EditorDictionary editorDictionary:
-			case EditorList editorList:
+			case EditorDictionary:
+			case EditorList:
 			{
 				break;
 			}

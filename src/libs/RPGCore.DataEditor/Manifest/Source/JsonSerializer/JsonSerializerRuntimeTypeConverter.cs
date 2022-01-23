@@ -90,9 +90,11 @@ public class JsonSerializerRuntimeTypeConverter : IRuntimeTypeConverter
 			}
 		}
 
+		var typeName = RuntimeUtility.DescribeType(type);
+
 		return new SchemaType
 		{
-			Name = RuntimeUtility.ToIdentifier(type),
+			Name = typeName.Identifier,
 			Fields = fields,
 			InstatedValue = instatedValue
 		};
