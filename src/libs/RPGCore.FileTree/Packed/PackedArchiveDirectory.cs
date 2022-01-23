@@ -18,13 +18,7 @@ public class PackedArchiveDirectory : IArchiveDirectory
 	public PackedArchiveDirectoryCollection Directories { get; }
 	public PackedArchiveFileCollection Files { get; }
 
-	private int Count
-	{
-		get
-		{
-			return Directories.internalList.Count + Files.internalList.Count;
-		}
-	}
+	private int Count => Directories.internalList.Count + Files.internalList.Count;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectoryCollection IArchiveDirectory.Directories => Directories;
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveFileCollection IArchiveDirectory.Files => Files;

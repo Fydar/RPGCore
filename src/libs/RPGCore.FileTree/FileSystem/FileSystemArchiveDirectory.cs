@@ -21,13 +21,7 @@ public class FileSystemArchiveDirectory : IArchiveDirectory
 	public FileSystemArchiveDirectoryCollection Directories { get; }
 	public FileSystemArchiveFileCollection Files { get; }
 
-	private int Count
-	{
-		get
-		{
-			return Directories.Count + Files.Count;
-		}
-	}
+	private int Count => Directories.Count + Files.Count;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectoryCollection IArchiveDirectory.Directories => Directories;
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveFileCollection IArchiveDirectory.Files => Files;

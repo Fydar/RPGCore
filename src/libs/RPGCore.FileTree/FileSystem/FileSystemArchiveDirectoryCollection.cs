@@ -20,13 +20,7 @@ public class FileSystemArchiveDirectoryCollection : IArchiveDirectoryCollection
 	/// <inheritdoc/>
 	public IEnumerable<FileSystemArchiveDirectory> All => internalList;
 
-	internal int Count
-	{
-		get
-		{
-			return internalList.Count;
-		}
-	}
+	internal int Count => internalList.Count;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IArchiveDirectory> IArchiveDirectoryCollection.All => internalList;
 

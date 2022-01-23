@@ -17,13 +17,7 @@ public class FileSystemArchiveFileCollection : IArchiveFileCollection
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	private readonly SemaphoreSlim synchronize;
 
-	internal int Count
-	{
-		get
-		{
-			return internalList.Count;
-		}
-	}
+	internal int Count => internalList.Count;
 
 	internal FileSystemArchiveFileCollection(FileSystemArchive archive, FileSystemArchiveDirectory owner)
 	{
