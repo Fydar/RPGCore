@@ -1,62 +1,61 @@
 ﻿using RPGCore.Events;
 using System;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+public readonly struct Input<T> : IReadOnlyEventField<T>
 {
-	public readonly struct Input<T> : IReadOnlyEventField<T>
+	public IConnection<T> Connection { get; }
+	public INodeInstance Parent { get; }
+
+	public bool IsConnected => Connection != null;
+
+	public T Value => Connection != null
+		? Connection.Value
+		: default;
+
+	public EventFieldHandlerCollection Handlers => Connection.Handlers;
+
+	public InputSource Source => Parent.Graph.GetSource(this);
+
+	public event Action OnAfterChanged
 	{
-		public IConnection<T> Connection { get; }
-		public INodeInstance Parent { get; }
-
-		public bool IsConnected => Connection != null;
-
-		public T Value => Connection != null
-			? Connection.Value
-			: default;
-
-		public EventFieldHandlerCollection Handlers => Connection.Handlers;
-
-		public InputSource Source => Parent.Graph.GetSource(this);
-
-		public event Action OnAfterChanged
+		add
 		{
-			add
+			if (Connection == null)
 			{
-				if (Connection == null)
-				{
-					return;
-				}
-
-				Connection.Subscribe(Parent, value);
+				return;
 			}
-			remove
-			{
-				if (Connection == null)
-				{
-					return;
-				}
 
-				Connection.Unsubscribe(Parent, value);
-			}
+			Connection.Subscribe(Parent, value);
 		}
-
-		public Input(INodeInstance parent, IConnection connection)
+		remove
 		{
-			Parent = parent;
-			Connection = (IConnection<T>)connection;
+			if (Connection == null)
+			{
+				return;
+			}
+
+			Connection.Unsubscribe(Parent, value);
 		}
+	}
 
-		/// <inheritdoc/>
-		public override string ToString()
+	public Input(INodeInstance parent, IConnection connection)
+	{
+		Parent = parent;
+		Connection = (IConnection<T>)connection;
+	}
+
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		if (IsConnected)
 		{
-			if (IsConnected)
-			{
-				return $"Inputted {Connection}";
-			}
-			else
-			{
-				return "Unconnected Input";
-			}
+			return $"Inputted {Connection}";
+		}
+		else
+		{
+			return "Unconnected Input";
 		}
 	}
 }

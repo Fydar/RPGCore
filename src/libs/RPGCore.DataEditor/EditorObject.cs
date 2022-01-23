@@ -3,67 +3,66 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace RPGCore.DataEditor
+namespace RPGCore.DataEditor;
+
+/// <summary>
+/// An editable data structure that uses hard-typed fields.
+/// </summary>
+public class EditorObject : IEditorValue
 {
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	private readonly List<string> comments;
+
+	/// <inheritdoc/>
+	public IList<string> Comments => comments;
+
+	/// <inheritdoc/>
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	public EditorSession Session { get; }
+
 	/// <summary>
-	/// An editable data structure that uses hard-typed fields.
+	/// The type of the current instance of the <see cref="EditorObject"/>.
 	/// </summary>
-	public class EditorObject : IEditorValue
+	public TypeName Type { get; }
+
+	/// <summary>
+	/// All <see cref="EditorField"/> contained within this object.
+	/// </summary>
+	public EditorFieldCollection Fields { get; }
+
+	/// <summary>
+	/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorObject"/>.
+	/// </summary>
+	public FeatureCollection<EditorObject> Features { get; }
+
+	/// <inheritdoc/>
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	FeatureCollection IEditorToken.Features => Features;
+
+	/// <inheritdoc/>
+	public event PropertyChangedEventHandler PropertyChanged;
+
+	internal EditorObject(EditorSession session, TypeName type)
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly List<string> comments;
+		Session = session;
+		Type = type;
+		comments = new List<string>();
+		Fields = new EditorFieldCollection(this);
+		Features = new FeatureCollection<EditorObject>(this);
 
-		/// <inheritdoc/>
-		public IList<string> Comments => comments;
+		PropertyChanged = delegate { };
+	}
 
-		/// <inheritdoc/>
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public EditorSession Session { get; }
+	/// <inheritdoc/>
+	public IEditorValue Duplicate()
+	{
+		var editorObject = new EditorObject(Session, Type);
 
-		/// <summary>
-		/// The type of the current instance of the <see cref="EditorObject"/>.
-		/// </summary>
-		public TypeName Type { get; }
-
-		/// <summary>
-		/// All <see cref="EditorField"/> contained within this object.
-		/// </summary>
-		public EditorFieldCollection Fields { get; }
-
-		/// <summary>
-		/// A collection of <see cref="IEditorFeature"/>s associated with this <see cref="EditorObject"/>.
-		/// </summary>
-		public FeatureCollection<EditorObject> Features { get; }
-
-		/// <inheritdoc/>
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		FeatureCollection IEditorToken.Features => Features;
-
-		/// <inheritdoc/>
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		internal EditorObject(EditorSession session, TypeName type)
+		foreach (var field in Fields)
 		{
-			Session = session;
-			Type = type;
-			comments = new List<string>();
-			Fields = new EditorFieldCollection(this);
-			Features = new FeatureCollection<EditorObject>(this);
-
-			PropertyChanged = delegate { };
+			editorObject.Fields[field.Name]!.Value.Value = field.Value.Value.Duplicate();
 		}
 
-		/// <inheritdoc/>
-		public IEditorValue Duplicate()
-		{
-			var editorObject = new EditorObject(Session, Type);
-
-			foreach (var field in Fields)
-			{
-				editorObject.Fields[field.Name]!.Value.Value = field.Value.Value.Duplicate();
-			}
-
-			return editorObject;
-		}
+		return editorObject;
 	}
 }

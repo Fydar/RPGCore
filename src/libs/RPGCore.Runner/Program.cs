@@ -1,34 +1,33 @@
 ﻿using System;
 using System.IO;
 
-namespace RPGCore.Runner
+namespace RPGCore.Runner;
+
+internal sealed class Program
 {
-	internal sealed class Program
+	public static Simulator simulator;
+
+	private static void Main(string[] args)
 	{
-		public static Simulator simulator;
+		Console.ForegroundColor = ConsoleColor.Gray;
+		Console.WriteLine("-----------------------");
+		Console.Write(" RPGCore ");
+		Console.ForegroundColor = ConsoleColor.Yellow;
+		Console.Write("2.0");
+		Console.ForegroundColor = ConsoleColor.Gray;
+		Console.Write(" Framework\n");
+		Console.WriteLine("-----------------------");
 
-		private static void Main(string[] args)
+		var directory = new DirectoryInfo("Content");
+		if (!directory.Exists)
 		{
-			Console.ForegroundColor = ConsoleColor.Gray;
-			Console.WriteLine("-----------------------");
-			Console.Write(" RPGCore ");
-			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.Write("2.0");
-			Console.ForegroundColor = ConsoleColor.Gray;
-			Console.Write(" Framework\n");
-			Console.WriteLine("-----------------------");
-
-			var directory = new DirectoryInfo("Content");
-			if (!directory.Exists)
-			{
-				directory = new DirectoryInfo("RPGCoreUnity/Content");
-			}
-			Directory.SetCurrentDirectory(directory.Parent.FullName);
-
-			simulator = new Simulator();
-			simulator.Start();
-
-			Console.ReadLine();
+			directory = new DirectoryInfo("RPGCoreUnity/Content");
 		}
+		Directory.SetCurrentDirectory(directory.Parent.FullName);
+
+		simulator = new Simulator();
+		simulator.Start();
+
+		Console.ReadLine();
 	}
 }

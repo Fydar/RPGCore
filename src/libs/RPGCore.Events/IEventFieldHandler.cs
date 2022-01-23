@@ -1,9 +1,8 @@
-namespace RPGCore.Events
-{
-	public interface IEventFieldHandler
-	{
-		void OnBeforeChanged();
+namespace RPGCore.Events;
 
-		void OnAfterChanged();
-	}
+public interface IEventFieldHandler
+{
+	void OnBeforeChanged();
+
+	void OnAfterChanged();
 }

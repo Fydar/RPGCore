@@ -1,9 +1,8 @@
 ﻿using RPGCore.DataEditor.Manifest;
 
-namespace RPGCore.DataEditor.Files
+namespace RPGCore.DataEditor.Files;
+
+public interface IFileLoader
 {
-	public interface IFileLoader
-	{
-		IEditorValue Load(EditorSession editorSession, TypeName type);
-	}
+	IEditorValue Load(EditorSession editorSession, TypeName type);
 }

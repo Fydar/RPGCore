@@ -1,64 +1,63 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+public abstract class NodeTemplate
 {
-	public abstract class NodeTemplate
+	[JsonIgnore]
+	public LocalId Id { get; set; }
+
+	public abstract INodeInstance CreateInstance();
+
+	public abstract void Setup(IGraphInstance graph, INodeInstance metadata);
+
+	public abstract InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance);
+
+	public abstract OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance);
+}
+
+public abstract class NodeTemplate<TNode> : NodeTemplate
+	where TNode : NodeTemplate<TNode>
+{
+	public abstract class Instance : NodeInstanceBase
 	{
 		[JsonIgnore]
-		public LocalId Id { get; set; }
+		public TNode Template { get; internal set; }
 
-		public abstract INodeInstance CreateInstance();
-
-		public abstract void Setup(IGraphInstance graph, INodeInstance metadata);
-
-		public abstract InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance);
-
-		public abstract OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance);
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		internal override NodeTemplate TemplateBase => Template;
 	}
 
-	public abstract class NodeTemplate<TNode> : NodeTemplate
-		where TNode : NodeTemplate<TNode>
+	public abstract Instance Create();
+
+	public sealed override INodeInstance CreateInstance()
 	{
-		public abstract class Instance : NodeInstanceBase
-		{
-			[JsonIgnore]
-			public TNode Template { get; internal set; }
+		return Create();
+	}
 
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			internal override NodeTemplate TemplateBase => Template;
-		}
+	public sealed override InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance)
+	{
+		var castedInstance = (Instance)instance;
+		castedInstance.Template = (TNode)this;
 
-		public abstract Instance Create();
+		return castedInstance.Inputs(connections);
+	}
 
-		public sealed override INodeInstance CreateInstance()
-		{
-			return Create();
-		}
+	public sealed override OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance)
+	{
+		var castedInstance = (Instance)instance;
+		castedInstance.Template = (TNode)this;
 
-		public sealed override InputMap[] Inputs(ConnectionMapper connections, INodeInstance instance)
-		{
-			var castedInstance = (Instance)instance;
-			castedInstance.Template = (TNode)this;
+		return castedInstance.Outputs(connections);
+	}
 
-			return castedInstance.Inputs(connections);
-		}
+	public sealed override void Setup(IGraphInstance graph, INodeInstance metadata)
+	{
+		var instance = (Instance)metadata;
+		instance.Template = (TNode)this;
+		instance.Graph = graph;
 
-		public sealed override OutputMap[] Outputs(ConnectionMapper connections, INodeInstance instance)
-		{
-			var castedInstance = (Instance)instance;
-			castedInstance.Template = (TNode)this;
-
-			return castedInstance.Outputs(connections);
-		}
-
-		public sealed override void Setup(IGraphInstance graph, INodeInstance metadata)
-		{
-			var instance = (Instance)metadata;
-			instance.Template = (TNode)this;
-			instance.Graph = graph;
-
-			metadata.Setup();
-		}
+		metadata.Setup();
 	}
 }

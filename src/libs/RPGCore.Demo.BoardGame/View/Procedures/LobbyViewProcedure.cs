@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public abstract class LobbyViewProcedure
 {
-	public abstract class LobbyViewProcedure
-	{
-		public abstract ProcedureResult Apply(LobbyView view);
-	}
+	public abstract ProcedureResult Apply(LobbyView view);
 }

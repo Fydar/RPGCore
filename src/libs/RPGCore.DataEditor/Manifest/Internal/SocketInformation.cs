@@ -1,28 +1,27 @@
-﻿namespace RPGCore.DataEditor.Manifest.Internal
+﻿namespace RPGCore.DataEditor.Manifest.Internal;
+
+public struct SocketInformation
 {
-	public struct SocketInformation
+	public string Description { get; set; }
+	public string Type { get; set; }
+	/*
+	public static SocketInformation Construct(FieldInfo field, InputMap socket)
 	{
-		public string Description { get; set; }
-		public string Type { get; set; }
-		/*
-		public static SocketInformation Construct(FieldInfo field, InputMap socket)
+		var socketInformation = new SocketInformation
 		{
-			var socketInformation = new SocketInformation
-			{
-				Type = socket.ConnectionType.Name
-			};
+			Type = socket.ConnectionType.Name
+		};
 
-			return socketInformation;
-		}
-
-		public static SocketInformation Construct(FieldInfo field, OutputMap socket)
-		{
-			var socketInformation = new SocketInformation
-			{
-				Type = socket.ConnectionType.Name
-			};
-
-			return socketInformation;
-		}*/
+		return socketInformation;
 	}
+
+	public static SocketInformation Construct(FieldInfo field, OutputMap socket)
+	{
+		var socketInformation = new SocketInformation
+		{
+			Type = socket.ConnectionType.Name
+		};
+
+		return socketInformation;
+	}*/
 }

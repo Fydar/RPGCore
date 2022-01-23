@@ -1,10 +1,9 @@
 using RPGCore.Data;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+[EditableType]
+public struct PackageNodeEditor
 {
-	[EditableType]
-	public struct PackageNodeEditor
-	{
-		public PackageNodePosition Position { get; set; }
-	}
+	public PackageNodePosition Position { get; set; }
 }

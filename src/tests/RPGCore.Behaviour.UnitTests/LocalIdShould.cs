@@ -1,45 +1,44 @@
 ﻿using NUnit.Framework;
 
-namespace RPGCore.Behaviour.UnitTests
+namespace RPGCore.Behaviour.UnitTests;
+
+[TestFixture(TestOf = typeof(LocalId))]
+public class LocalIdShould
 {
-	[TestFixture(TestOf = typeof(LocalId))]
-	public class LocalIdShould
+	[Test, Parallelizable]
+	public void CaseInvarientParsing()
 	{
-		[Test, Parallelizable]
-		public void CaseInvarientParsing()
-		{
-			int original = 1048471;
+		int original = 1048471;
 
-			string upperHex = original.ToString("X2");
-			string lowerHex = original.ToString("x2");
+		string upperHex = original.ToString("X2");
+		string lowerHex = original.ToString("x2");
 
-			var upperId = new LocalId(upperHex);
-			var lowerId = new LocalId(lowerHex);
+		var upperId = new LocalId(upperHex);
+		var lowerId = new LocalId(lowerHex);
 
-			Assert.AreEqual(upperId, lowerId);
-		}
+		Assert.AreEqual(upperId, lowerId);
+	}
 
-		[Test, Parallelizable]
-		public void MatchesIntegerLiteral()
-		{
-			var stringLiteral = new LocalId("0xff001000");
-			var integerLiteral = new LocalId(0xff001000);
+	[Test, Parallelizable]
+	public void MatchesIntegerLiteral()
+	{
+		var stringLiteral = new LocalId("0xff001000");
+		var integerLiteral = new LocalId(0xff001000);
 
-			Assert.AreEqual(stringLiteral, integerLiteral);
-		}
+		Assert.AreEqual(stringLiteral, integerLiteral);
+	}
 
-		[Test, Parallelizable]
-		public void PrefixInvarientParsing()
-		{
-			int original = 1048471;
+	[Test, Parallelizable]
+	public void PrefixInvarientParsing()
+	{
+		int original = 1048471;
 
-			string unprefixed = original.ToString("x2");
-			string prefixed = "0x" + unprefixed;
+		string unprefixed = original.ToString("x2");
+		string prefixed = "0x" + unprefixed;
 
-			var prefixedId = new LocalId(prefixed);
-			var unprefixedId = new LocalId(unprefixed);
+		var prefixedId = new LocalId(prefixed);
+		var unprefixedId = new LocalId(unprefixed);
 
-			Assert.AreEqual(prefixedId, unprefixedId);
-		}
+		Assert.AreEqual(prefixedId, unprefixedId);
 	}
 }

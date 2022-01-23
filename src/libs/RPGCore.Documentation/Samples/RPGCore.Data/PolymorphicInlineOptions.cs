@@ -3,26 +3,25 @@ using RPGCore.Data.Polymorphic.SystemTextJson;
 using System.Text.Json;
 using static RPGCore.Documentation.Samples.RPGCore.Data.PolymorphicInlineBaseDefault;
 
-namespace RPGCore.Documentation.Samples.RPGCore.Data
-{
-	public class PolymorphicInlineOptions
-	{
-		public static string Result()
-		{
-			#region serialize
-			var options = new JsonSerializerOptions()
-				.UsePolymorphicSerialization(options =>
-				{
-					options.UseInline();
-				});
+namespace RPGCore.Documentation.Samples.RPGCore.Data;
 
-			IProcedure procedure = new RemoveProcedure()
+public class PolymorphicInlineOptions
+{
+	public static string Result()
+	{
+		#region serialize
+		var options = new JsonSerializerOptions()
+			.UsePolymorphicSerialization(options =>
 			{
-				Delay = 0.5f,
-				Identifier = 4
-			};
-			return JsonSerializer.Serialize(procedure, options);
-			#endregion serialize
-		}
+				options.UseInline();
+			});
+
+		IProcedure procedure = new RemoveProcedure()
+		{
+			Delay = 0.5f,
+			Identifier = 4
+		};
+		return JsonSerializer.Serialize(procedure, options);
+		#endregion serialize
 	}
 }

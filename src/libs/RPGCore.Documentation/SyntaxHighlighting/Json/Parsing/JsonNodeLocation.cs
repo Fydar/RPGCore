@@ -1,19 +1,18 @@
-﻿namespace RPGCore.Documentation.SyntaxHighlighting.Json.Parsing
+﻿namespace RPGCore.Documentation.SyntaxHighlighting.Json.Parsing;
+
+public readonly struct JsonNodeLocation
 {
-	public readonly struct JsonNodeLocation
+	public enum LocationType
 	{
-		public enum LocationType
-		{
-			Array,
-			Object,
-			Value
-		}
+		Array,
+		Object,
+		Value
+	}
 
-		public LocationType Type { get; }
+	public LocationType Type { get; }
 
-		public JsonNodeLocation(LocationType type)
-		{
-			Type = type;
-		}
+	public JsonNodeLocation(LocationType type)
+	{
+		Type = type;
 	}
 }

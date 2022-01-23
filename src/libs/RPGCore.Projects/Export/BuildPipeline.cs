@@ -1,13 +1,12 @@
-namespace RPGCore.Projects
-{
-	public class BuildPipeline
-	{
-		public ImportPipeline ImportPipeline { get; set; }
-		public BuildActionCollection BuildActions { get; }
+namespace RPGCore.Projects;
 
-		public BuildPipeline()
-		{
-			BuildActions = new BuildActionCollection();
-		}
+public class BuildPipeline
+{
+	public ImportPipeline ImportPipeline { get; set; }
+	public BuildActionCollection BuildActions { get; }
+
+	public BuildPipeline()
+	{
+		BuildActions = new BuildActionCollection();
 	}
 }

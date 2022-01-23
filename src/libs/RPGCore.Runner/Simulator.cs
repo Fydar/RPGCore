@@ -1,23 +1,22 @@
 ﻿using RPGCore.Demo.Inventory;
 
-namespace RPGCore.Runner
+namespace RPGCore.Runner;
+
+public sealed class Simulator
 {
-	public sealed class Simulator
+	public Simulation simulation;
+
+	public Simulator()
 	{
-		public Simulation simulation;
+		simulation = new Simulation();
+	}
 
-		public Simulator()
-		{
-			simulation = new Simulation();
-		}
+	public void Start()
+	{
+		simulation.Start();
+	}
 
-		public void Start()
-		{
-			simulation.Start();
-		}
-
-		public void Update()
-		{
-		}
+	public void Update()
+	{
 	}
 }

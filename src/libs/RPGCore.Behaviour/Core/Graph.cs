@@ -1,39 +1,38 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+public sealed class Graph
 {
-	public sealed class Graph
+	public NodeTemplate[] Nodes { get; set; }
+	public int ConnectionsCount { get; set; }
+	public Dictionary<string, Graph>? SubGraphs { get; set; }
+
+	public NodeTemplate? this[LocalId id]
 	{
-		public NodeTemplate[] Nodes { get; set; }
-		public int ConnectionsCount { get; set; }
-		public Dictionary<string, Graph>? SubGraphs { get; set; }
-
-		public NodeTemplate? this[LocalId id]
+		get
 		{
-			get
+			foreach (var node in Nodes)
 			{
-				foreach (var node in Nodes)
+				if (node.Id == id)
 				{
-					if (node.Id == id)
-					{
-						return node;
-					}
+					return node;
 				}
-				return null;
 			}
+			return null;
 		}
+	}
 
-		public Graph(NodeTemplate[] nodes, int connectionCount, Dictionary<string, Graph>? subGraphs)
-		{
-			Nodes = nodes;
-			ConnectionsCount = connectionCount;
-			SubGraphs = subGraphs;
-		}
+	public Graph(NodeTemplate[] nodes, int connectionCount, Dictionary<string, Graph>? subGraphs)
+	{
+		Nodes = nodes;
+		ConnectionsCount = connectionCount;
+		SubGraphs = subGraphs;
+	}
 
-		public GraphInstance Create(IDictionary<LocalId, JObject>? data = null)
-		{
-			return new GraphInstance(this, data);
-		}
+	public GraphInstance Create(IDictionary<LocalId, JObject>? data = null)
+	{
+		return new GraphInstance(this, data);
 	}
 }

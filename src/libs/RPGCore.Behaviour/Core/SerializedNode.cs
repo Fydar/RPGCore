@@ -5,87 +5,143 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+[EditableType]
+public sealed class SerializedNode
 {
-	[EditableType]
-	public sealed class SerializedNode
+	public string Type { get; set; }
+	public JObject Data { get; set; }
+	public PackageNodeEditor Editor { get; set; }
+
+	public NodeTemplate UnpackNodeAndInputs(Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
 	{
-		public string Type { get; set; }
-		public JObject Data { get; set; }
-		public PackageNodeEditor Editor { get; set; }
-
-		public NodeTemplate UnpackNodeAndInputs(Type nodeType, LocalId id, HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> connectionIds)
+		if (nodeType is null)
 		{
-			if (nodeType is null)
-			{
-				throw new ArgumentNullException(nameof(nodeType));
-			}
-
-			var jsonSerializer = new JsonSerializer();
-
-			jsonSerializer.Converters.Add(new InputSocketConverter(validOutputs, connectionIds));
-			jsonSerializer.Converters.Add(new InputSocketArrayConverter(validOutputs, connectionIds));
-			jsonSerializer.Converters.Add(new LocalIdJsonConverter());
-
-			object nodeObject = Data.ToObject(nodeType, jsonSerializer);
-
-			var node = (NodeTemplate)nodeObject;
-			node.Id = id;
-
-			return node;
+			throw new ArgumentNullException(nameof(nodeType));
 		}
 
-		public static void UnpackOutputs(List<LocalPropertyId> connectionIds, NodeTemplate node)
-		{
-			var nodeType = node.GetType();
+		var jsonSerializer = new JsonSerializer();
 
-			foreach (var field in nodeType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+		jsonSerializer.Converters.Add(new InputSocketConverter(validOutputs, connectionIds));
+		jsonSerializer.Converters.Add(new InputSocketArrayConverter(validOutputs, connectionIds));
+		jsonSerializer.Converters.Add(new LocalIdJsonConverter());
+
+		object nodeObject = Data.ToObject(nodeType, jsonSerializer);
+
+		var node = (NodeTemplate)nodeObject;
+		node.Id = id;
+
+		return node;
+	}
+
+	public static void UnpackOutputs(List<LocalPropertyId> connectionIds, NodeTemplate node)
+	{
+		var nodeType = node.GetType();
+
+		foreach (var field in nodeType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+		{
+			if (field.FieldType == typeof(OutputSocket))
 			{
-				if (field.FieldType == typeof(OutputSocket))
-				{
-					int connectionId = connectionIds.IndexOf(new LocalPropertyId(node.Id, field.Name));
-					field.SetValue(node, new OutputSocket(connectionId));
-				}
+				int connectionId = connectionIds.IndexOf(new LocalPropertyId(node.Id, field.Name));
+				field.SetValue(node, new OutputSocket(connectionId));
 			}
 		}
 	}
+}
 
-	internal sealed class InputSocketConverter : JsonConverter
+internal sealed class InputSocketConverter : JsonConverter
+{
+	private readonly HashSet<LocalPropertyId> validOutputs;
+	private readonly List<LocalPropertyId> mappedInputs;
+
+	public override bool CanWrite => false;
+
+	public override bool CanConvert(Type objectType)
 	{
-		private readonly HashSet<LocalPropertyId> validOutputs;
-		private readonly List<LocalPropertyId> mappedInputs;
+		return objectType == typeof(InputSocket);
+	}
 
-		public override bool CanWrite => false;
+	public InputSocketConverter(HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
+	{
+		this.validOutputs = validOutputs;
+		this.mappedInputs = mappedInputs;
+	}
 
-		public override bool CanConvert(Type objectType)
+	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+	{
+		throw new InvalidOperationException();
+	}
+
+	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+	{
+		if (reader.Value == null)
 		{
-			return objectType == typeof(InputSocket);
+			return new InputSocket();
 		}
 
-		public InputSocketConverter(HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
+		var inputSource = new LocalPropertyId(reader.Value.ToString());
+
+		if (!validOutputs.Contains(inputSource))
 		{
-			this.validOutputs = validOutputs;
-			this.mappedInputs = mappedInputs;
+			Console.WriteLine($"Ignoring desired input of \"{inputSource}\" as it is not valid.");
+			return new InputSocket();
 		}
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		int connectionId = mappedInputs.IndexOf(inputSource);
+		if (connectionId == -1)
 		{
-			throw new InvalidOperationException();
+			connectionId = mappedInputs.Count;
+			mappedInputs.Add(inputSource);
 		}
 
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-		{
-			if (reader.Value == null)
-			{
-				return new InputSocket();
-			}
+		return new InputSocket(connectionId);
+	}
+}
 
-			var inputSource = new LocalPropertyId(reader.Value.ToString());
+internal sealed class InputSocketArrayConverter : JsonConverter
+{
+	private readonly HashSet<LocalPropertyId> validOutputs;
+	private readonly List<LocalPropertyId> mappedInputs;
+
+	public override bool CanWrite => false;
+
+	public override bool CanConvert(Type objectType)
+	{
+		if (!objectType.IsArray)
+		{
+			return false;
+		}
+
+		return objectType.IsArray && objectType.GetElementType() == typeof(InputSocket);
+	}
+
+	public InputSocketArrayConverter(HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
+	{
+		this.validOutputs = validOutputs;
+		this.mappedInputs = mappedInputs;
+	}
+
+	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+	{
+		throw new InvalidOperationException();
+	}
+
+	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+	{
+		var array = JArray.Load(reader);
+
+		var inputSockets = new InputSocket[array.Count];
+		for (int i = 0; i < array.Count; i++)
+		{
+			var arrayElement = array[i];
+
+			var inputSource = new LocalPropertyId(arrayElement.ToObject<string>());
 
 			if (!validOutputs.Contains(inputSource))
 			{
 				Console.WriteLine($"Ignoring desired input of \"{inputSource}\" as it is not valid.");
-				return new InputSocket();
+				return new InputSocket[0];
 			}
 
 			int connectionId = mappedInputs.IndexOf(inputSource);
@@ -94,66 +150,9 @@ namespace RPGCore.Behaviour
 				connectionId = mappedInputs.Count;
 				mappedInputs.Add(inputSource);
 			}
-
-			return new InputSocket(connectionId);
-		}
-	}
-
-	internal sealed class InputSocketArrayConverter : JsonConverter
-	{
-		private readonly HashSet<LocalPropertyId> validOutputs;
-		private readonly List<LocalPropertyId> mappedInputs;
-
-		public override bool CanWrite => false;
-
-		public override bool CanConvert(Type objectType)
-		{
-			if (!objectType.IsArray)
-			{
-				return false;
-			}
-
-			return objectType.IsArray && objectType.GetElementType() == typeof(InputSocket);
+			inputSockets[i] = new InputSocket(connectionId);
 		}
 
-		public InputSocketArrayConverter(HashSet<LocalPropertyId> validOutputs, List<LocalPropertyId> mappedInputs)
-		{
-			this.validOutputs = validOutputs;
-			this.mappedInputs = mappedInputs;
-		}
-
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-		{
-			throw new InvalidOperationException();
-		}
-
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-		{
-			var array = JArray.Load(reader);
-
-			var inputSockets = new InputSocket[array.Count];
-			for (int i = 0; i < array.Count; i++)
-			{
-				var arrayElement = array[i];
-
-				var inputSource = new LocalPropertyId(arrayElement.ToObject<string>());
-
-				if (!validOutputs.Contains(inputSource))
-				{
-					Console.WriteLine($"Ignoring desired input of \"{inputSource}\" as it is not valid.");
-					return new InputSocket[0];
-				}
-
-				int connectionId = mappedInputs.IndexOf(inputSource);
-				if (connectionId == -1)
-				{
-					connectionId = mappedInputs.Count;
-					mappedInputs.Add(inputSource);
-				}
-				inputSockets[i] = new InputSocket(connectionId);
-			}
-
-			return inputSockets;
-		}
+		return inputSockets;
 	}
 }

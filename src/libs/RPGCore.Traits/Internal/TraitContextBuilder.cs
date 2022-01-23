@@ -1,65 +1,64 @@
 ﻿using System.Collections.Generic;
 
-namespace RPGCore.Traits.Internal
+namespace RPGCore.Traits.Internal;
+
+internal class TraitContextBuilder : ITraitContextBuilder
 {
-	internal class TraitContextBuilder : ITraitContextBuilder
+	private readonly List<StatIdentifier> statIdentifiers;
+	private readonly List<StateIdentifier> stateIdentifiers;
+	private readonly Dictionary<StatIdentifier, StatTemplate> statMapping;
+	private readonly Dictionary<StateIdentifier, StateTemplate> stateMapping;
+
+	internal TraitContextBuilder()
 	{
-		private readonly List<StatIdentifier> statIdentifiers;
-		private readonly List<StateIdentifier> stateIdentifiers;
-		private readonly Dictionary<StatIdentifier, StatTemplate> statMapping;
-		private readonly Dictionary<StateIdentifier, StateTemplate> stateMapping;
+		statIdentifiers = new List<StatIdentifier>();
+		stateIdentifiers = new List<StateIdentifier>();
+		statMapping = new Dictionary<StatIdentifier, StatTemplate>();
+		stateMapping = new Dictionary<StateIdentifier, StateTemplate>();
+	}
 
-		internal TraitContextBuilder()
-		{
-			statIdentifiers = new List<StatIdentifier>();
-			stateIdentifiers = new List<StateIdentifier>();
-			statMapping = new Dictionary<StatIdentifier, StatTemplate>();
-			stateMapping = new Dictionary<StateIdentifier, StateTemplate>();
-		}
+	/// <inheritdoc/>
+	public TraitContext Build()
+	{
+		return new TraitContext(
+			statMapping,
+			stateMapping
+		);
+	}
 
-		/// <inheritdoc/>
-		public TraitContext Build()
+	/// <inheritdoc/>
+	public ITraitContextBuilder UseTraits(IReadOnlyDictionary<StatIdentifier, StatTemplate> map)
+	{
+		foreach (var mapping in map)
 		{
-			return new TraitContext(
-				statMapping,
-				stateMapping
-			);
+			statMapping.Add(mapping.Key, mapping.Value);
 		}
+		return this;
+	}
 
-		/// <inheritdoc/>
-		public ITraitContextBuilder UseTraits(IReadOnlyDictionary<StatIdentifier, StatTemplate> map)
+	/// <inheritdoc/>
+	public ITraitContextBuilder UseTraits(IReadOnlyDictionary<StateIdentifier, StateTemplate> map)
+	{
+		foreach (var mapping in map)
 		{
-			foreach (var mapping in map)
-			{
-				statMapping.Add(mapping.Key, mapping.Value);
-			}
-			return this;
+			stateMapping.Add(mapping.Key, mapping.Value);
 		}
+		return this;
+	}
 
-		/// <inheritdoc/>
-		public ITraitContextBuilder UseTraits(IReadOnlyDictionary<StateIdentifier, StateTemplate> map)
-		{
-			foreach (var mapping in map)
-			{
-				stateMapping.Add(mapping.Key, mapping.Value);
-			}
-			return this;
-		}
+	/// <inheritdoc/>
+	public ITraitContextBuilder UseTrait(StatIdentifier statIdentifier, StatTemplate statTemplate)
+	{
+		statIdentifiers.Add(statIdentifier);
+		statMapping.Add(statIdentifier, statTemplate);
+		return this;
+	}
 
-		/// <inheritdoc/>
-		public ITraitContextBuilder UseTrait(StatIdentifier statIdentifier, StatTemplate statTemplate)
-		{
-			statIdentifiers.Add(statIdentifier);
-			statMapping.Add(statIdentifier, statTemplate);
-			return this;
-		}
-
-		/// <inheritdoc/>
-		public ITraitContextBuilder UseTrait(StateIdentifier stateIdentifier, StateTemplate stateTemplate)
-		{
-			stateIdentifiers.Add(stateIdentifier);
-			stateMapping.Add(stateIdentifier, stateTemplate);
-			return this;
-		}
+	/// <inheritdoc/>
+	public ITraitContextBuilder UseTrait(StateIdentifier stateIdentifier, StateTemplate stateTemplate)
+	{
+		stateIdentifiers.Add(stateIdentifier);
+		stateMapping.Add(stateIdentifier, stateTemplate);
+		return this;
 	}
 }

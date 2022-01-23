@@ -2,53 +2,52 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RPGCore.Projects
+namespace RPGCore.Projects;
+
+public sealed class BuildActionCollection : BuildAction, IEnumerable<BuildAction>
 {
-	public sealed class BuildActionCollection : BuildAction, IEnumerable<BuildAction>
+	private readonly List<BuildAction> buildActions;
+
+	public BuildActionCollection()
 	{
-		private readonly List<BuildAction> buildActions;
+		buildActions = new List<BuildAction>();
+	}
 
-		public BuildActionCollection()
-		{
-			buildActions = new List<BuildAction>();
-		}
+	public BuildActionCollection(List<BuildAction> buildActions)
+	{
+		this.buildActions = buildActions ?? throw new ArgumentNullException(nameof(buildActions));
+	}
 
-		public BuildActionCollection(List<BuildAction> buildActions)
+	/// <inheritdoc/>
+	public override void OnBeforeExportResource(ProjectBuildProcess process, ProjectResource resource)
+	{
+		foreach (var buildAction in buildActions)
 		{
-			this.buildActions = buildActions ?? throw new ArgumentNullException(nameof(buildActions));
+			buildAction.OnBeforeExportResource(process, resource);
 		}
+	}
 
-		/// <inheritdoc/>
-		public override void OnBeforeExportResource(ProjectBuildProcess process, ProjectResource resource)
+	/// <inheritdoc/>
+	public override void OnAfterExportResource(ProjectBuildProcess process, ProjectResource resource)
+	{
+		foreach (var buildAction in buildActions)
 		{
-			foreach (var buildAction in buildActions)
-			{
-				buildAction.OnBeforeExportResource(process, resource);
-			}
+			buildAction.OnAfterExportResource(process, resource);
 		}
+	}
 
-		/// <inheritdoc/>
-		public override void OnAfterExportResource(ProjectBuildProcess process, ProjectResource resource)
-		{
-			foreach (var buildAction in buildActions)
-			{
-				buildAction.OnAfterExportResource(process, resource);
-			}
-		}
+	public void Add(BuildAction action)
+	{
+		buildActions.Add(action);
+	}
 
-		public void Add(BuildAction action)
-		{
-			buildActions.Add(action);
-		}
+	public IEnumerator<BuildAction> GetEnumerator()
+	{
+		return buildActions.GetEnumerator();
+	}
 
-		public IEnumerator<BuildAction> GetEnumerator()
-		{
-			return buildActions.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		return GetEnumerator();
 	}
 }

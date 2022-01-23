@@ -1,15 +1,14 @@
 ﻿using NUnit.Framework;
 using System.IO;
 
-namespace RPGCore.Projects.UnitTests.Utilities
+namespace RPGCore.Projects.UnitTests.Utilities;
+
+internal static class TestUtilities
 {
-	internal static class TestUtilities
+	public static string CreateFilePath(string name)
 	{
-		public static string CreateFilePath(string name)
-		{
-			return Path.Combine(
-				TestContext.CurrentContext.Test.ClassName,
-				TestContext.CurrentContext.Test.Name, name);
-		}
+		return Path.Combine(
+			TestContext.CurrentContext.Test.ClassName,
+			TestContext.CurrentContext.Test.Name, name);
 	}
 }

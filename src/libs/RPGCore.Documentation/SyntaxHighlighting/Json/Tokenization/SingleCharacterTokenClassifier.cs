@@ -1,29 +1,28 @@
 ﻿using RPGCore.Documentation.SyntaxHighlighting.Internal;
 
-namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization
+namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization;
+
+internal class SingleCharacterTokenClassifier : ITokenClassifier
 {
-	internal class SingleCharacterTokenClassifier : ITokenClassifier
+	public char MatchedCharacter { get; }
+
+	public SingleCharacterTokenClassifier(char matchedCharacter)
 	{
-		public char MatchedCharacter { get; }
+		MatchedCharacter = matchedCharacter;
+	}
 
-		public SingleCharacterTokenClassifier(char matchedCharacter)
-		{
-			MatchedCharacter = matchedCharacter;
-		}
+	/// <inheritdoc/>
+	public void Reset()
+	{
+	}
 
-		/// <inheritdoc/>
-		public void Reset()
-		{
-		}
+	/// <inheritdoc/>
+	public ClassifierAction NextCharacter(char nextCharacter)
+	{
+		bool isMatched = nextCharacter == MatchedCharacter;
 
-		/// <inheritdoc/>
-		public ClassifierAction NextCharacter(char nextCharacter)
-		{
-			bool isMatched = nextCharacter == MatchedCharacter;
-
-			return isMatched
-				? ClassifierAction.TokenizeImmediately()
-				: ClassifierAction.GiveUp();
-		}
+		return isMatched
+			? ClassifierAction.TokenizeImmediately()
+			: ClassifierAction.GiveUp();
 	}
 }

@@ -1,38 +1,37 @@
 using RPGCore.Behaviour;
 
-namespace RPGCore.Demo.Inventory.Nodes
-{
-	public sealed class ActivatableItemNode : NodeTemplate<ActivatableItemNode>
-	{
-		public OutputSocket Output = new OutputSocket();
+namespace RPGCore.Demo.Inventory.Nodes;
 
-		public override Instance Create()
+public sealed class ActivatableItemNode : NodeTemplate<ActivatableItemNode>
+{
+	public OutputSocket Output = new OutputSocket();
+
+	public override Instance Create()
+	{
+		return new ActivatableItemInstance();
+	}
+
+	public sealed class ActivatableItemInstance : Instance
+	{
+		public Output<int> Output;
+
+		public override InputMap[] Inputs(ConnectionMapper connections) => null;
+
+		public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 		{
-			return new ActivatableItemInstance();
+			connections.Connect(ref Template.Output, ref Output),
+		};
+
+		public override void Setup()
+		{
 		}
 
-		public sealed class ActivatableItemInstance : Instance
+		public override void Remove()
 		{
-			public Output<int> Output;
+		}
 
-			public override InputMap[] Inputs(ConnectionMapper connections) => null;
-
-			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
-			{
-				connections.Connect(ref Template.Output, ref Output),
-			};
-
-			public override void Setup()
-			{
-			}
-
-			public override void Remove()
-			{
-			}
-
-			public override void OnInputChanged()
-			{
-			}
+		public override void OnInputChanged()
+		{
 		}
 	}
 }

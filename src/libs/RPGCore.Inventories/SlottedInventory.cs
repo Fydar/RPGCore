@@ -3,50 +3,49 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RPGCore.Inventory.Slots
+namespace RPGCore.Inventory.Slots;
+
+public class SlottedInventory : IInventory
 {
-	public class SlottedInventory : IInventory
+	private readonly List<IItemSlot> slots;
+
+	public int Capacity { get; set; }
+	public IItemSlotFactory ItemSlotFactory { get; }
+
+	/// <inheritdoc/>
+	public IInventory Parent { get; }
+
+	/// <inheritdoc/>
+	public IEnumerable<IItem> Items => slots.Select(slot => slot.CurrentItem);
+
+	public SlottedInventory(int capacity, IItemSlotFactory itemSlotFactory, IInventory parent = null)
 	{
-		private readonly List<IItemSlot> slots;
+		Capacity = capacity;
+		ItemSlotFactory = itemSlotFactory ?? throw new ArgumentNullException(nameof(itemSlotFactory));
+		Parent = parent;
 
-		public int Capacity { get; set; }
-		public IItemSlotFactory ItemSlotFactory { get; }
+		slots = new List<IItemSlot>(capacity);
 
-		/// <inheritdoc/>
-		public IInventory Parent { get; }
-
-		/// <inheritdoc/>
-		public IEnumerable<IItem> Items => slots.Select(slot => slot.CurrentItem);
-
-		public SlottedInventory(int capacity, IItemSlotFactory itemSlotFactory, IInventory parent = null)
+		for (int i = 0; i < capacity; i++)
 		{
-			Capacity = capacity;
-			ItemSlotFactory = itemSlotFactory ?? throw new ArgumentNullException(nameof(itemSlotFactory));
-			Parent = parent;
+			var slot = ItemSlotFactory.Build(parent);
+			slots.Add(slot);
+		}
+	}
 
-			slots = new List<IItemSlot>(capacity);
+	/// <inheritdoc/>
+	public InventoryTransaction AddItem(IItem item)
+	{
+		foreach (var slot in slots)
+		{
+			var result = slot.AddItem(item);
 
-			for (int i = 0; i < capacity; i++)
+			if (result.Status == TransactionStatus.Complete)
 			{
-				var slot = ItemSlotFactory.Build(parent);
-				slots.Add(slot);
+				return result;
 			}
 		}
 
-		/// <inheritdoc/>
-		public InventoryTransaction AddItem(IItem item)
-		{
-			foreach (var slot in slots)
-			{
-				var result = slot.AddItem(item);
-
-				if (result.Status == TransactionStatus.Complete)
-				{
-					return result;
-				}
-			}
-
-			return InventoryTransaction.None;
-		}
+		return InventoryTransaction.None;
 	}
 }

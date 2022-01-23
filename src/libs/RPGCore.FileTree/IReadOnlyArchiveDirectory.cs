@@ -1,8 +1,7 @@
-﻿namespace RPGCore.FileTree
+﻿namespace RPGCore.FileTree;
+
+public interface IReadOnlyArchiveDirectory : IReadOnlyArchiveEntry
 {
-	public interface IReadOnlyArchiveDirectory : IReadOnlyArchiveEntry
-	{
-		IReadOnlyArchiveDirectoryCollection Directories { get; }
-		IReadOnlyArchiveFileCollection Files { get; }
-	}
+	IReadOnlyArchiveDirectoryCollection Directories { get; }
+	IReadOnlyArchiveFileCollection Files { get; }
 }

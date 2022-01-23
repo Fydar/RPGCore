@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Inventory.Slots
+﻿namespace RPGCore.Inventory.Slots;
+
+public interface IItemSlotFactory
 {
-	public interface IItemSlotFactory
-	{
-		IItemSlot Build(IInventory parent);
-	}
+	IItemSlot Build(IInventory parent);
 }

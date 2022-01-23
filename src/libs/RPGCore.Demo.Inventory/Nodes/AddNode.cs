@@ -1,55 +1,54 @@
 ﻿using RPGCore.Behaviour;
 
-namespace RPGCore.Demo.Inventory.Nodes
+namespace RPGCore.Demo.Inventory.Nodes;
+
+public sealed class AddNode : NodeTemplate<AddNode>
 {
-	public sealed class AddNode : NodeTemplate<AddNode>
+	public InputSocket ValueA;
+	public InputSocket ValueB;
+
+	public OutputSocket Output;
+
+	public override Instance Create()
 	{
-		public InputSocket ValueA;
-		public InputSocket ValueB;
+		return new AddInstance();
+	}
 
-		public OutputSocket Output;
+	public class AddInstance : Instance
+	{
+		public Input<float> ValueA;
+		public Input<float> ValueB;
 
-		public override Instance Create()
+		public Output<float> Output;
+
+		public override InputMap[] Inputs(ConnectionMapper connections) => new[]
 		{
-			return new AddInstance();
+			connections.Connect(ref Template.ValueA, ref ValueA),
+			connections.Connect(ref Template.ValueB, ref ValueB)
+		};
+
+		public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
+		{
+			connections.Connect(ref Template.Output, ref Output)
+		};
+
+		public override void Setup()
+		{
 		}
 
-		public class AddInstance : Instance
+		public override void OnInputChanged()
 		{
-			public Input<float> ValueA;
-			public Input<float> ValueB;
+			float value = ValueA.Value + ValueB.Value;
 
-			public Output<float> Output;
+			// Console.ForegroundColor = ConsoleColor.DarkGray;
+			// Console.WriteLine ($"[{Node.Id}]: Adding {ValueA.Value} + {ValueB.Value} = {value}");
+			// Console.ResetColor ();
 
-			public override InputMap[] Inputs(ConnectionMapper connections) => new[]
-			{
-				connections.Connect(ref Template.ValueA, ref ValueA),
-				connections.Connect(ref Template.ValueB, ref ValueB)
-			};
+			Output.Value = value;
+		}
 
-			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
-			{
-				connections.Connect(ref Template.Output, ref Output)
-			};
-
-			public override void Setup()
-			{
-			}
-
-			public override void OnInputChanged()
-			{
-				float value = ValueA.Value + ValueB.Value;
-
-				// Console.ForegroundColor = ConsoleColor.DarkGray;
-				// Console.WriteLine ($"[{Node.Id}]: Adding {ValueA.Value} + {ValueB.Value} = {value}");
-				// Console.ResetColor ();
-
-				Output.Value = value;
-			}
-
-			public override void Remove()
-			{
-			}
+		public override void Remove()
+		{
 		}
 	}
 }

@@ -1,12 +1,11 @@
-﻿namespace RPGCore.Demo.BoardGame
-{
-	public class GameClient
-	{
-		public LobbyView ClientView;
+﻿namespace RPGCore.Demo.BoardGame;
 
-		public void AcceptInput(LobbyViewProcedure procedure)
-		{
-			ClientView.Apply(procedure);
-		}
+public class GameClient
+{
+	public LobbyView ClientView;
+
+	public void AcceptInput(LobbyViewProcedure procedure)
+	{
+		ClientView.Apply(procedure);
 	}
 }

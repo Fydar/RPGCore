@@ -1,29 +1,28 @@
 ﻿using System;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+public readonly struct OutputMap
 {
-	public readonly struct OutputMap
+	public readonly int ConnectionId;
+	public readonly Type ConnectionType;
+
+	public OutputMap(OutputSocket source, Type connectionType)
 	{
-		public readonly int ConnectionId;
-		public readonly Type ConnectionType;
+		ConnectionType = connectionType;
+		ConnectionId = source.Id;
+	}
 
-		public OutputMap(OutputSocket source, Type connectionType)
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		if (ConnectionId == -1)
 		{
-			ConnectionType = connectionType;
-			ConnectionId = source.Id;
+			return $"Unmapped Output of type {ConnectionType}";
 		}
-
-		/// <inheritdoc/>
-		public override string ToString()
+		else
 		{
-			if (ConnectionId == -1)
-			{
-				return $"Unmapped Output of type {ConnectionType}";
-			}
-			else
-			{
-				return $"Output {ConnectionId} of type {ConnectionType}";
-			}
+			return $"Output {ConnectionId} of type {ConnectionType}";
 		}
 	}
 }

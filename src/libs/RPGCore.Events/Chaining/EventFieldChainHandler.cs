@@ -1,45 +1,44 @@
 using System;
 
-namespace RPGCore.Events
+namespace RPGCore.Events.Chaining;
+
+public sealed class EventFieldChainHandler<T, B> : IEventFieldHandler
 {
-	public sealed class EventFieldChainHandler<T, B> : IEventFieldHandler
+	public IReadOnlyEventField<T> SourceField { get; }
+	public IEventField<B> TargetField { get; }
+	public Func<T, IReadOnlyEventField<B>> Chain { get; }
+
+	private IReadOnlyEventField<B> chainedField;
+
+	public EventFieldChainHandler(IReadOnlyEventField<T> source, IEventField<B> target, Func<T, IReadOnlyEventField<B>> chain)
 	{
-		public IReadOnlyEventField<T> SourceField { get; }
-		public IEventField<B> TargetField { get; }
-		public Func<T, IReadOnlyEventField<B>> Chain { get; }
+		SourceField = source;
+		TargetField = target;
+		Chain = chain;
 
-		private IReadOnlyEventField<B> chainedField;
+		chainedField = Chain(SourceField.Value);
+	}
 
-		public EventFieldChainHandler(IReadOnlyEventField<T> source, IEventField<B> target, Func<T, IReadOnlyEventField<B>> chain)
+	public void OnBeforeChanged()
+	{
+		if (chainedField == null)
 		{
-			SourceField = source;
-			TargetField = target;
-			Chain = chain;
-
-			chainedField = Chain(SourceField.Value);
+			return;
 		}
 
-		public void OnBeforeChanged()
-		{
-			if (chainedField == null)
-			{
-				return;
-			}
+		chainedField.Handlers[this].Clear();
+	}
 
-			chainedField.Handlers[this].Clear();
+	public void OnAfterChanged()
+	{
+		chainedField = Chain(SourceField.Value);
+		if (chainedField == null)
+		{
+			TargetField.Value = default;
+			return;
 		}
 
-		public void OnAfterChanged()
-		{
-			chainedField = Chain(SourceField.Value);
-			if (chainedField == null)
-			{
-				TargetField.Value = default;
-				return;
-			}
-
-			chainedField.Handlers[this].Add(new EventFieldMirrorHandler<B>(chainedField, TargetField));
-			TargetField.Value = chainedField.Value;
-		}
+		chainedField.Handlers[this].Add(new EventFieldMirrorHandler<B>(chainedField, TargetField));
+		TargetField.Value = chainedField.Value;
 	}
 }

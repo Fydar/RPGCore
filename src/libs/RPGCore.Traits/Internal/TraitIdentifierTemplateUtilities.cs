@@ -3,99 +3,98 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace RPGCore.Traits.Internal
+namespace RPGCore.Traits.Internal;
+
+internal static class TraitIdentifierTemplateUtilities
 {
-	internal static class TraitIdentifierTemplateUtilities
+	internal static IEnumerable<T> GetLogicalMembers<T>(Type type)
 	{
-		internal static IEnumerable<T> GetLogicalMembers<T>(Type type)
+		return GetLogicalMembers<T>(type, null);
+	}
+
+	internal static IEnumerable<T> GetLogicalMembers<T>(object instance)
+	{
+		return GetLogicalMembers<T>(instance.GetType(), instance);
+	}
+
+	internal static IEnumerable<T> GetLogicalMembers<T>(Type source, object instance)
+	{
+		BindingFlags bindingFlags;
+		if (instance == null)
 		{
-			return GetLogicalMembers<T>(type, null);
+			bindingFlags = BindingFlags.Public | BindingFlags.Static;
+		}
+		else
+		{
+			bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 		}
 
-		internal static IEnumerable<T> GetLogicalMembers<T>(object instance)
+		var fields = source.GetFields(bindingFlags);
+		var properties = source.GetProperties(bindingFlags);
+
+		foreach (var field in fields)
 		{
-			return GetLogicalMembers<T>(instance.GetType(), instance);
-		}
+			object fieldValueObject = field.GetValue(instance);
 
-		internal static IEnumerable<T> GetLogicalMembers<T>(Type source, object instance)
-		{
-			BindingFlags bindingFlags;
-			if (instance == null)
+			if (field.FieldType == typeof(T))
 			{
-				bindingFlags = BindingFlags.Public | BindingFlags.Static;
+				var fieldValue = (T)fieldValueObject;
+
+				yield return fieldValue;
 			}
-			else
+			else if (typeof(ITraitIdentifierStructure).IsAssignableFrom(field.FieldType))
 			{
-				bindingFlags = BindingFlags.Public | BindingFlags.Instance;
-			}
-
-			var fields = source.GetFields(bindingFlags);
-			var properties = source.GetProperties(bindingFlags);
-
-			foreach (var field in fields)
-			{
-				object fieldValueObject = field.GetValue(instance);
-
-				if (field.FieldType == typeof(T))
+				foreach (var childMember in GetLogicalMembers<T>(field.FieldType, fieldValueObject))
 				{
-					var fieldValue = (T)fieldValueObject;
-
-					yield return fieldValue;
+					yield return childMember;
 				}
-				else if (typeof(ITraitIdentifierStructure).IsAssignableFrom(field.FieldType))
+			}
+			else if (fieldValueObject is IEnumerable enumerable)
+			{
+				foreach (object child in enumerable)
 				{
-					foreach (var childMember in GetLogicalMembers<T>(field.FieldType, fieldValueObject))
+					if (child == null)
+					{
+						continue;
+					}
+
+					foreach (var childMember in GetLogicalMembers<T>(child.GetType(), child))
 					{
 						yield return childMember;
 					}
 				}
-				else if (fieldValueObject is IEnumerable enumerable)
-				{
-					foreach (object child in enumerable)
-					{
-						if (child == null)
-						{
-							continue;
-						}
+			}
+		}
 
-						foreach (var childMember in GetLogicalMembers<T>(child.GetType(), child))
-						{
-							yield return childMember;
-						}
-					}
+		foreach (var property in properties)
+		{
+			object fieldValueObject = property.GetValue(instance);
+
+			if (property.PropertyType == typeof(T))
+			{
+				var fieldValue = (T)fieldValueObject;
+
+				yield return fieldValue;
+			}
+			else if (typeof(ITraitIdentifierStructure).IsAssignableFrom(property.PropertyType))
+			{
+				foreach (var childMember in GetLogicalMembers<T>(property.PropertyType, fieldValueObject))
+				{
+					yield return childMember;
 				}
 			}
-
-			foreach (var property in properties)
+			else if (fieldValueObject is IEnumerable enumerable)
 			{
-				object fieldValueObject = property.GetValue(instance);
-
-				if (property.PropertyType == typeof(T))
+				foreach (object child in enumerable)
 				{
-					var fieldValue = (T)fieldValueObject;
+					if (child == null)
+					{
+						continue;
+					}
 
-					yield return fieldValue;
-				}
-				else if (typeof(ITraitIdentifierStructure).IsAssignableFrom(property.PropertyType))
-				{
-					foreach (var childMember in GetLogicalMembers<T>(property.PropertyType, fieldValueObject))
+					foreach (var childMember in GetLogicalMembers<T>(child.GetType(), child))
 					{
 						yield return childMember;
-					}
-				}
-				else if (fieldValueObject is IEnumerable enumerable)
-				{
-					foreach (object child in enumerable)
-					{
-						if (child == null)
-						{
-							continue;
-						}
-
-						foreach (var childMember in GetLogicalMembers<T>(child.GetType(), child))
-						{
-							yield return childMember;
-						}
 					}
 				}
 			}

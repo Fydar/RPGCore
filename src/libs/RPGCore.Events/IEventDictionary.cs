@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace RPGCore.Events
+namespace RPGCore.Events;
+
+public interface IEventDictionary<TKey, TValue> : IEventWrapper, IEnumerable<KeyValuePair<TKey, TValue>>
 {
-	public interface IEventDictionary<TKey, TValue> : IEventWrapper, IEnumerable<KeyValuePair<TKey, TValue>>
-	{
-		int Count { get; }
-		EventDictionaryHandlerCollection<TKey, TValue> Handlers { get; }
+	int Count { get; }
+	EventDictionaryHandlerCollection<TKey, TValue> Handlers { get; }
 
-		TValue this[TKey key] { get; }
+	TValue this[TKey key] { get; }
 
-		bool ContainsKey(TKey key);
+	bool ContainsKey(TKey key);
 
-		void Add(TKey key, TValue value);
+	void Add(TKey key, TValue value);
 
-		bool Remove(TKey key);
+	bool Remove(TKey key);
 
-		bool TryGetValue(TKey key, out TValue value);
-	}
+	bool TryGetValue(TKey key, out TValue value);
 }

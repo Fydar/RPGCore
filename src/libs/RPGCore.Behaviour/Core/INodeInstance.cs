@@ -1,14 +1,13 @@
-﻿namespace RPGCore.Behaviour
+﻿namespace RPGCore.Behaviour;
+
+public interface INodeInstance
 {
-	public interface INodeInstance
-	{
-		IGraphInstance Graph { get; }
-		NodeTemplate Template { get; }
+	IGraphInstance Graph { get; }
+	NodeTemplate Template { get; }
 
-		void OnInputChanged();
+	void OnInputChanged();
 
-		void Setup();
+	void Setup();
 
-		void Remove();
-	}
+	void Remove();
 }

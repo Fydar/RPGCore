@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Behaviour
+﻿namespace RPGCore.Behaviour;
+
+public interface IInputNode<T> : INodeInstance
 {
-	public interface IInputNode<T> : INodeInstance
-	{
-		void OnReceiveInput(T input);
-	}
+	void OnReceiveInput(T input);
 }

@@ -5,54 +5,53 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace RPGCore.Projects.Extensions.MetaFiles
+namespace RPGCore.Projects.Extensions.MetaFiles;
+
+internal class JsonMetaFileImportProcessor : IImportProcessor
 {
-	internal class JsonMetaFileImportProcessor : IImportProcessor
+	private readonly JsonMetaFilesOptions options;
+
+	internal JsonMetaFileImportProcessor(JsonMetaFilesOptions options)
 	{
-		private readonly JsonMetaFilesOptions options;
+		this.options = options;
+	}
 
-		internal JsonMetaFileImportProcessor(JsonMetaFilesOptions options)
+	public bool CanProcess(IResource resource)
+	{
+		return true;
+	}
+
+	public IEnumerable<ProjectResourceUpdate> ProcessImport(ImportProcessorContext context, IResource resource)
+	{
+		string metaPath = $"{resource.FullName}{options.MetaFileSuffix}";
+		var metaFile = new FileInfo(metaPath);
+
+		if (metaFile.Exists)
 		{
-			this.options = options;
-		}
+			var update = resource.AuthorUpdate();
 
-		public bool CanProcess(IResource resource)
-		{
-			return true;
-		}
+			JsonMetaFileModel metaFileModel;
 
-		public IEnumerable<ProjectResourceUpdate> ProcessImport(ImportProcessorContext context, IResource resource)
-		{
-			string metaPath = $"{resource.FullName}{options.MetaFileSuffix}";
-			var metaFile = new FileInfo(metaPath);
-
-			if (metaFile.Exists)
+			var serializer = new JsonSerializer();
+			using (var file = metaFile.OpenText())
+			using (var reader = new JsonTextReader(file))
 			{
-				var update = resource.AuthorUpdate();
-
-				JsonMetaFileModel metaFileModel;
-
-				var serializer = new JsonSerializer();
-				using (var file = metaFile.OpenText())
-				using (var reader = new JsonTextReader(file))
-				{
-					metaFileModel = serializer.Deserialize<JsonMetaFileModel>(reader);
-				}
-
-				if (metaFileModel.Tags != null)
-				{
-					foreach (string tag in metaFileModel.Tags)
-					{
-						update.ImporterTags.Add(tag);
-					}
-				}
-
-				yield return update;
+				metaFileModel = serializer.Deserialize<JsonMetaFileModel>(reader);
 			}
-			else if (!options.IsMetaFilesOptional)
+
+			if (metaFileModel.Tags != null)
 			{
-				Console.WriteLine($"Missing meta file for {resource.FullName}");
+				foreach (string tag in metaFileModel.Tags)
+				{
+					update.ImporterTags.Add(tag);
+				}
 			}
+
+			yield return update;
+		}
+		else if (!options.IsMetaFilesOptional)
+		{
+			Console.WriteLine($"Missing meta file for {resource.FullName}");
 		}
 	}
 }

@@ -1,46 +1,45 @@
 ﻿using RPGCore.Behaviour;
-using RPGCore.Events;
+using RPGCore.Events.Chaining;
 
-namespace RPGCore.Demo.Inventory.Nodes
+namespace RPGCore.Demo.Inventory.Nodes;
+
+public sealed class GetStatNode : NodeTemplate<GetStatNode>
 {
-	public sealed class GetStatNode : NodeTemplate<GetStatNode>
+	public InputSocket Character;
+
+	public OutputSocket Output;
+
+	public override Instance Create()
 	{
-		public InputSocket Character;
+		return new GetStatInstance();
+	}
 
-		public OutputSocket Output;
+	public class GetStatInstance : Instance
+	{
+		public Input<DemoPlayer> Character;
 
-		public override Instance Create()
+		public Output<int> Output;
+
+		public override InputMap[] Inputs(ConnectionMapper connections) => new[]
 		{
-			return new GetStatInstance();
+			connections.Connect (ref Template.Character, ref Character),
+		};
+
+		public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
+		{
+			connections.Connect (ref Template.Output, ref Output)
+		};
+
+		public override void Setup()
+		{
+			var statValue = Character.Watch(c => c?.Health);
+
+			Output.StartMirroring(statValue);
 		}
 
-		public class GetStatInstance : Instance
+		public override void Remove()
 		{
-			public Input<DemoPlayer> Character;
-
-			public Output<int> Output;
-
-			public override InputMap[] Inputs(ConnectionMapper connections) => new[]
-			{
-				connections.Connect (ref Template.Character, ref Character),
-			};
-
-			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
-			{
-				connections.Connect (ref Template.Output, ref Output)
-			};
-
-			public override void Setup()
-			{
-				var statValue = Character.Watch(c => c?.Health);
-
-				Output.StartMirroring(statValue);
-			}
-
-			public override void Remove()
-			{
-				Output.StopMirroring();
-			}
+			Output.StopMirroring();
 		}
 	}
 }

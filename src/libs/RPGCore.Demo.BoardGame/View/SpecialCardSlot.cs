@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public class SpecialCardSlot
 {
-	public class SpecialCardSlot
-	{
-		public string BuildingIdentifier { get; set; }
-	}
+	public string BuildingIdentifier { get; set; }
 }

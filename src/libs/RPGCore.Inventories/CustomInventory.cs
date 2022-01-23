@@ -2,25 +2,24 @@
 using System;
 using System.Collections.Generic;
 
-namespace RPGCore.Inventory.Slots
+namespace RPGCore.Inventory.Slots;
+
+public class CustomInventory : IInventory
 {
-	public class CustomInventory : IInventory
+	/// <inheritdoc/>
+	public IInventory Parent { get; }
+
+	public CustomInventory(IInventory parent)
 	{
-		/// <inheritdoc/>
-		public IInventory Parent { get; }
+		Parent = parent ?? throw new ArgumentNullException(nameof(parent));
+	}
 
-		public CustomInventory(IInventory parent)
-		{
-			Parent = parent ?? throw new ArgumentNullException(nameof(parent));
-		}
+	/// <inheritdoc/>
+	public IEnumerable<IItem> Items => throw new NotImplementedException();
 
-		/// <inheritdoc/>
-		public IEnumerable<IItem> Items => throw new NotImplementedException();
-
-		/// <inheritdoc/>
-		public InventoryTransaction AddItem(IItem item)
-		{
-			return InventoryTransaction.None;
-		}
+	/// <inheritdoc/>
+	public InventoryTransaction AddItem(IItem item)
+	{
+		return InventoryTransaction.None;
 	}
 }

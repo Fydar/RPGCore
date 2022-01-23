@@ -1,18 +1,17 @@
 using NUnit.Framework;
 
-namespace RPGCore.Projects.UnitTests
-{
-	public class PackageImporterShould
-	{
-		[SetUp]
-		public void Setup()
-		{
-		}
+namespace RPGCore.Projects.UnitTests;
 
-		[Test, Parallelizable]
-		public void ImportFilesOnDisk()
-		{
-			Assert.Pass();
-		}
+public class PackageImporterShould
+{
+	[SetUp]
+	public void Setup()
+	{
+	}
+
+	[Test, Parallelizable]
+	public void ImportFilesOnDisk()
+	{
+		Assert.Pass();
 	}
 }

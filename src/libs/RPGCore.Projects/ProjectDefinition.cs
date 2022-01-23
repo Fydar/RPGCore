@@ -4,84 +4,83 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
-namespace RPGCore.Projects
+namespace RPGCore.Projects;
+
+/// <summary>
+/// Represents a configuration definition for the package.
+/// </summary>
+public class ProjectDefinition : IDefinition
 {
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	private readonly XmlDocument document;
+
 	/// <summary>
-	/// Represents a configuration definition for the package.
+	/// <para>A path to the project directory on the system.</para>
 	/// </summary>
-	public class ProjectDefinition : IDefinition
+	public string Path { get; }
+
+	/// <summary>
+	/// General properties defined for this package.
+	/// </summary>
+	public ProjectDefinitionProperties Properties { get; }
+
+	// Work-in-progress "References" feature.
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	internal List<Reference> References { get; }
+
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinitionProperties IDefinition.Properties => Properties;
+
+	private ProjectDefinition(string path, XmlDocument document)
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly XmlDocument document;
+		var projectFile = new FileInfo(path);
+		Properties = new ProjectDefinitionProperties(projectFile, document);
 
-		/// <summary>
-		/// <para>A path to the project directory on the system.</para>
-		/// </summary>
-		public string Path { get; }
-
-		/// <summary>
-		/// General properties defined for this package.
-		/// </summary>
-		public ProjectDefinitionProperties Properties { get; }
-
-		// Work-in-progress "References" feature.
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		internal List<Reference> References { get; }
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDefinitionProperties IDefinition.Properties => Properties;
-
-		private ProjectDefinition(string path, XmlDocument document)
+		References = new List<Reference>();
+		var projectReferenceTags = document.GetElementsByTagName("ProjectReference");
+		for (int i = 0; i < projectReferenceTags.Count; i++)
 		{
-			var projectFile = new FileInfo(path);
-			Properties = new ProjectDefinitionProperties(projectFile, document);
+			var projectReferenceElement = projectReferenceTags.Item(i);
 
-			References = new List<Reference>();
-			var projectReferenceTags = document.GetElementsByTagName("ProjectReference");
-			for (int i = 0; i < projectReferenceTags.Count; i++)
+			if (projectReferenceElement is XmlElement element)
 			{
-				var projectReferenceElement = projectReferenceTags.Item(i);
-
-				if (projectReferenceElement is XmlElement element)
-				{
-					References.Add(new ProjectReference(this, element));
-				}
+				References.Add(new ProjectReference(this, element));
 			}
-
-			var resourceReferenceTags = document.GetElementsByTagName("ResourceReference");
-			for (int i = 0; i < resourceReferenceTags.Count; i++)
-			{
-				var resourceReferenceElement = resourceReferenceTags.Item(i);
-
-				if (resourceReferenceElement is XmlElement element)
-				{
-					References.Add(new ResourceReference(this, element));
-				}
-			}
-			Path = path;
-			this.document = document;
 		}
 
-		public void SaveChanges()
+		var resourceReferenceTags = document.GetElementsByTagName("ResourceReference");
+		for (int i = 0; i < resourceReferenceTags.Count; i++)
 		{
-			XmlProjectFile.Format(document);
-			document.Save(Path);
-		}
+			var resourceReferenceElement = resourceReferenceTags.Item(i);
 
-		public static ProjectDefinition Load(string path)
-		{
-			if (!File.Exists(path))
+			if (resourceReferenceElement is XmlElement element)
 			{
-				return null;
+				References.Add(new ResourceReference(this, element));
 			}
-
-			var doc = new XmlDocument
-			{
-				PreserveWhitespace = true
-			};
-			doc.Load(path);
-
-			var model = new ProjectDefinition(path, doc);
-			return model;
 		}
+		Path = path;
+		this.document = document;
+	}
+
+	public void SaveChanges()
+	{
+		XmlProjectFile.Format(document);
+		document.Save(Path);
+	}
+
+	public static ProjectDefinition Load(string path)
+	{
+		if (!File.Exists(path))
+		{
+			return null;
+		}
+
+		var doc = new XmlDocument
+		{
+			PreserveWhitespace = true
+		};
+		doc.Load(path);
+
+		var model = new ProjectDefinition(path, doc);
+		return model;
 	}
 }

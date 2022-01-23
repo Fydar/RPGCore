@@ -5,102 +5,101 @@ using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
-namespace RPGCore.DataEditor.Manifest
+namespace RPGCore.DataEditor.Manifest;
+
+/// <summary>
+/// A builder used for constructing <see cref="ProjectManifest"/>s.
+/// </summary>
+public sealed class ProjectManifestBuilder
 {
-	/// <summary>
-	/// A builder used for constructing <see cref="ProjectManifest"/>s.
-	/// </summary>
-	public sealed class ProjectManifestBuilder
+	public List<SchemaType> ObjectTypes { get; set; }
+	public List<SchemaNode> NodeTypes { get; set; }
+	public List<SchemaTypeConversion> TypeConversions { get; set; }
+
+	public ProjectManifestBuilder()
 	{
-		public List<SchemaType> ObjectTypes { get; set; }
-		public List<SchemaNode> NodeTypes { get; set; }
-		public List<SchemaTypeConversion> TypeConversions { get; set; }
+		ObjectTypes = new List<SchemaType>();
+		NodeTypes = new List<SchemaNode>();
+		TypeConversions = new List<SchemaTypeConversion>();
+	}
 
-		public ProjectManifestBuilder()
+	/// <summary>
+	/// Adds a <see cref="SchemaType"/> to the <see cref="ProjectManifest"/>.
+	/// </summary>
+	/// <param name="schemaType">The <see cref="SchemaType"/> to add to the <see cref="ProjectManifest"/>.</param>
+	/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
+	public ProjectManifestBuilder AddType(SchemaType schemaType)
+	{
+		ObjectTypes.Add(schemaType);
+		return this;
+	}
+
+	/// <summary>
+	/// Adds a <see cref="SchemaNode"/> to the <see cref="ProjectManifest"/>.
+	/// </summary>
+	/// <param name="schemaNode">The <see cref="SchemaNode"/> to add to the <see cref="ProjectManifest"/>.</param>
+	/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
+	public ProjectManifestBuilder AddNodeType(SchemaNode schemaNode)
+	{
+		NodeTypes.Add(schemaNode);
+		return this;
+	}
+
+	/// <summary>
+	/// Adds a <see cref="SchemaTypeConversion"/> to the <see cref="ProjectManifest"/>.
+	/// </summary>
+	/// <param name="typeConversion">The <see cref="SchemaTypeConversion"/> to add to the <see cref="ProjectManifest"/>.</param>
+	/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
+	public ProjectManifestBuilder AddConversion(SchemaTypeConversion typeConversion)
+	{
+		TypeConversions.Add(typeConversion);
+		return this;
+	}
+
+	/// <summary>
+	/// Reads the <see cref="Stream"/> and adds to this <see cref="ProjectManifestBuilder"/>.
+	/// </summary>
+	/// <param name="data">The source <see cref="Stream"/> to read from.</param>
+	/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
+	public ProjectManifestBuilder AddFrom(ReadOnlySpan<byte> data)
+	{
+		var source = Load(data);
+
+		ObjectTypes.AddRange(source.ObjectTypes);
+		NodeTypes.AddRange(source.NodeTypes);
+		TypeConversions.AddRange(source.TypeConversions);
+		return this;
+	}
+
+	/// <summary>
+	/// Builds a new instance of the <see cref="ProjectManifest"/>.
+	/// </summary>
+	/// <returns>A new <see cref="ProjectManifest"/> build from the current state of this <see cref="ProjectManifestBuilder"/>.</returns>
+	public ProjectManifest Build()
+	{
+		return new ProjectManifest(ObjectTypes, NodeTypes, TypeConversions);
+	}
+
+	/// <summary>
+	/// Creates a new instance of the <see cref="ProjectManifestBuilder"/>.
+	/// </summary>
+	/// <returns>A new <see cref="ProjectManifestBuilder"/>.</returns>
+	public static ProjectManifestBuilder Create()
+	{
+		return new ProjectManifestBuilder();
+	}
+
+	/// <summary>
+	/// Loads an instance of the <see cref="ProjectManifestBuilder"/>.
+	/// </summary>
+	/// <returns>An instance of <see cref="ProjectManifestBuilder"/> loaded from the <see cref="Stream"/>.</returns>
+	public static ProjectManifestBuilder Load(ReadOnlySpan<byte> data)
+	{
+		var result = JsonSerializer.Deserialize<ProjectManifestBuilder>(data, new JsonSerializerOptions()
 		{
-			ObjectTypes = new List<SchemaType>();
-			NodeTypes = new List<SchemaNode>();
-			TypeConversions = new List<SchemaTypeConversion>();
-		}
+			Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+		});
 
-		/// <summary>
-		/// Adds a <see cref="SchemaType"/> to the <see cref="ProjectManifest"/>.
-		/// </summary>
-		/// <param name="schemaType">The <see cref="SchemaType"/> to add to the <see cref="ProjectManifest"/>.</param>
-		/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
-		public ProjectManifestBuilder AddType(SchemaType schemaType)
-		{
-			ObjectTypes.Add(schemaType);
-			return this;
-		}
-
-		/// <summary>
-		/// Adds a <see cref="SchemaNode"/> to the <see cref="ProjectManifest"/>.
-		/// </summary>
-		/// <param name="schemaNode">The <see cref="SchemaNode"/> to add to the <see cref="ProjectManifest"/>.</param>
-		/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
-		public ProjectManifestBuilder AddNodeType(SchemaNode schemaNode)
-		{
-			NodeTypes.Add(schemaNode);
-			return this;
-		}
-
-		/// <summary>
-		/// Adds a <see cref="SchemaTypeConversion"/> to the <see cref="ProjectManifest"/>.
-		/// </summary>
-		/// <param name="typeConversion">The <see cref="SchemaTypeConversion"/> to add to the <see cref="ProjectManifest"/>.</param>
-		/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
-		public ProjectManifestBuilder AddConversion(SchemaTypeConversion typeConversion)
-		{
-			TypeConversions.Add(typeConversion);
-			return this;
-		}
-
-		/// <summary>
-		/// Reads the <see cref="Stream"/> and adds to this <see cref="ProjectManifestBuilder"/>.
-		/// </summary>
-		/// <param name="data">The source <see cref="Stream"/> to read from.</param>
-		/// <returns>Returns the current instance of the <see cref="ProjectManifestBuilder"/>.</returns>
-		public ProjectManifestBuilder AddFrom(ReadOnlySpan<byte> data)
-		{
-			var source = Load(data);
-
-			ObjectTypes.AddRange(source.ObjectTypes);
-			NodeTypes.AddRange(source.NodeTypes);
-			TypeConversions.AddRange(source.TypeConversions);
-			return this;
-		}
-
-		/// <summary>
-		/// Builds a new instance of the <see cref="ProjectManifest"/>.
-		/// </summary>
-		/// <returns>A new <see cref="ProjectManifest"/> build from the current state of this <see cref="ProjectManifestBuilder"/>.</returns>
-		public ProjectManifest Build()
-		{
-			return new ProjectManifest(ObjectTypes, NodeTypes, TypeConversions);
-		}
-
-		/// <summary>
-		/// Creates a new instance of the <see cref="ProjectManifestBuilder"/>.
-		/// </summary>
-		/// <returns>A new <see cref="ProjectManifestBuilder"/>.</returns>
-		public static ProjectManifestBuilder Create()
-		{
-			return new ProjectManifestBuilder();
-		}
-
-		/// <summary>
-		/// Loads an instance of the <see cref="ProjectManifestBuilder"/>.
-		/// </summary>
-		/// <returns>An instance of <see cref="ProjectManifestBuilder"/> loaded from the <see cref="Stream"/>.</returns>
-		public static ProjectManifestBuilder Load(ReadOnlySpan<byte> data)
-		{
-			var result = JsonSerializer.Deserialize<ProjectManifestBuilder>(data, new JsonSerializerOptions()
-			{
-				Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-			});
-
-			return result ?? throw new InvalidDataException($"Failed to load {nameof(ProjectManifestBuilder)} from stream.");
-		}
+		return result ?? throw new InvalidDataException($"Failed to load {nameof(ProjectManifestBuilder)} from stream.");
 	}
 }

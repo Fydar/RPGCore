@@ -1,34 +1,33 @@
 ﻿using System.Diagnostics;
 
-namespace RPGCore.Events
+namespace RPGCore.Events;
+
+public sealed class EventField<T> : IEventField<T>
 {
-	public sealed class EventField<T> : IEventField<T>
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	private T internalValue;
+
+	public EventFieldHandlerCollection Handlers { get; }
+
+	public T Value
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private T internalValue;
-
-		public EventFieldHandlerCollection Handlers { get; }
-
-		public T Value
+		get => internalValue;
+		set
 		{
-			get => internalValue;
-			set
-			{
-				Handlers.InvokeBeforeChanged();
-				internalValue = value;
-				Handlers.InvokeAfterChanged();
-			}
-		}
-
-		public EventField()
-		{
-			Handlers = new EventFieldHandlerCollection(this);
-		}
-
-		public EventField(T value)
-			: this()
-		{
+			Handlers.InvokeBeforeChanged();
 			internalValue = value;
+			Handlers.InvokeAfterChanged();
 		}
+	}
+
+	public EventField()
+	{
+		Handlers = new EventFieldHandlerCollection(this);
+	}
+
+	public EventField(T value)
+		: this()
+	{
+		internalValue = value;
 	}
 }

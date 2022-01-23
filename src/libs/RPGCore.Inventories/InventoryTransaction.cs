@@ -2,107 +2,106 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RPGCore.Inventory.Slots
+namespace RPGCore.Inventory.Slots;
+
+/// <summary>
+/// <para>Represents a tranfer of items between inventories.</para>
+/// </summary>
+/// <remarks>
+/// <para>When a game client wants to move items from one inventory to another, they construct their desired transaction.</para>
+/// <para>A transaction can consist of adding, removing, moving or destroying items.</para>
+/// </remarks>
+public class InventoryTransaction : IEquatable<InventoryTransaction>
 {
-	/// <summary>
-	/// <para>Represents a tranfer of items between inventories.</para>
-	/// </summary>
-	/// <remarks>
-	/// <para>When a game client wants to move items from one inventory to another, they construct their desired transaction.</para>
-	/// <para>A transaction can consist of adding, removing, moving or destroying items.</para>
-	/// </remarks>
-	public class InventoryTransaction : IEquatable<InventoryTransaction>
+	public static readonly InventoryTransaction None = new(TransactionStatus.None, Array.Empty<ItemTransaction>());
+
+	public TransactionStatus Status { get; set; }
+	public IReadOnlyList<ItemTransaction> Items { get; set; }
+
+	public InventoryTransaction()
 	{
-		public static readonly InventoryTransaction None = new(TransactionStatus.None, Array.Empty<ItemTransaction>());
+	}
 
-		public TransactionStatus Status { get; set; }
-		public IReadOnlyList<ItemTransaction> Items { get; set; }
+	public InventoryTransaction(TransactionStatus status, IReadOnlyList<ItemTransaction> items)
+	{
+		Status = status;
+		Items = items;
+	}
 
-		public InventoryTransaction()
+	/// <inheritdoc/>
+	public override bool Equals(object obj)
+	{
+		return Equals(obj as InventoryTransaction);
+	}
+
+	public bool Equals(InventoryTransaction other)
+	{
+		if (Status != other.Status)
 		{
+			return false;
 		}
 
-		public InventoryTransaction(TransactionStatus status, IReadOnlyList<ItemTransaction> items)
+		if ((Items?.Count ?? 0) != (other.Items?.Count ?? 0))
 		{
-			Status = status;
-			Items = items;
+			return false;
 		}
 
-		/// <inheritdoc/>
-		public override bool Equals(object obj)
+		for (int i = 0; i < Items.Count; i++)
 		{
-			return Equals(obj as InventoryTransaction);
-		}
+			var thisItem = Items[i];
+			var otherItem = other.Items[i];
 
-		public bool Equals(InventoryTransaction other)
-		{
-			if (Status != other.Status)
+			if (thisItem != otherItem)
 			{
 				return false;
 			}
+		}
 
-			if ((Items?.Count ?? 0) != (other.Items?.Count ?? 0))
+		return true;
+	}
+
+	/// <inheritdoc/>
+	public override int GetHashCode()
+	{
+		int hashCode = 2143614870;
+		hashCode = hashCode * -1521134295 + Status.GetHashCode();
+		hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<ItemTransaction>>.Default.GetHashCode(Items);
+		return hashCode;
+	}
+
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		var sb = new StringBuilder();
+
+		sb.Append(nameof(InventoryTransaction));
+		sb.Append("(");
+		sb.Append("Status: ");
+		sb.Append(Status.ToString());
+		sb.Append(", [");
+
+		for (int i = 0; i < Items.Count; i++)
+		{
+			sb.Append(Items[i]);
+
+			if (i != Items.Count - 1)
 			{
-				return false;
+				sb.Append(", ");
 			}
-
-			for (int i = 0; i < Items.Count; i++)
-			{
-				var thisItem = Items[i];
-				var otherItem = other.Items[i];
-
-				if (thisItem != otherItem)
-				{
-					return false;
-				}
-			}
-
-			return true;
 		}
 
-		/// <inheritdoc/>
-		public override int GetHashCode()
-		{
-			int hashCode = 2143614870;
-			hashCode = hashCode * -1521134295 + Status.GetHashCode();
-			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<ItemTransaction>>.Default.GetHashCode(Items);
-			return hashCode;
-		}
+		sb.Append("])");
 
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			var sb = new StringBuilder();
+		return sb.ToString();
+	}
 
-			sb.Append(nameof(InventoryTransaction));
-			sb.Append("(");
-			sb.Append("Status: ");
-			sb.Append(Status.ToString());
-			sb.Append(", [");
+	public static bool operator ==(InventoryTransaction left, InventoryTransaction right)
+	{
+		return EqualityComparer<InventoryTransaction>.Default.Equals(left, right);
+	}
 
-			for (int i = 0; i < Items.Count; i++)
-			{
-				sb.Append(Items[i]);
-
-				if (i != Items.Count - 1)
-				{
-					sb.Append(", ");
-				}
-			}
-
-			sb.Append("])");
-
-			return sb.ToString();
-		}
-
-		public static bool operator ==(InventoryTransaction left, InventoryTransaction right)
-		{
-			return EqualityComparer<InventoryTransaction>.Default.Equals(left, right);
-		}
-
-		public static bool operator !=(InventoryTransaction left, InventoryTransaction right)
-		{
-			return !(left == right);
-		}
+	public static bool operator !=(InventoryTransaction left, InventoryTransaction right)
+	{
+		return !(left == right);
 	}
 }

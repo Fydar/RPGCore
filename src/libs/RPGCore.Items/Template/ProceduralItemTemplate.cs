@@ -1,14 +1,13 @@
 ﻿using RPGCore.Data;
 
-namespace RPGCore.Items
+namespace RPGCore.Items;
+
+[EditableType]
+public class ProceduralItemTemplate : ItemTemplate
 {
-	[EditableType]
-	public class ProceduralItemTemplate : ItemTemplate
+	/// <inheritdoc/>
+	public override string ToString()
 	{
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"{nameof(ProceduralItemTemplate)}({DisplayName})";
-		}
+		return $"{nameof(ProceduralItemTemplate)}({DisplayName})";
 	}
 }

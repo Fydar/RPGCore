@@ -1,14 +1,13 @@
 ﻿using System.Threading.Tasks;
 
-namespace RPGCore.FileTree.CommandLine
-{
-	internal sealed class Program
-	{
-		private static async Task Main(string[] args)
-		{
-			var fileTree = new InteractiveFileTree();
+namespace RPGCore.FileTree.CommandLine;
 
-			await fileTree.RunAsync();
-		}
+internal sealed class Program
+{
+	private static async Task Main(string[] args)
+	{
+		var fileTree = new InteractiveFileTree();
+
+		await fileTree.RunAsync();
 	}
 }

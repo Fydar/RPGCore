@@ -1,18 +1,17 @@
-﻿namespace RPGCore.Behaviour
+﻿namespace RPGCore.Behaviour;
+
+public readonly struct OutputSocket
 {
-	public readonly struct OutputSocket
+	public readonly int Id;
+
+	public OutputSocket(int id)
 	{
-		public readonly int Id;
+		Id = id;
+	}
 
-		public OutputSocket(int id)
-		{
-			Id = id;
-		}
-
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"Output {Id}";
-		}
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		return $"Output {Id}";
 	}
 }

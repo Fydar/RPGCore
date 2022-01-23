@@ -3,27 +3,26 @@ using RPGCore.Projects.Pipeline;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RPGCore.Projects.Extensions.MetaFiles
+namespace RPGCore.Projects.Extensions.MetaFiles;
+
+internal class JsonMetaFileSuffixImporter : IArchiveFileImporter
 {
-	internal class JsonMetaFileSuffixImporter : IArchiveFileImporter
+	private readonly string suffix;
+
+	internal JsonMetaFileSuffixImporter(string suffix)
 	{
-		private readonly string suffix;
+		this.suffix = suffix;
+	}
 
-		internal JsonMetaFileSuffixImporter(string suffix)
-		{
-			this.suffix = suffix;
-		}
+	/// <inheritdoc/>
+	public bool CanImport(IArchiveFile archiveFile)
+	{
+		return archiveFile.Extension == suffix;
+	}
 
-		/// <inheritdoc/>
-		public bool CanImport(IArchiveFile archiveFile)
-		{
-			return archiveFile.Extension == suffix;
-		}
-
-		/// <inheritdoc/>
-		public IEnumerable<ProjectResourceUpdate> ImportFile(ArchiveFileImporterContext context, IArchiveFile archiveFile)
-		{
-			return Enumerable.Empty<ProjectResourceUpdate>();
-		}
+	/// <inheritdoc/>
+	public IEnumerable<ProjectResourceUpdate> ImportFile(ArchiveFileImporterContext context, IArchiveFile archiveFile)
+	{
+		return Enumerable.Empty<ProjectResourceUpdate>();
 	}
 }

@@ -1,6 +1,5 @@
-﻿namespace RPGCore.Events
+﻿namespace RPGCore.Events;
+
+public interface IEventWrapper
 {
-	public interface IEventWrapper
-	{
-	}
 }

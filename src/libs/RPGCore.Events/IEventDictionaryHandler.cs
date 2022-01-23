@@ -1,11 +1,10 @@
 using System;
 
-namespace RPGCore.Events
-{
-	public interface IEventDictionaryHandler<TKey, TValue> : IDisposable
-	{
-		void OnAdd(TKey key, TValue value);
+namespace RPGCore.Events;
 
-		void OnRemove(TKey key, TValue value);
-	}
+public interface IEventDictionaryHandler<TKey, TValue> : IDisposable
+{
+	void OnAdd(TKey key, TValue value);
+
+	void OnRemove(TKey key, TValue value);
 }

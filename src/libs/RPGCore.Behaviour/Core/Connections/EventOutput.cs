@@ -1,30 +1,29 @@
 ﻿using Newtonsoft.Json;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+public readonly struct EventOutput
 {
-	public readonly struct EventOutput
+	public IConnection Connection { get; }
+
+	[JsonIgnore]
+	public bool IsConnected => Connection != null;
+
+	public EventOutput(IConnection connection)
 	{
-		public IConnection Connection { get; }
+		Connection = connection;
+	}
 
-		[JsonIgnore]
-		public bool IsConnected => Connection != null;
-
-		public EventOutput(IConnection connection)
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		if (IsConnected)
 		{
-			Connection = connection;
+			return $"Outputted {Connection}";
 		}
-
-		/// <inheritdoc/>
-		public override string ToString()
+		else
 		{
-			if (IsConnected)
-			{
-				return $"Outputted {Connection}";
-			}
-			else
-			{
-				return "Unconnected Output";
-			}
+			return "Unconnected Output";
 		}
 	}
 }

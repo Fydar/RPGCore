@@ -1,13 +1,12 @@
-﻿namespace RPGCore.World.CommandLine.Components
-{
-	public struct UnitComponent
-	{
-		public int InnerValue;
+﻿namespace RPGCore.World.CommandLine.Components;
 
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"U:{InnerValue}";
-		}
+public struct UnitComponent
+{
+	public int InnerValue;
+
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		return $"U:{InnerValue}";
 	}
 }

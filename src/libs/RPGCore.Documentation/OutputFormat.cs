@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Documentation
+﻿namespace RPGCore.Documentation;
+
+public enum OutputFormat
 {
-	public enum OutputFormat
-	{
-		Json
-	}
+	Json
 }

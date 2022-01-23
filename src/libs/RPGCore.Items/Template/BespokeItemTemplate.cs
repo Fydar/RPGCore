@@ -1,14 +1,13 @@
 ﻿using RPGCore.Data;
 
-namespace RPGCore.Items
+namespace RPGCore.Items;
+
+[EditableType]
+public class BespokeItemTemplate : ItemTemplate
 {
-	[EditableType]
-	public class BespokeItemTemplate : ItemTemplate
+	/// <inheritdoc/>
+	public override string ToString()
 	{
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"{nameof(BespokeItemTemplate)}({DisplayName})";
-		}
+		return $"{nameof(BespokeItemTemplate)}({DisplayName})";
 	}
 }

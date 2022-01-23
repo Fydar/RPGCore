@@ -1,22 +1,21 @@
-﻿namespace RPGCore.Documentation.SyntaxHighlighting.Json.Parsing
+﻿namespace RPGCore.Documentation.SyntaxHighlighting.Json.Parsing;
+
+public enum JsonNodeType
 {
-	public enum JsonNodeType
-	{
-		StartObject,
-		EndObject,
-		StartArray,
-		EndArray,
-		PropertyName,
-		PropertyValueDeliminator,
-		SingleLineComment,
-		MultiLineComment,
-		ValueDeliminator,
-		StringLiteral,
-		NumberLiteral,
-		TrueLiteral,
-		FalseLiteral,
-		NullLiteral,
-		Whitespace,
-		Newline,
-	}
+	StartObject,
+	EndObject,
+	StartArray,
+	EndArray,
+	PropertyName,
+	PropertyValueDeliminator,
+	SingleLineComment,
+	MultiLineComment,
+	ValueDeliminator,
+	StringLiteral,
+	NumberLiteral,
+	TrueLiteral,
+	FalseLiteral,
+	NullLiteral,
+	Whitespace,
+	Newline,
 }

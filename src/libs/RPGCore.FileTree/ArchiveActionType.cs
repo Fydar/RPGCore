@@ -1,10 +1,9 @@
-﻿namespace RPGCore.FileTree
+﻿namespace RPGCore.FileTree;
+
+public enum ArchiveActionType
 {
-	public enum ArchiveActionType
-	{
-		Created,
-		Renamed,
-		Deleted,
-		Changed
-	}
+	Created,
+	Renamed,
+	Deleted,
+	Changed
 }

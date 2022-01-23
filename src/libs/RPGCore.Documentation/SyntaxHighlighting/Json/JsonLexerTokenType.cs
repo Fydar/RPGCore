@@ -1,24 +1,23 @@
-﻿namespace RPGCore.Documentation.SyntaxHighlighting.Json
+﻿namespace RPGCore.Documentation.SyntaxHighlighting.Json;
+
+public enum JsonLexerTokenType
 {
-	public enum JsonLexerTokenType
-	{
-		String,
-		Numeric,
+	String,
+	Numeric,
 
-		Whitespace,
-		Newline,
-		MultiLineComment,
-		LineComment,
+	Whitespace,
+	Newline,
+	MultiLineComment,
+	LineComment,
 
-		OpenObject,
-		CloseObject,
-		OpenArray,
-		CloseArray,
-		Comma,
-		Colon,
+	OpenObject,
+	CloseObject,
+	OpenArray,
+	CloseArray,
+	Comma,
+	Colon,
 
-		Null,
-		True,
-		False
-	}
+	Null,
+	True,
+	False
 }

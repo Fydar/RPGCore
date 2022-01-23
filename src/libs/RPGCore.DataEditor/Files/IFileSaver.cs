@@ -1,9 +1,8 @@
 ﻿using RPGCore.DataEditor.Manifest;
 
-namespace RPGCore.DataEditor.Files
+namespace RPGCore.DataEditor.Files;
+
+public interface IFileSaver
 {
-	public interface IFileSaver
-	{
-		void Save(EditorSession editorSession, TypeName type, IEditorValue save);
-	}
+	void Save(EditorSession editorSession, TypeName type, IEditorValue save);
 }

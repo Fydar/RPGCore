@@ -4,99 +4,98 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 
-namespace RPGCore.Projects
+namespace RPGCore.Projects;
+
+public class ProjectDefinitionProperties : IDefinitionProperties
 {
-	public class ProjectDefinitionProperties : IDefinitionProperties
+	private readonly FileInfo file;
+	private readonly XmlDocument document;
+
+	public string Name
 	{
-		private readonly FileInfo file;
-		private readonly XmlDocument document;
-
-		public string Name
+		get
 		{
-			get
+			string name = GetNodeForProperty("Name")?.InnerText;
+			return name ?? file.Name.Replace(".bproj", "");
+		}
+		set => GetOrCreateNodeForProperty("Name").InnerText = value;
+	}
+
+	public string Version
+	{
+		get => GetNodeForProperty("Version")?.InnerText;
+		set => GetOrCreateNodeForProperty("Version").InnerText = value;
+	}
+
+	public ProjectDefinitionProperties(FileInfo file, XmlDocument document)
+	{
+		this.file = file;
+		this.document = document;
+	}
+
+	private XmlNode GetNodeForProperty(string name)
+	{
+		foreach (var propertyGroup in PropertyGroups())
+		{
+			var properties = propertyGroup.ChildNodes;
+			for (int j = 0; j < properties.Count; j++)
 			{
-				string name = GetNodeForProperty("Name")?.InnerText;
-				return name ?? file.Name.Replace(".bproj", "");
-			}
-			set => GetOrCreateNodeForProperty("Name").InnerText = value;
-		}
+				var property = properties.Item(j);
 
-		public string Version
-		{
-			get => GetNodeForProperty("Version")?.InnerText;
-			set => GetOrCreateNodeForProperty("Version").InnerText = value;
-		}
-
-		public ProjectDefinitionProperties(FileInfo file, XmlDocument document)
-		{
-			this.file = file;
-			this.document = document;
-		}
-
-		private XmlNode GetNodeForProperty(string name)
-		{
-			foreach (var propertyGroup in PropertyGroups())
-			{
-				var properties = propertyGroup.ChildNodes;
-				for (int j = 0; j < properties.Count; j++)
+				if (property.Name == name)
 				{
-					var property = properties.Item(j);
-
-					if (property.Name == name)
-					{
-						return property;
-					}
+					return property;
 				}
 			}
-			return null;
+		}
+		return null;
+	}
+
+	private XmlNode GetOrCreateNodeForProperty(string name)
+	{
+		var node = GetNodeForProperty(name);
+
+		if (node != null)
+		{
+			return node;
 		}
 
-		private XmlNode GetOrCreateNodeForProperty(string name)
+		var propertyGroup = PropertyGroups().FirstOrDefault();
+		if (propertyGroup == null)
 		{
-			var node = GetNodeForProperty(name);
+			var prefix = document.CreateWhitespace("\n  ");
+			document.DocumentElement.AppendChild(prefix);
 
-			if (node != null)
-			{
-				return node;
-			}
+			var newPropertyGroup = document.CreateElement("PropertyGroup", null);
+			document.DocumentElement.AppendChild(newPropertyGroup);
+			propertyGroup = newPropertyGroup;
 
-			var propertyGroup = PropertyGroups().FirstOrDefault();
-			if (propertyGroup == null)
-			{
-				var prefix = document.CreateWhitespace("\n  ");
-				document.DocumentElement.AppendChild(prefix);
-
-				var newPropertyGroup = document.CreateElement("PropertyGroup", null);
-				document.DocumentElement.AppendChild(newPropertyGroup);
-				propertyGroup = newPropertyGroup;
-
-				prefix = document.CreateWhitespace("\n\n");
-				document.DocumentElement.AppendChild(prefix);
-			}
-
-			var whitespace = document.CreateWhitespace("\n    ");
-			propertyGroup.AppendChild(whitespace);
-
-			var propertyNode = document.CreateElement(name, null);
-			propertyGroup.AppendChild(propertyNode);
-
-			whitespace = document.CreateWhitespace("\n  ");
-			propertyGroup.AppendChild(whitespace);
-
-			return propertyNode;
+			prefix = document.CreateWhitespace("\n\n");
+			document.DocumentElement.AppendChild(prefix);
 		}
 
-		private IEnumerable<XmlNode> PropertyGroups()
-		{
-			var rootNodes = document.DocumentElement.ChildNodes;
-			for (int j = 0; j < rootNodes.Count; j++)
-			{
-				var property = rootNodes.Item(j);
+		var whitespace = document.CreateWhitespace("\n    ");
+		propertyGroup.AppendChild(whitespace);
 
-				if (property.Name == "PropertyGroup")
-				{
-					yield return property;
-				}
+		var propertyNode = document.CreateElement(name, null);
+		propertyGroup.AppendChild(propertyNode);
+
+		whitespace = document.CreateWhitespace("\n  ");
+		propertyGroup.AppendChild(whitespace);
+
+		return propertyNode;
+	}
+
+	private IEnumerable<XmlNode> PropertyGroups()
+	{
+		var rootNodes = document.DocumentElement.ChildNodes;
+		for (int j = 0; j < rootNodes.Count; j++)
+		{
+			var property = rootNodes.Item(j);
+
+			if (property.Name == "PropertyGroup")
+			{
+				yield return property;
 			}
 		}
 	}

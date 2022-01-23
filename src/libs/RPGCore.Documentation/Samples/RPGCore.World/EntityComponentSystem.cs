@@ -1,43 +1,42 @@
 ﻿using RPGCore.World;
 
-namespace RPGCore.Documentation.Samples.EntityComponentSystemSample
+namespace RPGCore.Documentation.Samples.EntityComponentSystemSample;
+
+public class EntityComponentSystem
 {
-	public class EntityComponentSystem
+	public struct TransformComponent
 	{
-		public struct TransformComponent
-		{
-			public int X;
-			public int Y;
-		}
+		public int X;
+		public int Y;
+	}
 
-		public struct UnitComponent
-		{
-			public int Type;
-		}
+	public struct UnitComponent
+	{
+		public int Type;
+	}
 
-		public static void Run()
-		{
-			#region create_world
-			var worldEngine = new WorldEngineFactory()
-				.UseEntity("unit", options =>
-				{
-					options.AddComponent<TransformComponent>();
-					options.AddComponent<UnitComponent>();
-				})
-				.Build();
+	public static void Run()
+	{
+		#region create_world
+		var worldEngine = new WorldEngineFactory()
+			.UseEntity("unit", options =>
+			{
+				options.AddComponent<TransformComponent>();
+				options.AddComponent<UnitComponent>();
+			})
+			.Build();
 
-			var world = worldEngine.ConstructWorld();
-			#endregion create_world
+		var world = worldEngine.ConstructWorld();
+		#endregion create_world
 
-			#region create_unit
-			var units = world.GetEntityPool("unit");
+		#region create_unit
+		var units = world.GetEntityPool("unit");
 
-			int newUnitId = units.New();
-			ref var newUnitTransform = ref units.GetComponent<TransformComponent>(newUnitId);
-			newUnitTransform.X += 1;
+		int newUnitId = units.New();
+		ref var newUnitTransform = ref units.GetComponent<TransformComponent>(newUnitId);
+		newUnitTransform.X += 1;
 
-			units.Recycle(newUnitId);
-			#endregion create_unit
-		}
+		units.Recycle(newUnitId);
+		#endregion create_unit
 	}
 }

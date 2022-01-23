@@ -1,53 +1,52 @@
 ﻿using RPGCore.Documentation.SyntaxHighlighting.Internal;
 
-namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization
+namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization;
+
+internal class StringTokenClassifier : ITokenClassifier
 {
-	internal class StringTokenClassifier : ITokenClassifier
+	private bool isFirstCharacter = true;
+	private bool isEscaped = false;
+
+	/// <inheritdoc/>
+	public void Reset()
 	{
-		private bool isFirstCharacter = true;
-		private bool isEscaped = false;
+		isFirstCharacter = true;
+	}
 
-		/// <inheritdoc/>
-		public void Reset()
+	/// <inheritdoc/>
+	public ClassifierAction NextCharacter(char nextCharacter)
+	{
+		if (isFirstCharacter)
 		{
-			isFirstCharacter = true;
+			isFirstCharacter = false;
+
+			return nextCharacter == '"'
+				? ClassifierAction.ContinueReading()
+				: ClassifierAction.GiveUp();
 		}
-
-		/// <inheritdoc/>
-		public ClassifierAction NextCharacter(char nextCharacter)
+		else
 		{
-			if (isFirstCharacter)
+			if (nextCharacter == '\\')
 			{
-				isFirstCharacter = false;
-
-				return nextCharacter == '"'
-					? ClassifierAction.ContinueReading()
-					: ClassifierAction.GiveUp();
+				isEscaped = true;
+				return ClassifierAction.ContinueReading();
 			}
-			else
+			else if (nextCharacter == '"')
 			{
-				if (nextCharacter == '\\')
-				{
-					isEscaped = true;
-					return ClassifierAction.ContinueReading();
-				}
-				else if (nextCharacter == '"')
-				{
-					if (isEscaped)
-					{
-						isEscaped = false;
-						return ClassifierAction.ContinueReading();
-					}
-					else
-					{
-						return ClassifierAction.TokenizeImmediately();
-					}
-				}
-				else
+				if (isEscaped)
 				{
 					isEscaped = false;
 					return ClassifierAction.ContinueReading();
 				}
+				else
+				{
+					return ClassifierAction.TokenizeImmediately();
+				}
+			}
+			else
+			{
+				isEscaped = false;
+				return ClassifierAction.ContinueReading();
 			}
 		}
 	}

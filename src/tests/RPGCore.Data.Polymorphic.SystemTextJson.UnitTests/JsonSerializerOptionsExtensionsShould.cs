@@ -4,125 +4,124 @@ using RPGCore.Data.Polymorphic.SystemTextJson.UnitTests.Utility;
 using System;
 using System.Text.Json;
 
-namespace RPGCore.Data.Polymorphic.SystemTextJson.UnitTests
+namespace RPGCore.Data.Polymorphic.SystemTextJson.UnitTests;
+
+[TestFixture(TestOf = typeof(JsonSerializerOptionsExtensions))]
+public class JsonSerializerOptionsExtensionsShould
 {
-	[TestFixture(TestOf = typeof(JsonSerializerOptionsExtensions))]
-	public class JsonSerializerOptionsExtensionsShould
+	public class Container
 	{
-		public class Container
+		public IProcedure? RunOnStart { get; set; }
+	}
+
+	[SerializeBaseType(typeof(CreateProcedure), TypeName.Name)]
+	[SerializeBaseType(typeof(UpdateProcedure), TypeName.Name)]
+	[SerializeBaseType(typeof(SomethingProcedure), TypeName.Name)]
+	public interface IProcedure
+	{
+	}
+
+	public class CreateProcedure : IProcedure
+	{
+		public string CreateString { get; set; } = "";
+	}
+
+	public class UpdateProcedure : IProcedure
+	{
+		public string UpdateString { get; set; } = "";
+	}
+
+	public class SomethingProcedure : CreateProcedure
+	{
+		public string SomethingString { get; set; } = "";
+	}
+
+
+	[Test, Parallelizable]
+	public void SerializeInterfaceAtRoot()
+	{
+		var options = new JsonSerializerOptions()
 		{
-			public IProcedure? RunOnStart { get; set; }
-		}
+			WriteIndented = true,
+		};
 
-		[SerializeBaseType(typeof(CreateProcedure), TypeName.Name)]
-		[SerializeBaseType(typeof(UpdateProcedure), TypeName.Name)]
-		[SerializeBaseType(typeof(SomethingProcedure), TypeName.Name)]
-		public interface IProcedure
+		options.UsePolymorphicSerialization(options =>
 		{
-		}
+			options.UseInline();
+		});
 
-		public class CreateProcedure : IProcedure
+		IProcedure original = new SomethingProcedure();
+
+		string serialized = JsonSerializer.Serialize(original, options);
+		object? deserialized = JsonSerializer.Deserialize(serialized, typeof(IProcedure), options);
+
+		AssertUtility.AssertThatTypeIsEqualTo(deserialized, out IProcedure deserializedProcedure);
+		string reserialized = JsonSerializer.Serialize(deserializedProcedure, options);
+
+		Console.WriteLine(serialized);
+		Console.WriteLine(reserialized);
+
+		Assert.That(serialized, Is.EqualTo(reserialized));
+	}
+
+
+	[Test, Parallelizable]
+	public void SerializeInterfaceArray()
+	{
+		var options = new JsonSerializerOptions()
 		{
-			public string CreateString { get; set; } = "";
-		}
+			WriteIndented = true,
+		};
 
-		public class UpdateProcedure : IProcedure
+		options.UsePolymorphicSerialization(options =>
 		{
-			public string UpdateString { get; set; } = "";
-		}
+			options.UseInline();
+		});
 
-		public class SomethingProcedure : CreateProcedure
+		var original = new IProcedure[]
 		{
-			public string SomethingString { get; set; } = "";
-		}
+			new SomethingProcedure(),
+			new UpdateProcedure()
+		};
+
+		string serialized = JsonSerializer.Serialize(original, options);
+		object? deserialized = JsonSerializer.Deserialize(serialized, typeof(IProcedure[]), options);
+
+		AssertUtility.AssertThatTypeIsEqualTo(deserialized, out IProcedure[] deserializedProcedures);
+		string reserialized = JsonSerializer.Serialize(deserializedProcedures, options);
+
+		Console.WriteLine(serialized);
+		Console.WriteLine(reserialized);
+
+		Assert.That(serialized, Is.EqualTo(reserialized));
+	}
 
 
-		[Test, Parallelizable]
-		public void SerializeInterfaceAtRoot()
+	[Test, Parallelizable]
+	public void SerializeInterfaceInObject()
+	{
+		var options = new JsonSerializerOptions()
 		{
-			var options = new JsonSerializerOptions()
-			{
-				WriteIndented = true,
-			};
+			WriteIndented = true,
+		};
 
-			options.UsePolymorphicSerialization(options =>
-			{
-				options.UseInline();
-			});
-
-			IProcedure original = new SomethingProcedure();
-
-			string serialized = JsonSerializer.Serialize(original, options);
-			object? deserialized = JsonSerializer.Deserialize(serialized, typeof(IProcedure), options);
-
-			AssertUtility.AssertThatTypeIsEqualTo(deserialized, out IProcedure deserializedProcedure);
-			string reserialized = JsonSerializer.Serialize(deserializedProcedure, options);
-
-			Console.WriteLine(serialized);
-			Console.WriteLine(reserialized);
-
-			Assert.That(serialized, Is.EqualTo(reserialized));
-		}
-
-
-		[Test, Parallelizable]
-		public void SerializeInterfaceArray()
+		options.UsePolymorphicSerialization(options =>
 		{
-			var options = new JsonSerializerOptions()
-			{
-				WriteIndented = true,
-			};
+			options.UseInline();
+		});
 
-			options.UsePolymorphicSerialization(options =>
-			{
-				options.UseInline();
-			});
-
-			var original = new IProcedure[]
-			{
-				new SomethingProcedure(),
-				new UpdateProcedure()
-			};
-
-			string serialized = JsonSerializer.Serialize(original, options);
-			object? deserialized = JsonSerializer.Deserialize(serialized, typeof(IProcedure[]), options);
-
-			AssertUtility.AssertThatTypeIsEqualTo(deserialized, out IProcedure[] deserializedProcedures);
-			string reserialized = JsonSerializer.Serialize(deserializedProcedures, options);
-
-			Console.WriteLine(serialized);
-			Console.WriteLine(reserialized);
-
-			Assert.That(serialized, Is.EqualTo(reserialized));
-		}
-
-
-		[Test, Parallelizable]
-		public void SerializeInterfaceInObject()
+		var original = new Container()
 		{
-			var options = new JsonSerializerOptions()
-			{
-				WriteIndented = true,
-			};
+			RunOnStart = new SomethingProcedure()
+		};
 
-			options.UsePolymorphicSerialization(options =>
-			{
-				options.UseInline();
-			});
+		string serialized = JsonSerializer.Serialize(original, options);
+		object? deserialized = JsonSerializer.Deserialize(serialized, typeof(Container), options);
+		string reserialized = JsonSerializer.Serialize(deserialized, options);
 
-			var original = new Container()
-			{
-				RunOnStart = new SomethingProcedure()
-			};
+		Console.WriteLine(serialized);
+		Console.WriteLine(reserialized);
 
-			string serialized = JsonSerializer.Serialize(original, options);
-			object? deserialized = JsonSerializer.Deserialize(serialized, typeof(Container), options);
-			string reserialized = JsonSerializer.Serialize(deserialized, options);
-
-			Console.WriteLine(serialized);
-			Console.WriteLine(reserialized);
-
-			Assert.That(serialized, Is.EqualTo(reserialized));
-		}
+		Assert.That(serialized, Is.EqualTo(reserialized));
 	}
 }

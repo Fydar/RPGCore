@@ -1,66 +1,65 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Events;
 
-namespace RPGCore.Traits
+namespace RPGCore.Traits;
+
+/// <summary>
+/// Contains a collection for all stats belonging to a player or an item.
+/// </summary>
+[JsonObject]
+public class TraitCollection
 {
-	/// <summary>
-	/// Contains a collection for all stats belonging to a player or an item.
-	/// </summary>
-	[JsonObject]
-	public class TraitCollection
+	[JsonProperty]
+	public EventDictionary<StatIdentifier, StatInstance> Stats;
+
+	[JsonProperty]
+	public EventDictionary<StateIdentifier, StateInstance> States;
+
+	private readonly TraitContext traitContext;
+
+	public StatInstance this[StatIdentifier identifier]
 	{
-		[JsonProperty]
-		public EventDictionary<StatIdentifier, StatInstance> Stats;
-
-		[JsonProperty]
-		public EventDictionary<StateIdentifier, StateInstance> States;
-
-		private readonly TraitContext traitContext;
-
-		public StatInstance this[StatIdentifier identifier]
+		get
 		{
-			get
+			if (Stats == null)
 			{
-				if (Stats == null)
-				{
-					return null;
-				}
-
-				if (!Stats.TryGetValue(identifier, out var instance))
-				{
-					var template = traitContext.Stats[identifier];
-					instance = template.CreateInstance(identifier);
-					Stats.Add(identifier, instance);
-				}
-				return instance;
+				return null;
 			}
-		}
 
-		public StateInstance this[StateIdentifier identifier]
-		{
-			get
+			if (!Stats.TryGetValue(identifier, out var instance))
 			{
-				if (Stats == null)
-				{
-					return null;
-				}
-
-				if (!States.TryGetValue(identifier, out var instance))
-				{
-					var template = traitContext.States[identifier];
-					instance = template.CreateInstance(identifier);
-					States.Add(identifier, instance);
-				}
-				return instance;
+				var template = traitContext.Stats[identifier];
+				instance = template.CreateInstance(identifier);
+				Stats.Add(identifier, instance);
 			}
+			return instance;
 		}
+	}
 
-		public TraitCollection(TraitContext traitContext)
+	public StateInstance this[StateIdentifier identifier]
+	{
+		get
 		{
-			this.traitContext = traitContext;
+			if (Stats == null)
+			{
+				return null;
+			}
 
-			Stats = new EventDictionary<StatIdentifier, StatInstance>();
-			States = new EventDictionary<StateIdentifier, StateInstance>();
+			if (!States.TryGetValue(identifier, out var instance))
+			{
+				var template = traitContext.States[identifier];
+				instance = template.CreateInstance(identifier);
+				States.Add(identifier, instance);
+			}
+			return instance;
 		}
+	}
+
+	public TraitCollection(TraitContext traitContext)
+	{
+		this.traitContext = traitContext;
+
+		Stats = new EventDictionary<StatIdentifier, StatInstance>();
+		States = new EventDictionary<StateIdentifier, StateInstance>();
 	}
 }

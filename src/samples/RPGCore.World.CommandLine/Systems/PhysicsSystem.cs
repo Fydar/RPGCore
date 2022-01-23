@@ -1,7 +1,6 @@
-﻿namespace RPGCore.World.CommandLine.Systems
+﻿namespace RPGCore.World.CommandLine.Systems;
+
+public struct PhysicsSystem : ISystem
 {
-	public struct PhysicsSystem : ISystem
-	{
-		public int PositionX;
-	}
+	public int PositionX;
 }

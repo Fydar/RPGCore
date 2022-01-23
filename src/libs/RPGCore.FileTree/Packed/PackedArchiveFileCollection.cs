@@ -1,85 +1,84 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace RPGCore.FileTree.Packed
+namespace RPGCore.FileTree.Packed;
+
+public class PackedArchiveFileCollection : IArchiveFileCollection
 {
-	public class PackedArchiveFileCollection : IArchiveFileCollection
+	private readonly PackedArchive archive;
+	private readonly PackedArchiveDirectory owner;
+	internal readonly List<PackedArchiveFile> internalList;
+
+	internal PackedArchiveFileCollection(PackedArchive archive, PackedArchiveDirectory owner)
 	{
-		private readonly PackedArchive archive;
-		private readonly PackedArchiveDirectory owner;
-		internal readonly List<PackedArchiveFile> internalList;
+		this.archive = archive;
+		this.owner = owner;
 
-		internal PackedArchiveFileCollection(PackedArchive archive, PackedArchiveDirectory owner)
+		internalList = new List<PackedArchiveFile>();
+	}
+
+	/// <inheritdoc/>
+	public PackedArchiveFile GetFile(string key)
+	{
+		foreach (var file in internalList)
 		{
-			this.archive = archive;
-			this.owner = owner;
-
-			internalList = new List<PackedArchiveFile>();
-		}
-
-		/// <inheritdoc/>
-		public PackedArchiveFile GetFile(string key)
-		{
-			foreach (var file in internalList)
+			if (file.Name == key)
 			{
-				if (file.Name == key)
-				{
-					return file;
-				}
+				return file;
 			}
-
-			return null;
 		}
 
-		/// <inheritdoc/>
-		public PackedArchiveFile GetOrCreateFile(string key)
+		return null;
+	}
+
+	/// <inheritdoc/>
+	public PackedArchiveFile GetOrCreateFile(string key)
+	{
+		foreach (var file in internalList)
 		{
-			foreach (var file in internalList)
+			if (file.Name == key)
 			{
-				if (file.Name == key)
-				{
-					return file;
-				}
+				return file;
 			}
-
-			var newFile = new PackedArchiveFile(archive, owner, key);
-			internalList.Add(newFile);
-			return newFile;
 		}
 
-		public IEnumerator<PackedArchiveFile> GetEnumerator()
-		{
-			return internalList.GetEnumerator();
-		}
+		var newFile = new PackedArchiveFile(archive, owner, key);
+		internalList.Add(newFile);
+		return newFile;
+	}
 
-		IEnumerator<IReadOnlyArchiveFile> IEnumerable<IReadOnlyArchiveFile>.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+	public IEnumerator<PackedArchiveFile> GetEnumerator()
+	{
+		return internalList.GetEnumerator();
+	}
 
-		IEnumerator<IArchiveFile> IArchiveFileCollection.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+	IEnumerator<IReadOnlyArchiveFile> IEnumerable<IReadOnlyArchiveFile>.GetEnumerator()
+	{
+		return GetEnumerator();
+	}
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+	IEnumerator<IArchiveFile> IArchiveFileCollection.GetEnumerator()
+	{
+		return GetEnumerator();
+	}
 
-		IReadOnlyArchiveFile IReadOnlyArchiveFileCollection.GetFile(string key)
-		{
-			return GetFile(key);
-		}
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		return GetEnumerator();
+	}
 
-		IArchiveFile IArchiveFileCollection.GetFile(string key)
-		{
-			return GetFile(key);
-		}
+	IReadOnlyArchiveFile IReadOnlyArchiveFileCollection.GetFile(string key)
+	{
+		return GetFile(key);
+	}
 
-		IArchiveFile IArchiveFileCollection.GetOrCreateFile(string key)
-		{
-			return GetOrCreateFile(key);
-		}
+	IArchiveFile IArchiveFileCollection.GetFile(string key)
+	{
+		return GetFile(key);
+	}
+
+	IArchiveFile IArchiveFileCollection.GetOrCreateFile(string key)
+	{
+		return GetOrCreateFile(key);
 	}
 }

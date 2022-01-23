@@ -1,7 +1,6 @@
-namespace RPGCore.Projects
+namespace RPGCore.Projects;
+
+public abstract class Reference
 {
-	public abstract class Reference
-	{
-		public abstract void IncludeInBuild(ProjectBuildProcess build, string outputFolder);
-	}
+	public abstract void IncludeInBuild(ProjectBuildProcess build, string outputFolder);
 }

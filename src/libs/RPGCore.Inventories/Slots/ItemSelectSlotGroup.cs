@@ -1,6 +1,5 @@
-namespace RPGCore.Inventory.Slots
+namespace RPGCore.Inventory.Slots;
+
+public class ItemSelectSlotGroup
 {
-	public class ItemSelectSlotGroup
-	{
-	}
 }

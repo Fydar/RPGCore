@@ -1,56 +1,55 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace RPGCore.Demo.BoardGame
+namespace RPGCore.Demo.BoardGame;
+
+public class GameTile
 {
-	public class GameTile
+	[JsonIgnore]
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	public GameBoard Board { get; internal set; }
+
+	public string? Resource;
+
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	private Building? building;
+
+	public Building? Building
 	{
-		[JsonIgnore]
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public GameBoard Board { get; internal set; }
+		get => HierachyHelper.Get(this, ref building);
+		set => HierachyHelper.Set(this, ref building, value);
+	}
 
-		public string? Resource;
+	public bool IsEmpty => Building == null
+				&& Resource == null;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private Building? building;
-
-		public Building? Building
+	public char ToChar()
+	{
+		if (IsEmpty)
 		{
-			get => HierachyHelper.Get(this, ref building);
-			set => HierachyHelper.Set(this, ref building, value);
+			return '\u2610';
+		}
+		if (Building != null)
+		{
+			return '^';
 		}
 
-		public bool IsEmpty => Building == null
-					&& Resource == null;
+		return Resource[0];
+	}
 
-		public char ToChar()
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		if (IsEmpty)
 		{
-			if (IsEmpty)
-			{
-				return '\u2610';
-			}
-			if (Building != null)
-			{
-				return '^';
-			}
-
-			return Resource[0];
+			return "Empty";
 		}
 
-		/// <inheritdoc/>
-		public override string ToString()
+		if (Building != null)
 		{
-			if (IsEmpty)
-			{
-				return "Empty";
-			}
-
-			if (Building != null)
-			{
-				return Building.ToString();
-			}
-
-			return Resource;
+			return Building.ToString();
 		}
+
+		return Resource;
 	}
 }

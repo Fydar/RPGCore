@@ -1,54 +1,53 @@
 ﻿using Newtonsoft.Json;
 using RPGCore.Events;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+public readonly struct Output<T>
 {
-	public readonly struct Output<T>
+	public OutputConnection<T> Connection { get; }
+
+	[JsonIgnore]
+	public bool IsConnected => Connection != null;
+
+	public T Value
 	{
-		public OutputConnection<T> Connection { get; }
-
-		[JsonIgnore]
-		public bool IsConnected => Connection != null;
-
-		public T Value
+		set
 		{
-			set
+			if (Connection == null)
 			{
-				if (Connection == null)
-				{
-					return;
-				}
-
-				Connection.Value = value;
+				return;
 			}
-		}
 
-		public Output(OutputConnection<T> connection)
-		{
-			Connection = connection;
+			Connection.Value = value;
 		}
+	}
 
-		public void StartMirroring(IReadOnlyEventField<T> target)
+	public Output(OutputConnection<T> connection)
+	{
+		Connection = connection;
+	}
+
+	public void StartMirroring(IReadOnlyEventField<T> target)
+	{
+		Connection.StartMirroring(target);
+	}
+
+	public void StopMirroring()
+	{
+		Connection.StopMirroring();
+	}
+
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		if (IsConnected)
 		{
-			Connection.StartMirroring(target);
+			return $"Outputted {Connection}";
 		}
-
-		public void StopMirroring()
+		else
 		{
-			Connection.StopMirroring();
-		}
-
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			if (IsConnected)
-			{
-				return $"Outputted {Connection}";
-			}
-			else
-			{
-				return "Unconnected Output";
-			}
+			return "Unconnected Output";
 		}
 	}
 }

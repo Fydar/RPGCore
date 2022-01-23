@@ -1,49 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace RPGCore.Projects.Pipeline
+namespace RPGCore.Projects.Pipeline;
+
+public class ProjectResourceUpdateDependencyCollection : IEnumerable<ProjectResourceUpdateDependency>
 {
-	public class ProjectResourceUpdateDependencyCollection : IEnumerable<ProjectResourceUpdateDependency>
+	private readonly ProjectResourceUpdate projectResourceImporter;
+
+	private readonly List<ProjectResourceUpdateDependency> dependancies;
+
+	internal ProjectResourceUpdateDependencyCollection(ProjectResourceUpdate projectResourceImporter)
 	{
-		private readonly ProjectResourceUpdate projectResourceImporter;
+		this.projectResourceImporter = projectResourceImporter;
 
-		private readonly List<ProjectResourceUpdateDependency> dependancies;
+		dependancies = new List<ProjectResourceUpdateDependency>();
+	}
 
-		internal ProjectResourceUpdateDependencyCollection(ProjectResourceUpdate projectResourceImporter)
+	public void Register(string resource, DependencyFlags dependencyFlags = DependencyFlags.None, Dictionary<string, string> metadata = null)
+	{
+		foreach (var dependency in dependancies)
 		{
-			this.projectResourceImporter = projectResourceImporter;
-
-			dependancies = new List<ProjectResourceUpdateDependency>();
-		}
-
-		public void Register(string resource, DependencyFlags dependencyFlags = DependencyFlags.None, Dictionary<string, string> metadata = null)
-		{
-			foreach (var dependency in dependancies)
+			if (dependency.Resource == resource)
 			{
-				if (dependency.Resource == resource)
-				{
-					dependency.DependencyFlags &= dependencyFlags;
-					dependency.Metadata = metadata;
-					return;
-				}
+				dependency.DependencyFlags &= dependencyFlags;
+				dependency.Metadata = metadata;
+				return;
 			}
-
-			dependancies.Add(new ProjectResourceUpdateDependency()
-			{
-				Resource = resource,
-				DependencyFlags = dependencyFlags,
-				Metadata = metadata
-			});
 		}
 
-		public IEnumerator<ProjectResourceUpdateDependency> GetEnumerator()
+		dependancies.Add(new ProjectResourceUpdateDependency()
 		{
-			return dependancies.GetEnumerator();
-		}
+			Resource = resource,
+			DependencyFlags = dependencyFlags,
+			Metadata = metadata
+		});
+	}
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return dependancies.GetEnumerator();
-		}
+	public IEnumerator<ProjectResourceUpdateDependency> GetEnumerator()
+	{
+		return dependancies.GetEnumerator();
+	}
+
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		return dependancies.GetEnumerator();
 	}
 }

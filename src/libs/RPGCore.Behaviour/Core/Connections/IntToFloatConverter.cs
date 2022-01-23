@@ -1,10 +1,9 @@
-﻿namespace RPGCore.Behaviour
+﻿namespace RPGCore.Behaviour;
+
+public class IntToFloatConverter : ConnectionTypeConverter<int, float>
 {
-	public class IntToFloatConverter : ConnectionTypeConverter<int, float>
+	protected override float Convert(int original)
 	{
-		protected override float Convert(int original)
-		{
-			return original;
-		}
+		return original;
 	}
 }

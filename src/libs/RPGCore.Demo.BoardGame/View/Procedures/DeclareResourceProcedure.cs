@@ -1,27 +1,26 @@
 ﻿using RPGCore.Behaviour;
 using System.Collections.Generic;
 
-namespace RPGCore.Demo.BoardGame
+namespace RPGCore.Demo.BoardGame;
+
+public class DeclareResourceProcedure : LobbyViewProcedure
 {
-	public class DeclareResourceProcedure : LobbyViewProcedure
+	public LocalId Player { get; set; }
+	public string ResourceIdentifier { get; set; }
+
+	public override ProcedureResult Apply(LobbyView view)
 	{
-		public LocalId Player { get; set; }
-		public string ResourceIdentifier { get; set; }
+		view.Gameplay.DeclaredResource = true;
 
-		public override ProcedureResult Apply(LobbyView view)
+		foreach (var gameplayPlayer in view.Gameplay.Players)
 		{
-			view.Gameplay.DeclaredResource = true;
-
-			foreach (var gameplayPlayer in view.Gameplay.Players)
+			if (gameplayPlayer.ResourceHand == null)
 			{
-				if (gameplayPlayer.ResourceHand == null)
-				{
-					gameplayPlayer.ResourceHand = new List<string>();
-				}
-				gameplayPlayer.ResourceHand.Add(ResourceIdentifier);
+				gameplayPlayer.ResourceHand = new List<string>();
 			}
-
-			return ProcedureResult.Success;
+			gameplayPlayer.ResourceHand.Add(ResourceIdentifier);
 		}
+
+		return ProcedureResult.Success;
 	}
 }

@@ -1,14 +1,13 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public class StartGameProcedure : LobbyViewProcedure
 {
-	public class StartGameProcedure : LobbyViewProcedure
+	public GameplayView Gameplay { get; set; }
+
+	public override ProcedureResult Apply(LobbyView view)
 	{
-		public GameplayView Gameplay { get; set; }
+		view.Gameplay = Gameplay;
 
-		public override ProcedureResult Apply(LobbyView view)
-		{
-			view.Gameplay = Gameplay;
-
-			return ProcedureResult.Success;
-		}
+		return ProcedureResult.Success;
 	}
 }

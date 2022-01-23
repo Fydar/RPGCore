@@ -1,6 +1,5 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public class EndTurnCommand : GameCommand
 {
-	public class EndTurnCommand : GameCommand
-	{
-	}
 }

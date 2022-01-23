@@ -3,210 +3,209 @@ using RPGCore.Behaviour;
 using RPGCore.Data;
 using System.Collections.Generic;
 
-namespace RPGCore.Demo.BoardGame.Models
+namespace RPGCore.Demo.BoardGame.Models;
+
+[EditableType]
+public class BuildingTemplate : IResourceModel
 {
-	[EditableType]
-	public class BuildingTemplate : IResourceModel
+	[JsonIgnore]
+	public string Identifier { get; set; } = string.Empty;
+
+	public string DisplayName { get; set; } = string.Empty;
+	public string BodyText { get; set; } = string.Empty;
+	public string PackIdentifier { get; set; } = string.Empty;
+
+	public string[,]? Recipe { get; set; }
+
+	public SerializedGraph LocalEffectGraph { get; set; }
+	public SerializedGraph BoardEffectGraph { get; set; }
+	public SerializedGraph GlobalEffectGraph { get; set; }
+
+	[JsonIgnore]
+	public int Width => Recipe?.GetLength(0) ?? 0;
+
+	[JsonIgnore]
+	public int Height => Recipe?.GetLength(1) ?? 0;
+
+	[JsonIgnore]
+	public bool IsHorizontallySymmetric
 	{
-		[JsonIgnore]
-		public string Identifier { get; set; } = string.Empty;
-
-		public string DisplayName { get; set; } = string.Empty;
-		public string BodyText { get; set; } = string.Empty;
-		public string PackIdentifier { get; set; } = string.Empty;
-
-		public string[,]? Recipe { get; set; }
-
-		public SerializedGraph LocalEffectGraph { get; set; }
-		public SerializedGraph BoardEffectGraph { get; set; }
-		public SerializedGraph GlobalEffectGraph { get; set; }
-
-		[JsonIgnore]
-		public int Width => Recipe?.GetLength(0) ?? 0;
-
-		[JsonIgnore]
-		public int Height => Recipe?.GetLength(1) ?? 0;
-
-		[JsonIgnore]
-		public bool IsHorizontallySymmetric
+		get
 		{
-			get
+			int width = Width;
+
+			if (width == 1)
 			{
-				int width = Width;
+				return true;
+			}
 
-				if (width == 1)
+			int height = Height;
+
+			for (int y = 0; y < height; y++)
+			{
+				for (int x = 0; x < width - x - 1; x++)
 				{
-					return true;
+					if (Recipe[x, y] != Recipe[width - x - 1, y])
+					{
+						return false;
+					}
 				}
+			}
+			return true;
+		}
+	}
 
-				int height = Height;
+	[JsonIgnore]
+	public bool IsVerticallySymmetric
+	{
+		get
+		{
+			int height = Height;
 
+			if (height == 1)
+			{
+				return true;
+			}
+
+			int width = Width;
+
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height - y - 1; y++)
+				{
+					if (Recipe[x, y] != Recipe[x, height - y - 1])
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+	}
+
+	[JsonIgnore]
+	public bool IsRotating
+	{
+		get
+		{
+			if (IsTheSameWhenRotated)
+			{
+				return false;
+			}
+			if (IsRotatedSameAsMirror)
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+
+	[JsonIgnore]
+	private bool IsTheSameWhenRotated
+	{
+		get
+		{
+			int height = Height;
+			int width = Width;
+
+			if (width != height)
+			{
+				return false;
+			}
+
+			for (int x = 0; x < width; x++)
+			{
 				for (int y = 0; y < height; y++)
 				{
-					for (int x = 0; x < width - x - 1; x++)
+					int rotatedY = height - x - 1;
+					int rotatedX = y;
+
+					if (Recipe[x, y] != Recipe[rotatedX, rotatedY])
 					{
-						if (Recipe[x, y] != Recipe[width - x - 1, y])
-						{
-							return false;
-						}
+
+						return false;
 					}
 				}
-				return true;
 			}
+
+			return true;
 		}
+	}
 
-		[JsonIgnore]
-		public bool IsVerticallySymmetric
+	[JsonIgnore]
+	private bool IsRotatedSameAsMirror
+	{
+		get
 		{
-			get
+			int height = Height;
+			int width = Width;
+
+			if (width != height)
 			{
-				int height = Height;
+				return false;
+			}
 
-				if (height == 1)
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
 				{
-					return true;
-				}
+					int rotatedY = height - x - 1;
+					int rotatedX = y;
 
-				int width = Width;
-
-				for (int x = 0; x < width; x++)
-				{
-					for (int y = 0; y < height - y - 1; y++)
+					if (Recipe[width - x - 1, y] != Recipe[rotatedX, rotatedY])
 					{
-						if (Recipe[x, y] != Recipe[x, height - y - 1])
-						{
-							return false;
-						}
+						return false;
 					}
 				}
-				return true;
 			}
+
+			return true;
 		}
+	}
 
-		[JsonIgnore]
-		public bool IsRotating
+	public IEnumerable<BuildingOrientation> MeaningfulOrientations()
+	{
+		bool horizontally = IsHorizontallySymmetric;
+		bool vertically = IsVerticallySymmetric;
+		bool isRotating = IsRotating;
+
+		yield return BuildingOrientation.None;
+
+		if (!horizontally)
 		{
-			get
-			{
-				if (IsTheSameWhenRotated)
-				{
-					return false;
-				}
-				if (IsRotatedSameAsMirror)
-				{
-					return false;
-				}
-				return true;
-			}
+			yield return BuildingOrientation.MirrorX;
 		}
-
-		[JsonIgnore]
-		private bool IsTheSameWhenRotated
+		if (!vertically)
 		{
-			get
-			{
-				int height = Height;
-				int width = Width;
-
-				if (width != height)
-				{
-					return false;
-				}
-
-				for (int x = 0; x < width; x++)
-				{
-					for (int y = 0; y < height; y++)
-					{
-						int rotatedY = height - x - 1;
-						int rotatedX = y;
-
-						if (Recipe[x, y] != Recipe[rotatedX, rotatedY])
-						{
-
-							return false;
-						}
-					}
-				}
-
-				return true;
-			}
+			yield return BuildingOrientation.MirrorY;
 		}
-
-		[JsonIgnore]
-		private bool IsRotatedSameAsMirror
+		if (!horizontally && !vertically)
 		{
-			get
-			{
-				int height = Height;
-				int width = Width;
-
-				if (width != height)
-				{
-					return false;
-				}
-
-				for (int x = 0; x < width; x++)
-				{
-					for (int y = 0; y < height; y++)
-					{
-						int rotatedY = height - x - 1;
-						int rotatedX = y;
-
-						if (Recipe[width - x - 1, y] != Recipe[rotatedX, rotatedY])
-						{
-							return false;
-						}
-					}
-				}
-
-				return true;
-			}
+			yield return BuildingOrientation.MirrorXandY;
 		}
-
-		public IEnumerable<BuildingOrientation> MeaningfulOrientations()
+		if (isRotating)
 		{
-			bool horizontally = IsHorizontallySymmetric;
-			bool vertically = IsVerticallySymmetric;
-			bool isRotating = IsRotating;
+			yield return BuildingOrientation.Rotate90;
 
-			yield return BuildingOrientation.None;
-
-			if (!horizontally)
-			{
-				yield return BuildingOrientation.MirrorX;
-			}
 			if (!vertically)
 			{
-				yield return BuildingOrientation.MirrorY;
+				yield return BuildingOrientation.Rotate90MirrorX;
 			}
-			if (!horizontally && !vertically)
+			if (!horizontally)
 			{
-				yield return BuildingOrientation.MirrorXandY;
-			}
-			if (isRotating)
-			{
-				yield return BuildingOrientation.Rotate90;
+				yield return BuildingOrientation.Rotate90MirrorY;
 
 				if (!vertically)
 				{
-					yield return BuildingOrientation.Rotate90MirrorX;
-				}
-				if (!horizontally)
-				{
-					yield return BuildingOrientation.Rotate90MirrorY;
-
-					if (!vertically)
-					{
-						yield return BuildingOrientation.Rotate90MirrorXandY;
-					}
+					yield return BuildingOrientation.Rotate90MirrorXandY;
 				}
 			}
 		}
+	}
 
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"{nameof(BuildingTemplate)}({DisplayName})";
-		}
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		return $"{nameof(BuildingTemplate)}({DisplayName})";
 	}
 }

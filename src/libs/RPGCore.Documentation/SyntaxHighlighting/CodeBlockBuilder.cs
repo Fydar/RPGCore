@@ -1,94 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RPGCore.Documentation.SyntaxHighlighting
+namespace RPGCore.Documentation.SyntaxHighlighting;
+
+public class CodeBlockBuilder
 {
-	public class CodeBlockBuilder
+	private readonly List<CodeSpan> currentLine;
+	private readonly List<CodeSpan[]> lines;
+
+	public int Indent { get; }
+	public string Name { get; }
+
+	public CodeBlockBuilder(int indent)
 	{
-		private readonly List<CodeSpan> currentLine;
-		private readonly List<CodeSpan[]> lines;
+		currentLine = new List<CodeSpan>();
+		lines = new List<CodeSpan[]>();
+		Name = "";
+		Indent = indent;
+	}
 
-		public int Indent { get; }
-		public string Name { get; }
+	public CodeBlockBuilder(string name, int indent)
+	{
+		currentLine = new List<CodeSpan>();
+		lines = new List<CodeSpan[]>();
+		Name = name;
+		Indent = indent;
+	}
 
-		public CodeBlockBuilder(int indent)
+	public CodeBlock Build()
+	{
+		if (currentLine.Count > 0)
 		{
-			currentLine = new List<CodeSpan>();
-			lines = new List<CodeSpan[]>();
-			Name = "";
-			Indent = indent;
-		}
-
-		public CodeBlockBuilder(string name, int indent)
-		{
-			currentLine = new List<CodeSpan>();
-			lines = new List<CodeSpan[]>();
-			Name = name;
-			Indent = indent;
-		}
-
-		public CodeBlock Build()
-		{
-			if (currentLine.Count > 0)
+			bool empty = true;
+			foreach (var span in currentLine)
 			{
-				bool empty = true;
-				foreach (var span in currentLine)
-				{
-					empty &= string.IsNullOrWhiteSpace(span.Content);
-				}
-				if (!empty)
-				{
-					lines.Add(currentLine.ToArray());
-					currentLine.Clear();
-				}
+				empty &= string.IsNullOrWhiteSpace(span.Content);
 			}
-
-			return new CodeBlock(Name, lines.ToArray());
-		}
-
-		public override string ToString()
-		{
-			return Name;
-		}
-
-		public void Write(ReadOnlySpan<char> value)
-		{
-			Write(value, null, null);
-		}
-
-		public void Write(ReadOnlySpan<char> value, string? style)
-		{
-			Write(value, style, null);
-		}
-
-		public void Write(ReadOnlySpan<char> value, string? style, string? linkUrl)
-		{
-			while (true)
+			if (!empty)
 			{
-				int index = value.IndexOf(Environment.NewLine);
-				if (index == -1)
-				{
-					break;
-				}
-				var sliced = value[..index];
-				currentLine.Add(new CodeSpan(sliced.ToString(), style, linkUrl));
-				WriteNewline();
-				value = value[(index + Environment.NewLine.Length)..];
+				lines.Add(currentLine.ToArray());
+				currentLine.Clear();
 			}
-			currentLine.Add(new CodeSpan(value.ToString(), style, linkUrl));
 		}
 
-		public void RestartLine()
+		return new CodeBlock(Name, lines.ToArray());
+	}
+
+	public override string ToString()
+	{
+		return Name;
+	}
+
+	public void Write(ReadOnlySpan<char> value)
+	{
+		Write(value, null, null);
+	}
+
+	public void Write(ReadOnlySpan<char> value, string? style)
+	{
+		Write(value, style, null);
+	}
+
+	public void Write(ReadOnlySpan<char> value, string? style, string? linkUrl)
+	{
+		while (true)
 		{
-			currentLine.Clear();
+			int index = value.IndexOf(Environment.NewLine);
+			if (index == -1)
+			{
+				break;
+			}
+			var sliced = value[..index];
+			currentLine.Add(new CodeSpan(sliced.ToString(), style, linkUrl));
+			WriteNewline();
+			value = value[(index + Environment.NewLine.Length)..];
 		}
+		currentLine.Add(new CodeSpan(value.ToString(), style, linkUrl));
+	}
 
-		public void WriteNewline()
-		{
-			var addLine = currentLine.ToArray();
-			currentLine.Clear();
+	public void RestartLine()
+	{
+		currentLine.Clear();
+	}
 
-			lines.Add(addLine);
-		}
+	public void WriteNewline()
+	{
+		var addLine = currentLine.ToArray();
+		currentLine.Clear();
+
+		lines.Add(addLine);
 	}
 }

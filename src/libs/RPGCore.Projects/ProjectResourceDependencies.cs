@@ -3,81 +3,80 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace RPGCore.Projects
+namespace RPGCore.Projects;
+
+[DebuggerDisplay("Count = {Count,nq}")]
+[DebuggerTypeProxy(typeof(ProjectResourceDependenciesDebugView))]
+public sealed class ProjectResourceDependencies : IResourceDependencyCollection
 {
-	[DebuggerDisplay("Count = {Count,nq}")]
-	[DebuggerTypeProxy(typeof(ProjectResourceDependenciesDebugView))]
-	public sealed class ProjectResourceDependencies : IResourceDependencyCollection
+	private readonly ProjectExplorer projectExplorer;
+	internal readonly List<ProjectResourceDependency> dependencies;
+
+	public int Count => dependencies.Count;
+
+	public ProjectResourceDependency this[int index] => dependencies[index];
+
+	IResourceDependency IResourceDependencyCollection.this[int index] => this[index];
+
+	internal ProjectResourceDependencies(ProjectExplorer projectExplorer)
 	{
-		private readonly ProjectExplorer projectExplorer;
-		internal readonly List<ProjectResourceDependency> dependencies;
+		this.projectExplorer = projectExplorer;
+		dependencies = new List<ProjectResourceDependency>();
+	}
 
-		public int Count => dependencies.Count;
+	public IEnumerator<ProjectResourceDependency> GetEnumerator()
+	{
+		return dependencies.GetEnumerator();
+	}
 
-		public ProjectResourceDependency this[int index] => dependencies[index];
+	IEnumerator<IResourceDependency> IEnumerable<IResourceDependency>.GetEnumerator()
+	{
+		return dependencies.GetEnumerator();
+	}
 
-		IResourceDependency IResourceDependencyCollection.this[int index] => this[index];
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		return dependencies.GetEnumerator();
+	}
 
-		internal ProjectResourceDependencies(ProjectExplorer projectExplorer)
+	private class ProjectResourceDependenciesDebugView
+	{
+		[DebuggerDisplay("{Value}", Name = "{Key}")]
+		internal struct DebuggerRow
 		{
-			this.projectExplorer = projectExplorer;
-			dependencies = new List<ProjectResourceDependency>();
-		}
-
-		public IEnumerator<ProjectResourceDependency> GetEnumerator()
-		{
-			return dependencies.GetEnumerator();
-		}
-
-		IEnumerator<IResourceDependency> IEnumerable<IResourceDependency>.GetEnumerator()
-		{
-			return dependencies.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return dependencies.GetEnumerator();
-		}
-
-		private class ProjectResourceDependenciesDebugView
-		{
-			[DebuggerDisplay("{Value}", Name = "{Key}")]
-			internal struct DebuggerRow
-			{
-				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-				public string Key;
-
-				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-				public ProjectResourceDependency Value;
-			}
-
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			private readonly ProjectResourceDependencies source;
-
-			public ProjectResourceDependenciesDebugView(ProjectResourceDependencies source)
-			{
-				this.source = source;
-			}
+			public string Key;
 
 			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-			public DebuggerRow[] Keys
-			{
-				get
-				{
-					var keys = new DebuggerRow[source.dependencies.Count];
+			public ProjectResourceDependency Value;
+		}
 
-					int i = 0;
-					foreach (var dependency in source.dependencies)
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private readonly ProjectResourceDependencies source;
+
+		public ProjectResourceDependenciesDebugView(ProjectResourceDependencies source)
+		{
+			this.source = source;
+		}
+
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+		public DebuggerRow[] Keys
+		{
+			get
+			{
+				var keys = new DebuggerRow[source.dependencies.Count];
+
+				int i = 0;
+				foreach (var dependency in source.dependencies)
+				{
+					keys[i] = new DebuggerRow
 					{
-						keys[i] = new DebuggerRow
-						{
-							Key = dependency.Key,
-							Value = dependency
-						};
-						i++;
-					}
-					return keys;
+						Key = dependency.Key,
+						Value = dependency
+					};
+					i++;
 				}
+				return keys;
 			}
 		}
 	}

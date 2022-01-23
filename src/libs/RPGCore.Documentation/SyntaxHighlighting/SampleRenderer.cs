@@ -3,74 +3,58 @@ using System;
 using System.IO;
 using System.Xml;
 
-namespace RPGCore.Documentation.SyntaxHighlighting
+namespace RPGCore.Documentation.SyntaxHighlighting;
+
+public static class SampleRenderer
 {
-	public static class SampleRenderer
+	public static void ExportHtmlSample(string basePath, string filePath)
 	{
-		public static void ExportHtmlSample(string basePath, string filePath)
+		var sampleFile = new FileInfo(filePath);
+
+		string localPath = filePath[(basePath.Length + 1)..];
+		string localName = localPath.Replace(sampleFile.Extension, "");
+
+		string sampleContent = File.ReadAllText(sampleFile.FullName);
+
+		foreach (var builder in CSharpSyntax.ToCodeBlocks(sampleContent))
 		{
-			var sampleFile = new FileInfo(filePath);
-
-			string localPath = filePath[(basePath.Length + 1)..];
-			string localName = localPath.Replace(sampleFile.Extension, "");
-
-			string sampleContent = File.ReadAllText(sampleFile.FullName);
-
-			foreach (var builder in CSharpSyntax.ToCodeBlocks(sampleContent))
+			if (builder.Name == "")
 			{
-				if (builder.Name == "")
-				{
-					continue;
-				}
-
-				var destination = builder.Name == ""
-					? GetDestinationFile($"{localName}.svg")
-					: GetDestinationFile($"{localName}.{builder.Name}.svg");
-
-				destination.Directory?.Create();
-				destination.Delete();
-
-				using var fs = destination.OpenWrite();
-				using var sw = new StreamWriter(fs);
-				HtmlSampleRenderer(localName, builder, sw);
+				continue;
 			}
-		}
 
-		public static void ExportSvgSample(string basePath, string filePath)
-		{
-			var sampleFile = new FileInfo(filePath);
-
-			string localPath = filePath[(basePath.Length + 1)..];
-			string localName = localPath.Replace(sampleFile.Extension, "");
-
-			string sampleContent = File.ReadAllText(sampleFile.FullName);
-
-			foreach (var builder in CSharpSyntax.ToCodeBlocks(sampleContent))
-			{
-				if (builder.Name == "")
-				{
-					continue;
-				}
-
-				var destination = builder.Name == ""
-					? GetDestinationFile($"{localName}.svg")
-					: GetDestinationFile($"{localName}.{builder.Name}.svg");
-
-				destination.Directory?.Create();
-				destination.Delete();
-
-				using var fs = destination.OpenWrite();
-				using var sw = new StreamWriter(fs);
-
-				RenderToSvgGraphic(sw, builder);
-			}
-		}
-
-		public static void ExportSvgSample(CodeBlock codeBlock, string localName)
-		{
-			var destination = codeBlock.Name == ""
+			var destination = builder.Name == ""
 				? GetDestinationFile($"{localName}.svg")
-				: GetDestinationFile($"{localName}.{codeBlock.Name}.svg");
+				: GetDestinationFile($"{localName}.{builder.Name}.svg");
+
+			destination.Directory?.Create();
+			destination.Delete();
+
+			using var fs = destination.OpenWrite();
+			using var sw = new StreamWriter(fs);
+			HtmlSampleRenderer(localName, builder, sw);
+		}
+	}
+
+	public static void ExportSvgSample(string basePath, string filePath)
+	{
+		var sampleFile = new FileInfo(filePath);
+
+		string localPath = filePath[(basePath.Length + 1)..];
+		string localName = localPath.Replace(sampleFile.Extension, "");
+
+		string sampleContent = File.ReadAllText(sampleFile.FullName);
+
+		foreach (var builder in CSharpSyntax.ToCodeBlocks(sampleContent))
+		{
+			if (builder.Name == "")
+			{
+				continue;
+			}
+
+			var destination = builder.Name == ""
+				? GetDestinationFile($"{localName}.svg")
+				: GetDestinationFile($"{localName}.{builder.Name}.svg");
 
 			destination.Directory?.Create();
 			destination.Delete();
@@ -78,12 +62,28 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 			using var fs = destination.OpenWrite();
 			using var sw = new StreamWriter(fs);
 
-			RenderToSvgGraphic(sw, codeBlock);
+			RenderToSvgGraphic(sw, builder);
 		}
+	}
 
-		public static void HtmlSampleRenderer(string localName, CodeBlock builder, StreamWriter output)
-		{
-			output.Write($@"<!DOCTYPE html>
+	public static void ExportSvgSample(CodeBlock codeBlock, string localName)
+	{
+		var destination = codeBlock.Name == ""
+			? GetDestinationFile($"{localName}.svg")
+			: GetDestinationFile($"{localName}.{codeBlock.Name}.svg");
+
+		destination.Directory?.Create();
+		destination.Delete();
+
+		using var fs = destination.OpenWrite();
+		using var sw = new StreamWriter(fs);
+
+		RenderToSvgGraphic(sw, codeBlock);
+	}
+
+	public static void HtmlSampleRenderer(string localName, CodeBlock builder, StreamWriter output)
+	{
+		output.Write($@"<!DOCTYPE html>
 <html lang=""en"">
 <head>
 	<meta charset=""UTF-8"">
@@ -94,54 +94,54 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 <body>
 	<div class=""container"">");
 
-			HtmlSampleTableRenderer(output, builder);
+		HtmlSampleTableRenderer(output, builder);
 
-			output.Write(@"</div></body></html>");
-		}
+		output.Write(@"</div></body></html>");
+	}
 
-		public static void HtmlSampleTableRenderer(StreamWriter output, CodeBlock region)
+	public static void HtmlSampleTableRenderer(StreamWriter output, CodeBlock region)
+	{
+		output.WriteLine("<table class=\"code-table\">");
+
+		for (int i = 0; i < region.Lines.Length; i++)
 		{
-			output.WriteLine("<table class=\"code-table\">");
+			var line = region.Lines[i];
+			output.Write("\t<tr>\n\t\t<th>");
+			output.Write(i + 1);
+			output.Write("</th>\n\t\t<td>");
 
-			for (int i = 0; i < region.Lines.Length; i++)
+			foreach (var span in line)
 			{
-				var line = region.Lines[i];
-				output.Write("\t<tr>\n\t\t<th>");
-				output.Write(i + 1);
-				output.Write("</th>\n\t\t<td>");
-
-				foreach (var span in line)
+				if (span.Style == null)
 				{
-					if (span.Style == null)
-					{
-						output.Write(XmlEscape(span.Content));
-					}
-					else
-					{
-						output.Write("<span class=\"");
-						output.Write(span.Style);
-						output.Write("\">");
-						output.Write(XmlEscape(span.Content));
-						output.Write("</span>");
-					}
+					output.Write(XmlEscape(span.Content));
 				}
-				output.Write("</td>\n\t</tr>\n");
+				else
+				{
+					output.Write("<span class=\"");
+					output.Write(span.Style);
+					output.Write("\">");
+					output.Write(XmlEscape(span.Content));
+					output.Write("</span>");
+				}
 			}
-			output.WriteLine("</table>");
+			output.Write("</td>\n\t</tr>\n");
 		}
+		output.WriteLine("</table>");
+	}
 
-		public static void RenderToSvgGraphic(StreamWriter output, CodeBlock region)
-		{
-			double verticalPadding = 10.0;
-			double lineHeight = 21.0;
+	public static void RenderToSvgGraphic(StreamWriter output, CodeBlock region)
+	{
+		double verticalPadding = 10.0;
+		double lineHeight = 21.0;
 
-			double totalHeight = (region.Lines.Length * lineHeight) + (verticalPadding * 1.5);
+		double totalHeight = (region.Lines.Length * lineHeight) + (verticalPadding * 1.5);
 
-			output.Write(@"<svg viewBox=""0 0 1200 ");
-			output.Write(totalHeight);
-			output.Write(@""" width=""1200"" height=""");
-			output.Write(totalHeight);
-			output.Write(@""" xmlns =""http://www.w3.org/2000/svg"">
+		output.Write(@"<svg viewBox=""0 0 1200 ");
+		output.Write(totalHeight);
+		output.Write(@""" width=""1200"" height=""");
+		output.Write(totalHeight);
+		output.Write(@""" xmlns =""http://www.w3.org/2000/svg"">
 
 	<defs>
 		<clipPath id=""round-left-corners"">
@@ -175,94 +175,93 @@ namespace RPGCore.Documentation.SyntaxHighlighting
 	<rect x=""0"" y=""0"" width=""100%"" height=""100%"" rx=""8"" ry=""8"" class=""code-background"" />
 	<rect x=""0"" y=""0"" width=""46"" height=""100%"" class=""code-background-linenumber"" clip-path=""url(#round-left-corners)"" />");
 
-			for (int i = 0; i < region.Lines.Length; i++)
+		for (int i = 0; i < region.Lines.Length; i++)
+		{
+			double yOffset = (i * lineHeight) + verticalPadding;
+			output.Write($"\t<text x=\"38\" y=\"{yOffset}\" class=\"c-ln\">{i + 1}</text>\n");
+		}
+
+		for (int i = 0; i < region.Lines.Length; i++)
+		{
+			var line = region.Lines[i];
+
+			double yOffset = (i * lineHeight) + verticalPadding;
+			bool wroteStart = false;
+			for (int y = 0; y < line.Length; y++)
 			{
-				double yOffset = (i * lineHeight) + verticalPadding;
-				output.Write($"\t<text x=\"38\" y=\"{yOffset}\" class=\"c-ln\">{i + 1}</text>\n");
-			}
+				var span = line[y];
 
-			for (int i = 0; i < region.Lines.Length; i++)
-			{
-				var line = region.Lines[i];
+				string spanContent = span.Content;
+				spanContent = spanContent.Replace(' ', '\u00A0');
 
-				double yOffset = (i * lineHeight) + verticalPadding;
-				bool wroteStart = false;
-				for (int y = 0; y < line.Length; y++)
+				if (!wroteStart)
 				{
-					var span = line[y];
-
-					string spanContent = span.Content;
-					spanContent = spanContent.Replace(' ', '\u00A0');
-
-					if (!wroteStart)
-					{
-						output.Write($"\t<text x=\"64\" y=\"{yOffset}\" class=\"code\">");
-						wroteStart = true;
-					}
-
-					if (span.Style == null)
-					{
-						output.Write(XmlEscape(spanContent));
-					}
-					else
-					{
-						output.Write("<tspan class=\"");
-						output.Write(span.Style);
-						output.Write("\">");
-						output.Write(XmlEscape(spanContent));
-						output.Write("</tspan>");
-					}
-				}
-				if (wroteStart)
-				{
-					output.Write("</text>\n");
-				}
-			}
-			output.WriteLine("</svg>");
-		}
-
-		private static string XmlEscape(string unescaped)
-		{
-			var doc = new XmlDocument();
-			var node = doc.CreateElement("root");
-			node.InnerText = unescaped;
-			return node.InnerXml;
-		}
-
-		public static FileInfo GetSampleFile(string file)
-		{
-			var directory = FindRepositoryDirectory();
-			string sampleFile = Path.Combine(directory.FullName, "src/libs/RPGCore.Documentation/Samples", file);
-			return new FileInfo(sampleFile);
-		}
-
-		public static DirectoryInfo GetDestinationDirectory()
-		{
-			var directory = FindRepositoryDirectory();
-			string sampleFile = Path.Combine(directory.FullName, "docs/samples");
-			return new DirectoryInfo(sampleFile);
-		}
-
-		public static FileInfo GetDestinationFile(string file)
-		{
-			var directory = GetDestinationDirectory();
-			string sampleFile = Path.Combine(directory.FullName, file);
-			return new FileInfo(sampleFile);
-		}
-
-		public static DirectoryInfo FindRepositoryDirectory()
-		{
-			var directory = new DirectoryInfo(Environment.CurrentDirectory);
-			while (directory != null)
-			{
-				if (directory.Name.Equals("RPGCore", StringComparison.OrdinalIgnoreCase))
-				{
-					return directory;
+					output.Write($"\t<text x=\"64\" y=\"{yOffset}\" class=\"code\">");
+					wroteStart = true;
 				}
 
-				directory = directory.Parent;
+				if (span.Style == null)
+				{
+					output.Write(XmlEscape(spanContent));
+				}
+				else
+				{
+					output.Write("<tspan class=\"");
+					output.Write(span.Style);
+					output.Write("\">");
+					output.Write(XmlEscape(spanContent));
+					output.Write("</tspan>");
+				}
 			}
-			return directory;
+			if (wroteStart)
+			{
+				output.Write("</text>\n");
+			}
 		}
+		output.WriteLine("</svg>");
+	}
+
+	private static string XmlEscape(string unescaped)
+	{
+		var doc = new XmlDocument();
+		var node = doc.CreateElement("root");
+		node.InnerText = unescaped;
+		return node.InnerXml;
+	}
+
+	public static FileInfo GetSampleFile(string file)
+	{
+		var directory = FindRepositoryDirectory();
+		string sampleFile = Path.Combine(directory.FullName, "src/libs/RPGCore.Documentation/Samples", file);
+		return new FileInfo(sampleFile);
+	}
+
+	public static DirectoryInfo GetDestinationDirectory()
+	{
+		var directory = FindRepositoryDirectory();
+		string sampleFile = Path.Combine(directory.FullName, "docs/samples");
+		return new DirectoryInfo(sampleFile);
+	}
+
+	public static FileInfo GetDestinationFile(string file)
+	{
+		var directory = GetDestinationDirectory();
+		string sampleFile = Path.Combine(directory.FullName, file);
+		return new FileInfo(sampleFile);
+	}
+
+	public static DirectoryInfo FindRepositoryDirectory()
+	{
+		var directory = new DirectoryInfo(Environment.CurrentDirectory);
+		while (directory != null)
+		{
+			if (directory.Name.Equals("RPGCore", StringComparison.OrdinalIgnoreCase))
+			{
+				return directory;
+			}
+
+			directory = directory.Parent;
+		}
+		return directory;
 	}
 }

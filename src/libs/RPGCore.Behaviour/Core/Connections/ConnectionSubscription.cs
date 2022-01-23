@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+public readonly struct ConnectionSubscription
 {
-	public readonly struct ConnectionSubscription
+	public readonly INodeInstance Node;
+	public readonly List<Action> Callbacks;
+
+	public ConnectionSubscription(INodeInstance node)
 	{
-		public readonly INodeInstance Node;
-		public readonly List<Action> Callbacks;
+		Node = node;
+		Callbacks = new List<Action>();
+	}
 
-		public ConnectionSubscription(INodeInstance node)
-		{
-			Node = node;
-			Callbacks = new List<Action>();
-		}
-
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"{Node?.Template?.Id}: {Node?.Template.GetType().Name}";
-		}
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		return $"{Node?.Template?.Id}: {Node?.Template.GetType().Name}";
 	}
 }

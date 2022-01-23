@@ -1,8 +1,7 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public enum ProcedureResult
 {
-	public enum ProcedureResult
-	{
-		Success,
-		NotModified
-	}
+	Success,
+	NotModified
 }

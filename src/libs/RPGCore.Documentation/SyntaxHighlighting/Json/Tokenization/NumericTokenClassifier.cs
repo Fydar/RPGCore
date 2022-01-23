@@ -1,40 +1,39 @@
 ﻿using RPGCore.Documentation.SyntaxHighlighting.Internal;
 
-namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization
+namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization;
+
+internal class NumericTokenClassifier : ITokenClassifier
 {
-	internal class NumericTokenClassifier : ITokenClassifier
+	private bool isFirstCharacter;
+
+	/// <inheritdoc/>
+	public void Reset()
 	{
-		private bool isFirstCharacter;
+		isFirstCharacter = true;
+	}
 
-		/// <inheritdoc/>
-		public void Reset()
+	/// <inheritdoc/>
+	public ClassifierAction NextCharacter(char nextCharacter)
+	{
+		bool isMatched = char.IsDigit(nextCharacter)
+			|| nextCharacter == '.';
+
+		if (!isFirstCharacter)
 		{
-			isFirstCharacter = true;
+			if (!isMatched)
+			{
+				return ClassifierAction.TokenizeFromLast();
+			}
+		}
+		else if (nextCharacter == '-')
+		{
+			return ClassifierAction.ContinueReading();
 		}
 
-		/// <inheritdoc/>
-		public ClassifierAction NextCharacter(char nextCharacter)
-		{
-			bool isMatched = char.IsDigit(nextCharacter)
-				|| nextCharacter == '.';
+		isFirstCharacter = false;
 
-			if (!isFirstCharacter)
-			{
-				if (!isMatched)
-				{
-					return ClassifierAction.TokenizeFromLast();
-				}
-			}
-			else if (nextCharacter == '-')
-			{
-				return ClassifierAction.ContinueReading();
-			}
-
-			isFirstCharacter = false;
-
-			return isMatched
-				? ClassifierAction.ContinueReading()
-				: ClassifierAction.GiveUp();
-		}
+		return isMatched
+			? ClassifierAction.ContinueReading()
+			: ClassifierAction.GiveUp();
 	}
 }

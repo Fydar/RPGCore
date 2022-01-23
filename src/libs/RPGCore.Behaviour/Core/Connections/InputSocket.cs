@@ -1,25 +1,24 @@
 ﻿using RPGCore.Data;
 using System.Diagnostics;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+[EditableType]
+public readonly struct InputSocket
 {
-	[EditableType]
-	public readonly struct InputSocket
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	private readonly int internalConnectionId;
+
+	public int ConnectionId => internalConnectionId - 1;
+
+	public InputSocket(int connectionId)
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly int internalConnectionId;
+		internalConnectionId = connectionId + 1;
+	}
 
-		public int ConnectionId => internalConnectionId - 1;
-
-		public InputSocket(int connectionId)
-		{
-			internalConnectionId = connectionId + 1;
-		}
-
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"Input {ConnectionId}";
-		}
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		return $"Input {ConnectionId}";
 	}
 }

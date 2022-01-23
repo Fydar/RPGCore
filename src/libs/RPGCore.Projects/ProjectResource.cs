@@ -1,60 +1,59 @@
 using RPGCore.Packages;
 using System.Diagnostics;
 
-namespace RPGCore.Projects
+namespace RPGCore.Projects;
+
+public sealed class ProjectResource : IResource
 {
-	public sealed class ProjectResource : IResource
+	public string Name { get; }
+	public string FullName { get; }
+	public string Extension { get; }
+
+	public ProjectExplorer Explorer { get; }
+	public ProjectResourceContent Content { get; internal set; }
+	public ProjectDirectory Directory { get; }
+	public ProjectResourceDependencies Dependencies { get; }
+	public ProjectResourceDependencies Dependants { get; }
+	public ProjectResourceTags Tags { get; }
+
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IExplorer IResource.Explorer => Explorer;
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceContent IResource.Content => Content;
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IResource.Directory => Directory;
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencyCollection IResource.Dependencies => Dependencies;
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencyCollection IResource.Dependants => Dependants;
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
+
+	internal ProjectResource(ProjectExplorer explorer, ProjectDirectory directory, string fullName)
 	{
-		public string Name { get; }
-		public string FullName { get; }
-		public string Extension { get; }
+		Explorer = explorer;
+		Directory = directory;
 
-		public ProjectExplorer Explorer { get; }
-		public ProjectResourceContent Content { get; internal set; }
-		public ProjectDirectory Directory { get; }
-		public ProjectResourceDependencies Dependencies { get; }
-		public ProjectResourceDependencies Dependants { get; }
-		public ProjectResourceTags Tags { get; }
+		FullName = fullName;
+		Name = MakeName(fullName);
+		Extension = fullName.Substring(fullName.LastIndexOf('.'));
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IExplorer IResource.Explorer => Explorer;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceContent IResource.Content => Content;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IDirectory IResource.Directory => Directory;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencyCollection IResource.Dependencies => Dependencies;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceDependencyCollection IResource.Dependants => Dependants;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IResourceTags IResource.Tags => Tags;
+		Tags = new ProjectResourceTags();
+		Dependencies = new ProjectResourceDependencies(Explorer);
+		Dependants = new ProjectResourceDependencies(Explorer);
+	}
 
-		internal ProjectResource(ProjectExplorer explorer, ProjectDirectory directory, string fullName)
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		return FullName;
+	}
+
+	private string MakeName(string fullname)
+	{
+		int pathIndex = fullname.LastIndexOf('/');
+
+		if (pathIndex == -1)
 		{
-			Explorer = explorer;
-			Directory = directory;
-
-			FullName = fullName;
-			Name = MakeName(fullName);
-			Extension = fullName.Substring(fullName.LastIndexOf('.'));
-
-			Tags = new ProjectResourceTags();
-			Dependencies = new ProjectResourceDependencies(Explorer);
-			Dependants = new ProjectResourceDependencies(Explorer);
+			return fullname;
 		}
-
-		/// <inheritdoc/>
-		public override string ToString()
+		else
 		{
-			return FullName;
-		}
-
-		private string MakeName(string fullname)
-		{
-			int pathIndex = fullname.LastIndexOf('/');
-
-			if (pathIndex == -1)
-			{
-				return fullname;
-			}
-			else
-			{
-				return fullname.Substring(pathIndex + 1);
-			}
+			return fullname.Substring(pathIndex + 1);
 		}
 	}
 }

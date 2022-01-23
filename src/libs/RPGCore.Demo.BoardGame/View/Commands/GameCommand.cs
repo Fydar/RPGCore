@@ -1,6 +1,5 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public abstract class GameCommand
 {
-	public abstract class GameCommand
-	{
-	}
 }

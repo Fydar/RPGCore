@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace RPGCore.Behaviour
-{
-	public interface IConnectionTypeConverter : IConnection
-	{
-		Type ConvertFromType { get; }
-		Type ConvertToType { get; }
+namespace RPGCore.Behaviour;
 
-		void SetSource(IConnection source);
-	}
+public interface IConnectionTypeConverter : IConnection
+{
+	Type ConvertFromType { get; }
+	Type ConvertToType { get; }
+
+	void SetSource(IConnection source);
 }

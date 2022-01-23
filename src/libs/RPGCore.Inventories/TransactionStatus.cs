@@ -1,9 +1,8 @@
-namespace RPGCore.Inventory.Slots
+namespace RPGCore.Inventory.Slots;
+
+public enum TransactionStatus
 {
-	public enum TransactionStatus
-	{
-		None = 0,
-		Partial = 1,
-		Complete = 2
-	}
+	None = 0,
+	Partial = 1,
+	Complete = 2
 }

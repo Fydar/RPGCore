@@ -3,25 +3,24 @@ using RPGCore.Projects;
 using RPGCore.Projects.Pipeline;
 using System.Collections.Generic;
 
-namespace RPGCore.Demo.Inventory
+namespace RPGCore.Demo.Inventory;
+
+/// <summary>
+/// Tags all resources processed by this importer.
+/// </summary>
+public class TagAllProjectResourceImporter : IImportProcessor
 {
-	/// <summary>
-	/// Tags all resources processed by this importer.
-	/// </summary>
-	public class TagAllProjectResourceImporter : IImportProcessor
+	public bool CanProcess(IResource resource)
 	{
-		public bool CanProcess(IResource resource)
-		{
-			return true;
-		}
+		return true;
+	}
 
-		public IEnumerable<ProjectResourceUpdate> ProcessImport(ImportProcessorContext context, IResource resource)
-		{
-			var update = resource.AuthorUpdate();
+	public IEnumerable<ProjectResourceUpdate> ProcessImport(ImportProcessorContext context, IResource resource)
+	{
+		var update = resource.AuthorUpdate();
 
-			update.ImporterTags.Add("basic-tag");
+		update.ImporterTags.Add("basic-tag");
 
-			yield return update;
-		}
+		yield return update;
 	}
 }

@@ -1,29 +1,28 @@
 ﻿using System;
 
-namespace RPGCore.Behaviour
+namespace RPGCore.Behaviour;
+
+public readonly struct InputSource
 {
-	public readonly struct InputSource
+	public readonly INodeInstance Node;
+	public readonly OutputMap OutputInformation;
+
+	public InputSource(INodeInstance instance, OutputMap outputMapping)
 	{
-		public readonly INodeInstance Node;
-		public readonly OutputMap OutputInformation;
+		Node = instance ?? throw new ArgumentNullException(nameof(instance));
+		OutputInformation = outputMapping;
+	}
 
-		public InputSource(INodeInstance instance, OutputMap outputMapping)
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		if (Node == null)
 		{
-			Node = instance ?? throw new ArgumentNullException(nameof(instance));
-			OutputInformation = outputMapping;
+			return $"No Output";
 		}
-
-		/// <inheritdoc/>
-		public override string ToString()
+		else
 		{
-			if (Node == null)
-			{
-				return $"No Output";
-			}
-			else
-			{
-				return $"Output {OutputInformation.ConnectionId} from node {Node}";
-			}
+			return $"Output {OutputInformation.ConnectionId} from node {Node}";
 		}
 	}
 }

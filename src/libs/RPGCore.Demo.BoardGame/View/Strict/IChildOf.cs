@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public interface IChildOf<T>
 {
-	public interface IChildOf<T>
-	{
-		public T Parent { get; set; }
-	}
+	public T Parent { get; set; }
 }

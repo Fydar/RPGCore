@@ -1,37 +1,36 @@
 ﻿using RPGCore.Documentation.SyntaxHighlighting.Internal;
 
-namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization
+namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization;
+
+internal class WhitespaceTokenClassifier : ITokenClassifier
 {
-	internal class WhitespaceTokenClassifier : ITokenClassifier
+	protected bool IsFirstCharacter { get; private set; }
+
+	/// <inheritdoc/>
+	public void Reset()
 	{
-		protected bool IsFirstCharacter { get; private set; }
+		IsFirstCharacter = true;
+	}
 
-		/// <inheritdoc/>
-		public void Reset()
+	/// <inheritdoc/>
+	public ClassifierAction NextCharacter(char nextCharacter)
+	{
+		bool isMatched = char.IsWhiteSpace(nextCharacter)
+			&& nextCharacter != '\r'
+			&& nextCharacter != '\n';
+
+		if (!IsFirstCharacter)
 		{
-			IsFirstCharacter = true;
-		}
-
-		/// <inheritdoc/>
-		public ClassifierAction NextCharacter(char nextCharacter)
-		{
-			bool isMatched = char.IsWhiteSpace(nextCharacter)
-				&& nextCharacter != '\r'
-				&& nextCharacter != '\n';
-
-			if (!IsFirstCharacter)
+			if (!isMatched)
 			{
-				if (!isMatched)
-				{
-					return ClassifierAction.TokenizeFromLast();
-				}
+				return ClassifierAction.TokenizeFromLast();
 			}
-
-			IsFirstCharacter = false;
-
-			return isMatched
-				? ClassifierAction.ContinueReading()
-				: ClassifierAction.GiveUp();
 		}
+
+		IsFirstCharacter = false;
+
+		return isMatched
+			? ClassifierAction.ContinueReading()
+			: ClassifierAction.GiveUp();
 	}
 }

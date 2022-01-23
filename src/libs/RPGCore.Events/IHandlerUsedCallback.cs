@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Events
+﻿namespace RPGCore.Events;
+
+public interface IHandlerUsedCallback
 {
-	public interface IHandlerUsedCallback
-	{
-		void OnUse(IReadOnlyEventField field);
-	}
+	void OnUse(IReadOnlyEventField field);
 }

@@ -1,11 +1,10 @@
 ﻿using RPGCore.Items;
 
-namespace RPGCore.Inventory
-{
-	public interface IInventoryBehaviour
-	{
-		void OnItemEnter(IItem item);
+namespace RPGCore.Inventory;
 
-		void OnItemExit(IItem item);
-	}
+public interface IInventoryBehaviour
+{
+	void OnItemEnter(IItem item);
+
+	void OnItemExit(IItem item);
 }

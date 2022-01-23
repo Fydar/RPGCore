@@ -1,11 +1,10 @@
-﻿namespace RPGCore.Traits
+﻿namespace RPGCore.Traits;
+
+public enum StatModificationPhase
 {
-	public enum StatModificationPhase
-	{
-		None,
+	None,
 
-		Base,
+	Base,
 
-		Typical
-	}
+	Typical
 }

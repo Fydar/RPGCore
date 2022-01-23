@@ -4,123 +4,122 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 
-namespace RPGCore.FileTree.FileSystem
+namespace RPGCore.FileTree.FileSystem;
+
+public class FileSystemArchiveFile : IArchiveFile
 {
-	public class FileSystemArchiveFile : IArchiveFile
+	public FileSystemArchive Archive { get; }
+	public FileInfo FileInfo { get; internal set; }
+
+	/// <inheritdoc/>
+	public string Name { get; internal set; }
+
+	/// <inheritdoc/>
+	public string FullName { get; internal set; }
+
+	/// <inheritdoc/>
+	public string Extension { get; internal set; }
+
+	/// <inheritdoc/>
+	public long CompressedSize => FileInfo.Length;
+
+	/// <inheritdoc/>
+	public long UncompressedSize => FileInfo.Length;
+
+	public FileSystemArchiveDirectory Parent { get; private set; }
+
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchive IReadOnlyArchiveEntry.Archive => Archive;
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchiveEntry.Parent => Parent;
+
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchive IArchiveEntry.Archive => Archive;
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchiveEntry.Parent => Parent;
+
+	internal FileSystemArchiveFile(FileSystemArchive archive, FileSystemArchiveDirectory parent, FileInfo fileInfo)
 	{
-		public FileSystemArchive Archive { get; }
-		public FileInfo FileInfo { get; internal set; }
+		Archive = archive;
+		Parent = parent;
+		FileInfo = fileInfo;
 
-		/// <inheritdoc/>
-		public string Name { get; internal set; }
+		Name = fileInfo.Name;
+		FullName = MakeFullName(parent, fileInfo.Name);
+		Extension = fileInfo.Extension;
+	}
 
-		/// <inheritdoc/>
-		public string FullName { get; internal set; }
+	internal void MoveAndRename(FileSystemArchiveDirectory parent, FileInfo fileInfo)
+	{
+		Parent = parent;
+		Name = fileInfo.Name;
+		FullName = MakeFullName(parent, fileInfo.Name);
+		Extension = fileInfo.Extension;
+	}
 
-		/// <inheritdoc/>
-		public string Extension { get; internal set; }
+	Task IArchiveEntry.MoveInto(IArchiveDirectory destination, string name)
+	{
+		throw new System.NotImplementedException();
+	}
 
-		/// <inheritdoc/>
-		public long CompressedSize => FileInfo.Length;
+	/// <inheritdoc/>
+	public Task DeleteAsync()
+	{
+		return Task.Run(() => FileInfo.Delete());
+	}
 
-		/// <inheritdoc/>
-		public long UncompressedSize => FileInfo.Length;
+	/// <inheritdoc/>
+	public Task RenameAsync(string destination)
+	{
+		return Task.Run(() => FileInfo.MoveTo(destination));
+	}
 
-		public FileSystemArchiveDirectory Parent { get; private set; }
+	/// <inheritdoc/>
+	public Stream OpenRead()
+	{
+		return FileInfo.OpenRead();
+	}
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchive IReadOnlyArchiveEntry.Archive => Archive;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IReadOnlyArchiveDirectory IReadOnlyArchiveEntry.Parent => Parent;
+	/// <inheritdoc/>
+	public Stream OpenWrite()
+	{
+		FileInfo.Directory.Create();
+		return FileInfo.Open(FileMode.Create, FileAccess.Write);
+	}
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchive IArchiveEntry.Archive => Archive;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IArchiveDirectory IArchiveEntry.Parent => Parent;
+	/// <inheritdoc/>
+	public async Task CopyIntoAsync(IArchiveDirectory destination, string name)
+	{
+		var toFile = destination.Files.GetFile(Name);
 
-		internal FileSystemArchiveFile(FileSystemArchive archive, FileSystemArchiveDirectory parent, FileInfo fileInfo)
+		if (toFile is FileSystemArchiveFile toFileSystemFile)
 		{
-			Archive = archive;
-			Parent = parent;
-			FileInfo = fileInfo;
-
-			Name = fileInfo.Name;
-			FullName = MakeFullName(parent, fileInfo.Name);
-			Extension = fileInfo.Extension;
+			FileInfo.CopyTo(toFileSystemFile.FileInfo.FullName, true);
 		}
-
-		internal void MoveAndRename(FileSystemArchiveDirectory parent, FileInfo fileInfo)
+		else if (toFile is PackedArchiveFile toParckedFile)
 		{
-			Parent = parent;
-			Name = fileInfo.Name;
-			FullName = MakeFullName(parent, fileInfo.Name);
-			Extension = fileInfo.Extension;
+			toParckedFile.Archive.ZipArchive.CreateEntryFromFile(FileInfo.FullName, toFile.FullName);
 		}
-
-		Task IArchiveEntry.MoveInto(IArchiveDirectory destination, string name)
+		else
 		{
-			throw new System.NotImplementedException();
-		}
+			using var readStream = OpenRead();
+			using var writeStream = toFile.OpenWrite();
 
-		/// <inheritdoc/>
-		public Task DeleteAsync()
+			await readStream.CopyToAsync(writeStream);
+		}
+	}
+
+	private static string MakeFullName(IArchiveDirectory parent, string key)
+	{
+		if (parent == null || string.IsNullOrEmpty(parent.FullName))
 		{
-			return Task.Run(() => FileInfo.Delete());
+			return key;
 		}
-
-		/// <inheritdoc/>
-		public Task RenameAsync(string destination)
+		else
 		{
-			return Task.Run(() => FileInfo.MoveTo(destination));
+			return $"{parent.FullName}/{key}";
 		}
+	}
 
-		/// <inheritdoc/>
-		public Stream OpenRead()
-		{
-			return FileInfo.OpenRead();
-		}
-
-		/// <inheritdoc/>
-		public Stream OpenWrite()
-		{
-			FileInfo.Directory.Create();
-			return FileInfo.Open(FileMode.Create, FileAccess.Write);
-		}
-
-		/// <inheritdoc/>
-		public async Task CopyIntoAsync(IArchiveDirectory destination, string name)
-		{
-			var toFile = destination.Files.GetFile(Name);
-
-			if (toFile is FileSystemArchiveFile toFileSystemFile)
-			{
-				FileInfo.CopyTo(toFileSystemFile.FileInfo.FullName, true);
-			}
-			else if (toFile is PackedArchiveFile toParckedFile)
-			{
-				toParckedFile.Archive.ZipArchive.CreateEntryFromFile(FileInfo.FullName, toFile.FullName);
-			}
-			else
-			{
-				using var readStream = OpenRead();
-				using var writeStream = toFile.OpenWrite();
-
-				await readStream.CopyToAsync(writeStream);
-			}
-		}
-
-		private static string MakeFullName(IArchiveDirectory parent, string key)
-		{
-			if (parent == null || string.IsNullOrEmpty(parent.FullName))
-			{
-				return key;
-			}
-			else
-			{
-				return $"{parent.FullName}/{key}";
-			}
-		}
-
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return FullName;
-		}
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		return FullName;
 	}
 }

@@ -1,110 +1,110 @@
 using NUnit.Framework;
+using RPGCore.Events.Chaining;
 using System.Collections.Generic;
 
-namespace RPGCore.Events.UnitTests
+namespace RPGCore.Events.UnitTests;
+
+[TestFixture(TestOf = typeof(EventField<>))]
+public class EventFieldShould
 {
-	[TestFixture(TestOf = typeof(EventField<>))]
-	public class EventFieldShould
+	public class TestPlayer
 	{
-		public class TestPlayer
+		public EventField<TestWeapon> Mainhand;
+	}
+
+	public class TestWeapon
+	{
+		public EventField<int> Damage;
+	}
+
+	public class AddToListEventHandler<T> : IEventFieldHandler
+	{
+		private readonly IReadOnlyEventField<T> source;
+		private readonly List<T> target;
+
+		public AddToListEventHandler(IReadOnlyEventField<T> source, List<T> target)
 		{
-			public EventField<TestWeapon> Mainhand;
+			this.source = source;
+			this.target = target;
 		}
 
-		public class TestWeapon
+		public void OnAfterChanged()
 		{
-			public EventField<int> Damage;
+			target.Add(source.Value);
 		}
 
-		public class AddToListEventHandler<T> : IEventFieldHandler
-		{
-			private readonly IReadOnlyEventField<T> source;
-			private readonly List<T> target;
-
-			public AddToListEventHandler(IReadOnlyEventField<T> source, List<T> target)
-			{
-				this.source = source;
-				this.target = target;
-			}
-
-			public void OnAfterChanged()
-			{
-				target.Add(source.Value);
-			}
-
-			public void OnBeforeChanged()
-			{
-			}
-		}
-
-		[SetUp]
-		public void Setup()
+		public void OnBeforeChanged()
 		{
 		}
+	}
 
-		[Test, Parallelizable]
-		public void FireEvents()
+	[SetUp]
+	public void Setup()
+	{
+	}
+
+	[Test, Parallelizable]
+	public void FireEvents()
+	{
+		var target = new EventField<TestPlayer>();
+
+		var mainhand = target.Watch(e => e?.Mainhand);
+		var mainhandDamage = mainhand.Watch(e => e?.Damage);
+
+		var damages = new List<int>();
+
+		mainhandDamage.Handlers[this].Add(new AddToListEventHandler<int>(mainhandDamage, damages));
+
+		target.Value = new TestPlayer()
 		{
-			var target = new EventField<TestPlayer>();
-
-			var mainhand = target.Watch(e => e?.Mainhand);
-			var mainhandDamage = mainhand.Watch(e => e?.Damage);
-
-			var damages = new List<int>();
-
-			mainhandDamage.Handlers[this].Add(new AddToListEventHandler<int>(mainhandDamage, damages));
-
-			target.Value = new TestPlayer()
+			Mainhand = new EventField<TestWeapon>()
 			{
-				Mainhand = new EventField<TestWeapon>()
+				Value = new TestWeapon()
 				{
-					Value = new TestWeapon()
+					Damage = new EventField<int>()
 					{
-						Damage = new EventField<int>()
-						{
-							Value = 10
-						}
+						Value = 10
 					}
 				}
-			};
+			}
+		};
 
-			target.Value = new TestPlayer()
+		target.Value = new TestPlayer()
+		{
+			Mainhand = new EventField<TestWeapon>()
 			{
-				Mainhand = new EventField<TestWeapon>()
+				Value = new TestWeapon()
 				{
-					Value = new TestWeapon()
+					Damage = new EventField<int>()
 					{
-						Damage = new EventField<int>()
-						{
-							Value = 20
-						}
+						Value = 20
 					}
 				}
-			};
-
-			target.Value.Mainhand.Value = null;
-
-			target.Value.Mainhand.Value = new TestWeapon()
-			{
-				Damage = new EventField<int>()
-				{
-					Value = 25
-				}
-			};
-
-			target.Value.Mainhand.Value.Damage.Value = 15;
-
-			mainhandDamage.Handlers[this].Clear();
-
-			target.Value.Mainhand.Value.Damage.Value = 5;
-
-			int[] expectedValues = { 10, 20, 0, 25, 15 };
-			Assert.AreEqual(expectedValues.Length, damages.Count);
-			for (int i = 0; i < damages.Count; i++)
-			{
-				int damage = damages[i];
-				Assert.AreEqual(expectedValues[i], damage);
 			}
+		};
+
+		target.Value.Mainhand.Value = null;
+
+		target.Value.Mainhand.Value = new TestWeapon()
+		{
+			Damage = new EventField<int>()
+			{
+				Value = 25
+			}
+		};
+
+		target.Value.Mainhand.Value.Damage.Value = 15;
+
+		mainhandDamage.Handlers[this].Clear();
+
+		target.Value.Mainhand.Value.Damage.Value = 5;
+
+		int[] expectedValues = { 10, 20, 0, 25, 15 };
+		Assert.AreEqual(expectedValues.Length, damages.Count);
+		for (int i = 0; i < damages.Count; i++)
+		{
+			int damage = damages[i];
+			Assert.AreEqual(expectedValues[i], damage);
 		}
 	}
 }

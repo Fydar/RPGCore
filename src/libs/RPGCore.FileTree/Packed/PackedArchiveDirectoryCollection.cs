@@ -1,68 +1,67 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace RPGCore.FileTree.Packed
+namespace RPGCore.FileTree.Packed;
+
+public class PackedArchiveDirectoryCollection : IArchiveDirectoryCollection
 {
-	public class PackedArchiveDirectoryCollection : IArchiveDirectoryCollection
+	private readonly PackedArchive archive;
+	private readonly PackedArchiveDirectory owner;
+	internal readonly List<PackedArchiveDirectory> internalList;
+
+	/// <inheritdoc/>
+	public IEnumerable<PackedArchiveDirectory> All => internalList;
+
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IArchiveDirectory> IArchiveDirectoryCollection.All => internalList;
+
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IReadOnlyArchiveDirectory> IReadOnlyArchiveDirectoryCollection.All => internalList;
+
+	internal PackedArchiveDirectoryCollection(PackedArchive archive, PackedArchiveDirectory owner)
 	{
-		private readonly PackedArchive archive;
-		private readonly PackedArchiveDirectory owner;
-		internal readonly List<PackedArchiveDirectory> internalList;
+		this.archive = archive;
+		this.owner = owner;
 
-		/// <inheritdoc/>
-		public IEnumerable<PackedArchiveDirectory> All => internalList;
+		internalList = new List<PackedArchiveDirectory>();
+	}
 
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IArchiveDirectory> IArchiveDirectoryCollection.All => internalList;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)] IEnumerable<IReadOnlyArchiveDirectory> IReadOnlyArchiveDirectoryCollection.All => internalList;
-
-		internal PackedArchiveDirectoryCollection(PackedArchive archive, PackedArchiveDirectory owner)
+	/// <inheritdoc/>
+	public PackedArchiveDirectory? GetDirectory(string key)
+	{
+		foreach (var directory in internalList)
 		{
-			this.archive = archive;
-			this.owner = owner;
-
-			internalList = new List<PackedArchiveDirectory>();
-		}
-
-		/// <inheritdoc/>
-		public PackedArchiveDirectory? GetDirectory(string key)
-		{
-			foreach (var directory in internalList)
+			if (directory.Name == key)
 			{
-				if (directory.Name == key)
-				{
-					return directory;
-				}
+				return directory;
 			}
-			return null;
 		}
+		return null;
+	}
 
-		/// <inheritdoc/>
-		public PackedArchiveDirectory GetOrCreateDirectory(string key)
+	/// <inheritdoc/>
+	public PackedArchiveDirectory GetOrCreateDirectory(string key)
+	{
+		var directory = GetDirectory(key);
+
+		if (directory == null)
 		{
-			var directory = GetDirectory(key);
-
-			if (directory == null)
-			{
-				directory = new PackedArchiveDirectory(archive, owner, key);
-				internalList.Add(directory);
-			}
-			return directory;
+			directory = new PackedArchiveDirectory(archive, owner, key);
+			internalList.Add(directory);
 		}
+		return directory;
+	}
 
-		IReadOnlyArchiveDirectory? IReadOnlyArchiveDirectoryCollection.GetDirectory(string key)
-		{
-			return GetDirectory(key);
-		}
+	IReadOnlyArchiveDirectory? IReadOnlyArchiveDirectoryCollection.GetDirectory(string key)
+	{
+		return GetDirectory(key);
+	}
 
-		IArchiveDirectory? IArchiveDirectoryCollection.GetDirectory(string key)
-		{
-			return GetDirectory(key);
-		}
+	IArchiveDirectory? IArchiveDirectoryCollection.GetDirectory(string key)
+	{
+		return GetDirectory(key);
+	}
 
-		IArchiveDirectory IArchiveDirectoryCollection.GetOrCreateDirectory(string key)
-		{
-			return GetOrCreateDirectory(key);
-		}
+	IArchiveDirectory IArchiveDirectoryCollection.GetOrCreateDirectory(string key)
+	{
+		return GetOrCreateDirectory(key);
 	}
 }

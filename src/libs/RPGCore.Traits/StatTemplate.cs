@@ -1,26 +1,25 @@
-﻿namespace RPGCore.Traits
+﻿namespace RPGCore.Traits;
+
+public class StatTemplate
 {
-	public class StatTemplate
+	public string Name { get; set; }
+	public string Description { get; set; }
+
+	public float? MinValue { get; set; }
+	public float? MaxValue { get; set; }
+
+	public StatInstance CreateInstance(StatIdentifier identifier)
 	{
-		public string Name { get; set; }
-		public string Description { get; set; }
-
-		public float? MinValue { get; set; }
-		public float? MaxValue { get; set; }
-
-		public StatInstance CreateInstance(StatIdentifier identifier)
+		return new StatInstance()
 		{
-			return new StatInstance()
-			{
-				Identifier = identifier,
-				Template = this
-			};
-		}
+			Identifier = identifier,
+			Template = this
+		};
+	}
 
-		/// <inheritdoc/>
-		public override string ToString()
-		{
-			return $"StatTemplate({Name})";
-		}
+	/// <inheritdoc/>
+	public override string ToString()
+	{
+		return $"StatTemplate({Name})";
 	}
 }

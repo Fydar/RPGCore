@@ -1,37 +1,36 @@
 ﻿using RPGCore.Behaviour;
 
-namespace RPGCore.Demo.BoardGame
-{
-	public class GlobalBuildingInputNode : NodeTemplate<GlobalBuildingInputNode>
-	{
-		public OutputSocket Players;
-		public OutputSocket Building;
+namespace RPGCore.Demo.BoardGame;
 
-		public override Instance Create()
+public class GlobalBuildingInputNode : NodeTemplate<GlobalBuildingInputNode>
+{
+	public OutputSocket Players;
+	public OutputSocket Building;
+
+	public override Instance Create()
+	{
+		return new GlobalBuildingInputInstance();
+	}
+
+	public class GlobalBuildingInputInstance : Instance
+	{
+		public Output<LobbyPlayer[]> Players;
+		public Output<Building> Building;
+
+		public override InputMap[] Inputs(ConnectionMapper connections) => null;
+
+		public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
 		{
-			return new GlobalBuildingInputInstance();
+			connections.Connect(ref Template.Players, ref Players),
+			connections.Connect(ref Template.Building, ref Building)
+		};
+
+		public override void Setup()
+		{
 		}
 
-		public class GlobalBuildingInputInstance : Instance
+		public override void Remove()
 		{
-			public Output<LobbyPlayer[]> Players;
-			public Output<Building> Building;
-
-			public override InputMap[] Inputs(ConnectionMapper connections) => null;
-
-			public override OutputMap[] Outputs(ConnectionMapper connections) => new[]
-			{
-				connections.Connect(ref Template.Players, ref Players),
-				connections.Connect(ref Template.Building, ref Building)
-			};
-
-			public override void Setup()
-			{
-			}
-
-			public override void Remove()
-			{
-			}
 		}
 	}
 }

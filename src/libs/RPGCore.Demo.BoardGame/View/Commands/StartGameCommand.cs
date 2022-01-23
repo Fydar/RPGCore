@@ -1,6 +1,5 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public class StartGameCommand : GameCommand
 {
-	public class StartGameCommand : GameCommand
-	{
-	}
 }

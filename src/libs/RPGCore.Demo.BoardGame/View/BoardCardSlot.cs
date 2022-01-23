@@ -1,10 +1,9 @@
 ﻿using RPGCore.Behaviour;
 
-namespace RPGCore.Demo.BoardGame
+namespace RPGCore.Demo.BoardGame;
+
+public class BoardCardSlot
 {
-	public class BoardCardSlot
-	{
-		public string BuildingIdentifier { get; set; }
-		public GraphInstance BoardEffect { get; set; }
-	}
+	public string BuildingIdentifier { get; set; }
+	public GraphInstance BoardEffect { get; set; }
 }

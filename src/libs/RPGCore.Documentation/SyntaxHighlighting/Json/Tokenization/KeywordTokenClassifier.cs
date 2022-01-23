@@ -1,44 +1,43 @@
 ﻿using RPGCore.Documentation.SyntaxHighlighting.Internal;
 
-namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization
+namespace RPGCore.Documentation.SyntaxHighlighting.Json.Tokenization;
+
+internal class KeywordTokenClassifier : ITokenClassifier
 {
-	internal class KeywordTokenClassifier : ITokenClassifier
+	private int currentIndex = 0;
+
+	public string Keyword { get; }
+
+	public KeywordTokenClassifier(string keyword)
 	{
-		private int currentIndex = 0;
+		Keyword = keyword;
+	}
 
-		public string Keyword { get; }
+	/// <inheritdoc/>
+	public void Reset()
+	{
+		currentIndex = 0;
+	}
 
-		public KeywordTokenClassifier(string keyword)
+	/// <inheritdoc/>
+	public ClassifierAction NextCharacter(char nextCharacter)
+	{
+		if (currentIndex == Keyword.Length)
 		{
-			Keyword = keyword;
+			return char.IsLetterOrDigit(nextCharacter)
+				? ClassifierAction.GiveUp()
+				: ClassifierAction.TokenizeFromLast();
 		}
-
-		/// <inheritdoc/>
-		public void Reset()
+		else
 		{
-			currentIndex = 0;
-		}
-
-		/// <inheritdoc/>
-		public ClassifierAction NextCharacter(char nextCharacter)
-		{
-			if (currentIndex == Keyword.Length)
+			if (nextCharacter == Keyword[currentIndex])
 			{
-				return char.IsLetterOrDigit(nextCharacter)
-					? ClassifierAction.GiveUp()
-					: ClassifierAction.TokenizeFromLast();
+				currentIndex++;
+				return ClassifierAction.ContinueReading();
 			}
 			else
 			{
-				if (nextCharacter == Keyword[currentIndex])
-				{
-					currentIndex++;
-					return ClassifierAction.ContinueReading();
-				}
-				else
-				{
-					return ClassifierAction.GiveUp();
-				}
+				return ClassifierAction.GiveUp();
 			}
 		}
 	}

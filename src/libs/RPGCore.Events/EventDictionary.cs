@@ -1,65 +1,64 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace RPGCore.Events
+namespace RPGCore.Events;
+
+public sealed class EventDictionary<TKey, TValue> : IEventDictionary<TKey, TValue>
 {
-	public sealed class EventDictionary<TKey, TValue> : IEventDictionary<TKey, TValue>
+	private Dictionary<TKey, TValue> Collection { get; set; }
+
+	public int Count => Collection.Count;
+
+	public EventDictionaryHandlerCollection<TKey, TValue> Handlers { get; }
+
+	public TValue this[TKey key] => Collection[key];
+
+	public EventDictionary()
 	{
-		private Dictionary<TKey, TValue> Collection { get; set; }
+		Handlers = new EventDictionaryHandlerCollection<TKey, TValue>(this);
+		Collection = new Dictionary<TKey, TValue>();
+	}
 
-		public int Count => Collection.Count;
+	public bool ContainsKey(TKey key)
+	{
+		return Collection.ContainsKey(key);
+	}
 
-		public EventDictionaryHandlerCollection<TKey, TValue> Handlers { get; }
+	public void Add(TKey key, TValue value)
+	{
+		Collection.Add(key, value);
 
-		public TValue this[TKey key] => Collection[key];
+		Handlers.InvokeAdd(key, value);
+	}
 
-		public EventDictionary()
+	public bool Remove(TKey key)
+	{
+		if (!Collection.TryGetValue(key, out var eventObject))
 		{
-			Handlers = new EventDictionaryHandlerCollection<TKey, TValue>(this);
-			Collection = new Dictionary<TKey, TValue>();
+			return false;
 		}
 
-		public bool ContainsKey(TKey key)
+		bool result = Collection.Remove(key);
+		if (result)
 		{
-			return Collection.ContainsKey(key);
+			Handlers.InvokeRemoved(key, eventObject);
 		}
 
-		public void Add(TKey key, TValue value)
-		{
-			Collection.Add(key, value);
+		return result;
+	}
 
-			Handlers.InvokeAdd(key, value);
-		}
+	public bool TryGetValue(TKey key, out TValue value)
+	{
+		return Collection.TryGetValue(key, out value);
+	}
 
-		public bool Remove(TKey key)
-		{
-			if (!Collection.TryGetValue(key, out var eventObject))
-			{
-				return false;
-			}
+	public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+	{
+		return Collection.GetEnumerator();
+	}
 
-			bool result = Collection.Remove(key);
-			if (result)
-			{
-				Handlers.InvokeRemoved(key, eventObject);
-			}
-
-			return result;
-		}
-
-		public bool TryGetValue(TKey key, out TValue value)
-		{
-			return Collection.TryGetValue(key, out value);
-		}
-
-		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-		{
-			return Collection.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return Collection.GetEnumerator();
-		}
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		return Collection.GetEnumerator();
 	}
 }

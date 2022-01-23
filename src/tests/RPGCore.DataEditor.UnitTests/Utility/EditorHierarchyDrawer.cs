@@ -1,24 +1,23 @@
 ﻿using System.IO;
 
-namespace RPGCore.DataEditor.UnitTests.Utility
+namespace RPGCore.DataEditor.UnitTests.Utility;
+
+public static class EditorHierarchyDrawer
 {
-	public static class EditorHierarchyDrawer
+	public static void Write(TextWriter writer, IEditorValue editorValue)
 	{
-		public static void Write(TextWriter writer, IEditorValue editorValue)
+		switch (editorValue)
 		{
-			switch (editorValue)
-			{
-				case EditorObject editorObject:
+			case EditorObject editorObject:
 
-					writer.WriteLine("{");
-					foreach (var field in editorObject.Fields)
-					{
-						writer.WriteLine(field);
-					}
-					writer.WriteLine("}");
+				writer.WriteLine("{");
+				foreach (var field in editorObject.Fields)
+				{
+					writer.WriteLine(field);
+				}
+				writer.WriteLine("}");
 
-					break;
-			}
+				break;
 		}
 	}
 }

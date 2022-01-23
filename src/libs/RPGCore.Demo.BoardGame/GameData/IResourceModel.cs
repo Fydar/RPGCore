@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Demo.BoardGame
+﻿namespace RPGCore.Demo.BoardGame;
+
+public interface IResourceModel
 {
-	public interface IResourceModel
-	{
-		public string Identifier { get; set; }
-	}
+	public string Identifier { get; set; }
 }

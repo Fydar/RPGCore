@@ -1,20 +1,19 @@
 ﻿using NUnit.Framework;
 
-namespace RPGCore.DataEditor.UnitTests.Utility
+namespace RPGCore.DataEditor.UnitTests.Utility;
+
+public static class AssertUtility
 {
-	public static class AssertUtility
+	public static void AssertThatTypeIsEqualTo<A, B>(A source, out B output)
+		where B : A
 	{
-		public static void AssertThatTypeIsEqualTo<A, B>(A source, out B output)
-			where B : A
+		if (source is B casted)
 		{
-			if (source is B casted)
-			{
-				output = casted;
-			}
-			else
-			{
-				throw new AssertionException($"Object was of the wrong type.");
-			}
+			output = casted;
+		}
+		else
+		{
+			throw new AssertionException($"Object was of the wrong type.");
 		}
 	}
 }

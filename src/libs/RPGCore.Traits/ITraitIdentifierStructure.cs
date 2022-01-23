@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Traits
-{
-	public interface ITraitIdentifierStructure
-	{
+﻿namespace RPGCore.Traits;
 
-	}
+public interface ITraitIdentifierStructure
+{
+
 }

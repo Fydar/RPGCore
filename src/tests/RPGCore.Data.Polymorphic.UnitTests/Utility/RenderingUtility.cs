@@ -1,24 +1,23 @@
 ﻿using RPGCore.Data.Polymorphic;
 using System.IO;
 
-namespace RPGCore.Data.UnitTests.Utility
+namespace RPGCore.Data.UnitTests.Utility;
+
+public static class RenderingUtility
 {
-	public static class RenderingUtility
+	public static void RenderConfiguration(TextWriter output, PolymorphicOptions options)
 	{
-		public static void RenderConfiguration(TextWriter output, PolymorphicOptions options)
+		output.WriteLine($"Descriminator: {options.DescriminatorName}");
+		output.WriteLine($"Case Insensitive: {options.CaseInsensitive}");
+		output.WriteLine();
+
+		foreach (var baseType in options.BaseTypes)
 		{
-			output.WriteLine($"Descriminator: {options.DescriminatorName}");
-			output.WriteLine($"Case Insensitive: {options.CaseInsensitive}");
-			output.WriteLine();
+			output.WriteLine(baseType.BaseType.Name);
 
-			foreach (var baseType in options.BaseTypes)
+			foreach (var subType in baseType.SubTypes)
 			{
-				output.WriteLine(baseType.BaseType.Name);
-
-				foreach (var subType in baseType.SubTypes)
-				{
-					output.WriteLine($"- {subType.Name} ({string.Join(", ", subType.Aliases)})");
-				}
+				output.WriteLine($"- {subType.Name} ({string.Join(", ", subType.Aliases)})");
 			}
 		}
 	}

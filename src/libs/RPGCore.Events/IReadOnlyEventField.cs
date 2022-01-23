@@ -1,12 +1,11 @@
-﻿namespace RPGCore.Events
-{
-	public interface IReadOnlyEventField : IEventWrapper
-	{
-		EventFieldHandlerCollection Handlers { get; }
-	}
+﻿namespace RPGCore.Events;
 
-	public interface IReadOnlyEventField<T> : IReadOnlyEventField
-	{
-		T? Value { get; }
-	}
+public interface IReadOnlyEventField : IEventWrapper
+{
+	EventFieldHandlerCollection Handlers { get; }
+}
+
+public interface IReadOnlyEventField<T> : IReadOnlyEventField
+{
+	T? Value { get; }
 }

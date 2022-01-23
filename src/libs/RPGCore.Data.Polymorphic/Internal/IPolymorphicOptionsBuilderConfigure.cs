@@ -1,7 +1,6 @@
-﻿namespace RPGCore.Data.Polymorphic
-{
-	internal interface IPolymorphicOptionsBuilderConfigure
-	{
+﻿namespace RPGCore.Data.Polymorphic.Internal;
 
-	}
+internal interface IPolymorphicOptionsBuilderConfigure
+{
+
 }
