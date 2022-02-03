@@ -19,6 +19,10 @@ public class TypeFullNameNamingConvention : ITypeNamingConvention
 	/// <returns>A <see cref="string"/> in the format of the <paramref name="type"/> <see cref="Type.FullName"/>.</returns>
 	public string GetNameForType(Type type)
 	{
-		return type.FullName;
+		if (!type.IsGenericType)
+		{
+			return type.FullName;
+		}
+		return GenericNames.ToGenericFullname(type);
 	}
 }

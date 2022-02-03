@@ -20,6 +20,10 @@ public class TypeNameNamingConvention : ITypeNamingConvention
 	/// <returns>A <see cref="string"/> in the format of the <paramref name="type"/> <see cref="MemberInfo.Name"/>.</returns>
 	public string GetNameForType(Type type)
 	{
-		return type.Name;
+		if (!type.IsGenericType)
+		{
+			return type.Name;
+		}
+		return GenericNames.ToGenericName(type);
 	}
 }
