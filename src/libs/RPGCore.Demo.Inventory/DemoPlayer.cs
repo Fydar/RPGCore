@@ -1,17 +1,13 @@
-﻿using RPGCore.Behaviour;
-using RPGCore.Events;
-using System.Collections.Generic;
+﻿using RPGCore.Events;
 
 namespace RPGCore.Demo.Inventory;
 
 public class DemoPlayer
 {
-	public List<INodeInstance> behaviours;
 	public EventField<int> Health;
 
 	public DemoPlayer()
 	{
-		behaviours = new List<INodeInstance>();
 		Health = new EventField<int>
 		{
 			Value = 100

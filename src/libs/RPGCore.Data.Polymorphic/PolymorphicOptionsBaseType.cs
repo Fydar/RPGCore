@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RPGCore.Data.Polymorphic;
 
@@ -8,6 +9,7 @@ namespace RPGCore.Data.Polymorphic;
 /// </summary>
 public sealed class PolymorphicOptionsBaseType
 {
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	internal readonly Dictionary<Type, PolymorphicOptionsSubType> subTypes;
 
 	/// <summary>

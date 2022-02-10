@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Deterministic>true</Deterministic>
     <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
     <ProjectType>library</ProjectType>
   </PropertyGroup>
 
@@ -15,10 +15,13 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RPGCore.Data\RPGCore.Data.csproj" />
+    <ProjectReference Include="..\RPGCore.Data.Polymorphic\RPGCore.Data.Polymorphic.csproj" />
+    <ProjectReference Include="..\RPGCore.Data.Polymorphic.SystemTextJson\RPGCore.Data.Polymorphic.SystemTextJson.csproj" />
     <ProjectReference Include="..\RPGCore.Events\RPGCore.Events.csproj" />
   </ItemGroup>
 

@@ -53,6 +53,11 @@ internal class PolymorphicOptionsBuilderKnownBaseType : IPolymorphicOptionsBuild
 	/// <param name="options">Options used to configure how the sub-type behaves when used by this <see cref="Type"/>.</param>
 	public void UseSubType(Type subType, Action<PolymorphicOptionsBuilderExplicitType> options)
 	{
+		if (subType.IsGenericTypeDefinition)
+		{
+			throw new ArgumentException($"The type '{subType.FullName}' cannot be used as it's a generic type definition.", nameof(subType));
+		}
+
 		configures.Add(new PolymorphicOptionsBuilderConfigureUseSubType(subType, options));
 	}
 

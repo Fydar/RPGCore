@@ -13,8 +13,8 @@ public class LocalIdShould
 		string upperHex = original.ToString("X2");
 		string lowerHex = original.ToString("x2");
 
-		var upperId = new LocalId(upperHex);
-		var lowerId = new LocalId(lowerHex);
+		_ = LocalId.TryParse(upperHex, out var upperId);
+		_ = LocalId.TryParse(lowerHex, out var lowerId);
 
 		Assert.AreEqual(upperId, lowerId);
 	}
@@ -22,7 +22,7 @@ public class LocalIdShould
 	[Test, Parallelizable]
 	public void MatchesIntegerLiteral()
 	{
-		var stringLiteral = new LocalId("0xff001000");
+		_ = LocalId.TryParse("0xff001000", out var stringLiteral);
 		var integerLiteral = new LocalId(0xff001000);
 
 		Assert.AreEqual(stringLiteral, integerLiteral);
@@ -36,8 +36,8 @@ public class LocalIdShould
 		string unprefixed = original.ToString("x2");
 		string prefixed = "0x" + unprefixed;
 
-		var prefixedId = new LocalId(prefixed);
-		var unprefixedId = new LocalId(unprefixed);
+		_ = LocalId.TryParse(prefixed, out var prefixedId);
+		_ = LocalId.TryParse(unprefixed, out var unprefixedId);
 
 		Assert.AreEqual(prefixedId, unprefixedId);
 	}

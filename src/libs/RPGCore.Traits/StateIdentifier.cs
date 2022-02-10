@@ -24,6 +24,7 @@ public readonly struct StateIdentifier : IEquatable<StateIdentifier>
 		return obj is StateIdentifier identifier && Equals(identifier);
 	}
 
+	/// <inheritdoc/>
 	public bool Equals(StateIdentifier other)
 	{
 		return Identifer == other.Identifer;

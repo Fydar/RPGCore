@@ -1,8 +1,5 @@
-﻿using RPGCore.Behaviour;
+﻿namespace RPGCore.Behaviour.UnitTests.Nodes;
 
-namespace RPGCore.Documentation.Samples.RPGCore.Behaviour.AddNodeSample;
-
-#region node
 public class AddNode : Node
 {
 	public IInput<int> ValueA { get; init; } = new DefaultInput<int>(10);
@@ -40,4 +37,3 @@ public class AddNode : Node
 		}
 	}
 }
-#endregion
