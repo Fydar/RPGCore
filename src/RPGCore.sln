@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29020.237
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32317.152
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F12F88D8-C148-4DA1-9953-CA2C29A25E2A}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,12 +15,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor", "libs\RPGCore.DataEditor\RPGCore.DataEditor.csproj", "{E08E4EC4-FE45-4929-B4C9-29A5D346D1F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.DataEditor.UnitTests", "tests\RPGCore.DataEditor.UnitTests\RPGCore.DataEditor.UnitTests.csproj", "{69377F21-B40F-4A90-9839-3CC21F59D9F0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame", "libs\RPGCore.Demo.BoardGame\RPGCore.Demo.BoardGame.csproj", "{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame.CommandLine", "samples\RPGCore.Demo.BoardGame.CommandLine\RPGCore.Demo.BoardGame.CommandLine.csproj", "{812B4171-BA11-444C-86BA-123F4A9501B3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.BoardGame.UnitTests", "tests\RPGCore.Demo.BoardGame.UnitTests\RPGCore.Demo.BoardGame.UnitTests.csproj", "{AC5A14C4-6B21-4D04-9D47-D7A67478B763}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPGCore.Demo.Inventory", "libs\RPGCore.Demo.Inventory\RPGCore.Demo.Inventory.csproj", "{3886077F-F28A-485A-9F16-CD105DC075A7}"
 EndProject
@@ -119,30 +113,6 @@ Global
 		{69377F21-B40F-4A90-9839-3CC21F59D9F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69377F21-B40F-4A90-9839-3CC21F59D9F0}.Release|x64.ActiveCfg = Release|Any CPU
 		{69377F21-B40F-4A90-9839-3CC21F59D9F0}.Release|x64.Build.0 = Release|Any CPU
-		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Debug|x64.Build.0 = Debug|Any CPU
-		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Release|x64.ActiveCfg = Release|Any CPU
-		{B2364FC4-25B2-49E9-99AE-BDD1B674F7F8}.Release|x64.Build.0 = Release|Any CPU
-		{812B4171-BA11-444C-86BA-123F4A9501B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{812B4171-BA11-444C-86BA-123F4A9501B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{812B4171-BA11-444C-86BA-123F4A9501B3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{812B4171-BA11-444C-86BA-123F4A9501B3}.Debug|x64.Build.0 = Debug|Any CPU
-		{812B4171-BA11-444C-86BA-123F4A9501B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{812B4171-BA11-444C-86BA-123F4A9501B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{812B4171-BA11-444C-86BA-123F4A9501B3}.Release|x64.ActiveCfg = Release|Any CPU
-		{812B4171-BA11-444C-86BA-123F4A9501B3}.Release|x64.Build.0 = Release|Any CPU
-		{AC5A14C4-6B21-4D04-9D47-D7A67478B763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC5A14C4-6B21-4D04-9D47-D7A67478B763}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC5A14C4-6B21-4D04-9D47-D7A67478B763}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{AC5A14C4-6B21-4D04-9D47-D7A67478B763}.Debug|x64.Build.0 = Debug|Any CPU
-		{AC5A14C4-6B21-4D04-9D47-D7A67478B763}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC5A14C4-6B21-4D04-9D47-D7A67478B763}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC5A14C4-6B21-4D04-9D47-D7A67478B763}.Release|x64.ActiveCfg = Release|Any CPU
-		{AC5A14C4-6B21-4D04-9D47-D7A67478B763}.Release|x64.Build.0 = Release|Any CPU
 		{3886077F-F28A-485A-9F16-CD105DC075A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3886077F-F28A-485A-9F16-CD105DC075A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3886077F-F28A-485A-9F16-CD105DC075A7}.Debug|x64.ActiveCfg = Debug|Any CPU
