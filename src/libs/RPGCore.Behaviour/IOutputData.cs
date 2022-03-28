@@ -2,5 +2,5 @@
 
 public interface IOutputData
 {
-
+	bool HasChanged { get; set; }
 }

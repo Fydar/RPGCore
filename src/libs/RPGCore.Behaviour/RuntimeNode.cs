@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RPGCore.Behaviour;
 
@@ -39,23 +40,28 @@ public struct RuntimeNode<TNode>
 		if (inputSocket is ConnectedInput<TType> connectedInput)
 		{
 			string outputIdentifier = connectedInput.Path.ToString();
+			var outputPath = new LocalPropertyId(outputIdentifier);
 
-			if (GraphRuntime.Data.Outputs.TryGetValue(outputIdentifier, out var outputData))
+			ref var nodeData = ref GraphRuntime.GraphRuntimeData.GetNode(outputPath.TargetIdentifier.ToString());
+
+			if (nodeData.Outputs == null)
+			{
+				nodeData.Outputs = new Dictionary<string, IOutputData>();
+			}
+
+			if (nodeData.Outputs.TryGetValue(outputPath.PropertyPath[0], out var outputData))
 			{
 				var castedOutputData = outputData as Output<TType>.OutputData;
-				socket = new GraphRuntimeInput<TType>(GraphRuntime.Data, inputSocket, castedOutputData.Value, false);
+				socket = new GraphRuntimeInput<TType>(GraphRuntime.GraphRuntimeData, inputSocket, castedOutputData.Value, false);
 			}
 			else
 			{
-				var castedOutputData = new Output<TType>.OutputData();
-				GraphRuntime.Data.Outputs.Add(outputIdentifier, castedOutputData);
-
-				socket = new GraphRuntimeInput<TType>(GraphRuntime.Data, inputSocket, castedOutputData.Value, false);
+				throw new InvalidOperationException("Failed to locate Output that the input is connected to.");
 			}
 		}
 		else if (inputSocket is DefaultInput<TType> defaultInput)
 		{
-			socket = new GraphRuntimeInput<TType>(GraphRuntime.Data, inputSocket, defaultInput.DefaultValue, false);
+			socket = new GraphRuntimeInput<TType>(GraphRuntime.GraphRuntimeData, inputSocket, defaultInput.DefaultValue, false);
 		}
 	}
 
@@ -87,9 +93,14 @@ public struct RuntimeNode<TNode>
 			}
 		}
 
-		string outputIdentifier = $"{Node.Id}.{outputDefinition.Name}";
+		ref var nodeData = ref GraphRuntime.GraphRuntimeData.GetNode(Node.Id);
 
-		if (GraphRuntime.Data.Outputs.TryGetValue(outputIdentifier, out var outputData))
+		if (nodeData.Outputs == null)
+		{
+			nodeData.Outputs = new Dictionary<string, IOutputData>();
+		}
+
+		if (nodeData.Outputs.TryGetValue(outputDefinition.Name, out var outputData))
 		{
 			var castedOutputData = outputData as Output<TType>.OutputData;
 			socket = new GraphRuntimeOutput<TType>(castedOutputData);
@@ -97,23 +108,17 @@ public struct RuntimeNode<TNode>
 		else
 		{
 			var castedOutputData = new Output<TType>.OutputData();
-			GraphRuntime.Data.Outputs.Add(outputIdentifier, castedOutputData);
+			nodeData.Outputs.Add(outputDefinition.Name, castedOutputData);
 
 			socket = new GraphRuntimeOutput<TType>(castedOutputData);
 		}
 	}
 
-	public ref TNodeData GetNodeInstanceData<TNodeData>()
-		where TNodeData : struct, INodeData
+	public ref TComponent GetComponent<TComponent>()
+		where TComponent : struct, IRuntimeNodeComponent
 	{
-		if (!GraphRuntime.Data.Nodes.TryGetValue(Node.Id, out var nodeData))
-		{
-			nodeData = new TNodeData();
-			GraphRuntime.Data.Nodes.Add(Node.Id, nodeData);
-		}
+		ref var nodeData = ref GraphRuntime.GraphRuntimeData.GetNode(Node.Id);
 
-		var array = new TNodeData[1];
-
-		return ref array[0];
+		return ref nodeData.GetComponent<TComponent>();
 	}
 }

@@ -2,9 +2,9 @@
 
 public class AddNode : Node
 {
-	public IInput<int> ValueA { get; init; } = new DefaultInput<int>(10);
-	public IInput<int> ValueB { get; init; } = new DefaultInput<int>(10);
-	public Output<int> Output { get; init; } = new Output<int>();
+	public IInput<int> ValueA { get; set; } = new DefaultInput<int>(10);
+	public IInput<int> ValueB { get; set; } = new DefaultInput<int>(10);
+	public Output<int> Output { get; set; } = new Output<int>();
 
 	public override NodeDefinition CreateDefinition()
 	{

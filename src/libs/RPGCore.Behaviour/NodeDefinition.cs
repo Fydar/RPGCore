@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RPGCore.Behaviour;
 
@@ -15,6 +16,11 @@ public sealed class NodeDefinition
 	public NodeRuntime Runtime { get; }
 
 	/// <summary>
+	/// Definitions of all components that the runtime node interface with.
+	/// </summary>
+	public IReadOnlyList<Type> Components { get; }
+
+	/// <summary>
 	/// Definitions of all inputs from the node this <see cref="NodeDefinition"/> was created from.
 	/// </summary>
 	public IReadOnlyList<NodeInputDefinition> Inputs { get; }
@@ -27,11 +33,13 @@ public sealed class NodeDefinition
 	internal NodeDefinition(
 		Node node,
 		NodeRuntime runtime,
+		IReadOnlyList<Type> components,
 		IReadOnlyList<NodeInputDefinition> inputs,
 		IReadOnlyList<NodeOutputDefinition> outputs)
 	{
 		Node = node;
 		Runtime = runtime;
+		Components = components;
 		Inputs = inputs;
 		Outputs = outputs;
 	}

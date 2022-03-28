@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGCore.Behaviour.Fluent;
+using System;
 
 namespace RPGCore.Behaviour;
 
@@ -34,5 +35,14 @@ public sealed class Graph
 	public GraphDefinition CreateDefinition()
 	{
 		return new GraphDefinition(this);
+	}
+
+	/// <summary>
+	/// Constructs a new instance of a <see cref="Graph"/> via a <see cref="GraphBuilder"/>.
+	/// </summary>
+	/// <returns>A <see cref="GraphBuilder"/> for use in constructing a <see cref="Graph"/>.</returns>
+	public static GraphBuilder Create()
+	{
+		return new GraphBuilder();
 	}
 }

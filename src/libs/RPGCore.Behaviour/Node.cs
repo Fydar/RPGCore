@@ -1,4 +1,5 @@
 ﻿using RPGCore.Data.Polymorphic.Inline;
+using System.Text.Json.Serialization;
 
 namespace RPGCore.Behaviour;
 
@@ -11,6 +12,7 @@ public abstract class Node
 	/// <summary>
 	/// An identifier for this <see cref="Node"/> contained within the <see cref="Graph"/>.
 	/// </summary>
+	[JsonPropertyOrder(-1000)]
 	public string Id { get; set; } = string.Empty;
 
 	/// <summary>

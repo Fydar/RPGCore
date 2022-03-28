@@ -2,48 +2,22 @@
 
 public struct GraphRuntime
 {
-	public GraphEngine Engine { get; }
+	public GraphEngine GraphEngine { get; }
 	public GraphDefinition GraphDefinition { get; }
-	public GraphRuntimeData Data { get; }
+	public GraphRuntimeData GraphRuntimeData { get; }
 
 	internal GraphRuntime(
-		GraphEngine engine,
+		GraphEngine graphEngine,
 		GraphDefinition graphDefinition,
-		GraphRuntimeData data)
+		GraphRuntimeData graphRuntimeData)
 	{
-		Engine = engine;
+		GraphEngine = graphEngine;
 		GraphDefinition = graphDefinition;
-		Data = data;
+		GraphRuntimeData = graphRuntimeData;
 	}
 
-	public void Enable()
+	public GraphRuntimeMutationScope Mutate()
 	{
-		for (int i = 0; i < GraphDefinition.NodeDefinitions.Count; i++)
-		{
-			var nodeDefinition = GraphDefinition.NodeDefinitions[i];
-			nodeDefinition.Runtime.OnEnable(new RuntimeNode(this, nodeDefinition.Node));
-		}
-	}
-
-	public void Disable()
-	{
-		for (int i = 0; i < GraphDefinition.NodeDefinitions.Count; i++)
-		{
-			var nodeDefinition = GraphDefinition.NodeDefinitions[i];
-			nodeDefinition.Runtime.OnDisable(new RuntimeNode(this, nodeDefinition.Node));
-		}
-	}
-
-	public RuntimeNode<TNode>? GetNode<TNode>()
-		where TNode : Node
-	{
-		foreach (var node in GraphDefinition.NodeDefinitions)
-		{
-			if (node is TNode typedNode)
-			{
-				return new RuntimeNode<TNode>(this, typedNode);
-			}
-		}
-		return null;
+		return new GraphRuntimeMutationScope(this);
 	}
 }

@@ -9,5 +9,8 @@ public sealed class Output<TType> : IOutput
 	{
 		[JsonPropertyName("value")]
 		public TType Value { get; set; }
+
+		[JsonIgnore]
+		public bool HasChanged { get; set; }
 	}
 }

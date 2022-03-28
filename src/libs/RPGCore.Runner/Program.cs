@@ -5,8 +5,6 @@ namespace RPGCore.Runner;
 
 internal sealed class Program
 {
-	public static Simulator simulator;
-
 	private static void Main(string[] args)
 	{
 		Console.ForegroundColor = ConsoleColor.Gray;
@@ -24,9 +22,6 @@ internal sealed class Program
 			directory = new DirectoryInfo("RPGCoreUnity/Content");
 		}
 		Directory.SetCurrentDirectory(directory.Parent.FullName);
-
-		simulator = new Simulator();
-		simulator.Start();
 
 		Console.ReadLine();
 	}

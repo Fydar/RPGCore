@@ -7,6 +7,7 @@ namespace RPGCore.Behaviour;
 public sealed class NodeDefinitionBuilder
 {
 	private readonly Node node;
+	private readonly List<Type> components = new();
 	private readonly List<NodeInputDefinition> inputs = new();
 	private readonly List<NodeOutputDefinition> outputs = new();
 	private NodeRuntime? runtime;
@@ -14,6 +15,13 @@ public sealed class NodeDefinitionBuilder
 	internal NodeDefinitionBuilder(Node node)
 	{
 		this.node = node;
+	}
+
+	public NodeDefinitionBuilder UseComponent<TComponent>()
+		where TComponent : struct, IRuntimeNodeComponent
+	{
+		components.Add(typeof(TComponent));
+		return this;
 	}
 
 	public NodeDefinitionBuilder UseInput<TModel>(IInput<TModel> input)
@@ -45,6 +53,6 @@ public sealed class NodeDefinitionBuilder
 		{
 			throw new InvalidOperationException($"Cannot finalise construction of a {nameof(NodeDefinition)} as no {nameof(NodeRuntime)} is specified.");
 		}
-		return new NodeDefinition(node, runtime, inputs, outputs);
+		return new NodeDefinition(node, runtime, components, inputs, outputs);
 	}
 }

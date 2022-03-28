@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
+using RPGCore.Behaviour.Fluent;
+using RPGCore.Behaviour.UnitTests.Nodes;
 using RPGCore.Data.Polymorphic.Inline;
 using RPGCore.Data.Polymorphic.SystemTextJson;
-using System.Collections.Generic;
 using System.Text.Json;
 
 namespace RPGCore.Behaviour.UnitTests;
@@ -20,92 +21,80 @@ public class GraphRuntimeShould
 			});
 		jsonSerializerOptions.WriteIndented = true;
 
-		var graphEngine = new GraphEngine();
+		var graph1 = Graph.Create()
+			.AddNode<AddNode>(node =>
+			{
+				node.ValueA = Input.Default(15);
+				node.ValueB = Input.Default(25);
+			}, out var addNode)
+			.AddNode<DurabilityNode>(node =>
+			{
+				node.BaseDurability = Input.Connected<int>(addNode, "Output");
+			})
+			.AddNode<IterateNode>(node =>
+			{
+				node.Iterations = Input.Default(3);
 
-		string firstNode = LocalId.NewShortId().ToString();
-
-		var swordItemGraph = new Graph(new Node[]
-		{
-			new AddNode() {
-				Id = firstNode,
-				ValueA = new DefaultInput<int>(15),
-				ValueB = new DefaultInput<int>(25),
-				Output = new Output<int>()
-			},
-			new DurabilityNode() {
-				Id = LocalId.NewShortId().ToString(),
-				BaseDurability = new ConnectedInput<int>($"{firstNode}.Output"),
-			},
-			new IterateNode() {
-				Id = LocalId.NewShortId().ToString(),
-				Graph = new Graph(new Node[]
-				{
-					new AddNode() {
-						Id = LocalId.NewShortId().ToString()
-					},
-					new AddNode() {
-						Id = LocalId.NewShortId().ToString()
-					}
-				})
-			}
-		});
-
-		string serializedGraph = JsonSerializer.Serialize(swordItemGraph, jsonSerializerOptions);
-		TestContext.Out.WriteLine(serializedGraph);
-
-		var mainModule = GraphEngineModule.Create()
-			.UseGraph("graph-1", swordItemGraph)
+				node.Graph = Graph.Create()
+					.AddNode<AddNode>(node =>
+					{
+						node.ValueA = Input.Default(10);
+						node.ValueB = Input.Default(15);
+					}, out var childAddNode)
+					.AddNode<AddNode>(node =>
+					{
+						node.ValueA = Input.Connected<int>(childAddNode, "Output");
+						node.ValueB = Input.Default(30);
+					})
+					.Build();
+			})
 			.Build();
 
+		var mainModule = GraphEngineModule.Create()
+			.UseGraph("graph-1", graph1)
+			.Build();
+
+		var graphEngine = new GraphEngine();
 		graphEngine.LoadModule(mainModule);
 		var weaponGraph = mainModule.Graphs["graph-1"];
 
+		string serializedGraph = JsonSerializer.Serialize(weaponGraph, jsonSerializerOptions);
+
+		TestContext.Out.WriteLine("[========[ RuntimeGraphData ]========]");
+		TestContext.Out.WriteLine(serializedGraph);
+
 		var graphDefinition = weaponGraph.CreateDefinition();
-
 		var graphRuntimeData = graphDefinition.CreateRuntimeData();
-		//  {
-		//  	var subRuntimeDefinition = graphDefinition.CreateRuntimeData();
-		//  	{
-		//  		subRuntimeDefinition.Nodes["123"] = new IterateNode.IterateNodeData()
-		//  		{
-		//  			Instances = new List<GraphRuntimeData>()
-		//  			{
-		//  
-		//  			}
-		//  		};
-		//  		subRuntimeDefinition.Outputs["123"] = new Output<int>.OutputData()
-		//  		{
-		//  			Value = 10
-		//  		};
-		//  	}
-		//  	graphRuntimeData.Nodes["123"] = new IterateNode.IterateNodeData()
-		//  	{
-		//  		Instances = new List<GraphRuntimeData>()
-		//  		{
-		//  			subRuntimeDefinition
-		//  		}
-		//  	};
-		//  }
-
 		var graphRuntime = graphEngine.CreateGraphRuntime(graphDefinition, graphRuntimeData);
 
-		graphRuntime.Enable();
-		var durabilityNode = graphRuntime.GetNode<DurabilityNode>();
-		if (durabilityNode != null)
+		using (var graphMutation = graphRuntime.Mutate())
 		{
-			durabilityNode.Value.UseOutput(durabilityNode.Value.Node.CurrentDurability, out var output);
-			output.Value += 5;
+			graphMutation.Enable();
 		}
-		graphRuntime.Disable();
 
-		string serializedGraphRunner = JsonSerializer.Serialize(graphRuntimeData, jsonSerializerOptions);
+		using (var graphMutation = graphRuntime.Mutate())
+		{
+			if (graphMutation.TryGetNode<DurabilityNode>(out var durabilityNode))
+			{
+				durabilityNode.UseOutput(durabilityNode.Node.CurrentDurability, out var output);
+				output.Value += 5;
+			}
+		}
 
-		var deserializedGraphRunner = JsonSerializer.Deserialize<GraphRuntimeData>(serializedGraphRunner, jsonSerializerOptions);
+		using (var graphMutation = graphRuntime.Mutate())
+		{
+			graphMutation.Disable();
+		}
 
-		string reserializedGraphRunner = JsonSerializer.Serialize(deserializedGraphRunner, jsonSerializerOptions);
+		string serializedGraphRuntimeData = JsonSerializer.Serialize(graphRuntimeData, jsonSerializerOptions);
 
-		Assert.That(serializedGraphRunner, Is.EqualTo(reserializedGraphRunner));
+		TestContext.Out.WriteLine(" ");
+		TestContext.Out.WriteLine("[========[ RuntimeGraphData ]========]");
+		TestContext.Out.WriteLine(serializedGraphRuntimeData);
 
-		TestContext.Out.WriteLine(reserializedGraphRunner);
+		var deserializedGraphRuntimeData = JsonSerializer.Deserialize<GraphRuntimeData>(serializedGraphRuntimeData, jsonSerializerOptions);
+		string reserializedGraphRuntimeData = JsonSerializer.Serialize(deserializedGraphRuntimeData, jsonSerializerOptions);
+
+		Assert.That(serializedGraphRuntimeData, Is.EqualTo(reserializedGraphRuntimeData));
 	}
 }
