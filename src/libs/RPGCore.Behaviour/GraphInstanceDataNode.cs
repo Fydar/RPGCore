@@ -4,18 +4,27 @@ using System.Text.Json.Serialization;
 
 namespace RPGCore.Behaviour;
 
-public class NodeRuntimeData
+public class GraphInstanceDataNode
 {
 	[JsonIgnore]
 	internal Array[] componentPools;
 
+	/// <summary>
+	/// The identifier for the node this data represents.
+	/// </summary>
 	[JsonPropertyOrder(-1)]
 	public string Id { get; set; }
 
+	/// <summary>
+	/// Data for all outputs associated with this node.
+	/// </summary>
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 	public Dictionary<string, IOutputData>? Outputs { get; set; }
 
-	public NodeRuntimeData()
+	/// <summary>
+	/// Creates a new instance of the <see cref="GraphInstanceDataNode"/> class.
+	/// </summary>
+	public GraphInstanceDataNode()
 	{
 		componentPools = Array.Empty<Array>();
 		Id = string.Empty;
@@ -24,7 +33,7 @@ public class NodeRuntimeData
 
 	[JsonInclude]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-	public IRuntimeNodeComponent[]? Components
+	public INodeComponent[]? Components
 	{
 		get
 		{
@@ -32,10 +41,10 @@ public class NodeRuntimeData
 			{
 				return null;
 			}
-			var data = new IRuntimeNodeComponent[componentPools.Length];
+			var data = new INodeComponent[componentPools.Length];
 			for (int i = 0; i < data.Length; i++)
 			{
-				data[i] = componentPools[i].GetValue(0) as IRuntimeNodeComponent;
+				data[i] = (INodeComponent)componentPools[i].GetValue(0);
 			}
 			return data;
 		}
@@ -59,7 +68,7 @@ public class NodeRuntimeData
 	}
 
 	public ref TComponent GetComponent<TComponent>()
-		where TComponent : struct, IRuntimeNodeComponent
+		where TComponent : struct, INodeComponent
 	{
 		for (int i = 0; i < componentPools.Length; i++)
 		{
@@ -72,35 +81,25 @@ public class NodeRuntimeData
 		}
 		throw new InvalidOperationException($"Unable to find node runtime data with type {typeof(TComponent).Name}.");
 	}
-}
 
-public sealed class GraphRuntimeData
-{
-	public NodeRuntimeData[] Nodes { get; set; } = Array.Empty<NodeRuntimeData>();
-
-	public ref NodeRuntimeData GetNode(string id)
+	public GraphInstanceOutput<TType> GetOrCreateOutput<TType>(GraphEngineNodeOutput graphEngineNodeOutput)
 	{
-		for (int i = 0; i < Nodes.Length; i++)
+		if (Outputs == null)
 		{
-			ref var node = ref Nodes[i];
-			if (node.Id == id)
-			{
-				return ref node;
-			}
+			Outputs = new Dictionary<string, IOutputData>();
 		}
-		throw new InvalidOperationException($"Unable to find node runtime data with id {id}.");
-	}
 
-	public bool ContainsNode(string id)
-	{
-		for (int i = 0; i < Nodes.Length; i++)
+		Output<TType>.OutputData castedOutputData;
+		if (Outputs.TryGetValue(graphEngineNodeOutput.Name, out var outputData))
 		{
-			ref var node = ref Nodes[i];
-			if (node.Id == id)
-			{
-				return true;
-			}
+			castedOutputData = (Output<TType>.OutputData)outputData;
 		}
-		return false;
+		else
+		{
+			castedOutputData = new Output<TType>.OutputData();
+			Outputs.Add(graphEngineNodeOutput.Name, castedOutputData);
+		}
+
+		return new GraphInstanceOutput<TType>(castedOutputData);
 	}
 }

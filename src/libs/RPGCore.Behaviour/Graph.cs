@@ -8,6 +8,9 @@ namespace RPGCore.Behaviour;
 /// </summary>
 public sealed class Graph
 {
+	/// <summary>
+	/// A collection of <see cref="Node"/> that make up this <see cref="Graph"/>.
+	/// </summary>
 	public Node[] Nodes { get; set; }
 
 	/// <summary>

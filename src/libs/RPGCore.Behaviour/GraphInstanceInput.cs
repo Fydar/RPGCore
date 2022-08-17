@@ -1,14 +1,18 @@
 ﻿namespace RPGCore.Behaviour;
 
-public struct GraphRuntimeInput<TType>
+public struct GraphInstanceInput<TType>
 {
-	internal GraphRuntimeData graphInstance;
+	internal GraphInstanceData graphInstance;
 	internal IInput<TType> input;
 
 	public TType Value { get; }
 	public bool HasChanged { get; }
 
-	public GraphRuntimeInput(GraphRuntimeData graphInstance, IInput<TType> input, TType value, bool hasChanged)
+	public GraphInstanceInput(
+		GraphInstanceData graphInstance,
+		IInput<TType> input,
+		TType value,
+		bool hasChanged)
 	{
 		this.graphInstance = graphInstance;
 		this.input = input;

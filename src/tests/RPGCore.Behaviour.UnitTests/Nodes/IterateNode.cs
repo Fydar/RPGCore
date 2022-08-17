@@ -19,7 +19,7 @@ public class IterateNode : Node
 
 	public class IterateNodeRuntime : NodeRuntime<IterateNode>
 	{
-		public override void OnEnable(RuntimeNode<IterateNode> runtimeNode)
+		public override void OnEnable(GraphInstanceNode<IterateNode> runtimeNode)
 		{
 			ref var data = ref runtimeNode.GetComponent<IterateNodeData>();
 
@@ -35,7 +35,7 @@ public class IterateNode : Node
 			UpdateIterations(runtimeNode);
 		}
 
-		public override void OnDisable(RuntimeNode<IterateNode> runtimeNode)
+		public override void OnDisable(GraphInstanceNode<IterateNode> runtimeNode)
 		{
 			ref var data = ref runtimeNode.GetComponent<IterateNodeData>();
 
@@ -49,24 +49,24 @@ public class IterateNode : Node
 			}
 		}
 
-		public override void OnInputChanged(RuntimeNode<IterateNode> runtimeNode)
+		public override void OnInputChanged(GraphInstanceNode<IterateNode> runtimeNode)
 		{
 			UpdateIterations(runtimeNode);
 		}
 
-		private static void UpdateIterations(RuntimeNode<IterateNode> runtimeNode)
+		private static void UpdateIterations(GraphInstanceNode<IterateNode> runtimeNode)
 		{
-			runtimeNode.UseInput(runtimeNode.Node.Iterations, out var iterations);
+			runtimeNode.OpenInput(runtimeNode.Node.Iterations, out var iterations);
 
 			ref var data = ref runtimeNode.GetComponent<IterateNodeData>();
 
 			if (data.Instances == null)
 			{
-				data.Instances = new List<GraphRuntimeData>();
+				data.Instances = new List<GraphInstanceData>();
 			}
 			if (data.InstanceRuntimes == null)
 			{
-				data.InstanceRuntimes = new List<GraphRuntime>();
+				data.InstanceRuntimes = new List<GraphInstance>();
 			}
 
 			// Remove unused instances
@@ -79,10 +79,11 @@ public class IterateNode : Node
 			while (data.Instances.Count < iterations.Value)
 			{
 				var graphDefinition = runtimeNode.Node.Graph.CreateDefinition();
+				var graphEngine = graphDefinition.CreateEngine();
 
-				var newInstanceData = graphDefinition.CreateRuntimeData();
-				var newInstanceRuntime = runtimeNode.GraphRuntime.GraphEngine.CreateGraphRuntime(
-					graphDefinition, newInstanceData);
+				var newInstanceData = graphEngine.CreateInstanceData();
+				var newInstanceRuntime = runtimeNode.GraphRuntime.BehaviourEngine.CreateGraphRuntime(
+					graphEngine, newInstanceData);
 
 				data.InstanceRuntimes.Add(newInstanceRuntime);
 				data.Instances.Add(newInstanceData);
@@ -93,10 +94,10 @@ public class IterateNode : Node
 		}
 	}
 
-	public struct IterateNodeData : IRuntimeNodeComponent
+	public struct IterateNodeData : INodeComponent
 	{
-		internal List<GraphRuntime> InstanceRuntimes { get; set; }
+		internal List<GraphInstance> InstanceRuntimes { get; set; }
 
-		public List<GraphRuntimeData> Instances { get; set; }
+		public List<GraphInstanceData> Instances { get; set; }
 	}
 }

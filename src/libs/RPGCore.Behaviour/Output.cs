@@ -1,5 +1,4 @@
-﻿using RPGCore.Behaviour.Internal;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace RPGCore.Behaviour;
 

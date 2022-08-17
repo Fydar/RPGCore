@@ -9,9 +9,9 @@ public class AddNode : Node
 	public IInput<int> ValueB { get; init; } = new DefaultInput<int>(10);
 	public Output<int> Output { get; init; } = new Output<int>();
 
-	public override NodeDefinition CreateDefinition()
+	public override GraphDefinitionNode CreateDefinition()
 	{
-		return NodeDefinition.Create(this)
+		return GraphDefinitionNode.Create(this)
 			.UseInput(ValueA)
 			.UseInput(ValueB)
 			.UseOutput(Output, nameof(Output))
@@ -21,20 +21,20 @@ public class AddNode : Node
 
 	public class AddNodeRuntime : NodeRuntime<AddNode>
 	{
-		public override void OnEnable(RuntimeNode<AddNode> runtimeNode)
+		public override void OnEnable(GraphInstanceNode<AddNode> runtimeNode)
 		{
-			runtimeNode.UseInput(runtimeNode.Node.ValueA, out var valueA);
-			runtimeNode.UseInput(runtimeNode.Node.ValueB, out var valueB);
-			runtimeNode.UseOutput(runtimeNode.Node.Output, out var output);
+			runtimeNode.OpenInput(runtimeNode.Node.ValueA, out var valueA);
+			runtimeNode.OpenInput(runtimeNode.Node.ValueB, out var valueB);
+			runtimeNode.OpenOutput(runtimeNode.Node.Output, out var output);
 
 			output.Value = valueA.Value + valueB.Value;
 		}
 
-		public override void OnInputChanged(RuntimeNode<AddNode> runtimeNode)
+		public override void OnInputChanged(GraphInstanceNode<AddNode> runtimeNode)
 		{
-			runtimeNode.UseInput(runtimeNode.Node.ValueA, out var valueA);
-			runtimeNode.UseInput(runtimeNode.Node.ValueB, out var valueB);
-			runtimeNode.UseOutput(runtimeNode.Node.Output, out var output);
+			runtimeNode.OpenInput(runtimeNode.Node.ValueA, out var valueA);
+			runtimeNode.OpenInput(runtimeNode.Node.ValueB, out var valueB);
+			runtimeNode.OpenOutput(runtimeNode.Node.Output, out var output);
 
 			output.Value = valueA.Value + valueB.Value;
 		}

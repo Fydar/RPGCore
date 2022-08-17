@@ -2,38 +2,38 @@
 
 public abstract class NodeRuntime
 {
-	internal abstract void OnEnable(RuntimeNode runtimeNode);
-	internal abstract void OnDisable(RuntimeNode runtimeNode);
-	internal abstract void OnInputChanged(RuntimeNode runtimeNode);
+	internal abstract void OnEnable(GraphInstanceNode runtimeNode);
+	internal abstract void OnDisable(GraphInstanceNode runtimeNode);
+	internal abstract void OnInputChanged(GraphInstanceNode runtimeNode);
 }
 
 public abstract class NodeRuntime<TNode> : NodeRuntime
 	where TNode : Node
 {
-	public virtual void OnEnable(RuntimeNode<TNode> runtimeNode)
+	public virtual void OnEnable(GraphInstanceNode<TNode> runtimeNode)
 	{
 	}
 
-	public virtual void OnDisable(RuntimeNode<TNode> runtimeNode)
+	public virtual void OnDisable(GraphInstanceNode<TNode> runtimeNode)
 	{
 	}
 
-	public virtual void OnInputChanged(RuntimeNode<TNode> runtimeNode)
+	public virtual void OnInputChanged(GraphInstanceNode<TNode> runtimeNode)
 	{
 	}
 
-	internal override void OnEnable(RuntimeNode runtimeNode)
+	internal override void OnEnable(GraphInstanceNode runtimeNode)
 	{
-		OnEnable(new RuntimeNode<TNode>(runtimeNode.GraphRuntime, (TNode)runtimeNode.Node));
+		OnEnable(new GraphInstanceNode<TNode>(runtimeNode.GraphRuntime, (TNode)runtimeNode.Node));
 	}
 
-	internal override void OnDisable(RuntimeNode runtimeNode)
+	internal override void OnDisable(GraphInstanceNode runtimeNode)
 	{
-		OnDisable(new RuntimeNode<TNode>(runtimeNode.GraphRuntime, (TNode)runtimeNode.Node));
+		OnDisable(new GraphInstanceNode<TNode>(runtimeNode.GraphRuntime, (TNode)runtimeNode.Node));
 	}
 
-	internal override void OnInputChanged(RuntimeNode runtimeNode)
+	internal override void OnInputChanged(GraphInstanceNode runtimeNode)
 	{
-		OnInputChanged(new RuntimeNode<TNode>(runtimeNode.GraphRuntime, (TNode)runtimeNode.Node));
+		OnInputChanged(new GraphInstanceNode<TNode>(runtimeNode.GraphRuntime, (TNode)runtimeNode.Node));
 	}
 }

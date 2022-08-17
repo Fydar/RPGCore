@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace RPGCore.Behaviour.UnitTests;
 
-[TestFixture(TestOf = typeof(GraphEngine))]
+[TestFixture(TestOf = typeof(BehaviourEngine))]
 public class GraphRuntimeShould
 {
 	[Test, Parallelizable]
@@ -22,6 +22,11 @@ public class GraphRuntimeShould
 		jsonSerializerOptions.WriteIndented = true;
 
 		var graph1 = Graph.Create()
+			.AddNode<AddNode>(node =>
+			{
+				node.ValueA = Input.Default(5);
+				node.ValueB = Input.Default(5);
+			})
 			.AddNode<AddNode>(node =>
 			{
 				node.ValueA = Input.Default(15);
@@ -50,12 +55,13 @@ public class GraphRuntimeShould
 			})
 			.Build();
 
-		var mainModule = GraphEngineModule.Create()
+		var mainModule = BehaviourEngineModule.Create()
 			.UseGraph("graph-1", graph1)
 			.Build();
 
-		var graphEngine = new GraphEngine();
-		graphEngine.LoadModule(mainModule);
+		var behaviourEngine = new BehaviourEngine();
+		behaviourEngine.LoadModule(mainModule);
+
 		var weaponGraph = mainModule.Graphs["graph-1"];
 
 		string serializedGraph = JsonSerializer.Serialize(weaponGraph, jsonSerializerOptions);
@@ -64,8 +70,27 @@ public class GraphRuntimeShould
 		TestContext.Out.WriteLine(serializedGraph);
 
 		var graphDefinition = weaponGraph.CreateDefinition();
-		var graphRuntimeData = graphDefinition.CreateRuntimeData();
-		var graphRuntime = graphEngine.CreateGraphRuntime(graphDefinition, graphRuntimeData);
+		var graphEngine = graphDefinition.CreateEngine();
+
+		for (int i = 0; i < graphEngine.Nodes.Count; i++)
+		{
+			var node = graphEngine.Nodes[i];
+
+			for (int j = 0; j < node.Outputs.Count; j++)
+			{
+				var output = node.Outputs[j];
+
+				TestContext.Out.WriteLine(output.Name);
+
+				for (int k = 0; k < output.ConnectedInputs.Count; k++)
+				{
+					var connectedInput = output.ConnectedInputs[k];
+				}
+			}
+		}
+
+		var graphRuntimeData = graphEngine.CreateInstanceData();
+		var graphRuntime = behaviourEngine.CreateGraphRuntime(graphEngine, graphRuntimeData);
 
 		using (var graphMutation = graphRuntime.Mutate())
 		{
@@ -76,7 +101,7 @@ public class GraphRuntimeShould
 		{
 			if (graphMutation.TryGetNode<DurabilityNode>(out var durabilityNode))
 			{
-				durabilityNode.UseOutput(durabilityNode.Node.CurrentDurability, out var output);
+				durabilityNode.OpenOutput(durabilityNode.Node.CurrentDurability, out var output);
 				output.Value += 5;
 			}
 		}
@@ -92,7 +117,7 @@ public class GraphRuntimeShould
 		TestContext.Out.WriteLine("[========[ RuntimeGraphData ]========]");
 		TestContext.Out.WriteLine(serializedGraphRuntimeData);
 
-		var deserializedGraphRuntimeData = JsonSerializer.Deserialize<GraphRuntimeData>(serializedGraphRuntimeData, jsonSerializerOptions);
+		var deserializedGraphRuntimeData = JsonSerializer.Deserialize<GraphInstanceData>(serializedGraphRuntimeData, jsonSerializerOptions);
 		string reserializedGraphRuntimeData = JsonSerializer.Serialize(deserializedGraphRuntimeData, jsonSerializerOptions);
 
 		Assert.That(serializedGraphRuntimeData, Is.EqualTo(reserializedGraphRuntimeData));

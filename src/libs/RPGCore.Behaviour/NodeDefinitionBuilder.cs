@@ -8,8 +8,8 @@ public sealed class NodeDefinitionBuilder
 {
 	private readonly Node node;
 	private readonly List<Type> components = new();
-	private readonly List<NodeInputDefinition> inputs = new();
-	private readonly List<NodeOutputDefinition> outputs = new();
+	private readonly List<NodeDefinitionBuilderInput> inputBuilders = new();
+	private readonly List<NodeDefinitionBuilderOutput> outputBuilders = new();
 	private NodeRuntime? runtime;
 
 	internal NodeDefinitionBuilder(Node node)
@@ -18,7 +18,7 @@ public sealed class NodeDefinitionBuilder
 	}
 
 	public NodeDefinitionBuilder UseComponent<TComponent>()
-		where TComponent : struct, IRuntimeNodeComponent
+		where TComponent : struct, INodeComponent
 	{
 		components.Add(typeof(TComponent));
 		return this;
@@ -26,13 +26,13 @@ public sealed class NodeDefinitionBuilder
 
 	public NodeDefinitionBuilder UseInput<TModel>(IInput<TModel> input)
 	{
-		inputs.Add(new NodeInputDefinition());
+		inputBuilders.Add(new NodeDefinitionBuilderInput(input));
 		return this;
 	}
 
 	public NodeDefinitionBuilder UseOutput<TModel>(Output<TModel> output, string name)
 	{
-		outputs.Add(new NodeOutputDefinition(output, name));
+		outputBuilders.Add(new NodeDefinitionBuilderOutput(output, name));
 		return this;
 	}
 
@@ -44,15 +44,37 @@ public sealed class NodeDefinitionBuilder
 	}
 
 	/// <summary>
-	/// Creates a new instance of the <see cref="NodeDefinition"/> class created from the current state of this <see cref="NodeDefinitionBuilder"/>.
+	/// Creates a new instance of the <see cref="GraphDefinitionNode"/> class created from the current state of this <see cref="NodeDefinitionBuilder"/>.
 	/// </summary>
-	/// <returns>A new instance of the <see cref="NodeDefinition"/> class created from the current state of this <see cref="NodeDefinitionBuilder"/>.</returns>
+	/// <returns>A new instance of the <see cref="GraphDefinitionNode"/> class created from the current state of this <see cref="NodeDefinitionBuilder"/>.</returns>
 	public NodeDefinition Build()
 	{
 		if (runtime == null)
 		{
-			throw new InvalidOperationException($"Cannot finalise construction of a {nameof(NodeDefinition)} as no {nameof(NodeRuntime)} is specified.");
+			throw new InvalidOperationException($"Cannot finalise construction of a {nameof(GraphDefinitionNode)} as no {nameof(NodeRuntime)} is specified.");
 		}
-		return new NodeDefinition(node, runtime, components, inputs, outputs);
+
+		var nodeDefinitionOutputs = new NodeDefinitionOutput[outputBuilders.Count];
+		for (int i = 0; i < outputBuilders.Count; i++)
+		{
+			var outputBuilder = outputBuilders[i];
+
+			nodeDefinitionOutputs[i] = new NodeDefinitionOutput(
+				outputBuilder.output,
+				$"{node.Id}.{outputBuilder.Name}");
+		}
+
+		var nodeDefinitionInputs = new List<NodeDefinitionInput>();
+		foreach (var inputBuilder in inputBuilders)
+		{
+			nodeDefinitionInputs.Add(new NodeDefinitionInput(inputBuilder.input));
+		}
+
+		return new NodeDefinition(
+			node,
+			runtime,
+			components.ToArray(),
+			nodeDefinitionInputs.ToArray(),
+			nodeDefinitionOutputs);
 	}
 }

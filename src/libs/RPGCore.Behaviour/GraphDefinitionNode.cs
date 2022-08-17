@@ -4,16 +4,16 @@ using System.Diagnostics;
 
 namespace RPGCore.Behaviour;
 
-public sealed class NodeDefinition
+public sealed class GraphDefinitionNode
 {
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	internal readonly Type[] components;
-	
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	private readonly NodeDefinitionInput[] inputDefinitions;
+	private readonly Type[] components;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	private readonly NodeDefinitionOutput[] outputDefinitions;
+	private readonly GraphDefinitionNodeConnectedInput[] connectedInputDefinitions;
+
+	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	private readonly GraphDefinitionNodeOutput[] outputDefinitions;
 
 	/// <summary>
 	/// The <see cref="Node"/> that this <see cref="GraphDefinitionNode"/> was created from.
@@ -33,25 +33,25 @@ public sealed class NodeDefinition
 	/// <summary>
 	/// Definitions of all <b>connected</b> inputs from the node this <see cref="GraphDefinitionNode"/> was created from.
 	/// </summary>
-	public ReadOnlySpan<NodeDefinitionInput> InputDefinitions => inputDefinitions;
+	public ReadOnlySpan<GraphDefinitionNodeConnectedInput> ConnectedInputDefinitions => connectedInputDefinitions;
 
 	/// <summary>
 	/// Definitions of all outputs from the node this <see cref="GraphDefinitionNode"/> was created from.
 	/// </summary>
-	public ReadOnlySpan<NodeDefinitionOutput> OutputDefinitions => outputDefinitions;
+	public ReadOnlySpan<GraphDefinitionNodeOutput> OutputDefinitions => outputDefinitions;
 
-	internal NodeDefinition(
+	internal GraphDefinitionNode(
 		Node node,
 		NodeRuntime runtime,
 		Type[] components,
-		NodeDefinitionInput[] inputDefinitions,
-		NodeDefinitionOutput[] outputDefinitions)
+		GraphDefinitionNodeConnectedInput[] connectedInputDefinitions,
+		GraphDefinitionNodeOutput[] outputDefinitions)
 	{
 		Node = node;
 		Runtime = runtime;
 
 		this.components = components;
-		this.inputDefinitions = inputDefinitions;
+		this.connectedInputDefinitions = connectedInputDefinitions;
 		this.outputDefinitions = outputDefinitions;
 	}
 
@@ -64,21 +64,21 @@ public sealed class NodeDefinition
 		return new NodeDefinitionBuilder(node);
 	}
 
-	public ref readonly NodeDefinitionInput GetInputDefinition(IInput input)
+	public ref readonly GraphDefinitionNodeConnectedInput GetConnectedInputDefinition(IInput input)
 	{
-		for (int i = 0; i < inputDefinitions.Length; i++)
+		for (int i = 0; i < outputDefinitions.Length; i++)
 		{
-			ref var inputDefinition = ref inputDefinitions[i];
+			ref var connectedInputDefinition = ref connectedInputDefinitions[i];
 
-			if (inputDefinition.Input == input)
+			if (connectedInputDefinition.Input == input)
 			{
-				return ref inputDefinition;
+				return ref connectedInputDefinition;
 			}
 		}
 		throw new KeyNotFoundException("Unable to find input in node definition.");
 	}
 
-	public ref readonly NodeDefinitionOutput GetOutputDefinition(IOutput output)
+	public ref readonly GraphDefinitionNodeOutput GetOutputDefinition(IOutput output)
 	{
 		for (int i = 0; i < outputDefinitions.Length; i++)
 		{
@@ -90,5 +90,10 @@ public sealed class NodeDefinition
 			}
 		}
 		throw new KeyNotFoundException("Unable to find output in node definition.");
+	}
+
+	public override string ToString()
+	{
+		return $"{Node}";
 	}
 }

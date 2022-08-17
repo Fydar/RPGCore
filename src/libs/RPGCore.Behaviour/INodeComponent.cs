@@ -6,7 +6,7 @@ namespace RPGCore.Behaviour;
 /// Data that can be used by a <see cref="Node"/>.
 /// </summary>
 [SerializeBaseType(TypeName.Name)]
-public interface IRuntimeNodeComponent
+public interface INodeComponent
 {
 
 }

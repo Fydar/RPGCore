@@ -1,103 +1,149 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using RPGCore.Behaviour.Internal;
 using System.Collections.Generic;
-using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace RPGCore.Behaviour;
 
-/// <summary>
-/// A context used for running a <see cref="Graph"/>.
-/// </summary>
 public sealed class GraphEngine
 {
-	private readonly List<GraphEngineModule> modules = new();
+	// [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	internal readonly GraphEngineNodeData[] nodes;
 
-	/// <summary>
-	/// A collection of all <see cref="GraphEngineModule"/> that this <see cref="GraphEngine"/> utilises.
-	/// </summary>
-	public IReadOnlyList<GraphEngineModule> LoadedModules => modules;
+	// [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	internal readonly GraphEngineNodeComponentData[] components;
 
-	/// <summary>
-	/// Adds an additional <see cref="GraphEngineModule"/> to this <see cref="GraphEngine"/>.
-	/// </summary>
-	/// <param name="graphModule">The <see cref="GraphEngineModule"/> to load.</param>
-	public void LoadModule(
-		GraphEngineModule graphModule)
+	// [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	internal readonly GraphEngineNodeConnectedInputData[] connectedInputs;
+
+	// [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	internal readonly GraphEngineNodeOutputConnectedInputData[] outputConnectedInputs;
+
+	// [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+	internal readonly GraphEngineNodeOutputData[] outputs;
+
+	public GraphEngineNodeCollection Nodes => new(this);
+
+	internal GraphEngine(
+		GraphDefinition graphDefinition)
 	{
-		modules.Add(graphModule);
-	}
+		nodes = new GraphEngineNodeData[graphDefinition.GraphDefinitionNode.Count];
 
-	/// <summary>
-	/// Removes a <see cref="GraphEngineModule"/> from this <see cref="GraphEngine"/>.
-	/// </summary>
-	/// <param name="graphModule">The <see cref="GraphEngineModule"/> to unload.</param>
-	public void UnloadModule(
-		GraphEngineModule graphModule)
-	{
-		if (!modules.Remove(graphModule))
+		var componentsData = new List<GraphEngineNodeComponentData>();
+		var connectedInputsData = new List<GraphEngineNodeConnectedInputData>();
+		var outputConnectedInputsData = new List<GraphEngineNodeOutputConnectedInputData>();
+		var outputsData = new List<GraphEngineNodeOutputData>();
+
+		for (int i = 0; i < graphDefinition.GraphDefinitionNode.Count; i++)
 		{
-			throw new InvalidOperationException($"Unable to unload module that is not in use.");
-		}
-	}
+			var nodeDefinition = graphDefinition.GraphDefinitionNode[i];
+			ref var graphEngineNodeData = ref nodes[i];
 
-	/// <summary>
-	/// Creates a new <see cref="GraphRuntime"/>.
-	/// </summary>
-	/// <param name="graphDefinition">A <see cref="GraphDefinition"/> which defines the behaviour of the <see cref="GraphRuntime"/>.</param>
-	/// <param name="graphRuntimeData">The <see cref="GraphRuntimeData"/> used to persist state from the <see cref="GraphRuntime"/>.</param>
-	/// <returns>A <see cref="GraphRuntime"/> crated from the <see cref="GraphDefinition"/>.</returns>
-	public GraphRuntime CreateGraphRuntime(
-		GraphDefinition graphDefinition,
-		GraphRuntimeData graphRuntimeData)
-	{
-		var newNodes = new NodeRuntimeData[graphDefinition.NodeDefinitions.Count];
+			graphEngineNodeData.node = nodeDefinition.Node;
+			graphEngineNodeData.nodeRuntime = nodeDefinition.Runtime;
 
-		for (int i = 0; i < graphDefinition.NodeDefinitions.Count; i++)
-		{
-			var nodeDefinition = graphDefinition.NodeDefinitions[i];
-
-			ref var node = ref newNodes[i];
-			if (graphRuntimeData.ContainsNode(nodeDefinition.Node.Id))
+			// Collect the components associated with the node.
+			graphEngineNodeData.componentsCount = nodeDefinition.Components.Length;
+			if (graphEngineNodeData.componentsCount > 0)
 			{
-				node = graphRuntimeData.GetNode(nodeDefinition.Node.Id);
-			}
-			else
-			{
-				node = new NodeRuntimeData
-				{
-					Id = nodeDefinition.Node.Id,
-					Outputs = new Dictionary<string, IOutputData>()
-				};
+				graphEngineNodeData.componentsStartIndex = componentsData.Count;
 			}
 
-			var newNodeComponentPools = new Array[nodeDefinition.Components.Count];
-
-			for (int j = 0; j < nodeDefinition.Components.Count; j++)
+			for (int j = 0; j < nodeDefinition.Components.Length; j++)
 			{
 				var componentDefinition = nodeDefinition.Components[j];
-
-				Array? newComponentPool = null;
-				foreach (var oldComponentPool in node.componentPools)
-				{
-					if (oldComponentPool.GetType() == componentDefinition.MakeArrayType())
-					{
-						newComponentPool = oldComponentPool;
-						break;
-					}
-				}
-
-				if (newComponentPool == null)
-				{
-					newComponentPool = Array.CreateInstance(componentDefinition, 1);
-				}
-
-				newNodeComponentPools[j] = newComponentPool;
+				componentsData.Add(new GraphEngineNodeComponentData(componentDefinition));
 			}
-			node.componentPools = newNodeComponentPools;
+
+			// Collected the connected input definitions associated with the node.
+			graphEngineNodeData.nodeConnectedInputCount = nodeDefinition.ConnectedInputDefinitions.Length;
+			if (graphEngineNodeData.nodeConnectedInputCount > 0)
+			{
+				graphEngineNodeData.nodeConnectedInputStartIndex = connectedInputsData.Count;
+			}
+
+			for (int j = 0; j < nodeDefinition.ConnectedInputDefinitions.Length; j++)
+			{
+				var connectedInputDefinition = nodeDefinition.ConnectedInputDefinitions[j];
+
+				var connectedInputDefinitionSource = graphDefinition.GraphDefinitionNode[connectedInputDefinition.ConnectedToNode].OutputDefinitions[connectedInputDefinition.ConnectedToNodeOutput];
+
+				connectedInputsData.Add(new GraphEngineNodeConnectedInputData(connectedInputDefinition.Input, connectedInputDefinitionSource.LocalId));
+
+			}
 		}
 
-		graphRuntimeData.Nodes = newNodes;
+		for (int i = 0; i < graphDefinition.GraphDefinitionNode.Count; i++)
+		{
+			var nodeDefinition = graphDefinition.GraphDefinitionNode[i];
 
-		return new GraphRuntime(this, graphDefinition, graphRuntimeData);
+			for (int j = 0; j < nodeDefinition.OutputDefinitions.Length; j++)
+			{
+				var outputDefinition = nodeDefinition.OutputDefinitions[j];
+
+				var outputData = new GraphEngineNodeOutputData(outputDefinition.Output, outputDefinition.Name, 0, 0);
+
+				outputData.outputConnectedInputsCount = outputDefinition.ConnectedInputIndexes.Length;
+				if (outputData.outputConnectedInputsCount > 0)
+				{
+					outputData.outputConnectedInputsStartIndex = outputConnectedInputsData.Count;
+				}
+
+				for (int k = 0; k < outputDefinition.ConnectedInputIndexes.Length; k++)
+				{
+					var connectedInputIndex = outputDefinition.ConnectedInputIndexes[k];
+
+
+				}
+
+				outputsData.Add(outputData);
+			}
+		}
+
+		for (int i = 0; i < outputsData.Count; i++)
+		{
+			var outputData = outputsData[i];
+
+
+		}
+
+		for (int i = 0; i < graphDefinition.GraphDefinitionNode.Count; i++)
+		{
+			var nodeDefinition = graphDefinition.GraphDefinitionNode[i];
+
+			for (int j = 0; j < nodeDefinition.OutputDefinitions.Length; j++)
+			{
+				var outputDefinition = nodeDefinition.OutputDefinitions[j];
+
+				outputsData.Add(new GraphEngineNodeOutputData(outputDefinition.Output, outputDefinition.Name, 0, 0));
+			}
+		}
+
+		components = componentsData.ToArray();
+		connectedInputs = connectedInputsData.ToArray();
+		outputConnectedInputs = outputConnectedInputsData.ToArray();
+		outputs = outputsData.ToArray();
+	}
+
+	public GraphEngineNode GetNode(Node node)
+	{
+		for (int i = 0; i < nodes.Length; i++)
+		{
+			var graphEngineNodeData = nodes[i];
+			if (graphEngineNodeData.node == node)
+			{
+				return new GraphEngineNode(this, i);
+			}
+		}
+		throw new KeyNotFoundException($"Unable to find {node} in {nameof(GraphEngine)}.");
+	}
+
+	public GraphInstanceData CreateInstanceData()
+	{
+		return new GraphInstanceData();
+	}
+
+	public GraphInstance CreateInstance()
+	{
+		return new GraphInstance();
 	}
 }

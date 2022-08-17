@@ -17,16 +17,16 @@ public class DurabilityNode : Node
 
 	private class DurabilityNodeRuntime : NodeRuntime<DurabilityNode>
 	{
-		public override void OnEnable(RuntimeNode<DurabilityNode> runtimeNode)
+		public override void OnEnable(GraphInstanceNode<DurabilityNode> runtimeNode)
 		{
 			ref var data = ref runtimeNode.GetComponent<DurabilityNodeComponent>();
 
 			data.MaxDurability = 50;
 		}
-		public override void OnInputChanged(RuntimeNode<DurabilityNode> runtimeNode)
+		public override void OnInputChanged(GraphInstanceNode<DurabilityNode> runtimeNode)
 		{
-			runtimeNode.UseInput(runtimeNode.Node.BaseDurability, out var baseDurability);
-			runtimeNode.UseOutput(runtimeNode.Node.CurrentDurability, out var currentDurability);
+			runtimeNode.OpenInput(runtimeNode.Node.BaseDurability, out var baseDurability);
+			runtimeNode.OpenOutput(runtimeNode.Node.CurrentDurability, out var currentDurability);
 
 			currentDurability.Value += baseDurability.Value;
 
@@ -36,7 +36,7 @@ public class DurabilityNode : Node
 		}
 	}
 
-	public struct DurabilityNodeComponent : IRuntimeNodeComponent
+	public struct DurabilityNodeComponent : INodeComponent
 	{
 		public int MaxDurability { get; set; }
 	}

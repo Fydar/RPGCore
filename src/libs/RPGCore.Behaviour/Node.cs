@@ -16,7 +16,7 @@ public abstract class Node
 	public string Id { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Creates a <see cref="NodeDefinition"/> from this <see cref="Node"/>.
+	/// Creates a <see cref="GraphDefinitionNode"/> from this <see cref="Node"/>.
 	/// </summary>
 	/// <returns></returns>
 	public abstract NodeDefinition CreateDefinition();
